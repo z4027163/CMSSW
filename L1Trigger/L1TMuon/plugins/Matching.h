@@ -11,7 +11,7 @@
 
 MatchingOutput PhiMatching(SortingOutput Sout){
 
-
+	bool verbose = false;
 
 	std::vector<ConvertedHit> Thits = Sout.Hits();
 	std::vector<std::vector<Winner>> Winners = Sout.Winners();
@@ -40,13 +40,13 @@ MatchingOutput PhiMatching(SortingOutput Sout){
 			
 			if(Winners[z][w].Rank()){//is there a winner present?	
 			
-				std::cout<<"Winner position-"<<Winners[z][w].Strip()<<". Zone = "<<z<<std::endl;			
+				if(verbose) std::cout<<"Winner position-"<<Winners[z][w].Strip()<<". Zone = "<<z<<std::endl;			
 				
 				for(std::vector<ConvertedHit>::iterator i = Thits.begin();i != Thits.end();i++){//Possible associated hits
 				
 					//int id = i->Id();
 					
-					std::cout<<"strip = "<<i->Strip()<<", keywire = "<<i->Wire()<<" and zhit-"<<i->Zhit()<<std::endl;
+					if(verbose) std::cout<<"strip = "<<i->Strip()<<", keywire = "<<i->Wire()<<" and zhit-"<<i->Zhit()<<std::endl;
 					
 					bool inzone = 0;///Is the converted hit in the zone we're looking at now?
 					for(std::vector<int>::iterator znc = i->ZoneContribution().begin();znc != i->ZoneContribution().end();znc++){
@@ -64,30 +64,30 @@ MatchingOutput PhiMatching(SortingOutput Sout){
 					//if(one || two)
 					//	setstation++;
 					
-					if(inzone)
+					if(inzone && verbose)
 						std::cout<<"setstation = "<<setstation<<std::endl;
 					
 					if((fabs((Winners[z][w].Strip()) - i->Zhit()) < 15) && inzone){//is close to winner keystrip and in same zone?
 					
 						if(ph_output[z][w][setstation].Phi() == -999){//has this already been set? no
 						
-							std::cout<<"hasn't been set"<<std::endl;
+							if(verbose) std::cout<<"hasn't been set"<<std::endl;
 							
 							ph_output[z][w][setstation] = (*i);
 							
-							std::cout<<"set with strip-"<<i->Strip()<<", and wire-"<<i->Wire()<<std::endl;
+							if(verbose) std::cout<<"set with strip-"<<i->Strip()<<", and wire-"<<i->Wire()<<std::endl;
 							setphi = true;
 						}
 						else{//if yes, find absolute difference between zhit of each hit and keystrip
 						
-							std::cout<<"has already been set"<<std::endl;
+							if(verbose) std::cout<<"has already been set"<<std::endl;
 						
 							int d1 = fabs(ph_output[z][w][setstation].Zhit() - Winners[z][w].Strip());
 							int d2 = fabs(i->Zhit() - Winners[z][w].Strip());
 							
 							if(d2 < d1){//if new hit is closer then replace phi
 							
-								std::cout<<"this is closer strip-"<<i->Strip()<<", and wire-"<<i->Wire()<<std::endl;
+								if(verbose) std::cout<<"this is closer strip-"<<i->Strip()<<", and wire-"<<i->Wire()<<std::endl;
 								
 								ph_output[z][w][setstation] = (*i);
 								

@@ -44,6 +44,8 @@ int ph_offsetss[5][9][3] = {{{2,2,-99},{20,20,-99},{39,39,-99},{2,-99,-99},{21,-
 
 std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, int SectIndex){
 
+	bool verbose = false;
+
 	std::vector<ConvertedHit> ConvHits;
 	for(std::vector<TriggerPrimitiveRef>::iterator C1 = TriggPrim.begin();C1 != TriggPrim.end();C1++){
 	
@@ -62,8 +64,10 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 	if(SectIndex ==  (endcap - 1)*6 + sector - 1)
 	{
 		
-	 std::cout<<"\n\nSECTOR "<<SectIndex<<"\n\n";
-	 std::cout<<"\n\nRING = "<<ring<<"\n\n";
+	if(verbose){
+	 	std::cout<<"\n\nSECTOR "<<SectIndex<<"\n\n";
+	 	std::cout<<"\n\nRING = "<<ring<<"\n\n";
+	}
 	
 	/////////////////////////////////////
 	//////// define/set variables////////
@@ -125,7 +129,7 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 		
 	}
 	
-	if(sub)
+	if(sub && verbose)
 		std::cout<<"\nsub = "<<sub<<"\n";
 
 	////////////////////////////
@@ -226,16 +230,16 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 			idl += 9;
 		
 		th_tmp = St1ThLUT[sub-1][SectIndex][idl -1][wire];
-		std::cout<<"\n\nth_tmpr = "<<th_tmp<<"\n\n";
+		if(verbose) std::cout<<"\n\nth_tmpr = "<<th_tmp<<"\n\n";
 	}
 	else{
 		th_tmp = ThLUT[station-2][SectIndex][Id-1][wire];
-		std::cout<<"\n\nth_tmpr = "<<th_tmp<<"\n\n";
+		if(verbose) std::cout<<"\n\nth_tmpr = "<<th_tmp<<"\n\n";
 	}
 	
 	//th = th_tmp + Thinit[LUTi];
 	th = th_tmp + ThInit[SectIndex][LUTi];
-	std::cout<<"ThInit = "<<ThInit[SectIndex][LUTi]<<"\n";
+	if(verbose) std::cout<<"ThInit = "<<ThInit[SectIndex][LUTi]<<"\n";
 	
 	if(station == 1 && (ring == 1 || ring == 4) /*&& endcap == 1*/){
 	
@@ -243,11 +247,11 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 		
 		if(Id > 3){
 			th_corr = THCORR[sub-1][SectIndex][Id-10][index];
-			std::cout<<"\n\nth_corr = "<<th_corr<<"\n\n";
+			if(verbose) std::cout<<"\n\nth_corr = "<<th_corr<<"\n\n";
 		}
 		else{
 			th_corr = THCORR[sub-1][SectIndex][Id-1][index];
-			std::cout<<"\n\nth_corr = "<<th_corr<<"\n\n";
+			if(verbose) std::cout<<"\n\nth_corr = "<<th_corr<<"\n\n";
 		}
 		
 		
@@ -329,7 +333,7 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 	/////////   Converted TP's around code   //////////////
 	///////////////////////////////////////////////////////
 	
-	std::cout<<"Phi = "<<fph<<" and Theta = "<<th<<std::endl;
+	if(verbose) std::cout<<"Phi = "<<fph<<" and Theta = "<<th<<std::endl;
 	
 	ConvertedHit Hit;
 
@@ -338,12 +342,15 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 	Hit.SetZhit(zhit);
 	Hit.SetZoneContribution(zonecontribution);
 
-	if(Hit.Theta() != -999){//if theta is valid
-		ConvHits.push_back(Hit);std::cout<<"Phzvl() = "<<Hit.Phzvl()<<", ph_hit = "<<Hit.Ph_hit()<<", station = "<<Hit.Station()<<" and id = "<<Hit.Id()<<std::endl;
-		std::cout<<"strip = "<<strip<<", wire = "<<wire<<" and zhit = "<<zhit<<std::endl;
-		std::cout<<"\n\nIn Zones: ";
-		for(std::vector<int>::iterator in = zonecontribution.begin();in!=zonecontribution.end();in++){
-			std::cout<<" "<<*in<<" ";
+	if(Hit.Theta() != -999 && Hit.Phi() > 0){//if theta is valid
+		ConvHits.push_back(Hit);
+		if(verbose){	
+			std::cout<<"Phzvl() = "<<Hit.Phzvl()<<", ph_hit = "<<Hit.Ph_hit()<<", station = "<<Hit.Station()<<" and id = "<<Hit.Id()<<std::endl;
+			std::cout<<"strip = "<<strip<<", wire = "<<wire<<" and zhit = "<<zhit<<std::endl;
+			std::cout<<"\n\nIn Zones: ";
+			for(std::vector<int>::iterator in = zonecontribution.begin();in!=zonecontribution.end();in++){
+				std::cout<<" "<<*in<<" ";
+			}
 		}
 	}	
 	

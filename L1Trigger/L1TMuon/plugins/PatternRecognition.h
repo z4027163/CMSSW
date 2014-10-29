@@ -25,14 +25,11 @@ PhiMemoryImage patterns[9] = {pattern8, pattern9, pattern6, pattern7, pattern4, 
  PatternOutput DetectPatterns(ZonesOutput Eout){
  
  	///variable declarations///
+	bool verbose = false;
  	std::vector<int> tmp (128, 0);
 	std::vector<std::vector<int>> lya (4, tmp), stra (4, tmp), ranka_t (4, tmp), ranka (4, tmp);
   	std::vector<PhiMemoryImage> Merged = Eout.zone;
 	////////////////////////////
-	
-	//std::cout<<"\n\n";
-	//Merged[zone].Print();
-	//std::cout<<"\n\n";
 	
 	
   	for(int zone=0;zone<4;zone++){
@@ -112,7 +109,7 @@ PhiMemoryImage patterns[9] = {pattern8, pattern9, pattern6, pattern7, pattern4, 
 	
 			int qr = ranka_t[zone][k-1], ql = ranka_t[zone][k+1], qc = ranka_t[zone][k];
 			
-			if(qc)
+			if(qc && verbose)
 				std::cout<<"\n"<<k<<":qc = "<<qc<<" straight: "<<stra[zone][k]<<"  lya: "<<lya[zone][k]<<std::endl; 
 		
 			if(k==0){qr=0;}

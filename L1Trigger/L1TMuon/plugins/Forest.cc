@@ -394,7 +394,7 @@ void Forest::predictEvents(std::vector<Event*> eventsp, unsigned int numtrees)
     // i iterates through the trees in the forest. Each tree corrects the last prediction.
     for(unsigned int i=0; i < numtrees; i++) 
     {
-        std::cout << "++Tree " << i << "..." << std::endl;
+        //std::cout << "++Tree " << i << "..." << std::endl;
         appendCorrection(eventsp, i);
     }
 }
@@ -434,12 +434,12 @@ void Forest::loadForestFromXML(const char* directory, unsigned int numTrees)
         std::stringstream ss;
         ss << directory << "/" << i << ".xml";
 		
-		std::cout<<"here\n";
+		//std::cout<<"here\n";
 
         trees[i]->loadFromXML(ss.str().c_str());
     }   
 
-    std::cout << "Done." << std::endl << std::endl;
+   // std::cout << "Done." << std::endl << std::endl;
 }
 
 //////////////////////////////////////////////////////////////////////////

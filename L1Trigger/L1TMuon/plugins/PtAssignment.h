@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-void CalculatePt(L1TMuon::InternalTrack track){
+float CalculatePt(L1TMuon::InternalTrack track){
 
 	bool verbose = false;
 
@@ -49,6 +49,10 @@ void CalculatePt(L1TMuon::InternalTrack track){
 	
 	if(verbose) std::cout<<"\nMode = "<<mode<<std::endl; 
 	
+	//////////////////////////////////////////////////
+	//// Calculate Delta Phi and Eta Combinations ////
+	//////////////////////////////////////////////////
+	
     if(phis[0] > 0 && phis[1] > 0){
 		dphi[0] = phis[1] - phis[0];
 		deta[0] = etas[1] - etas[0];
@@ -85,23 +89,87 @@ void CalculatePt(L1TMuon::InternalTrack track){
 			std::cout<<"\ndphi["<<u<<"] = "<<dphi[u]<<" and deta = "<<deta[u]<<std::endl;
 	}
 	
+	float MpT = -1;//final pT to return
 	
-	//if(mode == 7){
 	
-		//Forest* forest = new Forest();
+	///////////////////////////////////////////////////////////////////////////////
+	//// Variables is a array of all possible variables used in pT calculation ////
+	///////////////////////////////////////////////////////////////////////////////
+	
+	int size[13] = {4,0,4,4,5,0,4,4,5,4,5,5,6};
+	int Variables[20] = {dphi[0], dphi[1], dphi[2], dphi[3], dphi[4], dphi[5], deta[0], deta[1], deta[2], deta[3], deta[4], deta[5],
+								clct[0], clct[1], clct[2], clct[3], cscid[0], cscid[1], cscid[2], cscid[3]};
+	
+	
+	///////////////////////
+	/// Mode Variables ////
+	///////////////////////
+	
+	//ModeVariables is a 2D arrary indexed by [TrackMode(13 Total Listed Below)][VariableNumber(20 Total Constructed Above)]
+	
+	//3:TrackEta:dPhi12:dEta12:CLCT1:cscid1
+	//4:Single Station Track Not Possible
+	//5:TrackEta:dPhi13:dEta13:CLCT1:cscid1
+	//6:TrackEta:dPhi23:dEta23:CLCT2:cscid2
+	//7:TrackEta:dPhi12:dPhi23:dEta13:CLCT1:cscid1
+	//8:Single Station Track Not Possible
+	//9:TrackEta:dPhi14:dEta14:CLCT1:cscid1
+	//10:TrackEta:dPhi24:dEta24:CLCT2:cscid2 
+	//11:TrackEta:dPhi12:dPhi24:dEta14:CLCT1:cscid1
+	//12:TrackEta:dPhi34:dEta34:CLCT3:cscid3
+	//13:TrackEta:dPhi13:dPhi34:dEta14:CLCT1:cscid1
+	//14:TrackEta:dPhi23:dPhi34:dEta24:CLCT2:cscid2
+	//15:TrackEta:dPhi12:dPhi23:dPhi34:dEta14:CLCT1:cscid1 
+	
+	int ModeVariables[13][6] = {{0,6,12,16,-999,-999},{-999,-999,-999,-999,-999,-999},{1,7,12,16,-999,-999},{3,9,13,17,-999,-999},{0,3,7,12,16,-999},
+								  {-999,-999,-999,-999,-999,-999},{2,8,12,16,-999,-999},{4,10,13,17,-999,-999},{0,4,8,12,16,-999},{5,11,14,18,-999,-999},
+								  {1,5,8,12,16,-999},{3,5,10,13,17,-999},{0,3,5,8,12,16}};
+								
+	
+	////////////////////////
+	//// pT Calculation ////
+	////////////////////////
+	//float gpt = -1;
+	for(int i=3;i<16;i++){
+	
+		if(i != mode)
+			continue;
+			
+		std::cout<<"\nMode = "<<mode<<"\n\n";
 		
-		//forest->loadForestFromXML("ModeVariables/trees/7",64);
+		Forest *forest = new Forest();
+		const char *dir = "/lfs/scratch/mrcarver/CMSSW_7_2_0_pre3/src/L1Trigger/L1TMuon/plugins/ModeVariables/trees";
+		std::stringstream ss;
+        ss << dir << "/" << mode;//
 		
-		//std::cout<<"forest loaded\n\n";
-	
-	//}
-	
-	
-	
-	
-	
-	
-	
-	
-	//std::cout<<"\n\n";
+		forest-> loadForestFromXML(ss.str().c_str(),64);
+		
+		std::vector<Double_t> Data;
+		Data.push_back(1.0);
+		Data.push_back(eta);
+		for(int y=0;y<size[mode-3];y++){
+			
+			Data.push_back(Variables[ModeVariables[mode-3][y]]);
+			if(verbose) std::cout<<"Generalized Variables "<<y<<" "<<Variables[ModeVariables[mode-3][y]]<<"\n";
+		}
+		
+		if(verbose){
+		std::cout<<"Data.size() = "<<Data.size()<<"\n";
+		for(int i=0;i<5;i++)  
+		  std::cout<<"Data["<<i<<"] = "<<Data[i]<<"\n";
+		}
+		
+		Event *event = new Event();
+		event->data = Data;
+		
+		std::vector<Event*> vevent;
+		vevent.push_back(event);
+		
+		forest->predictEvents(vevent,64);
+		
+		float OpT = vevent[0]->predictedValue;
+		MpT = 1/OpT;
+	}
+
+	return MpT;
 }

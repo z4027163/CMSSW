@@ -12,6 +12,7 @@ Date: 7/29/13
 
 std::vector<BTrack> BestTracks(std::vector<std::vector<DeltaOutput>> Dout){
 
+	bool verbose = false;
 
 	int larger[12][12] = {{0},{0}}, kill[12] = {0};
 	int exists[12] = {0};
@@ -70,7 +71,7 @@ std::vector<BTrack> BestTracks(std::vector<std::vector<DeltaOutput>> Dout){
 				//phi[zone][winner][relst] = phi[zone][winner][station];
 				//id[zone][winner][relst] = id[zone][winner][station];
 				
-				if(phi[zone][winner][relst] != -999)
+				if(phi[zone][winner][relst] != -999 && verbose)
 					std::cout<<"st:"<<relst<<"::real phi = "<<phi[zone][winner][relst]<<" and id = "<<id[zone][winner][relst]<<std::endl;
 				
 			}
@@ -111,7 +112,7 @@ std::vector<BTrack> BestTracks(std::vector<std::vector<DeltaOutput>> Dout){
 			
 			for(int s=0;s<4;s++){
 				
-				if(id[k%4][k/4][s] && (k != l) && ((phi[k%4][k/4][s] != -999) && (phi[l%4][l/4][s] != -999)))
+				if(id[k%4][k/4][s] && (k != l) && ((phi[k%4][k/4][s] != -999) && (phi[l%4][l/4][s] != -999)) && verbose)
 					std::cout<<"id1 = "<<id[k%4][k/4][s]<<", id2 = "<<id[l%4][l/4][s]<<"\nphi1 = "<<phi[k%4][k/4][s]<<", phi1 = "<<phi[l%4][l/4][s]<<".\n";
 				
 				if((id[k%4][k/4][s] == id[l%4][l/4][s])
@@ -129,7 +130,7 @@ std::vector<BTrack> BestTracks(std::vector<std::vector<DeltaOutput>> Dout){
 			if(sh_seg){
 		
 				//kill candidate that has lower rank
-				std::cout<<"\nsh_seg != 0\nk = "<<k<<" and l = "<<l<<"\n";
+				if(verbose) std::cout<<"\nsh_seg != 0\nk = "<<k<<" and l = "<<l<<"\n";
 				if(larger[k][l]){kill[l] = 1;}
 				else{kill[k] = 1;}
 			}

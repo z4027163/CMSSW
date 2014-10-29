@@ -48,6 +48,8 @@ L1TMuonTextDumper::L1TMuonTextDumper(const PSet& p) {
 
 void L1TMuonTextDumper::produce(edm::Event& ev, 
 			       const edm::EventSetup& es) {
+				   
+  bool verbose = false;
 			       
  		
   std::cout<<"Start TextDumper Producer::::: event = "<<ev.id().event()<<"\n\n";
@@ -69,8 +71,6 @@ void L1TMuonTextDumper::produce(edm::Event& ev,
   edm::Handle<std::vector<reco::GenParticle>> GenMuons;
   std::vector<reco::GenParticle>::const_iterator GI;
   ev.getByLabel("genParticles",GenMuons);
-  //bool gpir = false, endcap1 = false, endcap2 = false;
-  int etaindex = -99;
   reco::GenParticle GeneratorMuon;
   for(GI=GenMuons->begin();GI!=GenMuons->end();GI++){
   	
@@ -80,40 +80,9 @@ void L1TMuonTextDumper::produce(edm::Event& ev,
 	int charge = GenMuon.charge();
 	
 	std::cout<<"Gen Particle Info::::\nPt = "<<pt<<", phi = "<<phi<<", eta = "<<eta<<", mass = "<<mass<<" and charge = "<<charge<<"\n\n";
-  	/*
-  	if((fabs(eta) > 1.2) && (fabs(eta) <= 2.4) && (pt >= 5))
-		gpir = true;
-	
-	if(eta > 0)
-		endcap1 = true;
-	
-	if(eta < 0)
-		endcap2 = true;
-	*/
-	
-	for(int y=0;y<24;y++){
-	
-		double low = -2.4;
-		int mult = y;
-		if(y > 11){
-			low = 1.2;
-			mult = y - 12;
-		}
-			
-	
-		double el = low + 0.1*mult;
-		double eh = low + 0.1*(mult + 1);
-		
-		if(eta >= el && eta < eh)
-			etaindex = y;
-	
-	}
 		
   }
   
-  
-  if(etaindex != -99)
-  	std::cout<<"\neta index = "<<etaindex<<"\n";//
   
   //////////////////////////////////////////////
   ///////// Get Trigger Primitives /////////////  Retrieve TriggerPrimitives from the event record
@@ -135,31 +104,6 @@ void L1TMuonTextDumper::produce(edm::Event& ev,
 		tester.push_back(tpref);
 		
 		std::cout<<"\ntrigger prim found station:"<<tp->detId<CSCDetId>().station()<<std::endl;
-		
-		if((tp->detId<CSCDetId>().station() == 4) && (fabs(GeneratorMuon.eta()) < 1.7)){
-		
-			if(tp->detId<CSCDetId>().endcap() == 1)
-				ME42test1->Fill(GeneratorMuon.phi());
-			
-			if(tp->detId<CSCDetId>().endcap() == 2)
-				ME42test2->Fill(GeneratorMuon.phi());
-		
-		}
-		
-		
-		/*
-		if((tp->detId<CSCDetId>().station() == 1) && (tp->detId<CSCDetId>().ring() == 4))
-			ME1gangnedtest->Fill(tp->getCSCData().strip);
-			
-		if((tp->detId<CSCDetId>().station() == 1) && (tp->detId<CSCDetId>().ring() == 1))
-			ME11gangnedtest->Fill(tp->getCSCData().strip);
-		*/
-		//if(tp->detId<CSCDetId>().triggerSector() == 1){
-		
-			//std::cout<<"there are sector 1 csc hits\n\n";
-			//std::cout<<"strip = "<<tp->getCSCData().strip<<std::endl;
-			//striph->Fill(tp->getCSCData().strip);
-		//}
       }
  
      }    
@@ -273,7 +217,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
   }
  
  ////////////////////////////////////
- //// Ghost Cancellation between ////not done correct
+ //// Ghost Cancellation between ////not done correctly
  //////////   sectors     ///////////
  ////////////////////////////////////
  
@@ -296,7 +240,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 		
 		int sh_seg = 0;
 		
-		std::cout<<"\nComparing adjacent sectors\n";
+		if(verbose) std::cout<<"\nComparing adjacent sectors\n";
 
 		for(int sta=0;sta<4;sta++){//the part which is done incorrectly
 		
@@ -396,363 +340,15 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 		tempTrack.thetas = ts;
 		
 		std::cout<<"\n\nTrack "<<fbest<<": ";
-		CalculatePt(tempTrack);
-		tempTrack.pt = 0;
+		//CalculatePt(tempTrack);
+		tempTrack.pt = CalculatePt(tempTrack);
+		std::cout<<"XML pT = "<<tempTrack.pt<<"\n";
 		FoundTracks->push_back(tempTrack);
 		std::cout<<"\n\n";
 	}
   }
   
-  //std::cout<<FoundTracks->size()<<std::endl;
-  	
-	//float fuck = CalculatePt(FoundTracks);
-	
-	
-	/*
-	std::cout<<"Num Tracks = "<<FoundTracks->size()<<std::endl; 
-	int n=1;
-	for(std::vector<L1TMuon::InternalTrack>::iterator i=FoundTracks->begin();i != FoundTracks->end();i++){
-	
-		const TriggerPrimitiveStationMap stubs = i->getStubs();
-		
-		//const TriggerPrimitiveRef ref = (stubs.find(8)->second)[0];
-
-		
-		std::cout<<"\n\nTrack "<<n<<" has hits in stations ";//
-		for(unsigned int s=8;s<12;s++){
-			if((stubs.find(s)->second).size()){
-				std::cout<<(stubs.find(s)->second)[0]->detId<CSCDetId>().station()<<" ";
-				//std::cout<<s-7<<" ";
-			}
-		}
-			
-		std::cout<<"\n\n";
-		n++;
-	}*/
-	
-  //}
-  
-  ///////////////////////////////////////////////
-  //// Below here is working additions to make //
-  //// efficiency plots and can be neglected ////
-  ///////////////////////////////////////////////
-  /*
-  
-  if(gpir)
-  	eff->Fill(FoundTracks->size());
-  //else if(gpir && endcap2)
-  	//eff2->Fill(FoundTracks->size());
-
-  if(gpir && epir && etaindex != -99)
-  	fpire[etaindex]++;
-
-  bool detectorinefficiency = false;
-  
-  if(gpir && !epir){
-  
-  	if(endcap1)
-  		trigprimsize->Fill(tester.size());
-	else if(endcap2)
-		trigprimsize2->Fill(tester.size());
-	
-	if(tester.size() < 2)
-		detectorinefficiency = true;
-	
-	if(tester.size() >= 2){
-	
-		int contribution = 0;
-		for(std::vector<TriggerPrimitiveRef>::iterator C1 = tester.begin();C1 != tester.end();C1++){
-			
-			int station = (*C1)->detId<CSCDetId>().station();
-			switch(station){
-			
-				case(1):contribution |= 8;break;
-				case(2):contribution |= 4;break;
-				case(3):contribution |= 2;break;
-				case(4):contribution |= 1;break;
-				default:std::cout<<"Station is out of range\n";
-			
-			}
-		}
-		
-		if(endcap1)
-  			st_cont->Fill(contribution);
-		else if(endcap2)
-  			st_cont2->Fill(contribution);
-		
-		if(contribution == 1 || contribution == 2 || contribution == 3 || contribution == 4 || contribution == 8)
-			detectorinefficiency = true;
-		
-		if(contribution == 6){//had stations 2&3 but no track
-			std::cout<<"Stations 2 & 3\nevent = "<<ev.id().event()<<"\nSectIndex = "<<
-			((tester[0]->detId<CSCDetId>().endcap()) - 1)*6 + (tester[0]->detId<CSCDetId>().triggerSector()) - 1<<"\n\n";
-		}
-		
-		if(contribution == 11){//had stations 1&3&4 but no track
-			std::cout<<"Stations 1 & 3 & 4\nevent = "<<ev.id().event()<<"\nSectIndex = "<<
-			((tester[0]->detId<CSCDetId>().endcap()) - 1)*6 + (tester[0]->detId<CSCDetId>().triggerSector()) - 1<<"\n\n";
-		}
-		
-		if(contribution == 10){//had stations 1&3 but no track
-			std::cout<<"Stations 1 & 3\nevent = "<<ev.id().event()<<"\nSectIndex = "<<
-			((tester[0]->detId<CSCDetId>().endcap()) - 1)*6 + (tester[0]->detId<CSCDetId>().triggerSector()) - 1<<"\n\n";
-		}
-		
-		
-		
-		if(contribution == 12){//had stations 1 & 2 but didn't make a track
-		
-			int sindex0 = ((tester[0]->detId<CSCDetId>().endcap()) - 1)*6 + (tester[0]->detId<CSCDetId>().triggerSector()) - 1;
-			int sindex1 = ((tester[1]->detId<CSCDetId>().endcap()) - 1)*6 + (tester[1]->detId<CSCDetId>().triggerSector()) - 1;
-			int zhit1 = CHits[sindex0][0].Zhit(), zhit2 = CHits[sindex0][1].Zhit();
-			
-			bool ptf = (fabs(zhit2 - zhit1) > 15);
-			bool thwindow = false;
-			
-			for(int zone=0;zone<4;zone++){
-			for(int winner=0;winner<3;winner++){
-			
-			ThOutput thmatch = MO[sindex0].ThetaMatch();
-			int dth[6][4] = {{-999,-999,-999,-999},{-999,-999,-999,-999},{-999,-999,-999,-999},{-999,-999,-999,-999},{-999,-999,-999,-999},{-999,-999,-999,-999}};
-			for(int s1=0;s1<3;s1++){
-	
-				for(int s2=s1+1;s2<4;s2++){
-			
-			
-					///////////////////////// There is a further index on dTh because there are 4 dth combinations 
-					/// calc delta theta  /// possible if there are two theta segments for both stations. 
-					///////////////////////// EXPLAIN ABOUT [I+J] AND [I+J+1] 
-					
-					for(int i=0;i<2;i++){
-						
-					
-						for(int j=0;j<2;j++){
-						
-							int thi = thmatch[zone][winner][s1][i].Theta();
-							int thj = thmatch[zone][winner][s2][j].Theta();
-							int deltath = thi - thj;
-					
-					
-							if((s1 == 0) && (thi != -999) && (thj != -999)){///need to fix still////
-								
-								if(!i){dth[s2-1][i+j] = deltath;}
-								else{dth[s2-1][i+j+1] = deltath;}
-								
-								
-							}
-							else if((s1 != 0) && (thi != -999) && (thj != -999)){
-							
-								if(!i){dth[s1+s2][i+j] = deltath;}
-								else{dth[s1+s2][i+j+1] = deltath;}
-							}
-							
-						}
-					}
-		
-				}
-			}
-			
-			for(int b1=0;b1<6;b1++){
-				for(int b2=0;b2<2;b2++){
-					
-					if((dth[b1][b2] != -999) && (fabs(dth[b1][b2]) <= 4))
-						thwindow = true;
-				}
-			}
-			}
-			}
-			
-			
-			if(sindex0 != sindex1){
-			
-				if((sindex0 > 5) || (sindex1 > 5))
-					st12errors->Fill(1);
-				else
-					st12errors->Fill(0);
-			}
-			else if(sindex0 == sindex1){
-				bool samezone = false;
-			
-				for(unsigned int i1 = 0;i1 != tester.size();i1++){
-			
-					for(unsigned int i2 = i1+1;i2 != tester.size();i2++){
-				
-					
-						int s1 = tester[i1]->detId<CSCDetId>().station(), s2 = tester[i2]->detId<CSCDetId>().station();
-						std::vector<int> z1 = CHits[sindex0][i1].ZoneContribution(), z2 = CHits[sindex0][i2].ZoneContribution();
-					
-						if(s1 != s2){
-					
-							for(std::vector<int>::iterator a1=z1.begin();a1 != z1.end();a1++){
-								for(std::vector<int>::iterator a2=z2.begin();a2 != z2.end();a2++){
-							
-									if((*a1) == (*a2))
-										samezone = true;
-								
-								}
-							}
-						}
-					}
-				}
-			
-			
-			
-				if(!samezone){
-				
-					if(sindex0 > 5)
-						st12errors->Fill(3);
-					else
-						st12errors->Fill(2);
-					
-				}
-				else if(samezone){
-				
-					
-					if(ptf){
-						
-						if(sindex0 > 5)
-							st12errors->Fill(5);
-						else
-							st12errors->Fill(4);
-					}
-					else if(!ptf){
-						
-						if(!thwindow){
-						
-							if(sindex0 > 5)
-								st12errors->Fill(7);
-							else
-								st12errors->Fill(6);
-								
-							std::cout<<"\n!thwindow\n";
-						}
-						//else if(thwindow){
-						
-						
-							
-						
-						//}
-					}
-				}
-			}
-		}
-		
-		if((contribution > 4) && (contribution != 8)){
-		
-			std::cout<<"\nMISSED\n";
-			
-			if(contribution == 12)
-				std::cout<<"ONLY STATIONS 1 AND 2 : (\nevent = "<<ev.id().event()<<"\n\n";
-		
-			MissVsEta->Fill(GeneratorMuon.eta());
-			MissVsPhi->Fill(GeneratorMuon.phi());
-			MissVsPt->Fill(GeneratorMuon.pt());	
-		
-		}
-	}
-  }
-  
-  
-  if(gpir && !detectorinefficiency)
-  	gpire[etaindex]++;
-*/	
-  
-  /*
-  if(gpir && (FoundTracks->size() == 1)){
-  
-  	std::cout<<"\nFOUND ONE MUON-------------Sector "<<windex[0]/3<<"\n";
-	
-	int ecap = 0;
-	
-	std::vector<ConvertedHit> ahits = FourBest[0].AHits;
-	
-	std::cout<<"ahits.size() = "<<ahits.size()<<std::endl;
-	
-	std::cout<<"endcap = "<<ahits[0].TP()->detId<CSCDetId>().endcap()<<std::endl;
-	
-	if(FourBest[0].AHits[0].TP()->detId<CSCDetId>().endcap()){
-		ecap = FourBest[0].AHits[0].TP()->detId<CSCDetId>().endcap();
-		std::cout<<"\n1\n";}
-	else if(FourBest[0].AHits[1].TP()->detId<CSCDetId>().endcap()){
-		ecap = FourBest[0].AHits[1].TP()->detId<CSCDetId>().endcap();
-		std::cout<<"\n2\n";}
-	else if(FourBest[0].AHits[2].TP()->detId<CSCDetId>().endcap()){
-		ecap = FourBest[0].AHits[2].TP()->detId<CSCDetId>().endcap();
-		std::cout<<"\n3\n";}
-	else{//if(FourBest[0].AHits[3].TP()->detId<CSCDetId>().endcap())//need ender here
-		ecap = FourBest[0].AHits[3].TP()->detId<CSCDetId>().endcap();
-		std::cout<<"\n4\n";}
-		
-	
-	std::cout<<"\n5\n";
-	
-	int cont = 0, numTP = 0;
-	for(std::vector<TriggerPrimitiveRef>::iterator C1 = tester.begin();C1 != tester.end();C1++){
-			
-		int stat = 0;
-		std::cout<<"\n2\n";
-		
-		if((*C1)->detId<CSCDetId>().endcap() != ecap){
-			stat = (*C1)->detId<CSCDetId>().station();
-			numTP++;
-		}
-		
-		std::cout<<"\n3\n";
-		
-		switch(stat){
-			
-			//case(0):cont |= 0;break
-			case(1):cont |= 8;break;
-			case(2):cont |= 4;break;
-			case(3):cont |= 2;break;
-			case(4):cont |= 1;break;
-			default:std::cout<<"Station is out of range\n";
-			
-		}
-	}
-	
-	if(numTP < 2){
-		detectorineff->Fill(numTP);
-	}
-	else{
-	
-		switch(cont){
-			case(1):detectorineff->Fill(2);break;//only st 4 present
-			case(2):detectorineff->Fill(3);break;//only st 3 present
-			case(3):detectorineff->Fill(4);break;//only st's 3 and 4 present
-			case(4):detectorineff->Fill(5);break;//only st 2 present
-			case(8):detectorineff->Fill(6);break;//only st 1 present
-		}	
-	}	
-  
-  }
-  
- */ 
- /*
-  if(gpir && (FoundTracks->size() == 2)){
-  
-  	
-  
-  	int sectors[2] = {windex[0]/3,windex[1]/3};
-	sector1->Fill(sectors[0]);
-	sector2->Fill(sectors[1]);
-	secdiff->Fill(fabs(sectors[0] - sectors[1]));
-	
-	if(fabs(sectors[0] - sectors[1]) == 0)
-		std::cout<<"\nTWO IN SAME SECTOR\n";
-	
-	std::cout<<"\nTWO MUONS FOUND------- Sectors: "<<sectors[0]<<" and "<<sectors[1]<<"\n";
-	
-  
-  }
-  
-  if(gpir && (FoundTracks->size() == 3)){
-  
-  	std::cout<<"\nFOUND THREE MUONS---------- Sectors: "<<windex[0]/3<<", "<<windex[1]/3<<" and "<<windex[2]/3<<"\n";
-  }
-
-  */
-  
+ 
  //  std::cout<<"Begin Put function\n\n";
 ev.put( FoundTracks, "DataITC");
   std::cout<<"End TextDump Prducer:::::::::::::::::::::::::::\n:::::::::::::::::::::::::::::::::::::::::::::::::\n\n";
