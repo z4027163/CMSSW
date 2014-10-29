@@ -10,7 +10,7 @@
 //////////////////////////////////////////////////////////////
 
 
-#include "L1Trigger/L1TMuon/plugins/L1TMuonTextDumper.h"
+#include "L1Trigger/L1TMuon/plugins/L1TMuonUpgradedTrackFinder.h"
 #include "L1Trigger/CSCCommonTrigger/interface/CSCPatternLUT.h"
 #include "L1Trigger/CSCTrackFinder/test/src/RefTrack.h"
 
@@ -32,7 +32,7 @@
 using namespace L1TMuon;
 
 
-L1TMuonTextDumper::L1TMuonTextDumper(const PSet& p) {
+L1TMuonUpgradedTrackFinder::L1TMuonUpgradedTrackFinder(const PSet& p) {
   if( (_dogen = p.getUntrackedParameter<bool>("doGen",false)) ) {
     _geninput = p.getUntrackedParameter<edm::InputTag>("genSrc");
   }
@@ -46,7 +46,7 @@ L1TMuonTextDumper::L1TMuonTextDumper(const PSet& p) {
 }
 
 
-void L1TMuonTextDumper::produce(edm::Event& ev, 
+void L1TMuonUpgradedTrackFinder::produce(edm::Event& ev, 
 			       const edm::EventSetup& es) {
 				   
   bool verbose = false;
@@ -355,7 +355,7 @@ ev.put( FoundTracks, "DataITC");
 
 }//analyzer
 
-void L1TMuonTextDumper::beginJob()
+void L1TMuonUpgradedTrackFinder::beginJob()
 {
 
 	//std::cout<<"Begin TextDump Prducer:::::::::::::::::::::::::::\n:::::::::::::::::::::::::::::::::::::::::::::::::\n\n";
@@ -406,7 +406,7 @@ void L1TMuonTextDumper::beginJob()
 	
 	
 }
-void L1TMuonTextDumper::endJob()
+void L1TMuonUpgradedTrackFinder::endJob()
 {
 
 	fclose (write);
@@ -419,4 +419,4 @@ void L1TMuonTextDumper::endJob()
 	
 }
 #include "FWCore/Framework/interface/MakerMacros.h"
-DEFINE_FWK_MODULE(L1TMuonTextDumper);
+DEFINE_FWK_MODULE(L1TMuonUpgradedTrackFinder);

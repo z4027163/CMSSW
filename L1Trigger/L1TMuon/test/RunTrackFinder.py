@@ -16,7 +16,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.L1TMuonTrkFinder = cms.EDProducer(
-    'L1TMuonTextDumper',
+    'L1TMuonUpgradedTrackFinder',
     doGen = cms.untracked.bool(True),
     genSrc = cms.untracked.InputTag("genParticles"),
     primitiveSrcs = cms.VInputTag(
