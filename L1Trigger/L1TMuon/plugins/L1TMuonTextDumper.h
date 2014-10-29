@@ -89,9 +89,6 @@ public:
     16.0,  18.0,  20.0,  25.0,  30.0,  35.0,  40.0,  45.0, 
     50.0,  60.0,  70.0,  80.0,  90.0, 100.0, 120.0, 140.0, 1.E6 };
     
-    int gpire[24]; 
-    int fpire[24];
-    
    
    TH1F* striph, *eff, *eff2, *trigprimsize, *trigprimsize2, *st_cont, *st_cont2, *sector1, *sector2, *secdiff;
    TH1F* MissVsEta, *MissVsPhi, *MissVsPt, *ME42test1, *ME42test2, *ME1gangnedtest, *ME11gangnedtest;

@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////
-// Upgraded Encdap Muon Track Finding Algorithm		    //
-//							    //
+// Upgraded Encdap Muon Track Finding Algorithm		    	//
+//							   								//
 // Info: A human-readable version of the firmware based     //
 //       track finding algorithm which will be implemented  //
 //       in the upgraded endcaps of CMS. DT and RPC inputs  //
-//	 are not considered in this algorithm.      	    //
-/// 							    //
-// Author: M. Carver (UF)				    //
+//	     are not considered in this algorithm.      		//
+//								   							//
+// Author: M. Carver (UF)				    				//
 //////////////////////////////////////////////////////////////
 
 
@@ -52,7 +52,7 @@ void L1TMuonTextDumper::produce(edm::Event& ev,
   bool verbose = false;
 			       
  		
-  std::cout<<"Start TextDumper Producer::::: event = "<<ev.id().event()<<"\n\n";
+  std::cout<<"Start Upgraded Track Finder Producer::::: event = "<<ev.id().event()<<"\n\n";
   
   fprintf (write,"12345\n"); //<-- part of printing text file to send verilog code, not needed if George's package is included
   
@@ -351,7 +351,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
  
  //  std::cout<<"Begin Put function\n\n";
 ev.put( FoundTracks, "DataITC");
-  std::cout<<"End TextDump Prducer:::::::::::::::::::::::::::\n:::::::::::::::::::::::::::::::::::::::::::::::::\n\n";
+  std::cout<<"End Upgraded Track Finder Prducer:::::::::::::::::::::::::::\n:::::::::::::::::::::::::::::::::::::::::::::::::\n\n";
 
 }//analyzer
 
@@ -401,10 +401,7 @@ void L1TMuonTextDumper::beginJob()
 	
 	detectorineff = dir.make<TH1F>("detectorineff","Detector Inefficiencies", 7,0,7);detectorineff->SetFillColor(4);
 	
-	for(int i=0;i<24;i++){
-		gpire[i] = 0;
-		fpire[i] = 0;
-	}
+	
 	
 	
 	
@@ -417,13 +414,6 @@ void L1TMuonTextDumper::endJob()
 	fclose (tptest);
 	TFileDirectory dir = histofile->mkdir("1");
 	
-	std::cout<<"\n\n\nfpire = ";
-	for(int i=0;i<24;i++)
-		std::cout<<fpire[i]<<"   ";
-	
-	std::cout<<"\ngpire = ";
-	for(int ii=0;ii<24;ii++)
-		std::cout<<gpire[ii]<<"   ";
 		
 	std::cout<<"\nTHE END"<<std::endl;
 	
