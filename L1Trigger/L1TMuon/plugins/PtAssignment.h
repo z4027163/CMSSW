@@ -4,7 +4,7 @@
 ////1494215132 12
 
 #include "EmulatorClasses.h"
-#include "L1TMuonTextDumper.h"
+#include "L1TMuonUpgradedTrackFinder.h"
 #include "Forest.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -138,7 +138,7 @@ float CalculatePt(L1TMuon::InternalTrack track){
 		std::cout<<"\nMode = "<<mode<<"\n\n";
 		
 		Forest *forest = new Forest();
-		const char *dir = "/lfs/scratch/mrcarver/CMSSW_7_2_0_pre3/src/L1Trigger/L1TMuon/plugins/ModeVariables/trees";
+		const char *dir = "L1Trigger/L1TMuon/plugins/ModeVariables/trees";
 		std::stringstream ss;
         ss << dir << "/" << mode;//
 		

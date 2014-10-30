@@ -8,32 +8,8 @@
 ////
 
 #include "EmulatorClasses.h"
+#include "PhThLUTs.h"
 
-#include "L1Trigger/L1TMuon/test/trial.h"
-#include "L1Trigger/L1TMuon/test/trial2.h"
-#include "L1Trigger/L1TMuon/test/trial3.h"
-#include "L1Trigger/L1TMuon/test/ThInit.h"
-#include "L1Trigger/L1TMuon/test/ThDisp.h"
-#include "L1Trigger/L1TMuon/test/PhInit.h"
-#include "L1Trigger/L1TMuon/test/PhDisp.h"
-
-/*
-int Thinit[51] = {7,9,7,46,49,46,98,98,98,6,7,6,9,7,9,49,46,49,98,98,98,7,6,7,6,5,6,53,55,53,55,
-   		     53,55,5,6,5,46,44,46,44,46,44,6,7,6,40,38,40,38,40,38};
-		     
-int Thdisp[51] = {6,8,6,4,7,4,4,4,4,5,6,5,8,6,8,7,4,7,4,4,4,6,5,6,5,4,5,5,7,5,
-   	   	     7,5,7,4,5,4,6,4,6,4,6,4,4,5,4,6,4,6,4,6,4};
-		     
-int Phdisp[51] = {4,5,5,4,4,5,5,5,4,4,5,5,4,4,5,5,4,4,4,5,5,4,4,5,5,4,5,4,4,5,5,
-   		     4,6,4,3,4,3,3,5,4,4,5,4,3,4,6,5,5,4,6,5};
-		    
- 
-int Phinit[5][12] = {{125,725,1325,132,732,1332,215,815,1415,131,731,1331},
-   		     {1925,2525,3125,1932,2532,3132,2015,2615,3215,1931,2531,3131},
-		     {116,1316,2516,132,732,1332,1932,2532,3132,-999,-999,-999},
-		     {1380,2580,3780,764,1364,1964,2564,3164,3764,-999,-999,-999},
-		     {1380,2580,3780,764,1364,1964,2564,3164,3764,-999,-999,-999}};
-*/
 		     
 int ph_offsetss[5][9][3] = {{{2,2,-99},{20,20,-99},{39,39,-99},{2,-99,-99},{21,-99,-99},{39,-99,-99},{4,-99,-99},{23,-99,-99},{42,-99,-99}},
 			   {{58,58,-99},{77,77,-99},{95,95,-99},{58,-99,-99},{77,-99,-99},{96,-99,-99},{61,-99,-99},{79,-99,-99},{98,-99,-99}},
@@ -205,15 +181,15 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 	
 	
 	if(station == 1){
-		//fph = Phinit[sub-1][Id - 1] + ph_tmp;
+		
 		fph = PhInit[SectIndex][sub-1][Id - 1] + ph_tmp;
 	}
 	else{
-		//fph = Phinit[station][Id - 1] + ph_tmp;
+		
 		fph = PhInit[SectIndex][station][Id - 1] + ph_tmp;
 	}
 	
-	//ph_hit = phLow + phShift + (Phdisp[LUTi]>>1);
+	
 	ph_hit = phLow + phShift + (PhDisp[SectIndex][LUTi]>>1);
 	
 	////////////////////////
@@ -237,7 +213,7 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 		if(verbose) std::cout<<"\n\nth_tmpr = "<<th_tmp<<"\n\n";
 	}
 	
-	//th = th_tmp + Thinit[LUTi];
+	
 	th = th_tmp + ThInit[SectIndex][LUTi];
 	if(verbose) std::cout<<"ThInit = "<<ThInit[SectIndex][LUTi]<<"\n";
 	
@@ -265,7 +241,7 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 		if(th_tmp < th_coverage){
 		
 			if(ring == 1){LUTi += 9;}  //change because new Verilog3 sp_tf treats ME11b with LUT's of ME11a
-			//th = th_tmp + Thinit[LUTi];
+			
 			th = th_tmp + ThInit[SectIndex][LUTi];
 		}
 		else{th = -999;}

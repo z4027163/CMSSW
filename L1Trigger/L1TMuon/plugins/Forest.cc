@@ -433,10 +433,8 @@ void Forest::loadForestFromXML(const char* directory, unsigned int numTrees)
 
         std::stringstream ss;
         ss << directory << "/" << i << ".xml";
-		
-		//std::cout<<"here\n";
-
-        trees[i]->loadFromXML(ss.str().c_str());
+	
+		trees[i]->loadFromXML(edm::FileInPath(ss.str().c_str()).fullPath().c_str());
     }   
 
    // std::cout << "Done." << std::endl << std::endl;
