@@ -60,7 +60,7 @@ PatternOutput DeleteDuplicatePatterns(std::vector<PatternOutput> Pout){
 			}
 		}
 		
-		if(set && (Pout[i].hits.size() >= Hits.size())){
+		if(set && (Pout[i].hits.size() > Hits.size())){
 			
 			std::vector<ConvertedHit> test = Pout[i].hits;
 			

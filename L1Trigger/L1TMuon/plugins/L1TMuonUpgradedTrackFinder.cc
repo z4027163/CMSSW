@@ -54,7 +54,7 @@ void L1TMuonUpgradedTrackFinder::produce(edm::Event& ev,
  		
   std::cout<<"Start Upgraded Track Finder Producer::::: event = "<<ev.id().event()<<"\n\n";
   
-  fprintf (write,"12345\n"); //<-- part of printing text file to send verilog code, not needed if George's package is included
+  //fprintf (write,"12345\n"); //<-- part of printing text file to send verilog code, not needed if George's package is included
   
   
   std::auto_ptr<L1TMuon::InternalTrackCollection> FoundTracks (new L1TMuon::InternalTrackCollection);
@@ -365,8 +365,7 @@ void L1TMuonUpgradedTrackFinder::beginJob()
 	///////////////////////////
 	
 	TFileDirectory dir = histofile->mkdir("1");//
-	TFileDirectory dir1 = dir.mkdir("2");
-	TFileDirectory dir2 = dir.mkdir("3");
+
 	
 	///////////////////////////
 	/////// Output ////////////
@@ -375,33 +374,7 @@ void L1TMuonUpgradedTrackFinder::beginJob()
 	
 	
 	write = fopen ("zone0.txt","w");
-	dphi = fopen("dphi1.txt","w");
-	tptest = fopen("dth.txt","w");
-	
-	striph = dir1.make<TH1F>("striph","TP strip distribution",250,0,250);striph->SetFillColor(2);
-	eff = dir.make<TH1F>("eff","If GenParticle how many EmulatorMuons (Endcap 1)",5,0,5);eff->SetFillColor(4);
-	eff2 = dir.make<TH1F>("eff2","If GenParticle how many EmulatorMuons (Endcap 2)",5,0,5);eff2->SetFillColor(4);
-	trigprimsize = dir.make<TH1F>("trigprimsize","How many TP's in event if no found Muon (Endcap 1)",9,0,9);trigprimsize->SetFillColor(4);
-	trigprimsize2 = dir.make<TH1F>("trigprimsize2","How many TP's in event if no found Muon (Endcap 2)",9,0,9);trigprimsize2->SetFillColor(4);
-	st_cont = dir.make<TH1F>("st_cont","Stations Present if no found Muon and 2 or more TP's (Endcap 1)",16,0,16);st_cont->SetFillColor(4);
-	st_cont2 = dir.make<TH1F>("st_cont2","Stations Present if no found Muon and 2 or more TP's (Endcap 2)",16,0,16);st_cont2->SetFillColor(4);
-	sector1 = dir.make<TH1F>("sector1","Sector 1 if 2 Muons found", 12,0,12);sector1->SetFillColor(4);
-	sector2 = dir.make<TH1F>("sector2","Sector 2 if 2 Muons found", 12,0,12);sector2->SetFillColor(4);
-	secdiff = dir.make<TH1F>("secdiff","Sector1 - Sector2 if 2 Muons found",12,0,12);secdiff->SetFillColor(4);
-	MissVsEta = dir.make<TH1F>("MissVsEta","Eta Distribution of Missed Muons",50,-2.5,2.5);MissVsEta->SetFillColor(4);
-	MissVsPhi = dir.make<TH1F>("MissVsPhi","Phi Distribution of Missed Muons",70,-3.5,3.5);MissVsPhi->SetFillColor(4);
-	MissVsPt = dir.make<TH1F>("MissVsPt","Pt Distribution of Missed Muons",200,0,200);MissVsPt->SetFillColor(4);
-	
-	ME42test1 = dir.make<TH1F>("ME42test1","Phi Dist. of ME42 Hits (Endcap 1)",70,-3.5,3.5);ME42test1->SetFillColor(4);
-	ME42test2 = dir.make<TH1F>("ME42test2","Phi Dist. of ME42 Hits (Endcap 2)",70,-3.5,3.5);ME42test2->SetFillColor(4);
-	ME1gangnedtest = dir.make<TH1F>("ME1gangnedtest","Strip Dist. of ME11A hits",5000,0,5000);ME1gangnedtest->SetFillColor(4);
-	ME11gangnedtest = dir.make<TH1F>("ME11gangnedtest","Strip Dist. of ME11 hits",200,0,200);ME11gangnedtest->SetFillColor(4);
-	
-	st12errors = dir.make<TH1F>("st12errors","Error Indication for a miss with TP's in station 1 and 2",8,0,8);st12errors->SetFillColor(4);
-	
-	detectorineff = dir.make<TH1F>("detectorineff","Detector Inefficiencies", 7,0,7);detectorineff->SetFillColor(4);
-	
-	
+
 	
 	
 	
@@ -410,9 +383,8 @@ void L1TMuonUpgradedTrackFinder::endJob()
 {
 
 	fclose (write);
-	fclose (dphi);
-	fclose (tptest);
-	TFileDirectory dir = histofile->mkdir("1");
+	
+	
 	
 		
 	std::cout<<"\nTHE END"<<std::endl;

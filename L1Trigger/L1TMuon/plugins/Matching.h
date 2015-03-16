@@ -16,6 +16,7 @@ MatchingOutput PhiMatching(SortingOutput Sout){
 	std::vector<ConvertedHit> Thits = Sout.Hits();
 	std::vector<std::vector<Winner>> Winners = Sout.Winners();
 	std::vector<int> segment (4,0);
+	int phdiff[4] = {15,15,7,7};
 	
 	/////////////////////////////////////////
 	//// Set Null Ph and Th outputs /////////
@@ -67,7 +68,7 @@ MatchingOutput PhiMatching(SortingOutput Sout){
 					if(inzone && verbose)
 						std::cout<<"setstation = "<<setstation<<std::endl;
 					
-					if((fabs((Winners[z][w].Strip()) - i->Zhit()) < 15) && inzone){//is close to winner keystrip and in same zone?
+					if((fabs((Winners[z][w].Strip()) - i->Zhit()) < phdiff[setstation]) && inzone){//is close to winner keystrip and in same zone?
 					
 						if(ph_output[z][w][setstation].Phi() == -999){//has this already been set? no
 						

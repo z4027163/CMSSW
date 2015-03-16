@@ -283,12 +283,13 @@ std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, i
 	int zhit = -99, pz = -99;
 	std::vector<int> zonecontribution; //Each hit could go in more than one zone so we make a vector which stores all the zones for which this hit will contribute
 
-
+	
 	//determination of zone contribution
 	if((phzvl & 1) && (Id < 4)){pz=0;zonecontribution.push_back(0);}
 	if((phzvl & 2) && (Id < 4)){pz=1;zonecontribution.push_back(1);}
 	if((phzvl & 1) && (Id > 3) && (station > 2)){pz=0;zonecontribution.push_back(1);}
-	if((phzvl & 1) && (Id > 3) && (station < 3)){pz=0;zonecontribution.push_back(2);}
+	if((phzvl & 1) && (Id > 3) && (Id < 7) && (station == 1)){pz=0;zonecontribution.push_back(2);}
+	if((phzvl & 1) && (Id > 3) && (station == 2)){pz=0;zonecontribution.push_back(2);}
 	if((phzvl & 2) && (Id > 3) && (station > 2)){pz=1;zonecontribution.push_back(2);}
 	if((phzvl & 1) && (Id > 4) && (station < 2)){pz=0;zonecontribution.push_back(3);}
 	if(phzvl & 4){pz=2;zonecontribution.push_back(3);}
