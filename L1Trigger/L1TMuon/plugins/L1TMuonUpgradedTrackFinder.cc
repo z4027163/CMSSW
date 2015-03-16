@@ -122,14 +122,6 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 
  	std::vector<ConvertedHit> ConvHits = PrimConv(tester,SectIndex);
 	CHits[SectIndex] = ConvHits;
-	
-	for(std::vector<ConvertedHit>::iterator i=ConvHits.begin();i!=ConvHits.end();i++){
-	
-		if(i->TP()->detId<CSCDetId>().ring() == 4)
-			ME1gangnedtest->Fill(i->Phi());
-	
-	}
-   
  
   
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
