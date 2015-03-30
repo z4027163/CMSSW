@@ -28,7 +28,7 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include <TMath.h>
-#include <TCanvas.h>
+//#include <TCanvas.h>
 #include <TLorentzVector.h>
 
 #include "TTree.h"
