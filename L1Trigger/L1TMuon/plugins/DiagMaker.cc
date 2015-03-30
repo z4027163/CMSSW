@@ -69,6 +69,7 @@
 using namespace L1TMuon;
 using namespace edm;
 using namespace reco;
+using namespace std;
 
 typedef edm::ParameterSet PSet;
 
