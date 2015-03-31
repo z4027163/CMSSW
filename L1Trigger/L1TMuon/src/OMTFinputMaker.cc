@@ -80,7 +80,7 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
   }
   case MuonSubdetId::CSC: {
     CSCDetId csc(rawId);    
-    //if(csc.station()==4) return false; /////AK TEST
+    if(csc.station()==4) return false; /////AK TEST
     if(endcapChamberMax==37 && csc.chamber()==1) return true;
     if(csc.chamber()<endcapChamberMin || csc.chamber()>endcapChamberMax) return false;
     ///////////////////
@@ -220,7 +220,7 @@ const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerP
     myStr<<detid
 	 <<"halfDigi: "<<std::get<1>(halfDigiIt)->getStrip()<<" "
 	 <<std::get<2>(halfDigiIt)->getStrip()
-         <<" phi: "<<floor(phi * 4096/(2*M_PI))
+         <<" phi: "<<floor(phi * OMTFConfiguration::nPhiBins/(2*M_PI))
 	 <<" hwNumber: "<<hwNumber
 	 <<" iInput: "<<iInput
 	 <<" iLayer: "<<iLayer

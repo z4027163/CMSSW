@@ -1,9 +1,9 @@
 #include <iostream>
 #include <ostream>
+#include <cmath>
 
 #include "L1Trigger/L1TMuon/interface/OMTFResult.h"
 #include "L1Trigger/L1TMuon/interface/OMTFConfiguration.h"
-
 
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -31,7 +31,7 @@ void OMTFResult::clear(){
   hits1D.assign(OMTFConfiguration::nRefLayers,0);
   results.assign(OMTFConfiguration::nLayers,results1D);
   refPhi1D.assign(OMTFConfiguration::nRefLayers,1024);
-  
+  hitsBits.assign(OMTFConfiguration::nRefLayers,0);  
 }
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -43,6 +43,7 @@ void OMTFResult::finalise(){
       ///If connected layer (POS or BEND) has not been fired, ignore this layer also
       unsigned int val = results[connectedLayer][iRefLayer]>0 ? results[iLogicLayer][iRefLayer]: 0;
       results1D[iRefLayer]+=val;
+      hitsBits[iRefLayer]+=(val>0)*std::pow(2,iLogicLayer);
       ///Do not count bending layers in hit count
       if(!OMTFConfiguration::bendingLayers.count(iLogicLayer)) hits1D[iRefLayer]+=(val>0);
     }      

@@ -1,5 +1,6 @@
 #include <cassert>
 #include <iostream>
+#include <cmath>
 
 #include "L1Trigger/L1TMuon/interface/OMTFinput.h"
 #include "L1Trigger/L1TMuon/interface/OMTFConfiguration.h"
@@ -27,7 +28,7 @@ std::bitset<128> OMTFinput::getRefHits(unsigned int iProcessor) const{
   unsigned int iRefHit = 0;
   for(auto iRefHitDef:OMTFConfiguration::refHitsDefs[iProcessor]){
     int iPhi = getLayerData(OMTFConfiguration::refToLogicNumber[iRefHitDef.iRefLayer])[iRefHitDef.iInput];    
-    if(iPhi<(int)OMTFConfiguration::nPhiBins) refHits.set(iRefHit, iRefHitDef.fitsRange(iPhi));
+    if(iPhi<(int)OMTFConfiguration::nPhiBins) refHits.set(iRefHit, iRefHitDef.fitsRange(iPhi));    
     iRefHit++;
   }
 
@@ -68,6 +69,10 @@ void OMTFinput::clear(){
 ///////////////////////////////////////////////////
 void  OMTFinput::shiftMyPhi(int phiShift){
 
+
+  int lowScaleEnd = std::pow(2,OMTFConfiguration::nPhiBits-1);
+  int highScaleEnd = lowScaleEnd-1;
+
 for(unsigned int iLogicLayer=0;iLogicLayer<measurements.size();++iLogicLayer){
     for(unsigned int iHit=0;iHit<measurements[iLogicLayer].size();++iHit){
       if(!OMTFConfiguration::bendingLayers.count(iLogicLayer) &&
@@ -75,9 +80,9 @@ for(unsigned int iLogicLayer=0;iLogicLayer<measurements.size();++iLogicLayer){
 	if(measurements[iLogicLayer][iHit]<0) measurements[iLogicLayer][iHit]+=OMTFConfiguration::nPhiBins;
 	measurements[iLogicLayer][iHit]-=phiShift;
 	if(measurements[iLogicLayer][iHit]<0) measurements[iLogicLayer][iHit]+=OMTFConfiguration::nPhiBins;
-	measurements[iLogicLayer][iHit]+=-511;
-	if(measurements[iLogicLayer][iHit]<-511 ||
-	   measurements[iLogicLayer][iHit]>511) measurements[iLogicLayer][iHit] = (int)OMTFConfiguration::nPhiBins;	   
+	measurements[iLogicLayer][iHit]+=-lowScaleEnd;
+	if(measurements[iLogicLayer][iHit]<-lowScaleEnd ||
+	   measurements[iLogicLayer][iHit]>highScaleEnd) measurements[iLogicLayer][iHit] = (int)OMTFConfiguration::nPhiBins;	   
       }
     }
   }

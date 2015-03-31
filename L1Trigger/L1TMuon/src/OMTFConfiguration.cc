@@ -163,6 +163,9 @@ unsigned int OMTFConfiguration::getRegionNumber(unsigned int iProcessor,
   }
 
   if(iRegion>5) iRegion = 99;
+
+  if(iRegion>4 || iRegion==0) iRegion = 99;////TEST
+
   return iRegion;
 }
 ///////////////////////////////////////////////
@@ -219,7 +222,7 @@ uint32_t OMTFConfiguration::getLayerNumber(uint32_t rawId){
   case MuonSubdetId::CSC: {
     CSCDetId csc(rawId);
     aLayer = csc.station();
-    //if(csc.ring()==2 && csc.station()==1) aLayer = 4;  /////AK TEST
+    if(csc.ring()==2 && csc.station()==1) aLayer = 4;  /////AK TEST
     break;
   }
   }  

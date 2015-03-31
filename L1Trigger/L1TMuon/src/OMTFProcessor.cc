@@ -32,8 +32,8 @@ OMTFProcessor::OMTFProcessor(const edm::ParameterSet & theConfig){
    configure(&myReader);
   }
 
-  //averagePatterns(1);
-  //averagePatterns(-1);
+  averagePatterns(1);
+  averagePatterns(-1);
 
 }
 ///////////////////////////////////////////////
@@ -51,6 +51,31 @@ bool OMTFProcessor::configure(XMLConfigReader *aReader){
   for(auto it: aGPs){    
     if(!addGP(it)) return false;
   }
+  /*
+  GoldenPattern *aGP = new GoldenPattern(Key(0,5,-1));
+  GoldenPattern::vector2D meanDistPhi2D(OMTFConfiguration::nLayers);
+  GoldenPattern::vector1D pdf1D(exp2(OMTFConfiguration::nPdfAddrBits));
+  GoldenPattern::vector3D pdf3D(OMTFConfiguration::nLayers);
+  GoldenPattern::vector2D pdf2D(OMTFConfiguration::nRefLayers);
+  aGP->setMeanDistPhi(meanDistPhi2D);
+  aGP->setPdf(pdf3D);
+  addGP(aGP);
+
+  aGP = new GoldenPattern(Key(0,5,1));
+  aGP->setMeanDistPhi(meanDistPhi2D);
+  aGP->setPdf(pdf3D);
+  addGP(aGP);
+
+  aGP = new GoldenPattern(Key(0,4,1));
+  aGP->setMeanDistPhi(meanDistPhi2D);
+  aGP->setPdf(pdf3D);
+  addGP(aGP);
+
+  aGP = new GoldenPattern(Key(0,4,-1));
+  aGP->setMeanDistPhi(meanDistPhi2D);
+  aGP->setPdf(pdf3D);
+  addGP(aGP);
+*/
 
   return true;
 }
@@ -258,6 +283,7 @@ void OMTFProcessor::fillCounts(unsigned int iProcessor,
 
   int theCharge = (abs(aSimMuon->type()) == 13) ? aSimMuon->type()/-13 : 0;
   unsigned int  iPt =  RPCConst::iptFromPt(aSimMuon->momentum().pt());
+
   //////////////////////////////////////  
   std::bitset<128> refHitsBits = aInput.getRefHits(iProcessor);
   if(refHitsBits.none()) return;
