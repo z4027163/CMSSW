@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:44 2013
+// Timestamp : Thu Mar 12 14:54:01 2015
 
 #include "ph_pattern.h"
 
@@ -43,7 +43,7 @@ void ph_pattern::operator()
 		th_ch11 = seg_ch*seg_ch;
 		bw_q = 4;
 		bw_addr = 7;
-		ph_raw_w = (1 << pat_w_st3) * 15;
+		ph_raw_w = (1 << pat_w_st3) * 15 + 2;
 		th_raw_w = (1 << bw_th);
 		max_drift = 3;
 		bw_phi = 12;
@@ -138,7 +138,7 @@ void ph_pattern::operator()
 			if (( (mi) == 4)) {  {
 					lyhits[2] = uor(st1(13,12));
 					lyhits[1] = st2;
-					lyhits[0] = (uor(st3(9,7))) | (uor(st4(9,7)));
+					lyhits[0] = (uor(st3(10,7))) | (uor(st4(10,7)));
 					straightness = const_(3, 0x2UL);
 				} } else 
 			if (( (mi) == 5)) {  {

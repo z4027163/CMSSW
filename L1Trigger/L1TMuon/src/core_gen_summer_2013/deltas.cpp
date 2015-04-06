@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:44 2013
+// Timestamp : Thu Mar 12 14:54:00 2015
 
 #include "deltas.h"
 
@@ -58,7 +58,7 @@ void deltas::operator()
 		th_ch11 = seg_ch*seg_ch;
 		bw_q = 4;
 		bw_addr = 7;
-		ph_raw_w = (1 << pat_w_st3) * 15;
+		ph_raw_w = (1 << pat_w_st3) * 15 + 2;
 		th_raw_w = (1 << bw_th);
 		max_drift = 3;
 		bw_phi = 12;
@@ -204,11 +204,6 @@ void deltas::operator()
 		vmask1 = const_(4, 0x0UL);
 		vmask2 = const_(4, 0x0UL);
 		vmask3 = const_(4, 0x0UL);
-		
-		//std::cout<<"\n";
-		//for(int t=0;t<4;t++){
-		//	std::cout<<"PhiMatch["<<t<<"] = "<<ph_match[t]<<std::endl;
-		//}
 
 		// vmask contains valid station mask = (ME4,ME3,ME2,ME1)
 		if (bth12 <= th_window && bvl12) vmask1 = vmask1 | const_(4, 0x3UL);
@@ -217,29 +212,14 @@ void deltas::operator()
 		if (bth23 <= th_window && bvl23) vmask2 = vmask2 | const_(4, 0x6UL);
 		if (bth24 <= th_window && bvl24) vmask2 = vmask2 | const_(4, 0xaUL);
 		if (bth34 <= th_window && bvl34) vmask3 = vmask3 | const_(4, 0xcUL);
-		
-		
-		if(vmask1){std::cout<<"vmask1 = "<<vmask1<<std::endl;}
-		if(vmask2){std::cout<<"vmask2 = "<<vmask2<<std::endl;}
-		if(vmask3){std::cout<<"vmask3 = "<<vmask3<<std::endl;}
-		
 
 		// merge station masks only if they share bits
 		// could try here to find two tracks with identical ph
 		// for example vmask1 = 1001 and vmask2 = 0110
 		// not done so far, just select one with better station combination
 		vstat = vmask1;
-		
-		if(vstat){std::cout<<"vstat = "<<vstat<<std::endl;}
-		
 		if ((vstat & vmask2) != const_(4, 0x0UL) || vstat == const_(4, 0x0UL)) vstat = vstat | vmask2;
-		
-		if(vstat){std::cout<<"vstat = "<<vstat<<std::endl;}
-		
 		if ((vstat & vmask3) != const_(4, 0x0UL) || vstat == const_(4, 0x0UL)) vstat = vstat | vmask3;
-		
-		if(vstat){std::cout<<"vstat = "<<vstat<<std::endl;}
-		
 		if (( (vstat) == const_(4, 0xcUL))) {  { delta_ph[0] = dph34; delta_ph[1] = dph34; delta_th[0] = bth34; delta_th[1] = bth34; } } else 
 		if (( (vstat) == const_(4, 0xaUL))) {  { delta_ph[0] = dph24; delta_ph[1] = dph24; delta_th[0] = bth24; delta_th[1] = bth24; } } else 
 		if (( (vstat) == const_(4, 0x6UL))) {  { delta_ph[0] = dph23; delta_ph[1] = dph23; delta_th[0] = bth23; delta_th[1] = bth23; } } else 
@@ -302,15 +282,10 @@ void deltas::operator()
 		// update rank taking into account available stations after th deltas
 		// keep straightness as it was
 		rank = (ph_q, const_s(1, 0x0UL)); // output rank is one bit longer than input, to accommodate ME4 separately
-		
-		if(rank){std::cout<<"ph_q = "<<ph_q<<" and rank = "<<rank<<" and vstat = "<<vstat<<std::endl;}
-		
 		rank[0] = vstat[3]; // ME4
 		rank[1] = vstat[2]; // ME3
 		rank[3] = vstat[1]; // ME2
 		rank[5] = vstat[0]; // ME1
-		
-		if(rank){std::cout<<"ph_q = "<<ph_q<<" and rank = "<<rank<<std::endl;}
 
 		// if less than 2 segments, kill rank
 		if (vstat == const_(4, 0x1UL) || vstat == const_(4, 0x2UL) || vstat == const_(4, 0x4UL) || vstat == const_(4, 0x8UL) || vstat == const_(4, 0x0UL))

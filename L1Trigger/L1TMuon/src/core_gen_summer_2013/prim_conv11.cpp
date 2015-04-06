@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:45 2013
+// Timestamp : Thu Mar 12 14:54:01 2015
 
 #include "prim_conv11.h"
 
@@ -54,7 +54,7 @@ void prim_conv11::operator()
 		th_ch11 = seg_ch*seg_ch;
 		bw_q = 4;
 		bw_addr = 7;
-		ph_raw_w = (1 << pat_w_st3) * 15;
+		ph_raw_w = (1 << pat_w_st3) * 15 + 2;
 		th_raw_w = (1 << bw_th);
 		max_drift = 3;
 		bw_phi = 12;
@@ -164,9 +164,6 @@ void prim_conv11::operator()
 
 			factor[i] = (station <= 1 && cscid <= 2 && hstrip[i] > 127) ? 1707 : // ME1/1a
 				 1301; // ME1/1b
-				 
-			//if(factor[i])
-			//	std::cout<<"factor 11 = "<<factor[i]<<std::endl;
 
 			me11a_w[i] = (station <= 1 && cscid <= 2 && hstrip[i] > 127);
 			if (( (clctpat[i]) == 0)) {  { clct_pat_corr = const_(3, 0x0UL); clct_pat_sign = 0; } } else 
@@ -198,9 +195,8 @@ void prim_conv11::operator()
 				// for factors 1024 and 2048 the multiplier should be replaced with shifts by synthesizer
 				mult = eight_str[i] * factor[i];
 				ph_tmp = mult(mult_bw-1 , 10);
-				//std::cout<<"ph_tmp = "<<ph_tmp<<std::endl;
 				ph_init_ix =  me11a_w[i] ? const_(3, 2UL) : const_(3, 0UL); // index of ph_init parameter to apply (different for ME11a and b)
-				//std::cout<<"ph_init_ix = "<<ph_init_ix<<std::endl;
+				
 				if (ph_reverse)
 				{
 					fph[i] = params[ph_init_ix] - ph_tmp;
@@ -223,16 +219,10 @@ void prim_conv11::operator()
  -----/\----- EXCLUDED -----/\----- */
 				}
 				
-				//std::cout<<"estr = "<<eight_str[i]<<", factor = "<<factor[i]<<", ph_rev = "<<ph_reverse<<", ph_tmp = "<<ph_tmp<<std::endl;
-				//std::cout<<"ph_hit = "<<ph_tmp(bw_fph-1,5) + params[ph_init_ix + const_(3, 1UL)](7,1)<<std::endl;
-				//std::cout<<"strip = "<<hstrip[i]<<", Id = "<<cscid + 1<<",phinit = "<<(params[ph_init_ix])<<"ph_cov = "<<ph_coverage<<", and phshift = "<<(ph_tmp(bw_fph-1,5))<<", and phdisp = "<<(params[ph_init_ix + const_(3, 1UL)](7,1))<<"\n\n\n";
-				
-				
 				wg = wiregroup[i];
 				// th conversion
 				// call appropriate LUT, it returns th[i] relative to wg0 of that chamber
 				th_orig = th_mem[wg];
-				//std::cout<<"wire = "<<wg<<", th_mem[wg] = "<<th_orig<<std::endl;
 
 
 				// need th duplication here
@@ -244,26 +234,19 @@ void prim_conv11::operator()
 						// index is: (wiregroup(2 MS bits), dblstrip(5-bit for these chambers))
 						index = (wg(5,4), eight_str[j](8,4));
 						th_corr = th_corr_mem[index];
-						//std::cout<<"eightstrip = "<<eight_str[j]<<", eightstrip(8,4) = "<<eight_str[j](8,4)<<", index = "<<index<<", th_corr = "<<th_corr<<std::endl;
 
-						std::cout<<"th_corr = "<<th_corr<<" and th_orig = "<<th_orig<<std::endl;
 						// apply correction to the corresponding output
 						if (ph_reverse) th_tmp = (th_orig - th_corr) & const_(6, 0x3fUL);
 						else            th_tmp = (th_orig + th_corr) & const_(6, 0x3fUL);
-						//std::cout<<"ph_reverse = "<<ph_reverse<<" ";
-						if(th_tmp)
-							std::cout<<"th_tmp = "<<th_tmp<<" and thcoverage = "<<th_coverage<<std::endl;
+
 						// check that correction did not make invalid value outside chamber coverage
 						// this will actually take care of both positive and negative illegal values
 						if (th_tmp < th_coverage) 
 						{
 							// apply initial th value for that chamber
 							th[i*seg_ch+j] = th_tmp + params[4];
-							//std::cout<<"params[4] = "<<params[4]<<"\n";
-							
 							// th hits
 							th_hit[th_tmp + params[5]] = 1;
-							
 							
 							// check which zones ph hits should be applied to
 							if (th[i*seg_ch+j] <= (ph_zone_bnd1 + zone_overlap)) phzvl[0] = 1;
@@ -272,8 +255,7 @@ void prim_conv11::operator()
 								(th[i*seg_ch+j] >  (ph_zone_bnd1 - zone_overlap)) &&
 								(th[i*seg_ch+j] <= (ph_zone_bnd2 + zone_overlap))
 								) phzvl[1] = 1;
-							//std::cout<<"ph_zone_bnd1 = "<<ph_zone_bnd1<<std::endl;
-							std::cout<<"phzvl = "<<phzvl<<std::endl;
+							
 						}
 					}
 				}
@@ -281,8 +263,6 @@ void prim_conv11::operator()
 			} // if (quality[i])
 			
 			ph[i] = fph[i];
-			if(fph[i])
-				std::cout<<"fph["<<i<<"] = "<<fph[i]<<" and vl[i] = "<<vl[i]<<std::endl;
 			
 		} // for (i = 0; i < seg_ch; i = i+1)
 		me11a = me11a_w;

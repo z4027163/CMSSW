@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:45 2013
+// Timestamp : Thu Mar 12 14:54:01 2015
 
 #ifndef __zone_best_h_file__
 #define __zone_best_h_file__
@@ -55,7 +55,7 @@ class zone_best
 		unsigned bw_q;
 		unsigned bw_addr;
 		// strips per section, calculated so ph pattern would cover +/- 8 deg in st 1
-	unsigned ph_raw_w;
+	unsigned ph_raw_w; // kludge to fix synth error, need to understand
 		unsigned th_raw_w;
 		// max possible drifttime
 	unsigned max_drift;

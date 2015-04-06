@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:46 2013
+// Timestamp : Thu Mar 12 14:54:02 2015
 
 #include "zones.h"
 
@@ -39,7 +39,7 @@ void zones::operator()
 		th_ch11 = seg_ch*seg_ch;
 		bw_q = 4;
 		bw_addr = 7;
-		ph_raw_w = (1 << pat_w_st3) * 15;
+		ph_raw_w = (1 << pat_w_st3) * 15 + 2;
 		th_raw_w = (1 << bw_th);
 		max_drift = 3;
 		bw_phi = 12;
@@ -225,19 +225,6 @@ void zones::operator()
 		if (phzvl[3][8][2]) ph_zone[3][3].bp( 95 , ph_hit_w10) |= ph_hit[3][8];
 
 		ph_zone[3][4] = 0; // no st 4 in this zone
-		
-		for(int iii=0;iii<4;iii++){
-		
-			for(int i=1;i<5;i++){
-		
-				for(int ii=0;ii<120;ii++){
-			
-					if(ph_zone[iii][i][ii] != 0){std::cout<<"zones:"<<iii<<" st:"<<i<<" zhit:"<<ii<<std::endl;}
-				}
-				//std::cout<<"\n";
-			}
-		}
-		
 	}
 	endalways();
 }

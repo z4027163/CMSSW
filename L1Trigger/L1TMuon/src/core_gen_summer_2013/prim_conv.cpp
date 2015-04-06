@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:45 2013
+// Timestamp : Thu Mar 12 14:54:01 2015
 
 #include "prim_conv.h"
 
@@ -54,7 +54,7 @@ void prim_conv::operator()
 		th_ch11 = seg_ch*seg_ch;
 		bw_q = 4;
 		bw_addr = 7;
-		ph_raw_w = (1 << pat_w_st3) * 15;
+		ph_raw_w = (1 << pat_w_st3) * 15 + 2;
 		th_raw_w = (1 << bw_th);
 		max_drift = 3;
 		bw_phi = 12;
@@ -164,9 +164,6 @@ void prim_conv::operator()
 		// 1024 == 1
 		factor = (station <= 1 && cscid >= 6) ? 947 : // ME1/3
 				 1024; // all other chambers
-				 
-		//if(factor)
-		//	std::cout<<"factor else = "<<factor<<std::endl;
 
 		for (i = 0; i < seg_ch; i = i+1)
 		{
@@ -222,11 +219,7 @@ void prim_conv::operator()
 					// set ph raw hits
 					ph_hit[ph_tmp(bw_fph-1,5) + params[2](7,1)] = 1;
 				}
-				
-				if(fph[i])
-					std::cout<<"fph["<<i<<"] = "<<fph[i]<<" and vl[i] = "<<vl[i]<<std::endl;
-				//std::cout<<"estr = "<<eight_str[i]<<", factor = "<<factor<<", ph_rev = "<<ph_reverse<<", ph_tmp = "<<ph_tmp<<std::endl;
-				//std::cout<<"strip = "<<hstrip[i]<<", Id = "<<cscid + 1<<",phinit = "<<params[0]<<"ph_cov = "<<ph_coverage<<", and phshift = "<<ph_tmp(bw_fph-1,5)<<", and params[2] = "<<params[2](7,1)<<"\n\n\n";
+
 				wg = wiregroup[i];
 				// th conversion
 				th_tmp = th_mem[wg];
@@ -243,7 +236,6 @@ void prim_conv::operator()
 					) phzvl[1] = 1;
 
 				clctpat_r[i] = clctpat[i]; // just propagate pattern downstream
-				std::cout<<"phzvl = "<<phzvl<<std::endl;
 			} // if (quality[i])
 
 			ph[i] = fph[i];

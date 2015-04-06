@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:44 2013
+// Timestamp : Thu Mar 12 14:54:00 2015
 
 #include "find_segment.h"
 
@@ -59,9 +59,9 @@ void find_segment::comp3_class::defparam()
 void find_segment::comp3_class::build()
 {
 	built = true;
-	a.bw(6, 0);
-	b.bw(6, 0);
-	c.bw(6, 0);
+	a.bw(4, 0);
+	b.bw(4, 0);
+	c.bw(4, 0);
 	r__storage.bw(2, 0);
 	r.bw(2, 0);
 	r.set_storage (&r__storage);
@@ -123,7 +123,7 @@ void find_segment::operator()
 		th_ch11 = seg_ch*seg_ch;
 		bw_q = 4;
 		bw_addr = 7;
-		ph_raw_w = (1 << pat_w_st3) * 15;
+		ph_raw_w = (1 << pat_w_st3) * 15 + 2;
 		th_raw_w = (1 << bw_th);
 		max_drift = 3;
 		bw_phi = 12;
@@ -167,8 +167,10 @@ void find_segment::operator()
 		bpow = 6;
 		cnr = (1 << bpow);
 		cnrex = ph_raw_w;
+		max_ph_diff = station == 1 ? const_(7, 15UL) : const_(7, 7UL);
+		bw_phdiff = station == 1 ? 5 : 4;
 		tot_diff = max_drift*zone_cham*seg_ch;
-		nodiff = ((1 << (bpow+1)) - 1);
+		nodiff = station == 1 ? const_(5, 31UL) : const_(4, 15UL);
 		build();
 		ph_pat_p.attach(ph_pat_p__io);
 		ph_pat_q_p.attach(ph_pat_q_p__io);
@@ -204,9 +206,7 @@ void find_segment::operator()
 		ph_seg_v = ph_seg_v_p;
 		th_seg = th_seg_p;
 		cpat_seg = cpat_seg_p;
-	
-		
-		
+
 		// calculate abs differences
 		di = 0;
 		for (i = 0; i < max_drift; i = i+1) // history loop
@@ -219,15 +219,16 @@ void find_segment::operator()
 					ph_segr = ph_seg[i][j][k](bw_fph-1 , bw_fph-bpow-1);
 
 					// get abs difference
-					if (ph_seg_v[i][j][k]){
-						ph_diff[i*zone_cham*seg_ch + j*seg_ch + k] = (ph_pat > ph_segr) ? ph_pat - ph_segr : ph_segr - ph_pat;
-						if(ph_pat != 127){std::cout<<"\nph_pat = "<<ph_pat<<" and ph_segr = "<<ph_segr<<std::endl;
-						std::cout<<"ph_diff["<<i*zone_cham*seg_ch + j*seg_ch + k<<"] = "<<ph_diff[i*zone_cham*seg_ch + j*seg_ch + k]<<std::endl;}
-					}
-					else{
-						ph_diff[i*zone_cham*seg_ch + j*seg_ch + k] = nodiff; // if segment invalid put max value into diff
-						//std::cout<<"\nph_pat = "<<ph_pat<<" and ph_segr = "<<ph_segr<<std::endl;
-					}
+					if (ph_seg_v[i][j][k])
+ 					    ph_diff_tmp = (ph_pat > ph_segr) ? ph_pat - ph_segr : ph_segr - ph_pat;
+					else
+						ph_diff_tmp = nodiff; // if segment invalid put max value into diff
+
+				    if (ph_diff_tmp > max_ph_diff)
+ 					    ph_diff[i*zone_cham*seg_ch + j*seg_ch + k] = nodiff; // difference is too high, cannot be the same pattern
+				    else
+				 	    ph_diff[i*zone_cham*seg_ch + j*seg_ch + k] = ph_diff_tmp(bw_phdiff-1,0);
+				   
 
 					ri = i;
 					rj = j;
@@ -284,12 +285,10 @@ void find_segment::operator()
 
 		(hid, cid, sid) = diffi4;
 		vid = ph_seg_v[hid][cid][sid];
-		// if pattern invalid remove valid flags 
-		if (!ph_pat_v) vid = 0;
+		// if pattern invalid | all differences invalid remove valid flags 
+		if (!ph_pat_v || cmp4 == nodiff) vid = 0;
 		
 		ph_match = ph_seg[hid][cid][sid]; // route best matching phi to output
-		//if(ph_match)
-			//std::cout<<"ph_match = "<<ph_match<<std::endl;
 		th_match = th_seg[hid][cid]; // route all th coords from matching chamber to output
 		cpat_match = cpat_seg[hid][cid][sid]; // route pattern to output
 	}
@@ -393,11 +392,14 @@ void find_segment::build()
 	ph_segr__storage.bw(bpow, 0);
 	ph_segr.bw(bpow, 0);
 	ph_segr.set_storage (&ph_segr__storage);
+	ph_diff_tmp__storage.bw(bpow, 0);
+	ph_diff_tmp.bw(bpow, 0);
+	ph_diff_tmp.set_storage (&ph_diff_tmp__storage);
 	ph_diff__storage.add_dim(tot_diff-1, 0);
-	ph_diff__storage.bw(bpow, 0);
+	ph_diff__storage.bw(bw_phdiff-1, 0);
 	ph_diff__storage.build();
 	ph_diff.add_dim(tot_diff-1, 0);
-	ph_diff.bw(bpow, 0);
+	ph_diff.bw(bw_phdiff-1, 0);
 	ph_diff.build();
 	ph_diff.set_storage (&ph_diff__storage);
 	rcomp__storage.bw(1, 0);
@@ -411,10 +413,10 @@ void find_segment::build()
 	diffi0.build();
 	diffi0.set_storage (&diffi0__storage);
 	cmp1__storage.add_dim(tot_diff/3-1, 0);
-	cmp1__storage.bw(bpow, 0);
+	cmp1__storage.bw(bw_phdiff-1, 0);
 	cmp1__storage.build();
 	cmp1.add_dim(tot_diff/3-1, 0);
-	cmp1.bw(bpow, 0);
+	cmp1.bw(bw_phdiff-1, 0);
 	cmp1.build();
 	cmp1.set_storage (&cmp1__storage);
 	diffi1__storage.add_dim(tot_diff/3-1, 0);
@@ -425,10 +427,10 @@ void find_segment::build()
 	diffi1.build();
 	diffi1.set_storage (&diffi1__storage);
 	cmp2__storage.add_dim(tot_diff/9-1, 0);
-	cmp2__storage.bw(bpow, 0);
+	cmp2__storage.bw(bw_phdiff-1, 0);
 	cmp2__storage.build();
 	cmp2.add_dim(tot_diff/9-1, 0);
-	cmp2.bw(bpow, 0);
+	cmp2.bw(bw_phdiff-1, 0);
 	cmp2.build();
 	cmp2.set_storage (&cmp2__storage);
 	diffi2__storage.add_dim(tot_diff/9-1, 0);
@@ -439,10 +441,10 @@ void find_segment::build()
 	diffi2.build();
 	diffi2.set_storage (&diffi2__storage);
 	cmp3__storage.add_dim(tot_diff/18-1, 0);
-	cmp3__storage.bw(bpow, 0);
+	cmp3__storage.bw(bw_phdiff-1, 0);
 	cmp3__storage.build();
 	cmp3.add_dim(tot_diff/18-1, 0);
-	cmp3.bw(bpow, 0);
+	cmp3.bw(bw_phdiff-1, 0);
 	cmp3.build();
 	cmp3.set_storage (&cmp3__storage);
 	diffi3__storage.add_dim(tot_diff/18-1, 0);
@@ -452,8 +454,8 @@ void find_segment::build()
 	diffi3.bw(5, 0);
 	diffi3.build();
 	diffi3.set_storage (&diffi3__storage);
-	cmp4__storage.bw(bpow, 0);
-	cmp4.bw(bpow, 0);
+	cmp4__storage.bw(bw_phdiff-1, 0);
+	cmp4.bw(bw_phdiff-1, 0);
 	cmp4.set_storage (&cmp4__storage);
 	diffi4__storage.bw(5, 0);
 	diffi4.bw(5, 0);
@@ -485,6 +487,7 @@ void find_segment::init ()
 		th_seg__storage.init();
 		cpat_seg__storage.init();
 		ph_segr__storage.init();
+		ph_diff_tmp__storage.init();
 		ph_diff__storage.init();
 		rcomp__storage.init();
 		diffi0__storage.init();
@@ -499,5 +502,5 @@ void find_segment::init ()
 		ri__storage.init();
 		rj__storage.init();
 		rk__storage.init();
-																																																	}
+																																																			}
 }

@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:44 2013
+// Timestamp : Thu Mar 12 14:54:00 2015
 
 #ifndef __find_segment_h_file__
 #define __find_segment_h_file__
@@ -83,7 +83,7 @@ class comp3_class
 		unsigned bw_q;
 		unsigned bw_addr;
 		// strips per section, calculated so ph pattern would cover +/- 8 deg in st 1
-	unsigned ph_raw_w;
+	unsigned ph_raw_w; // kludge to fix synth error, need to understand
 		unsigned th_raw_w;
 		// max possible drifttime
 	unsigned max_drift;
@@ -123,8 +123,11 @@ class comp3_class
 		unsigned bpow; // (1 << bpow) is count of input ranks
 		unsigned cnr; // internal rank count
 		unsigned cnrex; // actual input rank count, must be even
+		unsigned max_ph_diff; // max phi difference between pattern and segment
+		unsigned bw_phdiff; // ph difference bit width
 		unsigned tot_diff;
-		unsigned nodiff;
+		//	`localpar nodiff = ((1 << (bpow+1)) - 1);
+	unsigned nodiff; // invalid difference
 	
 		signal_ ph_pat_p; // ph detected in pattern
 		signal_ ph_pat_q_p; // pattern valid
@@ -147,6 +150,7 @@ class comp3_class
 		signal_storage th_seg__storage;  signal_ th_seg;
 		signal_storage cpat_seg__storage;  signal_ cpat_seg;
 		signal_storage ph_segr__storage;  signal_ ph_segr;
+		signal_storage ph_diff_tmp__storage;  signal_ ph_diff_tmp;
 		signal_storage ph_diff__storage;  signal_ ph_diff;
 		signal_storage rcomp__storage;  signal_ rcomp;
 		signal_storage diffi0__storage;  signal_ diffi0;

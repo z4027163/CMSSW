@@ -160,7 +160,7 @@ void DiagMaker::analyze(const edm::Event& ev, const edm::EventSetup& es)
   edm::Handle<InternalTrackCollection> dataITC;
 
   ev.getByLabel( "sptf" , "EmuITC"  , emuITC  );
-  ev.getByLabel( "L1TMuonText" , "DataITC"  , dataITC );
+  ev.getByLabel( "L1TMuonTrkFinder" , "DataITC"  , dataITC );
 
   int trknmbData, validData, qualityData, keywireData, stripData, patternData; 
   int bendData, bxData, mpclinkData, bx0Data, syncErrData, cscIDData;

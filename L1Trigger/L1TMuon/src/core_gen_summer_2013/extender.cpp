@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:44 2013
+// Timestamp : Thu Mar 12 14:54:00 2015
 
 #include "extender.h"
 
@@ -46,7 +46,7 @@ void extender::operator()
 		// read the outputs
 		rd = mem[ra];
 		
-		 //write all input bits into memory on each clock
+		// write all input bits into memory on each clock
 		mem[wa] = inp;
 		wa = (ra + drifttime + 1);
 		ra = (ra + 1);

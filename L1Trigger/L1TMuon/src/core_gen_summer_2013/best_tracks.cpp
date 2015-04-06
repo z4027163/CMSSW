@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:43 2013
+// Timestamp : Thu Mar 12 14:54:00 2015
 
 #include "best_tracks.h"
 
@@ -60,7 +60,7 @@ void best_tracks::operator()
 		th_ch11 = seg_ch*seg_ch;
 		bw_q = 4;
 		bw_addr = 7;
-		ph_raw_w = (1 << pat_w_st3) * 15;
+		ph_raw_w = (1 << pat_w_st3) * 15 + 2;
 		th_raw_w = (1 << bw_th);
 		max_drift = 3;
 		bw_phi = 12;
@@ -300,9 +300,6 @@ void best_tracks::operator()
 				if (winner[n][i])
 				{
 					bt_rank [n] = bt_rank [n] | rank [i%4][i/4];
-					
-					std::cout<<"Best Rank "<<n<<" = "<<bt_rank[n]<<"\n\n";
-					
 					bt_phi[n] = bt_phi[n] | phi[i%4][i/4];
 					bt_theta[n] = bt_theta[n] | theta[i%4][i/4];
 					bt_cpattern[n] = bt_cpattern[n] | cpattern[i%4][i/4];

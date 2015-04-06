@@ -3,7 +3,7 @@
 // VPPC web-page: http://www.phys.ufl.edu/~madorsky/vppc/
 
 // Author    : madorsky
-// Timestamp : Fri Feb  1 08:50:44 2013
+// Timestamp : Thu Mar 12 14:54:00 2015
 
 #include "match_ph_segments.h"
 
@@ -52,7 +52,7 @@ void match_ph_segments::operator()
 		th_ch11 = seg_ch*seg_ch;
 		bw_q = 4;
 		bw_addr = 7;
-		ph_raw_w = (1 << pat_w_st3) * 15;
+		ph_raw_w = (1 << pat_w_st3) * 15 + 2;
 		th_raw_w = (1 << bw_th);
 		max_drift = 3;
 		bw_phi = 12;
@@ -163,21 +163,15 @@ void match_ph_segments::operator()
 					ph_seg___z2_s3[i][j][k] = ph[i][4][j+3][k]; // 15 
 					ph_seg_v_z2_s3[i][j][k] = vl[i][4][j+3][k];
 
-					ph_seg___z3_s0[i][j][k] = 0; // dt // 17
-					ph_seg_v_z3_s0[i][j][k] = 0; // dt
-					//ph_seg___z3_s1[i][j][k] = (j < 3) ?	 ph[i][1][j+6][k] : ph[i][2][j+3][k]; // 18
-					//ph_seg_v_z3_s1[i][j][k] = (j < 3) ?	 vl[i][1][j+6][k] : vl[i][2][j+3][k];
-					//ph_seg___z3_s2[i][j][k] = ph[i][3][j+3][k]; // 19
-					//ph_seg_v_z3_s2[i][j][k] = vl[i][3][j+3][k];
-					//ph_seg___z3_s3[i][j][k] = ph[i][4][j+3][k]; // 20
-					//ph_seg_v_z3_s3[i][j][k] = vl[i][4][j+3][k];
-					ph_seg___z3_s1[i][j][k] = (j < 3 ) ? ph[i][0][j+6][k]:ph[i][1][j+3][k];
-					ph_seg_v_z3_s1[i][j][k] = (j < 3) ? vl[i][0][j+6][k]:vl[i][1][j+3][k];
-					ph_seg___z3_s2[i][j][k] = ph[i][2][j+3][k];//19
-					ph_seg_v_z3_s2[i][j][k] = vl[i][2][j+3][k];
-					ph_seg___z3_s3[i][j][k] = ph[i][3][j+3][k];//20
-					ph_seg_v_z3_s3[i][j][k] = vl[i][3][j+3][k];
-					
+					ph_seg___z3_s0[i][j][k] = (j < 3) ?	 ph[i][0][j+6][k] : ph[i][1][j+3][k]; // 18
+					ph_seg_v_z3_s0[i][j][k] = (j < 3) ?	 vl[i][0][j+6][k] : vl[i][1][j+3][k];	   
+					ph_seg___z3_s1[i][j][k] = ph[i][2][j+3][k]; // 19							   
+					ph_seg_v_z3_s1[i][j][k] = vl[i][2][j+3][k];									   
+					ph_seg___z3_s2[i][j][k] = ph[i][3][j+3][k]; // 20							   
+					ph_seg_v_z3_s2[i][j][k] = vl[i][3][j+3][k];                                    
+				    ph_seg___z3_s3[i][j][k] = 0; // no station 4 in zone 3
+				    ph_seg_v_z3_s3[i][j][k] = 0; // no station 4 in zone 3
+
 					cpat_seg___z0_s0[i][j][k] = (j < 3) ?	 cpat[i][0][j][k] : cpat[i][1][j-3][k]; // 2
 
 					cpat_seg___z1_s0[i][j][k] = (j < 3) ?	 cpat[i][0][j][k] : cpat[i][1][j-3][k]; // 7
@@ -189,14 +183,10 @@ void match_ph_segments::operator()
 					cpat_seg___z2_s2[i][j][k] = cpat[i][3][j+3][k]; // 14
 					cpat_seg___z2_s3[i][j][k] = cpat[i][4][j+3][k]; // 15 
 
-					cpat_seg___z3_s0[i][j][k] = 0; // dt // 17
-					//cpat_seg___z3_s1[i][j][k] = (j < 3) ?	 cpat[i][1][j+6][k] : cpat[i][2][j+3][k]; // 18
-					//cpat_seg___z3_s2[i][j][k] = cpat[i][3][j+3][k]; // 19
-					//cpat_seg___z3_s3[i][j][k] = cpat[i][4][j+3][k]; // 20
-					cpat_seg___z3_s1[i][j][k] = (j < 3) ?	 cpat[i][0][j+6][k] : cpat[i][1][j+3][k]; // 18
-					cpat_seg___z3_s2[i][j][k] = cpat[i][2][j+3][k]; // 19
-					cpat_seg___z3_s3[i][j][k] = cpat[i][3][j+3][k]; // 20
-
+					cpat_seg___z3_s0[i][j][k] = (j < 3) ?	 cpat[i][0][j+6][k] : cpat[i][1][j+3][k]; // 18
+					cpat_seg___z3_s1[i][j][k] = cpat[i][2][j+3][k]; // 19
+					cpat_seg___z3_s2[i][j][k] = cpat[i][3][j+3][k]; // 20
+				    cpat_seg___z3_s3[i][j][k] = 0; // no station 4 in zone 3
 					
 					th_seg___z1_s2[i][j][k] = th[i][3][j+3][k]; // 9
 					th_seg___z1_s3[i][j][k] = th[i][4][j+3][k]; // 10
@@ -206,13 +196,11 @@ void match_ph_segments::operator()
 					th_seg___z2_s2[i][j][k] = th[i][3][j+3][k]; // 14
 					th_seg___z2_s3[i][j][k] = th[i][4][j+3][k]; // 15 
 
-					th_seg___z3_s0[i][j][k] = 0; // dt // 17
-					//th_seg___z3_s1[i][j][k] = (j < 3) ?	 th[i][1][j+6][k] : th[i][2][j+3][k]; // 18
-					//th_seg___z3_s2[i][j][k] = th[i][3][j+3][k]; // 19
-					//th_seg___z3_s3[i][j][k] = th[i][4][j+3][k]; // 20
-					th_seg___z3_s1[i][j][k] = (j < 3) ?	 th[i][0][j+6][k] : th[i][1][j+3][k]; // 18
-					th_seg___z3_s2[i][j][k] = th[i][2][j+3][k]; // 19
-					th_seg___z3_s3[i][j][k] = th[i][3][j+3][k]; // 20
+					th_seg___z3_s0[i][j][k] = (j < 3) ?	 th[i][0][j+6][k] : th[i][1][j+3][k]; // 18
+					th_seg___z3_s1[i][j][k] = th[i][2][j+3][k]; // 19
+					th_seg___z3_s2[i][j][k] = th[i][3][j+3][k]; // 20
+				    th_seg___z3_s3[i][j][k] = 0; // no station 4 in zone 3
+				    
 
 				}
 			}
@@ -257,23 +245,24 @@ void match_ph_segments::operator()
 	
     {
 		for (ki = 0; ki < 3; ki = ki+1) // pattern loop
-		{
-			 gb.fs_loop[ki].fs_00.zone_cham = 6;  gb.fs_loop[ki].fs_00.zone_seg = th_ch11;
-			 gb.fs_loop[ki].fs_01.zone_cham = 3;  gb.fs_loop[ki].fs_01.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_02.zone_cham = 3;  gb.fs_loop[ki].fs_02.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_03.zone_cham = 3;  gb.fs_loop[ki].fs_03.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_10.zone_cham = 6;  gb.fs_loop[ki].fs_10.zone_seg = th_ch11;
-			 gb.fs_loop[ki].fs_11.zone_cham = 3;  gb.fs_loop[ki].fs_11.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_12.zone_cham = 6;  gb.fs_loop[ki].fs_12.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_13.zone_cham = 6;  gb.fs_loop[ki].fs_13.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_20.zone_cham = 6;  gb.fs_loop[ki].fs_20.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_21.zone_cham = 6;  gb.fs_loop[ki].fs_21.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_22.zone_cham = 6;  gb.fs_loop[ki].fs_22.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_23.zone_cham = 6;  gb.fs_loop[ki].fs_23.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_30.zone_cham = 6;  gb.fs_loop[ki].fs_30.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_31.zone_cham = 6;  gb.fs_loop[ki].fs_31.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_32.zone_cham = 6;  gb.fs_loop[ki].fs_32.zone_seg = seg_ch;
-			 gb.fs_loop[ki].fs_33.zone_cham = 6;  gb.fs_loop[ki].fs_33.zone_seg = seg_ch;
+		  {
+			 // name = fs_zone_station
+			 gb.fs_loop[ki].fs_00.zone_cham = 6;  gb.fs_loop[ki].fs_00.zone_seg = th_ch11;  gb.fs_loop[ki].fs_00.station = 1;
+			 gb.fs_loop[ki].fs_01.zone_cham = 3;  gb.fs_loop[ki].fs_01.zone_seg = seg_ch;   gb.fs_loop[ki].fs_01.station = 2;
+			 gb.fs_loop[ki].fs_02.zone_cham = 3;  gb.fs_loop[ki].fs_02.zone_seg = seg_ch;   gb.fs_loop[ki].fs_02.station = 3;
+			 gb.fs_loop[ki].fs_03.zone_cham = 3;  gb.fs_loop[ki].fs_03.zone_seg = seg_ch;   gb.fs_loop[ki].fs_03.station = 4;
+			 gb.fs_loop[ki].fs_10.zone_cham = 6;  gb.fs_loop[ki].fs_10.zone_seg = th_ch11;  gb.fs_loop[ki].fs_10.station = 1;
+			 gb.fs_loop[ki].fs_11.zone_cham = 3;  gb.fs_loop[ki].fs_11.zone_seg = seg_ch;   gb.fs_loop[ki].fs_11.station = 2;
+			 gb.fs_loop[ki].fs_12.zone_cham = 6;  gb.fs_loop[ki].fs_12.zone_seg = seg_ch;   gb.fs_loop[ki].fs_12.station = 3;
+			 gb.fs_loop[ki].fs_13.zone_cham = 6;  gb.fs_loop[ki].fs_13.zone_seg = seg_ch;   gb.fs_loop[ki].fs_13.station = 4;
+			 gb.fs_loop[ki].fs_20.zone_cham = 6;  gb.fs_loop[ki].fs_20.zone_seg = seg_ch;   gb.fs_loop[ki].fs_20.station = 1;
+			 gb.fs_loop[ki].fs_21.zone_cham = 6;  gb.fs_loop[ki].fs_21.zone_seg = seg_ch;   gb.fs_loop[ki].fs_21.station = 2;
+			 gb.fs_loop[ki].fs_22.zone_cham = 6;  gb.fs_loop[ki].fs_22.zone_seg = seg_ch;   gb.fs_loop[ki].fs_22.station = 3;
+			 gb.fs_loop[ki].fs_23.zone_cham = 6;  gb.fs_loop[ki].fs_23.zone_seg = seg_ch;   gb.fs_loop[ki].fs_23.station = 4;
+			 gb.fs_loop[ki].fs_30.zone_cham = 6;  gb.fs_loop[ki].fs_30.zone_seg = seg_ch;   gb.fs_loop[ki].fs_30.station = 1;
+			 gb.fs_loop[ki].fs_31.zone_cham = 6;  gb.fs_loop[ki].fs_31.zone_seg = seg_ch;   gb.fs_loop[ki].fs_31.station = 2;
+			 gb.fs_loop[ki].fs_32.zone_cham = 6;  gb.fs_loop[ki].fs_32.zone_seg = seg_ch;   gb.fs_loop[ki].fs_32.station = 3;
+			 gb.fs_loop[ki].fs_33.zone_cham = 6;  gb.fs_loop[ki].fs_33.zone_seg = seg_ch;   gb.fs_loop[ki].fs_33.station = 4;
  
 				gb.fs_loop[ki].fs_00
 	(
