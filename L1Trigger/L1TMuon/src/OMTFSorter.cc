@@ -75,9 +75,6 @@ InternalObj OMTFSorter::sortRefHitResults(const OMTFProcessor::resultsMap & aRes
     std::tuple<unsigned int,unsigned int, int, int, unsigned int > val = sortSingleResult(itKey.second);
     ///Accept only candidates with >2 hits
     if(std::get<0>(val)<3) continue;
-    ///Accept candidates with good likelihood value
-    //if(std::get<1>(val)/std::get<0>(val)<30) continue;
-    //if(std::get<3>(val)>5) continue;
     ///
     if( std::get<0>(val)>nHitsMax){
       nHitsMax = std::get<0>(val);
@@ -87,7 +84,15 @@ InternalObj OMTFSorter::sortRefHitResults(const OMTFProcessor::resultsMap & aRes
       hitsWord = std::get<4>(val);
       bestKey = itKey.first;
     }
-    else if(std::get<0>(val)==nHitsMax &&  std::get<1>(val)>pdfValMax){
+    else if(std::get<0>(val)==nHitsMax && std::get<1>(val)>pdfValMax){
+      pdfValMax = std::get<1>(val);
+      refPhi = std::get<2>(val);
+      refLayer = std::get<3>(val);
+      hitsWord = std::get<4>(val);
+      bestKey = itKey.first;
+    }
+    else if(std::get<0>(val)==nHitsMax && std::get<1>(val)==pdfValMax &&
+	    itKey.first.thePtCode<bestKey.thePtCode){
       pdfValMax = std::get<1>(val);
       refPhi = std::get<2>(val);
       refLayer = std::get<3>(val);
@@ -209,6 +214,13 @@ void OMTFSorter::sortProcessorResults(const std::vector<OMTFProcessor::resultsMa
   refHitCleanCands.resize( 3, InternalObj(0,99,9999,0,0,0,0,-1) );
 
   std::ostringstream myStr;
+  bool hasCandidates = false;
+  for(unsigned int iRefHit=0;iRefHit<refHitCands.size();++iRefHit){
+    if(refHitCands[iRefHit].q){
+      hasCandidates=true;
+      break;
+    }  
+  }    
   for(unsigned int iRefHit=0;iRefHit<refHitCands.size();++iRefHit){
     if(refHitCands[iRefHit].q) myStr<<"Ref hit: "<<iRefHit<<" "<<refHitCands[iRefHit]<<std::endl;
   }
@@ -216,7 +228,8 @@ void OMTFSorter::sortProcessorResults(const std::vector<OMTFProcessor::resultsMa
   for(unsigned int iCand=0; iCand<refHitCleanCands.size(); ++iCand){
     myStr<<"Cand: "<<iCand<<" "<<refHitCleanCands[iCand]<<std::endl;
   }
-  edm::LogInfo("OMTF Sorter")<<myStr.str();
+
+  if(hasCandidates) edm::LogInfo("OMTF Sorter")<<myStr.str();
 
 
   return;
