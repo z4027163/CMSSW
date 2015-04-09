@@ -71,8 +71,8 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1))
 process.load('Configuration.Geometry.GeometryExtendedPostLS1Reco_cff')
 process.load('Configuration.Geometry.GeometryExtendedPostLS1_cff')
 ############################
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-from Configuration.AlCa.GlobalTag import GlobalTag
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 path = os.environ['CMSSW_BASE']+"/src/L1Trigger/L1TMuon/data/"
@@ -91,9 +91,8 @@ process.omtfPatternMaker = cms.EDAnalyzer("OMTFPatternMaker",
                                       ptCode = cms.int32(16),
                                       charge = cms.int32(1),
                                       omtf = cms.PSet(
-        configXMLFile = cms.string(path+"hwToLogicLayer_721.xml"),
-        patternsXMLFiles = cms.vstring(path+"Patterns_ipt6_18.xml",path+"Patterns_ipt19_31.xml"),
-
+        configXMLFile = cms.string(path+"hwToLogicLayer_721_5760.xml"),
+        patternsXMLFiles = cms.vstring(path+"Patterns_ipt4_31_5760.xml"),
         )
                                       )
 
