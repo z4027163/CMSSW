@@ -6,7 +6,7 @@ import commands
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 
-verbose = False
+verbose = True
 
 if verbose:
     process.MessageLogger = cms.Service("MessageLogger",
@@ -63,7 +63,8 @@ process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 process.source = cms.Source(
     'PoolSource',
-    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root')
+    #fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root')
+    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data//SingleMu_20_p_2_2_axz.root')
     )
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000))
@@ -72,8 +73,8 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000))
 process.load('Configuration.Geometry.GeometryExtendedPostLS1Reco_cff')
 process.load('Configuration.Geometry.GeometryExtendedPostLS1_cff')
 ############################
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-from Configuration.AlCa.GlobalTag import GlobalTag
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 path = os.environ['CMSSW_BASE']+"/src/L1Trigger/L1TMuon/data/"
@@ -83,19 +84,19 @@ process.load('L1Trigger.L1TMuon.L1TMuonTriggerPrimitiveProducer_cfi')
 ###OMTF emulator configuration
 process.omtfEmulator = cms.EDProducer("OMTFProducer",
                                       TriggerPrimitiveSrc = cms.InputTag('L1TMuonTriggerPrimitives'),
-                                      dumpResultToXML = cms.bool(False),                                     
+                                      dumpResultToXML = cms.bool(True),                                     
                                       dumpGPToXML = cms.bool(False),                                     
                                       makeConnectionsMaps = cms.bool(False),                                      
                                       dropRPCPrimitives = cms.bool(False),                                    
                                       dropDTPrimitives = cms.bool(False),                                    
                                       dropCSCPrimitives = cms.bool(False),   
                                       omtf = cms.PSet(
-        configXMLFile = cms.string(path+"hwToLogicLayer_721.xml"),
-        patternsXMLFiles = cms.vstring(path+"Patterns_ipt6_18.xml",path+"Patterns_ipt19_31.xml"),
+        configXMLFile = cms.string(path+"hwToLogicLayer_721_5760.xml"),
+        patternsXMLFiles = cms.vstring(path+"Patterns_ipt4_31_5760.xml"),
         )
                                       )
 
-process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives+ 
+process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives +
                                    process.omtfEmulator)
 
 process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
