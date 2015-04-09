@@ -16,6 +16,11 @@ GoldenPattern::layerResult GoldenPattern::process1Layer1RefLayer(unsigned int iR
 								 const OMTFinput::vector1D & layerHits){
 
   GoldenPattern::layerResult aResult;
+  std::ostringstream myStr;
+
+  myStr<<"pt: "<<this->key().thePtCode
+       <<" charge: "<<this->key().theCharge
+       <<" iRefLayer: "<<iRefLayer<<" iLayer: "<<iLayer;
 
   int phiMean = meanDistPhi[iLayer][iRefLayer];
   int phiDist = exp2(OMTFConfiguration::nPdfAddrBits);
@@ -23,11 +28,17 @@ GoldenPattern::layerResult GoldenPattern::process1Layer1RefLayer(unsigned int iR
   ///distribution in given layer
   for(auto itHit: layerHits){
     if(itHit>=(int)OMTFConfiguration::nPhiBins) continue;
-    if(abs(itHit-phiMean-phiRefHit)<phiDist) phiDist = itHit-phiMean-phiRefHit;
+    myStr<<" itHit: "<<itHit<<" phiMean: "
+	 <<phiMean<<" phiRefHit: "<<phiRefHit
+	 <<" phiDist: "<<itHit-phiMean-phiRefHit
+	 <<" shifted: "<<itHit-phiMean-phiRefHit+exp2(OMTFConfiguration::nPdfAddrBits-1);
+    if(abs(itHit-phiMean-phiRefHit)<abs(phiDist)) phiDist = itHit-phiMean-phiRefHit;
   }
 
   ///Shift phidist, so 0 is at the middle of the range
   phiDist+=exp2(OMTFConfiguration::nPdfAddrBits-1);
+
+  myStr<<" shifted: "<<phiDist;
 
   ///Check if phiDist is within pdf range
   ///in -64 +63 U2 code
@@ -36,9 +47,15 @@ GoldenPattern::layerResult GoldenPattern::process1Layer1RefLayer(unsigned int iR
      phiDist>exp2(OMTFConfiguration::nPdfAddrBits)-1){
     return aResult;
   }
-
   
   int pdfVal = pdfAllRef[iLayer][iRefLayer][phiDist];
+  myStr<<" pdfVal: "<<pdfVal<<std::endl;
+
+  if( (this->key().thePtCode==20 || this->key().thePtCode==9) && 
+     this->key().theCharge==1
+     ) edm::LogInfo("GoldenPattern")<<myStr.str();
+
+
   return GoldenPattern::layerResult(pdfVal,pdfVal>0);
 }
 ////////////////////////////////////////////////////
