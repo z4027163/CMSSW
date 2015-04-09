@@ -15,7 +15,7 @@ struct InternalObj{
   InternalObj(float pt, float eta, float phi, 
 	      float disc=-999, int bx=0, int q=-1, 
 	      int charge=99, int refLayer=-1) :
-  pt(pt), eta(eta), phi(phi), disc(disc), bx(bx), q(q), charge(charge), refLayer(refLayer) {}
+  pt(pt), eta(eta), phi(phi), disc(disc), bx(bx), q(q), charge(charge), refLayer(refLayer), hits(0) {}
 
   bool isValid() const { return q >= 0;}
 
