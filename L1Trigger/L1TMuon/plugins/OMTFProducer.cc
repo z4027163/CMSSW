@@ -1,4 +1,5 @@
 #include <iostream>
+#include <strstream>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
@@ -179,6 +180,8 @@ void OMTFProducer::endJob(){
 /////////////////////////////////////////////////////  
 void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 
+  std::ostringstream myStr;
+
   myInputMaker->initialize(evSetup);
 
   edm::Handle<TriggerPrimitiveCollection> trigPrimitives;
@@ -194,7 +197,7 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
     
-    edm::LogInfo("OMTF ROOTReader")<<"iProcessor: "<<iProcessor;
+    myStr<<" iProcessor: "<<iProcessor;
     
     const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor);
        
@@ -214,15 +217,24 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 
     if(procOffset<0) procOffset+=OMTFConfiguration::nPhiBins;
 
+    //dumpResultToXML = false;
+
     for(unsigned int iCand=0; iCand<myOTFCandidates.size(); ++iCand){
       // shift phi from processor to global coordinates
       float phiValue = (myOTFCandidates[iCand].phiValue()+OMTFConfiguration::globalPhiStart(iProcessor)+lowScaleEnd)/OMTFConfiguration::nPhiBins*2*M_PI;
       if(phiValue>M_PI) phiValue-=2*M_PI;
       myOTFCandidates[iCand].setPhiValue(phiValue);
       // store candidate 
-      if(myOTFCandidates[iCand].pt_packed()) myCands->push_back(myOTFCandidates[iCand]); 
+      if(myOTFCandidates[iCand].pt_packed()){
+	myCands->push_back(myOTFCandidates[iCand]);       
+	myStr<<" Candidate pt code: "<<myOTFCandidates[iCand].pt_packed()
+	     <<" quality: "<<myOTFCandidates[iCand].bx()%10;
+	if(myOTFCandidates[iCand].pt_packed()<10){ 
+	  //dumpResultToXML = true;
+	  myStr<<" OMTF Low pt!";
+	}
+      }
     }
-
     ///Write to XML
     if(dumpResultToXML){
       xercesc::DOMElement * aProcElement = myWriter->writeEventData(aTopElement,iProcessor,myShiftedInput);
@@ -231,13 +243,21 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 	InternalObj myCand = mySorter->sortRefHitResults(myResults[iRefHit],0);//charge=0 means ignore charge
 	if(myCand.pt){
 	  myWriter->writeCandidateData(aProcElement,iRefHit,myCand);
+	  /*
 	  for(auto & itKey: myResults[iRefHit]) myWriter->writeResultsData(aProcElement, 
 									   iRefHit,
 									   itKey.first,itKey.second);    
+	  */
 	}
       }
     }
   }
+
+  //dumpResultToXML = true;
+
+  myStr<<" Number of candidates: "<<myCands->size();
+  edm::LogInfo("OMTFOMTFProducer")<<myStr.str();
+
   iEvent.put(myCands, "OMTF");
 }
 /////////////////////////////////////////////////////
