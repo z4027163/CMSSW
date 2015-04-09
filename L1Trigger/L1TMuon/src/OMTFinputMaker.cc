@@ -60,14 +60,14 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
        (aId.region()==0 && aId.ring()<2) ||
        (aId.region()==0 && aId.station()==4)
        ) return false;    
-    if(aId.region()==1 &&  aId.ring()<2) return false;
+    if(aId.region()==1 &&  aId.ring()<3) return false;
     ////////////////
     if(aId.region()==0 && barrelChamberMax==13 && aId.sector()==1) return true;
     if(aId.region()==0 && (aId.sector()<barrelChamberMin || aId.sector()>barrelChamberMax)) return false;    
     if(aId.region()!=0 && 
        ((aId.sector()-1)*6+aId.subsector()<endcapChamberMin || 
 	(aId.sector()-1)*6+aId.subsector()>endcapChamberMax)) return false;  
-    if(aId.region()<0 && barrelChamberMax==37 && (aId.sector()-1)*6+aId.subsector()==1) return true;  
+    if(aId.region()<0 && barrelChamberMax==37 && (aId.sector()-1)*6+aId.subsector()==1) return true;      
   }
     break;
   case MuonSubdetId::DT: {
@@ -80,7 +80,11 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
   }
   case MuonSubdetId::CSC: {
     CSCDetId csc(rawId);    
-    if(csc.station()==4) return false; /////AK TEST
+
+    if(csc.station()==2 && csc.ring()==1) return false;
+    if(csc.station()==3 && csc.ring()==1) return false;
+    if(csc.station()==4) return false;
+
     if(endcapChamberMax==37 && csc.chamber()==1) return true;
     if(csc.chamber()<endcapChamberMin || csc.chamber()>endcapChamberMax) return false;
     ///////////////////
@@ -149,6 +153,7 @@ bool rpcPrimitiveCmp(const L1TMuon::TriggerPrimitive *a,
 const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerPrimitiveCollection & vDigi,
 							 unsigned int iProcessor){
   myInput->clear();	
+  std::ostringstream myStr;
 
   std::map<unsigned int, std::vector<const L1TMuon::TriggerPrimitive *> > detMap;
   
@@ -156,9 +161,14 @@ const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerP
   unsigned int nGlobalPhi = OMTFConfiguration::nPhiBins;
 
   for (const auto &digiIt:vDigi) { 
+
+    digiIt.print(myStr);
+
     ///Check it the data fits into given processor input range
     if(!acceptDigi(digiIt.rawId(), iProcessor)) continue;
     if(!filterDigiQuality(digiIt)) continue;
+
+    myStr<<"Digi accepted"<<std::endl;
 
     unsigned int hwNumber = OMTFConfiguration::getLayerNumber(digiIt.rawId());
 
@@ -185,7 +195,6 @@ const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerP
     };    
   }
 
-  std::ostringstream myStr;
   ///Decluster hits in each RPC detId
   typedef std::tuple<unsigned int,const L1TMuon::TriggerPrimitive *, const L1TMuon::TriggerPrimitive *> halfDigi;
   std::vector<halfDigi> result;
@@ -226,6 +235,7 @@ const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerP
 	 <<" iLayer: "<<iLayer
 	 <<std::endl;
   }
+
   edm::LogInfo("OMTFInputMaker")<<myStr.str();
   
   return myInput;
