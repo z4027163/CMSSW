@@ -77,9 +77,9 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
-path = os.environ['CMSSW_BASE']+"/src/L1Trigger/L1TMuon/data/"
+path = os.environ['CMSSW_BASE']+"/src/L1Trigger/L1OverlapMuonTrackFinder/data/"
 
-process.load('L1Trigger.L1TMuon.L1TMuonTriggerPrimitiveProducer_cfi')
+process.load('L1Trigger.L1EndcapMuonTrackFinder.L1TMuonTriggerPrimitiveProducer_cfi')
 
 ###OMTF emulator configuration
 process.omtfEmulator = cms.EDProducer("OMTFProducerMix",

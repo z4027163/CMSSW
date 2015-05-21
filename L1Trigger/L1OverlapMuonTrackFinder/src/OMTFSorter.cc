@@ -198,15 +198,15 @@ L1MuRegionalCand OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resu
   InternalObj myCand = sortProcessorResults(procResults, charge);
 
   L1MuRegionalCand candidate;
-  candidate.setPhiValue(myCand.phi);
   candidate.setEtaValue(myCand.eta);
+  candidate.setPhiValue(myCand.phi);
   candidate.setPtPacked(myCand.pt);
   candidate.setQualityPacked(myCand.refLayer);
-  //candidate.setBx(1000*myCand.disc+100*myCand.refLayer+myCand.q);//FIX ME
-  candidate.setBx(100*myCand.hits+myCand.q);//FIX ME
-
   candidate.setChargeValue(myCand.charge);
-
+  ///HACK by AK
+  //candidate.setHitsWord(myCand.hits);
+  //candidate.setDiscVal(myCand.disc);
+  /////////////
   return candidate;
 }
 ///////////////////////////////////////////////////////

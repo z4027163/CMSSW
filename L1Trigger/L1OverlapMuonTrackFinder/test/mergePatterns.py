@@ -86,7 +86,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
-path = os.environ['CMSSW_BASE']+"/src/L1Trigger/L1TMuon/data/"
+path = os.environ['CMSSW_BASE']+"/src/L1Trigger/L1OverlapMuonTrackFinder/data/"
 path1 = "/home/akalinow/scratch/CMS/OverlapTrackFinder/Emulator/job_3_pat/"
 
 #path = "/home/akalinow/OMTF/"
@@ -98,7 +98,7 @@ for ipt in xrange(4,32):
     patternsXMLFiles.append(path1+"SingleMu_"+str(ipt)+"_p/GPs.xml")
     patternsXMLFiles.append(path1+"SingleMu_"+str(ipt)+"_m/GPs.xml")
 
-process.load('L1Trigger.L1TMuon.L1TMuonTriggerPrimitiveProducer_cfi')
+process.load('L1Trigger.L1EndcapMuonTrackFinder.L1TMuonTriggerPrimitiveProducer_cfi')
 
 ###OMTF emulator configuration
 process.omtfEmulator = cms.EDProducer("OMTFProducer",
