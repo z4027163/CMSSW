@@ -1,9 +1,11 @@
 #include <iostream>
 #include <strstream>
+#include <vector>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "DataFormats/L1GlobalMuonTrigger/interface/L1MuRegionalCand.h"
+#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
 
 #include "L1Trigger/L1OverlapMuonTrackFinder/plugins/OMTFProducerMix.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFProcessor.h"
@@ -21,7 +23,7 @@ OMTFProducerMix::OMTFProducerMix(const edm::ParameterSet& cfg):
   theConfig(cfg),
   trigPrimSrc(cfg.getParameter<edm::InputTag>("TriggerPrimitiveSrc")){
 
-  produces<std::vector<L1MuRegionalCand> >("OMTF");
+  produces<l1t::L1TRegionalMuonCandidateCollection >("OMTF");
 
   inputToken = consumes<TriggerPrimitiveCollection>(trigPrimSrc);
   dumpResultToXML = theConfig.getParameter<bool>("dumpResultToXML");
@@ -97,7 +99,7 @@ void OMTFProducerMix::produce(edm::Event& iEvent, const edm::EventSetup& evSetup
   ///Filter digis by dropping digis from selected (by cfg.py) subsystems
   const L1TMuon::TriggerPrimitiveCollection filteredDigis = filterDigis(*trigPrimitives);
 
-  std::auto_ptr<std::vector<L1MuRegionalCand> > myCands(new std::vector<L1MuRegionalCand>);
+  std::auto_ptr<l1t::L1TRegionalMuonCandidateCollection > myCands(new l1t::L1TRegionalMuonCandidateCollection);
 
   ///Loop over events to be mixed with current EDM event
   for(unsigned int iEventMix=0;iEventMix<=2*eventsToMix;++iEventMix){
@@ -126,7 +128,7 @@ void OMTFProducerMix::produce(edm::Event& iEvent, const edm::EventSetup& evSetup
       const std::vector<OMTFProcessor::resultsMap> & myResults = myOMTF->processInput(iProcessor,myShiftedInput);
       
       //Retreive all candidates returned by sorter: upto 3 non empty ones with different phi or charge
-      std::vector<L1MuRegionalCand> myOTFCandidates;
+      l1t::L1TRegionalMuonCandidateCollection  myOTFCandidates;
       mySorter->sortProcessor(myResults,myOTFCandidates);
       
       ////Switch from internal processor n bit scale to global one
@@ -137,12 +139,12 @@ void OMTFProducerMix::produce(edm::Event& iEvent, const edm::EventSetup& evSetup
       
       for(unsigned int iCand=0; iCand<myOTFCandidates.size(); ++iCand){
 	// shift phi from processor to global coordinates
-	float phiValue = (myOTFCandidates[iCand].phiValue()+OMTFConfiguration::globalPhiStart(iProcessor)+lowScaleEnd)/OMTFConfiguration::nPhiBins*2*M_PI;
+	float phiValue = (myOTFCandidates[iCand].hwPhi()+OMTFConfiguration::globalPhiStart(iProcessor)+lowScaleEnd)/OMTFConfiguration::nPhiBins*2*M_PI;
 	if(phiValue>M_PI) phiValue-=2*M_PI;
-	myOTFCandidates[iCand].setPhiValue(phiValue);
-	myOTFCandidates[iCand].setBx(iEventMix);
+	myOTFCandidates[iCand].setHwPhi(phiValue);
+	myOTFCandidates[iCand].setHwSignValid(iEventMix);
 	// store candidate 
-	if(myOTFCandidates[iCand].pt_packed()) myCands->push_back(myOTFCandidates[iCand]);       
+	if(myOTFCandidates[iCand].hwPt()) myCands->push_back(myOTFCandidates[iCand]);       
       }
 
       ///Write to XML

@@ -5,8 +5,6 @@
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "DataFormats/L1GlobalMuonTrigger/interface/L1MuRegionalCand.h"
-
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFConfiguration.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFSorter.h"
 
@@ -192,27 +190,27 @@ void OMTFSorter::sortProcessorResults(const std::vector<OMTFProcessor::resultsMa
 }
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
-L1MuRegionalCand OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & procResults,
-					   int charge){ //method kept for backward compatibility
+l1t::L1TRegionalMuonCandidate OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & procResults,
+							int charge){ //method kept for backward compatibility
 
   InternalObj myCand = sortProcessorResults(procResults, charge);
 
-  L1MuRegionalCand candidate;
-  candidate.setEtaValue(myCand.eta);
-  candidate.setPhiValue(myCand.phi);
-  candidate.setPtPacked(myCand.pt);
-  candidate.setQualityPacked(myCand.refLayer);
-  candidate.setChargeValue(myCand.charge);
-  ///HACK by AK
-  //candidate.setHitsWord(myCand.hits);
-  //candidate.setDiscVal(myCand.disc);
+  l1t::L1TRegionalMuonCandidate candidate;
+  candidate.setHwPt(myCand.pt);
+  candidate.setHwEta(myCand.eta);
+  candidate.setHwPhi(myCand.phi);
+  candidate.setHwSign(myCand.charge);
+  candidate.setHwQual(myCand.hits);
+  ///Temporary assignement
+  candidate.setHwTrackAddress(myCand.refLayer);
+  candidate.setLink(myCand.disc);
   /////////////
   return candidate;
 }
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & procResults,
-			       std::vector<L1MuRegionalCand> & sortedCands,
+			       l1t::L1TRegionalMuonCandidateCollection & sortedCands,
 			       int charge){
 
   sortedCands.clear();
@@ -220,15 +218,15 @@ void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & pr
   sortProcessorResults(procResults, mySortedCands, charge);
 
   for(auto myCand: mySortedCands){
-    L1MuRegionalCand candidate;
-    candidate.setEtaValue(myCand.eta);
-    candidate.setPhiValue(myCand.phi);
-    candidate.setPtPacked(myCand.pt);
-    candidate.setQualityPacked(myCand.refLayer);
-    candidate.setChargeValue(myCand.charge);
-    ///HACK by AK
-    //candidate.setHitsWord(myCand.hits);
-    //candidate.setDiscVal(myCand.disc);
+    l1t::L1TRegionalMuonCandidate candidate;
+    candidate.setHwPt(myCand.pt);
+    candidate.setHwEta(myCand.eta);
+    candidate.setHwPhi(myCand.phi);
+    candidate.setHwSign(myCand.charge);
+    candidate.setHwQual(myCand.hits);
+    ///Temporary assignement
+    candidate.setHwTrackAddress(myCand.refLayer);
+    candidate.setLink(myCand.disc);
     /////////////
     sortedCands.push_back(candidate);
   }

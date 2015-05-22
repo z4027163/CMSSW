@@ -2,13 +2,15 @@
 #define OMTF_OMTFSorter_H
 
 #include <tuple>
+#include <vector>
+
+#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
 
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFResult.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFProcessor.h"
-
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/InternalObj.h"
 
-class L1MuRegionalCand;
 
 class OMTFSorter{
 
@@ -28,11 +30,11 @@ class OMTFSorter{
   ///Sort all processor results. 
   ///First for each region cone find a best candidate using sortRegionResults() 
   ///Then select best candidate amongs found for each logic region
-  L1MuRegionalCand sortProcessor(const std::vector<OMTFProcessor::resultsMap> & procResults,
-				 int charge=0);
+  l1t::L1TRegionalMuonCandidate sortProcessor(const std::vector<OMTFProcessor::resultsMap> & procResults,
+						int charge=0);
   //
   void sortProcessor(const std::vector<OMTFProcessor::resultsMap> & procResults,
-		     std::vector<L1MuRegionalCand> & sortedCands,
+		     l1t::L1TRegionalMuonCandidateCollection & sortedCands,
 		     int charge=0);
 
   ///Sort results from a single reference hit.
