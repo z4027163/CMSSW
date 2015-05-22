@@ -1,0 +1,18 @@
+<export>
+</export>
+<use name="FWCore/Framework"/>
+<use name="FWCore/PluginManager"/>
+<use name="FWCore/ParameterSet"/>
+<use name="DataFormats/L1Trigger"/>
+<use name="L1Trigger/L1TMuon"/>
+<use name="L1Trigger/DTTrackFinder"/>
+<use name="FWCore/ServiceRegistry"/>  
+<use name="CommonTools/UtilAlgos"/>
+<use name="DataFormats/HepMCCandidate"/>
+<use name="DataFormats/ParticleFlowReco"/>
+<use name="root"/>  
+<flags EDM_PLUGIN="1"/>
+<flags LDFLAGS="-lXMLIO"/>
+<library file="*.cc" name="L1TriggerL1TMuonPlugins">
+  <flags EDM_PLUGIN="1"/>
+</library>
