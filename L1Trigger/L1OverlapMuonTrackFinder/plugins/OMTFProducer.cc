@@ -231,8 +231,7 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 
     for(unsigned int iCand=0; iCand<myOTFCandidates.size(); ++iCand){
       // shift phi from processor to global coordinates
-      float phiValue = (myOTFCandidates[iCand].hwPhi()+OMTFConfiguration::globalPhiStart(iProcessor)+lowScaleEnd)/OMTFConfiguration::nPhiBins*2*M_PI;
-      if(phiValue>M_PI) phiValue-=2*M_PI;
+      int phiValue = (myOTFCandidates[iCand].hwPhi()+OMTFConfiguration::globalPhiStart(iProcessor)+lowScaleEnd);
       myOTFCandidates[iCand].setHwPhi(phiValue);
       // store candidate 
       if(myOTFCandidates[iCand].hwPt()){
