@@ -8,6 +8,7 @@
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFConfiguration.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFSorter.h"
 
+#include "L1Trigger/RPCTrigger/interface/RPCConst.h"
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 std::tuple<unsigned int,unsigned int, int, int, unsigned int, int> OMTFSorter::sortSingleResult(const OMTFResult & aResult){
@@ -219,13 +220,13 @@ void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & pr
 
   for(auto myCand: mySortedCands){
     l1t::L1TRegionalMuonCandidate candidate;
-    candidate.setHwPt(myCand.pt);
+    candidate.setHwPt(RPCConst::ptFromIpt(it.hwPt())/2.0);
     candidate.setHwEta(myCand.eta);
     candidate.setHwPhi(myCand.phi);
-    candidate.setHwSign(myCand.charge);
-    candidate.setHwQual(myCand.hits);
+    candidate.setHwSign(myCand.charge+1);
+    candidate.setHwQual(myCand.refLayer);
     ///Temporary assignement
-    candidate.setHwTrackAddress(myCand.refLayer);
+    candidate.setHwTrackAddress(myCand.hits);
     candidate.setLink(myCand.disc);
     /////////////
     sortedCands.push_back(candidate);
