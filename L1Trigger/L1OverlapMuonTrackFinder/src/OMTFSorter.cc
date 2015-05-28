@@ -2,12 +2,15 @@
 #include <iostream>
 #include <strstream>
 #include <algorithm>
+#include <bitset>
+
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFConfiguration.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFSorter.h"
 
+#include "L1Trigger/RPCTrigger/interface/RPCConst.h"
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 std::tuple<unsigned int,unsigned int, int, int, unsigned int, int> OMTFSorter::sortSingleResult(const OMTFResult & aResult){
@@ -219,13 +222,17 @@ void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & pr
 
   for(auto myCand: mySortedCands){
     l1t::L1TRegionalMuonCandidate candidate;
-    candidate.setHwPt(myCand.pt);
-    candidate.setHwEta(myCand.eta);
+    std::bitset<17> bits(myCand.hits);
+    int ipt = myCand.pt+1;
+    if(ipt>31) ipt=31;
+    candidate.setHwPt(RPCConst::ptFromIpt(ipt)/2.0);//uGMT has 0.5 GeV pt bins
+    candidate.setHwEta(myCand.eta);//eta scale set during input making in OMTFInputmaker
     candidate.setHwPhi(myCand.phi);
-    candidate.setHwSign(myCand.charge);
-    candidate.setHwQual(myCand.hits);
+    candidate.setHwSign(myCand.charge+1*(myCand.charge<0));
+    candidate.setHwQual(bits.count());
+    candidate.setHwTrackAddress(myCand.hits);
     ///Temporary assignement
-    candidate.setHwTrackAddress(myCand.refLayer);
+    candidate.setHwQual(myCand.refLayer);
     candidate.setLink(myCand.disc);
     /////////////
     sortedCands.push_back(candidate);

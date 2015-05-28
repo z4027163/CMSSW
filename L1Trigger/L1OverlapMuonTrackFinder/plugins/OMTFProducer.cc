@@ -224,14 +224,15 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
     ////Switch from internal processor n bit scale to global one
     int procOffset = OMTFConfiguration::globalPhiStart(iProcessor);
     int lowScaleEnd = pow(2,OMTFConfiguration::nPhiBits-1);
-
-    if(procOffset<0) procOffset+=OMTFConfiguration::nPhiBins;
+    if(procOffset<0) procOffset+=(int)OMTFConfiguration::nPhiBins;
 
     //dumpResultToXML = false;
 
     for(unsigned int iCand=0; iCand<myOTFCandidates.size(); ++iCand){
       // shift phi from processor to global coordinates
-      int phiValue = (myOTFCandidates[iCand].hwPhi()+OMTFConfiguration::globalPhiStart(iProcessor)+lowScaleEnd);
+      int phiValue = (myOTFCandidates[iCand].hwPhi()+procOffset+lowScaleEnd);
+      if(phiValue>=(int)OMTFConfiguration::nPhiBins) phiValue-=OMTFConfiguration::nPhiBins;
+      phiValue/=10; //uGMT has 10x coarser scale than OMTF
       myOTFCandidates[iCand].setHwPhi(phiValue);
       // store candidate 
       if(myOTFCandidates[iCand].hwPt()){
