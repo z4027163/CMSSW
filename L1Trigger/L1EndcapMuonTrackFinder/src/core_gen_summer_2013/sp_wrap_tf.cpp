@@ -108,6 +108,11 @@ int read_event(ifstream &inf)
 	int _valid = -1, _quality = -1, _pattern = -1, _wiregroup = -1;
 	int _cscid = -1, _bend = -1, _halfstrip = -1;
 
+	///Temporary workaround for compiler complain on unused variables. By AK.
+	_endcap+=_bend+_valid;
+	_endcap=-1;
+	/////////////////
+
 	// primitive counters for each chamber
 
 	while (inf.good())
