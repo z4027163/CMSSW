@@ -1,10 +1,10 @@
 #ifndef __l1t_regional_muon_candidate_h__
 #define __l1t_regional_muon_candidate_h__
 
+#include "L1TRegionalMuonCandidateFwd.h"
+
 namespace l1t {
-enum tftype {
-    bmtf, omtf_neg, omtf_pos, emtf_neg, emtf_pos
-};
+
 class L1TRegionalMuonCandidate {
   public:
     L1TRegionalMuonCandidate() : 
