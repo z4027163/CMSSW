@@ -172,19 +172,47 @@ uGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     if (lineID == "BAR" || lineID == "OVL-" || lineID == "FWD-" || lineID == "OVL+" || lineID == "FWD+") {
       int tmp;
       m_filestream >> tmp; // cable no
-      if (lineID == "BAR") tmp += 12;
-      if (lineID == "OVL-") tmp = (tmp-6)+24;
-      if (lineID == "OVL+") tmp = tmp + 6;
-      if (lineID == "FWD-") tmp = (tmp-6)+30;
-      
-      mu.setLink(tmp);
 
       m_filestream >> tmp;
       mu.setHwPt(tmp);
 
       m_filestream >> tmp;
-      tmp = int(tmp*0.560856864654333f); // make sure scale is correct
-      mu.setHwPhi(tmp);
+      int globalPhi = (int(tmp*0.560856864654333f)+15)%576; // make sure scale is correct
+      if (lineID == "BAR") {
+        int processor = globalPhi / 30 + 1;
+        int localPhi = globalPhi%56;
+        mu.setProcessor(processor);
+        mu.setTrackFinderType(tftype::bmtf);
+        mu.setHwPhi(localPhi);
+      }
+      if (lineID == "OVL-") {
+        int processor = globalPhi / 60 + 1;
+        int localPhi = globalPhi%112;
+        mu.setProcessor(processor);
+        mu.setHwPhi(localPhi);
+        mu.setTrackFinderType(tftype::omtf_neg);
+      }
+      if (lineID == "OVL+") {
+        int processor = globalPhi / 60 + 1;
+        int localPhi = globalPhi%112;
+        mu.setProcessor(processor);
+        mu.setHwPhi(localPhi);
+        mu.setTrackFinderType(tftype::omtf_pos);
+      }
+      if (lineID == "FWD-") {
+        int processor = globalPhi / 60 + 1;
+        int localPhi = globalPhi%112;
+        mu.setProcessor(processor);
+        mu.setHwPhi(localPhi);
+        mu.setTrackFinderType(tftype::emtf_neg);
+      }
+      if (lineID == "FWD+") {
+        int processor = globalPhi / 60 + 1;
+        int localPhi = globalPhi%112;
+        mu.setProcessor(processor);
+        mu.setHwPhi(localPhi);
+        mu.setTrackFinderType(tftype::emtf_pos);
+      }
 
       m_filestream >> tmp;
       tmp = int(tmp*0.9090909090f);
