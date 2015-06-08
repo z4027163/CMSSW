@@ -6,7 +6,7 @@
 #include "MicroGMTRelativeIsolationCheckLUT.h"
 #include "MicroGMTAbsoluteIsolationCheckLUT.h"
 #include "MicroGMTCaloIndexSelectionLUT.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
 
 
 
