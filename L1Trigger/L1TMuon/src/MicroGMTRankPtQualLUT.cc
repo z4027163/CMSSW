@@ -14,7 +14,9 @@ l1t::MicroGMTRankPtQualLUT::MicroGMTRankPtQualLUT (const edm::ParameterSet& iCon
   std::string m_fname = config.getParameter<std::string>("filename");
   if (m_fname != std::string("")) {
     load(m_fname);
-  } 
+  } else {
+    initialize();
+  }
 }
 
 l1t::MicroGMTRankPtQualLUT::MicroGMTRankPtQualLUT () : MicroGMTLUT(), m_ptMask(0), m_qualMask(0), m_ptInWidth(9), m_qualInWidth(4)
@@ -35,13 +37,25 @@ l1t::MicroGMTRankPtQualLUT::lookup(int pt, int qual) const
 {
   // normalize these two to the same scale and then calculate?
   if (m_initialized) {
-    return lookupPacked(hashInput(checkedInput(pt, m_ptInWidth), checkedInput(qual, m_qualInWidth)));
+    return m_contents.at(hashInput(checkedInput(pt, m_ptInWidth), checkedInput(qual, m_qualInWidth)));
   }
 
   int result = 0;
-  result = pt + qual; 
+  result = pt + (qual << 2); 
   // normalize to out width
   return result;  
+}
+
+int 
+l1t::MicroGMTRankPtQualLUT::lookupPacked(int in) const {
+  if (m_initialized) {
+    return m_contents.at(in);
+  }
+
+  int pt = 0;
+  int qual = 0;
+  unHashInput(in, pt, qual);
+  return lookup(pt, qual);
 }
 
 int 

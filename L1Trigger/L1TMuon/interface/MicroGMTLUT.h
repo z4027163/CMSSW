@@ -17,7 +17,7 @@ namespace l1t {
 
       // should be implemented in each daughter!
       // This function is the minimum that should be provided
-      int lookupPacked(int input) const;
+      virtual int lookupPacked(int input) const;
 
       // populates the m_contents map.
       void initialize();
