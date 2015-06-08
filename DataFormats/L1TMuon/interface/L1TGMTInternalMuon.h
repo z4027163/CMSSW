@@ -7,16 +7,16 @@ namespace l1t {
 class L1TGMTInternalMuon : public L1TRegionalMuonCandidate {
   public:
     L1TGMTInternalMuon() : 
-      L1TRegionalMuonCandidate(), type_(MicroGMTConfiguration::muon_t::UNSET), hwRank_(0), hwCancelBit_(0), hwWins_(0), 
+      L1TRegionalMuonCandidate(), hwRank_(0), hwCancelBit_(0), hwWins_(0), 
         hwIsoSum_(0), hwDeltaEta_(0), hwDeltaPhi_(0), hwAbsIso_(0), hwRelIso_(0), hwCaloIndex_(-1,-1)
       {};
 
-    L1TGMTInternalMuon(int pt, int phi, int eta, int sign, int signvalid, int quality, int rank, int cancelbit) : 
-      L1TRegionalMuonCandidate(pt, phi, eta, sign, signvalid, quality), hwRank_(rank), hwCancelBit_(cancelbit), hwIsoSum_(0), 
+    L1TGMTInternalMuon(int pt, int phi, int eta, int sign, int signvalid, int quality, int processor, tftype trackFinder, int rank, int cancelbit) : 
+      L1TRegionalMuonCandidate(pt, phi, eta, sign, signvalid, quality, processor, trackFinder), hwRank_(rank), hwCancelBit_(cancelbit), hwIsoSum_(0), 
         hwDeltaEta_(0), hwDeltaPhi_(0), hwAbsIso_(0), hwRelIso_(0), hwCaloIndex_(-1,-1)
       {};
 
-    L1TGMTInternalMuon(const L1TRegionalMuonCandidate& other) : L1TRegionalMuonCandidate(other), type_(MicroGMTConfiguration::muon_t::UNSET), hwRank_(0), hwCancelBit_(0), hwIsoSum_(0), hwDeltaEta_(0), hwDeltaPhi_(0), hwAbsIso_(-1), hwRelIso_(-1)
+    L1TGMTInternalMuon(const L1TRegionalMuonCandidate& other) : L1TRegionalMuonCandidate(other), hwRank_(0), hwCancelBit_(0), hwIsoSum_(0), hwDeltaEta_(0), hwDeltaPhi_(0), hwAbsIso_(-1), hwRelIso_(-1)
     {};
 
     virtual ~L1TGMTInternalMuon() {};
@@ -28,7 +28,6 @@ class L1TGMTInternalMuon : public L1TRegionalMuonCandidate {
     void setHwIsoSum(int isosum) { hwIsoSum_ = isosum; };
     void setHwAbsIso(int iso) { hwAbsIso_ = iso; };
     void setHwRelIso(int iso) { hwRelIso_ = iso; };
-    void setType(MicroGMTConfiguration::muon_t type) { type_ = type; };
     void setExtrapolation(int deta, int dphi) { hwDeltaEta_ = deta; hwDeltaPhi_ = dphi; };
     void setHwCaloEta(int idx) { hwCaloIndex_.second = idx; }
     void setHwCaloPhi(int idx) { hwCaloIndex_.first = idx; }
@@ -41,12 +40,10 @@ class L1TGMTInternalMuon : public L1TRegionalMuonCandidate {
     const int hwDPhi() const { return hwDeltaPhi_; };
     const int hwAbsIso() const { return hwAbsIso_; };
     const int hwRelIso() const { return hwRelIso_; };
-    const MicroGMTConfiguration::muon_t type() const { return type_; };
     const int hwCaloEta() const { return hwCaloIndex_.second; }
     const int hwCaloPhi() const { return hwCaloIndex_.first; }
     
   private:
-    MicroGMTConfiguration::muon_t type_;
     int hwRank_;
     int hwCancelBit_;
     int hwWins_;

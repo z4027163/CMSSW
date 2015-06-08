@@ -2,44 +2,58 @@
 #define __l1t_regional_muon_candidate_h__
 
 namespace l1t {
+enum tftype {
+    bmtf, omtf_neg, omtf_pos, emtf_neg, emtf_pos
+};
 class L1TRegionalMuonCandidate {
   public:
     L1TRegionalMuonCandidate() : 
-      hwPt_(0), hwPhi_(0), hwEta_(0), hwSignBit(0), hwSignValid_(0), hwQuality_(0), hwTrackAddress_(0)
+      m_hwPt(0), m_hwPhi(0), m_hwEta(0), m_hwHF(false), m_hwSign(0), m_hwSignValid(0), m_hwQuality(0), 
+      m_hwTrackAddress(0), m_link(0), m_processor(0), m_trackFinder(bmtf)
       {};
 
-    L1TRegionalMuonCandidate(int pt, int phi, int eta, int sign, int signvalid, int quality) : 
-      hwPt_(pt), hwPhi_(phi), hwEta_(eta), hwSignBit(sign), hwSignValid_(signvalid), hwQuality_(quality), hwTrackAddress_(0)
+    L1TRegionalMuonCandidate(int pt, int phi, int eta, int sign, int signvalid, int quality, int processor, tftype trackFinder) : 
+      m_hwPt(pt), m_hwPhi(phi), m_hwEta(eta), m_hwHF(false), m_hwSign(sign), m_hwSignValid(signvalid), m_hwQuality(quality), 
+      m_hwTrackAddress(0), m_link(0), m_processor(processor), m_trackFinder(trackFinder)
       {};
 
     virtual ~L1TRegionalMuonCandidate() {};
 
-    void setHwPt(int bits) { hwPt_ = bits; };
-    void setHwPhi(int bits) { hwPhi_ = bits; };
-    void setHwEta(int bits) { hwEta_ = bits; };
-    void setHwSign(int bits) { hwSignBit = bits; };
-    void setHwSignValid(int bits) { hwSignValid_ = bits; };
-    void setHwQual(int bits) { hwQuality_ = bits; };
-    void setHwTrackAddress(int bits) { hwTrackAddress_ = bits; };
-    void setLink(int link) { link_ = link; };
+    void setHwPt(int bits) { m_hwPt = bits; };
+    void setHwPhi(int bits) { m_hwPhi = bits; };
+    void setHwEta(int bits) { m_hwEta = bits; };
+    void setHwSign(int bits) { m_hwSign = bits; };
+    void setHwSignValid(int bits) { m_hwSignValid = bits; };
+    void setHwQual(int bits) { m_hwQuality = bits; };
+    void setHwHF(bool bit) { m_hwHF = bit; };
+    void setHwTrackAddress(int bits) { m_hwTrackAddress = bits; };
+    void setLink(int link) { m_link = link; };
+    void setProcessor(int processor) { m_processor = processor; };
+    void setTrackFinderType(tftype trackFinder) { m_trackFinder = trackFinder; };
 
-    const int hwPt() const { return hwPt_; };
-    const int hwPhi() const { return hwPhi_; };
-    const int hwEta() const { return hwEta_; };
-    const int hwSign() const { return hwSignBit; };
-    const int hwSignValid() const { return hwSignValid_; };
-    const int hwQual() const { return hwQuality_; };
-    const int hwTrackAddress() const { return hwTrackAddress_; };
-    const int link() const { return link_; }
+    const int hwPt() const { return m_hwPt; };
+    const int hwPhi() const { return m_hwPhi; };
+    const int hwEta() const { return m_hwEta; };
+    const int hwSign() const { return m_hwSign; };
+    const int hwSignValid() const { return m_hwSignValid; };
+    const int hwQual() const { return m_hwQuality; };
+    const int hwTrackAddress() const { return m_hwTrackAddress; };
+    const int link() const { return m_link; };
+    const int processor() const { return m_processor; };
+    const tftype trackFinderType() const { return m_trackFinder; };
+  
   private:
-    int hwPt_;
-    int hwPhi_;
-    int hwEta_;
-    int hwSignBit;
-    int hwSignValid_;
-    int hwQuality_;
-    int hwTrackAddress_;
-    int link_;
+    int m_hwPt;
+    int m_hwPhi;
+    int m_hwEta;
+    bool m_hwHF;
+    int m_hwSign;
+    int m_hwSignValid;
+    int m_hwQuality;
+    int m_hwTrackAddress;
+    int m_link;
+    int m_processor;
+    tftype m_trackFinder;
 };
 
 }
