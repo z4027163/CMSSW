@@ -2,7 +2,6 @@
 
 #include "DataFormats/L1TMuon/interface/L1TGMTInputCaloSum.h"
 #include "DataFormats/L1TMuon/interface/L1TGMTInternalMuon.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
 #include "DataFormats/L1Trigger/interface/Muon.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
@@ -13,16 +12,16 @@ l1t::MicroGMTIsolationUnit::MicroGMTIsolationUnit (const edm::ParameterSet& iCon
   m_IdxSelMemEta(iConfig, "IdxSelMemEtaLUTSettings", 0), m_IdxSelMemPhi(iConfig, "IdxSelMemPhiLUTSettings", 1), m_RelIsoCheckMem(iConfig, "RelIsoCheckMemLUTSettings"),  
   m_AbsIsoCheckMem(iConfig, "AbsIsoCheckMemLUTSettings"), m_initialSums(false)
 {
-  m_etaExtrapolationLUTs[MicroGMTConfiguration::muon_t::BARRELTF] = &m_BEtaExtrapolation;
-  m_phiExtrapolationLUTs[MicroGMTConfiguration::muon_t::BARRELTF] = &m_BPhiExtrapolation;
-  m_etaExtrapolationLUTs[MicroGMTConfiguration::muon_t::OVERLAPTF_POS] = &m_OEtaExtrapolation;
-  m_etaExtrapolationLUTs[MicroGMTConfiguration::muon_t::OVERLAPTF_NEG] = &m_OEtaExtrapolation;
-  m_phiExtrapolationLUTs[MicroGMTConfiguration::muon_t::OVERLAPTF_POS] = &m_OPhiExtrapolation;
-  m_phiExtrapolationLUTs[MicroGMTConfiguration::muon_t::OVERLAPTF_NEG] = &m_OPhiExtrapolation;
-  m_etaExtrapolationLUTs[MicroGMTConfiguration::muon_t::FORWARDTF_POS] = &m_FEtaExtrapolation;
-  m_etaExtrapolationLUTs[MicroGMTConfiguration::muon_t::FORWARDTF_NEG] = &m_FEtaExtrapolation;
-  m_phiExtrapolationLUTs[MicroGMTConfiguration::muon_t::FORWARDTF_POS] = &m_FPhiExtrapolation;
-  m_phiExtrapolationLUTs[MicroGMTConfiguration::muon_t::FORWARDTF_NEG] = &m_FPhiExtrapolation;
+  m_etaExtrapolationLUTs[tftype::bmtf] = &m_BEtaExtrapolation;
+  m_phiExtrapolationLUTs[tftype::bmtf] = &m_BPhiExtrapolation;
+  m_etaExtrapolationLUTs[tftype::omtf_pos] = &m_OEtaExtrapolation;
+  m_etaExtrapolationLUTs[tftype::omtf_neg] = &m_OEtaExtrapolation;
+  m_phiExtrapolationLUTs[tftype::omtf_pos] = &m_OPhiExtrapolation;
+  m_phiExtrapolationLUTs[tftype::omtf_neg] = &m_OPhiExtrapolation;
+  m_etaExtrapolationLUTs[tftype::emtf_pos] = &m_FEtaExtrapolation;
+  m_etaExtrapolationLUTs[tftype::emtf_neg] = &m_FEtaExtrapolation;
+  m_phiExtrapolationLUTs[tftype::emtf_pos] = &m_FPhiExtrapolation;
+  m_phiExtrapolationLUTs[tftype::emtf_neg] = &m_FPhiExtrapolation;
 }
 
 l1t::MicroGMTIsolationUnit::~MicroGMTIsolationUnit ()
@@ -65,8 +64,8 @@ l1t::MicroGMTIsolationUnit::extrapolateMuons(MicroGMTConfiguration::InterMuonLis
       if (mu->hwSign() == 0) {
         sign = -1;
       }
-      deltaPhi = (m_phiExtrapolationLUTs.at(mu->type())->lookup(etaAbsRed, ptRed) << 3) * sign;
-      deltaEta = (m_etaExtrapolationLUTs.at(mu->type())->lookup(etaAbsRed, ptRed) << 3);
+      deltaPhi = (m_phiExtrapolationLUTs.at(mu->trackFinderType())->lookup(etaAbsRed, ptRed) << 3) * sign;
+      deltaEta = (m_etaExtrapolationLUTs.at(mu->trackFinderType())->lookup(etaAbsRed, ptRed) << 3);
     }
 
     mu->setExtrapolation(deltaEta, deltaPhi);

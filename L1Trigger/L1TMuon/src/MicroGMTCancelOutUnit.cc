@@ -12,15 +12,15 @@ l1t::MicroGMTCancelOutUnit::MicroGMTCancelOutUnit (const edm::ParameterSet& iCon
     m_fwdPosSingleMatchQualLUT(iConfig, "FwdPosSingle"),
     m_fwdNegSingleMatchQualLUT(iConfig, "FwdNegSingle")
   {
-    m_lutDict[MicroGMTConfiguration::muon_t::BARRELTF+MicroGMTConfiguration::muon_t::BARRELTF*5] = &m_brlSingleMatchQualLUT;
-    m_lutDict[MicroGMTConfiguration::muon_t::BARRELTF+MicroGMTConfiguration::muon_t::OVERLAPTF_NEG*5] = &m_boNegMatchQualLUT;
-    m_lutDict[MicroGMTConfiguration::muon_t::BARRELTF+MicroGMTConfiguration::muon_t::OVERLAPTF_POS*5] = &m_boPosMatchQualLUT;
-    m_lutDict[MicroGMTConfiguration::muon_t::OVERLAPTF_POS+MicroGMTConfiguration::muon_t::OVERLAPTF_POS*5] = &m_ovlPosSingleMatchQualLUT;
-    m_lutDict[MicroGMTConfiguration::muon_t::OVERLAPTF_NEG+MicroGMTConfiguration::muon_t::OVERLAPTF_NEG*5] = &m_ovlNegSingleMatchQualLUT;
-    m_lutDict[MicroGMTConfiguration::muon_t::FORWARDTF_POS+MicroGMTConfiguration::muon_t::FORWARDTF_POS*5] = &m_fwdPosSingleMatchQualLUT;
-    m_lutDict[MicroGMTConfiguration::muon_t::FORWARDTF_NEG+MicroGMTConfiguration::muon_t::FORWARDTF_NEG*5] = &m_fwdNegSingleMatchQualLUT;
-    m_lutDict[MicroGMTConfiguration::muon_t::OVERLAPTF_POS+MicroGMTConfiguration::muon_t::FORWARDTF_POS*5] = &m_foPosMatchQualLUT;
-    m_lutDict[MicroGMTConfiguration::muon_t::OVERLAPTF_NEG+MicroGMTConfiguration::muon_t::FORWARDTF_NEG*5] = &m_foNegMatchQualLUT;
+    m_lutDict[tftype::bmtf+tftype::bmtf*5] = &m_brlSingleMatchQualLUT;
+    m_lutDict[tftype::bmtf+tftype::omtf_neg*5] = &m_boNegMatchQualLUT;
+    m_lutDict[tftype::bmtf+tftype::omtf_pos*5] = &m_boPosMatchQualLUT;
+    m_lutDict[tftype::omtf_pos+tftype::omtf_pos*5] = &m_ovlPosSingleMatchQualLUT;
+    m_lutDict[tftype::omtf_neg+tftype::omtf_neg*5] = &m_ovlNegSingleMatchQualLUT;
+    m_lutDict[tftype::emtf_pos+tftype::emtf_pos*5] = &m_fwdPosSingleMatchQualLUT;
+    m_lutDict[tftype::emtf_neg+tftype::emtf_neg*5] = &m_fwdNegSingleMatchQualLUT;
+    m_lutDict[tftype::omtf_pos+tftype::emtf_pos*5] = &m_foPosMatchQualLUT;
+    m_lutDict[tftype::omtf_neg+tftype::emtf_neg*5] = &m_foNegMatchQualLUT;
 
 
 }
@@ -57,7 +57,7 @@ l1t::MicroGMTCancelOutUnit::setCancelOutBits(MicroGMTConfiguration::InterMuonLis
 void 
 l1t::MicroGMTCancelOutUnit::getCancelOutBits( std::vector<MicroGMTConfiguration::InterMuonList::iterator> &wedge1, std::vector<MicroGMTConfiguration::InterMuonList::iterator> & wedge2)
 {
-  MicroGMTMatchQualLUT* matchLUT = m_lutDict[(*wedge1.begin())->type()+(*wedge2.begin())->type()*5];
+  MicroGMTMatchQualLUT* matchLUT = m_lutDict[(*wedge1.begin())->trackFinderType()+(*wedge2.begin())->trackFinderType()*5];
   for (auto mu_w1 = wedge1.begin(); mu_w1 != wedge1.end(); ++mu_w1) {
     for (auto mu_w2 = wedge2.begin(); mu_w2 != wedge2.end(); ++mu_w2) {
       // phi coordinates shall be relative, do not have to worry about wrap around...

@@ -6,9 +6,11 @@
 #include "MicroGMTRelativeIsolationCheckLUT.h"
 #include "MicroGMTAbsoluteIsolationCheckLUT.h"
 #include "MicroGMTCaloIndexSelectionLUT.h"
+#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
 
 
-namespace l1t {
+
+namespace l1t {  
   class MicroGMTIsolationUnit {
     public: 
       explicit MicroGMTIsolationUnit (const edm::ParameterSet&);
@@ -38,8 +40,8 @@ namespace l1t {
       MicroGMTExtrapolationLUT m_FEtaExtrapolation;
       MicroGMTExtrapolationLUT m_FPhiExtrapolation;
 
-      std::map<MicroGMTConfiguration::muon_t, MicroGMTExtrapolationLUT*> m_phiExtrapolationLUTs;
-      std::map<MicroGMTConfiguration::muon_t, MicroGMTExtrapolationLUT*> m_etaExtrapolationLUTs;
+      std::map<tftype, MicroGMTExtrapolationLUT*> m_phiExtrapolationLUTs;
+      std::map<tftype, MicroGMTExtrapolationLUT*> m_etaExtrapolationLUTs;
 
       MicroGMTCaloIndexSelectionLUT m_IdxSelMemEta;
       MicroGMTCaloIndexSelectionLUT m_IdxSelMemPhi;

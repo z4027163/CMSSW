@@ -69,9 +69,8 @@ namespace l1t {
 
         void sortMuons(MicroGMTConfiguration::InterMuonList&, unsigned) const;
         void calculateRank(MicroGMTConfiguration::InterMuonList& muons) const;
-        void splitAndConvertMuons(MicroGMTConfiguration::InputCollection const& in, MicroGMTConfiguration::InterMuonList& out_pos, MicroGMTConfiguration::InterMuonList& out_neg,
-          MicroGMTConfiguration::muon_t type_pos, MicroGMTConfiguration::muon_t type_neg) const;
-        void convertMuons(MicroGMTConfiguration::InputCollection const& in, MicroGMTConfiguration::InterMuonList& out, MicroGMTConfiguration::muon_t type) const;
+        void splitAndConvertMuons(MicroGMTConfiguration::InputCollection const& in, MicroGMTConfiguration::InterMuonList& out_pos, MicroGMTConfiguration::InterMuonList& out_neg) const;
+        void convertMuons(MicroGMTConfiguration::InputCollection const& in, MicroGMTConfiguration::InterMuonList& out) const;
         void addMuonsToCollections(MicroGMTConfiguration::InterMuonList& coll, MicroGMTConfiguration::InterMuonList& interout, std::auto_ptr<MuonBxCollection>& out) const;
         // ----------member data ---------------------------
         edm::InputTag m_barrelTfInputTag;
@@ -152,7 +151,6 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   iEvent.getByLabel(m_trigTowerTag, trigTowers);
   
   // std::cout << "inputs: barrel:" << barrelMuons->size() << " fwd: " << forwardMuons->size() << " ovl: " << overlapMuons->size() << std::endl;
-
   m_isolationUnit.setTowerSums(*trigTowers);
   MicroGMTConfiguration::InterMuonList internalMuonsBarrel;
   MicroGMTConfiguration::InterMuonList internalMuonsEndcapPos;
@@ -160,9 +158,9 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   MicroGMTConfiguration::InterMuonList internalMuonsOverlapPos;
   MicroGMTConfiguration::InterMuonList internalMuonsOverlapNeg;
 
-  convertMuons(*barrelMuons, internalMuonsBarrel, MicroGMTConfiguration::muon_t::BARRELTF);
-  splitAndConvertMuons(*forwardMuons, internalMuonsEndcapPos, internalMuonsEndcapNeg, MicroGMTConfiguration::muon_t::FORWARDTF_POS, MicroGMTConfiguration::muon_t::FORWARDTF_NEG);
-  splitAndConvertMuons(*overlapMuons, internalMuonsOverlapPos, internalMuonsOverlapNeg, MicroGMTConfiguration::muon_t::OVERLAPTF_POS, MicroGMTConfiguration::muon_t::OVERLAPTF_NEG);
+  convertMuons(*barrelMuons, internalMuonsBarrel);
+  splitAndConvertMuons(*forwardMuons, internalMuonsEndcapPos, internalMuonsEndcapNeg);
+  splitAndConvertMuons(*overlapMuons, internalMuonsOverlapPos, internalMuonsOverlapNeg);
 
   m_isolationUnit.extrapolateMuons(internalMuonsBarrel);
   m_isolationUnit.extrapolateMuons(internalMuonsEndcapNeg);
@@ -275,37 +273,31 @@ l1t::MicroGMTEmulator::addMuonsToCollections(MicroGMTConfiguration::InterMuonLis
 }
 
 void
-l1t::MicroGMTEmulator::splitAndConvertMuons(const MicroGMTConfiguration::InputCollection& in, MicroGMTConfiguration::InterMuonList& out_pos, MicroGMTConfiguration::InterMuonList& out_neg,  MicroGMTConfiguration::muon_t type_pos,  MicroGMTConfiguration::muon_t type_neg) const
+l1t::MicroGMTEmulator::splitAndConvertMuons(const MicroGMTConfiguration::InputCollection& in, MicroGMTConfiguration::InterMuonList& out_pos, MicroGMTConfiguration::InterMuonList& out_neg) const
 {
   for (auto mu = in.cbegin(); mu != in.cend(); ++mu) {
     if(mu->hwEta() > 0) {
       out_pos.emplace_back(*mu);
-      out_pos.back().setType(type_pos);
     } else {
       out_neg.emplace_back(*mu);
-      out_neg.back().setType(type_neg);
     }
   }
   while(out_pos.size() < 16) {
     out_pos.emplace_back();
-    out_pos.back().setType(type_pos);
   }
   while(out_neg.size() < 16) {
     out_neg.emplace_back();
-    out_neg.back().setType(type_neg);
   }
 }
         
 void 
-l1t::MicroGMTEmulator::convertMuons(const MicroGMTConfiguration::InputCollection& in, MicroGMTConfiguration::InterMuonList& out, MicroGMTConfiguration::muon_t type) const
+l1t::MicroGMTEmulator::convertMuons(const MicroGMTConfiguration::InputCollection& in, MicroGMTConfiguration::InterMuonList& out) const
 {
   for (auto mu = in.cbegin(); mu != in.cend(); ++mu) {
     out.emplace_back(*mu);
-    out.back().setType(type);
   }
   while(out.size() < 32) {
     out.emplace_back();
-    out.back().setType(type);
   }
 }
 
