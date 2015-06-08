@@ -219,7 +219,6 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     if (energy < 0) energy = 0; 
     if (energy > 31) energy = 31;
     towerSums->emplace_back(energy, i/28, i%28, i);
-    std::cout << "; phi: " << i/28 << " eta: " << i%28 ;
   }
   // std::cout << std::endl;
   // std::cout << towerSums->size() << std::endl;
