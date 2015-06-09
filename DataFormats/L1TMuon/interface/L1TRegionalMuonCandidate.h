@@ -2,7 +2,7 @@
 #define __l1t_regional_muon_candidate_h__
 
 #include "L1TRegionalMuonCandidateFwd.h"
-
+#include <iostream> 
 namespace l1t {
 
 class L1TRegionalMuonCandidate {
@@ -27,9 +27,8 @@ class L1TRegionalMuonCandidate {
     void setHwQual(int bits) { m_hwQuality = bits; };
     void setHwHF(bool bit) { m_hwHF = bit; };
     void setHwTrackAddress(int bits) { m_hwTrackAddress = bits; };
-    void setLink(int link) { m_link = link; };
-    void setProcessor(int processor) { m_processor = processor; };
-    void setTrackFinderType(tftype trackFinder) { m_trackFinder = trackFinder; };
+    void setTFIdentifiers(int processor, tftype trackFinder);
+    void setLink(int link);
 
     const int hwPt() const { return m_hwPt; };
     const int hwPhi() const { return m_hwPhi; };

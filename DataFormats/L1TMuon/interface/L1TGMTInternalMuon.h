@@ -8,6 +8,7 @@ namespace l1t {
 class L1TGMTInternalMuon : public L1TRegionalMuonCandidate {
   public:
     explicit L1TGMTInternalMuon(const L1TRegionalMuonCandidate& regional);
+    L1TGMTInternalMuon(const L1TGMTInternalMuon&);
 
     virtual ~L1TGMTInternalMuon() {};
 
@@ -22,7 +23,6 @@ class L1TGMTInternalMuon : public L1TRegionalMuonCandidate {
     void setHwCaloEta(int idx) { hwCaloIndex_.second = idx; };
     void setHwCaloPhi(int idx) { hwCaloIndex_.first = idx; };
 
-    const int link() const { return m_link; }
     const int hwCancelBit() const { return m_hwCancelBit; };
     const int hwRank() const { return m_hwRank; };
     const int hwWins() const { return m_hwWins; };
@@ -34,23 +34,23 @@ class L1TGMTInternalMuon : public L1TRegionalMuonCandidate {
     const int hwCaloEta() const { return hwCaloIndex_.second; };
     const int hwCaloPhi() const { return hwCaloIndex_.first; };
 
-    const L1TRegionalMuonCandidate& origin() const { return m_regional; };
+    const L1TRegionalMuonCandidate& origin() const { return *m_regional; };
     
-    inline const int hwPt() const { return m_regional.hwPt(); };
-    inline const int hwPhi() const { return m_regional.hwPhi(); };
-    inline const int hwEta() const { return m_regional.hwEta(); };
-    inline const int hwSign() const { return m_regional.hwSign(); };
-    inline const int hwSignValid() const { return m_regional.hwSignValid(); };
-    inline const int hwQual() const { return m_regional.hwQual(); };
-    inline const int hwTrackAddress() const { return m_regional.hwTrackAddress(); };
-    inline const int processor() const { return m_regional.processor(); };
-    inline const tftype trackFinderType() const { return m_regional.trackFinderType(); };
+    inline const int hwPt() const { return m_regional->hwPt(); };
+    inline const int hwPhi() const { return m_regional->hwPhi(); };
+    inline const int hwEta() const { return m_regional->hwEta(); };
+    inline const int hwSign() const { return m_regional->hwSign(); };
+    inline const int hwSignValid() const { return m_regional->hwSignValid(); };
+    inline const int hwQual() const { return m_regional->hwQual(); };
+    inline const int hwTrackAddress() const { return m_regional->hwTrackAddress(); };
+    inline const int processor() const { return m_regional->processor(); };
+    inline const tftype trackFinderType() const { return m_regional->trackFinderType(); };
+    inline const int link() const { return m_regional->link(); }
 
   private:
     L1TGMTInternalMuon();
-    void initLink();
     
-    const L1TRegionalMuonCandidate& m_regional;
+    const L1TRegionalMuonCandidate* m_regional;
     int m_hwRank;
     int m_hwCancelBit;
     int m_hwWins;
@@ -59,7 +59,6 @@ class L1TGMTInternalMuon : public L1TRegionalMuonCandidate {
     int m_hwDeltaPhi;
     int m_hwAbsIso;
     int m_hwRelIso;
-    int m_link;
     std::pair<int, int> hwCaloIndex_;
 };
 
