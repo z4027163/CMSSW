@@ -150,7 +150,6 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   iEvent.getByLabel(m_overlapTfInputTag, overlapMuons);
   iEvent.getByLabel(m_trigTowerTag, trigTowers);
   
-  // std::cout << "inputs: barrel:" << barrelMuons->size() << " fwd: " << forwardMuons->size() << " ovl: " << overlapMuons->size() << std::endl;
   m_isolationUnit.setTowerSums(*trigTowers);
   MicroGMTConfiguration::InterMuonList internalMuonsBarrel;
   MicroGMTConfiguration::InterMuonList internalMuonsEndcapPos;
@@ -180,8 +179,6 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   sortMuons(internalMuonsEndcapPos, 4);
   sortMuons(internalMuonsEndcapNeg, 4);
 
-  // std::cout << "inputs: barrel:" << internalMuonsBarrel.size() << " fwd+: " << internalMuonsEndcapPos.size() << " fwd-: " << internalMuonsEndcapNeg.size()  << " ovl+: " << internalMuonsOverlapPos.size() << " ovl-: " << internalMuonsOverlapNeg.size() << std::endl;
-
 
   MicroGMTConfiguration::InterMuonList internalMuons;
   addMuonsToCollections(internalMuonsEndcapPos, internalMuons, intermediateMuons);
@@ -189,27 +186,22 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   addMuonsToCollections(internalMuonsBarrel, internalMuons, intermediateMuons);
   addMuonsToCollections(internalMuonsOverlapNeg, internalMuons, intermediateMuons);
   addMuonsToCollections(internalMuonsEndcapNeg, internalMuons, intermediateMuons);
-  std::cout << "first sort:" << internalMuons.size() << std::endl;
-  // OutputCollection sort1Candidates;
-  // rank muons only does push_back
+  
+  // sort internal muons and delete all but best 8
   sortMuons(internalMuons, 8);
 
   m_isolationUnit.isolatePreSummed(internalMuons);
-  // std::cout << "result second sort nmu = " << internalMuons.size() << std::endl;
-  // sort out-muons by n(wins)...
-  for (int nwins = 23; nwins >= 16; --nwins) {
-    for (auto mu = internalMuons.begin(); mu != internalMuons.end(); ++mu) {
-      if (mu->hwWins() == nwins && mu->hwPt() > 0) {
-        ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > vec{};
-        int iso = mu->hwAbsIso() + (mu->hwRelIso() << 1);
-        Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), iso, 0, true, mu->hwIsoSum(), mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
-        m_debugOut << mu->hwCaloPhi() << " " << mu->hwCaloEta() << std::endl;
-        outMuons->push_back(0, outMu);
-      }
+  // copy muons to output collection...
+  for (auto mu = internalMuons.begin(); mu != internalMuons.end(); ++mu) {
+    if (mu->hwPt() > 0) {
+      ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > vec{};
+      int iso = mu->hwAbsIso() + (mu->hwRelIso() << 1);
+      Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), iso, 0, true, mu->hwIsoSum(), mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
+      m_debugOut << mu->hwCaloPhi() << " " << mu->hwCaloEta() << std::endl;
+      outMuons->push_back(0, outMu);
     }
   }
-
-  std::cout << "n(out) = " << outMuons->size(0) << std::endl;
+  
   iEvent.put(outMuons);
   iEvent.put(intermediateMuons, "intermediateMuons");
 }
@@ -223,6 +215,7 @@ l1t::MicroGMTEmulator::compareMuons(const MicroGMTConfiguration::InterMuon& mu1,
 void 
 l1t::MicroGMTEmulator::sortMuons(MicroGMTConfiguration::InterMuonList& muons, unsigned nSurvivors) const {
   MicroGMTConfiguration::InterMuonList::iterator mu1;
+  // reset from previous sort stage
   for (mu1 = muons.begin(); mu1 != muons.end(); ++mu1) {
     mu1->setHwWins(0);
   }
@@ -241,12 +234,16 @@ l1t::MicroGMTEmulator::sortMuons(MicroGMTConfiguration::InterMuonList& muons, un
 
   size_t nMuonsBefore = muons.size();
   mu1 = muons.begin();
-  while (mu1 != muons.end()) {
-    if (mu1->hwWins() < (int)(nMuonsBefore-nSurvivors)) {
-      muons.erase(mu1);
+  if (nMuonsBefore > nSurvivors) {
+    while (mu1 != muons.end()) {
+      if (mu1->hwWins() < (int)(nMuonsBefore-nSurvivors)) {
+        muons.erase(mu1);
+      }
+      ++mu1;
     }
-    ++mu1;
   }
+
+  muons.sort(l1t::MicroGMTEmulator::compareMuons);
 }
 
 
@@ -282,12 +279,6 @@ l1t::MicroGMTEmulator::splitAndConvertMuons(const MicroGMTConfiguration::InputCo
       out_neg.emplace_back(*mu);
     }
   }
-  while(out_pos.size() < 16) {
-    out_pos.emplace_back();
-  }
-  while(out_neg.size() < 16) {
-    out_neg.emplace_back();
-  }
 }
         
 void 
@@ -295,9 +286,6 @@ l1t::MicroGMTEmulator::convertMuons(const MicroGMTConfiguration::InputCollection
 {
   for (auto mu = in.cbegin(); mu != in.cend(); ++mu) {
     out.emplace_back(*mu);
-  }
-  while(out.size() < 32) {
-    out.emplace_back();
   }
 }
 
