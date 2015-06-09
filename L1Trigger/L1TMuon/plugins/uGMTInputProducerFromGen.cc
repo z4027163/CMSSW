@@ -178,17 +178,17 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
 
 
     tftype tf(tftype::bmtf);
-    int localPhi = hwPhi%56;
-    int processor = hwPhi / 30 + 1;
+    int localPhi = hwPhi%48;
+    int processor = hwPhi / 48 + 1;
     if (fabs(eta) > 0.8) {
       if (fabs(eta) < 1.2) {
         tf = (eta > 0 ? tftype::omtf_neg : tftype::omtf_pos);
-        processor = hwPhi / 60 + 1;
-        localPhi = hwPhi%112; 
+        processor = hwPhi / 96 + 1;
+        localPhi = hwPhi%96; 
       } else {
         tf = (eta > 0 ? tftype::emtf_neg : tftype::emtf_pos);
-        processor = hwPhi / 60 + 1;
-        localPhi = hwPhi%112;
+        processor = hwPhi / 96 + 1;
+        localPhi = hwPhi%96;
       }
     }
     mu.setHwPhi(localPhi);
