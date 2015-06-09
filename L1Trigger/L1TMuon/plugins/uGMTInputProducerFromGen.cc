@@ -192,8 +192,7 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
       }
     }
     mu.setHwPhi(localPhi);
-    mu.setProcessor(processor);
-    mu.setTrackFinderType(tf);
+    mu.setTFIdentifiers(processor, tf);
 
     mu.setHwEta(hwEta);
     mu.setHwSign(hwCharge);

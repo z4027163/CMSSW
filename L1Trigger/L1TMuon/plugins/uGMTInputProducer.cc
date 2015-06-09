@@ -193,8 +193,7 @@ uGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
       if (lineID == "BAR") {
         int processor = globalPhi / 48 + 1;
         int localPhi = globalPhi%48;
-        mu.setProcessor(processor);
-        mu.setTrackFinderType(tftype::bmtf);
+        mu.setTFIdentifiers(processor, tftype::bmtf);
         mu.setHwPhi(localPhi);
         bar[processor-1]++;
         if (bar[processor-1] > 3) skip = true;
@@ -202,36 +201,32 @@ uGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
       if (lineID == "OVL-") {
         int processor = globalPhi / 96 + 1;
         int localPhi = globalPhi%96;
-        mu.setProcessor(processor);
+        mu.setTFIdentifiers(processor, tftype::omtf_neg);
         mu.setHwPhi(localPhi);
-        mu.setTrackFinderType(tftype::omtf_neg);
         ovl_neg[processor-1]++;
         if (ovl_neg[processor-1] > 3) skip = true;
       }
       if (lineID == "OVL+") {
         int processor = globalPhi / 96 + 1;
         int localPhi = globalPhi%96;
-        mu.setProcessor(processor);
+        mu.setTFIdentifiers(processor, tftype::omtf_pos);
         mu.setHwPhi(localPhi);
-        mu.setTrackFinderType(tftype::omtf_pos);
         ovl_pos[processor-1]++;
         if (ovl_pos[processor-1] > 3) skip = true;
       }
       if (lineID == "FWD-") {
         int processor = globalPhi / 96 + 1;
         int localPhi = globalPhi%96;
-        mu.setProcessor(processor);
+        mu.setTFIdentifiers(processor, tftype::emtf_neg);
         mu.setHwPhi(localPhi);
-        mu.setTrackFinderType(tftype::emtf_neg);
         fwd_neg[processor-1]++;
         if (fwd_neg[processor-1] > 3) skip = true;
       }
       if (lineID == "FWD+") {
         int processor = globalPhi / 96 + 1;
         int localPhi = globalPhi%96;
-        mu.setProcessor(processor);
+        mu.setTFIdentifiers(processor, tftype::emtf_pos);
         mu.setHwPhi(localPhi);
-        mu.setTrackFinderType(tftype::emtf_pos);
         fwd_pos[processor-1]++;
         if (fwd_pos[processor-1] > 3) skip = true;
       }
