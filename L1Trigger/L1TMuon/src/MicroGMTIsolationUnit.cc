@@ -32,7 +32,7 @@ int
 l1t::MicroGMTIsolationUnit::getCaloIndex(MicroGMTConfiguration::InterMuon& mu) const 
 {
   // handle the wrap-around of phi:
-  int phi = (mu.hwPhi() + mu.hwDPhi())%576;
+  int phi = (mu.hwGlobalPhi() + mu.hwDPhi())%576;
   if (phi < 0) {
     phi = 576+phi;
   }

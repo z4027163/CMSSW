@@ -210,7 +210,8 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
     if (mu->hwPt() > 0) {
       ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > vec{};
       int iso = mu->hwAbsIso() + (mu->hwRelIso() << 1);
-      Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), iso, 0, true, mu->hwIsoSum(), mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
+      // FIXME: once we debugged the change global -> local: Change hwLocalPhi -> hwGlobalPhi to test offsets
+      Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwLocalPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), iso, 0, true, mu->hwIsoSum(), mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
       m_debugOut << mu->hwCaloPhi() << " " << mu->hwCaloEta() << std::endl;
       outMuons->push_back(0, outMu);
     }
@@ -281,7 +282,8 @@ l1t::MicroGMTEmulator::addMuonsToCollections(MicroGMTConfiguration::InterMuonLis
   for (auto mu = coll.cbegin(); mu != coll.cend(); ++mu) { 
     interout.push_back(*mu);
     ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > vec{};
-    Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), -1, 0, true, -1, mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
+    // FIXME: once we debugged the change global -> local: Change hwLocalPhi -> hwGlobalPhi to test offsets
+    Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwLocalPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), -1, 0, true, -1, mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
     out->push_back(0, outMu);
   }
 }
