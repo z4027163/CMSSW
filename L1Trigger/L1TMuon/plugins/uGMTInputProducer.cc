@@ -63,6 +63,7 @@ class uGMTInputProducer : public edm::EDProducer {
       void openFile();
       void skipHeader();
       int convertToInt(std::string &bitstr) const;
+      static bool cmpProc(const L1TRegionalMuonCandidate&, const L1TRegionalMuonCandidate&);
 
       // ----------member data ---------------------------
       std::string m_fname;
@@ -113,6 +114,11 @@ uGMTInputProducer::~uGMTInputProducer()
 //
 // member functions
 //
+bool 
+uGMTInputProducer::cmpProc(const L1TRegionalMuonCandidate& mu1, const L1TRegionalMuonCandidate& mu2)
+{
+  return mu1.processor() < mu2.processor();
+}
 
 void 
 uGMTInputProducer::openFile() 
@@ -163,16 +169,17 @@ uGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   l1t::L1TGMTInputCaloSum tSum;
   m_endOfBx = false;
   int caloCounter = 0;
+  std::vector<int> bar{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  std::vector<int> ovl_neg{0, 0, 0, 0, 0, 0};
+  std::vector<int> ovl_pos{0, 0, 0, 0, 0, 0};
+  std::vector<int> fwd_neg{0, 0, 0, 0, 0, 0};
+  std::vector<int> fwd_pos{0, 0, 0, 0, 0, 0};
   while(!m_endOfBx && !m_filestream.eof()) {
     std::string lineID;
     m_filestream >> lineID;
     // std::cout << lineID << std::endl;
     std::string restOfLine;
-    std::vector<int> bar{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    std::vector<int> ovl_neg{0, 0, 0, 0, 0, 0};
-    std::vector<int> ovl_pos{0, 0, 0, 0, 0, 0};
-    std::vector<int> fwd_neg{0, 0, 0, 0, 0, 0};
-    std::vector<int> fwd_pos{0, 0, 0, 0, 0, 0};
+
 
     if (lineID == "BAR" || lineID == "OVL-" || lineID == "FWD-" || lineID == "OVL+" || lineID == "FWD+") {
       int tmp;
@@ -187,44 +194,52 @@ uGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
       mu.setHwPt(tmp);
 
       m_filestream >> tmp;
-      int globalPhi = (int(tmp*0.560856864654333f)+15)%576; // make sure scale is correct
-      // int globalPhi = int(tmp*0.560856864654333f); // make sure scale is correct
+
+      int globalPhi = int(tmp*0.560856864654333f); // correction from txt file producer!
+      int globalWedgePhi = (globalPhi+24)%576; // this sets CMS phi = 0 to -15 deg
+      int globalSectorPhi = (globalPhi-24); // this sets CMS phi = 0 to +15 deg
+      if (globalSectorPhi < 0) {
+        globalSectorPhi += 576; 
+      }
+      
+
+      // int globalMuonPhi = int(tmp*0.560856864654333f); // make sure scale is correct
       bool skip = false;
       if (lineID == "BAR") {
-        int processor = globalPhi / 48 + 1;
-        int localPhi = globalPhi%48;
+        int processor = globalWedgePhi / 48 + 1;
+        int localPhi = globalWedgePhi%48;
         mu.setTFIdentifiers(processor, tftype::bmtf);
         mu.setHwPhi(localPhi);
         bar[processor-1]++;
         if (bar[processor-1] > 3) skip = true;
       }
       if (lineID == "OVL-") {
-        int processor = globalPhi / 96 + 1;
-        int localPhi = globalPhi%96;
+        int processor = globalSectorPhi / 96 + 1;
+        int localPhi = globalSectorPhi%96;
         mu.setTFIdentifiers(processor, tftype::omtf_neg);
         mu.setHwPhi(localPhi);
         ovl_neg[processor-1]++;
         if (ovl_neg[processor-1] > 3) skip = true;
       }
       if (lineID == "OVL+") {
-        int processor = globalPhi / 96 + 1;
-        int localPhi = globalPhi%96;
+        int processor = globalSectorPhi / 96 + 1;
+        int localPhi = globalSectorPhi%96;
         mu.setTFIdentifiers(processor, tftype::omtf_pos);
         mu.setHwPhi(localPhi);
         ovl_pos[processor-1]++;
         if (ovl_pos[processor-1] > 3) skip = true;
       }
       if (lineID == "FWD-") {
-        int processor = globalPhi / 96 + 1;
-        int localPhi = globalPhi%96;
+        int processor = globalSectorPhi / 96 + 1;
+        int localPhi = globalSectorPhi%96;
         mu.setTFIdentifiers(processor, tftype::emtf_neg);
         mu.setHwPhi(localPhi);
         fwd_neg[processor-1]++;
         if (fwd_neg[processor-1] > 3) skip = true;
       }
       if (lineID == "FWD+") {
-        int processor = globalPhi / 96 + 1;
-        int localPhi = globalPhi%96;
+        int processor = globalSectorPhi / 96 + 1;
+        int localPhi = globalSectorPhi%96;
         mu.setTFIdentifiers(processor, tftype::emtf_pos);
         mu.setHwPhi(localPhi);
         fwd_pos[processor-1]++;
@@ -251,7 +266,9 @@ uGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
       if (lineID == "OVL+") m_currType = 2;
       if (lineID == "FWD-") m_currType = 3;
       if (lineID == "FWD+") m_currType = 4;
-      
+      std::cout << lineID << " (" << mu.processor() << ") loc phi=" << mu.hwPhi()*0.625 << " CMS phi=" << (globalPhi)*0.625;
+      if (skip) std::cout << "skipping...";
+      std::cout << std::endl;
       if (m_currType == 0 && !skip)  barrelMuons->push_back(mu);
       if ((m_currType == 1 || m_currType == 2) && !skip) overlapMuons->push_back(mu);
       if ((m_currType == 3 || m_currType == 4) && !skip) endcapMuons->push_back(mu);
@@ -299,6 +316,11 @@ uGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   while (towerSums->size() < 1008) {
     towerSums->emplace_back();
   }
+
+  std::sort(barrelMuons->begin(), barrelMuons->end(), uGMTInputProducer::cmpProc);
+  std::sort(overlapMuons->begin(), overlapMuons->end(), uGMTInputProducer::cmpProc);
+  std::sort(endcapMuons->begin(), endcapMuons->end(), uGMTInputProducer::cmpProc);
+
   iEvent.put(barrelMuons, "BarrelTFMuons");
   iEvent.put(overlapMuons, "OverlapTFMuons");
   iEvent.put(endcapMuons, "ForwardTFMuons");

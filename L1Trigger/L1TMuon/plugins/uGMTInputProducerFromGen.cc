@@ -109,8 +109,6 @@ uGMTInputProducerFromGen::~uGMTInputProducerFromGen()
 // member functions
 //
 
-
-
 bool 
 uGMTInputProducerFromGen::compareMuons(const L1TRegionalMuonCandidate& mu1, const L1TRegionalMuonCandidate& mu2) 
 {
@@ -168,7 +166,7 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     int hwEta = int(eta * etaToInt);
     double phi = mcMuon.phi();
     if (phi < 0) phi += twoPi; // add 2*pi
-    int hwPhi = (int(phi * phiToInt)+15)%576;
+    int hwPhi = (int(phi * phiToInt))%576;
     int hwQual = 8;
     int hwCharge = (mcMuon.charge() > 0) ? 0 : 1;
     int hwChargeValid = 1;
@@ -178,17 +176,24 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
 
 
     tftype tf(tftype::bmtf);
-    int localPhi = hwPhi%48;
-    int processor = hwPhi / 48 + 1;
+    int globalWedgePhi = (hwPhi+24)%576; // this sets CMS phi = 0 to -15 deg
+    int localPhi = globalWedgePhi%48;
+    int processor = globalWedgePhi / 48 + 1;
+    int globalSectorPhi = (hwPhi-24); // this sets CMS phi = 0 to +15 deg
+    if (globalSectorPhi < 0) {
+      globalSectorPhi += 576; 
+    }
+
+
     if (fabs(eta) > 0.8) {
       if (fabs(eta) < 1.2) {
         tf = (eta > 0 ? tftype::omtf_neg : tftype::omtf_pos);
-        processor = hwPhi / 96 + 1;
-        localPhi = hwPhi%96; 
+        processor = globalSectorPhi / 96 + 1;
+        localPhi = globalSectorPhi%96; 
       } else {
         tf = (eta > 0 ? tftype::emtf_neg : tftype::emtf_pos);
-        processor = hwPhi / 96 + 1;
-        localPhi = hwPhi%96;
+        processor = globalSectorPhi / 96 + 1;
+        localPhi = globalSectorPhi%96;
       }
     }
     mu.setHwPhi(localPhi);
