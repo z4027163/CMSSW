@@ -107,7 +107,11 @@ l1t::MicroGMTEmulator::MicroGMTEmulator(const edm::ParameterSet& iConfig) : m_ra
   // m_forwardTfInputToken = consumes<InputCollection>(forwardTfInputTag);
    //register your products
   produces<MuonBxCollection>();
-  produces<MuonBxCollection>("intermediateMuons");
+  produces<MuonBxCollection>("imdMuonsBMTF");
+  produces<MuonBxCollection>("imdMuonsEMTFPos");
+  produces<MuonBxCollection>("imdMuonsEMTFNeg");
+  produces<MuonBxCollection>("imdMuonsOMTFPos");
+  produces<MuonBxCollection>("imdMuonsOMTFNeg");
 
   m_barrelTfInputTag = iConfig.getParameter<edm::InputTag>("barrelTFInput");
   m_overlapTfInputTag = iConfig.getParameter<edm::InputTag>("overlapTFInput");
@@ -137,7 +141,11 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
 {
   using namespace edm;
   std::auto_ptr<MuonBxCollection> outMuons (new MuonBxCollection());
-  std::auto_ptr<MuonBxCollection> intermediateMuons (new MuonBxCollection());
+  std::auto_ptr<MuonBxCollection> imdMuonsBMTF (new MuonBxCollection());
+  std::auto_ptr<MuonBxCollection> imdMuonsEMTFPos (new MuonBxCollection());
+  std::auto_ptr<MuonBxCollection> imdMuonsEMTFNeg (new MuonBxCollection());
+  std::auto_ptr<MuonBxCollection> imdMuonsOMTFPos (new MuonBxCollection());
+  std::auto_ptr<MuonBxCollection> imdMuonsOMTFNeg (new MuonBxCollection());
 
   Handle<MicroGMTConfiguration::InputCollection> barrelMuons;
   Handle<MicroGMTConfiguration::InputCollection> forwardMuons;
@@ -157,6 +165,9 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   MicroGMTConfiguration::InterMuonList internalMuonsOverlapPos;
   MicroGMTConfiguration::InterMuonList internalMuonsOverlapNeg;
 
+  // this converts the InputMuon type to the InternalMuon type
+  // and splits them into positive / negative eta collections
+  // necessary as LUTs may differ for pos / neg.
   convertMuons(*barrelMuons, internalMuonsBarrel);
   splitAndConvertMuons(*forwardMuons, internalMuonsEndcapPos, internalMuonsEndcapNeg);
   splitAndConvertMuons(*overlapMuons, internalMuonsOverlapPos, internalMuonsOverlapNeg);
@@ -173,6 +184,7 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   calculateRank(internalMuonsOverlapNeg);
   calculateRank(internalMuonsOverlapPos);
   
+  // The sort function both sorts and removes all but best "nSurvivors"
   sortMuons(internalMuonsBarrel, 8);
   sortMuons(internalMuonsOverlapPos, 4);
   sortMuons(internalMuonsOverlapNeg, 4);
@@ -180,12 +192,14 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   sortMuons(internalMuonsEndcapNeg, 4);
 
 
+  // This combines the 5 streams into one InternalMuon collection for 
+  // the final global sort.
   MicroGMTConfiguration::InterMuonList internalMuons;
-  addMuonsToCollections(internalMuonsEndcapPos, internalMuons, intermediateMuons);
-  addMuonsToCollections(internalMuonsOverlapPos, internalMuons, intermediateMuons);
-  addMuonsToCollections(internalMuonsBarrel, internalMuons, intermediateMuons);
-  addMuonsToCollections(internalMuonsOverlapNeg, internalMuons, intermediateMuons);
-  addMuonsToCollections(internalMuonsEndcapNeg, internalMuons, intermediateMuons);
+  addMuonsToCollections(internalMuonsEndcapPos, internalMuons, imdMuonsEMTFPos);
+  addMuonsToCollections(internalMuonsOverlapPos, internalMuons, imdMuonsOMTFPos);
+  addMuonsToCollections(internalMuonsBarrel, internalMuons, imdMuonsBMTF);
+  addMuonsToCollections(internalMuonsOverlapNeg, internalMuons, imdMuonsOMTFNeg);
+  addMuonsToCollections(internalMuonsEndcapNeg, internalMuons, imdMuonsEMTFNeg);
   
   // sort internal muons and delete all but best 8
   sortMuons(internalMuons, 8);
@@ -203,7 +217,11 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   }
   
   iEvent.put(outMuons);
-  iEvent.put(intermediateMuons, "intermediateMuons");
+  iEvent.put(imdMuonsBMTF, "imdMuonsBMTF");
+  iEvent.put(imdMuonsEMTFPos, "imdMuonsEMTFPos");
+  iEvent.put(imdMuonsEMTFNeg, "imdMuonsEMTFNeg");
+  iEvent.put(imdMuonsOMTFPos, "imdMuonsOMTFPos");
+  iEvent.put(imdMuonsOMTFNeg, "imdMuonsOMTFNeg");
 }
 
 
@@ -260,7 +278,6 @@ l1t::MicroGMTEmulator::calculateRank(MicroGMTConfiguration::InterMuonList& muons
 
 void 
 l1t::MicroGMTEmulator::addMuonsToCollections(MicroGMTConfiguration::InterMuonList& coll, MicroGMTConfiguration::InterMuonList& interout, std::auto_ptr<MuonBxCollection>& out) const {
-  coll.sort(l1t::MicroGMTEmulator::compareMuons);
   for (auto mu = coll.cbegin(); mu != coll.cend(); ++mu) { 
     interout.push_back(*mu);
     ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > vec{};
