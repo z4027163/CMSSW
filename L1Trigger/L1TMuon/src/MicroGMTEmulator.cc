@@ -65,13 +65,27 @@ namespace l1t {
         virtual void beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
         virtual void endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
 
-        static bool compareMuons(const MicroGMTConfiguration::InterMuon&, const MicroGMTConfiguration::InterMuon&);
+        static bool compareMuons(const MicroGMTConfiguration::InterMuon&, 
+                                 const MicroGMTConfiguration::InterMuon&);
 
         void sortMuons(MicroGMTConfiguration::InterMuonList&, unsigned) const;
+
         void calculateRank(MicroGMTConfiguration::InterMuonList& muons) const;
-        void splitAndConvertMuons(MicroGMTConfiguration::InputCollection const& in, MicroGMTConfiguration::InterMuonList& out_pos, MicroGMTConfiguration::InterMuonList& out_neg) const;
-        void convertMuons(MicroGMTConfiguration::InputCollection const& in, MicroGMTConfiguration::InterMuonList& out) const;
-        void addMuonsToCollections(MicroGMTConfiguration::InterMuonList& coll, MicroGMTConfiguration::InterMuonList& interout, std::auto_ptr<MuonBxCollection>& out) const;
+
+        void splitAndConvertMuons(MicroGMTConfiguration::InputCollection const& in, 
+                                  MicroGMTConfiguration::InterMuonList& out_pos, 
+                                  MicroGMTConfiguration::InterMuonList& out_neg,
+                                  L1TGMTInternalWedges& wedges_pos, 
+                                  L1TGMTInternalWedges& wedges_neg) const;
+
+        void convertMuons(MicroGMTConfiguration::InputCollection const& in, 
+                          MicroGMTConfiguration::InterMuonList& out,
+                          L1TGMTInternalWedges& wedges) const;
+
+        void addMuonsToCollections(MicroGMTConfiguration::InterMuonList& coll, 
+                                   MicroGMTConfiguration::InterMuonList& interout, 
+                                   std::auto_ptr<MuonBxCollection>& out) const;
+        
         // ----------member data ---------------------------
         edm::InputTag m_barrelTfInputTag;
         edm::InputTag m_overlapTfInputTag;
@@ -102,10 +116,16 @@ l1t::MicroGMTEmulator::MicroGMTEmulator(const edm::ParameterSet& iConfig) : m_ra
   // edm::InputTag overlapTfInputTag = iConfig.getParameter<edm::InputTag>("overlapTFInput");
   // edm::InputTag forwardTfInputTag = iConfig.getParameter<edm::InputTag>("forwardTFInput");
 
-  // m_barrelTfInputToken = consumes<InputCollection>(barrelTfInputTag);
-  // m_overlapTfInputToken = consumes<InputCollection>(overlapTfInputTag);
-  // m_forwardTfInputToken = consumes<InputCollection>(forwardTfInputTag);
-   //register your products
+  m_barrelTfInputTag = iConfig.getParameter<edm::InputTag>("barrelTFInput");
+  m_overlapTfInputTag = iConfig.getParameter<edm::InputTag>("overlapTFInput");
+  m_forwardTfInputTag = iConfig.getParameter<edm::InputTag>("forwardTFInput");
+  m_trigTowerTag = iConfig.getParameter<edm::InputTag>("triggerTowerInput");
+
+  // m_barrelTfInputToken = consumes<MicroGMTConfiguration::InputCollection>(m_barrelTfInputTag);
+  // m_overlapTfInputToken = consumes<MicroGMTConfiguration::InputCollection>(m_overlapTfInputTag);
+  // m_forwardTfInputToken = consumes<MicroGMTConfiguration::InputCollection>(m_forwardTfInputTag);
+
+  //register your products
   produces<MuonBxCollection>();
   produces<MuonBxCollection>("imdMuonsBMTF");
   produces<MuonBxCollection>("imdMuonsEMTFPos");
@@ -113,19 +133,13 @@ l1t::MicroGMTEmulator::MicroGMTEmulator(const edm::ParameterSet& iConfig) : m_ra
   produces<MuonBxCollection>("imdMuonsOMTFPos");
   produces<MuonBxCollection>("imdMuonsOMTFNeg");
 
-  m_barrelTfInputTag = iConfig.getParameter<edm::InputTag>("barrelTFInput");
-  m_overlapTfInputTag = iConfig.getParameter<edm::InputTag>("overlapTFInput");
-  m_forwardTfInputTag = iConfig.getParameter<edm::InputTag>("forwardTFInput");
-  m_trigTowerTag = iConfig.getParameter<edm::InputTag>("triggerTowerInput");
+  
 
 }
 
 l1t::MicroGMTEmulator::~MicroGMTEmulator()
 {
   m_debugOut.close();
-   // do anything here that needs to be done at desctruction time
-   // (e.g. close files, deallocate resources etc.)
-
 }
 
 
@@ -165,12 +179,20 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   MicroGMTConfiguration::InterMuonList internalMuonsOverlapPos;
   MicroGMTConfiguration::InterMuonList internalMuonsOverlapNeg;
 
+  L1TGMTInternalWedges omtfNegWedges;
+  L1TGMTInternalWedges bmtfWedges;
+  L1TGMTInternalWedges emtfPosWedges;
+  L1TGMTInternalWedges emtfNegWedges;
+  L1TGMTInternalWedges omtfPosWedges;
+
   // this converts the InputMuon type to the InternalMuon type
   // and splits them into positive / negative eta collections
   // necessary as LUTs may differ for pos / neg.
-  convertMuons(*barrelMuons, internalMuonsBarrel);
-  splitAndConvertMuons(*forwardMuons, internalMuonsEndcapPos, internalMuonsEndcapNeg);
-  splitAndConvertMuons(*overlapMuons, internalMuonsOverlapPos, internalMuonsOverlapNeg);
+  // the wedge collections are used solely for cancel-out and contain
+  // naked poitners... they should not be used after the first sort
+  convertMuons(*barrelMuons, internalMuonsBarrel, bmtfWedges);
+  splitAndConvertMuons(*forwardMuons, internalMuonsEndcapPos, internalMuonsEndcapNeg, emtfPosWedges, emtfNegWedges);
+  splitAndConvertMuons(*overlapMuons, internalMuonsOverlapPos, internalMuonsOverlapNeg, omtfPosWedges, omtfNegWedges);
 
   m_isolationUnit.extrapolateMuons(internalMuonsBarrel);
   m_isolationUnit.extrapolateMuons(internalMuonsEndcapNeg);
@@ -178,6 +200,21 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   m_isolationUnit.extrapolateMuons(internalMuonsOverlapNeg);
   m_isolationUnit.extrapolateMuons(internalMuonsOverlapPos);
 
+  // cancel out within the track finders:
+  m_cancelOutUnit.setCancelOutBits(bmtfWedges, tftype::bmtf);
+  m_cancelOutUnit.setCancelOutBits(omtfPosWedges, tftype::omtf_pos);
+  m_cancelOutUnit.setCancelOutBits(omtfNegWedges, tftype::omtf_neg);
+  // cancel-out for endcap will be done in the sorter:
+  // m_cancelOutUnit.setCancelOutBits(emtfPosWedges, tftype::emtf_pos);
+  // m_cancelOutUnit.setCancelOutBits(emtfNegWedges, tftype::emtf_neg);
+
+  // cancel out between track finder acceptance overlaps:
+  m_cancelOutUnit.setCancelOutBitsOverlapBarrel(omtfPosWedges, bmtfWedges);
+  m_cancelOutUnit.setCancelOutBitsOverlapBarrel(omtfNegWedges, bmtfWedges);
+  m_cancelOutUnit.setCancelOutBitsOverlapEndcap(omtfPosWedges, emtfPosWedges);
+  m_cancelOutUnit.setCancelOutBitsOverlapEndcap(omtfNegWedges, emtfNegWedges);
+  
+  // the rank calculated here is used in the sort below
   calculateRank(internalMuonsBarrel);
   calculateRank(internalMuonsEndcapNeg);
   calculateRank(internalMuonsEndcapPos);
@@ -289,22 +326,39 @@ l1t::MicroGMTEmulator::addMuonsToCollections(MicroGMTConfiguration::InterMuonLis
 }
 
 void
-l1t::MicroGMTEmulator::splitAndConvertMuons(const MicroGMTConfiguration::InputCollection& in, MicroGMTConfiguration::InterMuonList& out_pos, MicroGMTConfiguration::InterMuonList& out_neg) const
+l1t::MicroGMTEmulator::splitAndConvertMuons(
+  const MicroGMTConfiguration::InputCollection& in, MicroGMTConfiguration::InterMuonList& out_pos, MicroGMTConfiguration::InterMuonList& out_neg,
+  L1TGMTInternalWedges& wedges_pos, L1TGMTInternalWedges& wedges_neg) const
 {
+  // initialize the wedge collections:
+  for (int i = 1; i <= 6; ++i) {
+    wedges_pos[i] = std::vector<L1TGMTInternalMuon*>();
+    wedges_pos[i].reserve(3);
+    wedges_neg[i] = std::vector<L1TGMTInternalMuon*>();
+    wedges_neg[i].reserve(3);
+  }
   for (auto mu = in.cbegin(); mu != in.cend(); ++mu) {
     if(mu->hwEta() > 0) {
       out_pos.emplace_back(*mu);
+      wedges_pos[mu->processor()].push_back(&out_pos.back());
     } else {
       out_neg.emplace_back(*mu);
+      wedges_neg[mu->processor()].push_back(&out_neg.back());
     }
   }
 }
         
 void 
-l1t::MicroGMTEmulator::convertMuons(const MicroGMTConfiguration::InputCollection& in, MicroGMTConfiguration::InterMuonList& out) const
+l1t::MicroGMTEmulator::convertMuons(const MicroGMTConfiguration::InputCollection& in, MicroGMTConfiguration::InterMuonList& out, L1TGMTInternalWedges& wedges) const
 {
+  // initialize the wedge collection:
+  for (int i = 1; i <= 12; ++i) {
+    wedges[i] = std::vector<L1TGMTInternalMuon*>();
+    wedges[i].reserve(3);
+  }
   for (auto mu = in.cbegin(); mu != in.cend(); ++mu) {
     out.emplace_back(*mu);
+    wedges[mu->processor()].push_back(&out.back());
   }
 }
 

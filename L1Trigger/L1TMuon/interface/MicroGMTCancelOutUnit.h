@@ -9,11 +9,15 @@ namespace l1t {
     public: 
       explicit MicroGMTCancelOutUnit (const edm::ParameterSet&);
       virtual ~MicroGMTCancelOutUnit ();
-      // Cancel-Out is set to 1 for the lower quality muon, if a match is found according to match LUTs
-      void setCancelOutBits(MicroGMTConfiguration::InterMuonList&);
+      /// Cancel out between sectors/wedges in one track finder
+      void setCancelOutBits(L1TGMTInternalWedges&, tftype trackFinder);
+      /// Cancel-out between overlap and barrel track finders
+      void setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges&, L1TGMTInternalWedges&);
+      /// Cancel-out between overlap and endcap track finders
+      void setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges&, L1TGMTInternalWedges&);
     private:
-      // This goes through two neighboring sections and checks for matches
-      void getCancelOutBits( std::vector<MicroGMTConfiguration::InterMuonList::iterator> &, std::vector<MicroGMTConfiguration::InterMuonList::iterator> &);
+      /// Compares all muons from coll1 with all muons from coll2 and sets the cancel-bits
+      void getCancelOutBits(std::vector<L1TGMTInternalMuon*>& coll1, std::vector<L1TGMTInternalMuon*>& coll2);
 
       MicroGMTMatchQualLUT m_boPosMatchQualLUT;
       MicroGMTMatchQualLUT m_boNegMatchQualLUT;

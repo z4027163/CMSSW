@@ -1,7 +1,8 @@
 #include "../interface/MicroGMTCancelOutUnit.h"
 #include "DataFormats/L1TMuon/interface/L1TGMTInternalMuon.h"
 
-l1t::MicroGMTCancelOutUnit::MicroGMTCancelOutUnit (const edm::ParameterSet& iConfig) : 
+namespace l1t {
+MicroGMTCancelOutUnit::MicroGMTCancelOutUnit (const edm::ParameterSet& iConfig) : 
     m_boPosMatchQualLUT(iConfig, "BOPos"),
     m_boNegMatchQualLUT(iConfig, "BONeg"),
     m_foPosMatchQualLUT(iConfig, "FOPos"),
@@ -21,47 +22,114 @@ l1t::MicroGMTCancelOutUnit::MicroGMTCancelOutUnit (const edm::ParameterSet& iCon
     m_lutDict[tftype::emtf_neg+tftype::emtf_neg*5] = &m_fwdNegSingleMatchQualLUT;
     m_lutDict[tftype::omtf_pos+tftype::emtf_pos*5] = &m_foPosMatchQualLUT;
     m_lutDict[tftype::omtf_neg+tftype::emtf_neg*5] = &m_foNegMatchQualLUT;
-
-
 }
 
-l1t::MicroGMTCancelOutUnit::~MicroGMTCancelOutUnit ()
+MicroGMTCancelOutUnit::~MicroGMTCancelOutUnit ()
 {
 
 }
 
 void
-l1t::MicroGMTCancelOutUnit::setCancelOutBits(MicroGMTConfiguration::InterMuonList& muons) 
-{
-  int cntr = 0;
-  std::vector<MicroGMTConfiguration::InterMuonList::iterator> wedge1;
-  wedge1.reserve(3);
-  std::vector<MicroGMTConfiguration::InterMuonList::iterator> wedge2;
-  MicroGMTConfiguration::InterMuonList::iterator mu;
-  wedge2.reserve(3);
-  for (mu = muons.begin(); mu != muons.end(); ++mu) {
-    if ((cntr%6) < 3) {
-      wedge1.push_back(mu);
-    } else {
-      wedge2.push_back(mu);
+MicroGMTCancelOutUnit::setCancelOutBits(L1TGMTInternalWedges& wedges, tftype trackFinder) 
+{ 
+  std::vector<L1TGMTInternalMuon*> coll1;
+  coll1.reserve(3);
+  std::vector<L1TGMTInternalMuon*> coll2;
+  coll2.reserve(3);
+  int maxWedges = 12;
+  if (trackFinder == bmtf) {
+    maxWedges = 6;
+  }
+
+  for (int currentWedge = 1; currentWedge <= maxWedges; ++currentWedge) {
+    for (auto mu : wedges[currentWedge]) {
+      coll1.push_back(mu);
     }
-    if (wedge1.size() == 3 && wedge2.size() == 3) {
-      getCancelOutBits(wedge1, wedge2);
-      wedge1.clear();
-      wedge2.clear();
+    // handle wrap around: max "wedge" has to be compared to first "wedge"
+    int neighbourWedge = ((currentWedge - 1) % maxWedges) + 1;
+    for (auto mu : wedges[neighbourWedge]) {
+      coll2.push_back(mu);
     }
-    cntr++;
+    getCancelOutBits(coll1, coll2);
+    coll1.clear();
+    coll2.clear();
   }
 }
 
-void 
-l1t::MicroGMTCancelOutUnit::getCancelOutBits( std::vector<MicroGMTConfiguration::InterMuonList::iterator> &wedge1, std::vector<MicroGMTConfiguration::InterMuonList::iterator> & wedge2)
+void
+MicroGMTCancelOutUnit::setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& bmtfWedges) 
 {
-  MicroGMTMatchQualLUT* matchLUT = m_lutDict[(*wedge1.begin())->trackFinderType()+(*wedge2.begin())->trackFinderType()*5];
-  for (auto mu_w1 = wedge1.begin(); mu_w1 != wedge1.end(); ++mu_w1) {
-    for (auto mu_w2 = wedge2.begin(); mu_w2 != wedge2.end(); ++mu_w2) {
+  // overlap sector collection
+  std::vector<L1TGMTInternalMuon*> coll1;
+  coll1.reserve(3);
+  // barrel wedge collection with 4 wedges
+  std::vector<L1TGMTInternalMuon*> coll2;
+  coll2.reserve(12);
+
+  for (int currentSector = 1; currentSector <= 6; ++currentSector) {
+    for (auto omtfMuon : omtfSectors[currentSector]) {
+      coll1.push_back(omtfMuon);
+    }
+    // BMTF | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | 11 | 12 | 1  |
+    // OMTF |    1    |    2    |    3    |    4    |    5    |    6    |
+    // cancel OMTF sector x with corresponding BMTF wedge + the two on either side;
+    // e.g. OMTF 1 with BMTF 1, 2, 3, 4, OMTF 2 with BMTF 3, 4, 5, 6 etc.
+    for (int i = 0; i < 3; ++i) { 
+      int currentWedge = currentSector * 2 - 1 + i;
+      // handling the wrap-around: doing a shift by one for the modulo
+      // as the wedge numbering starts at 1 instead of 0
+      currentWedge = (currentWedge - 1) % 12 + 1;
+      for (auto bmtfMuon : bmtfWedges[currentWedge]) {
+        coll2.push_back(bmtfMuon);
+      }
+    }
+    getCancelOutBits(coll1, coll2);
+    coll1.clear();
+    coll2.clear();
+  }
+}
+
+void
+MicroGMTCancelOutUnit::setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& emtfSectors) 
+{
+  // overlap sector collection
+  std::vector<L1TGMTInternalMuon*> coll1;
+  coll1.reserve(3);
+  // endcap sector collection with 3 sectors
+  std::vector<L1TGMTInternalMuon*> coll2;
+  coll2.reserve(9);
+
+  for (int curOmtfSector = 1; curOmtfSector <= 6; ++curOmtfSector) {
+    for (auto omtfMuon : omtfSectors[curOmtfSector]) {
+      coll1.push_back(omtfMuon);
+    }
+    // OMTF |    1    |    2    |    3    |    4    |    5    |    6    |
+    // EMTF |    1    |    2    |    3    |    4    |    5    |    6    |
+    // cancel OMTF sector x with corresponding EMTF sector + the ones on either side;
+    // e.g. OMTF 1 with EMTF 6, 1, 2; OMTF 2 with EMTF 1, 2, 3 etc.
+    for (int i = 0; i < 2; ++i) {
+      // handling the wrap around: doing shift by 6 (because 1 has to be compared to 6)
+      // and the additional shift by one as above because of 1-indexed processor IDs
+      int curEmtfSector = ((curOmtfSector + 6) - 1 + i) % 6 + 1;
+      for (auto emtfMuon : emtfSectors[curEmtfSector]) {
+        coll2.push_back(emtfMuon);
+      }
+    }
+    getCancelOutBits(coll1, coll2);
+    coll1.clear();
+    coll2.clear();
+  }
+
+}
+
+void 
+MicroGMTCancelOutUnit::getCancelOutBits(std::vector<L1TGMTInternalMuon*>& coll1, std::vector<L1TGMTInternalMuon*>& coll2)
+{
+  MicroGMTMatchQualLUT* matchLUT = m_lutDict[(*coll1.begin())->trackFinderType()+(*coll2.begin())->trackFinderType()*5];
+  for (auto mu_w1 = coll1.begin(); mu_w1 != coll1.end(); ++mu_w1) {
+    for (auto mu_w2 = coll2.begin(); mu_w2 != coll2.end(); ++mu_w2) {
       // phi coordinates shall be relative, do not have to worry about wrap around...
-      int deltaPhi = std::abs((*mu_w1)->hwPhi() - (*mu_w2)->hwPhi()) >> (10 - matchLUT->getDeltaPhiWidth()); //diffbits = origwidth - widthweneed
+      int deltaPhi = std::abs((*mu_w1)->hwLocalPhi() - (*mu_w2)->hwLocalPhi()) >> (8 - matchLUT->getDeltaPhiWidth()); //diffbits = origwidth - widthweneed
       int deltaEta = std::abs((*mu_w1)->hwEta() - (*mu_w2)->hwEta()) >> (9 - matchLUT->getDeltaEtaWidth()); //diffbits = origwidth - widthweneed
       bool match = matchLUT->lookup(deltaEta, deltaPhi);
       if((*mu_w1)->hwQual() > (*mu_w2)->hwQual() && match) {
@@ -72,3 +140,5 @@ l1t::MicroGMTCancelOutUnit::getCancelOutBits( std::vector<MicroGMTConfiguration:
     }
   }
 }
+
+} // namespace l1t
