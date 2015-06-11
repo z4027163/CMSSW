@@ -32,9 +32,9 @@ MicroGMTCancelOutUnit::~MicroGMTCancelOutUnit ()
 void
 MicroGMTCancelOutUnit::setCancelOutBits(L1TGMTInternalWedges& wedges, tftype trackFinder, cancelmode mode) 
 { 
-  std::vector<L1TGMTInternalMuon*> coll1;
+  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll1;
   coll1.reserve(3);
-  std::vector<L1TGMTInternalMuon*> coll2;
+  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll2;
   coll2.reserve(3);
   int maxWedges = 12;
   if (trackFinder == bmtf) {
@@ -63,10 +63,10 @@ void
 MicroGMTCancelOutUnit::setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& bmtfWedges, cancelmode mode) 
 {
   // overlap sector collection
-  std::vector<L1TGMTInternalMuon*> coll1;
+  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll1;
   coll1.reserve(3);
   // barrel wedge collection with 4 wedges
-  std::vector<L1TGMTInternalMuon*> coll2;
+  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll2;
   coll2.reserve(12);
 
   for (int currentSector = 1; currentSector <= 6; ++currentSector) {
@@ -100,10 +100,10 @@ void
 MicroGMTCancelOutUnit::setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& emtfSectors, cancelmode mode) 
 {
   // overlap sector collection
-  std::vector<L1TGMTInternalMuon*> coll1;
+  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll1;
   coll1.reserve(3);
   // endcap sector collection with 3 sectors
-  std::vector<L1TGMTInternalMuon*> coll2;
+  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll2;
   coll2.reserve(9);
 
   for (int curOmtfSector = 1; curOmtfSector <= 6; ++curOmtfSector) {
@@ -133,7 +133,7 @@ MicroGMTCancelOutUnit::setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges& omtfS
 }
 
 void 
-MicroGMTCancelOutUnit::getCoordinateCancelBits(std::vector<L1TGMTInternalMuon*>& coll1, std::vector<L1TGMTInternalMuon*>& coll2)
+MicroGMTCancelOutUnit::getCoordinateCancelBits(std::vector<std::shared_ptr<L1TGMTInternalMuon>>& coll1, std::vector<std::shared_ptr<L1TGMTInternalMuon>>& coll2)
 {
   MicroGMTMatchQualLUT* matchLUT = m_lutDict[(*coll1.begin())->trackFinderType()+(*coll2.begin())->trackFinderType()*5];
   for (auto mu_w1 = coll1.begin(); mu_w1 != coll1.end(); ++mu_w1) {
@@ -152,7 +152,7 @@ MicroGMTCancelOutUnit::getCoordinateCancelBits(std::vector<L1TGMTInternalMuon*>&
 }
 
 void 
-MicroGMTCancelOutUnit::getTrackAddrCancelBits(std::vector<L1TGMTInternalMuon*>& coll1, std::vector<L1TGMTInternalMuon*>& coll2)
+MicroGMTCancelOutUnit::getTrackAddrCancelBits(std::vector<std::shared_ptr<L1TGMTInternalMuon>>& coll1, std::vector<std::shared_ptr<L1TGMTInternalMuon>>& coll2)
 {
   // not entirely clear how to do.. just a hook for now
 }

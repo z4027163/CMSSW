@@ -49,8 +49,7 @@ l1t::MicroGMTIsolationUnit::getCaloIndex(MicroGMTConfiguration::InterMuon& mu) c
 
 void 
 l1t::MicroGMTIsolationUnit::extrapolateMuons(MicroGMTConfiguration::InterMuonList& inputmuons) const {
-  MicroGMTConfiguration::InterMuonList::iterator mu;
-  for (mu = inputmuons.begin(); mu != inputmuons.end(); ++mu) {   
+  for (auto &mu : inputmuons) {   
     // only use 6 LSBs of pt:
     int ptRed = mu->hwPt() & 0b111111;
     // here we drop the two LSBs and masking the MSB
@@ -121,17 +120,16 @@ l1t::MicroGMTIsolationUnit::calculate5by5Sum(unsigned index) const
 void 
 l1t::MicroGMTIsolationUnit::isolate(MicroGMTConfiguration::InterMuonList& muons) const
 {
-  MicroGMTConfiguration::InterMuonList::iterator muIt;
-  for (muIt = muons.begin(); muIt != muons.end(); ++muIt) {
-    int caloIndex = getCaloIndex(*muIt);
+  for (auto& mu : muons) {
+    int caloIndex = getCaloIndex(*mu);
     int energySum = calculate5by5Sum(caloIndex);
-    muIt->setHwIsoSum(energySum);
+    mu->setHwIsoSum(energySum);
 
     int absIso = m_AbsIsoCheckMem.lookup(energySum);
-    int relIso = m_RelIsoCheckMem.lookup(energySum, muIt->hwPt());
+    int relIso = m_RelIsoCheckMem.lookup(energySum, mu->hwPt());
 
-    muIt->setHwRelIso(relIso);
-    muIt->setHwAbsIso(absIso);
+    mu->setHwRelIso(relIso);
+    mu->setHwAbsIso(absIso);
   }
 }
 
@@ -150,21 +148,20 @@ void l1t::MicroGMTIsolationUnit::setTowerSums(const MicroGMTConfiguration::CaloI
 
 void l1t::MicroGMTIsolationUnit::isolatePreSummed(MicroGMTConfiguration::InterMuonList& muons) const 
 {
-  MicroGMTConfiguration::InterMuonList::iterator muIt;
-  for (muIt = muons.begin(); muIt != muons.end(); ++muIt) {
-    int caloIndex = getCaloIndex(*muIt);
+  for (auto mu : muons) {
+    int caloIndex = getCaloIndex(*mu);
     int energySum = 0;
     if (m_towerEnergies.count(caloIndex) == 1) {
       energySum = m_towerEnergies.at(caloIndex);
     }
 
-    muIt->setHwIsoSum(energySum);
+    mu->setHwIsoSum(energySum);
 
     int absIso = m_AbsIsoCheckMem.lookup(energySum);
-    int relIso = m_RelIsoCheckMem.lookup(energySum, muIt->hwPt());
+    int relIso = m_RelIsoCheckMem.lookup(energySum, mu->hwPt());
 
-    muIt->setHwRelIso(relIso);
-    muIt->setHwAbsIso(absIso);
+    mu->setHwRelIso(relIso);
+    mu->setHwAbsIso(absIso);
   }
   
 }

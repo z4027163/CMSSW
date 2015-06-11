@@ -21,9 +21,9 @@ namespace l1t {
       void setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges&, L1TGMTInternalWedges&, cancelmode);
     private:
       /// Compares all muons from coll1 with all muons from coll2 and sets the cancel-bits based on eta/phi coordinates
-      void getCoordinateCancelBits(std::vector<L1TGMTInternalMuon*>&, std::vector<L1TGMTInternalMuon*>&);
+      void getCoordinateCancelBits(std::vector<std::shared_ptr<L1TGMTInternalMuon>>&, std::vector<std::shared_ptr<L1TGMTInternalMuon>>&);
       /// Compares all muons from coll1 with all muons from coll2 and sets the cancel-bits based on track addresses
-      void getTrackAddrCancelBits(std::vector<L1TGMTInternalMuon*>&, std::vector<L1TGMTInternalMuon*>&);
+      void getTrackAddrCancelBits(std::vector<std::shared_ptr<L1TGMTInternalMuon>>&, std::vector<std::shared_ptr<L1TGMTInternalMuon>>&);
 
       MicroGMTMatchQualLUT m_boPosMatchQualLUT;
       MicroGMTMatchQualLUT m_boNegMatchQualLUT;
