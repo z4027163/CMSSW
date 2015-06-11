@@ -30,7 +30,7 @@ MicroGMTCancelOutUnit::~MicroGMTCancelOutUnit ()
 }
 
 void
-MicroGMTCancelOutUnit::setCancelOutBits(L1TGMTInternalWedges& wedges, tftype trackFinder) 
+MicroGMTCancelOutUnit::setCancelOutBits(L1TGMTInternalWedges& wedges, tftype trackFinder, cancelmode mode) 
 { 
   std::vector<L1TGMTInternalMuon*> coll1;
   coll1.reserve(3);
@@ -50,14 +50,17 @@ MicroGMTCancelOutUnit::setCancelOutBits(L1TGMTInternalWedges& wedges, tftype tra
     for (auto mu : wedges[neighbourWedge]) {
       coll2.push_back(mu);
     }
-    getCancelOutBits(coll1, coll2);
-    coll1.clear();
+    if (mode == cancelmode::coordinate) {
+      getCoordinateCancelBits(coll1, coll2);
+    } else {
+      getTrackAddrCancelBits(coll1, coll2);
+    }    coll1.clear();
     coll2.clear();
   }
 }
 
 void
-MicroGMTCancelOutUnit::setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& bmtfWedges) 
+MicroGMTCancelOutUnit::setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& bmtfWedges, cancelmode mode) 
 {
   // overlap sector collection
   std::vector<L1TGMTInternalMuon*> coll1;
@@ -83,14 +86,18 @@ MicroGMTCancelOutUnit::setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges& omtfS
         coll2.push_back(bmtfMuon);
       }
     }
-    getCancelOutBits(coll1, coll2);
+    if (mode == cancelmode::coordinate) {
+      getCoordinateCancelBits(coll1, coll2);
+    } else {
+      getTrackAddrCancelBits(coll1, coll2);
+    }
     coll1.clear();
     coll2.clear();
   }
 }
 
 void
-MicroGMTCancelOutUnit::setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& emtfSectors) 
+MicroGMTCancelOutUnit::setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& emtfSectors, cancelmode mode) 
 {
   // overlap sector collection
   std::vector<L1TGMTInternalMuon*> coll1;
@@ -115,15 +122,18 @@ MicroGMTCancelOutUnit::setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges& omtfS
         coll2.push_back(emtfMuon);
       }
     }
-    getCancelOutBits(coll1, coll2);
-    coll1.clear();
+    if (mode == cancelmode::coordinate) {
+      getCoordinateCancelBits(coll1, coll2);
+    } else {
+      getTrackAddrCancelBits(coll1, coll2);
+    }    coll1.clear();
     coll2.clear();
   }
 
 }
 
 void 
-MicroGMTCancelOutUnit::getCancelOutBits(std::vector<L1TGMTInternalMuon*>& coll1, std::vector<L1TGMTInternalMuon*>& coll2)
+MicroGMTCancelOutUnit::getCoordinateCancelBits(std::vector<L1TGMTInternalMuon*>& coll1, std::vector<L1TGMTInternalMuon*>& coll2)
 {
   MicroGMTMatchQualLUT* matchLUT = m_lutDict[(*coll1.begin())->trackFinderType()+(*coll2.begin())->trackFinderType()*5];
   for (auto mu_w1 = coll1.begin(); mu_w1 != coll1.end(); ++mu_w1) {
@@ -139,6 +149,12 @@ MicroGMTCancelOutUnit::getCancelOutBits(std::vector<L1TGMTInternalMuon*>& coll1,
       }
     }
   }
+}
+
+void 
+MicroGMTCancelOutUnit::getTrackAddrCancelBits(std::vector<L1TGMTInternalMuon*>& coll1, std::vector<L1TGMTInternalMuon*>& coll2)
+{
+  // not entirely clear how to do.. just a hook for now
 }
 
 } // namespace l1t

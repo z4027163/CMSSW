@@ -5,19 +5,25 @@
 #include "MicroGMTMatchQualLUT.h"
 
 namespace l1t {
+  enum cancelmode {
+    tracks, coordinate
+  };
+
   class MicroGMTCancelOutUnit {
     public: 
       explicit MicroGMTCancelOutUnit (const edm::ParameterSet&);
       virtual ~MicroGMTCancelOutUnit ();
       /// Cancel out between sectors/wedges in one track finder
-      void setCancelOutBits(L1TGMTInternalWedges&, tftype trackFinder);
+      void setCancelOutBits(L1TGMTInternalWedges&, tftype, cancelmode);
       /// Cancel-out between overlap and barrel track finders
-      void setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges&, L1TGMTInternalWedges&);
+      void setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges&, L1TGMTInternalWedges&, cancelmode);
       /// Cancel-out between overlap and endcap track finders
-      void setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges&, L1TGMTInternalWedges&);
+      void setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges&, L1TGMTInternalWedges&, cancelmode);
     private:
-      /// Compares all muons from coll1 with all muons from coll2 and sets the cancel-bits
-      void getCancelOutBits(std::vector<L1TGMTInternalMuon*>& coll1, std::vector<L1TGMTInternalMuon*>& coll2);
+      /// Compares all muons from coll1 with all muons from coll2 and sets the cancel-bits based on eta/phi coordinates
+      void getCoordinateCancelBits(std::vector<L1TGMTInternalMuon*>&, std::vector<L1TGMTInternalMuon*>&);
+      /// Compares all muons from coll1 with all muons from coll2 and sets the cancel-bits based on track addresses
+      void getTrackAddrCancelBits(std::vector<L1TGMTInternalMuon*>&, std::vector<L1TGMTInternalMuon*>&);
 
       MicroGMTMatchQualLUT m_boPosMatchQualLUT;
       MicroGMTMatchQualLUT m_boNegMatchQualLUT;
