@@ -34,6 +34,7 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "L1Trigger/L1TMuon/interface/MicroGMTRankPtQualLUT.h"
+#include "L1Trigger/L1TMuon/interface/MicroGMTMatchQualLUT.h"
 
 
 #include <iostream>
@@ -48,11 +49,21 @@ class uGMTLUTDumper : public edm::EDAnalyzer {
       virtual void analyze(const edm::Event&, const edm::EventSetup&);  
 
    private:
-      
+      void dumpLut(MicroGMTLUT*, const std::string&);
 
       // ----------member data ---------------------------
       std::string m_foldername;
       MicroGMTRankPtQualLUT m_rankLUT;
+
+      MicroGMTMatchQualLUT m_boPosMatchQualLUT;
+      MicroGMTMatchQualLUT m_boNegMatchQualLUT;
+      MicroGMTMatchQualLUT m_foPosMatchQualLUT;
+      MicroGMTMatchQualLUT m_foNegMatchQualLUT;
+      MicroGMTMatchQualLUT m_brlSingleMatchQualLUT;
+      MicroGMTMatchQualLUT m_ovlPosSingleMatchQualLUT;
+      MicroGMTMatchQualLUT m_ovlNegSingleMatchQualLUT;
+      MicroGMTMatchQualLUT m_fwdPosSingleMatchQualLUT;
+      MicroGMTMatchQualLUT m_fwdNegSingleMatchQualLUT;
 };
 
 //
@@ -67,7 +78,17 @@ class uGMTLUTDumper : public edm::EDAnalyzer {
 //
 // constructors and destructor
 //
-uGMTLUTDumper::uGMTLUTDumper(const edm::ParameterSet& iConfig) : m_rankLUT(iConfig)
+uGMTLUTDumper::uGMTLUTDumper(const edm::ParameterSet& iConfig) : 
+    m_rankLUT(iConfig),
+    m_boPosMatchQualLUT(iConfig, "BOPos", cancel_t::omtf_bmtf_pos),
+    m_boNegMatchQualLUT(iConfig, "BONeg", cancel_t::omtf_bmtf_neg),
+    m_foPosMatchQualLUT(iConfig, "FOPos", cancel_t::omtf_emtf_pos),
+    m_foNegMatchQualLUT(iConfig, "FONeg", cancel_t::omtf_emtf_neg),
+    m_brlSingleMatchQualLUT(iConfig, "BrlSingle", cancel_t::bmtf_bmtf),
+    m_ovlPosSingleMatchQualLUT(iConfig, "OvlPosSingle", cancel_t::omtf_omtf_pos),
+    m_ovlNegSingleMatchQualLUT(iConfig, "OvlNegSingle", cancel_t::omtf_omtf_neg),
+    m_fwdPosSingleMatchQualLUT(iConfig, "FwdPosSingle", cancel_t::emtf_emtf_pos),
+    m_fwdNegSingleMatchQualLUT(iConfig, "FwdNegSingle", cancel_t::emtf_emtf_neg)
 {
   //register your products
 
@@ -88,6 +109,12 @@ uGMTLUTDumper::~uGMTLUTDumper()
 //
 // member functions
 //
+void 
+uGMTLUTDumper::dumpLut(MicroGMTLUT* lut, const std::string& oName) {
+  std::ofstream fStream(m_foldername+oName);
+  lut->save(fStream);
+  fStream.close();
+}
 
 
 
@@ -96,11 +123,17 @@ void
 uGMTLUTDumper::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
-  std::ofstream rank_out(m_foldername+std::string("/rank_lut.json"));
-  m_rankLUT.save(rank_out);
-
-  // rank_out.write();
-  rank_out.close();
+  dumpLut(&m_rankLUT, std::string("/rank_lut.json"));
+  dumpLut(&m_boPosMatchQualLUT, std::string("/boPosMatchQualLUT.json"));
+  dumpLut(&m_boNegMatchQualLUT, std::string("/boNegMatchQualLUT.json"));
+  dumpLut(&m_foPosMatchQualLUT, std::string("/foPosMatchQualLUT.json"));
+  dumpLut(&m_foNegMatchQualLUT, std::string("/foNegMatchQualLUT.json"));
+  dumpLut(&m_brlSingleMatchQualLUT, std::string("/brlSingleMatchQualLUT.json"));
+  dumpLut(&m_ovlPosSingleMatchQualLUT, std::string("/ovlPosSingleMatchQualLUT.json"));
+  dumpLut(&m_ovlNegSingleMatchQualLUT, std::string("/ovlNegSingleMatchQualLUT.json"));
+  dumpLut(&m_fwdPosSingleMatchQualLUT, std::string("/fwdPosSingleMatchQualLUT.json"));
+  dumpLut(&m_fwdNegSingleMatchQualLUT, std::string("/fedNegSingleMatchQualLUT.json"));
+  
 }
 
 } // namespace l1t

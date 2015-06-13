@@ -19,7 +19,7 @@ namespace l1t {
         virtual ~MicroGMTMatchQualLUT ();
 
         int lookup(int dEta, int dPhi) const;
-
+        virtual int lookupPacked(int in) const;
         int hashInput(int dEta, int dPhi) const;
         void unHashInput(int input, int& dEta, int& dPhi) const;
 

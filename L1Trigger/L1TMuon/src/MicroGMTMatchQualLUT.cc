@@ -15,13 +15,16 @@ l1t::MicroGMTMatchQualLUT::MicroGMTMatchQualLUT (const edm::ParameterSet& iConfi
   
   m_inputs.push_back(MicroGMTConfiguration::DELTA_ETA_RED);
   m_inputs.push_back(MicroGMTConfiguration::DELTA_PHI_RED);
-  std::string m_fname = config.getParameter<std::string>("filename");
-  if (m_fname != std::string("")) {
-    load(m_fname);
-  }
 
   m_phiScale = 2*TMath::Pi()/576.0;
   m_etaScale = 0.010875;
+
+  std::string m_fname = config.getParameter<std::string>("filename");
+  if (m_fname != std::string("")) {
+    load(m_fname);
+  } else {
+    initialize();
+  }
 }
 
 l1t::MicroGMTMatchQualLUT::~MicroGMTMatchQualLUT ()
@@ -52,6 +55,17 @@ l1t::MicroGMTMatchQualLUT::lookup(int dEtaRed, int dPhiRed) const
   // }
 
   return retVal;
+}
+int 
+l1t::MicroGMTMatchQualLUT::lookupPacked(int in) const {
+  if (m_initialized) {
+    return m_contents.at(in);
+  }
+
+  int dEtaRed = 0;
+  int dPhiRed = 0;
+  unHashInput(in, dEtaRed, dPhiRed);
+  return lookup(dEtaRed, dPhiRed);
 }
 
 int 
