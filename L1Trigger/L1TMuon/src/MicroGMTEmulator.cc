@@ -161,23 +161,23 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   std::auto_ptr<MuonBxCollection> imdMuonsOMTFPos (new MuonBxCollection());
   std::auto_ptr<MuonBxCollection> imdMuonsOMTFNeg (new MuonBxCollection());
 
-  Handle<MicroGMTConfiguration::InputCollection> barrelMuons;
-  Handle<MicroGMTConfiguration::InputCollection> forwardMuons;
-  Handle<MicroGMTConfiguration::InputCollection> overlapMuons;
+  Handle<MicroGMTConfiguration::InputCollection> bmtfMuons;
+  Handle<MicroGMTConfiguration::InputCollection> emtfMuons;
+  Handle<MicroGMTConfiguration::InputCollection> omtfMuons;
   Handle<MicroGMTConfiguration::CaloInputCollection> trigTowers;
 
-  // iEvent.getByToken(m_barrelTfInputToken, barrelMuons);
-  iEvent.getByLabel(m_barrelTfInputTag, barrelMuons);
-  iEvent.getByLabel(m_forwardTfInputTag, forwardMuons);
-  iEvent.getByLabel(m_overlapTfInputTag, overlapMuons);
+  // iEvent.getByToken(m_barrelTfInputToken, bmtfMuons);
+  iEvent.getByLabel(m_barrelTfInputTag, bmtfMuons);
+  iEvent.getByLabel(m_forwardTfInputTag, emtfMuons);
+  iEvent.getByLabel(m_overlapTfInputTag, omtfMuons);
   iEvent.getByLabel(m_trigTowerTag, trigTowers);
   
   m_isolationUnit.setTowerSums(*trigTowers);
-  MicroGMTConfiguration::InterMuonList internalMuonsBarrel;
-  MicroGMTConfiguration::InterMuonList internalMuonsEndcapPos;
-  MicroGMTConfiguration::InterMuonList internalMuonsEndcapNeg;
-  MicroGMTConfiguration::InterMuonList internalMuonsOverlapPos;
-  MicroGMTConfiguration::InterMuonList internalMuonsOverlapNeg;
+  MicroGMTConfiguration::InterMuonList internMuonsBmtf;
+  MicroGMTConfiguration::InterMuonList internMuonsEmtfPos;
+  MicroGMTConfiguration::InterMuonList internMuonsEmtfNeg;
+  MicroGMTConfiguration::InterMuonList internMuonsOmtfPos;
+  MicroGMTConfiguration::InterMuonList internMuonsOmtfNeg;
 
   // These wedges contain shared pointers to the ones in the InterMuonList
   L1TGMTInternalWedges omtfNegWedges;
@@ -188,15 +188,15 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
 
   // this converts the InputMuon type to the InternalMuon type and splits them into 
   // positive / negative eta collections necessary as LUTs may differ for pos / neg.
-  convertMuons(*barrelMuons, internalMuonsBarrel, bmtfWedges);
-  splitAndConvertMuons(*forwardMuons, internalMuonsEndcapPos, internalMuonsEndcapNeg, emtfPosWedges, emtfNegWedges);
-  splitAndConvertMuons(*overlapMuons, internalMuonsOverlapPos, internalMuonsOverlapNeg, omtfPosWedges, omtfNegWedges);
+  convertMuons(*bmtfMuons, internMuonsBmtf, bmtfWedges);
+  splitAndConvertMuons(*emtfMuons, internMuonsEmtfPos, internMuonsEmtfNeg, emtfPosWedges, emtfNegWedges);
+  splitAndConvertMuons(*omtfMuons, internMuonsOmtfPos, internMuonsOmtfNeg, omtfPosWedges, omtfNegWedges);
 
   // cancel out within the track finders:
   m_cancelOutUnit.setCancelOutBits(bmtfWedges, tftype::bmtf, cancelmode::coordinate);
   m_cancelOutUnit.setCancelOutBits(omtfPosWedges, tftype::omtf_pos, cancelmode::coordinate);
   m_cancelOutUnit.setCancelOutBits(omtfNegWedges, tftype::omtf_neg, cancelmode::coordinate);
-  // cancel-out for endcap will be done in the sorter:
+  // cancel-out for endcap will be done in the sorter
   // m_cancelOutUnit.setCancelOutBits(emtfPosWedges, tftype::emtf_pos);
   // m_cancelOutUnit.setCancelOutBits(emtfNegWedges, tftype::emtf_neg);
 
@@ -206,34 +206,34 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   m_cancelOutUnit.setCancelOutBitsOverlapEndcap(omtfPosWedges, emtfPosWedges, cancelmode::coordinate);
   m_cancelOutUnit.setCancelOutBitsOverlapEndcap(omtfNegWedges, emtfNegWedges, cancelmode::coordinate);
   
-  m_isolationUnit.extrapolateMuons(internalMuonsBarrel);
-  m_isolationUnit.extrapolateMuons(internalMuonsEndcapNeg);
-  m_isolationUnit.extrapolateMuons(internalMuonsEndcapPos);
-  m_isolationUnit.extrapolateMuons(internalMuonsOverlapNeg);
-  m_isolationUnit.extrapolateMuons(internalMuonsOverlapPos);
+  m_isolationUnit.extrapolateMuons(internMuonsBmtf);
+  m_isolationUnit.extrapolateMuons(internMuonsEmtfNeg);
+  m_isolationUnit.extrapolateMuons(internMuonsEmtfPos);
+  m_isolationUnit.extrapolateMuons(internMuonsOmtfNeg);
+  m_isolationUnit.extrapolateMuons(internMuonsOmtfPos);
 
   // the rank calculated here is used in the sort below
-  calculateRank(internalMuonsBarrel);
-  calculateRank(internalMuonsEndcapNeg);
-  calculateRank(internalMuonsEndcapPos);
-  calculateRank(internalMuonsOverlapNeg);
-  calculateRank(internalMuonsOverlapPos);
+  calculateRank(internMuonsBmtf);
+  calculateRank(internMuonsEmtfNeg);
+  calculateRank(internMuonsEmtfPos);
+  calculateRank(internMuonsOmtfNeg);
+  calculateRank(internMuonsOmtfPos);
   
   // The sort function both sorts and removes all but best "nSurvivors"
-  sortMuons(internalMuonsBarrel, 8);
-  sortMuons(internalMuonsOverlapPos, 4);
-  sortMuons(internalMuonsOverlapNeg, 4);
-  sortMuons(internalMuonsEndcapPos, 4);
-  sortMuons(internalMuonsEndcapNeg, 4);
+  sortMuons(internMuonsBmtf, 8);
+  sortMuons(internMuonsOmtfPos, 4);
+  sortMuons(internMuonsOmtfNeg, 4);
+  sortMuons(internMuonsEmtfPos, 4);
+  sortMuons(internMuonsEmtfNeg, 4);
 
   // This combines the 5 streams into one InternalMuon collection for 
   // the final global sort.
   MicroGMTConfiguration::InterMuonList internalMuons;
-  addMuonsToCollections(internalMuonsEndcapPos, internalMuons, imdMuonsEMTFPos);
-  addMuonsToCollections(internalMuonsOverlapPos, internalMuons, imdMuonsOMTFPos);
-  addMuonsToCollections(internalMuonsBarrel, internalMuons, imdMuonsBMTF);
-  addMuonsToCollections(internalMuonsOverlapNeg, internalMuons, imdMuonsOMTFNeg);
-  addMuonsToCollections(internalMuonsEndcapNeg, internalMuons, imdMuonsEMTFNeg);
+  addMuonsToCollections(internMuonsEmtfPos, internalMuons, imdMuonsEMTFPos);
+  addMuonsToCollections(internMuonsOmtfPos, internalMuons, imdMuonsOMTFPos);
+  addMuonsToCollections(internMuonsBmtf, internalMuons, imdMuonsBMTF);
+  addMuonsToCollections(internMuonsOmtfNeg, internalMuons, imdMuonsOMTFNeg);
+  addMuonsToCollections(internMuonsEmtfNeg, internalMuons, imdMuonsEMTFNeg);
   
   // sort internal muons and delete all but best 8
   sortMuons(internalMuons, 8);
