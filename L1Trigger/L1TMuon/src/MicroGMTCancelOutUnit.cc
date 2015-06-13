@@ -3,15 +3,15 @@
 
 namespace l1t {
 MicroGMTCancelOutUnit::MicroGMTCancelOutUnit (const edm::ParameterSet& iConfig) : 
-    m_boPosMatchQualLUT(iConfig, "BOPos"),
-    m_boNegMatchQualLUT(iConfig, "BONeg"),
-    m_foPosMatchQualLUT(iConfig, "FOPos"),
-    m_foNegMatchQualLUT(iConfig, "FONeg"),
-    m_brlSingleMatchQualLUT(iConfig, "BrlSingle"),
-    m_ovlPosSingleMatchQualLUT(iConfig, "OvlPosSingle"),
-    m_ovlNegSingleMatchQualLUT(iConfig, "OvlNegSingle"),
-    m_fwdPosSingleMatchQualLUT(iConfig, "FwdPosSingle"),
-    m_fwdNegSingleMatchQualLUT(iConfig, "FwdNegSingle")
+    m_boPosMatchQualLUT(iConfig, "BOPos", cancel_t::omtf_bmtf_pos),
+    m_boNegMatchQualLUT(iConfig, "BONeg", cancel_t::omtf_bmtf_neg),
+    m_foPosMatchQualLUT(iConfig, "FOPos", cancel_t::omtf_emtf_pos),
+    m_foNegMatchQualLUT(iConfig, "FONeg", cancel_t::omtf_emtf_neg),
+    m_brlSingleMatchQualLUT(iConfig, "BrlSingle", cancel_t::bmtf_bmtf),
+    m_ovlPosSingleMatchQualLUT(iConfig, "OvlPosSingle", cancel_t::omtf_omtf_pos),
+    m_ovlNegSingleMatchQualLUT(iConfig, "OvlNegSingle", cancel_t::omtf_omtf_neg),
+    m_fwdPosSingleMatchQualLUT(iConfig, "FwdPosSingle", cancel_t::emtf_emtf_pos),
+    m_fwdNegSingleMatchQualLUT(iConfig, "FwdNegSingle", cancel_t::emtf_emtf_neg)
   {
     m_lutDict[tftype::bmtf+tftype::bmtf*5] = &m_brlSingleMatchQualLUT;
     m_lutDict[tftype::omtf_neg+tftype::bmtf*5] = &m_boNegMatchQualLUT;
@@ -139,7 +139,7 @@ MicroGMTCancelOutUnit::getCoordinateCancelBits(std::vector<std::shared_ptr<L1TGM
   if (coll1.size() == 0 || coll2.size() == 0) {
     return;
   }
-  MicroGMTMatchQualLUT* matchLUT = m_lutDict[(*coll1.begin())->trackFinderType()+(*coll2.begin())->trackFinderType()*5];
+  MicroGMTMatchQualLUT* matchLUT = m_lutDict.at((*coll1.begin())->trackFinderType()+(*coll2.begin())->trackFinderType()*5);
   for (auto mu_w1 = coll1.begin(); mu_w1 != coll1.end(); ++mu_w1) {
     for (auto mu_w2 = coll2.begin(); mu_w2 != coll2.end(); ++mu_w2) {
       // phi coordinates shall be relative, do not have to worry about wrap around...

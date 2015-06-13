@@ -1,6 +1,9 @@
 #include "../interface/MicroGMTMatchQualLUT.h"
+#include "TMath.h"
 
-l1t::MicroGMTMatchQualLUT::MicroGMTMatchQualLUT (const edm::ParameterSet& iConfig, std::string prefix) {
+l1t::MicroGMTMatchQualLUT::MicroGMTMatchQualLUT (const edm::ParameterSet& iConfig, std::string prefix, cancel_t cancelType) : 
+  m_dEtaRedMask(0), m_dPhiRedMask(0), m_dEtaRedInWidth(0), m_dPhiRedInWidth(0), m_etaScale(0), m_phiScale(0), m_cancelType(cancelType)
+{
   edm::ParameterSet config = iConfig.getParameter<edm::ParameterSet>(prefix+"MatchQualLUTSettings");
   m_dPhiRedInWidth = config.getParameter<int>("deltaPhiRed_in_width");
   m_dEtaRedInWidth = config.getParameter<int>("deltaEtaRed_in_width");
@@ -15,7 +18,10 @@ l1t::MicroGMTMatchQualLUT::MicroGMTMatchQualLUT (const edm::ParameterSet& iConfi
   std::string m_fname = config.getParameter<std::string>("filename");
   if (m_fname != std::string("")) {
     load(m_fname);
-  } 
+  }
+
+  m_phiScale = 2*TMath::Pi()/576.0;
+  m_etaScale = 0.010875;
 }
 
 l1t::MicroGMTMatchQualLUT::~MicroGMTMatchQualLUT ()
@@ -31,8 +37,21 @@ l1t::MicroGMTMatchQualLUT::lookup(int dEtaRed, int dPhiRed) const
   if (m_initialized) {
     return lookupPacked(hashInput(checkedInput(dEtaRed, m_dEtaRedInWidth), checkedInput(dPhiRed, m_dPhiRedInWidth)));
   }
+  double dEta = dEtaRed*m_etaScale;
+  double dPhi = dPhiRed*m_phiScale;
 
-  return -1; 
+  double dR = std::sqrt(dEta*dEta + dPhi*dPhi);
+
+  int retVal = dR < 0.1 ? 1 : 0;
+  // should we need customisation for the different track finder cancellations:
+  // switch (m_cancelType) {
+  //   case bmtf_bmtf:
+  //     retVal = dR < 0.1 ? 1 : 0;
+  //   case default:
+  //     retVal = dR < 0.1 ? 1 : 0
+  // }
+
+  return retVal;
 }
 
 int 
