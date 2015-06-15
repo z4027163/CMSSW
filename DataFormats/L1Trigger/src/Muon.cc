@@ -28,6 +28,33 @@ l1t::Muon::Muon( const LorentzVector& p4,
   
 }
 
+l1t::Muon::Muon( const PolarLorentzVector& p4,
+    int pt,
+    int eta,
+    int phi,
+    int qual,
+    int charge,
+    int chargeValid,
+    int iso,
+    int tag,
+    bool debug,
+    int isoSum,
+    int dPhi,
+    int dEta,
+    int rank )
+  : L1Candidate(p4, pt, eta, phi, qual, iso),
+    hwCharge_(charge),
+    hwChargeValid_(chargeValid),
+    hwTag_(tag),
+    debug_(debug),
+    hwIsoSum_(isoSum),
+    hwDPhiExtra_(dPhi),
+    hwDEtaExtra_(dEta),
+    hwRank_(rank)
+{
+  
+}
+
 l1t::Muon::~Muon() 
 {
 
