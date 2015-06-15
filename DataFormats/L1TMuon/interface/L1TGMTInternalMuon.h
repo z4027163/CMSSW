@@ -6,7 +6,7 @@
 #include <utility>
 
 namespace l1t {
-class L1TGMTInternalMuon : public L1TRegionalMuonCandidate {
+class L1TGMTInternalMuon {
   public:
     explicit L1TGMTInternalMuon(const L1TRegionalMuonCandidate&);
     L1TGMTInternalMuon(const L1TGMTInternalMuon&);
