@@ -242,7 +242,7 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   // copy muons to output collection...
   for (const auto& mu : internalMuons) {
     if (mu->hwPt() > 0) {
-      ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > vec{};
+      math::PtEtaPhiMLorentzVector vec{mu->hwPt()*0.5, mu->hwEta()*0.10875, mu->hwGlobalPhi()*0.10875, 0.0};
       int iso = mu->hwAbsIso() + (mu->hwRelIso() << 1);
       // FIXME: once we debugged the change global -> local: Change hwLocalPhi -> hwGlobalPhi to test offsets
       Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwLocalPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), iso, 0, true, mu->hwIsoSum(), mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
