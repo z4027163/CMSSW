@@ -1,55 +1,96 @@
 import FWCore.ParameterSet.Config as cms
+process = cms.Process("L1TMuonEmulation")
 
-process = cms.Process("L1MicroGMTEmulator")
+process.load("FWCore.MessageLogger.MessageLogger_cfi")
 
-process.load("FWCore.MessageService.MessageLogger_cfi")
+verbose = False
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+if verbose:
+    process.MessageLogger = cms.Service("MessageLogger",
+       suppressInfo       = cms.untracked.vstring('AfterSource', 'PostModule'),
+       destinations   = cms.untracked.vstring(
+                                             'detailedInfo'
+                                             ,'critical'
+                                             ,'cout'
+                    ),
+       categories = cms.untracked.vstring(
+                                        'CondDBESSource'
+                                        ,'EventSetupDependency'
+                                        ,'Geometry'
+                                        ,'MuonGeom'
+                                        ,'GetManyWithoutRegistration'
+                                        ,'GetByLabelWithoutRegistration'
+                                        ,'Alignment'
+                                        ,'SiStripBackPlaneCorrectionDepESProducer'
+                                        ,'SiStripLorentzAngleDepESProducer'
+                                        ,'SiStripQualityESProducer'
+                                        ,'TRACKER'
+                                        ,'HCAL'
+        ),
+       critical       = cms.untracked.PSet(
+                        threshold = cms.untracked.string('ERROR') 
+        ),
+       detailedInfo   = cms.untracked.PSet(
+                      threshold  = cms.untracked.string('INFO'), 
+                      CondDBESSource  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                      EventSetupDependency  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                      Geometry  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                      MuonGeom  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                      Alignment  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                      GetManyWithoutRegistration  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                      GetByLabelWithoutRegistration  = cms.untracked.PSet (limit = cms.untracked.int32(0) ) 
 
-process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
+       ),
+       cout   = cms.untracked.PSet(
+                threshold  = cms.untracked.string('INFO'), 
+                CondDBESSource  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                EventSetupDependency  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                Geometry  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                MuonGeom  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                Alignment  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                GetManyWithoutRegistration  = cms.untracked.PSet (limit = cms.untracked.int32(0) ), 
+                GetByLabelWithoutRegistration  = cms.untracked.PSet (limit = cms.untracked.int32(0) ) 
+                ),
+                                        )
 
+if not verbose:
+    process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(5000)
 
-process.source = cms.Source("PoolSource",
-    # ttbar:
-     fileNames = cms.untracked.vstring(
-        "/store/relval/CMSSW_7_2_2_patch1/RelValTTbarLepton_13/GEN-SIM-RECO/MCRUN2_72_V3_71XGENSIM-v2/00000/18295FD0-1B74-E411-893D-0025905A6094.root",
-        "/store/relval/CMSSW_7_2_2_patch1/RelValTTbarLepton_13/GEN-SIM-RECO/MCRUN2_72_V3_71XGENSIM-v2/00000/92B21B80-1074-E411-8367-0025905B85A2.root",
-        "/store/relval/CMSSW_7_2_2_patch1/RelValTTbarLepton_13/GEN-SIM-RECO/MCRUN2_72_V3_71XGENSIM-v2/00000/D25833CC-1B74-E411-AC75-0025905B8592.root",
-     ),
-    #fileNames = cms.untracked.vstring (
-    #    "file:/afs/cern.ch/work/j/jlingema/private/scratch0/L1TDev/CMSSW_7_3_0_pre1/src/L1Trigger/J_psi_to_mumu_high_boost.root"
-    #),
-)
+process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
-# Other statements
-from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:upgradePLS1', '')
+process.source = cms.Source(
+    'PoolSource',
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/j/jlingema/public/omtf_input_test.root')
+    )
 
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(500))
+
+###PostLS1 geometry used
+process.load('Configuration.Geometry.GeometryExtendedPostLS1Reco_cff')
+process.load('Configuration.Geometry.GeometryExtendedPostLS1_cff')
+############################
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+
+# generate inputs that are not provided by emulators
 process.uGMTInputProducer = cms.EDProducer("l1t::uGMTInputProducerFromGen",
 )
 
+process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
 
 
-# process.load("L1Trigger.L1TGlobalMuon.microgmtemulator_cfi")
+process.L1TMuonSeq = cms.Sequence( process.uGMTInputProducer +
+                                   process.microGMTEmulator)
+
+process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
 
 
-# process.microGMTEmulator.barrelTFInput = cms.InputTag("uGMTInputProducer", "BarrelTFMuons")
-# process.microGMTEmulator.overlapTFInput = cms.InputTag("uGMTInputProducer", "OverlapTFMuons")
-# process.microGMTEmulator.forwardTFInput = cms.InputTag("uGMTInputProducer", "ForwardTFMuons")
-# process.microGMTEmulator.triggerTowerInput = cms.InputTag("uGMTInputProducer", "TriggerTowerSums")
-
-process.out = cms.OutputModule("PoolOutputModule",
-    outputCommands = cms.untracked.vstring(
-        'keep *_*_*_L1MicroGMTEmulator',
-    ),
-    fileName = cms.untracked.string('ttbar_large_sample.root')
+process.out = cms.OutputModule("PoolOutputModule", 
+   fileName = cms.untracked.string("ugmt_from_mc_test.root"),
 )
 
+process.output_step = cms.EndPath(process.out)
 
-#process.content = cms.EDAnalyzer("EventContentAnalyzer")
-process.p = cms.Path(
-    process.uGMTInputProducer
-    #*process.microGMTEmulator
-    )
-
-process.e = cms.EndPath(process.out)
+process.schedule = cms.Schedule(process.L1TMuonPath)
+process.schedule.extend([process.output_step])
