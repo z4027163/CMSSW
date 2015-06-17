@@ -20,10 +20,6 @@ namespace l1t {
         PT, PT_COARSE, PHI, ETA, ETA_COARSE, QUALITY, DELTA_ETA_RED, DELTA_PHI_RED
       };
 
-      // All possible input muon types
-      enum muon_t {
-        BARRELTF = 0, OVERLAPTF_NEG = 1, OVERLAPTF_POS = 2, FORWARDTF_NEG = 3, FORWARDTF_POS = 4, UNSET
-      };
       typedef std::pair<input_t, int> PortType; 
       typedef L1TRegionalMuonCandidateCollection InputCollection;
       typedef MuonBxCollection OutputCollection;
@@ -34,9 +30,7 @@ namespace l1t {
       typedef L1TGMTInputCaloSum CaloInput;
       typedef L1TGMTInputCaloSumCollection CaloInputCollection;
       // Two's complement for a given bit-length
-      static unsigned getTwosComp(const int signed_int, const int width);
-
-      
+      static unsigned getTwosComp(const int signedInt, const int width);
   };
 }
 #endif /* defined (__l1microgmtconfiguration_h) */ 

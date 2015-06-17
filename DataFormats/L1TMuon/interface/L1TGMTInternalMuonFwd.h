@@ -4,7 +4,8 @@
 namespace l1t {
   class L1TGMTInternalMuon;
   typedef std::vector<L1TGMTInternalMuon> L1TGMTInternalMuonCollection;
-  typedef std::list<L1TGMTInternalMuon> L1TGMTInternalMuonList;
+  typedef std::map<int, std::vector<std::shared_ptr<L1TGMTInternalMuon>>> L1TGMTInternalWedges;
+  typedef std::list<std::shared_ptr<L1TGMTInternalMuon>> L1TGMTInternalMuonList;
 
 }
 

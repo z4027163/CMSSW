@@ -28,6 +28,21 @@ namespace l1t {
       int dEta = 0,
       int rank = 0);
     
+    Muon( const PolarLorentzVector& p4,
+      int pt=0,
+      int eta=0,
+      int phi=0,
+      int qual=0,
+      int charge=0,
+      int chargeValid=0,
+      int iso=0,
+      int tag=0, 
+      bool debug = false,
+      int isoSum = 0,
+      int dPhi = 0,
+      int dEta = 0,
+      int rank = 0);
+
     ~Muon();    
 
     // set integer values
@@ -56,7 +71,6 @@ namespace l1t {
     // additional hardware quantities common to L1 global jet
     int hwCharge_;
     int hwChargeValid_;
-    int hwMip_;
     int hwTag_;
 
     // additional hardware quantities only available if debug flag is set

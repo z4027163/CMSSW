@@ -65,13 +65,10 @@ class uGMTInputProducerFromGen : public edm::EDProducer {
       virtual void endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
 
       static bool compareMuons(const L1TRegionalMuonCandidate&, const L1TRegionalMuonCandidate&);
-
-      int linkNo(const float phi, const int type, const int offset) const;
-      
+     
       // ----------member data ---------------------------
       edm::EDGetTokenT <reco::GenParticleCollection> genParticlesToken;
       int m_currEvt;
-      const float m_phiToLink = 1.90985931710274404f;
       const static int m_maxMuons = 108;
       TRandom3 m_rnd;
 };
@@ -112,12 +109,10 @@ uGMTInputProducerFromGen::~uGMTInputProducerFromGen()
 // member functions
 //
 
-
-
 bool 
 uGMTInputProducerFromGen::compareMuons(const L1TRegionalMuonCandidate& mu1, const L1TRegionalMuonCandidate& mu2) 
 {
-  return mu1.link() < mu2.link();
+  return mu1.processor() < mu2.processor();
 }
 
 // ------------ method called to produce the data  ------------
@@ -171,26 +166,38 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     int hwEta = int(eta * etaToInt);
     double phi = mcMuon.phi();
     if (phi < 0) phi += twoPi; // add 2*pi
-    int hwPhi = int(phi * phiToInt);
+    int hwPhi = (int(phi * phiToInt))%576;
     int hwQual = 8;
     int hwCharge = (mcMuon.charge() > 0) ? 0 : 1;
     int hwChargeValid = 1;
     
     mu.setHwPt(hwPt);
-    mu.setHwPhi(hwPhi);
 
-    int type = 0;
-    int offset = 12;
+
+
+    tftype tf(tftype::bmtf);
+    int globalWedgePhi = (hwPhi+24)%576; // this sets CMS phi = 0 to -15 deg
+    int localPhi = globalWedgePhi%48;
+    int processor = globalWedgePhi / 48 + 1;
+    int globalSectorPhi = (hwPhi-24); // this sets CMS phi = 0 to +15 deg
+    if (globalSectorPhi < 0) {
+      globalSectorPhi += 576; 
+    }
+
+
     if (fabs(eta) > 0.8) {
-      type = 1;
       if (fabs(eta) < 1.2) {
-        offset = (eta > 0 ? 6 : 24);
+        tf = (eta > 0 ? tftype::omtf_neg : tftype::omtf_pos);
+        processor = globalSectorPhi / 96 + 1;
+        localPhi = globalSectorPhi%96; 
       } else {
-        offset = (eta > 0 ? 0 : 30);
+        tf = (eta > 0 ? tftype::emtf_neg : tftype::emtf_pos);
+        processor = globalSectorPhi / 96 + 1;
+        localPhi = globalSectorPhi%96;
       }
-    } 
-    int link = linkNo(phi, type, offset);
-    mu.setLink(link);
+    }
+    mu.setHwPhi(localPhi);
+    mu.setTFIdentifiers(processor, tf);
 
     mu.setHwEta(hwEta);
     mu.setHwSign(hwCharge);
@@ -219,7 +226,6 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     if (energy < 0) energy = 0; 
     if (energy > 31) energy = 31;
     towerSums->emplace_back(energy, i/28, i%28, i);
-    std::cout << "; phi: " << i/28 << " eta: " << i%28 ;
   }
   // std::cout << std::endl;
   // std::cout << towerSums->size() << std::endl;
@@ -229,15 +235,6 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
   iEvent.put(towerSums, "TriggerTowerSums");
   m_currEvt++;
  
-}
-
-
-
-int uGMTInputProducerFromGen::linkNo(const float phi, const int type, const int offset) const {
-  if (type == 0) {
-    return int(phi*m_phiToLink)+offset;
-  }
-  return int(phi*m_phiToLink/2.)+offset;
 }
 
 // ------------ method called once each job just before starting event loop  ------------

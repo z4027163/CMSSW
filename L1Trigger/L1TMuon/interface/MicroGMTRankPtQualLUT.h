@@ -16,6 +16,7 @@ namespace l1t {
       virtual ~MicroGMTRankPtQualLUT ();
 
       int lookup(int pt, int qual) const;
+      virtual int lookupPacked(int in) const;
 
       int hashInput(int pt, int qual) const;
       void unHashInput(int input, int& pt, int& qual) const;
