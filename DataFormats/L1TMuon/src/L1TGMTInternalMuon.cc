@@ -16,10 +16,9 @@ L1TGMTInternalMuon::L1TGMTInternalMuon(const L1TRegionalMuonCandidate& regional)
       // each BMTF processor corresponds to a 30 degree wedge = 48 in int-scale
       m_hwGlobalPhi = (m_regional->processor() - 1) * 48 + m_regional->hwPhi();
       // first processor starts at CMS phi = -15 degrees...
-      m_hwGlobalPhi -= 24;
-      // handle wrap-around (x%y is negative for negativ x in C++)
-      m_hwGlobalPhi = m_hwGlobalPhi < 0 ? (m_hwGlobalPhi + 576) : m_hwGlobalPhi;
-
+      m_hwGlobalPhi += 576-24;
+      // handle wrap-around (since we add the 576-24, the value will never be negative!)
+      m_hwGlobalPhi = m_hwGlobalPhi%576;
   } else {
       // all others correspond to 60 degree sectors = 96 in int-scale
       m_hwGlobalPhi = (m_regional->processor() - 1) * 96 + m_regional->hwPhi();
