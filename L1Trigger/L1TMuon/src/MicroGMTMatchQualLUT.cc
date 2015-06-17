@@ -38,7 +38,7 @@ l1t::MicroGMTMatchQualLUT::lookup(int dEtaRed, int dPhiRed) const
 {
   // normalize these two to the same scale and then calculate?
   if (m_initialized) {
-    return lookupPacked(hashInput(checkedInput(dEtaRed, m_dEtaRedInWidth), checkedInput(dPhiRed, m_dPhiRedInWidth)));
+    return m_contents.at(hashInput(checkedInput(dEtaRed, m_dEtaRedInWidth), checkedInput(dPhiRed, m_dPhiRedInWidth)));
   }
   double dEta = dEtaRed*m_etaScale;
   double dPhi = dPhiRed*m_phiScale;

@@ -142,14 +142,21 @@ MicroGMTCancelOutUnit::getCoordinateCancelBits(std::vector<std::shared_ptr<L1TGM
   MicroGMTMatchQualLUT* matchLUT = m_lutDict.at((*coll1.begin())->trackFinderType()+(*coll2.begin())->trackFinderType()*5);
   for (auto mu_w1 = coll1.begin(); mu_w1 != coll1.end(); ++mu_w1) {
     for (auto mu_w2 = coll2.begin(); mu_w2 != coll2.end(); ++mu_w2) {
-      // phi coordinates shall be relative, do not have to worry about wrap around...
-      int deltaPhi = std::abs((*mu_w1)->hwLocalPhi() - (*mu_w2)->hwLocalPhi()) >> (8 - matchLUT->getDeltaPhiWidth()); //diffbits = origwidth - widthweneed
-      int deltaEta = std::abs((*mu_w1)->hwEta() - (*mu_w2)->hwEta()) >> (9 - matchLUT->getDeltaEtaWidth()); //diffbits = origwidth - widthweneed
-      bool match = matchLUT->lookup(deltaEta, deltaPhi);
-      if((*mu_w1)->hwQual() > (*mu_w2)->hwQual() && match) {
-        (*mu_w2)->setHwCancelBit(1);
-      } else {
-        (*mu_w1)->setHwCancelBit(1);
+      // The LUT for cancellation takes reduced width phi and eta, we need the LSBs 
+      int dPhiMask = (1 << matchLUT->getDeltaPhiWidth()) - 1;
+      int dEtaMask = (1 << matchLUT->getDeltaEtaWidth()) - 1;
+
+      int dPhi = std::abs((*mu_w1)->hwLocalPhi() - (*mu_w2)->hwLocalPhi());
+      int dEta = std::abs((*mu_w1)->hwEta() - (*mu_w2)->hwEta()); 
+      // check first if the delta is within the LSBs that the LUT takes, otherwise the distance 
+      // is greater than what we want to cancel -> 15(int) is max => 15*0.01 = 0.15 (rad)
+      if (dEta < dEtaMask && dPhi < dPhiMask) {
+        bool match = matchLUT->lookup(dEta & dEtaMask, dPhi & dPhiMask);
+        if((*mu_w1)->hwQual() > (*mu_w2)->hwQual() && match) {
+          (*mu_w2)->setHwCancelBit(1);
+        } else if (match) {
+          (*mu_w1)->setHwCancelBit(1);
+        }
       }
     }
   }

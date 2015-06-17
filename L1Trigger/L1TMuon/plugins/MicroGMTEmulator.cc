@@ -179,6 +179,7 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   MicroGMTConfiguration::InterMuonList internMuonsOmtfPos;
   MicroGMTConfiguration::InterMuonList internMuonsOmtfNeg;
 
+
   // These wedges contain shared pointers to the ones in the InterMuonList
   L1TGMTInternalWedges omtfNegWedges;
   L1TGMTInternalWedges bmtfWedges;
@@ -242,10 +243,10 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   // copy muons to output collection...
   for (const auto& mu : internalMuons) {
     if (mu->hwPt() > 0) {
-      math::PtEtaPhiMLorentzVector vec{mu->hwPt()*0.5, mu->hwEta()*0.10875, mu->hwGlobalPhi()*0.10875, 0.0};
+      math::PtEtaPhiMLorentzVector vec{mu->hwPt()*0.5, mu->hwEta()*0.010875, mu->hwGlobalPhi()*0.010908, 0.0};
       int iso = mu->hwAbsIso() + (mu->hwRelIso() << 1);
       // FIXME: once we debugged the change global -> local: Change hwLocalPhi -> hwGlobalPhi to test offsets
-      Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwLocalPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), iso, 0, true, mu->hwIsoSum(), mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
+      Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwGlobalPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), iso, 0, true, mu->hwIsoSum(), mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
       m_debugOut << mu->hwCaloPhi() << " " << mu->hwCaloEta() << std::endl;
       outMuons->push_back(0, outMu);
     }
@@ -280,7 +281,7 @@ l1t::MicroGMTEmulator::sortMuons(MicroGMTConfiguration::InterMuonList& muons, un
     for ( ; mu2 != muons.end(); ++mu2) {
       if ((*mu1)->hwRank() >= (*mu2)->hwRank() && (*mu1)->hwCancelBit() != 1) {
         (*mu1)->increaseWins();
-      } else {
+      } else if ((*mu2)->hwCancelBit() != 1) {
         (*mu2)->increaseWins();
       }
     }
@@ -288,15 +289,16 @@ l1t::MicroGMTEmulator::sortMuons(MicroGMTConfiguration::InterMuonList& muons, un
 
   size_t nMuonsBefore = muons.size();
   mu1 = muons.begin();
-  if (nMuonsBefore > nSurvivors) {
-    while (mu1 != muons.end()) {
-      if ((*mu1)->hwWins() < (int)(nMuonsBefore-nSurvivors)) {
-        muons.erase(mu1);
-      }
-      ++mu1;
+  int minWins = nMuonsBefore-nSurvivors;
+  
+  // remove all muons that were cancelled or that do not have sufficient rank
+  // (reduces the container size to nSurvivors)
+  while (mu1 != muons.end()) {
+    if ((*mu1)->hwWins() < minWins || (*mu1)->hwCancelBit() == 1) {
+      muons.erase(mu1);
     }
+    ++mu1;
   }
-
   muons.sort(l1t::MicroGMTEmulator::compareMuons);
 }
 
@@ -321,7 +323,7 @@ l1t::MicroGMTEmulator::addMuonsToCollections(MicroGMTConfiguration::InterMuonLis
     interout.push_back(mu);
     ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > vec{};
     // FIXME: once we debugged the change global -> local: Change hwLocalPhi -> hwGlobalPhi to test offsets
-    Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwLocalPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), -1, 0, true, -1, mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
+    Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwGlobalPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), -1, 0, true, -1, mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
     out->push_back(0, outMu);
   }
 }
