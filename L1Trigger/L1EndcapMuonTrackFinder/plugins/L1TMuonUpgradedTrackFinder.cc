@@ -27,6 +27,7 @@
 #include "Deltas.h"
 #include "BestTracks.h"
 #include "PtAssignment.h"
+#include "MakeRegionalCand.h"
 
 
 using namespace L1TMuon;
@@ -42,7 +43,8 @@ L1TMuonUpgradedTrackFinder::L1TMuonUpgradedTrackFinder(const PSet& p) {
     
     LUTparam = p.getParameter<edm::ParameterSet>("lutParam");
     
-    produces<L1TMuon::InternalTrackCollection> ("DataITC").setBranchAlias("DataITC");
+   // produces<L1TMuon::InternalTrackCollection> ("DataITC").setBranchAlias("DataITC");
+	produces<l1t::L1TRegionalMuonCandidateCollection >("EMUTF");
 }
 
 
@@ -58,6 +60,7 @@ void L1TMuonUpgradedTrackFinder::produce(edm::Event& ev,
   
   
   std::auto_ptr<L1TMuon::InternalTrackCollection> FoundTracks (new L1TMuon::InternalTrackCollection);
+  std::auto_ptr<l1t::L1TRegionalMuonCandidateCollection > OutputCands (new l1t::L1TRegionalMuonCandidateCollection);
   
   std::vector<BTrack> PTracks[12];
  
@@ -332,17 +335,24 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 		tempTrack.thetas = ts;
 		
 		std::cout<<"\n\nTrack "<<fbest<<": ";
-		//CalculatePt(tempTrack);
-		tempTrack.pt = CalculatePt(tempTrack);
+		float xmlpt = CalculatePt(tempTrack);
+		tempTrack.pt = xmlpt;
 		std::cout<<"XML pT = "<<tempTrack.pt<<"\n";
 		FoundTracks->push_back(tempTrack);
 		std::cout<<"\n\n";
+		
+		
+		l1t::L1TRegionalMuonCandidate outCand = MakeRegionalCand(xmlpt,FourBest[fbest].phi,FourBest[fbest].theta,
+														         1,FourBest[fbest].winner.Rank(),1,1);
+																 
+		OutputCands->push_back(outCand);
 	}
   }
   
  
  //  std::cout<<"Begin Put function\n\n";
-ev.put( FoundTracks, "DataITC");
+//ev.put( FoundTracks, "DataITC");
+ev.put( OutputCands, "EMUTF");
   std::cout<<"End Upgraded Track Finder Prducer:::::::::::::::::::::::::::\n:::::::::::::::::::::::::::::::::::::::::::::::::\n\n";
 
 }//analyzer
