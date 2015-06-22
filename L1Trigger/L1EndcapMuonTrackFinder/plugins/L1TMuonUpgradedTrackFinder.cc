@@ -319,6 +319,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 		tempTrack.rank = FourBest[fbest].winner.Rank();
 		tempTrack.deltas = FourBest[fbest].deltas;
 		std::vector<int> ps, ts;
+		int sector = -1;
 		
 		for(std::vector<ConvertedHit>::iterator A = FourBest[fbest].AHits.begin();A != FourBest[fbest].AHits.end();A++){
 		
@@ -327,6 +328,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 				tempTrack.addStub(A->TP());
 				ps.push_back(A->Phi());
 				ts.push_back(A->Theta());
+				sector = (A->TP()->detId<CSCDetId>().endcap() -1)*6 + A->TP()->detId<CSCDetId>().triggerSector() - 1;
 				//std::cout<<"Q: "<<A->Quality()<<", keywire: "<<A->Wire()<<", strip: "<<A->Strip()<<std::endl;
 			}
 			
@@ -343,7 +345,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 		
 		
 		l1t::L1TRegionalMuonCandidate outCand = MakeRegionalCand(xmlpt,FourBest[fbest].phi,FourBest[fbest].theta,
-														         1,FourBest[fbest].winner.Rank(),1,1);
+														         1,FourBest[fbest].winner.Rank(),1,sector);
 																 
 		OutputCands->push_back(outCand);
 	}
