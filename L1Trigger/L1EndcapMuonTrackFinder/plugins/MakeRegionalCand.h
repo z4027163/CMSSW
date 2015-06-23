@@ -57,12 +57,14 @@ l1t::L1TRegionalMuonCandidate MakeRegionalCand(float pt, int phi, int theta,
 	if(iPt < 0)
 		iPt = 0;
 		
+	int iQual = quality/8;
+		
 	Cand.setHwPt(iPt);
 	Cand.setHwEta(iEta);
   	Cand.setHwPhi(phi/4);//this is relative phi not global. Needs to be decided on still
   	Cand.setHwSign(1);
 	Cand.setHwSignValid(0);
-  	Cand.setHwQual(quality);
+  	Cand.setHwQual(iQual);
   	Cand.setHwTrackAddress(1);
 	Cand.setTFIdentifiers(sector,TFtype);
   	
