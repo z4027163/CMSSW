@@ -30,8 +30,25 @@ int GetPackedEta(float theta, int sector){
 	if(PackedEta < -240)
 		PackedEta = -240;
 
+	if(PackedEta < 0)
+		PackedEta = 512 + PackedEta;
 
 	return PackedEta;
+
+}
+
+int GetPackedPhi(int phi){
+
+	float phiDeg = (phi*0.0166666);
+	phiDeg -= 2.0;
+	
+	
+	int PackedPhi = phiDeg/0.625;
+	
+	if(PackedPhi < 0)
+		PackedPhi = 256 + PackedPhi;
+	
+	return PackedPhi;
 
 }
 
@@ -43,6 +60,7 @@ l1t::L1TRegionalMuonCandidate MakeRegionalCand(float pt, int phi, int theta,
 	l1t::L1TRegionalMuonCandidate Cand;									   
 
 	int iEta = GetPackedEta(theta,sector);
+	int iPhi = GetPackedPhi(phi);
 	
 	l1t::tftype TFtype = l1t::tftype::emtf_neg;
 	if(sector > 5){
@@ -61,7 +79,7 @@ l1t::L1TRegionalMuonCandidate MakeRegionalCand(float pt, int phi, int theta,
 		
 	Cand.setHwPt(iPt);
 	Cand.setHwEta(iEta);
-  	Cand.setHwPhi(phi/4);//this is relative phi not global. Needs to be decided on still
+  	Cand.setHwPhi(iPhi);
   	Cand.setHwSign(1);
 	Cand.setHwSignValid(0);
   	Cand.setHwQual(iQual);
