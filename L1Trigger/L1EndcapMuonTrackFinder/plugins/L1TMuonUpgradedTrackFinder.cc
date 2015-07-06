@@ -54,7 +54,7 @@ void L1TMuonUpgradedTrackFinder::produce(edm::Event& ev,
   bool verbose = false;
 			       
  		
-  std::cout<<"Start Upgraded Track Finder Producer::::: event = "<<ev.id().event()<<"\n\n";
+  //std::cout<<"Start Upgraded Track Finder Producer::::: event = "<<ev.id().event()<<"\n\n";
   
   //fprintf (write,"12345\n"); //<-- part of printing text file to send verilog code, not needed if George's package is included
   
@@ -82,7 +82,7 @@ void L1TMuonUpgradedTrackFinder::produce(edm::Event& ev,
 	double pt = GenMuon.pt(), eta = GenMuon.eta(), phi = GenMuon.phi(), mass = GenMuon.mass();
 	int charge = GenMuon.charge();
 	
-	std::cout<<"Gen Particle Info::::\nPt = "<<pt<<", phi = "<<phi<<", eta = "<<eta<<", mass = "<<mass<<" and charge = "<<charge<<"\n\n";
+	if(verbose) std::cout<<"Gen Particle Info::::\nPt = "<<pt<<", phi = "<<phi<<", eta = "<<eta<<", mass = "<<mass<<" and charge = "<<charge<<"\n\n";
 		
   }
   
@@ -106,7 +106,7 @@ void L1TMuonUpgradedTrackFinder::produce(edm::Event& ev,
 		
 		tester.push_back(tpref);
 		
-		std::cout<<"\ntrigger prim found station:"<<tp->detId<CSCDetId>().station()<<std::endl;
+		if(verbose) std::cout<<"\ntrigger prim found station:"<<tp->detId<CSCDetId>().station()<<std::endl;
       }
  
      }    
@@ -168,7 +168,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
   
   PatternOutput Test = DeleteDuplicatePatterns(Pout);
  
-  PrintQuality(Test.detected);
+  //PrintQuality(Test.detected);
  
 
   ///////////////////////////////
@@ -194,7 +194,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
   ////////    ph and th    //////// stations present. 
   /////////////////////////////////
   
-  
+
  std::vector<std::vector<DeltaOutput>> Dout = CalcDeltas(Mout);////
  
 
@@ -202,7 +202,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
   /////// Sorts and gives /////////  Loops over all of the found tracks(looking across zones) and selects the best three per sector. 
   ////// Best 3 tracks/sector /////  Here ghost busting is done to delete tracks which are comprised of the same associated stubs. 
   /////////////////////////////////  
-  
+
   
   std::vector<BTrack> Bout = BestTracks(Dout);
    PTracks[SectIndex] = Bout;
@@ -210,6 +210,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
   
   	
   }
+ 	
  
  ////////////////////////////////////
  //// Ghost Cancellation between ////not done correctly
@@ -265,7 +266,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
  	}
  }
  
- 
+
  ////////////////////////////////////
  /// Sorting through all sectors ////
  ///   to find 4 best muons      ////
@@ -298,6 +299,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 
  	}
 }
+
   ///////////////////////////////////
   /// Make Internal track if ////////
   /////// tracks are found //////////
@@ -336,12 +338,12 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 		tempTrack.phis = ps;
 		tempTrack.thetas = ts;
 		
-		std::cout<<"\n\nTrack "<<fbest<<": ";
+		if(verbose) std::cout<<"\n\nTrack "<<fbest<<": ";
 		float xmlpt = CalculatePt(tempTrack);
 		tempTrack.pt = xmlpt;
-		std::cout<<"XML pT = "<<tempTrack.pt<<"\n";
+		if(verbose) std::cout<<"XML pT = "<<tempTrack.pt<<"\n";
 		FoundTracks->push_back(tempTrack);
-		std::cout<<"\n\n";
+		if(verbose) std::cout<<"\n\n";
 		
 		
 		l1t::L1TRegionalMuonCandidate outCand = MakeRegionalCand(xmlpt,FourBest[fbest].phi,FourBest[fbest].theta,
@@ -351,11 +353,10 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 	}
   }
   
- 
  //  std::cout<<"Begin Put function\n\n";
 //ev.put( FoundTracks, "DataITC");
 ev.put( OutputCands, "EMUTF");
-  std::cout<<"End Upgraded Track Finder Prducer:::::::::::::::::::::::::::\n:::::::::::::::::::::::::::::::::::::::::::::::::\n\n";
+  //std::cout<<"End Upgraded Track Finder Prducer:::::::::::::::::::::::::::\n:::::::::::::::::::::::::::::::::::::::::::::::::\n\n";
 
 }//analyzer
 
