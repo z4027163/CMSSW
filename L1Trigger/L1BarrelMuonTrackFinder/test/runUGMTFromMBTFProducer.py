@@ -12,7 +12,7 @@ process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 process.source = cms.Source(
     'PoolSource',
-    fileNames = cms.untracked.vstring('file:./omtf_input_test.root')
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/g/gflouris/omtf_input_test.root')
     )
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(500))
@@ -46,7 +46,7 @@ process.uGMTInputProducer = cms.EDProducer("l1t::uGMTInputProducerFromGen",
 
 process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
 
-process.microGMTEmulator.overlapTFInput = cms.InputTag("bmtfEmulator", "BM")
+process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfEmulator", "BM")
 
 process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives +
 				   process.bmtfEmulator +
