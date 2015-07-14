@@ -17,10 +17,10 @@ class L1TRegionalMuonCandidate {
       m_hwTrackAddress(0), m_link(0), m_processor(processor), m_trackFinder(trackFinder)
       {};
     //BMTF - DTTF Compatibility
-    L1TRegionalMuonCandidate(int pt, int phi, int eta, int sign, int signvalid, int quality, int bx) :
-      m_hwPt(pt), m_hwPhi(phi), m_hwEta(eta), m_hwSign(sign), m_hwSignValid(signvalid), m_hwQuality(quality), m_hwTrackAddress(0), m_bx(bx) 
-      {};
-
+    L1TRegionalMuonCandidate(int pt, int phi, int eta, int sign, int signvalid, int quality, int processor, tftype trackFinder, int bx) :
+      m_hwPt(pt), m_hwPhi(phi), m_hwEta(eta), m_hwHF(false), m_hwSign(sign), m_hwSignValid(signvalid), m_hwQuality(quality),
+      m_hwTrackAddress(0), m_link(0), m_processor(processor), m_trackFinder(trackFinder), m_bx(bx)
+      {setTFIdentifiers(processor,trackFinder); };
 
     virtual ~L1TRegionalMuonCandidate() {};
 

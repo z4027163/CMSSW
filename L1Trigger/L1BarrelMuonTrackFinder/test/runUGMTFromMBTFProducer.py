@@ -46,6 +46,7 @@ process.uGMTInputProducer = cms.EDProducer("l1t::uGMTInputProducerFromGen",
 
 process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
 
+#process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfEmulator", "BMTF")
 process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfEmulator", "BM")
 
 process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives +

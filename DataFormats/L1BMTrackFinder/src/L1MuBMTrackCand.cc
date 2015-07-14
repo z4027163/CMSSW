@@ -14,11 +14,10 @@
 // This Class's Header --
 //-----------------------
 #include "DataFormats/L1BMTrackFinder/interface/L1MuBMTrackCand.h"
-
+//#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
 //-------------------------------
 // Collaborating Class Headers --
 //-------------------------------
-
 
 //---------------
 // C++ Headers --
@@ -49,53 +48,25 @@ L1MuBMTrackCand::L1MuBMTrackCand() : l1t::L1TRegionalMuonCandidate() {
 //L1MuBMTrackCand::L1MuBMTrackCand( unsigned dataword, int bx, int uwh, int usc,
 //                       int utag, int adr1, int adr2, int adr3, int adr4, int utc ) :
 //                   L1MuRegionalCand(dataword, bx) {
-L1MuBMTrackCand::L1MuBMTrackCand( unsigned dataword, int bx, int uwh, int usc,
-                       int utag, int adr1, int adr2, int adr3, int adr4, int utc ) :
-                   l1t::L1TRegionalMuonCandidate() {
+//L1MuBMTrackCand::L1MuBMTrackCand( unsigned dataword, int bx, int uwh, int usc,
+//                       int utag, int adr1, int adr2, int adr3, int adr4, int utc ) :
+//                   l1t::L1TRegionalMuonCandidate() {
 
-  wheel           = uwh;
-  sector          = usc;
-  TrkTagCode      = utag;
-  TrkAdd[0]       = adr1&0x03;
-  TrkAdd[1]       = adr2;
-  TrkAdd[2]       = adr3;
-  TrkAdd[3]       = adr4;
-  TClassCode      = utc;
+//  wheel           = uwh;
+//  sector          = usc;
+//  TrkTagCode      = utag;
+//  TrkAdd[0]       = adr1&0x03;
+//  TrkAdd[1]       = adr2;
+//  TrkAdd[2]       = adr3;
+//  TrkAdd[3]       = adr4;
+//  TClassCode      = utc;
 
-  setAdd(1);
-  setAdd(2);
-  setAdd(3);
-  setAdd(4);
-}
+//  setAdd(1);
+//  setAdd(2);
+///  setAdd(3);
+//  setAdd(4);
+//}
 
-//L1MuBMTrackCand::L1MuBMTrackCand( unsigned type_idx, unsigned phi, unsigned eta,
-//                       unsigned pt, unsigned charge, unsigned ch_valid, unsigned finehalo,
-//                       unsigned quality, int bx, int uwh, int usc, int utag,
-//                       int adr1, int adr2, int adr3, int adr4 ) :
-//                   L1MuRegionalCand(0, bx) {
-L1MuBMTrackCand::L1MuBMTrackCand( unsigned type_idx, unsigned phi, unsigned eta,
-                       unsigned pt, unsigned charge, unsigned ch_valid, unsigned finehalo,
-                       unsigned quality, int bx, int uwh, int usc, int utag,
-                       int adr1, int adr2, int adr3, int adr4 )  {
-
-  setHwPhi(phi);
-  setHwEta(eta);
-  setHwPt(pt);
-  setHwSign(charge);
-  setHwSignValid(1);
-  setHwQual(quality);
-  setHwTrackAddress(adr1*1000000 + adr2*10000 + adr3*100 + adr4 );
-
-  wheel           = uwh;
-  sector          = usc;
-  TrkTagCode      = utag;
-  TrkAdd[0]       = adr1;
-  TrkAdd[1]       = adr2;
-  TrkAdd[2]       = adr3;
-  TrkAdd[3]       = adr4;
-
-  setTC();
-}
 
 
 L1MuBMTrackCand::L1MuBMTrackCand( int pt, int phi, int eta, int charge, int quality, int bx,
@@ -111,6 +82,9 @@ L1MuBMTrackCand::L1MuBMTrackCand( int pt, int phi, int eta, int charge, int qual
   setBx(bx);
   setHwTrackAddress(adr1*1000000 + adr2*10000 + adr3*100 + adr4 );
 
+ setTFIdentifiers(usc,l1t::tftype::bmtf );
+
+
   wheel           = uwh;
   sector          = usc;
   TrkTagCode      = utag;
@@ -118,7 +92,7 @@ L1MuBMTrackCand::L1MuBMTrackCand( int pt, int phi, int eta, int charge, int qual
   TrkAdd[1]       = adr2;
   TrkAdd[2]       = adr3;
   TrkAdd[3]       = adr4;
-
+  TClassCode      = utc;
   setTC();
 }
 

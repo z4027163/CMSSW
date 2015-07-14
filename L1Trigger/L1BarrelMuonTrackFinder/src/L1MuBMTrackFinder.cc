@@ -242,14 +242,29 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
       for ( iter = mttf_cont.begin(); iter != mttf_cont.end(); iter++ ) {
         //if ( *iter ) _cache.push_back(L1MuRegionalCand((*iter)->getDataWord(),(*iter)->bx()));
 
-        if ( *iter ) _cache.push_back(l1t::L1TRegionalMuonCandidate((*iter)->hwPt(),
+//        if ( *iter ) _cache.push_back(l1t::L1TRegionalMuonCandidate((*iter)->hwPt(),
+//                                                               (*iter)->hwPhi(),
+//                                                               (*iter)->hwEta(),
+//                                                               (*iter)->hwSign(),
+//                                                               (*iter)->hwSignValid(),
+//                                                               (*iter)->hwQual(),
+//                                                               (*iter)->bx()
+//                                                               ));
+//
+        if ( *iter ){ _cache.push_back(l1t::L1TRegionalMuonCandidate( (*iter)->hwPt(),
                                                                (*iter)->hwPhi(),
                                                                (*iter)->hwEta(),
                                                                (*iter)->hwSign(),
                                                                (*iter)->hwSignValid(),
                                                                (*iter)->hwQual(),
+							       (*iter)->spid().sector(),
+							       l1t::tftype::bmtf,
                                                                (*iter)->bx()
-                                                               ));
+
+));
+//l1t::L1TRegionalMuonCandidate::setTFIdentifiers((*iter)->spid().sector(),l1t::tftype::bmtf );
+
+}
       }
     }
 
