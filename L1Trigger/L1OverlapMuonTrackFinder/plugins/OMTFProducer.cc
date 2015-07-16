@@ -13,7 +13,6 @@
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFinput.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFSorter.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFConfiguration.h"
-#include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFConfigMaker.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/XMLConfigWriter.h"
 
 using namespace L1TMuon;
@@ -51,7 +50,6 @@ OMTFProducer::OMTFProducer(const edm::ParameterSet& cfg):
 OMTFProducer::~OMTFProducer(){
 
   delete myOMTFConfig;
-  delete myOMTFConfigMaker;
   delete myOMTF;
 
   delete myInputMaker;
@@ -66,7 +64,6 @@ void OMTFProducer::beginJob(){
 
   if(theConfig.exists("omtf")){
     myOMTFConfig = new OMTFConfiguration(theConfig.getParameter<edm::ParameterSet>("omtf"));
-    myOMTFConfigMaker = new OMTFConfigMaker(theConfig.getParameter<edm::ParameterSet>("omtf"));
     myOMTF = new OMTFProcessor(theConfig.getParameter<edm::ParameterSet>("omtf"));
   }
 }
@@ -199,11 +196,15 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 
   if(dumpResultToXML) aTopElement = myWriter->writeEventHeader(iEvent.id().event());
 
+  //l1t::tftype mtfType = l1t::tftype::bmtf;
+  l1t::tftype mtfType = l1t::tftype::omtf_pos;
+  
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
+
     myStr<<" iProcessor: "<<iProcessor;
     
-    const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor);
+    const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor, mtfType);
        
     ///Input data with phi ranges shifted for each processor, so it fits 11 bits range
     OMTFinput myShiftedInput =  myOMTF->shiftInput(iProcessor,*myInput);	
@@ -234,7 +235,7 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
       ////
       
       myOTFCandidates[iCand].setHwPhi(phiValue);
-      myOTFCandidates[iCand].setTFIdentifiers(iProcessor+1,l1t::tftype::omtf_pos);
+      myOTFCandidates[iCand].setTFIdentifiers(iProcessor+1,mtfType);
       // store candidate 
       if(myOTFCandidates[iCand].hwPt()){
 	myCands->push_back(myOTFCandidates[iCand]);       

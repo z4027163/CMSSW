@@ -96,15 +96,16 @@ void OMTFPatternMaker::endJob(){
   }
 
   if(makeConnectionsMaps && !makeGoldenPatterns){
-    std::string fName = "Connections.xml";  
+    std::string fName = "Connections.xml";
+    unsigned int iProcessor = 1;
     ///Order important: printPhiMap updates global vector in OMTFConfiguration
     myOMTFConfigMaker->printPhiMap(std::cout);
-    myOMTFConfigMaker->printConnections(std::cout,0,0);
-    myOMTFConfigMaker->printConnections(std::cout,0,1);
-    myOMTFConfigMaker->printConnections(std::cout,0,2);
-    myOMTFConfigMaker->printConnections(std::cout,0,3);
-    myOMTFConfigMaker->printConnections(std::cout,0,4);
-    myOMTFConfigMaker->printConnections(std::cout,0,5);
+    myOMTFConfigMaker->printConnections(std::cout,iProcessor,0);
+    myOMTFConfigMaker->printConnections(std::cout,iProcessor,1);
+    myOMTFConfigMaker->printConnections(std::cout,iProcessor,2);
+    myOMTFConfigMaker->printConnections(std::cout,iProcessor,3);
+    myOMTFConfigMaker->printConnections(std::cout,iProcessor,4);
+    myOMTFConfigMaker->printConnections(std::cout,iProcessor,5);
     myWriter->writeConnectionsData(OMTFConfiguration::measurements4D);
     myWriter->finaliseXMLDocument(fName);
   }
@@ -130,22 +131,21 @@ void OMTFPatternMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
+
+    //if(iProcessor!=1) continue;
     
     edm::LogInfo("OMTF ROOTReader")<<"iProcessor: "<<iProcessor;
     
-    const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor);
+    const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor, l1t::tftype::bmtf);
        
     ///Input data with phi ranges shifted for each processor, so it fits 10 bits range
     const OMTFinput myShiftedInput =  myOMTF->shiftInput(iProcessor,*myInput);	
     
     ///Phi maps should be made with original, global phi values.
-    ///Connections maps are run on large samples, so the rest
-    ///of algoritm is not executed.
     if(makeConnectionsMaps) myOMTFConfigMaker->makeConnetionsMap(iProcessor,*myInput);
   
-    if(makeGoldenPatterns){
-	myOMTF->fillCounts(iProcessor,myShiftedInput, aSimMuon);
-    }
+    if(makeGoldenPatterns) myOMTF->fillCounts(iProcessor,myShiftedInput, aSimMuon);
+    
   }
 }
 /////////////////////////////////////////////////////

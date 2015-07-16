@@ -81,15 +81,15 @@ void OMTFConfigMaker::makeConnetionsMap(unsigned int iProcessor,
 					const OMTFinput & aInput){
 
   fillPhiMaps(iProcessor,aInput);
-
+  
   for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){
     const OMTFinput::vector1D & refLayerHits = aInput.getLayerData(OMTFConfiguration::refToLogicNumber[iRefLayer]);	
     if(!refLayerHits.size()) continue;
     //////////////////////
-    for(unsigned int iInput=0;iInput<refLayerHits.size();++iInput){	
+    for(unsigned int iInput=0;iInput<refLayerHits.size();++iInput){
       int phiRef = refLayerHits[iInput];
-      unsigned int iRegion = OMTFConfiguration::getRegionNumber(iProcessor,iRefLayer,phiRef);
-      if(iRegion>5) continue;
+      unsigned int iRegion = OMTFConfiguration::getRegionNumber(iProcessor,iRefLayer,phiRef);         
+      if(iRegion>5) continue;      
       fillInputRange(iProcessor,iRegion,aInput);
       fillInputRange(iProcessor,iRegion,iRefLayer,iInput);
       ///Always use two hits from a single chamber. 

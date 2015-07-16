@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "L1Trigger/L1TMuon/interface/GeometryTranslator.h"
+#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
 
 #include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitive.h"
 #include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitiveFwd.h"
@@ -29,13 +30,16 @@ class OMTFinputMaker{
 
   ///Method translating trigger digis into input matrix with global phi coordinates
   ///Flavour using a vector of trigger primitives. 
-  const OMTFinput * buildInputForProcessor(const L1TMuon::TriggerPrimitiveCollection & vDigi, unsigned int iProcessor);
+  const OMTFinput * buildInputForProcessor(const L1TMuon::TriggerPrimitiveCollection & vDigi,
+					   unsigned int iProcessor,
+					   l1t::tftype type=l1t::tftype::omtf_pos);
 
  private:
 
   ///Check if digis are within a give processor input.
   ///Simply checks sectors range. 
-  bool acceptDigi(uint32_t rawId, unsigned int iProcessor);
+  bool acceptDigi(uint32_t rawId, unsigned int iProcessor,
+		  l1t::tftype type);
 
   bool filterDigiQuality(const L1TMuon::TriggerPrimitive & aDigi) const;
 

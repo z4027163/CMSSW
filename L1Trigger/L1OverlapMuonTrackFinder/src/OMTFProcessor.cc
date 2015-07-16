@@ -208,7 +208,7 @@ const std::vector<OMTFProcessor::resultsMap> & OMTFProcessor::processInput(unsig
       if(nTestedRefHits--==0) break;
       const RefHitDef & aRefHitDef = OMTFConfiguration::refHitsDefs[iProcessor][iRefHit];
       int phiRef = aInput.getLayerData(OMTFConfiguration::refToLogicNumber[aRefHitDef.iRefLayer])[aRefHitDef.iInput];
-      int etaRef = aInput.getLayerData(OMTFConfiguration::refToLogicNumber[aRefHitDef.iRefLayer],true)[aRefHitDef.iInput]; 
+      int etaRef = aInput.getLayerData(OMTFConfiguration::refToLogicNumber[aRefHitDef.iRefLayer],true)[aRefHitDef.iInput];
       unsigned int iRegion = aRefHitDef.iRegion;
       if(OMTFConfiguration::bendingLayers.count(iLayer)) phiRef = 0;
       const OMTFinput::vector1D restrictedLayerHits = restrictInput(iProcessor, iRegion, iLayer,layerHits);
@@ -243,7 +243,7 @@ const std::vector<OMTFProcessor::resultsMap> & OMTFProcessor::processInput(unsig
     myStr<<"--------------------"<<std::endl;
   }
   //LogDebug("OMTF processor")<<myStr.str();
-  //edm::LogInfo("OMTF processor")<<myStr.str();
+  edm::LogInfo("OMTF processor")<<myStr.str();
   //#endif
   
   return myResults;
@@ -303,10 +303,8 @@ void OMTFProcessor::fillCounts(unsigned int iProcessor,
     if(!layerHits.size()) continue;
     ///Number of reference hits to be checked. 
     ///Value read from XML configuration
-    unsigned int nTestedRefHits = OMTFConfiguration::nTestRefHits;
     for(unsigned int iRefHit=0;iRefHit<OMTFConfiguration::nRefHits;++iRefHit){
       if(!refHitsBits[iRefHit]) continue;
-      if(nTestedRefHits--==0) break;
       const RefHitDef & aRefHitDef = OMTFConfiguration::refHitsDefs[iProcessor][iRefHit];
       int phiRef = aInput.getLayerData(OMTFConfiguration::refToLogicNumber[aRefHitDef.iRefLayer])[aRefHitDef.iInput]; 
       unsigned int iRegion = aRefHitDef.iRegion;

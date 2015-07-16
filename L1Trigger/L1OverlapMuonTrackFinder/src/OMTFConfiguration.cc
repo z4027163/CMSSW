@@ -167,7 +167,7 @@ unsigned int OMTFConfiguration::getRegionNumber(unsigned int iProcessor,
     iPhiStart+=logicRegionSize;    
   }
 
-  if(iRegion>5) iRegion = 99;
+  if(iRegion>5) iRegion = 99;  
   return iRegion;
 }
 ///////////////////////////////////////////////
