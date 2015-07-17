@@ -129,6 +129,10 @@ void OMTFPatternMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   ///Filter digis by dropping digis from selected (by cfg.py) subsystem
   const L1TMuon::TriggerPrimitiveCollection filteredDigis = filterDigis(*trigPrimitives);
 
+  //l1t::tftype mtfType = l1t::tftype::bmtf;
+  //l1t::tftype mtfType = l1t::tftype::omtf_pos;
+  l1t::tftype mtfType = l1t::tftype::emtf_pos;
+  
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
 
@@ -136,7 +140,7 @@ void OMTFPatternMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     
     edm::LogInfo("OMTF ROOTReader")<<"iProcessor: "<<iProcessor;
     
-    const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor, l1t::tftype::bmtf);
+    const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor,mtfType);
        
     ///Input data with phi ranges shifted for each processor, so it fits 10 bits range
     const OMTFinput myShiftedInput =  myOMTF->shiftInput(iProcessor,*myInput);	

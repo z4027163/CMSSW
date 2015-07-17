@@ -41,6 +41,8 @@ std::vector<unsigned int> OMTFConfiguration::barrelMax({4, 6, 8, 10, 12, 2});
 std::vector<unsigned int> OMTFConfiguration::endcap10DegMin({3, 9, 15, 21, 27, 33});
 std::vector<unsigned int> OMTFConfiguration::endcap10DegMax({9, 15, 21, 27, 33, 3});
 
+std::vector<unsigned int> OMTFConfiguration::endcap20DegMin({2, 5, 8, 11, 14, 17});
+std::vector<unsigned int> OMTFConfiguration::endcap20DegMax({5, 8, 11, 14, 17, 2});
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 RefHitDef::RefHitDef(unsigned int aInput, 

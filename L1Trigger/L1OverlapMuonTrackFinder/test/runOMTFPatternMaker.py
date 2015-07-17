@@ -101,7 +101,7 @@ process.omtfPatternMaker = cms.EDAnalyzer("OMTFPatternMaker",
                                       ptCode = cms.int32(16),
                                       charge = cms.int32(1),
                                       omtf = cms.PSet(
-        configXMLFile = cms.string("hwToLogicLayer_750_barrel.xml"),
+        configXMLFile = cms.string("hwToLogicLayer_750_endcap.xml"),
         patternsXMLFiles = cms.vstring(path+"Patterns_ipt4_31_5760.xml"),
         )
                                       )

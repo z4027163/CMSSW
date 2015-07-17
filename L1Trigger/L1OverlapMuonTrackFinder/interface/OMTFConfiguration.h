@@ -80,6 +80,8 @@ class OMTFConfiguration{
   static std::vector<unsigned int> barrelMax;
   static std::vector<unsigned int> endcap10DegMin;
   static std::vector<unsigned int> endcap10DegMax;
+  static std::vector<unsigned int> endcap20DegMin;
+  static std::vector<unsigned int> endcap20DegMax;
     
   ///Starting iPhi for each processor and each referecne layer    
   ///Global phi scale is used

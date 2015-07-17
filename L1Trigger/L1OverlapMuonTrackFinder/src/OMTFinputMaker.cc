@@ -104,7 +104,6 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
     if(type==l1t::tftype::emtf_pos &&
        (csc.endcap()==2 || (csc.station()==1 && csc.ring()==3))
        ) return false;
-
     if(type==l1t::tftype::emtf_neg &&
        (csc.endcap()==1 || (csc.station()==1 && csc.ring()==3))
        ) return false;
@@ -113,6 +112,12 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
     
     aMin = OMTFConfiguration::endcap10DegMin[iProcessor];
     aMax = OMTFConfiguration::endcap10DegMax[iProcessor];
+
+    if( (type==l1t::tftype::emtf_pos || type==l1t::tftype::emtf_neg) &&
+	csc.station()>1 && csc.ring()!=3){
+      aMin = OMTFConfiguration::endcap20DegMin[iProcessor];
+      aMax = OMTFConfiguration::endcap20DegMax[iProcessor];
+    }
     ///////////////////
     break;
   }
@@ -141,7 +146,8 @@ bool OMTFinputMaker::filterDigiQuality(const L1TMuon::TriggerPrimitive & aDigi) 
 ///////////////////////////////////////
 ///////////////////////////////////////
 unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId, 
-					    unsigned int iProcessor){
+					    unsigned int iProcessor,
+					    l1t::tftype type){
 
   unsigned int iInput = 99;
   unsigned int aSector = 99;
@@ -168,9 +174,9 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
       if(rpc.station()==2 && rpc.layer()==2 && rpc.roll()==2) iRoll = 1;
       if(rpc.station()==3) iRoll = 1;
 
-      ///TEST
-      iRoll = 1;
-      ////////
+      ///At the moment do not use RPC chambers splitting into rolls for bmtf part      
+      if(type==l1t::tftype::bmtf)iRoll = 1;
+
     }
     if(rpc.region()!=0){
       aSector = (rpc.sector()-1)*6+rpc.subsector();
@@ -193,6 +199,11 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
     CSCDetId csc(rawId);       
     aSector = csc.chamber();
     aMin = OMTFConfiguration::endcap10DegMin[iProcessor];
+
+    if( (type==l1t::tftype::emtf_pos || type==l1t::tftype::emtf_neg) &&
+	csc.station()>1 && csc.ring()!=3){
+      aMin = OMTFConfiguration::endcap20DegMin[iProcessor];
+    }    
     ///on the 0-2pi border we need to add 4 10deg sectors
     ///to get the correct index
     if(iProcessor==5 && aSector<5) aMin = -3;
@@ -237,7 +248,7 @@ const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerP
     unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
     int iPhi =  digiIt.getCMSGlobalPhi()/(2.0*M_PI)*nGlobalPhi;    
     int iEta =  digiIt.getCMSGlobalEta()/2.61*240;
-    unsigned int iInput= getInputNumber(digiIt.rawId(), iProcessor);
+    unsigned int iInput= getInputNumber(digiIt.rawId(), iProcessor, type);
 
     if(digiIt.subsystem()!=L1TMuon::TriggerPrimitive::kRPC) myInput->addLayerHit(iLayer,iInput,iPhi,iEta);
 
@@ -288,7 +299,7 @@ const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerP
     int iEta =  std::get<1>(halfDigiIt)->getCMSGlobalEta()/2.61*240;
     unsigned int hwNumber = OMTFConfiguration::getLayerNumber(std::get<0>(halfDigiIt));
     unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];
-    unsigned int iInput= getInputNumber(std::get<0>(halfDigiIt), iProcessor);
+    unsigned int iInput= getInputNumber(std::get<0>(halfDigiIt), iProcessor, type);
     
     myInput->addLayerHit(iLayer,iInput,iPhi,iEta);
     myStr<<detid

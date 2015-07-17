@@ -38,7 +38,8 @@ class OMTFinputMaker{
 
   ///Check if digis are within a give processor input.
   ///Simply checks sectors range. 
-  bool acceptDigi(uint32_t rawId, unsigned int iProcessor,
+  bool acceptDigi(uint32_t rawId,
+		  unsigned int iProcessor,
 		  l1t::tftype type);
 
   bool filterDigiQuality(const L1TMuon::TriggerPrimitive & aDigi) const;
@@ -47,7 +48,8 @@ class OMTFinputMaker{
   ///the chamber sector number. 
   ///Result is modulo allowed number of hits per chamber
   unsigned int getInputNumber(unsigned int rawId, 
-			      unsigned int iProcessor);
+			      unsigned int iProcessor,
+			      l1t::tftype type);
   /*
   ///Helper function for sorting the RPC primitives by strip number
   bool rpcPrimitiveCmp(const L1TMuon::TriggerPrimitive *a,

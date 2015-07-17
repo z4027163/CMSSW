@@ -198,6 +198,7 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 
   //l1t::tftype mtfType = l1t::tftype::bmtf;
   l1t::tftype mtfType = l1t::tftype::omtf_pos;
+  //l1t::tftype mtfType = l1t::tftype::omtf_neg;
   
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
