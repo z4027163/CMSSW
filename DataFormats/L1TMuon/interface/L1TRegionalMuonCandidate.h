@@ -16,6 +16,11 @@ class L1TRegionalMuonCandidate {
       m_hwPt(pt), m_hwPhi(phi), m_hwEta(eta), m_hwHF(false), m_hwSign(sign), m_hwSignValid(signvalid), m_hwQuality(quality), 
       m_hwTrackAddress(0), m_link(0), m_processor(processor), m_trackFinder(trackFinder)
       {};
+    //BMTF - DTTF Compatibility
+    L1TRegionalMuonCandidate(int pt, int phi, int eta, int sign, int signvalid, int quality, int processor, tftype trackFinder, int bx) :
+      m_hwPt(pt), m_hwPhi(phi), m_hwEta(eta), m_hwHF(false), m_hwSign(sign), m_hwSignValid(signvalid), m_hwQuality(quality),
+      m_hwTrackAddress(0), m_link(0), m_processor(processor), m_trackFinder(trackFinder), m_bx(bx)
+      {setTFIdentifiers(processor,trackFinder); };
 
     virtual ~L1TRegionalMuonCandidate() {};
 
@@ -39,6 +44,9 @@ class L1TRegionalMuonCandidate {
     void setTFIdentifiers(int processor, tftype trackFinder);
     // this is left to still be compatible with OMTF
     void setLink(int link);
+    //BMTF - DTTF Compatibility
+    void setBx(int bx) { m_bx = bx; };
+
 
     /// Get compressed pT (returned int * 0.5 = pT (GeV))
     const int hwPt() const { return m_hwPt; };
@@ -61,6 +69,9 @@ class L1TRegionalMuonCandidate {
     /// Get track-finder which found the muon (bmtf, emtf_pos/emtf_neg or omtf_pos/omtf_neg)
     const tftype trackFinderType() const { return m_trackFinder; };
   
+    const int bx() const { return m_bx; };
+    const int hwHF() const {return m_hwHF; };
+
   private:
     int m_hwPt;
     int m_hwPhi;
@@ -73,6 +84,8 @@ class L1TRegionalMuonCandidate {
     int m_link;
     int m_processor;
     tftype m_trackFinder;
+    int m_bx;
+
 };
 
 }
