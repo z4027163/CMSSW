@@ -6,6 +6,9 @@
 #include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitive.h"
 #include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitiveFwd.h"
 
+#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
+
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
@@ -47,6 +50,11 @@ class OMTFProducer : public edm::EDProducer {
   edm::ParameterSet theConfig;
   edm::InputTag trigPrimSrc;
   edm::EDGetTokenT<L1TMuon::TriggerPrimitiveCollection> inputToken;
+
+  void processCandidates(unsigned int iProcessor,
+			 std::auto_ptr<l1t::L1TRegionalMuonCandidateCollection > & myCands,
+			 l1t::L1TRegionalMuonCandidateCollection & myOTFCandidates,
+			 l1t::tftype mtfType);
 
   const L1TMuon::TriggerPrimitiveCollection filterDigis(const L1TMuon::TriggerPrimitiveCollection & vDigi);
 

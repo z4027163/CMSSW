@@ -97,7 +97,7 @@ void OMTFPatternMaker::endJob(){
 
   if(makeConnectionsMaps && !makeGoldenPatterns){
     std::string fName = "Connections.xml";
-    unsigned int iProcessor = 1;
+    unsigned int iProcessor = 0;
     ///Order important: printPhiMap updates global vector in OMTFConfiguration
     myOMTFConfigMaker->printPhiMap(std::cout);
     myOMTFConfigMaker->printConnections(std::cout,iProcessor,0);
@@ -130,13 +130,13 @@ void OMTFPatternMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   const L1TMuon::TriggerPrimitiveCollection filteredDigis = filterDigis(*trigPrimitives);
 
   //l1t::tftype mtfType = l1t::tftype::bmtf;
-  //l1t::tftype mtfType = l1t::tftype::omtf_pos;
-  l1t::tftype mtfType = l1t::tftype::emtf_pos;
+  l1t::tftype mtfType = l1t::tftype::omtf_pos;
+  //l1t::tftype mtfType = l1t::tftype::emtf_pos;
   
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
 
-    //if(iProcessor!=1) continue;
+    //if(iProcessor!=0) continue;
     
     edm::LogInfo("OMTF ROOTReader")<<"iProcessor: "<<iProcessor;
     

@@ -197,32 +197,74 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
   if(dumpResultToXML) aTopElement = myWriter->writeEventHeader(iEvent.id().event());
 
   //l1t::tftype mtfType = l1t::tftype::bmtf;
-  l1t::tftype mtfType = l1t::tftype::omtf_pos;
+  //l1t::tftype mtfType = l1t::tftype::omtf_pos;
   //l1t::tftype mtfType = l1t::tftype::omtf_neg;
+  //l1t::tftype mtfType = l1t::tftype::emtf_pos;
   
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
 
     myStr<<" iProcessor: "<<iProcessor;
-    
-    const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor, mtfType);
-       
+
     ///Input data with phi ranges shifted for each processor, so it fits 11 bits range
-    OMTFinput myShiftedInput =  myOMTF->shiftInput(iProcessor,*myInput);	
+    const OMTFinput *myInputPos = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor, l1t::tftype::omtf_pos);
+    OMTFinput myShiftedInputPos =  myOMTF->shiftInput(iProcessor,*myInputPos);
+    
+    const OMTFinput *myInputNeg = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor, l1t::tftype::omtf_neg);
+    OMTFinput myShiftedInputNeg =  myOMTF->shiftInput(iProcessor,*myInputNeg);       
 
+    l1t::L1TRegionalMuonCandidateCollection myOTFCandidatesPos, myOTFCandidatesNeg;
     ///Results for each GP in each logic region of given processor
-    const std::vector<OMTFProcessor::resultsMap> & myResults = myOMTF->processInput(iProcessor,myShiftedInput);
-
     //Retreive all candidates returned by sorter: upto 3 non empty ones with different phi or charge
-    l1t::L1TRegionalMuonCandidateCollection myOTFCandidates;
-    mySorter->sortProcessor(myResults,myOTFCandidates);
+    const std::vector<OMTFProcessor::resultsMap> & myResultsPos = myOMTF->processInput(iProcessor,myShiftedInputPos);
+    mySorter->sortProcessor(myResultsPos,myOTFCandidatesPos);
 
-    ////Switch from internal processor n bit scale to global one
-    int procOffset = OMTFConfiguration::globalPhiStart(iProcessor);
-    if(procOffset<0) procOffset+=(int)OMTFConfiguration::nPhiBins;
-    ///Set local 0 at iProcessor x 15 deg
-    procOffset-=(15+iProcessor*60)/360.0*OMTFConfiguration::nPhiBins;    
-    int lowScaleEnd = pow(2,OMTFConfiguration::nPhiBits-1);
+    const std::vector<OMTFProcessor::resultsMap> & myResultsNeg = myOMTF->processInput(iProcessor,myShiftedInputNeg);
+    mySorter->sortProcessor(myResultsNeg,myOTFCandidatesNeg);
+
+    ///Shift phi scales, and put uGMT candidates into myCands collection
+    processCandidates(iProcessor, myCands, myOTFCandidatesPos, l1t::tftype::omtf_pos);
+    processCandidates(iProcessor, myCands, myOTFCandidatesNeg, l1t::tftype::omtf_neg);
+    
+    ///Write data to XML file
+    if(dumpResultToXML){
+      xercesc::DOMElement * aProcElement = myWriter->writeEventData(aTopElement,iProcessor,myShiftedInputPos);
+      for(unsigned int iRefHit=0;iRefHit<OMTFConfiguration::nTestRefHits;++iRefHit){
+	///Dump only regions, where a candidate was found
+	InternalObj myCand = mySorter->sortRefHitResults(myResultsPos[iRefHit],0);//charge=0 means ignore charge
+	if(myCand.pt){
+	  myWriter->writeCandidateData(aProcElement,iRefHit,myCand);
+	  /*
+	  for(auto & itKey: myResults[iRefHit]) myWriter->writeResultsData(aProcElement, 
+									   iRefHit,
+									   itKey.first,itKey.second);    
+	  */
+	}
+      }
+    }
+    
+  }
+
+  //dumpResultToXML = true;
+
+  myStr<<" Number of candidates: "<<myCands->size();
+  edm::LogInfo("OMTFOMTFProducer")<<myStr.str();
+
+  iEvent.put(myCands, "OMTF");
+}
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////  
+void OMTFProducer::processCandidates(unsigned int iProcessor,
+				     std::auto_ptr<l1t::L1TRegionalMuonCandidateCollection > & myCands,
+				     l1t::L1TRegionalMuonCandidateCollection & myOTFCandidates,
+				     l1t::tftype mtfType){
+
+  ////Switch from internal processor n bit scale to global one
+  int procOffset = OMTFConfiguration::globalPhiStart(iProcessor);
+  if(procOffset<0) procOffset+=(int)OMTFConfiguration::nPhiBins;
+  ///Set local 0 at iProcessor x 15 deg
+  procOffset-=(15+iProcessor*60)/360.0*OMTFConfiguration::nPhiBins;    
+  int lowScaleEnd = pow(2,OMTFConfiguration::nPhiBits-1);
 
     for(unsigned int iCand=0; iCand<myOTFCandidates.size(); ++iCand){
       // shift phi from processor to global coordinates     
@@ -238,36 +280,8 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
       myOTFCandidates[iCand].setHwPhi(phiValue);
       myOTFCandidates[iCand].setTFIdentifiers(iProcessor+1,mtfType);
       // store candidate 
-      if(myOTFCandidates[iCand].hwPt()){
-	myCands->push_back(myOTFCandidates[iCand]);       
-	myStr<<" Candidate pt code: "<<myOTFCandidates[iCand].hwPt();
-      }
-    }
-    
-    ///Write to XML
-    if(dumpResultToXML){
-      xercesc::DOMElement * aProcElement = myWriter->writeEventData(aTopElement,iProcessor,myShiftedInput);
-      for(unsigned int iRefHit=0;iRefHit<OMTFConfiguration::nTestRefHits;++iRefHit){
-	///Dump only regions, where a candidate was found
-	InternalObj myCand = mySorter->sortRefHitResults(myResults[iRefHit],0);//charge=0 means ignore charge
-	if(myCand.pt){
-	  myWriter->writeCandidateData(aProcElement,iRefHit,myCand);
-	  /*
-	  for(auto & itKey: myResults[iRefHit]) myWriter->writeResultsData(aProcElement, 
-									   iRefHit,
-									   itKey.first,itKey.second);    
-	  */
-	}
-      }
-    }
-  }
-
-  //dumpResultToXML = true;
-
-  myStr<<" Number of candidates: "<<myCands->size();
-  edm::LogInfo("OMTFOMTFProducer")<<myStr.str();
-
-  iEvent.put(myCands, "OMTF");
+      if(myOTFCandidates[iCand].hwPt()) myCands->push_back(myOTFCandidates[iCand]);             
+    }   
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////  

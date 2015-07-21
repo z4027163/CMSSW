@@ -57,32 +57,40 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
     ///Select RPC chambers connected to OMTF
     if(type==l1t::tftype::omtf_pos &&
        (aId.region()<0 ||
-	(aId.region()==0 && aId.ring()<2) ||
-	(aId.region()==0 && aId.station()==4) ||
-	(aId.region()==0 && aId.station()==2 && aId.layer()==2 && aId.roll()==1) ||
-	(aId.region()==0 && aId.station()==3 && aId.roll()==1) ||
-	(aId.region()==1 && aId.ring()<3))
+       (aId.region()==0 && aId.ring()!=2) ||
+       (aId.region()==0 && aId.station()==4) ||
+       (aId.region()==0 && aId.station()==2 && aId.layer()==2 && aId.roll()==1) ||
+       (aId.region()==0 && aId.station()==3 && aId.roll()==1) ||
+       (aId.region()==1 && aId.ring()<3))
        ) return false;
 
     if(type==l1t::tftype::omtf_neg &&
         (aId.region()>0 ||
-	(aId.region()==0 && aId.ring()>1) ||
+	(aId.region()==0 && aId.ring()!=-2) ||
 	(aId.region()==0 && aId.station()==4) ||
 	(aId.region()==0 && aId.station()==2 && aId.layer()==2 && aId.roll()==1) ||
 	(aId.region()==0 && aId.station()==3 && aId.roll()==1) ||
 	(aId.region()==-1 && aId.ring()<3))
        ) return false;
-
+    
     if(type==l1t::tftype::bmtf && aId.region()!=0) return false;
+    
+    if(type==l1t::tftype::emtf_pos &&
+        (aId.region()<=0 ||
+	(aId.station()==1 && aId.ring()==3))) return false;
+    if(type==l1t::tftype::emtf_neg &&
+        (aId.region()>=0 ||
+	(aId.station()==1 && aId.ring()==3))) return false;
     ////////////////
     if(aId.region()==0) aSector = aId.sector();
     if(aId.region()!=0){
       aSector = (aId.sector()-1)*6+aId.subsector();
       aMin = OMTFConfiguration::endcap10DegMin[iProcessor];
       aMax = OMTFConfiguration::endcap10DegMax[iProcessor];
-    }      
-  }
+    }
+
     break;
+  }
   case MuonSubdetId::DT: {
     DTChamberId dt(rawId);
 
@@ -94,8 +102,8 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
     break;
   }
   case MuonSubdetId::CSC: {
-    CSCDetId csc(rawId);    
-
+    CSCDetId csc(rawId);
+    
     if(type==l1t::tftype::omtf_pos &&
        (csc.endcap()==2 || csc.ring()==1 || csc.station()==4)) return false;
     if(type==l1t::tftype::omtf_neg &&
@@ -114,11 +122,10 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
     aMax = OMTFConfiguration::endcap10DegMax[iProcessor];
 
     if( (type==l1t::tftype::emtf_pos || type==l1t::tftype::emtf_neg) &&
-	csc.station()>1 && csc.ring()!=3){
+	csc.station()>1 && csc.ring()==1){
       aMin = OMTFConfiguration::endcap20DegMin[iProcessor];
       aMax = OMTFConfiguration::endcap20DegMax[iProcessor];
-    }
-    ///////////////////
+    }    
     break;
   }
   }
@@ -160,7 +167,7 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
     edm::LogError("Critical OMTFinputMaker") << "PROBLEM: hit in unknown Det, detID: "<<detId.det()<<std::endl;
   switch (detId.subdetId()) {
   case MuonSubdetId::RPC: {
-    RPCDetId rpc(rawId);   
+    RPCDetId rpc(rawId);
     if(rpc.region()==0){
       nInputsPerSector = 4;
       aSector = rpc.sector();
@@ -176,7 +183,6 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
 
       ///At the moment do not use RPC chambers splitting into rolls for bmtf part      
       if(type==l1t::tftype::bmtf)iRoll = 1;
-
     }
     if(rpc.region()!=0){
       aSector = (rpc.sector()-1)*6+rpc.subsector();
@@ -188,7 +194,7 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
     break;
   }
   case MuonSubdetId::DT: {
-    DTChamberId dt(rawId);    
+    DTChamberId dt(rawId);
     aSector = dt.sector();
     ///on the 0-2pi border we need to add 1 30 deg sector
     ///to get the correct index
@@ -196,17 +202,20 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
     break;
   }
   case MuonSubdetId::CSC: {   
-    CSCDetId csc(rawId);       
+    CSCDetId csc(rawId);    
     aSector = csc.chamber();
-    aMin = OMTFConfiguration::endcap10DegMin[iProcessor];
-
-    if( (type==l1t::tftype::emtf_pos || type==l1t::tftype::emtf_neg) &&
-	csc.station()>1 && csc.ring()!=3){
-      aMin = OMTFConfiguration::endcap20DegMin[iProcessor];
-    }    
+    aMin = OMTFConfiguration::endcap10DegMin[iProcessor];       
     ///on the 0-2pi border we need to add 4 10deg sectors
     ///to get the correct index
     if(iProcessor==5 && aSector<5) aMin = -3;
+    ///Endcap region covers alsgo 10 deg sectors
+    ///on the 0-2pi border we need to add 2 20deg sectors
+    ///to get the correct index
+    if( (type==l1t::tftype::emtf_pos || type==l1t::tftype::emtf_neg) &&
+	csc.station()>1 && csc.ring()==1){
+      aMin = OMTFConfiguration::endcap20DegMin[iProcessor];
+      if(iProcessor==5 && aSector<3) aMin = -1;
+    }
     break;
   }
   }
@@ -216,6 +225,11 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
   ///Chambers divided into two rolls have rolls number 1 and 3
   iInput+=iRoll-1;
 
+  /////TEST
+  //if(type==l1t::tftype::emtf_pos || type==l1t::tftype::emtf_neg) iInput = 0;
+  /////////
+
+  
   return iInput;
 }
 ////////////////////////////////////////////
@@ -233,7 +247,6 @@ const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerP
   
   ///Prepare inpout for individual processors.
   unsigned int nGlobalPhi = OMTFConfiguration::nPhiBins;
-
   for (const auto &digiIt:vDigi) { 
 
     ///Check it the data fits into given processor input range
@@ -259,6 +272,7 @@ const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerP
     }
     case L1TMuon::TriggerPrimitive::kCSC: {
       //myInput->addLayerHit(iLayer+1,iInput,digiIt.getCSCData().pattern,iEta);
+      ////
       break;
     }
     case L1TMuon::TriggerPrimitive::kRPC: {

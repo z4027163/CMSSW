@@ -82,7 +82,6 @@ InternalObj OMTFSorter::sortRefHitResults(const OMTFProcessor::resultsMap & aRes
     std::tuple<unsigned int,unsigned int, int, int, unsigned int, int > val = sortSingleResult(itKey.second);
     ///Accept only candidates with >2 hits
     if(std::get<0>(val)<3) continue;
-    ///
     if( std::get<0>(val)>nHitsMax){
       nHitsMax = std::get<0>(val);
       pdfValMax = std::get<1>(val);
@@ -231,7 +230,7 @@ void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & pr
     candidate.setHwQual(bits.count());
     candidate.setHwTrackAddress(myCand.hits);
     ///Temporary assignement
-    candidate.setHwQual(myCand.refLayer);
+    //candidate.setHwQual(myCand.refLayer);
     //candidate.setLink(myCand.disc);
     /////////////
     sortedCands.push_back(candidate);
