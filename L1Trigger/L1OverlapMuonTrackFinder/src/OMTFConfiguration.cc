@@ -214,8 +214,6 @@ uint32_t OMTFConfiguration::getLayerNumber(uint32_t rawId){
 		   : aId.station()+2;
     else aLayer = aId.station(); 
     aLayer+= 10*(!isBarrel);
-    ///Necessary for ME1/1
-    ///if(aId.ring()==1 && aIdUtil.layer()==1) aLayer = aIdUtil.layer() + 20*(!aIdUtil.isBarrel());
     break;
   }
   case MuonSubdetId::DT: {
