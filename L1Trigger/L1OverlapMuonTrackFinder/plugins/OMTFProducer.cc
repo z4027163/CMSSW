@@ -216,11 +216,11 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
     l1t::L1TRegionalMuonCandidateCollection myOTFCandidatesPos, myOTFCandidatesNeg;
     ///Results for each GP in each logic region of given processor
     //Retreive all candidates returned by sorter: upto 3 non empty ones with different phi or charge
-    const std::vector<OMTFProcessor::resultsMap> & myResultsPos = myOMTF->processInput(iProcessor,myShiftedInputPos);
-    mySorter->sortProcessor(myResultsPos,myOTFCandidatesPos);
-
     const std::vector<OMTFProcessor::resultsMap> & myResultsNeg = myOMTF->processInput(iProcessor,myShiftedInputNeg);
     mySorter->sortProcessor(myResultsNeg,myOTFCandidatesNeg);
+
+    const std::vector<OMTFProcessor::resultsMap> & myResultsPos = myOMTF->processInput(iProcessor,myShiftedInputPos);
+    mySorter->sortProcessor(myResultsPos,myOTFCandidatesPos);
 
     ///Shift phi scales, and put uGMT candidates into myCands collection
     processCandidates(iProcessor, myCands, myOTFCandidatesPos, l1t::tftype::omtf_pos);
@@ -241,8 +241,7 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 	  */
 	}
       }
-    }
-    
+    }    
   }
 
   //dumpResultToXML = true;
