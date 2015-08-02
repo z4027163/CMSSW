@@ -39,8 +39,8 @@
 #include "L1MuBMTrackAssParam.h"
 #include "CondFormats/L1TObjects/interface/L1MuDTPhiLut.h"
 #include "CondFormats/DataRecord/interface/L1MuDTPhiLutRcd.h"
-#include "CondFormats/L1TObjects/interface/L1MuDTPtaLut.h"
-#include "CondFormats/DataRecord/interface/L1MuDTPtaLutRcd.h"
+#include "../interface/L1MuBMPhiLut.h"
+#include "../interface/L1MuBMPtaLut.h"
 #include "L1Trigger/L1BarrelMuonTrackFinder/interface/L1MuBMTrack.h"
 
 using namespace std;
@@ -61,6 +61,15 @@ L1MuBMAssignmentUnit::L1MuBMAssignmentUnit(L1MuBMSectorProcessor& sp, int id) :
   reset();
 
   setPrecision();
+
+  int phi_load = thePhiLUTs->load();
+    if ( phi_load != 0 ) {
+      cout << "Can not open files to load pt-assignment look-up tables for BMTrackFinder!" << endl;
+    }
+    int pta_load = thePtaLUTs->load();
+    if ( pta_load != 0 ) {
+      cout << "Can not open files to load pt-assignment look-up tables for BMTrackFinder!" << endl;
+    }
 
 }
 
@@ -144,11 +153,7 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
 
   // calculate phi at station 2 using 8 bits (precision = 2.5 degrees)
 
-  c.get< L1MuDTPhiLutRcd >().get( thePhiLUTs );
-  //int phi_load = thePhiLUTs->load();
-  // if ( phi_load != 0 ) {
-  //    cout << "Can not open files to load pt-assignment look-up tables for BMTrackFinder!" << endl;
-  //  }
+  //c.get< L1MuDTPhiLutRcd >().get( thePhiLUTs );
 
   int sh_phi  = 12 - L1MuBMTFConfig::getNbitsPhiPhi();
   int sh_phib = 10 - L1MuBMTFConfig::getNbitsPhiPhib();
@@ -220,12 +225,8 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
 //
 void L1MuBMAssignmentUnit::PtAU(const edm::EventSetup& c) {
 
-  c.get< L1MuDTPtaLutRcd >().get( thePtaLUTs );
+  //c.get< L1MuBMPtaLutRcd >().get( thePtaLUTs );
 
-    //int pta_load = thePtaLUTs->load(); //Giannis
-    //if ( pta_load != 0 ) {
-     // cout << "Can not open files to load pt-assignment look-up tables for BMTrackFinder!" << endl;
-    //}
   //thePtaLUTs->print();
 
   // get pt-assignment method as function of track class and TS phib values

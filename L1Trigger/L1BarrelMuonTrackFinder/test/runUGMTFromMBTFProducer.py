@@ -12,10 +12,10 @@ process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 process.source = cms.Source(
     'PoolSource',
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/g/gflouris/omtf_input_test.root')
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/g/gflouris/public/SingleMuPt5To140_Eta01_Flat_NoAntiparticle.root')
     )
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(500))
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100))
 
 ###PostLS1 geometry used
 process.load('Configuration.Geometry.GeometryExtendedPostLS1Reco_cff')
@@ -49,7 +49,7 @@ process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
 #process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfEmulator", "BMTF")
 process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfEmulator", "BM")
 
-process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives +
+process.L1TMuonSeq = cms.Sequence( #process.L1TMuonTriggerPrimitives +
 				   process.bmtfEmulator +
                                    process.uGMTInputProducer +
                                    process.microGMTEmulator)
