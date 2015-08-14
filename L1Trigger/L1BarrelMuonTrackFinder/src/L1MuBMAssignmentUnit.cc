@@ -163,37 +163,36 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
   const L1MuBMTrackSegPhi* forth  = getTSphi(4);  // track segment at station 4
 
   int phi2 = 0;         // phi-value at station 2
-  int sector = 0;
+  //int sector = 0;
 
   if ( second ) {
     phi2 = second->phi() >> sh_phi;
-    sector = second->sector();
+  //  sector = second->sector();
   }
   else if ( second == 0 && first ) {
     phi2 = first->phi() >> sh_phi;
-    sector = first->sector();
+  //  sector = first->sector();
   }
   else if ( second == 0 && forth ) {
     phi2 = forth->phi() >> sh_phi;
-    sector = forth->sector();
+  //  sector = forth->sector();
   }
 
-  int sector0 = m_sp.id().sector();
+  //int sector0 = m_sp.id().sector();
 
   // convert sector difference to values in the range -6 to +5
 
-  int sectordiff = (sector - sector0)%12;
-  if ( sectordiff >= 6 ) sectordiff -= 12;
-  if ( sectordiff < -6 ) sectordiff += 12;
+  //int sectordiff = (sector - sector0)%12;
+  //if ( sectordiff >= 6 ) sectordiff -= 12;
+  //if ( sectordiff < -6 ) sectordiff += 12;
 
-  //  assert( abs(sectordiff) <= 1 );
 
   // get sector center in 8 bit coding
-  int sector_8 = convertSector(sector0);
+  //int sector_8 = convertSector(sector0);
 
   // convert phi to 2.5 degree precision
   int phi_precision = 4096 >> sh_phi;
-  const double k = 57.2958/2.5/static_cast<float>(phi_precision);
+  const double k = 57.2958/0.625/static_cast<float>(phi_precision);
   double phi_f = static_cast<double>(phi2);
   int phi_8 = static_cast<int>(floor(phi_f*k));
 
@@ -206,17 +205,34 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
     phi_8 = phi_8 + thePhiLUTs->getDeltaPhi(1,bend_angle);
   }
 
-  phi_8 += sectordiff*12;
+//   phi_8 += sectordiff*12;
+// 
+//   if (phi_8 >  15) phi_8 =  15;
+//   if (phi_8 < -16) phi_8 = -16;
+// 
+//   int phi = (sector_8 + phi_8 + 144)%144;
+//   phi_8 = (phi_8 + 32)%32;
+// 
+//   m_sp.track(m_id)->setPhi(phi);
+//   m_sp.tracK(m_id)->setPhi(phi_8);
 
-  if (phi_8 >  15) phi_8 =  15;
-  if (phi_8 < -16) phi_8 = -16;
+  
+  
+  int phi = phi_8 + 24;
+  if (phi >  55) phi =  55;
+  if (phi < -8) phi = -8;
 
-  int phi = (sector_8 + phi_8 + 144)%144;
-  phi_8 = (phi_8 + 32)%32;
 
-  m_sp.track(m_id)->setPhi(phi);
-  m_sp.tracK(m_id)->setPhi(phi_8);
+//   phi_8 += sectordiff*12;
+//   if (phi_8 >  15) phi_8 =  15;
+//   if (phi_8 < -16) phi_8 = -16;
+//   phi_8 = (phi_8 + 32)%32;
 
+  m_sp.track(m_id)->setPhi(phi); // Regional
+  m_sp.tracK(m_id)->setPhi(phi);
+
+  
+  
 }
 
 

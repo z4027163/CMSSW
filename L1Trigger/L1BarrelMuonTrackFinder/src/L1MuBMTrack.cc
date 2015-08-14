@@ -57,8 +57,9 @@ L1MuBMTrack::L1MuBMTrack() :
   m_tsphiList.reserve(4);
   m_tsetaList.reserve(3);
 
-  //setType(0);    //Giannis
-  //setChargeValid(true);    //Giannis
+  //setType(0);    
+  //setChargeValid(true);   
+  setHwSignValid(1);
 
 }
 
@@ -72,8 +73,9 @@ L1MuBMTrack::L1MuBMTrack(const L1MuBMSecProcId& spid) :
 
   m_tsphiList.reserve(4);
   m_tsetaList.reserve(3);
-  //setType(0);    //Giannis
-  //setChargeValid(true);    //Giannis
+  //setType(0);    
+  //setChargeValid(true);   
+  setHwSignValid(1);
 
 }
 
