@@ -39,12 +39,12 @@ class L1MuBMTrackCand: public l1t::L1TRegionalMuonCandidate {
   //  Constructors
   L1MuBMTrackCand();
 
-  L1MuBMTrackCand( unsigned dataword, int bx, int uwh, int usc, int utag,
-                   int adr1, int adr2, int adr3, int adr4, int utc );
+  //L1MuBMTrackCand( unsigned dataword, int bx, int uwh, int usc, int utag,
+  //               int adr1, int adr2, int adr3, int adr4, int utc );
 
-  L1MuBMTrackCand( unsigned type_idx, unsigned phi, unsigned eta, unsigned pt, unsigned charge,
-		   unsigned ch_valid, unsigned finehalo, unsigned quality, int bx,
-                   int uwh, int usc, int utag, int adr1, int adr2, int adr3, int adr4 );
+  //L1MuBMTrackCand( unsigned type_idx, unsigned phi, unsigned eta, unsigned pt, unsigned charge,
+  //		   unsigned ch_valid, unsigned finehalo, unsigned quality, int bx,
+  //                 int uwh, int usc, int utag, int adr1, int adr2, int adr3, int adr4 );
 L1MuBMTrackCand( int pt, int phi, int eta, int charge, int quality, int bx,
                                   int uwh, int usc, int utag,
                                   int adr1, int adr2, int adr3, int adr4, int utc ) ;
