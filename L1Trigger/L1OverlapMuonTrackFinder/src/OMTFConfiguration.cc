@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "FWCore/ParameterSet/interface/FileInPath.h"
+
 #include "DataFormats/MuonDetId/interface/CSCDetId.h"
 #include "DataFormats/MuonDetId/interface/RPCDetId.h"
 #include "DataFormats/MuonDetId/interface/DTChamberId.h"
@@ -7,8 +10,6 @@
 
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFConfiguration.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/XMLConfigReader.h"
-
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
 
 float OMTFConfiguration::minPdfVal;
 unsigned int OMTFConfiguration::nLayers;
@@ -79,7 +80,8 @@ std::ostream & operator << (std::ostream &out, const  RefHitDef & aRefHitDef){
 OMTFConfiguration::OMTFConfiguration(const edm::ParameterSet & theConfig){
 
   if (!theConfig.exists("configXMLFile") ) return;
-  std::string fName = theConfig.getParameter<std::string>("configXMLFile");
+  //std::string fName = theConfig.getParameter<std::string>("configXMLFile");
+  std::string fName = theConfig.getParameter<edm::FileInPath>("configXMLFile").fullPath();
 
   XMLConfigReader myReader;
   myReader.setConfigFile(fName);
@@ -168,7 +170,7 @@ unsigned int OMTFConfiguration::getRegionNumber(unsigned int iProcessor,
     ++iRegion;
     iPhiStart+=logicRegionSize;    
   }
-
+  
   if(iRegion>5) iRegion = 99;  
   return iRegion;
 }
@@ -225,6 +227,7 @@ uint32_t OMTFConfiguration::getLayerNumber(uint32_t rawId){
     CSCDetId csc(rawId);
     aLayer = csc.station();
     if(csc.ring()==2 && csc.station()==1) aLayer = 4;  /////AK TEST
+    //if(csc.station()==4) aLayer = 5;  /////UGLY, has to match the TEST above
     break;
   }
   }  

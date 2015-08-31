@@ -4,6 +4,7 @@
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "FWCore/ParameterSet/interface/FileInPath.h"
 
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFProcessor.h"
 #include "L1Trigger/L1OverlapMuonTrackFinder/interface/OMTFConfiguration.h"
@@ -24,7 +25,8 @@ OMTFProcessor::OMTFProcessor(const edm::ParameterSet & theConfig){
   myResults.assign(OMTFConfiguration::nTestRefHits,OMTFProcessor::resultsMap());
 
   if ( !theConfig.exists("patternsXMLFiles") ) return;
-  std::vector<std::string> fileNames = theConfig.getParameter<std::vector<std::string> >("patternsXMLFiles");
+  //std::vector<std::string> fileNames = theConfig.getParameter<std::vector<std::string> >("patternsXMLFiles");
+  std::vector<std::string> fileNames{theConfig.getParameter<edm::FileInPath>("patternsXMLFiles").fullPath()};
 
   XMLConfigReader myReader;
   for(auto it: fileNames){

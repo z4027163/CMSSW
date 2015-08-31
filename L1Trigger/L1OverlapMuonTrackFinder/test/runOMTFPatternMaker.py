@@ -85,29 +85,15 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
-path = os.environ['CMSSW_BASE']+"/src/L1Trigger/L1OverlapMuonTrackFinder/data/"
 
 process.load('L1Trigger.L1EndcapMuonTrackFinder.L1TMuonTriggerPrimitiveProducer_cfi')
 
-###OMTF pattern maker configuration
-process.omtfPatternMaker = cms.EDAnalyzer("OMTFPatternMaker",
-                                      TriggerPrimitiveSrc = cms.InputTag('L1TMuonTriggerPrimitives'),
-                                      g4SimTrackSrc = cms.InputTag('g4SimHits'),
-                                      makeGoldenPatterns = cms.bool(False),                                     
-                                      makeConnectionsMaps = cms.bool(True),                                      
-                                      dropRPCPrimitives = cms.bool(False),                                    
-                                      dropDTPrimitives = cms.bool(False),                                    
-                                      dropCSCPrimitives = cms.bool(False),   
-                                      ptCode = cms.int32(16),
-                                      charge = cms.int32(1),
-                                      omtf = cms.PSet(
-        configXMLFile = cms.string("hwToLogicLayer_750_endcap.xml"),
-        patternsXMLFiles = cms.vstring(path+"Patterns_ipt4_31_5760.xml"),
-        )
-                                      )
+###OMTF emulator configuration
+process.load('L1Trigger.L1OverlapMuonTrackFinder.OMTFProducer_cfi')
+process.omtfEmulator.makeConnectionsMaps  =  cms.bool(True)
 
 process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives+ 
-                                   process.omtfPatternMaker)
+                                   process.omtfEmulator)
 
 process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
 
