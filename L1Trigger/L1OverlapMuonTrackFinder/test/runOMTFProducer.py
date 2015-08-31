@@ -6,7 +6,7 @@ import commands
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 
-verbose = True
+verbose = False
 
 if verbose:
     process.MessageLogger = cms.Service("MessageLogger",
@@ -63,11 +63,10 @@ process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 process.source = cms.Source(
     'PoolSource',
-    #fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root')
-    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/JPsi_21kEvents.root')
+    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root')
     )
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10))
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(2000))
 
 ###PostLS1 geometry used
 process.load('Configuration.Geometry.GeometryExtendedPostLS1Reco_cff')
@@ -82,21 +81,7 @@ path = os.environ['CMSSW_BASE']+"/src/L1Trigger/L1OverlapMuonTrackFinder/data/"
 process.load('L1Trigger.L1EndcapMuonTrackFinder.L1TMuonTriggerPrimitiveProducer_cfi')
 
 ###OMTF emulator configuration
-process.omtfEmulator = cms.EDProducer("OMTFProducer",
-                                      TriggerPrimitiveSrc = cms.InputTag('L1TMuonTriggerPrimitives'),
-                                      dumpResultToXML = cms.bool(True),
-                                      XMLDumpFileName = cms.string("TestEvents.xml"),                                     
-                                      dumpGPToXML = cms.bool(False),  
-                                      readEventsFromXML = cms.bool(False),
-                                      eventsXMLFiles = cms.vstring("TestEvents.xml"),
-                                      dropRPCPrimitives = cms.bool(False),                                    
-                                      dropDTPrimitives = cms.bool(False),                                    
-                                      dropCSCPrimitives = cms.bool(False),   
-                                      omtf = cms.PSet(
-        configXMLFile = cms.string(path+"hwToLogicLayer_750.xml"),
-        patternsXMLFiles = cms.vstring(path+"Patterns_ipt4_31_750.xml"),
-        )
-                                      )
+process.load('L1Trigger.L1OverlapMuonTrackFinder.OMTFProducer_cfi')
 
 process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives +
                                    process.omtfEmulator)
