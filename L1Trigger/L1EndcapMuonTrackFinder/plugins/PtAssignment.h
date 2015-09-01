@@ -857,7 +857,7 @@ float getPt(unsigned long Address)
 	return MpT;
 }
 
-void makeLUT()
+void makeLUT()//
 {
   // ofstream file2("LUT2.dat",ios::out);
 
@@ -871,18 +871,18 @@ void makeLUT()
 
         if (BDTPt1>140.0) BDTPt1 = 139.9999;
                             
-        int index=0;
+        //int index=0;
         for (int pts=0; pts<31; pts++)
           {
             if (ptscale[pts]<=BDTPt1 && ptscale[pts+1]>BDTPt1)
               {
                 BDTPt1 = ptscale[pts];
-                index = pts;
+                //index = pts;
                 break;
               }
           }
         
-        file << index << endl;
+        //file << index << endl;
         //file2 << std::setw(20) <<  i << std::setw(20) << mode << std::setw(20) << getPt(i) << endl;
         
       }
