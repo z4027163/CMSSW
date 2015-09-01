@@ -83,7 +83,7 @@ l1t::L1TRegionalMuonCandidate MakeRegionalCand(float pt, int phi, int theta,
   	Cand.setHwSign(1);
 	Cand.setHwSignValid(0);
   	Cand.setHwQual(iQual);
-  	Cand.setHwTrackAddress(1);
+  	Cand.setHwTrackAddress(trackaddress);
 	Cand.setTFIdentifiers(sector,TFtype);
   	
 
