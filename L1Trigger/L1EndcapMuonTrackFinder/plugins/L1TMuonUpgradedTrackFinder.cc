@@ -289,7 +289,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 		tempTrack.phis = ps;
 		tempTrack.thetas = ts;
 		
-		float xmlpt = CalculatePt(tempTrack);
+		float xmlpt = CalculatePt(tempTrack,es);
 		tempTrack.pt = xmlpt*1.4;
 		//FoundTracks->push_back(tempTrack);
 		
