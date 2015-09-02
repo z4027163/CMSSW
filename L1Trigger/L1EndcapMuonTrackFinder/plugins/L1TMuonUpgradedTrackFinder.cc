@@ -240,7 +240,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 		
 		int sector = -1;
 		bool ME13 = false;
-		int me1address = 0, me2address = 0, CombAddress = 0;
+		int me1address = 0, me2address = 0, CombAddress = 0, mode = 0;
 		
 		for(std::vector<ConvertedHit>::iterator A = FourBest[fbest].AHits.begin();A != FourBest[fbest].AHits.end();A++){
 		
@@ -255,6 +255,15 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 				ts.push_back(A->Theta());
 				//sector = (A->TP()->detId<CSCDetId>().endcap() -1)*6 + A->TP()->detId<CSCDetId>().triggerSector() - 1;
 				//std::cout<<"Q: "<<A->Quality()<<", keywire: "<<A->Wire()<<", strip: "<<A->Strip()<<std::endl;
+				
+				switch(station){
+					case 1: mode |= 8;break;
+					case 2: mode |= 4;break;
+					case 3: mode |= 2;break;
+					case 4: mode |= 1;break;
+					default: mode |= 0;
+				}
+				
 				
 				if(A->TP()->detId<CSCDetId>().station() == 1 && A->TP()->detId<CSCDetId>().ring() == 3)
 					ME13 = true;
@@ -296,7 +305,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 		CombAddress = (me2address<<4) | me1address;
 		
 		l1t::L1TRegionalMuonCandidate outCand = MakeRegionalCand(xmlpt*1.4,FourBest[fbest].phi,FourBest[fbest].theta,
-														         CombAddress,FourBest[fbest].winner.Rank(),1,sector);
+														         CombAddress,mode,1,sector);
 																 
 		if(!ME13)
 			OutputCands->push_back(outCand);
