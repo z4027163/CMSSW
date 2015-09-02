@@ -275,7 +275,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 						sub = 1;
 				
 					me1address = id;
-					me1address -= 4;
+					me1address -= 3;
 					me1address += 3*(sub - 1);
 					me1address = id<<1;//
 					me1address |= trknm-1;
@@ -285,7 +285,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 				if(station == 2 && id > 3){
 				
 					me2address = id;
-					me2address -= 4;
+					me2address -= 3;
 					me2address = me2address<<1;
 					me2address |= trknm-1;
 				
