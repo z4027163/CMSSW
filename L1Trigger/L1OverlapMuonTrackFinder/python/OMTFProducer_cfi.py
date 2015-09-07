@@ -14,7 +14,7 @@ omtfEmulator = cms.EDProducer("OMTFProducer",
                               dropCSCPrimitives = cms.bool(False),   
                               omtf = cms.PSet(
                                   patternsXMLFiles = cms.VPSet(
-                                       cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1OverlapMuonTrackFinder/data/Patterns_ipt4_31_750_4x.xml")),
+                                       cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1OverlapMuonTrackFinder/data/Patterns_ipt6_31_750_4x.xml")),
                                       ),
                                   configXMLFile = cms.FileInPath("L1Trigger/L1OverlapMuonTrackFinder/data/hwToLogicLayer_750.xml"),
                               )
