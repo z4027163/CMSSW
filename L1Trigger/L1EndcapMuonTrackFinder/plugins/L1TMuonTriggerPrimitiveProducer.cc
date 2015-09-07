@@ -23,6 +23,11 @@
 #include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitive.h"
 #include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitiveFwd.h"
 
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
+#include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigiCollection.h"
+#include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
+
 #include "L1Trigger/L1EndcapMuonTrackFinder/interface/SubsystemCollectorFactory.h"
 
 using namespace L1TMuon;
@@ -61,14 +66,14 @@ L1TMuonTriggerPrimitiveProducer::L1TMuonTriggerPrimitiveProducer(const PSet& p) 
     collectors[*name] = collector_ptr( factory->create( collector_type,
 							collector_cfg  ) );
 
-    if(name=="DTCollector"){
+    if(*name=="DT"){
       consumes<L1MuDTChambPhContainer>(collector_cfg.getParameter<edm::InputTag>("src"));
       consumes<L1MuDTChambThContainer>(collector_cfg.getParameter<edm::InputTag>("src"));
     }
-    if(name=="CSCCollector"){
+    if(*name=="CSC"){
       consumes<CSCCorrelatedLCTDigiCollection>(collector_cfg.getParameter<edm::InputTag>("src"));
     }
-    if(name=="RPCCollector"){
+    if(*name=="RPC"){
       consumes<RPCDigiCollection>(collector_cfg.getParameter<edm::InputTag>("src"));
     }
    
