@@ -60,6 +60,18 @@ L1TMuonTriggerPrimitiveProducer::L1TMuonTriggerPrimitiveProducer(const PSet& p) 
       collector_cfg.getParameter<std::string>("collectorType");
     collectors[*name] = collector_ptr( factory->create( collector_type,
 							collector_cfg  ) );
+
+    if(name=="DTCollector"){
+      consumes<L1MuDTChambPhContainer>(collector_cfg.getParameter<edm::InputTag>("src"));
+      consumes<L1MuDTChambThContainer>(collector_cfg.getParameter<edm::InputTag>("src"));
+    }
+    if(name=="CSCCollector"){
+      consumes<CSCCorrelatedLCTDigiCollection>(collector_cfg.getParameter<edm::InputTag>("src"));
+    }
+    if(name=="RPCCollector"){
+      consumes<RPCDigiCollection>(collector_cfg.getParameter<edm::InputTag>("src"));
+    }
+   
     produces<TriggerPrimitiveCollection>(*name);
   }   
   produces<TriggerPrimitiveCollection>();
