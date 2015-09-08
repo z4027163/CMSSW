@@ -227,8 +227,7 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     if (energy > 31) energy = 31;
     towerSums->emplace_back(energy, i/28, i%28, i);
   }
-  // std::cout << std::endl;
-  // std::cout << towerSums->size() << std::endl;
+
   iEvent.put(barrelMuons, "BarrelTFMuons");
   iEvent.put(overlapMuons, "OverlapTFMuons");
   iEvent.put(endcapMuons, "ForwardTFMuons");
