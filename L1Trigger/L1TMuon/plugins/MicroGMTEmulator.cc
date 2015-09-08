@@ -346,7 +346,8 @@ l1t::MicroGMTEmulator::splitAndConvertMuons(const edm::Handle<MicroGMTConfigurat
     wedges_neg[i].reserve(3);
   }
   for (size_t i = 0; i < in->size(); ++i) {
-    std::shared_ptr<L1TGMTInternalMuon> out = std::make_shared<L1TGMTInternalMuon>(in, i);
+    int gPhi = MicroGMTConfiguration::calcGlobalPhi(in->at(i).hwPhi(), in->at(i).trackFinderType(), in->at(i).processor());
+    std::shared_ptr<L1TGMTInternalMuon> out = std::make_shared<L1TGMTInternalMuon>(in, i, gPhi);
     if(in->at(i).hwEta() > 0) {
       out_pos.push_back(out);
       wedges_pos[in->at(i).processor()].push_back(out);
@@ -372,7 +373,8 @@ l1t::MicroGMTEmulator::convertMuons(const edm::Handle<MicroGMTConfiguration::Inp
     wedges[i].reserve(3);
   }
   for (size_t i = 0; i < in->size(); ++i) {
-    std::shared_ptr<L1TGMTInternalMuon> outMu = std::make_shared<L1TGMTInternalMuon>(in, i);
+    int gPhi = MicroGMTConfiguration::calcGlobalPhi(in->at(i).hwPhi(), in->at(i).trackFinderType(), in->at(i).processor());
+    std::shared_ptr<L1TGMTInternalMuon> outMu = std::make_shared<L1TGMTInternalMuon>(in, i, gPhi);
     out.emplace_back(outMu);
     wedges[in->at(i).processor()].push_back(outMu);
   }

@@ -16,11 +16,11 @@ namespace l1t {
   class MicroGMTConfiguration {
     public:
       // All possible inputs for LUTs
-      enum input_t { 
+      enum input_t {
         PT, PT_COARSE, PHI, ETA, ETA_COARSE, QUALITY, DELTA_ETA_RED, DELTA_PHI_RED
       };
 
-      typedef std::pair<input_t, int> PortType; 
+      typedef std::pair<input_t, int> PortType;
       typedef L1TRegionalMuonCandidateCollection InputCollection;
       typedef MuonBxCollection OutputCollection;
       typedef Muon OutMuon;
@@ -31,6 +31,8 @@ namespace l1t {
       typedef L1TGMTInputCaloSumCollection CaloInputCollection;
       // Two's complement for a given bit-length
       static unsigned getTwosComp(const int signedInt, const int width);
+
+      static int calcGlobalPhi(int locPhi, tftype t, int proc);
   };
 }
-#endif /* defined (__l1microgmtconfiguration_h) */ 
+#endif /* defined (__l1microgmtconfiguration_h) */
