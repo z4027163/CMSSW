@@ -253,7 +253,7 @@ void OMTFProducer::processCandidates(unsigned int iProcessor, int bx,
       phiValue/=10; //uGMT has 10x coarser scale than OMTF
 
       ////TEST
-      phiValue =(cand.hwPhi()+ lowScaleEnd);
+      //phiValue =(cand.hwPhi()+ lowScaleEnd);
       //phiValue = iProcessor;
       ////
 

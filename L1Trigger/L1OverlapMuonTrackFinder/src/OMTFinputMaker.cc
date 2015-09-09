@@ -151,7 +151,7 @@ bool OMTFinputMaker::filterDigiQuality(const L1TMuon::TriggerPrimitive & aDigi) 
   }
   case L1TMuon::TriggerPrimitive::kCSC: { return fabs(aDigi.getCMSGlobalEta())<1.23;} //Filter CSCdigis outsice OMTF eta coverage
   case L1TMuon::TriggerPrimitive::kRPC: {}
-  case L1TMuon::TriggerPrimitive::kNSubsystems: {}
+  case L1TMuon::TriggerPrimitive::kNSubsystems: {if(aDigi.getBX()!=0) return false; }
   }    
   return true;
 }
