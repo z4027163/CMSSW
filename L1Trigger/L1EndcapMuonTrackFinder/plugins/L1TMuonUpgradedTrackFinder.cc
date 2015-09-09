@@ -37,7 +37,9 @@ L1TMuonUpgradedTrackFinder::L1TMuonUpgradedTrackFinder(const PSet& p) {
 
 
   _tpinputs = p.getParameter<std::vector<edm::InputTag> >("primitiveSrcs");
-
+  for (auto& tfinput: _tpinputs) {
+    consumes<TriggerPrimitiveCollection>(tfinput);
+  }
    // produces<L1TMuon::InternalTrackCollection> ("DataITC").setBranchAlias("DataITC");
 	produces<l1t::RegionalMuonCandBxCollection >("EMUTF");
 }

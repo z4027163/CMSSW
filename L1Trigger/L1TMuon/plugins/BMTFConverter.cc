@@ -58,6 +58,8 @@ class BMTFConverter : public edm::EDProducer {
       virtual void beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
       virtual void endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
       // ----------member data ---------------------------
+      edm::EDGetTokenT<l1t::RegionalMuonCandBxCollection> m_barrelTfInputToken;
+      edm::InputTag m_barrelTfInputTag;
       std::map<int, int> ptMap_;
 };
 
@@ -73,8 +75,9 @@ class BMTFConverter : public edm::EDProducer {
 //
 // constructors and destructor
 //
-BMTFConverter::BMTFConverter(const edm::ParameterSet& iConfig)
+BMTFConverter::BMTFConverter(const edm::ParameterSet& iConfig) : m_barrelTfInputTag("bmtfEmulator", "BM")
 {
+  m_barrelTfInputToken = consumes<l1t::RegionalMuonCandBxCollection>(m_barrelTfInputTag);
   //register your products
   produces<RegionalMuonCandBxCollection>("ConvBMTFMuons");
   ptMap_[0] = 0;
@@ -133,7 +136,7 @@ BMTFConverter::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   std::auto_ptr<l1t::RegionalMuonCandBxCollection> convMuons (new l1t::RegionalMuonCandBxCollection());
 
   Handle<l1t::RegionalMuonCandBxCollection> bmtfMuons;
-  iEvent.getByLabel("bmtfEmulator", "BM", bmtfMuons);
+  iEvent.getByToken(m_barrelTfInputToken, bmtfMuons);
   for (auto mu = bmtfMuons->begin(0); mu != bmtfMuons->end(0); ++mu) {
     l1t::RegionalMuonCand convMu((*mu));
     // int convPt = ptMap_.at(mu->hwPt());

@@ -92,12 +92,17 @@ namespace l1t {
         // ----------member data ---------------------------
         edm::InputTag m_barrelTfInputTag;
         edm::InputTag m_overlapTfInputTag;
-        edm::InputTag m_forwardTfInputTag;
+        edm::InputTag m_endcapTfInputTag;
         edm::InputTag m_trigTowerTag;
         MicroGMTRankPtQualLUT m_rankPtQualityLUT;
         MicroGMTIsolationUnit m_isolationUnit;
         MicroGMTCancelOutUnit m_cancelOutUnit;
         std::ofstream m_debugOut;
+
+        edm::EDGetTokenT<MicroGMTConfiguration::InputCollection> m_barrelTfInputToken;
+        edm::EDGetTokenT<MicroGMTConfiguration::InputCollection> m_overlapTfInputToken;
+        edm::EDGetTokenT<MicroGMTConfiguration::InputCollection> m_endcapTfInputToken;
+        edm::EDGetTokenT<MicroGMTConfiguration::CaloInputCollection> m_caloTowerInputToken;
 
   };
 }
@@ -121,12 +126,13 @@ l1t::MicroGMTEmulator::MicroGMTEmulator(const edm::ParameterSet& iConfig) : m_ra
 
   m_barrelTfInputTag = iConfig.getParameter<edm::InputTag>("barrelTFInput");
   m_overlapTfInputTag = iConfig.getParameter<edm::InputTag>("overlapTFInput");
-  m_forwardTfInputTag = iConfig.getParameter<edm::InputTag>("forwardTFInput");
+  m_endcapTfInputTag = iConfig.getParameter<edm::InputTag>("forwardTFInput");
   m_trigTowerTag = iConfig.getParameter<edm::InputTag>("triggerTowerInput");
 
-  // m_barrelTfInputToken = consumes<MicroGMTConfiguration::InputCollection>(m_barrelTfInputTag);
-  // m_overlapTfInputToken = consumes<MicroGMTConfiguration::InputCollection>(m_overlapTfInputTag);
-  // m_forwardTfInputToken = consumes<MicroGMTConfiguration::InputCollection>(m_forwardTfInputTag);
+  m_barrelTfInputToken = consumes<MicroGMTConfiguration::InputCollection>(m_barrelTfInputTag);
+  m_overlapTfInputToken = consumes<MicroGMTConfiguration::InputCollection>(m_overlapTfInputTag);
+  m_endcapTfInputToken = consumes<MicroGMTConfiguration::InputCollection>(m_endcapTfInputTag);
+  m_caloTowerInputToken = consumes<MicroGMTConfiguration::CaloInputCollection>(m_trigTowerTag);
 
   //register your products
   produces<MuonBxCollection>();
@@ -171,10 +177,10 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   Handle<MicroGMTConfiguration::CaloInputCollection> trigTowers;
 
   // iEvent.getByToken(m_barrelTfInputToken, bmtfMuons);
-  iEvent.getByLabel(m_barrelTfInputTag, bmtfMuons);
-  iEvent.getByLabel(m_forwardTfInputTag, emtfMuons);
-  iEvent.getByLabel(m_overlapTfInputTag, omtfMuons);
-  iEvent.getByLabel(m_trigTowerTag, trigTowers);
+  iEvent.getByToken(m_barrelTfInputToken, bmtfMuons);
+  iEvent.getByToken(m_endcapTfInputToken, emtfMuons);
+  iEvent.getByToken(m_overlapTfInputToken, omtfMuons);
+  iEvent.getByToken(m_caloTowerInputToken, trigTowers);
 
   int bx = 0;
 
