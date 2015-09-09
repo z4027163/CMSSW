@@ -76,8 +76,8 @@ process.source = cms.Source(
 process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(NEVENTS))
 
 # PostLS1 geometry used
-process.load('Configuration.Geometry.GeometryExtendedPostLS1Reco_cff')
-process.load('Configuration.Geometry.GeometryExtendedPostLS1_cff')
+process.load('Configuration.Geometry.GeometryExtended2015Reco_cff')
+process.load('Configuration.Geometry.GeometryExtended2015_cff')
 ############################
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
@@ -100,7 +100,6 @@ process.L1TMuonEndcapTrackFinder = cms.EDProducer(
 )
 
 # BMTF Emulator
-process.load('L1Trigger.L1BarrelMuonTrackFinder.bmtfDigis_cfi')
 process.bmtfEmulator = cms.EDProducer("BMTrackFinder",
                                       CSCStub_Source=cms.InputTag("simCsctfTrackDigis"),
                                       DTDigi_Source=cms.InputTag("simDtTriggerPrimitiveDigis"),
@@ -117,8 +116,6 @@ process.bmtfConverter = cms.EDProducer("l1t::BMTFConverter",)
 # Adjust input tags if running on GEN-SIM-RAW (have to re-digi)
 if SAMPLE == "zmumu" or SAMPLE == "minbias":
     process.L1TMuonTriggerPrimitives.CSC.src = cms.InputTag('simCscTriggerPrimitiveDigis')
-    process.bmtfEmulator.DTDigi_Source = cms.InputTag("dttfDigis")
-    process.bmtfEmulator.CSCStub_Source = cms.InputTag("csctfDigis", "DT")
 
 process.L1MuonFilter = cms.EDFilter("SelectL1Muons",)
 process.GenMuonFilter = cms.EDFilter("SelectGenMuons",)
@@ -213,7 +210,10 @@ process.L1TMuonSeq = cms.Sequence(
     + process.microGMTEmulator
 )
 
-
+  # type: L1MuDTChambPhContainer
+  # module label: simDtTriggerPrimitiveDigis
+  # product instance name: ''
+  # process name: ''
 process.MuonFilter = cms.Sequence()
 
 

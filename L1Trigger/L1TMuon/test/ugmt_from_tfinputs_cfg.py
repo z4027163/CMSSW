@@ -76,8 +76,8 @@ process.source = cms.Source(
 process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(NEVENTS))
 
 # PostLS1 geometry used
-process.load('Configuration.Geometry.GeometryExtendedPostLS1Reco_cff')
-process.load('Configuration.Geometry.GeometryExtendedPostLS1_cff')
+process.load('Configuration.Geometry.GeometryExtended2015Reco_cff')
+process.load('Configuration.Geometry.GeometryExtended2015_cff')
 ############################
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
@@ -86,7 +86,6 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 process.load('L1Trigger.L1EndcapMuonTrackFinder.L1TMuonTriggerPrimitiveProducer_cfi')
 
 path = "L1Trigger/L1OverlapMuonTrackFinder/data/"
-# OMTF emulator configuration
 # OMTF emulator configuration
 process.load('L1Trigger.L1OverlapMuonTrackFinder.OMTFProducer_cfi')
 
@@ -100,7 +99,6 @@ process.L1TMuonEndcapTrackFinder = cms.EDProducer(
 )
 
 # BMTF Emulator
-process.load('L1Trigger.L1BarrelMuonTrackFinder.bmtfDigis_cfi')
 process.bmtfEmulator = cms.EDProducer("BMTrackFinder",
                                       CSCStub_Source=cms.InputTag("simCsctfTrackDigis"),
                                       DTDigi_Source=cms.InputTag("simDtTriggerPrimitiveDigis"),
@@ -117,8 +115,6 @@ process.bmtfConverter = cms.EDProducer("l1t::BMTFConverter",)
 # Adjust input tags if running on GEN-SIM-RAW (have to re-digi)
 if SAMPLE == "zmumu" or SAMPLE == "minbias":
     process.L1TMuonTriggerPrimitives.CSC.src = cms.InputTag('simCscTriggerPrimitiveDigis')
-    process.bmtfEmulator.DTDigi_Source = cms.InputTag("dttfDigis")
-    process.bmtfEmulator.CSCStub_Source = cms.InputTag("csctfDigis", "DT")
 
 process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
 
@@ -152,7 +148,9 @@ process.load('L1Trigger.L1TCalorimeter.L1TCaloStage2_PPFromRaw_cff')
 
 
 process.L1TMuonSeq = cms.Sequence(
-    process.L1TMuonTriggerPrimitives
+    process.SimL1Emulator
+    + process.ecalDigis
+    + process.L1TMuonTriggerPrimitives
     + process.bmtfEmulator
     + process.bmtfConverter
     + process.omtfEmulator
@@ -166,17 +164,12 @@ process.L1TMuonSeq = cms.Sequence(
 process.MuonFilter = cms.Sequence()
 
 
-if SAMPLE == "minbias":
-    process.MuonFilter = cms.Sequence(process.L1MuonFilter)
-else:
-    process.MuonFilter = cms.Sequence(process.GenMuonFilter)
-
-process.L1TMuonPath = cms.Path(process.L1ReEmulSeq + process.L1TMuonSeq + process.MuonFilter * process.L1NtupleSeq)
+process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
 
 process.out = cms.OutputModule("PoolOutputModule",
-                               outputCommands=cms.untracked.vstring(
-                                   'drop *',
-                                   'keep *_*_*_L1TMuonEmulation'),
+                               outputCommands=cms.untracked.vstring(),
+                                   # 'drop *',
+                                   # 'keep *_*_*_L1TMuonEmulation'),
                                fileName=cms.untracked.string("l1tmuon_test.root"),
                                )
 
