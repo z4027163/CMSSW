@@ -120,12 +120,26 @@ if SAMPLE == "zmumu" or SAMPLE == "minbias":
     process.bmtfEmulator.DTDigi_Source = cms.InputTag("dttfDigis")
     process.bmtfEmulator.CSCStub_Source = cms.InputTag("csctfDigis", "DT")
 
+process.L1MuonFilter = cms.EDFilter("SelectL1Muons",)
+process.GenMuonFilter = cms.EDFilter("SelectGenMuons",)
+
+process.load("L1TriggerDPG.L1Ntuples.l1NtupleProducer_cfi")
+process.load("L1TriggerDPG.L1Ntuples.l1RecoTreeProducer_cfi")
+process.load("L1TriggerDPG.L1Ntuples.l1ExtraTreeProducer_cfi")
+process.load("L1TriggerDPG.L1Ntuples.l1MuonRecoTreeProducer_cfi")
+process.load("L1TriggerDPG.L1Ntuples.l1MuonUpgradeTreeProducer_cfi")
+
 process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
 
 process.microGMTEmulator.overlapTFInput = cms.InputTag("omtfEmulator", "OMTF")
+process.l1MuonUpgradeTreeProducer.omtfTag = cms.InputTag("omtfEmulator", "OMTF")
 process.microGMTEmulator.forwardTFInput = cms.InputTag("L1TMuonEndcapTrackFinder", "EMUTF")
+process.l1MuonUpgradeTreeProducer.emtfTag = cms.InputTag("L1TMuonEndcapTrackFinder", "EMUTF")
 process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfConverter", "ConvBMTFMuons")
+process.l1MuonUpgradeTreeProducer.bmtfTag = cms.InputTag("bmtfConverter", "ConvBMTFMuons")
 process.microGMTEmulator.triggerTowerInput = cms.InputTag("uGMTCaloInputProducer", "TriggerTowerSums")
+process.l1MuonUpgradeTreeProducer.calo2x2Tag = cms.InputTag("uGMTCaloInputProducer", "TriggerTower2x2s")
+process.l1MuonUpgradeTreeProducer.caloTag = cms.InputTag("caloStage2Layer1Digis")
 
 # disable pre-loaded cancel-out lookup tables (they currently contain only 0)
 process.microGMTEmulator.OvlNegSingleMatchQualLUTSettings.filename = cms.string("")
@@ -150,6 +164,43 @@ process = customise_csc_PostLS1(process)
 # upgrade calo stage 2
 process.load('L1Trigger.L1TCalorimeter.L1TCaloStage2_PPFromRaw_cff')
 
+# analysis
+process.l1NtupleProducer.hltSource = cms.InputTag("none")
+process.l1NtupleProducer.gtSource = cms.InputTag("none")
+process.l1NtupleProducer.gctCentralJetsSource = cms.InputTag("none")
+process.l1NtupleProducer.gctNonIsoEmSource = cms.InputTag("none")
+process.l1NtupleProducer.gctForwardJetsSource = cms.InputTag("none")
+process.l1NtupleProducer.gctIsoEmSource = cms.InputTag("none")
+process.l1NtupleProducer.gctEnergySumsSource = cms.InputTag("none")
+process.l1NtupleProducer.gctTauJetsSource = cms.InputTag("none")
+process.l1NtupleProducer.gctIsoTauJetsSource = cms.InputTag("none")
+process.l1NtupleProducer.rctSource = cms.InputTag("none")
+process.l1NtupleProducer.dttfSource = cms.InputTag("none")
+process.l1NtupleProducer.ecalSource = cms.InputTag("none")
+process.l1NtupleProducer.hcalSource = cms.InputTag("none")
+process.l1NtupleProducer.csctfTrkSource = cms.InputTag("none")
+process.l1NtupleProducer.csctfLCTSource = cms.InputTag("none")
+process.l1NtupleProducer.csctfLCTSource = cms.InputTag("none")
+process.l1NtupleProducer.generatorSource = cms.InputTag("genParticles")
+process.l1NtupleProducer.csctfDTStubsSource = cms.InputTag("none")
+
+
+process.L1ReEmulSeq = cms.Sequence(process.SimL1Emulator
+                                   + process.ecalDigis
+                                   + process.hcalDigis
+                                   + process.gtDigis
+                                   + process.gtEvmDigis
+                                   + process.csctfDigis
+                                   + process.dttfDigis
+                                   )
+
+process.L1NtupleSeq = cms.Sequence(process.l1NtupleProducer + process.l1MuonUpgradeTreeProducer)
+    # +process.l1extraParticles
+    # +process.l1ExtraTreeProducer
+    # +process.l1GtTriggerMenuLite
+    # +process.l1MenuTreeProducer
+    # +process.l1RecoTreeProducer
+    # +process.l1MuonRecoTreeProducer
 
 process.L1TMuonSeq = cms.Sequence(
     process.L1TMuonTriggerPrimitives

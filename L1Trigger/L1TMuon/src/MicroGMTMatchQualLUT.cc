@@ -1,18 +1,18 @@
 #include "../interface/MicroGMTMatchQualLUT.h"
 #include "TMath.h"
 
-l1t::MicroGMTMatchQualLUT::MicroGMTMatchQualLUT (const edm::ParameterSet& iConfig, std::string prefix, cancel_t cancelType) : 
+l1t::MicroGMTMatchQualLUT::MicroGMTMatchQualLUT (const edm::ParameterSet& iConfig, std::string prefix, cancel_t cancelType) :
   m_dEtaRedMask(0), m_dPhiRedMask(0), m_dEtaRedInWidth(0), m_dPhiRedInWidth(0), m_etaScale(0), m_phiScale(0), m_cancelType(cancelType)
 {
   edm::ParameterSet config = iConfig.getParameter<edm::ParameterSet>(prefix+"MatchQualLUTSettings");
   m_dPhiRedInWidth = config.getParameter<int>("deltaPhiRed_in_width");
   m_dEtaRedInWidth = config.getParameter<int>("deltaEtaRed_in_width");
-  
+
   m_totalInWidth = m_dPhiRedInWidth + m_dEtaRedInWidth;
 
   m_dEtaRedMask = (1 << m_dEtaRedInWidth) - 1;
   m_dPhiRedMask = (1 << (m_totalInWidth - 1)) - m_dEtaRedMask - 1;
-  
+
   m_inputs.push_back(MicroGMTConfiguration::DELTA_ETA_RED);
   m_inputs.push_back(MicroGMTConfiguration::DELTA_PHI_RED);
 
@@ -33,8 +33,8 @@ l1t::MicroGMTMatchQualLUT::~MicroGMTMatchQualLUT ()
 }
 
 
-int 
-l1t::MicroGMTMatchQualLUT::lookup(int dEtaRed, int dPhiRed) const 
+int
+l1t::MicroGMTMatchQualLUT::lookup(int dEtaRed, int dPhiRed) const
 {
   // normalize these two to the same scale and then calculate?
   if (m_initialized) {
@@ -56,7 +56,7 @@ l1t::MicroGMTMatchQualLUT::lookup(int dEtaRed, int dPhiRed) const
 
   return retVal;
 }
-int 
+int
 l1t::MicroGMTMatchQualLUT::lookupPacked(int in) const {
   if (m_initialized) {
     return m_contents.at(in);
@@ -68,7 +68,7 @@ l1t::MicroGMTMatchQualLUT::lookupPacked(int in) const {
   return lookup(dEtaRed, dPhiRed);
 }
 
-int 
+int
 l1t::MicroGMTMatchQualLUT::hashInput(int dEtaRed, int dPhiRed) const
 {
 
@@ -78,9 +78,9 @@ l1t::MicroGMTMatchQualLUT::hashInput(int dEtaRed, int dPhiRed) const
   return result;
 }
 
-void 
-l1t::MicroGMTMatchQualLUT::unHashInput(int input, int& dEtaRed, int& dPhiRed) const 
+void
+l1t::MicroGMTMatchQualLUT::unHashInput(int input, int& dEtaRed, int& dPhiRed) const
 {
   dEtaRed = input & m_dEtaRedMask;
   dPhiRed = (input & m_dPhiRedMask) >> m_dEtaRedInWidth;
-} 
+}

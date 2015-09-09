@@ -33,8 +33,8 @@
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "DataFormats/L1TMuon/interface/L1TGMTInputCaloSumFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TGMTInputCaloSum.h"
+#include "DataFormats/L1TMuon/interface/GMTInputCaloSumFwd.h"
+#include "DataFormats/L1TMuon/interface/GMTInputCaloSum.h"
 #include "DataFormats/L1TCalorimeter/interface/CaloTower.h"
 
 #include "TMath.h"
@@ -83,8 +83,8 @@ uGMTCaloInputProducer::uGMTCaloInputProducer(const edm::ParameterSet& iConfig) {
   m_caloLabel = iConfig.getParameter<edm::InputTag> ("caloStage2Layer2Label");
   m_caloTowerToken = consumes <l1t::CaloTowerBxCollection> (m_caloLabel);
   //register your products
-  produces<L1TGMTInputCaloSumCollection>("TriggerTowerSums");
-  produces<L1TGMTInputCaloSumCollection>("TriggerTower2x2s");
+  produces<GMTInputCaloSumBxCollection>("TriggerTowerSums");
+  produces<GMTInputCaloSumBxCollection>("TriggerTower2x2s");
 }
 
 
@@ -105,13 +105,13 @@ void
 uGMTCaloInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
-  std::auto_ptr<l1t::L1TGMTInputCaloSumCollection> towerSums (new L1TGMTInputCaloSumCollection());
-  std::auto_ptr<l1t::L1TGMTInputCaloSumCollection> tower2x2s (new L1TGMTInputCaloSumCollection());
+  std::auto_ptr<l1t::GMTInputCaloSumBxCollection> towerSums (new GMTInputCaloSumBxCollection());
+  std::auto_ptr<l1t::GMTInputCaloSumBxCollection> tower2x2s (new GMTInputCaloSumBxCollection());
 
   edm::Handle<l1t::CaloTowerBxCollection> caloTowers;
   // Make sure that you can get genParticles
-  std::map<int, l1t::L1TGMTInputCaloSum> sums;
-  std::map<int, l1t::L1TGMTInputCaloSum> regs;
+  std::map<int, l1t::GMTInputCaloSum> sums;
+  std::map<int, l1t::GMTInputCaloSum> regs;
 
   if (iEvent.getByToken(m_caloTowerToken, caloTowers)) {
     for (auto it = caloTowers->begin(0); it != caloTowers->end(0); ++it) {
@@ -123,7 +123,7 @@ uGMTCaloInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
       int iphi2x2 = twr.hwPhi() / 2;
       int muon_idx = iphi2x2 * 28 + ieta2x2;
       if (regs.count(muon_idx) == 0) {
-        regs[muon_idx] = l1t::L1TGMTInputCaloSum(twr.hwPt(), iphi2x2, ieta2x2, muon_idx);
+        regs[muon_idx] = l1t::GMTInputCaloSum(twr.hwPt(), iphi2x2, ieta2x2, muon_idx);
       } else {
         regs.at(muon_idx).setEtBits(regs.at(muon_idx).etBits() + twr.hwPt());
       }
@@ -146,7 +146,7 @@ uGMTCaloInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
             int iphimu = iphi / 2;
             int idxmu = iphimu * 28 + ietamu;
             if (sums.count(idxmu) == 0) {
-              sums[idxmu] = l1t::L1TGMTInputCaloSum(twr.hwPt(), iphimu, ietamu, idxmu);
+              sums[idxmu] = l1t::GMTInputCaloSum(twr.hwPt(), iphimu, ietamu, idxmu);
             } else {
               sums.at(idxmu).setEtBits(sums.at(idxmu).etBits() + twr.hwPt());
             }
@@ -161,17 +161,17 @@ uGMTCaloInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
 
   for (auto it = sums.begin(); it != sums.end(); ++it) {
     if (it->second.etBits() > 0) {
-      l1t::L1TGMTInputCaloSum sum = l1t::L1TGMTInputCaloSum(it->second);
+      l1t::GMTInputCaloSum sum = l1t::GMTInputCaloSum(it->second);
       // convert Et to correct scale:
       if (sum.etBits() > 31) {
         sum.setEtBits(31);
       }
-      towerSums->push_back(sum);
+      towerSums->push_back(0, sum);
     }
   }
   for (auto it = regs.begin(); it != regs.end(); ++it) {
     if (it->second.etBits() > 0) {
-      tower2x2s->push_back(it->second);
+      tower2x2s->push_back(0, it->second);
     }
   }
 

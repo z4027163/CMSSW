@@ -1,5 +1,5 @@
 #include "../interface/MicroGMTCancelOutUnit.h"
-#include "DataFormats/L1TMuon/interface/L1TGMTInternalMuon.h"
+#include "DataFormats/L1TMuon/interface/GMTInternalMuon.h"
 
 namespace l1t {
 MicroGMTCancelOutUnit::MicroGMTCancelOutUnit (const edm::ParameterSet& iConfig) :
@@ -30,11 +30,11 @@ MicroGMTCancelOutUnit::~MicroGMTCancelOutUnit ()
 }
 
 void
-MicroGMTCancelOutUnit::setCancelOutBits(L1TGMTInternalWedges& wedges, tftype trackFinder, cancelmode mode)
+MicroGMTCancelOutUnit::setCancelOutBits(GMTInternalWedges& wedges, tftype trackFinder, cancelmode mode)
 {
-  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll1;
+  std::vector<std::shared_ptr<GMTInternalMuon>> coll1;
   coll1.reserve(3);
-  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll2;
+  std::vector<std::shared_ptr<GMTInternalMuon>> coll2;
   coll2.reserve(3);
   int maxWedges = 6;
   if (trackFinder == bmtf) {
@@ -61,13 +61,13 @@ MicroGMTCancelOutUnit::setCancelOutBits(L1TGMTInternalWedges& wedges, tftype tra
 }
 
 void
-MicroGMTCancelOutUnit::setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& bmtfWedges, cancelmode mode)
+MicroGMTCancelOutUnit::setCancelOutBitsOverlapBarrel(GMTInternalWedges& omtfSectors, GMTInternalWedges& bmtfWedges, cancelmode mode)
 {
   // overlap sector collection
-  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll1;
+  std::vector<std::shared_ptr<GMTInternalMuon>> coll1;
   coll1.reserve(3);
   // barrel wedge collection with 4 wedges
-  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll2;
+  std::vector<std::shared_ptr<GMTInternalMuon>> coll2;
   coll2.reserve(12);
 
   for (int currentSector = 0; currentSector < 6; ++currentSector) {
@@ -95,13 +95,13 @@ MicroGMTCancelOutUnit::setCancelOutBitsOverlapBarrel(L1TGMTInternalWedges& omtfS
 }
 
 void
-MicroGMTCancelOutUnit::setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges& omtfSectors, L1TGMTInternalWedges& emtfSectors, cancelmode mode)
+MicroGMTCancelOutUnit::setCancelOutBitsOverlapEndcap(GMTInternalWedges& omtfSectors, GMTInternalWedges& emtfSectors, cancelmode mode)
 {
   // overlap sector collection
-  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll1;
+  std::vector<std::shared_ptr<GMTInternalMuon>> coll1;
   coll1.reserve(3);
   // endcap sector collection with 3 sectors
-  std::vector<std::shared_ptr<L1TGMTInternalMuon>> coll2;
+  std::vector<std::shared_ptr<GMTInternalMuon>> coll2;
   coll2.reserve(9);
 
   for (int curOmtfSector = 0; curOmtfSector < 6; ++curOmtfSector) {
@@ -130,7 +130,7 @@ MicroGMTCancelOutUnit::setCancelOutBitsOverlapEndcap(L1TGMTInternalWedges& omtfS
 }
 
 void
-MicroGMTCancelOutUnit::getCoordinateCancelBits(std::vector<std::shared_ptr<L1TGMTInternalMuon>>& coll1, std::vector<std::shared_ptr<L1TGMTInternalMuon>>& coll2)
+MicroGMTCancelOutUnit::getCoordinateCancelBits(std::vector<std::shared_ptr<GMTInternalMuon>>& coll1, std::vector<std::shared_ptr<GMTInternalMuon>>& coll2)
 {
   if (coll1.size() == 0 || coll2.size() == 0) {
     return;
@@ -163,7 +163,7 @@ MicroGMTCancelOutUnit::getCoordinateCancelBits(std::vector<std::shared_ptr<L1TGM
 }
 
 void
-MicroGMTCancelOutUnit::getTrackAddrCancelBits(std::vector<std::shared_ptr<L1TGMTInternalMuon>>& coll1, std::vector<std::shared_ptr<L1TGMTInternalMuon>>& coll2)
+MicroGMTCancelOutUnit::getTrackAddrCancelBits(std::vector<std::shared_ptr<GMTInternalMuon>>& coll1, std::vector<std::shared_ptr<GMTInternalMuon>>& coll2)
 {
   // not entirely clear how to do.. just a hook for now
 }

@@ -40,8 +40,8 @@
 
 #include "DataFormats/Math/interface/LorentzVector.h"
 #include "DataFormats/L1Trigger/interface/Muon.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
-#include "DataFormats/L1TMuon/interface/L1TGMTInternalMuon.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
+#include "DataFormats/L1TMuon/interface/GMTInternalMuon.h"
 
 #include "TMath.h"
 //
@@ -75,16 +75,19 @@ namespace l1t {
         void splitAndConvertMuons(edm::Handle<MicroGMTConfiguration::InputCollection> const& in,
                                   MicroGMTConfiguration::InterMuonList& out_pos,
                                   MicroGMTConfiguration::InterMuonList& out_neg,
-                                  L1TGMTInternalWedges& wedges_pos,
-                                  L1TGMTInternalWedges& wedges_neg) const;
+                                  GMTInternalWedges& wedges_pos,
+                                  GMTInternalWedges& wedges_neg,
+                                  int bx) const;
 
         void convertMuons(edm::Handle<MicroGMTConfiguration::InputCollection> const& in,
                           MicroGMTConfiguration::InterMuonList& out,
-                          L1TGMTInternalWedges& wedges) const;
+                          GMTInternalWedges& wedges,
+                          int bx) const;
 
         void addMuonsToCollections(MicroGMTConfiguration::InterMuonList& coll,
                                    MicroGMTConfiguration::InterMuonList& interout,
-                                   std::auto_ptr<MuonBxCollection>& out) const;
+                                   std::auto_ptr<MuonBxCollection>& out,
+                                   int bx) const;
 
         // ----------member data ---------------------------
         edm::InputTag m_barrelTfInputTag;
@@ -173,26 +176,27 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   iEvent.getByLabel(m_overlapTfInputTag, omtfMuons);
   iEvent.getByLabel(m_trigTowerTag, trigTowers);
 
-  m_isolationUnit.setTowerSums(*trigTowers);
+  int bx = 0;
+
+  m_isolationUnit.setTowerSums(*trigTowers, bx);
   MicroGMTConfiguration::InterMuonList internMuonsBmtf;
   MicroGMTConfiguration::InterMuonList internMuonsEmtfPos;
   MicroGMTConfiguration::InterMuonList internMuonsEmtfNeg;
   MicroGMTConfiguration::InterMuonList internMuonsOmtfPos;
   MicroGMTConfiguration::InterMuonList internMuonsOmtfNeg;
 
-
   // These wedges contain shared pointers to the ones in the InterMuonList
-  L1TGMTInternalWedges omtfNegWedges;
-  L1TGMTInternalWedges bmtfWedges;
-  L1TGMTInternalWedges emtfPosWedges;
-  L1TGMTInternalWedges emtfNegWedges;
-  L1TGMTInternalWedges omtfPosWedges;
+  GMTInternalWedges omtfNegWedges;
+  GMTInternalWedges bmtfWedges;
+  GMTInternalWedges emtfPosWedges;
+  GMTInternalWedges emtfNegWedges;
+  GMTInternalWedges omtfPosWedges;
 
   // this converts the InputMuon type to the InternalMuon type and splits them into
   // positive / negative eta collections necessary as LUTs may differ for pos / neg.
-  convertMuons(bmtfMuons, internMuonsBmtf, bmtfWedges);
-  splitAndConvertMuons(emtfMuons, internMuonsEmtfPos, internMuonsEmtfNeg, emtfPosWedges, emtfNegWedges);
-  splitAndConvertMuons(omtfMuons, internMuonsOmtfPos, internMuonsOmtfNeg, omtfPosWedges, omtfNegWedges);
+  convertMuons(bmtfMuons, internMuonsBmtf, bmtfWedges, bx);
+  splitAndConvertMuons(emtfMuons, internMuonsEmtfPos, internMuonsEmtfNeg, emtfPosWedges, emtfNegWedges, bx);
+  splitAndConvertMuons(omtfMuons, internMuonsOmtfPos, internMuonsOmtfNeg, omtfPosWedges, omtfNegWedges, bx);
 
   // cancel out within the track finders:
   m_cancelOutUnit.setCancelOutBits(bmtfWedges, tftype::bmtf, cancelmode::coordinate);
@@ -222,7 +226,6 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   calculateRank(internMuonsOmtfPos);
 
   // The sort function both sorts and removes all but best "nSurvivors"
-
   sortMuons(internMuonsBmtf, 8);
   sortMuons(internMuonsOmtfPos, 4);
   sortMuons(internMuonsOmtfNeg, 4);
@@ -232,11 +235,11 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   // This combines the 5 streams into one InternalMuon collection for
   // the final global sort.
   MicroGMTConfiguration::InterMuonList internalMuons;
-  addMuonsToCollections(internMuonsEmtfPos, internalMuons, imdMuonsEMTFPos);
-  addMuonsToCollections(internMuonsOmtfPos, internalMuons, imdMuonsOMTFPos);
-  addMuonsToCollections(internMuonsBmtf, internalMuons, imdMuonsBMTF);
-  addMuonsToCollections(internMuonsOmtfNeg, internalMuons, imdMuonsOMTFNeg);
-  addMuonsToCollections(internMuonsEmtfNeg, internalMuons, imdMuonsEMTFNeg);
+  addMuonsToCollections(internMuonsEmtfPos, internalMuons, imdMuonsEMTFPos, bx);
+  addMuonsToCollections(internMuonsOmtfPos, internalMuons, imdMuonsOMTFPos, bx);
+  addMuonsToCollections(internMuonsBmtf, internalMuons, imdMuonsBMTF, bx);
+  addMuonsToCollections(internMuonsOmtfNeg, internalMuons, imdMuonsOMTFNeg, bx);
+  addMuonsToCollections(internMuonsEmtfNeg, internalMuons, imdMuonsEMTFNeg, bx);
 
   // sort internal muons and delete all but best 8
   sortMuons(internalMuons, 8);
@@ -249,7 +252,7 @@ l1t::MicroGMTEmulator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
       int iso = mu->hwAbsIso() + (mu->hwRelIso() << 1);
       Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwGlobalPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), iso, 0, true, mu->hwIsoSum(), mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
       m_debugOut << mu->hwCaloPhi() << " " << mu->hwCaloEta() << std::endl;
-      outMuons->push_back(0, outMu);
+      outMuons->push_back(bx, outMu);
     }
   }
 
@@ -319,7 +322,7 @@ l1t::MicroGMTEmulator::calculateRank(MicroGMTConfiguration::InterMuonList& muons
 void
 l1t::MicroGMTEmulator::addMuonsToCollections(MicroGMTConfiguration::InterMuonList& coll,
                                              MicroGMTConfiguration::InterMuonList& interout,
-                                             std::auto_ptr<MuonBxCollection>& out) const
+                                             std::auto_ptr<MuonBxCollection>& out, int bx) const
 {
   for (auto& mu : coll) {
     interout.push_back(mu);
@@ -327,7 +330,7 @@ l1t::MicroGMTEmulator::addMuonsToCollections(MicroGMTConfiguration::InterMuonLis
     // FIXME: once we debugged the change global -> local: Change hwLocalPhi -> hwGlobalPhi to test offsets
     Muon outMu{vec, mu->hwPt(), mu->hwEta(), mu->hwGlobalPhi(), mu->hwQual(), mu->hwSign(), mu->hwSignValid(), -1, 0, true, -1, mu->hwDPhi(), mu->hwDEta(), mu->hwRank()};
 
-    out->push_back(0, outMu);
+    out->push_back(bx, outMu);
   }
 }
 
@@ -335,25 +338,26 @@ void
 l1t::MicroGMTEmulator::splitAndConvertMuons(const edm::Handle<MicroGMTConfiguration::InputCollection>& in,
                                             MicroGMTConfiguration::InterMuonList& out_pos,
                                             MicroGMTConfiguration::InterMuonList& out_neg,
-                                            L1TGMTInternalWedges& wedges_pos,
-                                            L1TGMTInternalWedges& wedges_neg) const
+                                            GMTInternalWedges& wedges_pos,
+                                            GMTInternalWedges& wedges_neg,
+                                            int bx) const
 {
   // initialize the wedge collections:
   for (int i = 0; i < 6; ++i) {
-    wedges_pos[i] = std::vector<std::shared_ptr<L1TGMTInternalMuon>>();
+    wedges_pos[i] = std::vector<std::shared_ptr<GMTInternalMuon>>();
     wedges_pos[i].reserve(3);
-    wedges_neg[i] = std::vector<std::shared_ptr<L1TGMTInternalMuon>>();
+    wedges_neg[i] = std::vector<std::shared_ptr<GMTInternalMuon>>();
     wedges_neg[i].reserve(3);
   }
-  for (size_t i = 0; i < in->size(); ++i) {
-    int gPhi = MicroGMTConfiguration::calcGlobalPhi(in->at(i).hwPhi(), in->at(i).trackFinderType(), in->at(i).processor());
-    std::shared_ptr<L1TGMTInternalMuon> out = std::make_shared<L1TGMTInternalMuon>(in, i, gPhi);
-    if(in->at(i).hwEta() > 0) {
+  for (size_t i = 0; i < in->size(bx); ++i) {
+    int gPhi = MicroGMTConfiguration::calcGlobalPhi(in->at(bx, i).hwPhi(), in->at(bx, i).trackFinderType(), in->at(bx, i).processor());
+    std::shared_ptr<GMTInternalMuon> out = std::make_shared<GMTInternalMuon>(in->at(bx, i), gPhi);
+    if(in->at(bx, i).hwEta() > 0) {
       out_pos.push_back(out);
-      wedges_pos[in->at(i).processor()].push_back(out);
+      wedges_pos[in->at(bx, i).processor()].push_back(out);
     } else {
       out_neg.emplace_back(out);
-      wedges_neg[in->at(i).processor()].push_back(out);
+      wedges_neg[in->at(bx, i).processor()].push_back(out);
     }
   }
   for (int i = 0; i < 6; ++i) {
@@ -365,18 +369,18 @@ l1t::MicroGMTEmulator::splitAndConvertMuons(const edm::Handle<MicroGMTConfigurat
 void
 l1t::MicroGMTEmulator::convertMuons(const edm::Handle<MicroGMTConfiguration::InputCollection>& in,
                                     MicroGMTConfiguration::InterMuonList& out,
-                                    L1TGMTInternalWedges& wedges) const
+                                    GMTInternalWedges& wedges, int bx) const
 {
   // initialize the wedge collection:
   for (int i = 0; i < 12; ++i) {
-    wedges[i] = std::vector<std::shared_ptr<L1TGMTInternalMuon>>();
+    wedges[i] = std::vector<std::shared_ptr<GMTInternalMuon>>();
     wedges[i].reserve(3);
   }
-  for (size_t i = 0; i < in->size(); ++i) {
-    int gPhi = MicroGMTConfiguration::calcGlobalPhi(in->at(i).hwPhi(), in->at(i).trackFinderType(), in->at(i).processor());
-    std::shared_ptr<L1TGMTInternalMuon> outMu = std::make_shared<L1TGMTInternalMuon>(in, i, gPhi);
+  for (size_t i = 0; i < in->size(bx); ++i) {
+    int gPhi = MicroGMTConfiguration::calcGlobalPhi(in->at(bx, i).hwPhi(), in->at(bx, i).trackFinderType(), in->at(bx, i).processor());
+    std::shared_ptr<GMTInternalMuon> outMu = std::make_shared<GMTInternalMuon>(in->at(bx, i), gPhi);
     out.emplace_back(outMu);
-    wedges[in->at(i).processor()].push_back(outMu);
+    wedges[in->at(bx, i).processor()].push_back(outMu);
   }
   for (int i = 0; i < 12; ++i) {
     if(wedges[i].size() > 3) edm::LogWarning("Input Mismatch") << " too many inputs per processor for barrel" << std::endl;

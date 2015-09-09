@@ -1,28 +1,27 @@
 #ifndef __l1t_regional_muon_candidate_h__
 #define __l1t_regional_muon_candidate_h__
 
-#include "L1TRegionalMuonCandidateFwd.h"
-#include <iostream> 
+#include "RegionalMuonCandFwd.h"
+#include <iostream>
 namespace l1t {
 
-class L1TRegionalMuonCandidate {
+class RegionalMuonCand {
   public:
-    L1TRegionalMuonCandidate() : 
-      m_hwPt(0), m_hwPhi(0), m_hwEta(0), m_hwHF(false), m_hwSign(0), m_hwSignValid(0), m_hwQuality(0), 
-      m_hwTrackAddress(0), m_link(0), m_processor(0), m_trackFinder(bmtf)
+    explicit RegionalMuonCand(uint64_t dataword);
+
+    RegionalMuonCand() :
+      m_hwPt(0), m_hwPhi(0), m_hwEta(0), m_hwHF(false), m_hwSign(0), m_hwSignValid(0), m_hwQuality(0),
+      m_hwTrackAddress(0), m_link(0), m_processor(0), m_trackFinder(bmtf), m_dataword(0)
       {};
 
-    L1TRegionalMuonCandidate(int pt, int phi, int eta, int sign, int signvalid, int quality, int processor, tftype trackFinder) : 
-      m_hwPt(pt), m_hwPhi(phi), m_hwEta(eta), m_hwHF(false), m_hwSign(sign), m_hwSignValid(signvalid), m_hwQuality(quality), 
-      m_hwTrackAddress(0), m_link(0), m_processor(processor), m_trackFinder(trackFinder)
-      {};
-    //BMTF - DTTF Compatibility
-    L1TRegionalMuonCandidate(int pt, int phi, int eta, int sign, int signvalid, int quality, int processor, tftype trackFinder, int bx) :
+    RegionalMuonCand(int pt, int phi, int eta, int sign, int signvalid, int quality, int processor, tftype trackFinder) :
       m_hwPt(pt), m_hwPhi(phi), m_hwEta(eta), m_hwHF(false), m_hwSign(sign), m_hwSignValid(signvalid), m_hwQuality(quality),
-      m_hwTrackAddress(0), m_link(0), m_processor(processor), m_trackFinder(trackFinder), m_bx(bx)
-      {setTFIdentifiers(processor,trackFinder); };
+      m_hwTrackAddress(0), m_link(0), m_dataword(0)
+      {
+        setTFIdentifiers(processor, trackFinder);
+      };
 
-    virtual ~L1TRegionalMuonCandidate() {};
+    virtual ~RegionalMuonCand() {};
 
     /// Set compressed pT as transmitted by hardware LSB = 0.5 (9 bits)
     void setHwPt(int bits) { m_hwPt = bits; };
@@ -30,7 +29,7 @@ class L1TRegionalMuonCandidate {
     void setHwPhi(int bits) { m_hwPhi = bits; };
     /// Set compressed eta as transmitted by hardware LSB = 0.010875 (9 bits)
     void setHwEta(int bits) { m_hwEta = bits; };
-    /// Set charge sign bit (charge = (-1)^(sign)) 
+    /// Set charge sign bit (charge = (-1)^(sign))
     void setHwSign(int bits) { m_hwSign = bits; };
     /// Set whether charge measurement is valid (0 for high pT muons)
     void setHwSignValid(int bits) { m_hwSignValid = bits; };
@@ -44,8 +43,6 @@ class L1TRegionalMuonCandidate {
     void setTFIdentifiers(int processor, tftype trackFinder);
     // this is left to still be compatible with OMTF
     void setLink(int link);
-    //BMTF - DTTF Compatibility
-    void setBx(int bx) { m_bx = bx; };
 
 
     /// Get compressed pT (returned int * 0.5 = pT (GeV))
@@ -68,8 +65,7 @@ class L1TRegionalMuonCandidate {
     const int processor() const { return m_processor; };
     /// Get track-finder which found the muon (bmtf, emtf_pos/emtf_neg or omtf_pos/omtf_neg)
     const tftype trackFinderType() const { return m_trackFinder; };
-  
-    const int bx() const { return m_bx; };
+    /// Get HF (halo / fine eta) bit (EMTF: halo -> 1; BMTF: fine eta -> 1)
     const int hwHF() const {return m_hwHF; };
 
   private:
@@ -84,7 +80,9 @@ class L1TRegionalMuonCandidate {
     int m_link;
     int m_processor;
     tftype m_trackFinder;
-    int m_bx;
+
+    /// This is the 64 bit word as transmitted in HW
+    uint64_t m_dataword;
 
 };
 

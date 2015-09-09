@@ -33,8 +33,8 @@
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 
 #include <iostream>
 //
@@ -76,7 +76,7 @@ class BMTFConverter : public edm::EDProducer {
 BMTFConverter::BMTFConverter(const edm::ParameterSet& iConfig)
 {
   //register your products
-  produces<L1TRegionalMuonCandidateCollection>("ConvBMTFMuons");
+  produces<RegionalMuonCandBxCollection>("ConvBMTFMuons");
   ptMap_[0] = 0;
   ptMap_[1] = 0;
   ptMap_[2] = 3;
@@ -130,12 +130,12 @@ BMTFConverter::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
 
-  std::auto_ptr<l1t::L1TRegionalMuonCandidateCollection> convMuons (new l1t::L1TRegionalMuonCandidateCollection());
+  std::auto_ptr<l1t::RegionalMuonCandBxCollection> convMuons (new l1t::RegionalMuonCandBxCollection());
 
-  Handle<l1t::L1TRegionalMuonCandidateCollection> bmtfMuons;
+  Handle<l1t::RegionalMuonCandBxCollection> bmtfMuons;
   iEvent.getByLabel("bmtfEmulator", "BM", bmtfMuons);
-  for (auto mu = bmtfMuons->begin(); mu != bmtfMuons->end(); ++mu) {
-    l1t::L1TRegionalMuonCandidate convMu((*mu));
+  for (auto mu = bmtfMuons->begin(0); mu != bmtfMuons->end(0); ++mu) {
+    l1t::RegionalMuonCand convMu((*mu));
     // int convPt = ptMap_.at(mu->hwPt());
     // int convPhi = (mu->hwPhi() * 4) - (mu->processor() * 48);
     // int convEta = getSigned(mu->hwEta())*3.54;
@@ -144,7 +144,7 @@ BMTFConverter::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     // convMu.setHwPhi(convPhi);
     convMu.setHwEta(convEta);
     // convMu.setTFIdentifiers(mu->processor()+1, mu->trackFinderType());
-    convMuons->push_back(convMu);
+    convMuons->push_back(0, convMu);
   }
 
   iEvent.put(convMuons, "ConvBMTFMuons");

@@ -14,25 +14,25 @@
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTTrackContainer.h"
 #include "DataFormats/L1GlobalMuonTrigger/interface/L1MuRegionalCand.h"
 
-#include "DataFormats/L1TMuon/interface/L1TGMTInputCaloSumFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TGMTInputCaloSum.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/GMTInputCaloSumFwd.h"
+#include "DataFormats/L1TMuon/interface/GMTInputCaloSum.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 
 namespace {
   using namespace L1TMuon;
   struct dictionary {
-    l1t::L1TGMTInputCaloSumCollection caloSum;
-    edm::Wrapper<l1t::L1TGMTInputCaloSumCollection> caloSumWrap;
+    l1t::GMTInputCaloSumBxCollection caloSum;
+    edm::Wrapper<l1t::GMTInputCaloSumBxCollection> caloSumWrap;
 
-    l1t::L1TRegionalMuonCandidateCollection regCand;
-    edm::Wrapper<l1t::L1TRegionalMuonCandidateCollection> regCandWrap;
+    l1t::RegionalMuonCandBxCollection regCand;
+    edm::Wrapper<l1t::RegionalMuonCandBxCollection> regCandWrap;
 
     // trigger primitive information
     TriggerPrimitive::RPCData rpcD;
     TriggerPrimitive::CSCData cscD;
     TriggerPrimitive::DTData  dtD;
-    
+
     edm::Wrapper<TriggerPrimitive::RPCData> wrpcD;
     edm::Wrapper<TriggerPrimitive::CSCData> wcscD;
     edm::Wrapper<TriggerPrimitive::DTData>  wdtD;
@@ -45,8 +45,8 @@ namespace {
     TriggerPrimitiveRef rtrigPrim;
     TriggerPrimitiveList rvtrigPrim;
     TriggerPrimitiveStationMap smtrigPrim;
-    
-    TriggerPrimitivePtr ptrigPrim;   
+
+    TriggerPrimitivePtr ptrigPrim;
 
     // internal tracks
     InternalTrack tk;
@@ -67,7 +67,7 @@ namespace {
 
     CandidateTrackRef rcctk;
     CandidateTrackPtr pcctk;
-    
+
     // regional muon system tracks removed from their containers
     // so we can save references to them
     RegionalCandBaseRef rcR2B;
@@ -78,7 +78,7 @@ namespace {
     edm::Wrapper<DTTrackCollection> wdtTrkColl;
     DTTrackPtr dtTrkPtr;
     DTTrackRef dtTrackRef;
-    
+
     CSCTrackCollection cscTrkColl;
     edm::Wrapper<CSCTrackCollection> wcscTrkColl;
     CSCTrackPtr cscTrkPtr;

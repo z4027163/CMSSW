@@ -2,18 +2,18 @@
 #define __l1t_gmt_internal_muon_h__
 
 #include "DataFormats/Common/interface/Ref.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
 #include <utility>
 
 namespace l1t {
-class L1TGMTInternalMuon {
+class GMTInternalMuon {
   public:
-    explicit L1TGMTInternalMuon(const edm::Handle<L1TRegionalMuonCandidateCollection>&, size_t, int);
-    L1TGMTInternalMuon(const L1TGMTInternalMuon&);
-    L1TGMTInternalMuon() {};
+    explicit GMTInternalMuon(const RegionalMuonCand&, int);
+    GMTInternalMuon(const GMTInternalMuon&);
+    // GMTInternalMuon() {};
 
-    virtual ~L1TGMTInternalMuon() {};
+    virtual ~GMTInternalMuon() {};
 
     void setHwCancelBit(int bit) { m_hwCancelBit = bit; };
     void setHwRank(int bits) { m_hwRank = bits; };
@@ -41,23 +41,22 @@ class L1TGMTInternalMuon {
     const int hwGlobalPhi() const { return m_hwGlobalPhi; }
 
 
-    const L1TRegionalMuonCandidate& origin() const { return *m_regional; };
-    const edm::Ref<L1TRegionalMuonCandidateCollection> originRef() const { return m_regional; };
+    const RegionalMuonCand& origin() const { return m_regional; };
 
-    inline const int hwPt() const { return m_regional->hwPt(); };
-    inline const int hwLocalPhi() const { return m_regional->hwPhi(); };
-    inline const int hwEta() const { return m_regional->hwEta(); };
-    inline const int hwSign() const { return m_regional->hwSign(); };
-    inline const int hwSignValid() const { return m_regional->hwSignValid(); };
-    inline const int hwQual() const { return m_regional->hwQual(); };
-    inline const int hwTrackAddress() const { return m_regional->hwTrackAddress(); };
-    inline const int processor() const { return m_regional->processor(); };
-    inline const tftype trackFinderType() const { return m_regional->trackFinderType(); };
-    inline const int link() const { return m_regional->link(); }
+    inline const int hwPt() const { return m_regional.hwPt(); };
+    inline const int hwLocalPhi() const { return m_regional.hwPhi(); };
+    inline const int hwEta() const { return m_regional.hwEta(); };
+    inline const int hwSign() const { return m_regional.hwSign(); };
+    inline const int hwSignValid() const { return m_regional.hwSignValid(); };
+    inline const int hwQual() const { return m_regional.hwQual(); };
+    inline const int hwTrackAddress() const { return m_regional.hwTrackAddress(); };
+    inline const int processor() const { return m_regional.processor(); };
+    inline const tftype trackFinderType() const { return m_regional.trackFinderType(); };
+    inline const int link() const { return m_regional.link(); }
 
   private:
 
-    const edm::Ref<L1TRegionalMuonCandidateCollection> m_regional;
+    const RegionalMuonCand& m_regional;
     int m_hwRank;
     int m_hwCancelBit;
     int m_hwWins;

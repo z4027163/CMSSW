@@ -48,11 +48,11 @@ std::tuple<unsigned int,unsigned int, int, int, unsigned int, int> OMTFSorter::s
   for(unsigned int ipdfVal=0;ipdfVal<pdfValsVec.size();++ipdfVal){
     if(nHitsVec[ipdfVal] == nHitsMax){
       if(pdfValsVec[ipdfVal]>pdfValMax){
-	pdfValMax = pdfValsVec[ipdfVal]; 
-	refPhi = refPhiVec[ipdfVal]; 
-	refEta = refEtaVec[ipdfVal]; 
+	pdfValMax = pdfValsVec[ipdfVal];
+	refPhi = refPhiVec[ipdfVal];
+	refEta = refEtaVec[ipdfVal];
 	refLayer = ipdfVal;
-	hitsWord = hitsVec[ipdfVal]; 
+	hitsWord = hitsVec[ipdfVal];
       }
     }
   }
@@ -71,13 +71,13 @@ InternalObj OMTFSorter::sortRefHitResults(const OMTFProcessor::resultsMap & aRes
 					  int charge){
 
   unsigned int pdfValMax = 0;
-  unsigned int nHitsMax = 0;  
+  unsigned int nHitsMax = 0;
   unsigned int hitsWord = 0;
   int refPhi = 9999;
   int refEta = 999;
   int refLayer = -1;
   Key bestKey;
-  for(auto itKey: aResultsMap){   
+  for(auto itKey: aResultsMap){
     if(charge!=0 && itKey.first.theCharge!=charge) continue; //charge==0 means ignore charge
     std::tuple<unsigned int,unsigned int, int, int, unsigned int, int > val = sortSingleResult(itKey.second);
     ///Accept only candidates with >2 hits
@@ -108,7 +108,7 @@ InternalObj OMTFSorter::sortRefHitResults(const OMTFProcessor::resultsMap & aRes
       hitsWord = std::get<4>(val);
       bestKey = itKey.first;
     }
-  }  
+  }
 
   InternalObj candidate(bestKey.thePtCode, refEta, refPhi,
 			pdfValMax, 0, nHitsMax,
@@ -150,7 +150,7 @@ void OMTFSorter::sortProcessorResults(const std::vector<OMTFProcessor::resultsMa
   // where goodness definied in < operator of InternalObj
   std::sort( refHitCands.begin(), refHitCands.end() );
 
-  // Clean candidate list by removing dupicates basing on Phi distance. 
+  // Clean candidate list by removing dupicates basing on Phi distance.
   // Assumed that the list is ordered
   for(std::vector<InternalObj>::iterator it1 = refHitCands.begin();
       it1 != refHitCands.end(); ++it1){
@@ -162,7 +162,7 @@ void OMTFSorter::sortProcessorResults(const std::vector<OMTFProcessor::resultsMa
       if(std::abs(it1->phi - it2->phi)<5/360.0*OMTFConfiguration::nPhiBins){
 	isGhost=true;
 	break;
-      }      
+      }
     }
     if(it1->q>0 && !isGhost) refHitCleanCands.push_back(*it1);
   }
@@ -175,8 +175,8 @@ void OMTFSorter::sortProcessorResults(const std::vector<OMTFProcessor::resultsMa
     if(refHitCands[iRefHit].q){
       hasCandidates=true;
       break;
-    }  
-  }    
+    }
+  }
   for(unsigned int iRefHit=0;iRefHit<refHitCands.size();++iRefHit){
     if(refHitCands[iRefHit].q) myStr<<"Ref hit: "<<iRefHit<<" "<<refHitCands[iRefHit]<<std::endl;
   }
@@ -191,12 +191,12 @@ void OMTFSorter::sortProcessorResults(const std::vector<OMTFProcessor::resultsMa
 }
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
-l1t::L1TRegionalMuonCandidate OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & procResults,
+l1t::RegionalMuonCand OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & procResults,
 							int charge){ //method kept for backward compatibility
 
   InternalObj myCand = sortProcessorResults(procResults, charge);
 
-  l1t::L1TRegionalMuonCandidate candidate;
+  l1t::RegionalMuonCand candidate;
   candidate.setHwPt(myCand.pt);
   candidate.setHwEta(myCand.eta);
   candidate.setHwPhi(myCand.phi);
@@ -211,19 +211,19 @@ l1t::L1TRegionalMuonCandidate OMTFSorter::sortProcessor(const std::vector<OMTFPr
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & procResults,
-			       l1t::L1TRegionalMuonCandidateCollection & sortedCands,
-			       int charge){
+			       l1t::RegionalMuonCandBxCollection & sortedCands,
+			       int bx, int charge){
 
   sortedCands.clear();
   std::vector<InternalObj> mySortedCands;
   sortProcessorResults(procResults, mySortedCands, charge);
 
   for(auto myCand: mySortedCands){
-    l1t::L1TRegionalMuonCandidate candidate;
+    l1t::RegionalMuonCand candidate;
     std::bitset<17> bits(myCand.hits);
     int ipt = myCand.pt+1;
     if(ipt>31) ipt=31;
-    candidate.setHwPt(RPCConst::ptFromIpt(ipt)*2.0);//uGMT has 0.5 GeV pt bins    
+    candidate.setHwPt(RPCConst::ptFromIpt(ipt)*2.0);//uGMT has 0.5 GeV pt bins
     candidate.setHwEta(myCand.eta);//eta scale set during input making in OMTFInputmaker
     candidate.setHwPhi(myCand.phi);
     candidate.setHwSign(myCand.charge+1*(myCand.charge<0));
@@ -233,7 +233,7 @@ void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & pr
     //candidate.setHwQual(myCand.refLayer);
     //candidate.setLink(myCand.disc);
     /////////////
-    sortedCands.push_back(candidate);
+    sortedCands.push_back(bx, candidate);
   }
 
   return;

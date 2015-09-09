@@ -42,7 +42,7 @@
 #include "L1Trigger/L1BarrelMuonTrackFinder/src/L1MuBMMuonSorter.h"
 #include "L1Trigger/L1BarrelMuonTrackFinder/interface/L1MuBMTrack.h"
 
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 
 
 using namespace std;
@@ -70,7 +70,10 @@ L1MuBMTrackFinder::L1MuBMTrackFinder(const edm::ParameterSet & ps,edm::ConsumesC
   m_wsvec.reserve(12);
   m_ms = 0;
 
-  _cache.reserve(4*17);
+  // FIXME: here the cache should be reserved to an appropriate size:
+  // As I (Joschka) don't know how to decode the 4*17, I'm not sure which
+  // need to book the BXVector accordingly (_cache(n_per_bx, bx_min, bx_max))
+  // _cache.reserve(4*17);
   _cache0.reserve(144*17);
 
   iC.consumes<L1MuDTChambPhDigi>(L1MuBMTFConfig::getBMDigiInputTag());
@@ -242,7 +245,7 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
       for ( iter = mttf_cont.begin(); iter != mttf_cont.end(); iter++ ) {
         //if ( *iter ) _cache.push_back(L1MuRegionalCand((*iter)->getDataWord(),(*iter)->bx()));
 
-//        if ( *iter ) _cache.push_back(l1t::L1TRegionalMuonCandidate((*iter)->hwPt(),
+//        if ( *iter ) _cache.push_back(l1t::RegionalMuonCand((*iter)->hwPt(),
 //                                                               (*iter)->hwPhi(),
 //                                                               (*iter)->hwEta(),
 //                                                               (*iter)->hwSign(),
@@ -251,18 +254,16 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
 //                                                               (*iter)->bx()
 //                                                               ));
 //
-        if ( *iter ){ _cache.push_back(l1t::L1TRegionalMuonCandidate( (*iter)->hwPt(),
+        if ( *iter ){ _cache.push_back((*iter)->bx(), l1t::RegionalMuonCand( (*iter)->hwPt(),
                                                                (*iter)->hwPhi(),
                                                                (*iter)->hwEta(),
                                                                (*iter)->hwSign(),
                                                                (*iter)->hwSignValid(),
                                                                (*iter)->hwQual(),
 							       (*iter)->spid().sector(),
-							       l1t::tftype::bmtf,
-                                                               (*iter)->bx()
-
+							       l1t::tftype::bmtf
 ));
-//l1t::L1TRegionalMuonCandidate::setTFIdentifiers((*iter)->spid().sector(),l1t::tftype::bmtf );
+//l1t::RegionalMuonCand::setTFIdentifiers((*iter)->spid().sector(),l1t::tftype::bmtf );
 
 }
       }
@@ -315,22 +316,24 @@ const L1MuBMSectorProcessor* L1MuBMTrackFinder::sp(const L1MuBMSecProcId& id) co
 // return number of muon candidates found by the barrel MTTF
 //
 int L1MuBMTrackFinder::numberOfTracks() {
+  int num = 0;
+  for (int bx = _cache.getFirstBX(); bx < _cache.getLastBX(); ++bx) {
+    num += _cache.size(bx);
+  }
+  return num;
+}
 
-  return _cache.size();
+
+L1MuBMTrackFinder::TFtracks_const_iter L1MuBMTrackFinder::begin(int bx) {
+
+  return _cache.begin(bx);
 
 }
 
 
-L1MuBMTrackFinder::TFtracks_const_iter L1MuBMTrackFinder::begin() {
+L1MuBMTrackFinder::TFtracks_const_iter L1MuBMTrackFinder::end(int bx) {
 
-  return _cache.begin();
-
-}
-
-
-L1MuBMTrackFinder::TFtracks_const_iter L1MuBMTrackFinder::end() {
-
-  return _cache.end();
+  return _cache.end(bx);
 
 }
 
@@ -347,14 +350,7 @@ void L1MuBMTrackFinder::clear() {
 // return number of muon candidates found by the barrel MTTF at a given bx
 //
 int L1MuBMTrackFinder::numberOfTracks(int bx) {
-
-  int number = 0;
-  for ( TFtracks_const_iter it  = _cache.begin(); it != _cache.end(); it++ ) {
-    if ( (*it).bx() == bx ) number++;
-  }
-
-  return number;
-
+  return _cache.size(0);
 }
 
 

@@ -1,10 +1,9 @@
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
-#include <iostream> 
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 
 namespace l1t {
 
 void
-L1TRegionalMuonCandidate::setTFIdentifiers(int processor, tftype trackFinder) {
+RegionalMuonCand::setTFIdentifiers(int processor, tftype trackFinder) {
   m_trackFinder = trackFinder;
   m_processor = processor;
 
@@ -22,9 +21,4 @@ L1TRegionalMuonCandidate::setTFIdentifiers(int processor, tftype trackFinder) {
   }
 }
 
-void 
-L1TRegionalMuonCandidate::setLink(int link) {
-  std::cout << "Please move to setTFIdentifiers" << std::endl;
-  m_link = link; 
-}
 } // namespace l1t

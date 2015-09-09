@@ -49,7 +49,7 @@ using namespace std;
 //----------------
 L1MuBMTrack::L1MuBMTrack() :
                //L1MuRegionalCand(0,0),-->
-               l1t::L1TRegionalMuonCandidate(),
+               l1t::RegionalMuonCand(),
                m_spid(L1MuBMSecProcId()), m_name("L1MuBMTrack"), m_empty(true),
                m_tc(UNDEF),
                m_addArray(), m_tsphiList(), m_tsetaList() {
@@ -57,8 +57,8 @@ L1MuBMTrack::L1MuBMTrack() :
   m_tsphiList.reserve(4);
   m_tsetaList.reserve(3);
 
-  //setType(0);    
-  //setChargeValid(true);   
+  //setType(0);
+  //setChargeValid(true);
   setHwSignValid(1);
 
 }
@@ -66,15 +66,15 @@ L1MuBMTrack::L1MuBMTrack() :
 
 L1MuBMTrack::L1MuBMTrack(const L1MuBMSecProcId& spid) :
                //L1MuRegionalCand(0,0),-->
-               l1t::L1TRegionalMuonCandidate(),
+               l1t::RegionalMuonCand(),
                m_spid(spid), m_name("L1MuBMTrack"), m_empty(true),
                m_tc(UNDEF),
                m_addArray(), m_tsphiList(), m_tsetaList() {
 
   m_tsphiList.reserve(4);
   m_tsetaList.reserve(3);
-  //setType(0);    
-  //setChargeValid(true);   
+  //setType(0);
+  //setChargeValid(true);
   setHwSignValid(1);
 
 }
@@ -82,7 +82,7 @@ L1MuBMTrack::L1MuBMTrack(const L1MuBMSecProcId& spid) :
 
 L1MuBMTrack::L1MuBMTrack(const L1MuBMTrack& id) :
                //L1MuRegionalCand(id),-->
-               l1t::L1TRegionalMuonCandidate(id),
+               l1t::RegionalMuonCand(id),
                m_spid(id.m_spid), m_name(id.m_name), m_empty(id.m_empty),
                m_tc(id.m_tc),
                m_addArray(id.m_addArray),
