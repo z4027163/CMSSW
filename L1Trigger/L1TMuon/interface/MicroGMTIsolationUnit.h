@@ -6,22 +6,20 @@
 #include "MicroGMTRelativeIsolationCheckLUT.h"
 #include "MicroGMTAbsoluteIsolationCheckLUT.h"
 #include "MicroGMTCaloIndexSelectionLUT.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
 
 
-
-namespace l1t {  
+namespace l1t {
   class MicroGMTIsolationUnit {
-    public: 
+    public:
       explicit MicroGMTIsolationUnit (const edm::ParameterSet&);
       virtual ~MicroGMTIsolationUnit ();
 
       // returns the index corresponding to the calo tower sum using the LUT
       int getCaloIndex(MicroGMTConfiguration::InterMuon&) const;
       // copies the energy values to the m_towerEnergies map for consistent access
-      void setTowerSums(const MicroGMTConfiguration::CaloInputCollection& inputs);
+      void setTowerSums(const MicroGMTConfiguration::CaloInputCollection& inputs, int bx);
       // First step done for calo input preparation, calculates strip sums
-      void calculate5by1Sums(const MicroGMTConfiguration::CaloInputCollection&);
+      void calculate5by1Sums(const MicroGMTConfiguration::CaloInputCollection&, int bx);
       // Second step, only done for the sums needed for final iso requirement
       int calculate5by5Sum(unsigned index) const;
 
@@ -45,7 +43,7 @@ namespace l1t {
 
       MicroGMTCaloIndexSelectionLUT m_IdxSelMemEta;
       MicroGMTCaloIndexSelectionLUT m_IdxSelMemPhi;
-      
+
       MicroGMTRelativeIsolationCheckLUT m_RelIsoCheckMem;
       MicroGMTAbsoluteIsolationCheckLUT m_AbsIsoCheckMem;
 

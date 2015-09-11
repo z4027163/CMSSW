@@ -39,7 +39,7 @@
 #include <FWCore/ParameterSet/interface/ParameterSet.h>
 #include "FWCore/Framework/interface/ConsumesCollector.h"
 
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 
 class L1MuBMTFConfig;
 class L1MuBMSecProcMap;
@@ -64,8 +64,8 @@ class L1MuBMTrackFinder {
     //typedef std::vector<L1MuRegionalCand>::const_iterator TFtracks_const_iter;
     //typedef std::vector<L1MuRegionalCand>::iterator       TFtracks_iter;
 
-    typedef std::vector<l1t::L1TRegionalMuonCandidate>::const_iterator TFtracks_const_iter;
-    typedef std::vector<l1t::L1TRegionalMuonCandidate>::iterator       TFtracks_iter;
+    typedef l1t::RegionalMuonCandBxCollection::const_iterator TFtracks_const_iter;
+    typedef l1t::RegionalMuonCandBxCollection::iterator       TFtracks_iter;
 
     /// constructor
     L1MuBMTrackFinder(const edm::ParameterSet & ps, edm::ConsumesCollector && iC);
@@ -97,9 +97,9 @@ class L1MuBMTrackFinder {
     /// get number of muon candidates found by the barrel MTTF
     int numberOfTracks();
 
-    TFtracks_const_iter begin();
+    TFtracks_const_iter begin(int bx);
 
-    TFtracks_const_iter end();
+    TFtracks_const_iter end(int bx);
 
     void clear();
 
@@ -112,7 +112,7 @@ class L1MuBMTrackFinder {
     std::vector<L1MuBMTrackCand>& getcache0() { return _cache0; }
 
     //std::vector<L1MuRegionalCand>& getcache() { return _cache; } -->
-    std::vector<l1t::L1TRegionalMuonCandidate>& getcache() { return _cache; }
+    l1t::RegionalMuonCandBxCollection& getcache() { return _cache; }
 
   private:
 
@@ -123,7 +123,7 @@ class L1MuBMTrackFinder {
 
     std::vector<L1MuBMTrackCand>     _cache0;
     //std::vector<L1MuRegionalCand>    _cache;
-    std::vector<l1t::L1TRegionalMuonCandidate> _cache;
+    l1t::RegionalMuonCandBxCollection _cache;
     L1MuBMSecProcMap*                m_spmap;        ///< Sector Processors
     std::vector<L1MuBMEtaProcessor*> m_epvec;        ///< Eta Processors
     std::vector<L1MuBMWedgeSorter*>  m_wsvec;        ///< Wedge Sorters

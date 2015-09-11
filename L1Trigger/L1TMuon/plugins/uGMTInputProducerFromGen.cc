@@ -2,7 +2,7 @@
 //
 // Package:    uGMTInputProducerFromGen
 // Class:      uGMTInputProducerFromGen
-// 
+//
 /**\class uGMTInputProducerFromGen uGMTInputProducerFromGen.cc L1Trigger/L1TGlobalMuon/plugins/uGMTInputProducerFromGen.cc
 
  Description: takes generated muons and fills them in the expected collections for the uGMT
@@ -33,10 +33,10 @@
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
-#include "DataFormats/L1TMuon/interface/L1TGMTInputCaloSumFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TGMTInputCaloSum.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
+#include "DataFormats/L1TMuon/interface/GMTInputCaloSumFwd.h"
+#include "DataFormats/L1TMuon/interface/GMTInputCaloSum.h"
 
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 
@@ -58,14 +58,14 @@ class uGMTInputProducerFromGen : public edm::EDProducer {
       virtual void beginJob() ;
       virtual void produce(edm::Event&, const edm::EventSetup&);
       virtual void endJob() ;
-      
+
       virtual void beginRun(edm::Run&, edm::EventSetup const&);
       virtual void endRun(edm::Run&, edm::EventSetup const&);
       virtual void beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
       virtual void endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
 
-      static bool compareMuons(const L1TRegionalMuonCandidate&, const L1TRegionalMuonCandidate&);
-     
+      static bool compareMuons(const RegionalMuonCand&, const RegionalMuonCand&);
+
       // ----------member data ---------------------------
       edm::EDGetTokenT <reco::GenParticleCollection> genParticlesToken;
       int m_currEvt;
@@ -85,16 +85,16 @@ class uGMTInputProducerFromGen : public edm::EDProducer {
 //
 // constructors and destructor
 //
-uGMTInputProducerFromGen::uGMTInputProducerFromGen(const edm::ParameterSet& iConfig) : 
+uGMTInputProducerFromGen::uGMTInputProducerFromGen(const edm::ParameterSet& iConfig) :
   m_currEvt(0), m_rnd(0)
 {
   //register your inputs:
   genParticlesToken = consumes <reco::GenParticleCollection> (std::string("genParticles"));
   //register your products
-  produces<L1TRegionalMuonCandidateCollection>("BarrelTFMuons");
-  produces<L1TRegionalMuonCandidateCollection>("OverlapTFMuons");
-  produces<L1TRegionalMuonCandidateCollection>("ForwardTFMuons");
-  produces<L1TGMTInputCaloSumCollection>("TriggerTowerSums");
+  produces<RegionalMuonCandBxCollection>("BarrelTFMuons");
+  produces<RegionalMuonCandBxCollection>("OverlapTFMuons");
+  produces<RegionalMuonCandBxCollection>("ForwardTFMuons");
+  produces<GMTInputCaloSumBxCollection>("TriggerTowerSums");
 }
 
 
@@ -109,8 +109,8 @@ uGMTInputProducerFromGen::~uGMTInputProducerFromGen()
 // member functions
 //
 
-bool 
-uGMTInputProducerFromGen::compareMuons(const L1TRegionalMuonCandidate& mu1, const L1TRegionalMuonCandidate& mu2) 
+bool
+uGMTInputProducerFromGen::compareMuons(const RegionalMuonCand& mu1, const RegionalMuonCand& mu2)
 {
   return mu1.processor() < mu2.processor();
 }
@@ -121,16 +121,20 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
 {
   using namespace edm;
 
-  std::auto_ptr<l1t::L1TRegionalMuonCandidateCollection> barrelMuons (new l1t::L1TRegionalMuonCandidateCollection());
-  std::auto_ptr<l1t::L1TRegionalMuonCandidateCollection> overlapMuons (new l1t::L1TRegionalMuonCandidateCollection());
-  std::auto_ptr<l1t::L1TRegionalMuonCandidateCollection> endcapMuons (new l1t::L1TRegionalMuonCandidateCollection());
-  std::auto_ptr<l1t::L1TGMTInputCaloSumCollection> towerSums (new L1TGMTInputCaloSumCollection());
+  std::auto_ptr<l1t::RegionalMuonCandBxCollection> barrelMuons (new l1t::RegionalMuonCandBxCollection());
+  std::auto_ptr<l1t::RegionalMuonCandBxCollection> overlapMuons (new l1t::RegionalMuonCandBxCollection());
+  std::auto_ptr<l1t::RegionalMuonCandBxCollection> endcapMuons (new l1t::RegionalMuonCandBxCollection());
+  std::auto_ptr<l1t::GMTInputCaloSumBxCollection> towerSums (new l1t::GMTInputCaloSumBxCollection());
+
+  std::vector<l1t::RegionalMuonCand> bmMuons;
+  std::vector<l1t::RegionalMuonCand> omMuons;
+  std::vector<l1t::RegionalMuonCand> emMuons;
 
 
   std::vector<int> muIndices;
   edm::Handle<reco::GenParticleCollection> genParticles;
   // Make sure that you can get genParticles
-  if (iEvent.getByToken(genParticlesToken, genParticles)) { 
+  if (iEvent.getByToken(genParticlesToken, genParticles)) {
     int cntr = 0;
     for (auto it = genParticles->cbegin(); it != genParticles->cend(); ++it) {
       const reco::Candidate& mcParticle = *it;
@@ -142,19 +146,19 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     LogTrace("GlobalMuon") << " GenParticleCollection not found." << std::endl;
   }
 
-  l1t::L1TRegionalMuonCandidate mu;
-  l1t::L1TGMTInputCaloSum tSum;
-  // alternative scale (using full phi bit-width): 163.4521265553765f; 
+  l1t::RegionalMuonCand mu;
+  l1t::GMTInputCaloSum tSum;
+  // alternative scale (using full phi bit-width): 163.4521265553765f;
   const float phiToInt = 91.67324722093171f;
   // alternative scale: 100.0f;
-  const float etaToInt = 90.9090909090f; 
+  const float etaToInt = 90.9090909090f;
   const int maxPt = (1 << 9)-1;
   int muCntr = 0;
 
   double twoPi = TMath::Pi() * 2.;
 
   for (auto it = muIndices.begin(); it != muIndices.end(); ++it) {
-    // don't really care which muons are taken... 
+    // don't really care which muons are taken...
     // guess there ain't 108 generated anyways
     if (muCntr == m_maxMuons) break;
     int gen_idx = *it;
@@ -170,7 +174,7 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     int hwQual = 8;
     int hwCharge = (mcMuon.charge() > 0) ? 0 : 1;
     int hwChargeValid = 1;
-    
+
     mu.setHwPt(hwPt);
 
 
@@ -181,17 +185,17 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     int processor = globalWedgePhi / 48 + 1;
     int globalSectorPhi = (hwPhi-24); // this sets CMS phi = 0 to +15 deg
     if (globalSectorPhi < 0) {
-      globalSectorPhi += 576; 
+      globalSectorPhi += 576;
     }
 
 
     if (fabs(eta) > 0.8) {
       if (fabs(eta) < 1.2) {
-        tf = (eta > 0 ? tftype::omtf_neg : tftype::omtf_pos);
+        tf = (eta > 0 ? tftype::omtf_pos : tftype::omtf_neg);
         processor = globalSectorPhi / 96 + 1;
-        localPhi = globalSectorPhi%96; 
+        localPhi = globalSectorPhi%96;
       } else {
-        tf = (eta > 0 ? tftype::emtf_neg : tftype::emtf_pos);
+        tf = (eta > 0 ? tftype::emtf_pos : tftype::emtf_neg);
         processor = globalSectorPhi / 96 + 1;
         localPhi = globalSectorPhi%96;
       }
@@ -204,70 +208,82 @@ uGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     mu.setHwSignValid(hwChargeValid);
     mu.setHwQual(hwQual);
 
-    if (fabs(eta) < 0.8 && barrelMuons->size() < 36) {
-      barrelMuons->push_back(mu);
+    if (fabs(eta) < 0.8 && bmMuons.size() < 36) {
+      bmMuons.push_back(mu);
       muCntr++;
-    } else if (fabs(eta) < 1.2  && overlapMuons->size() < 36) {
-      overlapMuons->push_back(mu);
+    } else if (fabs(eta) < 1.2  && omMuons.size() < 36) {
+      omMuons.push_back(mu);
       muCntr++;
-    } else if (endcapMuons->size() < 36) {
-      endcapMuons->push_back(mu);
+    } else if (emMuons.size() < 36) {
+      emMuons.push_back(mu);
       muCntr++;
     }
   }
 
-  std::sort(barrelMuons->begin(), barrelMuons->end(), uGMTInputProducerFromGen::compareMuons);
-  std::sort(overlapMuons->begin(), overlapMuons->end(), uGMTInputProducerFromGen::compareMuons);
-  std::sort(endcapMuons->begin(), endcapMuons->end(), uGMTInputProducerFromGen::compareMuons);
+  std::sort(bmMuons.begin(), bmMuons.end(), uGMTInputProducerFromGen::compareMuons);
+  std::sort(omMuons.begin(), omMuons.end(), uGMTInputProducerFromGen::compareMuons);
+  std::sort(emMuons.begin(), emMuons.end(), uGMTInputProducerFromGen::compareMuons);
+
+  for (const auto& mu:bmMuons) {
+    barrelMuons->push_back(0, mu);
+  }
+
+  for (const auto& mu:omMuons) {
+    overlapMuons->push_back(0, mu);
+  }
+
+  for (const auto& mu:emMuons) {
+    endcapMuons->push_back(0, mu);
+  }
 
   for (int i = 0; i < 1008; ++i) {
     // from where could I take the tower energies?
     int energy = int(m_rnd.Gaus(12, 6));
-    if (energy < 0) energy = 0; 
+    if (energy < 0) energy = 0;
     if (energy > 31) energy = 31;
-    towerSums->emplace_back(energy, i/28, i%28, i);
+    l1t::GMTInputCaloSum sum(energy, i/28, i%28, i);
+    towerSums->push_back(0, sum);
   }
-  // std::cout << std::endl;
-  // std::cout << towerSums->size() << std::endl;
+
   iEvent.put(barrelMuons, "BarrelTFMuons");
   iEvent.put(overlapMuons, "OverlapTFMuons");
   iEvent.put(endcapMuons, "ForwardTFMuons");
   iEvent.put(towerSums, "TriggerTowerSums");
   m_currEvt++;
- 
+
 }
 
 // ------------ method called once each job just before starting event loop  ------------
-void 
+void
 uGMTInputProducerFromGen::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
-void 
+void
 uGMTInputProducerFromGen::endJob() {
 }
 
 // ------------ method called when starting to processes a run  ------------
-void 
+void
 uGMTInputProducerFromGen::beginRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a run  ------------
-void 
+void
 uGMTInputProducerFromGen::endRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when starting to processes a luminosity block  ------------
-void 
+void
 uGMTInputProducerFromGen::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a luminosity block  ------------
-void 
+void
 uGMTInputProducerFromGen::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }

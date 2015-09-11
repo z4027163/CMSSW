@@ -22,7 +22,7 @@
 //----------------------
 
 //#include "DataFormats/L1GlobalMuonTrigger/interface/L1MuRegionalCand.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 
 //---------------
 // C++ Headers --
@@ -32,7 +32,7 @@
 //              -- Class Interface --
 //              ---------------------
 
-class L1MuBMTrackCand: public l1t::L1TRegionalMuonCandidate {
+class L1MuBMTrackCand: public l1t::RegionalMuonCand {
 
  public:
 
@@ -57,9 +57,11 @@ L1MuBMTrackCand( int pt, int phi, int eta, int charge, int quality, int bx,
   int stNum(int ust) const;
   int TCNum()        const;
   int TrkTag()       const;
+  int bx()           const;
 
   void setTC();
   void setAdd(int ust);
+  void setBx(int bx) {m_bx = bx;}
 
  private:
 
@@ -68,6 +70,7 @@ L1MuBMTrackCand( int pt, int phi, int eta, int charge, int quality, int bx,
   int TrkTagCode;
   int TClassCode;
   int TrkAdd[4];
+  int m_bx;
 
 };
 

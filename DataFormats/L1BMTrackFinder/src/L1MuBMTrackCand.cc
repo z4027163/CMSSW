@@ -33,7 +33,7 @@ using namespace std;
 // Constructors --
 //----------------
 //L1MuBMTrackCand::L1MuBMTrackCand() : L1MuRegionalCand(0,0) {
-L1MuBMTrackCand::L1MuBMTrackCand() : l1t::L1TRegionalMuonCandidate() {
+L1MuBMTrackCand::L1MuBMTrackCand() : l1t::RegionalMuonCand() {
 
   wheel           = 0;
   sector          = 0;
@@ -50,7 +50,7 @@ L1MuBMTrackCand::L1MuBMTrackCand() : l1t::L1TRegionalMuonCandidate() {
 //                   L1MuRegionalCand(dataword, bx) {
 //L1MuBMTrackCand::L1MuBMTrackCand( unsigned dataword, int bx, int uwh, int usc,
 //                       int utag, int adr1, int adr2, int adr3, int adr4, int utc ) :
-//                   l1t::L1TRegionalMuonCandidate() {
+//                   l1t::RegionalMuonCand() {
 
 //  wheel           = uwh;
 //  sector          = usc;
@@ -108,6 +108,10 @@ L1MuBMTrackCand::~L1MuBMTrackCand() {
 //--------------
 int L1MuBMTrackCand::whNum() const {
   return wheel;
+}
+
+int L1MuBMTrackCand::bx() const {
+  return m_bx;
 }
 
 int L1MuBMTrackCand::scNum() const {

@@ -1,18 +1,18 @@
 #ifndef __GMTInputCaloSum_h
 #define __GMTInputCaloSum_h
 
-#include <vector>
+#include "DataFormats/L1Trigger/interface/BXVector.h"
 
 namespace l1t {
-  class L1TGMTInputCaloSum {
+  class GMTInputCaloSum {
     public:
-      L1TGMTInputCaloSum() : 
+      GMTInputCaloSum() :
         m_etBits(0), m_hwPhi(0), m_hwEta(0), m_index(0) {};
 
-      L1TGMTInputCaloSum(int pt, int phi, int eta, int index) : 
+      GMTInputCaloSum(int pt, int phi, int eta, int index) :
         m_etBits(pt), m_hwPhi(phi), m_hwEta(eta), m_index(index) {};
 
-      virtual ~L1TGMTInputCaloSum() {};
+      virtual ~GMTInputCaloSum() {};
 
       void setEtBits(int bits) { m_etBits = bits; };
       void setPhiBits(int bits) { m_hwPhi = bits; };

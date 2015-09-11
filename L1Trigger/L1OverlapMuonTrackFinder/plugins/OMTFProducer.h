@@ -6,8 +6,8 @@
 #include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitive.h"
 #include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitiveFwd.h"
 
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -36,14 +36,14 @@ namespace XERCES_CPP_NAMESPACE{
 class OMTFProducer : public edm::EDProducer {
  public:
   OMTFProducer(const edm::ParameterSet&);
-  
+
   ~OMTFProducer();
 
   virtual void beginJob();
 
   virtual void endJob();
-  
-  virtual void produce(edm::Event&, const edm::EventSetup&);  
+
+  virtual void produce(edm::Event&, const edm::EventSetup&);
 
  private:
 
@@ -51,9 +51,9 @@ class OMTFProducer : public edm::EDProducer {
   edm::InputTag trigPrimSrc;
   edm::EDGetTokenT<L1TMuon::TriggerPrimitiveCollection> inputToken;
 
-  void processCandidates(unsigned int iProcessor,
-			 std::auto_ptr<l1t::L1TRegionalMuonCandidateCollection > & myCands,
-			 l1t::L1TRegionalMuonCandidateCollection & myOTFCandidates,
+  void processCandidates(unsigned int iProcessor, int bx,
+			 std::auto_ptr<l1t::RegionalMuonCandBxCollection > & myCands,
+			 l1t::RegionalMuonCandBxCollection & myOTFCandidates,
 			 l1t::tftype mtfType);
 
   const L1TMuon::TriggerPrimitiveCollection filterDigis(const L1TMuon::TriggerPrimitiveCollection & vDigi);
@@ -69,7 +69,7 @@ class OMTFProducer : public edm::EDProducer {
   ///
   xercesc::DOMElement *aTopElement;
   OMTFConfigMaker *myOMTFConfigMaker;
-  XMLConfigWriter *myWriter; 
+  XMLConfigWriter *myWriter;
   ///
 
 };

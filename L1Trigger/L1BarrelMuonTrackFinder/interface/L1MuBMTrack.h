@@ -28,7 +28,7 @@
 //----------------------
 
 //#include "/home/gflouris/BMTF/DebugEmulator/CMSSW_7_2_0/src/DataFormats/L1GlobalMuonTrigger/interface/L1MuRegionalCand.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidate.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/L1TMuonCandidateTrack.h"
 
 //------------------------------------
@@ -52,7 +52,7 @@ using namespace L1TMuon;
 //              -- Class Interface --
 //              ---------------------
 
-class L1MuBMTrack : public l1t::L1TRegionalMuonCandidate {
+class L1MuBMTrack : public l1t::RegionalMuonCand {
 
   public:
 
@@ -90,7 +90,7 @@ class L1MuBMTrack : public l1t::L1TRegionalMuonCandidate {
     inline int charge() const { return hwSign(); }
 
     /// get quality
-    inline unsigned int quality() const { return hwQual(); } 
+    inline unsigned int quality() const { return hwQual(); }
 
     /// get track-class
     inline TrackClass tc() const { return m_tc; }
@@ -106,6 +106,9 @@ class L1MuBMTrack : public l1t::L1TRegionalMuonCandidate {
 
     /// get relative address of a given station
     inline int address(int stat) const { return m_addArray.station(stat); }
+
+    /// get the bunch crossing for this muon candidate
+    inline int bx() const { return m_bx; }
 
     /// return number of phi track segments used to form the muon candidate
     inline int numberOfTSphi() const { return m_tsphiList.size(); }
@@ -156,7 +159,10 @@ class L1MuBMTrack : public l1t::L1TRegionalMuonCandidate {
     inline void setPt(int pt) { setHwPt(pt); }
 
     /// set charge of muon candidate
-    inline void setCharge(int charge) { setHwSign(charge);} 
+    inline void setCharge(int charge) { setHwSign(charge);}
+
+    /// set charge of muon candidate
+    inline void setBx(int bx) { m_bx = bx; }
 
     /// set quality of muon candidate
     inline void setQuality(unsigned int quality) { setHwQual(quality); }
@@ -212,6 +218,7 @@ class L1MuBMTrack : public l1t::L1TRegionalMuonCandidate {
     std::string      m_name;
     bool             m_empty;
     TrackClass       m_tc;
+    int              m_bx;
 
     L1MuBMAddressArray         m_addArray;
     std::vector<L1MuBMTrackSegPhi>  m_tsphiList;

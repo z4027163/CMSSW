@@ -35,7 +35,7 @@ BMTrackFinder::BMTrackFinder(const edm::ParameterSet & pset) {
 
   produces<L1MuBMTrackContainer>("BMTF");
   //produces<vector<L1MuRegionalCand> >("BM"); -->
-  produces<vector<l1t::L1TRegionalMuonCandidate> >("BM");
+  produces<l1t::RegionalMuonCandBxCollection>("BM");
 
 
   setup1 = new L1MuBMTFSetup(pset,consumesCollector());
@@ -67,12 +67,12 @@ void BMTrackFinder::produce(edm::Event& e, const edm::EventSetup& c) {
 
   auto_ptr<L1MuBMTrackContainer> tra_product(new L1MuBMTrackContainer);
   //auto_ptr<vector<L1MuRegionalCand> >  vec_product(new vector<L1MuRegionalCand>); -->
-  std::auto_ptr<vector<l1t::L1TRegionalMuonCandidate>  > vec_product(new vector<l1t::L1TRegionalMuonCandidate> );
+  std::auto_ptr<l1t::RegionalMuonCandBxCollection> vec_product(new l1t::RegionalMuonCandBxCollection);
 
   vector<L1MuBMTrackCand>  dtTracks = dtbx->getcache0();
   tra_product->setContainer(dtTracks);
   //vector<L1MuRegionalCand>& BMTracks = dtbx->getcache(); -->
-  vector<l1t::L1TRegionalMuonCandidate> & BMTracks = dtbx->getcache();
+  l1t::RegionalMuonCandBxCollection& BMTracks = dtbx->getcache();
 //cout<<"Point 1"<<endl;
 //cout<<vec_product->size()<<"    "<<BMTracks.size()<<endl;
 

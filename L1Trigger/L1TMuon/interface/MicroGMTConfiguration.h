@@ -5,9 +5,9 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
 #include "DataFormats/L1Trigger/interface/Muon.h"
-#include "DataFormats/L1TMuon/interface/L1TRegionalMuonCandidateFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TGMTInternalMuonFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TGMTInputCaloSumFwd.h"
+#include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
+#include "DataFormats/L1TMuon/interface/GMTInternalMuonFwd.h"
+#include "DataFormats/L1TMuon/interface/GMTInputCaloSumFwd.h"
 
 #include <map>
 #include <utility>
@@ -16,21 +16,23 @@ namespace l1t {
   class MicroGMTConfiguration {
     public:
       // All possible inputs for LUTs
-      enum input_t { 
+      enum input_t {
         PT, PT_COARSE, PHI, ETA, ETA_COARSE, QUALITY, DELTA_ETA_RED, DELTA_PHI_RED
       };
 
-      typedef std::pair<input_t, int> PortType; 
-      typedef L1TRegionalMuonCandidateCollection InputCollection;
+      typedef std::pair<input_t, int> PortType;
+      typedef RegionalMuonCandBxCollection InputCollection;
       typedef MuonBxCollection OutputCollection;
       typedef Muon OutMuon;
-      typedef L1TGMTInternalMuon InterMuon;
-      typedef L1TGMTInternalMuonCollection InterMuonCollection;
-      typedef L1TGMTInternalMuonList InterMuonList;
-      typedef L1TGMTInputCaloSum CaloInput;
-      typedef L1TGMTInputCaloSumCollection CaloInputCollection;
+      typedef GMTInternalMuon InterMuon;
+      typedef GMTInternalMuonCollection InterMuonCollection;
+      typedef GMTInternalMuonList InterMuonList;
+      typedef GMTInputCaloSum CaloInput;
+      typedef GMTInputCaloSumBxCollection CaloInputCollection;
       // Two's complement for a given bit-length
       static unsigned getTwosComp(const int signedInt, const int width);
+
+      static int calcGlobalPhi(int locPhi, tftype t, int proc);
   };
 }
-#endif /* defined (__l1microgmtconfiguration_h) */ 
+#endif /* defined (__l1microgmtconfiguration_h) */
