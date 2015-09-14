@@ -12,6 +12,10 @@
   <class name="L1TMuon::TriggerPrimitive" ClassVersion="11">
    <version ClassVersion="11" checksum="3982964189"/>
   </class>
+
+  <class name="l1t::RegionalMuonCandBxCollection"/>
+  <class name="edm::Wrapper<l1t::RegionalMuonCandBxCollection>"/>
+  
   <class name="edm::Wrapper<L1TMuon::TriggerPrimitive>"/>
   <class name="L1TMuon::TriggerPrimitiveCollection"/>
   <class name="edm::Wrapper<L1TMuon::TriggerPrimitiveCollection>"/>
