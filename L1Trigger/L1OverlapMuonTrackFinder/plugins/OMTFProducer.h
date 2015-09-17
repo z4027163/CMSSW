@@ -58,6 +58,8 @@ class OMTFProducer : public edm::EDProducer {
 
   const L1TMuon::TriggerPrimitiveCollection filterDigis(const L1TMuon::TriggerPrimitiveCollection & vDigi);
 
+  void writeMergedGPs();
+
   bool dumpResultToXML, dumpDetailedResultToXML, dumpGPToXML;
 
   ///OMTF objects
