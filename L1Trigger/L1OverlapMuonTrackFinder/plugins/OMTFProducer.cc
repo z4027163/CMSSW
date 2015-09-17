@@ -116,8 +116,8 @@ void OMTFProducer::writeMergedGPs(){
   dummy->reset();
 
   unsigned int iPtMin = 6;
-    Key aKey = Key(1, iPtMin,-1);
-    while(myGPmap.find(aKey)!=myGPmap.end()){
+  Key aKey = Key(1, iPtMin,-1);
+  while(myGPmap.find(aKey)!=myGPmap.end()){
 
     GoldenPattern *aGP1 = myGPmap.find(aKey)->second;
     GoldenPattern *aGP2 = dummy;
