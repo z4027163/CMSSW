@@ -43,6 +43,10 @@ class RegionalMuonCand {
     void setTFIdentifiers(int processor, tftype trackFinder);
     // this is left to still be compatible with OMTF
     void setLink(int link);
+    // Set the 64 bit word from two 32 words. bits 0-31->lsbs, bits 32-63->msbs
+    void setDataword(int msbs, int lsbs) { m_dataword = (((uint64_t)msbs) << 32) + lsbs; };
+    // Set the 64 bit word coming from HW directly
+    void setDataword(uint64_t bits) { m_dataword = bits; };
 
 
     /// Get compressed pT (returned int * 0.5 = pT (GeV))
@@ -66,7 +70,13 @@ class RegionalMuonCand {
     /// Get track-finder which found the muon (bmtf, emtf_pos/emtf_neg or omtf_pos/omtf_neg)
     const tftype trackFinderType() const { return m_trackFinder; };
     /// Get HF (halo / fine eta) bit (EMTF: halo -> 1; BMTF: fine eta -> 1)
-    const int hwHF() const {return m_hwHF; };
+    const int hwHF() const { return m_hwHF; };
+    /// Get 64 bit data word
+    const uint64_t dataword() const { return m_dataword; };
+    /// Get 32 MSBs of data word
+    const int dataword32Msb() const { return (int)((m_dataword >> 32) & 0xFFFFFFFF); };
+    /// Get 32 LSBs of data word
+    const int dataword32Lsb() const { return (int)(m_dataword & 0xFFFFFFFF); };
 
   private:
     int m_hwPt;

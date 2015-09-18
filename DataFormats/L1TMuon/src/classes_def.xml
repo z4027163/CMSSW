@@ -13,6 +13,7 @@
    <version ClassVersion="11" checksum="3982964189"/>
   </class>
 
+  <class name="l1t::RegionalMuonCand"/>
   <class name="l1t::RegionalMuonCandBxCollection"/>
   <class name="edm::Wrapper<l1t::RegionalMuonCandBxCollection>"/>
   
@@ -58,13 +59,6 @@
 
   <class name="L1TMuon::RPCL1LinkPtr"/>
   <class name="L1TMuon::RPCL1LinkRef"/>
-
-  <class name="l1t::L1TRegionalMuonCandidate"/>
-  <class name="l1t::L1TRegionalMuonCandidateCollection"/>
-  <class name="edm::Wrapper<l1t::L1TRegionalMuonCandidateCollection>"/>
-  <class name="l1t::L1TGMTInputCaloSum"/>
-  <class name="l1t::L1TGMTInputCaloSumCollection"/>
-  <class name="edm::Wrapper<l1t::L1TGMTInputCaloSumCollection>"/>
 
   <class name="edm::reftobase::BaseHolder<L1MuRegionalCand>"/>
   <class name="edm::reftobase::Holder<L1MuRegionalCand,L1TMuon::RegionalCandRef>"/>
