@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-ugmtRaw = cms.EDProducer(
+microGMTRaw = cms.EDProducer(
     "MP7BufferDumpToRaw",
     rxFile           = cms.untracked.string("rx_summary.txt"),
     txFile           = cms.untracked.string("tx_summary.txt"),

@@ -2,10 +2,10 @@
 
 #include "EventFilter/L1TRawToDigi/interface/Unpacker.h"
 
-#include "uGMTcollections.h"
+#include "MicroGMTCollections.h"
 
 namespace l1t {
-   class UGMTInUnpacker : public Unpacker {
+   class MicroGMTInUnpacker : public Unpacker {
       public:
          virtual bool unpack(const Block& block, UnpackerCollections *coll) override;
    };
@@ -14,7 +14,7 @@ namespace l1t {
 // Implementation
 namespace l1t {
    bool
-   UGMTInUnpacker::unpack(const Block& block, UnpackerCollections *coll)
+   MicroGMTInUnpacker::unpack(const Block& block, UnpackerCollections *coll)
    {
       unsigned int blockId = block.header().getID();
       LogDebug("L1T") << "Block ID  = " << blockId << " size = " << block.header().getSize();
@@ -35,16 +35,16 @@ namespace l1t {
       RegionalMuonCandBxCollection* res;
       tftype trackFinder;
       if (linkId > 47 && linkId < 60) {
-         res = static_cast<UGMTcollections*>(coll)->getRegionalMuonCandsBMTF();
+         res = static_cast<MicroGMTCollections*>(coll)->getRegionalMuonCandsBMTF();
          trackFinder = tftype::bmtf;
       } else if (linkId > 41 && linkId < 66) {
-         res = static_cast<UGMTcollections*>(coll)->getRegionalMuonCandsOMTF();
+         res = static_cast<MicroGMTCollections*>(coll)->getRegionalMuonCandsOMTF();
          if (linkId < 48)
             trackFinder = tftype::omtf_pos;
          else
             trackFinder = tftype::omtf_neg;
       } else if (linkId > 35 && linkId < 72) {
-         res = static_cast<UGMTcollections*>(coll)->getRegionalMuonCandsEMTF();
+         res = static_cast<MicroGMTCollections*>(coll)->getRegionalMuonCandsEMTF();
          if (linkId < 42)
             trackFinder = tftype::emtf_pos;
          else
@@ -106,4 +106,4 @@ namespace l1t {
    }
 }
 
-DEFINE_L1T_UNPACKER(l1t::UGMTInUnpacker);
+DEFINE_L1T_UNPACKER(l1t::MicroGMTInUnpacker);

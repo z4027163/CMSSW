@@ -59,7 +59,7 @@ process.MessageLogger = cms.Service(
 #	threshold  = cms.untracked.string('DEBUG')
 #    ),
     debugModules = cms.untracked.vstring('*'),
-#        'ugmtRaw',
+#        'microGMTRaw',
 #    ),
 #    cout = cms.untracked.PSet(
 #    )
@@ -73,32 +73,32 @@ process.TFileService.fileName = cms.string('l1t.root')
 # user stuff
 
 # raw data from MP card
-process.load('EventFilter.L1TRawToDigi.ugmtMP7BufferRaw_cfi')
-process.ugmtRaw.nFramesLatency   = cms.untracked.vuint32(1)
-process.ugmtRaw.nFramesOffset   = cms.untracked.vuint32(5)
-process.ugmtRaw.rxFile = cms.untracked.string("many_events.txt")
-process.ugmtRaw.txFile = cms.untracked.string("many_events_out.txt")
+process.load('EventFilter.L1TRawToDigi.microGMTMP7BufferRaw_cfi')
+process.microGMTRaw.nFramesLatency   = cms.untracked.vuint32(1)
+process.microGMTRaw.nFramesOffset   = cms.untracked.vuint32(5)
+process.microGMTRaw.rxFile = cms.untracked.string("many_events.txt")
+process.microGMTRaw.txFile = cms.untracked.string("many_events_out.txt")
 
 # dump raw data
 process.dumpRaw = cms.EDAnalyzer( 
     "DumpFEDRawDataProduct",
-    label = cms.untracked.string("ugmtRaw"),
+    label = cms.untracked.string("microGMTRaw"),
     feds = cms.untracked.vint32(1402),
     dumpPayload = cms.untracked.bool ( True )
 )
 
 # raw to digi
-process.load('EventFilter.L1TRawToDigi.ugmtDigis_cfi')
-process.ugmtDigis.InputLabel = cms.InputTag('ugmtRaw')
-#process.ugmtDigis.FWOverride = cms.bool(True)
-#process.ugmtDigis.FWId       = cms.uint32(0xffffffff)
-process.ugmtDigis.debug      = cms.untracked.bool (True)
+process.load('EventFilter.L1TRawToDigi.microGMTDigis_cfi')
+process.microGMTDigis.InputLabel = cms.InputTag('microGMTRaw')
+#process.microGMTDigis.FWOverride = cms.bool(True)
+#process.microGMTDigis.FWId       = cms.uint32(0xffffffff)
+process.microGMTDigis.debug      = cms.untracked.bool (True)
 
 # Path and EndPath definitions
 process.path = cms.Path(
-    process.ugmtRaw
+    process.microGMTRaw
     +process.dumpRaw
-    +process.ugmtDigis
+    +process.microGMTDigis
 )
 
 process.out = cms.EndPath(

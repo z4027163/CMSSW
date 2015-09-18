@@ -1,9 +1,9 @@
 #include "FWCore/Framework/interface/Event.h"
 
-#include "uGMTcollections.h"
+#include "MicroGMTCollections.h"
 
 namespace l1t {
-   UGMTcollections::~UGMTcollections()
+   MicroGMTCollections::~MicroGMTCollections()
    {
       event_.put(regionalMuonCandsBMTF_, "BMTF");
       event_.put(regionalMuonCandsOMTF_, "OMTF");

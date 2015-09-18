@@ -6,14 +6,14 @@
 
 #include "EventFilter/L1TRawToDigi/interface/PackingSetup.h"
 
-#include "uGMTcollections.h"
-#include "uGMTtokens.h"
+#include "MicroGMTCollections.h"
+#include "MicroGMTTokens.h"
 
 namespace l1t {
-   class UGMTsetup : public PackingSetup {
+   class MicroGMTSetup : public PackingSetup {
       public:
          virtual std::unique_ptr<PackerTokens> registerConsumes(const edm::ParameterSet& cfg, edm::ConsumesCollector& cc) override {
-            return std::unique_ptr<PackerTokens>(new UGMTtokens(cfg, cc));
+            return std::unique_ptr<PackerTokens>(new MicroGMTTokens(cfg, cc));
          };
 
          virtual void fillDescription(edm::ParameterSetDescription& desc) override {};
@@ -22,7 +22,7 @@ namespace l1t {
             PackerMap res;
 
             //res[{1, 1}] = {
-            //   PackerFactory::get()->make("UGMTpacker"),
+            //   PackerFactory::get()->make("MicroGMTPacker"),
             //};
 
             return res;
@@ -36,23 +36,23 @@ namespace l1t {
          };
 
          virtual std::unique_ptr<UnpackerCollections> getCollections(edm::Event& e) override {
-            return std::unique_ptr<UnpackerCollections>(new UGMTcollections(e));
+            return std::unique_ptr<UnpackerCollections>(new MicroGMTCollections(e));
          };
 
          virtual UnpackerMap getUnpackers(int fed, int board, int amc, unsigned int fw) override {
             UnpackerMap res;
 
-            auto uGMT_in_unp = UnpackerFactory::get()->make("UGMTInUnpacker");
-            auto uGMT_out_unp = UnpackerFactory::get()->make("UGMTOutUnpacker");
+            auto microGMT_in_unp = UnpackerFactory::get()->make("MicroGMTInUnpacker");
+            auto microGMT_out_unp = UnpackerFactory::get()->make("MicroGMTOutUnpacker");
 
             for (int iLink = 72; iLink < 144; iLink += 2)
-                res[iLink] = uGMT_in_unp;
+                res[iLink] = microGMT_in_unp;
             for (int oLink = 1; oLink < 9; oLink += 2)
-                res[oLink] = uGMT_out_unp;
+                res[oLink] = microGMT_out_unp;
 
             return res;
          };
    };
 }
 
-DEFINE_L1T_PACKING_SETUP(l1t::UGMTsetup);
+DEFINE_L1T_PACKING_SETUP(l1t::MicroGMTSetup);

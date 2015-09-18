@@ -1,5 +1,5 @@
-#ifndef uGMTtokens_h
-#define uGMTtokens_h
+#ifndef MicroGMTTokens_h
+#define MicroGMTTokens_h
 
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1Trigger/interface/Muon.h"
@@ -7,9 +7,9 @@
 #include "EventFilter/L1TRawToDigi/interface/PackerTokens.h"
 
 namespace l1t {
-   class UGMTtokens : public PackerTokens {
+   class MicroGMTTokens : public PackerTokens {
       public:
-         UGMTtokens(const edm::ParameterSet&, edm::ConsumesCollector&);
+         MicroGMTTokens(const edm::ParameterSet&, edm::ConsumesCollector&);
 
          inline const edm::EDGetTokenT<RegionalMuonCandBxCollection>& getRegionalMuonCandTokenBMTF() const { return regionalMuonCandTokenBMTF_; };
          inline const edm::EDGetTokenT<RegionalMuonCandBxCollection>& getRegionalMuonCandTokenOMTF() const { return regionalMuonCandTokenOMTF_; };

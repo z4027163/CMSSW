@@ -1,5 +1,5 @@
-#ifndef uGMTcollections_h
-#define uGMTcollections_h
+#ifndef MicroGMTCollections_h
+#define MicroGMTCollections_h
 
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1Trigger/interface/Muon.h"
@@ -7,16 +7,16 @@
 #include "EventFilter/L1TRawToDigi/interface/UnpackerCollections.h"
 
 namespace l1t {
-   class UGMTcollections : public UnpackerCollections {
+   class MicroGMTCollections : public UnpackerCollections {
       public:
-         UGMTcollections(edm::Event& e) :
+         MicroGMTCollections(edm::Event& e) :
             UnpackerCollections(e),
             regionalMuonCandsBMTF_(new RegionalMuonCandBxCollection()),
             regionalMuonCandsOMTF_(new RegionalMuonCandBxCollection()),
             regionalMuonCandsEMTF_(new RegionalMuonCandBxCollection()),
             muons_(new MuonBxCollection()) {};
 
-         virtual ~UGMTcollections();
+         virtual ~MicroGMTCollections();
 
          inline RegionalMuonCandBxCollection* getRegionalMuonCandsBMTF() { return regionalMuonCandsBMTF_.get(); };
          inline RegionalMuonCandBxCollection* getRegionalMuonCandsOMTF() { return regionalMuonCandsOMTF_.get(); };

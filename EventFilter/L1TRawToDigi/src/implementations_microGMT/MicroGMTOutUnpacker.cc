@@ -2,10 +2,10 @@
 
 #include "EventFilter/L1TRawToDigi/interface/Unpacker.h"
 
-#include "uGMTcollections.h"
+#include "MicroGMTCollections.h"
 
 namespace l1t {
-   class UGMTOutUnpacker : public Unpacker {
+   class MicroGMTOutUnpacker : public Unpacker {
       public:
          virtual bool unpack(const Block& block, UnpackerCollections *coll) override;
    };
@@ -14,7 +14,7 @@ namespace l1t {
 // Implementation
 namespace l1t {
    bool
-   UGMTOutUnpacker::unpack(const Block& block, UnpackerCollections *coll)
+   MicroGMTOutUnpacker::unpack(const Block& block, UnpackerCollections *coll)
    {
       LogDebug("L1T") << "Block ID  = " << block.header().getID() << " size = " << block.header().getSize();
 
@@ -29,7 +29,7 @@ namespace l1t {
       lastBX = 0;
       LogDebug("L1T") << "BX override. Set first BX = lastBX = 0.";
 
-      auto res = static_cast<UGMTcollections*>(coll)->getMuons();
+      auto res = static_cast<MicroGMTCollections*>(coll)->getMuons();
       res->setBXRange(firstBX, lastBX);
 
       LogDebug("L1T") << "nBX = " << nBX << " first BX = " << firstBX << " lastBX = " << lastBX;
@@ -78,4 +78,4 @@ namespace l1t {
    }
 }
 
-DEFINE_L1T_UNPACKER(l1t::UGMTOutUnpacker);
+DEFINE_L1T_UNPACKER(l1t::MicroGMTOutUnpacker);

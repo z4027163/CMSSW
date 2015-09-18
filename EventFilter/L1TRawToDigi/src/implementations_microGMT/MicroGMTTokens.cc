@@ -2,10 +2,10 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
-#include "uGMTtokens.h"
+#include "MicroGMTTokens.h"
 
 namespace l1t {
-   UGMTtokens::UGMTtokens(const edm::ParameterSet& cfg, edm::ConsumesCollector& cc) : PackerTokens(cfg, cc)
+   MicroGMTTokens::MicroGMTTokens(const edm::ParameterSet& cfg, edm::ConsumesCollector& cc) : PackerTokens(cfg, cc)
    {
       auto tag = cfg.getParameter<edm::InputTag>("InputLabel");
 

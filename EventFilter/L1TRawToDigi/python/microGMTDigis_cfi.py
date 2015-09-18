@@ -1,8 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 
-ugmtDigis = cms.EDProducer(
+microGMTDigis = cms.EDProducer(
     "L1TRawToDigi",
-    Setup = cms.string("UGMTsetup"),
+    Setup = cms.string("MicroGMTSetup"),
     InputLabel = cms.InputTag("rawDataCollector"),
     FedIds = cms.vint32(1402),
     FWId = cms.uint32(2),
