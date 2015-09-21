@@ -32,23 +32,31 @@ namespace l1t {
 
       // decide which collection to use according to the link ID
       unsigned int linkId = blockId / 2;
+      int processor;
       RegionalMuonCandBxCollection* res;
       tftype trackFinder;
       if (linkId > 47 && linkId < 60) {
          res = static_cast<MicroGMTCollections*>(coll)->getRegionalMuonCandsBMTF();
          trackFinder = tftype::bmtf;
+         processor = linkId - 48;
       } else if (linkId > 41 && linkId < 66) {
          res = static_cast<MicroGMTCollections*>(coll)->getRegionalMuonCandsOMTF();
-         if (linkId < 48)
+         if (linkId < 48) {
             trackFinder = tftype::omtf_pos;
-         else
+            processor = linkId - 42;
+         } else {
             trackFinder = tftype::omtf_neg;
+            processor = linkId - 60;
+         }
       } else if (linkId > 35 && linkId < 72) {
          res = static_cast<MicroGMTCollections*>(coll)->getRegionalMuonCandsEMTF();
-         if (linkId < 42)
+         if (linkId < 42) {
             trackFinder = tftype::emtf_pos;
-         else
+            processor = linkId - 36;
+         } else {
             trackFinder = tftype::emtf_neg;
+            processor = linkId - 66;
+         }
       } else {
          edm::LogError("L1T") << "No TF muon expected for link " << linkId;
          return false;
@@ -94,7 +102,7 @@ namespace l1t {
             mu.setHwHF((raw_data_00_31 >> 22) & 0x1);
             // FIXME: just a dummy for now
             mu.setHwTrackAddress((raw_data_32_63 >> 4) & 0x1FFF);
-            mu.setTFIdentifiers(linkId - 36, trackFinder);
+            mu.setTFIdentifiers(processor, trackFinder);
             mu.setDataword(raw_data_32_63, raw_data_00_31);
        
             LogDebug("L1T") << "Mu" << nWord/2 << ": eta " << mu.hwEta() << " phi " << mu.hwPhi() << " pT " << mu.hwPt() << " qual " << mu.hwQual() << " sign " << mu.hwSign() << " sign valid " << mu.hwSignValid();
