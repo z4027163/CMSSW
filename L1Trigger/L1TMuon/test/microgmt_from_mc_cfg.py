@@ -74,20 +74,20 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 # generate inputs that are not provided by emulators
-process.uGMTInputProducer = cms.EDProducer("l1t::uGMTInputProducerFromGen",
+process.MicroGMTInputProducer = cms.EDProducer("l1t::MicroGMTInputProducerFromGen",
 )
 
 process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
 
 
-process.L1TMuonSeq = cms.Sequence( process.uGMTInputProducer +
+process.L1TMuonSeq = cms.Sequence( process.MicroGMTInputProducer +
                                    process.microGMTEmulator)
 
 process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
 
 
 process.out = cms.OutputModule("PoolOutputModule", 
-   fileName = cms.untracked.string("ugmt_from_mc_test.root"),
+   fileName = cms.untracked.string("microgmt_from_mc_test.root"),
 )
 
 process.output_step = cms.EndPath(process.out)

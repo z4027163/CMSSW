@@ -223,7 +223,7 @@ void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & pr
     std::bitset<17> bits(myCand.hits);
     int ipt = myCand.pt+1;
     if(ipt>31) ipt=31;
-    candidate.setHwPt(RPCConst::ptFromIpt(ipt)*2.0);//uGMT has 0.5 GeV pt bins
+    candidate.setHwPt(RPCConst::ptFromIpt(ipt)*2.0);//MicroGMT has 0.5 GeV pt bins
     candidate.setHwEta(myCand.eta);//eta scale set during input making in OMTFInputmaker
     candidate.setHwPhi(myCand.phi);
     candidate.setHwSign(myCand.charge+1*(myCand.charge<0));

@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("L1uGMTEmulator")
+process = cms.Process("MicroGMTEmulator")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
@@ -13,15 +13,15 @@ process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(n_events_dict[F
 process.load("L1Trigger.L1TMuon.microgmtinputproducer_cfi")
 process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
 
-process.uGMTInputProducer.inputFileName = "patterns/{fname}.dat".format(fname=FILENAME)
+process.MicroGMTInputProducer.inputFileName = "patterns/{fname}.dat".format(fname=FILENAME)
 
 process.source = cms.Source("EmptySource",)
 
 
 process.out = cms.OutputModule("PoolOutputModule",
-                               fileName=cms.untracked.string('ugmt_{fname}.root'.format(fname=FILENAME))
+                               fileName=cms.untracked.string('microgmt_{fname}.root'.format(fname=FILENAME))
 )
 
-process.p = cms.Path(process.uGMTInputProducer+process.microGMTEmulator)
+process.p = cms.Path(process.MicroGMTInputProducer+process.microGMTEmulator)
 
 process.e = cms.EndPath(process.out)

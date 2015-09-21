@@ -211,7 +211,7 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
     const std::vector<OMTFProcessor::resultsMap> & myResultsPos = myOMTF->processInput(iProcessor,myShiftedInputPos);
     mySorter->sortProcessor(myResultsPos, myOTFCandidatesPos, bx);
 
-    ///Shift phi scales, and put uGMT candidates into myCands collection
+    ///Shift phi scales, and put MicroGMT candidates into myCands collection
     processCandidates(iProcessor, bx, myCands, myOTFCandidatesPos, l1t::tftype::omtf_pos);
     processCandidates(iProcessor, bx, myCands, myOTFCandidatesNeg, l1t::tftype::omtf_neg);
 
@@ -258,7 +258,7 @@ void OMTFProducer::processCandidates(unsigned int iProcessor, int bx,
       l1t::RegionalMuonCand cand = myOTFCandidates.at(bx, iCand);
       int phiValue = (cand.hwPhi()+procOffset+lowScaleEnd);
       if(phiValue>=(int)OMTFConfiguration::nPhiBins) phiValue-=OMTFConfiguration::nPhiBins;
-      phiValue/=10; //uGMT has 10x coarser scale than OMTF
+      phiValue/=10; //MicroGMT has 10x coarser scale than OMTF
 
       cand.setHwPhi(phiValue);
       cand.setTFIdentifiers(iProcessor,mtfType);

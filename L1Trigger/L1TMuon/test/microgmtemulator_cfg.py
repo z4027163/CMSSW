@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("L1uGMTEmulator")
+process = cms.Process("MicroGMTEmulator")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
@@ -11,7 +11,7 @@ process.source = cms.Source("PoolSource",
             # 'file:test/fwd_iso_scan.root'
             # 'file:test/ttbar_large_sample.root'
             # 'file:test/many_events.root'
-            'file:ugmt_input_many_events.root'
+            'file:microgmt_input_many_events.root'
     )
 )
 
@@ -21,7 +21,7 @@ process.out = cms.OutputModule("PoolOutputModule",
     # fileName = cms.untracked.string('fwd_iso_scan.root')
     # fileName = cms.untracked.string('ttbar_small_sample.root')
     # fileName = cms.untracked.string('many_events.root')
-    fileName = cms.untracked.string('ugmt_out_iso_test.root')
+    fileName = cms.untracked.string('microgmt_out_iso_test.root')
 )
 
 #process.content = cms.EDAnalyzer("EventContentAnalyzer")
