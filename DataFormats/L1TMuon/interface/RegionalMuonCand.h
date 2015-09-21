@@ -59,7 +59,7 @@ class RegionalMuonCand {
     const int hwQual() const { return m_hwQuality; };
     /// Get track address identifying trigger primitives
     const int hwTrackAddress() const { return m_hwTrackAddress; };
-    /// Get link on which the uGMT receives the candidate
+    /// Get link on which the MicroGMT receives the candidate
     const int link() const { return m_link; };
     /// Get processor ID on which the candidate was found (1..6 for OMTF/EMTF; 1..12 for BMTF)
     const int processor() const { return m_processor; };

@@ -41,7 +41,7 @@ process.bmtfEmulator = cms.EDProducer("BMTrackFinder",
 )
 
 
-process.uGMTInputProducer = cms.EDProducer("l1t::uGMTInputProducerFromGen",
+process.MicroGMTInputProducer = cms.EDProducer("l1t::MicroGMTInputProducerFromGen",
 )
 
 process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
@@ -51,7 +51,7 @@ process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfEmulator", "BM")
 
 process.L1TMuonSeq = cms.Sequence( #process.L1TMuonTriggerPrimitives +
 				   process.bmtfEmulator +
-                                   process.uGMTInputProducer +
+                                   process.MicroGMTInputProducer +
                                    process.microGMTEmulator)
 
 process.L1TMuonPath = cms.Path(process.L1TMuonSeq)

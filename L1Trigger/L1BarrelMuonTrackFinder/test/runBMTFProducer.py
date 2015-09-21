@@ -28,7 +28,7 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 
-#process.uGMTInputProducer = cms.EDProducer("l1t::uGMTInputProducerFromGen",
+#process.MicroGMTInputProducer = cms.EDProducer("l1t::MicroGMTInputProducerFromGen",
 #)
 
 #process.load('L1Trigger.L1EndcapMuonTrackFinder.L1TMuonTriggerPrimitiveProducer_cfi')
@@ -56,7 +56,7 @@ process.L1TMuonSeq = cms.Sequence( #process.L1TMuonTriggerPrimitives +
                                    #process.emtfEmulator +
                                    process.bmtfEmulator#+ 
 				   #process.omtfEmulator 
-                                   #process.uGMTInputProducer +
+                                   #process.MicroGMTInputProducer +
                                    #process.microGMTEmulator
                                    #  +
                                    # process.emtfEmulator + 

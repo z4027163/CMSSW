@@ -8,7 +8,7 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 process.source = cms.Source("EmptySource")
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1))
 
-process.dumper = cms.EDAnalyzer("l1t::uGMTLUTDumper",
+process.dumper = cms.EDAnalyzer("l1t::MicroGMTLUTDumper",
     out_directory = cms.string("lut_dump"),
     AbsIsoCheckMemLUTSettings = cms.PSet (
         areaSum_in_width = cms.int32(5), 
