@@ -65,9 +65,9 @@ MicroGMTParamsESProducer::MicroGMTParamsESProducer(const edm::ParameterSet& iCon
    setWhatProduced(this);
 
    edm::ParameterSet AbsIsoCheckMemLUTSettings_ = iConfig.getParameter<edm::ParameterSet>("AbsIsoCheckMemLUTSettings");
-   m_params.isocmp()->setAreaSumInWidth(AbsIsoCheckMemLUTSettings_.getParameter<int>("areaSum_in_width"));
-   m_params.isocmp()->setOutWidth(AbsIsoCheckMemLUTSettings_.getParameter<int>("out_width"));
-   m_params.isocmp()->setFilename(AbsIsoCheckMemLUTSettings_.getParameter<std::string>("filename"));
+   m_params.absIsoCheckMemLUTParams()->setAreaSumInWidth(AbsIsoCheckMemLUTSettings_.getParameter<int>("areaSum_in_width"));
+   m_params.absIsoCheckMemLUTParams()->setOutWidth(AbsIsoCheckMemLUTSettings_.getParameter<int>("out_width"));
+   m_params.absIsoCheckMemLUTParams()->setFilename(AbsIsoCheckMemLUTSettings_.getParameter<std::string>("filename"));
 
    //edm::ParameterSet IdxSelMemPhiLUTSettings_ = iConfig.getParameter<edm::ParameterSet>("IdxSelMemPhiLUTSettings");
    //edm::ParameterSet FwdPosSingleMatchQualLUTSettings_ = iConfig.getParameter<edm::ParameterSet>("FwdPosSingleMatchQualLUTSettings");
