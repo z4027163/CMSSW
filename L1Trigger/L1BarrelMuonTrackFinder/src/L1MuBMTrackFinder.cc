@@ -32,7 +32,7 @@
 #include <FWCore/Framework/interface/Event.h>
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
 //#include "DataFormats/L1DTTrackFinder/interface/L1MuDTTrackCand.h"
-#include "DataFormats/L1BMTrackFinder/interface/L1MuBMTrackCand.h"
+#include "DataFormats/L1TMuon/interface/L1MuBMTrackCand.h"
 #include "L1Trigger/L1BarrelMuonTrackFinder/src/L1MuBMTFConfig.h"
 #include "L1Trigger/L1BarrelMuonTrackFinder/src/L1MuBMSecProcId.h"
 #include "L1Trigger/L1BarrelMuonTrackFinder/src/L1MuBMSecProcMap.h"
@@ -56,7 +56,8 @@ using namespace std;
 // Constructors --
 //----------------
 
-L1MuBMTrackFinder::L1MuBMTrackFinder(const edm::ParameterSet & ps,edm::ConsumesCollector && iC) {
+L1MuBMTrackFinder::L1MuBMTrackFinder(const edm::ParameterSet & ps,edm::ConsumesCollector && iC):
+_cache(36, -9, 8) {
 
   // set configuration parameters
   if ( m_config == 0 ) m_config = new L1MuBMTFConfig(ps);
@@ -209,9 +210,6 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
                                            << (*it_sp).second->id() << endl;
       for ( int number = 0; number < 2; number++ ) {
         const L1MuBMTrack* cand = (*it_sp).second->tracK(number);
-//        if ( cand && !cand->empty() ) _cache0.push_back(L1MuDTTrackCand(cand->getDataWord(),cand->bx(),
-//                                              cand->spid().wheel(),cand->spid().sector(),number,cand->address(1),
-//                                              cand->address(2),cand->address(3),cand->address(4),cand->tc()));
 
         if ( cand && !cand->empty() )  _cache0.push_back(L1MuBMTrackCand(cand->pt(),cand->phi(),cand->eta(),cand->charge(),cand->quality(),
                                                                          cand->bx(),cand->spid().wheel(),cand->spid().sector(),number,
@@ -237,23 +235,12 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
     if ( L1MuBMTFConfig::Debug(2) && m_ms ) m_ms->print();
 
 
-//cout <<m_ms->numberOfTracks()<<"<--------------------"<<endl;
     // store found track candidates in container (cache)
     if ( m_ms->numberOfTracks() > 0 ) {
       const vector<const L1MuBMTrack*>&  mttf_cont = m_ms->tracks();
       vector<const L1MuBMTrack*>::const_iterator iter;
       for ( iter = mttf_cont.begin(); iter != mttf_cont.end(); iter++ ) {
-        //if ( *iter ) _cache.push_back(L1MuRegionalCand((*iter)->getDataWord(),(*iter)->bx()));
 
-//        if ( *iter ) _cache.push_back(l1t::RegionalMuonCand((*iter)->hwPt(),
-//                                                               (*iter)->hwPhi(),
-//                                                               (*iter)->hwEta(),
-//                                                               (*iter)->hwSign(),
-//                                                               (*iter)->hwSignValid(),
-//                                                               (*iter)->hwQual(),
-//                                                               (*iter)->bx()
-//                                                               ));
-//
         if ( *iter ){ _cache.push_back((*iter)->bx(), l1t::RegionalMuonCand( (*iter)->hwPt(),
                                                                (*iter)->hwPhi(),
                                                                (*iter)->hwEta(),
@@ -262,15 +249,12 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
                                                                (*iter)->hwQual(),
 							       (*iter)->spid().sector(),
 							       l1t::tftype::bmtf
-));
-//l1t::RegionalMuonCand::setTFIdentifiers((*iter)->spid().sector(),l1t::tftype::bmtf );
+                                                                           ) );
 
-}
-      }
+       }
+     }
     }
-
   }
-
 }
 
 
