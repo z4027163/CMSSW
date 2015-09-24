@@ -48,6 +48,7 @@
 #include "CondFormats/L1TObjects/interface/CaloParams.h"
 #include "CondFormats/L1TObjects/interface/CaloConfig.h"
 
+#include "CondFormats/L1TObjects/interface/MicroGMTParams.h"
 
 namespace CondFormats_L1TObjects {
   struct dictionary {
@@ -75,6 +76,8 @@ namespace CondFormats_L1TObjects {
 //    std::vector<L1RPCConeDefinition::TLPSize> dummy15;
 //    std::vector<L1RPCConeDefinition::TRingToTower> dummy15a;
 //    std::vector<L1RPCConeDefinition::TRingToLP> dummy15b;
+    l1t::MicroGMTParams dummy16;
+
 
   };
 }

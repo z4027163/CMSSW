@@ -6,6 +6,8 @@ l1tgmt_basedir = "L1Trigger/L1TMuon/"
 lut_dir = os.path.join(l1tgmt_basedir, "data/microgmt_luts/")
 
 microGMTParamsESProducer = cms.ESProducer('l1t::MicroGMTParamsProducer',
+    fwVersion = cms.uint32(1),
+
     AbsIsoCheckMemLUTSettings = cms.PSet (
         areaSum_in_width = cms.int32(5),
         out_width = cms.int32(1),
