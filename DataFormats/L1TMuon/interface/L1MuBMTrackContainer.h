@@ -15,7 +15,7 @@
 //------------------------------------
 // Collaborating Class Declarations --
 //------------------------------------
-#include "DataFormats/L1BMTrackFinder/interface/L1MuBMTrackCand.h"
+#include "DataFormats/L1TMuon/interface/L1MuBMTrackCand.h"
 
 //----------------------
 // Base Class Headers --

@@ -13,7 +13,7 @@
 //-----------------------
 // This Class's Header --
 //-----------------------
-#include "DataFormats/L1BMTrackFinder/interface/L1MuBMTrackContainer.h"
+#include "DataFormats/L1TMuon/interface/L1MuBMTrackContainer.h"
 
 //-------------------------------
 // Collaborating Class Headers --
