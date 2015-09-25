@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    BMTFConverter
-// Class:      BMTFConverter
+// Package:    L1TBMTFConverter
+// Class:      L1TBMTFConverter
 //
-/**\class BMTFConverter BMTFConverter.cc L1Trigger/L1TGlobalMuon/plugins/BMTFConverter.cc
+/**\class L1TBMTFConverter L1TBMTFConverter.cc L1Trigger/L1TGlobalMuon/plugins/L1TBMTFConverter.cc
 
  Description: Takes txt-file input and produces barrel- / overlap- / forward TF muons
 
@@ -40,11 +40,12 @@
 //
 // class declaration
 //
-namespace l1t {
-class BMTFConverter : public edm::EDProducer {
+using namespace l1t;
+
+class L1TBMTFConverter : public edm::EDProducer {
    public:
-      explicit BMTFConverter(const edm::ParameterSet&);
-      ~BMTFConverter();
+      explicit L1TBMTFConverter(const edm::ParameterSet&);
+      ~L1TBMTFConverter();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -58,7 +59,7 @@ class BMTFConverter : public edm::EDProducer {
       virtual void beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
       virtual void endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
       // ----------member data ---------------------------
-      edm::EDGetTokenT<l1t::RegionalMuonCandBxCollection> m_barrelTfInputToken;
+      edm::EDGetTokenT<RegionalMuonCandBxCollection> m_barrelTfInputToken;
       edm::InputTag m_barrelTfInputTag;
       std::map<int, int> ptMap_;
 };
@@ -75,9 +76,9 @@ class BMTFConverter : public edm::EDProducer {
 //
 // constructors and destructor
 //
-BMTFConverter::BMTFConverter(const edm::ParameterSet& iConfig) : m_barrelTfInputTag("bmtfEmulator", "BM")
+L1TBMTFConverter::L1TBMTFConverter(const edm::ParameterSet& iConfig) : m_barrelTfInputTag("bmtfEmulator", "BM")
 {
-  m_barrelTfInputToken = consumes<l1t::RegionalMuonCandBxCollection>(m_barrelTfInputTag);
+  m_barrelTfInputToken = consumes<RegionalMuonCandBxCollection>(m_barrelTfInputTag);
   //register your products
   produces<RegionalMuonCandBxCollection>("ConvBMTFMuons");
   ptMap_[0] = 0;
@@ -115,7 +116,7 @@ BMTFConverter::BMTFConverter(const edm::ParameterSet& iConfig) : m_barrelTfInput
 }
 
 
-BMTFConverter::~BMTFConverter()
+L1TBMTFConverter::~L1TBMTFConverter()
 {
   // do anything here that needs to be done at desctruction time
   // (e.g. close files, deallocate resources etc.)
@@ -129,16 +130,16 @@ BMTFConverter::~BMTFConverter()
 
 // ------------ method called to produce the data  ------------
 void
-BMTFConverter::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
+L1TBMTFConverter::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
 
-  std::auto_ptr<l1t::RegionalMuonCandBxCollection> convMuons (new l1t::RegionalMuonCandBxCollection());
+  std::auto_ptr<RegionalMuonCandBxCollection> convMuons (new RegionalMuonCandBxCollection());
 
-  Handle<l1t::RegionalMuonCandBxCollection> bmtfMuons;
+  Handle<RegionalMuonCandBxCollection> bmtfMuons;
   iEvent.getByToken(m_barrelTfInputToken, bmtfMuons);
   for (auto mu = bmtfMuons->begin(0); mu != bmtfMuons->end(0); ++mu) {
-    l1t::RegionalMuonCand convMu((*mu));
+    RegionalMuonCand convMu((*mu));
     // int convPt = ptMap_.at(mu->hwPt());
     // int convPhi = (mu->hwPhi() * 4) - (mu->processor() * 48);
     // int convEta = getSigned(mu->hwEta())*3.54;
@@ -155,48 +156,48 @@ BMTFConverter::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 // ------------ method called once each job just before starting event loop  ------------
 void
-BMTFConverter::beginJob()
+L1TBMTFConverter::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
 void
-BMTFConverter::endJob() {
+L1TBMTFConverter::endJob() {
 }
 
 // ------------ method called when starting to processes a run  ------------
 void
-BMTFConverter::beginRun(edm::Run&, edm::EventSetup const&)
+L1TBMTFConverter::beginRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a run  ------------
 void
-BMTFConverter::endRun(edm::Run&, edm::EventSetup const&)
+L1TBMTFConverter::endRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when starting to processes a luminosity block  ------------
 void
-BMTFConverter::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+L1TBMTFConverter::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a luminosity block  ------------
 void
-BMTFConverter::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+L1TBMTFConverter::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-BMTFConverter::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+L1TBMTFConverter::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
   desc.setUnknown();
   descriptions.addDefault(desc);
 }
-}
+
 //define this as a plug-in
-DEFINE_FWK_MODULE(l1t::BMTFConverter);
+DEFINE_FWK_MODULE(L1TBMTFConverter);

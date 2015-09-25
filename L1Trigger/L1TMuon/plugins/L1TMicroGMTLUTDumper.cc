@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    MicroGMTLUTDumper
-// Class:      MicroGMTLUTDumper
+// Package:    L1TMicroGMTLUTDumper
+// Class:      L1TMicroGMTLUTDumper
 //
-/**\class MicroGMTLUTDumper MicroGMTLUTDumper.cc L1Trigger/L1TGlobalMuon/plugins/MicroGMTLUTDumper.cc
+/**\class L1TMicroGMTLUTDumper L1TMicroGMTLUTDumper.cc L1Trigger/L1TGlobalMuon/plugins/L1TMicroGMTLUTDumper.cc
 
  Description: Takes txt-file input and produces barrel- / overlap- / forward TF muons
 
@@ -41,11 +41,12 @@
 //
 // class declaration
 //
-namespace l1t {
-class MicroGMTLUTDumper : public edm::EDAnalyzer {
+using namespace l1t;
+
+class L1TMicroGMTLUTDumper : public edm::EDAnalyzer {
    public:
-      explicit MicroGMTLUTDumper(const edm::ParameterSet&);
-      ~MicroGMTLUTDumper();
+      explicit L1TMicroGMTLUTDumper(const edm::ParameterSet&);
+      ~L1TMicroGMTLUTDumper();
       virtual void analyze(const edm::Event&, const edm::EventSetup&);
 
    private:
@@ -78,7 +79,7 @@ class MicroGMTLUTDumper : public edm::EDAnalyzer {
 //
 // constructors and destructor
 //
-MicroGMTLUTDumper::MicroGMTLUTDumper(const edm::ParameterSet& iConfig) :
+L1TMicroGMTLUTDumper::L1TMicroGMTLUTDumper(const edm::ParameterSet& iConfig) :
     m_rankLUT(iConfig),
     m_boPosMatchQualLUT(iConfig, "BOPos", cancel_t::omtf_bmtf_pos),
     m_boNegMatchQualLUT(iConfig, "BONeg", cancel_t::omtf_bmtf_neg),
@@ -99,7 +100,7 @@ MicroGMTLUTDumper::MicroGMTLUTDumper(const edm::ParameterSet& iConfig) :
 }
 
 
-MicroGMTLUTDumper::~MicroGMTLUTDumper()
+L1TMicroGMTLUTDumper::~L1TMicroGMTLUTDumper()
 {
   // do anything here that needs to be done at desctruction time
   // (e.g. close files, deallocate resources etc.)
@@ -110,7 +111,7 @@ MicroGMTLUTDumper::~MicroGMTLUTDumper()
 // member functions
 //
 void
-MicroGMTLUTDumper::dumpLut(MicroGMTLUT* lut, const std::string& oName) {
+L1TMicroGMTLUTDumper::dumpLut(MicroGMTLUT* lut, const std::string& oName) {
   std::ofstream fStream(m_foldername+oName);
   lut->save(fStream);
   fStream.close();
@@ -120,7 +121,7 @@ MicroGMTLUTDumper::dumpLut(MicroGMTLUT* lut, const std::string& oName) {
 
 // ------------ method called to produce the data  ------------
 void
-MicroGMTLUTDumper::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+L1TMicroGMTLUTDumper::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
   dumpLut(&m_rankLUT, std::string("/rank_lut.json"));
@@ -136,6 +137,6 @@ MicroGMTLUTDumper::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 
 }
 
-} // namespace l1t
+
 //define this as a plug-in
-DEFINE_FWK_MODULE(l1t::MicroGMTLUTDumper);
+DEFINE_FWK_MODULE(L1TMicroGMTLUTDumper);

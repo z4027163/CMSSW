@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    MicroGMTInputProducerFromGen
-// Class:      MicroGMTInputProducerFromGen
+// Package:    L1TMicroGMTInputProducerFromGen
+// Class:      L1TMicroGMTInputProducerFromGen
 //
-/**\class MicroGMTInputProducerFromGen MicroGMTInputProducerFromGen.cc L1Trigger/L1TGlobalMuon/plugins/MicroGMTInputProducerFromGen.cc
+/**\class L1TMicroGMTInputProducerFromGen L1TMicroGMTInputProducerFromGen.cc L1Trigger/L1TGlobalMuon/plugins/L1TMicroGMTInputProducerFromGen.cc
 
  Description: takes generated muons and fills them in the expected collections for the MicroGMT
 
@@ -46,11 +46,12 @@
 //
 // class declaration
 //
-namespace l1t {
-class MicroGMTInputProducerFromGen : public edm::EDProducer {
+using namespace l1t;
+
+class L1TMicroGMTInputProducerFromGen : public edm::EDProducer {
    public:
-      explicit MicroGMTInputProducerFromGen(const edm::ParameterSet&);
-      ~MicroGMTInputProducerFromGen();
+      explicit L1TMicroGMTInputProducerFromGen(const edm::ParameterSet&);
+      ~L1TMicroGMTInputProducerFromGen();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -85,7 +86,7 @@ class MicroGMTInputProducerFromGen : public edm::EDProducer {
 //
 // constructors and destructor
 //
-MicroGMTInputProducerFromGen::MicroGMTInputProducerFromGen(const edm::ParameterSet& iConfig) :
+L1TMicroGMTInputProducerFromGen::L1TMicroGMTInputProducerFromGen(const edm::ParameterSet& iConfig) :
   m_currEvt(0), m_rnd(0)
 {
   //register your inputs:
@@ -98,7 +99,7 @@ MicroGMTInputProducerFromGen::MicroGMTInputProducerFromGen(const edm::ParameterS
 }
 
 
-MicroGMTInputProducerFromGen::~MicroGMTInputProducerFromGen()
+L1TMicroGMTInputProducerFromGen::~L1TMicroGMTInputProducerFromGen()
 {
   // do anything here that needs to be done at desctruction time
   // (e.g. close files, deallocate resources etc.)
@@ -110,25 +111,25 @@ MicroGMTInputProducerFromGen::~MicroGMTInputProducerFromGen()
 //
 
 bool
-MicroGMTInputProducerFromGen::compareMuons(const RegionalMuonCand& mu1, const RegionalMuonCand& mu2)
+L1TMicroGMTInputProducerFromGen::compareMuons(const RegionalMuonCand& mu1, const RegionalMuonCand& mu2)
 {
   return mu1.processor() < mu2.processor();
 }
 
 // ------------ method called to produce the data  ------------
 void
-MicroGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
+L1TMicroGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
 
-  std::auto_ptr<l1t::RegionalMuonCandBxCollection> barrelMuons (new l1t::RegionalMuonCandBxCollection());
-  std::auto_ptr<l1t::RegionalMuonCandBxCollection> overlapMuons (new l1t::RegionalMuonCandBxCollection());
-  std::auto_ptr<l1t::RegionalMuonCandBxCollection> endcapMuons (new l1t::RegionalMuonCandBxCollection());
-  std::auto_ptr<l1t::GMTInputCaloSumBxCollection> towerSums (new l1t::GMTInputCaloSumBxCollection());
+  std::auto_ptr<RegionalMuonCandBxCollection> barrelMuons (new RegionalMuonCandBxCollection());
+  std::auto_ptr<RegionalMuonCandBxCollection> overlapMuons (new RegionalMuonCandBxCollection());
+  std::auto_ptr<RegionalMuonCandBxCollection> endcapMuons (new RegionalMuonCandBxCollection());
+  std::auto_ptr<GMTInputCaloSumBxCollection> towerSums (new GMTInputCaloSumBxCollection());
 
-  std::vector<l1t::RegionalMuonCand> bmMuons;
-  std::vector<l1t::RegionalMuonCand> omMuons;
-  std::vector<l1t::RegionalMuonCand> emMuons;
+  std::vector<RegionalMuonCand> bmMuons;
+  std::vector<RegionalMuonCand> omMuons;
+  std::vector<RegionalMuonCand> emMuons;
 
 
   std::vector<int> muIndices;
@@ -146,8 +147,8 @@ MicroGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup&
     LogTrace("GlobalMuon") << " GenParticleCollection not found." << std::endl;
   }
 
-  l1t::RegionalMuonCand mu;
-  l1t::GMTInputCaloSum tSum;
+  RegionalMuonCand mu;
+  GMTInputCaloSum tSum;
   // alternative scale (using full phi bit-width): 163.4521265553765f;
   const float phiToInt = 91.67324722093171f;
   // alternative scale: 100.0f;
@@ -220,9 +221,9 @@ MicroGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup&
     }
   }
 
-  std::sort(bmMuons.begin(), bmMuons.end(), MicroGMTInputProducerFromGen::compareMuons);
-  std::sort(omMuons.begin(), omMuons.end(), MicroGMTInputProducerFromGen::compareMuons);
-  std::sort(emMuons.begin(), emMuons.end(), MicroGMTInputProducerFromGen::compareMuons);
+  std::sort(bmMuons.begin(), bmMuons.end(), L1TMicroGMTInputProducerFromGen::compareMuons);
+  std::sort(omMuons.begin(), omMuons.end(), L1TMicroGMTInputProducerFromGen::compareMuons);
+  std::sort(emMuons.begin(), emMuons.end(), L1TMicroGMTInputProducerFromGen::compareMuons);
 
   for (const auto& mu:bmMuons) {
     barrelMuons->push_back(0, mu);
@@ -241,7 +242,7 @@ MicroGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup&
     int energy = int(m_rnd.Gaus(12, 6));
     if (energy < 0) energy = 0;
     if (energy > 31) energy = 31;
-    l1t::GMTInputCaloSum sum(energy, i/28, i%28, i);
+    GMTInputCaloSum sum(energy, i/28, i%28, i);
     towerSums->push_back(0, sum);
   }
 
@@ -255,48 +256,48 @@ MicroGMTInputProducerFromGen::produce(edm::Event& iEvent, const edm::EventSetup&
 
 // ------------ method called once each job just before starting event loop  ------------
 void
-MicroGMTInputProducerFromGen::beginJob()
+L1TMicroGMTInputProducerFromGen::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
 void
-MicroGMTInputProducerFromGen::endJob() {
+L1TMicroGMTInputProducerFromGen::endJob() {
 }
 
 // ------------ method called when starting to processes a run  ------------
 void
-MicroGMTInputProducerFromGen::beginRun(edm::Run&, edm::EventSetup const&)
+L1TMicroGMTInputProducerFromGen::beginRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a run  ------------
 void
-MicroGMTInputProducerFromGen::endRun(edm::Run&, edm::EventSetup const&)
+L1TMicroGMTInputProducerFromGen::endRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when starting to processes a luminosity block  ------------
 void
-MicroGMTInputProducerFromGen::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+L1TMicroGMTInputProducerFromGen::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a luminosity block  ------------
 void
-MicroGMTInputProducerFromGen::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+L1TMicroGMTInputProducerFromGen::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-MicroGMTInputProducerFromGen::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+L1TMicroGMTInputProducerFromGen::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
   desc.setUnknown();
   descriptions.addDefault(desc);
 }
-}
+
 //define this as a plug-in
-DEFINE_FWK_MODULE(l1t::MicroGMTInputProducerFromGen);
+DEFINE_FWK_MODULE(L1TMicroGMTInputProducerFromGen);

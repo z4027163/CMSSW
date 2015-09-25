@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    MicroGMTInputProducer
-// Class:      MicroGMTInputProducer
+// Package:    L1TMicroGMTInputProducer
+// Class:      L1TMicroGMTInputProducer
 //
-/**\class MicroGMTInputProducer MicroGMTInputProducer.cc L1Trigger/L1TGlobalMuon/plugins/MicroGMTInputProducer.cc
+/**\class L1TMicroGMTInputProducer L1TMicroGMTInputProducer.cc L1Trigger/L1TGlobalMuon/plugins/L1TMicroGMTInputProducer.cc
 
  Description: Takes txt-file input and produces barrel- / overlap- / forward TF muons
 
@@ -42,11 +42,12 @@
 //
 // class declaration
 //
-namespace l1t {
-class MicroGMTInputProducer : public edm::EDProducer {
+using namespace l1t;
+
+class L1TMicroGMTInputProducer : public edm::EDProducer {
    public:
-      explicit MicroGMTInputProducer(const edm::ParameterSet&);
-      ~MicroGMTInputProducer();
+      explicit L1TMicroGMTInputProducer(const edm::ParameterSet&);
+      ~L1TMicroGMTInputProducer();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -63,7 +64,7 @@ class MicroGMTInputProducer : public edm::EDProducer {
       void openFile();
       void skipHeader();
       int convertToInt(std::string &bitstr) const;
-      static bool cmpProc(const l1t::RegionalMuonCand&, const l1t::RegionalMuonCand&);
+      static bool cmpProc(const RegionalMuonCand&, const RegionalMuonCand&);
 
       // ----------member data ---------------------------
       std::string m_fname;
@@ -86,14 +87,14 @@ class MicroGMTInputProducer : public edm::EDProducer {
 //
 // constructors and destructor
 //
-MicroGMTInputProducer::MicroGMTInputProducer(const edm::ParameterSet& iConfig) :
+L1TMicroGMTInputProducer::L1TMicroGMTInputProducer(const edm::ParameterSet& iConfig) :
   m_endOfBx(false), m_currType(0), m_currEvt(0)
 {
   //register your products
   produces<RegionalMuonCandBxCollection>("BarrelTFMuons");
   produces<RegionalMuonCandBxCollection>("OverlapTFMuons");
   produces<RegionalMuonCandBxCollection>("ForwardTFMuons");
-  produces<l1t::GMTInputCaloSumBxCollection>("TriggerTowerSums");
+  produces<GMTInputCaloSumBxCollection>("TriggerTowerSums");
 
   //now do what ever other initialization is needed
   m_fname = iConfig.getParameter<std::string> ("inputFileName");
@@ -103,7 +104,7 @@ MicroGMTInputProducer::MicroGMTInputProducer(const edm::ParameterSet& iConfig) :
 }
 
 
-MicroGMTInputProducer::~MicroGMTInputProducer()
+L1TMicroGMTInputProducer::~L1TMicroGMTInputProducer()
 {
   // do anything here that needs to be done at desctruction time
   // (e.g. close files, deallocate resources etc.)
@@ -115,13 +116,13 @@ MicroGMTInputProducer::~MicroGMTInputProducer()
 // member functions
 //
 bool
-MicroGMTInputProducer::cmpProc(const l1t::RegionalMuonCand& mu1, const l1t::RegionalMuonCand& mu2)
+L1TMicroGMTInputProducer::cmpProc(const RegionalMuonCand& mu1, const RegionalMuonCand& mu2)
 {
   return mu1.processor() < mu2.processor();
 }
 
 void
-MicroGMTInputProducer::openFile()
+L1TMicroGMTInputProducer::openFile()
 {
   if (!m_filestream.is_open()) {
     m_filestream.open(m_fname.c_str());
@@ -132,7 +133,7 @@ MicroGMTInputProducer::openFile()
 }
 
 void
-MicroGMTInputProducer::skipHeader()
+L1TMicroGMTInputProducer::skipHeader()
 {
   while (m_filestream.peek() == '#') {
     std::string tmp;
@@ -141,7 +142,7 @@ MicroGMTInputProducer::skipHeader()
 }
 
 int
-MicroGMTInputProducer::convertToInt(std::string &bitstr) const
+L1TMicroGMTInputProducer::convertToInt(std::string &bitstr) const
 {
   int num = 0;
   for (size_t cntr = 0; cntr < bitstr.size(); ++cntr) {
@@ -156,17 +157,17 @@ MicroGMTInputProducer::convertToInt(std::string &bitstr) const
 
 // ------------ method called to produce the data  ------------
 void
-MicroGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
+L1TMicroGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
 
-  std::auto_ptr<l1t::RegionalMuonCandBxCollection> barrelMuons (new l1t::RegionalMuonCandBxCollection());
-  std::auto_ptr<l1t::RegionalMuonCandBxCollection> overlapMuons (new l1t::RegionalMuonCandBxCollection());
-  std::auto_ptr<l1t::RegionalMuonCandBxCollection> endcapMuons (new l1t::RegionalMuonCandBxCollection());
-  std::auto_ptr<l1t::GMTInputCaloSumBxCollection> towerSums (new l1t::GMTInputCaloSumBxCollection());
+  std::auto_ptr<RegionalMuonCandBxCollection> barrelMuons (new RegionalMuonCandBxCollection());
+  std::auto_ptr<RegionalMuonCandBxCollection> overlapMuons (new RegionalMuonCandBxCollection());
+  std::auto_ptr<RegionalMuonCandBxCollection> endcapMuons (new RegionalMuonCandBxCollection());
+  std::auto_ptr<GMTInputCaloSumBxCollection> towerSums (new GMTInputCaloSumBxCollection());
 
-  l1t::RegionalMuonCand mu;
-  l1t::GMTInputCaloSum tSum;
+  RegionalMuonCand mu;
+  GMTInputCaloSum tSum;
   m_endOfBx = false;
   int caloCounter = 0;
   std::vector<int> bar{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -297,9 +298,9 @@ MicroGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   }
 
 
-  // std::sort(barrelMuons->begin(0), barrelMuons->end(0), MicroGMTInputProducer::cmpProc);
-  // std::sort(overlapMuons->begin(0), overlapMuons->end(0), MicroGMTInputProducer::cmpProc);
-  // std::sort(endcapMuons->begin(0), endcapMuons->end(0), MicroGMTInputProducer::cmpProc);
+  // std::sort(barrelMuons->begin(0), barrelMuons->end(0), L1TMicroGMTInputProducer::cmpProc);
+  // std::sort(overlapMuons->begin(0), overlapMuons->end(0), L1TMicroGMTInputProducer::cmpProc);
+  // std::sort(endcapMuons->begin(0), endcapMuons->end(0), L1TMicroGMTInputProducer::cmpProc);
 
   iEvent.put(barrelMuons, "BarrelTFMuons");
   iEvent.put(overlapMuons, "OverlapTFMuons");
@@ -311,48 +312,48 @@ MicroGMTInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
 
 // ------------ method called once each job just before starting event loop  ------------
 void
-MicroGMTInputProducer::beginJob()
+L1TMicroGMTInputProducer::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
 void
-MicroGMTInputProducer::endJob() {
+L1TMicroGMTInputProducer::endJob() {
 }
 
 // ------------ method called when starting to processes a run  ------------
 void
-MicroGMTInputProducer::beginRun(edm::Run&, edm::EventSetup const&)
+L1TMicroGMTInputProducer::beginRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a run  ------------
 void
-MicroGMTInputProducer::endRun(edm::Run&, edm::EventSetup const&)
+L1TMicroGMTInputProducer::endRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when starting to processes a luminosity block  ------------
 void
-MicroGMTInputProducer::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+L1TMicroGMTInputProducer::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a luminosity block  ------------
 void
-MicroGMTInputProducer::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+L1TMicroGMTInputProducer::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-MicroGMTInputProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+L1TMicroGMTInputProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
   desc.setUnknown();
   descriptions.addDefault(desc);
 }
-}
+
 //define this as a plug-in
-DEFINE_FWK_MODULE(l1t::MicroGMTInputProducer);
+DEFINE_FWK_MODULE(L1TMicroGMTInputProducer);
