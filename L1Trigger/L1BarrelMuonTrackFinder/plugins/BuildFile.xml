@@ -1,4 +1,0 @@
-<use   name="L1Trigger/L1BarrelMuonTrackFinder"/>
-<library   file="*.cc" name="L1TriggerL1BarrelMuonTrackFinderPlugins">
-  <flags   EDM_PLUGIN="1"/>
-</library>

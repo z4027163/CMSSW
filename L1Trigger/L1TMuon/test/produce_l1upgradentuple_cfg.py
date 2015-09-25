@@ -83,12 +83,12 @@ process.load('Configuration.Geometry.GeometryExtended2015_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
-process.load('L1Trigger.L1EndcapMuonTrackFinder.L1TMuonTriggerPrimitiveProducer_cfi')
+process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
 
-path = "L1Trigger/L1OverlapMuonTrackFinder/data/"
+path = "L1Trigger/L1TMuonTrackFinderOverlap/data/"
 # OMTF emulator configuration
 # OMTF emulator configuration
-process.load('L1Trigger.L1OverlapMuonTrackFinder.OMTFProducer_cfi')
+process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi')
 
 process.L1TMuonEndcapTrackFinder = cms.EDProducer(
     'L1TMuonUpgradedTrackFinder',

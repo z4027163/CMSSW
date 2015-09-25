@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuon/interface/GeometryTranslator.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/GeometryTranslator.h"
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
 
 // event setup stuff / geometries
