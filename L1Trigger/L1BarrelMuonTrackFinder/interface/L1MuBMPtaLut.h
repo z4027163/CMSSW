@@ -19,7 +19,7 @@
 // C++ Headers --
 //---------------
 
-#include "CondFormats/Serialization/interface/Serializable.h"
+//#include "CondFormats/Serialization/interface/Serializable.h"
 
 #include <vector>
 #include <map>
@@ -79,7 +79,6 @@ class L1MuBMPtaLut {
     unsigned short int nbit_phi;
     
 
-  COND_SERIALIZABLE;
 };
 
 #endif

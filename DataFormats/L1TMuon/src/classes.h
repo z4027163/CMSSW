@@ -97,3 +97,22 @@ namespace {
     edm::reftobase::RefHolder<InternalTrackRef>  r2itrefholder;
   };
 }
+
+
+
+#include <DataFormats/L1TMuon/interface/L1MuBMTrackCand.h>
+#include <DataFormats/L1TMuon/interface/L1MuBMTrackContainer.h>
+#include <DataFormats/Common/interface/Wrapper.h>
+
+namespace DataFormats_L1BMTrackFinder {
+  struct dictionary {
+    L1MuBMTrackCand   tr_S;
+    std::vector<L1MuBMTrackCand>   tr_V;
+
+    L1MuBMTrackContainer   tr_K;
+
+    edm::Wrapper<L1MuBMTrackContainer>   tr_W;
+  };
+}
+
+

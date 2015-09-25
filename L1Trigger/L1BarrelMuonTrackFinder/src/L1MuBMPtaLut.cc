@@ -109,8 +109,8 @@ int L1MuBMPtaLut::load() {
 //  string pta_dir = "L1TriggerData/DTTrackFinder/Ass/";
   string pta_str = "";
   //string cmsswbase = getenv ("CMSSW_BASE");
-  string defaultPath = "L1Trigger/L1BarrelMuonTrackFinder/";
-  string pta_dir = "data/LUTs_Ass/";
+  string defaultPath = "L1Trigger/L1TMuon/";
+  string pta_dir = "data/bmtf_luts/LUTs_Ass/";
 
   // precision : in the look-up tables the following precision is used :
   // phi ...12 bits (address) and  pt ...5 bits
