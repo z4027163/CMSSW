@@ -5,7 +5,14 @@ import os
 l1tgmt_basedir = "L1Trigger/L1TMuon/"
 lut_dir = os.path.join(l1tgmt_basedir, "data/microgmt_luts/")
 
-microGMTParamsESProducer = cms.ESProducer('l1t::MicroGMTParamsProducer',
+microGMTParamsSource = cms.ESSource(
+    "EmptyESSource",
+    recordName = cms.string('L1TMicroGMTParamsRcd'),
+    iovIsRunNotTime = cms.bool(True),
+    firstValid = cms.vuint32(1)
+)
+
+microGMTParamsESProducer = cms.ESProducer('MicroGMTParamsESProducer',
     fwVersion = cms.uint32(1),
 
     AbsIsoCheckMemLUTSettings = cms.PSet (

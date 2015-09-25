@@ -11,7 +11,7 @@ VERBOSE = False
 SAMPLE = "zmumu"  # "relval"##"minbias"
 EDM_OUT = True
 # min bias: 23635 => 3477 passed L1TMuonFilter (~6.7%), zmumu ~84%
-NEVENTS = 50
+NEVENTS = 5
 if VERBOSE:
     process.MessageLogger = cms.Service("MessageLogger",
                                         suppressInfo=cms.untracked.vstring('AfterSource', 'PostModule'),
@@ -135,7 +135,7 @@ process.microGMTEmulator.BONegMatchQualLUTSettings.filename = cms.string("")
 # output file
 process.TFileService = cms.Service("TFileService",
                                    fileName=cms.string(
-                                       '/afs/cern.ch/work/j/jlingema/private/l1ntuples_upgrade/l1ntuple_{sample}_n.root'.format(sample=SAMPLE))
+                                       '/afs/cern.ch/work/t/treis/private/l1ntuples_upgrade/l1ntuple_{sample}_n.root'.format(sample=SAMPLE))
                                    )
 
 process.load('Configuration.StandardSequences.SimL1Emulator_cff')
@@ -146,6 +146,15 @@ process = customise_csc_PostLS1(process)
 # upgrade calo stage 2
 process.load('L1Trigger.L1TCalorimeter.L1TCaloStage2_PPFromRaw_cff')
 
+# test microGMTESProducer
+process.load('L1Trigger.L1TMuon.microgmtparamsesproducer_cfi')
+process.esTest = cms.EDAnalyzer("EventSetupRecordDataGetter",
+   toGet = cms.VPSet(
+      cms.PSet(record = cms.string('L1TMicroGMTParamsRcd'),
+               data = cms.vstring('l1t::MicroGMTParams'))
+                    ),
+   verbose = cms.untracked.bool(True)
+)
 
 process.L1TMuonSeq = cms.Sequence(
     process.SimL1Emulator
@@ -156,6 +165,7 @@ process.L1TMuonSeq = cms.Sequence(
     + process.omtfEmulator
     + process.L1TMuonEndcapTrackFinder
     + process.L1TCaloStage2_PPFromRaw
+    + process.esTest
     + process.MicroGMTCaloInputProducer
     + process.microGMTEmulator
 )
