@@ -1,13 +1,13 @@
-#include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitive.h"
-#include "DataFormats/L1TMuon/interface/L1TMuonTriggerPrimitiveFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TMuonInternalTrack.h"
-#include "DataFormats/L1TMuon/interface/L1TMuonInternalTrackFwd.h"
-#include "DataFormats/L1TMuon/interface/L1TMuonCandidateTrack.h"
-#include "DataFormats/L1TMuon/interface/L1TMuonCandidateTrackFwd.h"
+#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
+#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
+#include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
+#include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
+#include "DataFormats/L1TMuon/interface/MuonCandidateTrack.h"
+#include "DataFormats/L1TMuon/interface/MuonCandidateTrackFwd.h"
 #include "DataFormats/Common/interface/Wrapper.h"
 #include "DataFormats/Common/interface/RefToBase.h"
 
-#include "DataFormats/L1TMuon/interface/L1TMuonRegionalTracksFwd.h"
+#include "DataFormats/L1TMuon/interface/MuonRegionalTracksFwd.h"
 
 #include "DataFormats/RPCDigi/interface/RPCDigiL1Link.h"
 #include "DataFormats/L1CSCTrackFinder/interface/L1CSCTrackCollection.h"
@@ -100,18 +100,18 @@ namespace {
 
 
 
-#include <DataFormats/L1TMuon/interface/L1MuBMTrackCand.h>
-#include <DataFormats/L1TMuon/interface/L1MuBMTrackContainer.h>
+#include <DataFormats/L1TMuon/interface/BMTrackCand.h>
+#include <DataFormats/L1TMuon/interface/BMTrackContainer.h>
 #include <DataFormats/Common/interface/Wrapper.h>
 
 namespace DataFormats_L1BMTrackFinder {
   struct dictionary {
-    L1MuBMTrackCand   tr_S;
-    std::vector<L1MuBMTrackCand>   tr_V;
+    BMTrackCand   tr_S;
+    std::vector<BMTrackCand>   tr_V;
 
-    L1MuBMTrackContainer   tr_K;
+    BMTrackContainer   tr_K;
 
-    edm::Wrapper<L1MuBMTrackContainer>   tr_W;
+    edm::Wrapper<BMTrackContainer>   tr_W;
   };
 }
 

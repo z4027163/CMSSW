@@ -73,14 +73,16 @@
   <class name="edm::reftobase::RefHolder<L1TMuon::CSCTrackRef>"/>
   <class name="edm::reftobase::RefHolder<L1TMuon::InternalTrackRef>"/>
 
- <class name="L1MuBMTrackCand" ClassVersion="17">
-  <version ClassVersion="17" checksum="3955984839"/>
+ <class name="BMTrackCand" ClassVersion="18">
+  <version ClassVersion="18" checksum="612222572"/>
+  <version ClassVersion="1" checksum="612222572"/>
  </class>
- <class name="std::vector<L1MuBMTrackCand>"/>
- <class name="L1MuBMTrackContainer" ClassVersion="12">
-  <version ClassVersion="12" checksum="3579623934"/>
+ <class name="std::vector<BMTrackCand>"/>
+ <class name="BMTrackContainer" ClassVersion="13">
+  <version ClassVersion="13" checksum="1872326082"/>
+  <version ClassVersion="1" checksum="1872326082"/>
  </class>
- <class name="edm::Wrapper<L1MuBMTrackContainer>"/>
+ <class name="edm::Wrapper<BMTrackContainer>"/>
 
   
  </selection>
