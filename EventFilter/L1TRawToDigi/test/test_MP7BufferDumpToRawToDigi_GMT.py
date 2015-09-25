@@ -59,7 +59,7 @@ process.MessageLogger = cms.Service(
 #	threshold  = cms.untracked.string('DEBUG')
 #    ),
     debugModules = cms.untracked.vstring('*'),
-#        'microGMTRaw',
+#        'stage2GMTRaw',
 #    ),
 #    cout = cms.untracked.PSet(
 #    )
@@ -73,32 +73,32 @@ process.TFileService.fileName = cms.string('l1t.root')
 # user stuff
 
 # raw data from MP card
-process.load('EventFilter.L1TRawToDigi.microGMTMP7BufferRaw_cfi')
-process.microGMTRaw.nFramesLatency   = cms.untracked.vuint32(1)
-process.microGMTRaw.nFramesOffset   = cms.untracked.vuint32(5)
-process.microGMTRaw.rxFile = cms.untracked.string("many_events.txt")
-process.microGMTRaw.txFile = cms.untracked.string("many_events_out.txt")
+process.load('EventFilter.L1TRawToDigi.stage2GMTMP7BufferRaw_cfi')
+process.stage2GMTRaw.nFramesLatency   = cms.untracked.vuint32(1)
+process.stage2GMTRaw.nFramesOffset   = cms.untracked.vuint32(5)
+process.stage2GMTRaw.rxFile = cms.untracked.string("many_events.txt")
+process.stage2GMTRaw.txFile = cms.untracked.string("many_events_out.txt")
 
 # dump raw data
 process.dumpRaw = cms.EDAnalyzer( 
     "DumpFEDRawDataProduct",
-    label = cms.untracked.string("microGMTRaw"),
+    label = cms.untracked.string("stage2GMTRaw"),
     feds = cms.untracked.vint32(1402),
     dumpPayload = cms.untracked.bool ( True )
 )
 
 # raw to digi
-process.load('EventFilter.L1TRawToDigi.microGMTDigis_cfi')
-process.microGMTDigis.InputLabel = cms.InputTag('microGMTRaw')
-#process.microGMTDigis.FWOverride = cms.bool(True)
-#process.microGMTDigis.FWId       = cms.uint32(0xffffffff)
-process.microGMTDigis.debug      = cms.untracked.bool (True)
+process.load('EventFilter.L1TRawToDigi.gmtStage2Digis_cfi')
+process.gmtStage2Digis.InputLabel = cms.InputTag('stage2GMTRaw')
+#process.gmtStage2Digis.FWOverride = cms.bool(True)
+#process.gmtStage2Digis.FWId       = cms.uint32(0xffffffff)
+process.gmtStage2Digis.debug      = cms.untracked.bool (True)
 
 # Path and EndPath definitions
 process.path = cms.Path(
-    process.microGMTRaw
+    process.stage2GMTRaw
     +process.dumpRaw
-    +process.microGMTDigis
+    +process.gmtStage2Digis
 )
 
 process.out = cms.EndPath(
