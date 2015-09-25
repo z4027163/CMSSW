@@ -19,6 +19,7 @@
 
 // system include files
 #include <memory>
+#include "boost/shared_ptr.hpp"
 
 // user include files
 #include "FWCore/Framework/interface/ModuleFactory.h"
@@ -40,7 +41,7 @@ class MicroGMTParamsESProducer : public edm::ESProducer {
       MicroGMTParamsESProducer(const edm::ParameterSet&);
       ~MicroGMTParamsESProducer();
 
-      typedef std::shared_ptr<MicroGMTParams> ReturnType;
+      typedef boost::shared_ptr<MicroGMTParams> ReturnType;
 
       ReturnType produce(const L1TMicroGMTParamsRcd&);
    private:
@@ -201,9 +202,9 @@ MicroGMTParamsESProducer::ReturnType
 MicroGMTParamsESProducer::produce(const L1TMicroGMTParamsRcd& iRecord)
 {
    using namespace edm::es;
-   std::shared_ptr<MicroGMTParams> pMicroGMTParams;
+   boost::shared_ptr<MicroGMTParams> pMicroGMTParams;
 
-   pMicroGMTParams = std::shared_ptr<MicroGMTParams>(new MicroGMTParams(m_params));
+   pMicroGMTParams = boost::shared_ptr<MicroGMTParams>(new MicroGMTParams(m_params));
    return pMicroGMTParams;
 }
 
