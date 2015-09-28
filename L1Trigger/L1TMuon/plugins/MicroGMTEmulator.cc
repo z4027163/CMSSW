@@ -25,6 +25,8 @@
 
 
 // user include files
+#include "FWCore/Framework/interface/EventSetup.h"
+#include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDProducer.h"
 
@@ -42,6 +44,9 @@
 #include "DataFormats/L1Trigger/interface/Muon.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/GMTInternalMuon.h"
+
+#include "CondFormats/L1TObjects/interface/MicroGMTParams.h"
+#include "CondFormats/DataRecord/interface/L1TMicroGMTParamsRcd.h"
 
 #include "TMath.h"
 //
@@ -90,6 +95,7 @@ namespace l1t {
                                    int bx) const;
 
         // ----------member data ---------------------------
+        l1t::MicroGMTParams* microGMTParams;
         edm::InputTag m_barrelTfInputTag;
         edm::InputTag m_overlapTfInputTag;
         edm::InputTag m_endcapTfInputTag;
@@ -142,7 +148,7 @@ l1t::MicroGMTEmulator::MicroGMTEmulator(const edm::ParameterSet& iConfig) : m_ra
   produces<MuonBxCollection>("imdMuonsOMTFPos");
   produces<MuonBxCollection>("imdMuonsOMTFNeg");
 
-
+  microGMTParams = new l1t::MicroGMTParams();
 
 }
 
@@ -406,8 +412,19 @@ l1t::MicroGMTEmulator::endJob() {
 
 // ------------ method called when starting to processes a run  ------------
 void
-l1t::MicroGMTEmulator::beginRun(edm::Run&, edm::EventSetup const&)
+l1t::MicroGMTEmulator::beginRun(edm::Run&, edm::EventSetup const& iSetup)
 {
+  const L1TMicroGMTParamsRcd& microGMTParamsRcd = iSetup.get<L1TMicroGMTParamsRcd>();
+  edm::ESHandle<l1t::MicroGMTParams> microGMTParamsHandle;
+  microGMTParamsRcd.get(microGMTParamsHandle);
+
+  delete microGMTParams;
+  microGMTParams = new (microGMTParams) l1t::MicroGMTParams(*microGMTParamsHandle.product());
+  if (!microGMTParams) {
+    edm::LogError("L1TMicroGMTEmulator") << "Could not retrieve parameters from Event Setup" << std::endl;
+  }
+
+  // now we have the parameters. Do something with it.
 }
 
 // ------------ method called when ending the processing of a run  ------------
