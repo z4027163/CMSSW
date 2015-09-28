@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    L1Trigger/MicroGMTParamsESProducer
-// Class:      MicroGMTParamsESProducer
+// Package:    L1Trigger/L1TMicroGMTParamsESProducer
+// Class:      L1TMicroGMTParamsESProducer
 // 
-/**\class MicroGMTParamsESProducer MicroGMTParamsESProducer.h L1Trigger/MicroGMTParamsESProducer/plugins/MicroGMTParamsESProducer.cc
+/**\class L1TMicroGMTParamsESProducer L1TMicroGMTParamsESProducer.h L1Trigger/L1TMicroGMTParamsESProducer/plugins/L1TMicroGMTParamsESProducer.cc
 
  Description: [one line class summary]
 
@@ -36,10 +36,10 @@
 
 using namespace l1t;
 
-class MicroGMTParamsESProducer : public edm::ESProducer {
+class L1TMicroGMTParamsESProducer : public edm::ESProducer {
    public:
-      MicroGMTParamsESProducer(const edm::ParameterSet&);
-      ~MicroGMTParamsESProducer();
+      L1TMicroGMTParamsESProducer(const edm::ParameterSet&);
+      ~L1TMicroGMTParamsESProducer();
 
       typedef boost::shared_ptr<MicroGMTParams> ReturnType;
 
@@ -59,7 +59,7 @@ class MicroGMTParamsESProducer : public edm::ESProducer {
 //
 // constructors and destructor
 //
-MicroGMTParamsESProducer::MicroGMTParamsESProducer(const edm::ParameterSet& iConfig)
+L1TMicroGMTParamsESProducer::L1TMicroGMTParamsESProducer(const edm::ParameterSet& iConfig)
 {
    //the following line is needed to tell the framework what
    // data is being produced
@@ -188,7 +188,7 @@ MicroGMTParamsESProducer::MicroGMTParamsESProducer(const edm::ParameterSet& iCon
 }
 
 
-MicroGMTParamsESProducer::~MicroGMTParamsESProducer()
+L1TMicroGMTParamsESProducer::~L1TMicroGMTParamsESProducer()
 {
 }
 
@@ -198,8 +198,8 @@ MicroGMTParamsESProducer::~MicroGMTParamsESProducer()
 //
 
 // ------------ method called to produce the data  ------------
-MicroGMTParamsESProducer::ReturnType
-MicroGMTParamsESProducer::produce(const L1TMicroGMTParamsRcd& iRecord)
+L1TMicroGMTParamsESProducer::ReturnType
+L1TMicroGMTParamsESProducer::produce(const L1TMicroGMTParamsRcd& iRecord)
 {
    using namespace edm::es;
    boost::shared_ptr<MicroGMTParams> pMicroGMTParams;
@@ -209,4 +209,4 @@ MicroGMTParamsESProducer::produce(const L1TMicroGMTParamsRcd& iRecord)
 }
 
 //define this as a plug-in
-DEFINE_FWK_EVENTSETUP_MODULE(MicroGMTParamsESProducer);
+DEFINE_FWK_EVENTSETUP_MODULE(L1TMicroGMTParamsESProducer);
