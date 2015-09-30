@@ -39,6 +39,7 @@
 #include "L1Trigger/L1TMuon/interface/MicroGMTRankPtQualLUT.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTIsolationUnit.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTCancelOutUnit.h"
+#include "L1Trigger/L1TMuon/interface/MicroGMTLUTFactories.h"
 
 #include "DataFormats/Math/interface/LorentzVector.h"
 #include "DataFormats/L1Trigger/interface/Muon.h"
@@ -100,6 +101,7 @@ namespace l1t {
         edm::InputTag m_overlapTfInputTag;
         edm::InputTag m_endcapTfInputTag;
         edm::InputTag m_trigTowerTag;
+        std::shared_ptr<MicroGMTRankPtQualLUT> m_rankPtQualityLUT_test;
         MicroGMTRankPtQualLUT m_rankPtQualityLUT;
         MicroGMTIsolationUnit m_isolationUnit;
         MicroGMTCancelOutUnit m_cancelOutUnit;
@@ -424,7 +426,7 @@ l1t::MicroGMTEmulator::beginRun(edm::Run&, edm::EventSetup const& iSetup)
     edm::LogError("L1TMicroGMTEmulator") << "Could not retrieve parameters from Event Setup" << std::endl;
   }
 
-  // now we have the parameters. Do something with it.
+  m_rankPtQualityLUT_test = l1t::MicroGMTRankPtQualLUTFactory::create(microGMTParams->sortRankLUTParams()->filename(), microGMTParams->fwVersion());
 }
 
 // ------------ method called when ending the processing of a run  ------------
