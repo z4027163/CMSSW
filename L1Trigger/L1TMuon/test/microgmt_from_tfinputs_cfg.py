@@ -75,6 +75,9 @@ process.source = cms.Source(
 
 process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(NEVENTS))
 
+# print executed modules
+#process.Tracer = cms.Service("Tracer")
+
 # PostLS1 geometry used
 process.load('Configuration.Geometry.GeometryExtended2015Reco_cff')
 process.load('Configuration.Geometry.GeometryExtended2015_cff')
@@ -124,13 +127,13 @@ process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfConverter", "ConvBMTF
 process.microGMTEmulator.triggerTowerInput = cms.InputTag("MicroGMTCaloInputProducer", "TriggerTowerSums")
 
 # disable pre-loaded cancel-out lookup tables (they currently contain only 0)
-process.microGMTEmulator.OvlNegSingleMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.OvlPosSingleMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.FOPosMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.FONegMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.BrlSingleMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.BOPosMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.BONegMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.OvlNegSingleMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.OvlPosSingleMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.FOPosMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.FONegMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.BrlSingleMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.BOPosMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.BONegMatchQualLUTSettings.filename = cms.string("")
 
 # output file
 process.TFileService = cms.Service("TFileService",
@@ -146,8 +149,8 @@ process = customise_csc_PostLS1(process)
 # upgrade calo stage 2
 process.load('L1Trigger.L1TCalorimeter.L1TCaloStage2_PPFromRaw_cff')
 
-# test microGMTESProducer
-process.load('L1Trigger.L1TMuon.microgmtparamsesproducer_cfi')
+# test L1TMicroGMTESProducer
+process.load('L1Trigger.L1TMuon.l1tmicrogmtparamsesproducer_cfi')
 process.esTest = cms.EDAnalyzer("EventSetupRecordDataGetter",
    toGet = cms.VPSet(
       cms.PSet(record = cms.string('L1TMicroGMTParamsRcd'),

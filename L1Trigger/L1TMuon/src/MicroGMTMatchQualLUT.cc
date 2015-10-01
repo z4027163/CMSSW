@@ -1,13 +1,9 @@
 #include "../interface/MicroGMTMatchQualLUT.h"
 #include "TMath.h"
 
-l1t::MicroGMTMatchQualLUT::MicroGMTMatchQualLUT (const edm::ParameterSet& iConfig, std::string prefix, cancel_t cancelType) :
-  m_dEtaRedMask(0), m_dPhiRedMask(0), m_dEtaRedInWidth(0), m_dPhiRedInWidth(0), m_etaScale(0), m_phiScale(0), m_cancelType(cancelType)
+l1t::MicroGMTMatchQualLUT::MicroGMTMatchQualLUT (const std::string& fname, cancel_t cancelType) :
+  m_dEtaRedMask(0), m_dPhiRedMask(0), m_dEtaRedInWidth(4), m_dPhiRedInWidth(3), m_etaScale(0), m_phiScale(0), m_cancelType(cancelType)
 {
-  edm::ParameterSet config = iConfig.getParameter<edm::ParameterSet>(prefix+"MatchQualLUTSettings");
-  m_dPhiRedInWidth = config.getParameter<int>("deltaPhiRed_in_width");
-  m_dEtaRedInWidth = config.getParameter<int>("deltaEtaRed_in_width");
-
   m_totalInWidth = m_dPhiRedInWidth + m_dEtaRedInWidth;
 
   m_dEtaRedMask = (1 << m_dEtaRedInWidth) - 1;
@@ -19,9 +15,8 @@ l1t::MicroGMTMatchQualLUT::MicroGMTMatchQualLUT (const edm::ParameterSet& iConfi
   m_phiScale = 2*TMath::Pi()/576.0;
   m_etaScale = 0.010875;
 
-  std::string m_fname = config.getParameter<std::string>("filename");
-  if (m_fname != std::string("")) {
-    load(m_fname);
+  if (fname != std::string("")) {
+    load(fname);
   } else {
     initialize();
   }

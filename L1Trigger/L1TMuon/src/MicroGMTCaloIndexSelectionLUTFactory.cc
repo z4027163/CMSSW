@@ -16,12 +16,12 @@ using namespace edm;
 
 namespace l1t {
   MicroGMTCaloIndexSelectionLUTFactory::ReturnType
-  MicroGMTCaloIndexSelectionLUTFactory::create(const std::string& filename, const int fwVersion) {
+  MicroGMTCaloIndexSelectionLUTFactory::create(const std::string& filename, const int type, const int fwVersion) {
     ReturnType p;
 
     switch (fwVersion) {
       case 1:
-        p = ReturnType(new MicroGMTCaloIndexSelectionLUT());
+        p = ReturnType(new MicroGMTCaloIndexSelectionLUT(filename, type));
         break;
       default:
         LogError("MicroGMTCaloIndexSelectionLUTFactory") << "Invalid firmware version requested: " << fwVersion;

@@ -66,10 +66,10 @@ namespace l1t {
         virtual void produce(edm::Event&, const edm::EventSetup&);
         virtual void endJob() ;
 
-        virtual void beginRun(edm::Run&, edm::EventSetup const&);
-        virtual void endRun(edm::Run&, edm::EventSetup const&);
-        virtual void beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
-        virtual void endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
+        virtual void beginRun(edm::Run const&, edm::EventSetup const&);
+        virtual void endRun(edm::Run const&, edm::EventSetup const&);
+        virtual void beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
+        virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
 
         static bool compareMuons(const std::shared_ptr<MicroGMTConfiguration::InterMuon>& mu1,
                                 const std::shared_ptr<MicroGMTConfiguration::InterMuon>& mu2);
@@ -101,8 +101,7 @@ namespace l1t {
         edm::InputTag m_overlapTfInputTag;
         edm::InputTag m_endcapTfInputTag;
         edm::InputTag m_trigTowerTag;
-        std::shared_ptr<MicroGMTRankPtQualLUT> m_rankPtQualityLUT_test;
-        MicroGMTRankPtQualLUT m_rankPtQualityLUT;
+        std::shared_ptr<MicroGMTRankPtQualLUT> m_rankPtQualityLUT;
         MicroGMTIsolationUnit m_isolationUnit;
         MicroGMTCancelOutUnit m_cancelOutUnit;
         std::ofstream m_debugOut;
@@ -126,7 +125,7 @@ namespace l1t {
 //
 // constructors and destructor
 //
-l1t::MicroGMTEmulator::MicroGMTEmulator(const edm::ParameterSet& iConfig) : m_rankPtQualityLUT(iConfig), m_isolationUnit(iConfig), m_cancelOutUnit(iConfig), m_debugOut("test/debug/iso_debug.dat")
+l1t::MicroGMTEmulator::MicroGMTEmulator(const edm::ParameterSet& iConfig) : m_debugOut("test/debug/iso_debug.dat")
 {
   // edm::InputTag barrelTfInputTag = iConfig.getParameter<edm::InputTag>("barrelTFInput");
   // edm::InputTag overlapTfInputTag = iConfig.getParameter<edm::InputTag>("overlapTFInput");
@@ -327,7 +326,7 @@ void
 l1t::MicroGMTEmulator::calculateRank(MicroGMTConfiguration::InterMuonList& muons) const
 {
   for (auto& mu1 : muons) {
-    int rank = m_rankPtQualityLUT.lookup(mu1->hwPt(), mu1->hwQual());
+    int rank = m_rankPtQualityLUT->lookup(mu1->hwPt(), mu1->hwQual());
     mu1->setHwRank(rank);
   }
 }
@@ -414,7 +413,7 @@ l1t::MicroGMTEmulator::endJob() {
 
 // ------------ method called when starting to processes a run  ------------
 void
-l1t::MicroGMTEmulator::beginRun(edm::Run&, edm::EventSetup const& iSetup)
+l1t::MicroGMTEmulator::beginRun(edm::Run const& run, edm::EventSetup const& iSetup)
 {
   const L1TMicroGMTParamsRcd& microGMTParamsRcd = iSetup.get<L1TMicroGMTParamsRcd>();
   edm::ESHandle<l1t::MicroGMTParams> microGMTParamsHandle;
@@ -426,24 +425,26 @@ l1t::MicroGMTEmulator::beginRun(edm::Run&, edm::EventSetup const& iSetup)
     edm::LogError("L1TMicroGMTEmulator") << "Could not retrieve parameters from Event Setup" << std::endl;
   }
 
-  m_rankPtQualityLUT_test = l1t::MicroGMTRankPtQualLUTFactory::create(microGMTParams->sortRankLUTParams()->filename(), microGMTParams->fwVersion());
+  m_rankPtQualityLUT = l1t::MicroGMTRankPtQualLUTFactory::create(microGMTParams->sortRankLUTParams()->filename(), microGMTParams->fwVersion());
+  m_isolationUnit.initialise(microGMTParams);
+  m_cancelOutUnit.initialise(microGMTParams);
 }
 
 // ------------ method called when ending the processing of a run  ------------
 void
-l1t::MicroGMTEmulator::endRun(edm::Run&, edm::EventSetup const&)
+l1t::MicroGMTEmulator::endRun(edm::Run const&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when starting to processes a luminosity block  ------------
 void
-l1t::MicroGMTEmulator::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+l1t::MicroGMTEmulator::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a luminosity block  ------------
 void
-l1t::MicroGMTEmulator::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+l1t::MicroGMTEmulator::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
 {
 }
 

@@ -21,7 +21,7 @@ namespace l1t {
 
     switch (fwVersion) {
       case 1:
-        p = ReturnType(new MicroGMTExtrapolationLUT());
+        p = ReturnType(new MicroGMTExtrapolationLUT(filename));
         break;
       default:
         LogError("MicroGMTExtrapolationLUTFactory") << "Invalid firmware version requested: " << fwVersion;

@@ -21,7 +21,7 @@ namespace l1t {
 
     switch (fwVersion) {
       case 1:
-        p = ReturnType(new MicroGMTRelativeIsolationCheckLUT());
+        p = ReturnType(new MicroGMTRelativeIsolationCheckLUT(filename));
         break;
       default:
         LogError("MicroGMTRelativeIsolationCheckLUTFactory") << "Invalid firmware version requested: " << fwVersion;

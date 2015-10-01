@@ -16,7 +16,7 @@ using namespace edm;
 
 namespace l1t {
   MicroGMTRankPtQualLUTFactory::ReturnType
-  MicroGMTRankPtQualLUTFactory::create(std::string& filename, const int fwVersion) {
+  MicroGMTRankPtQualLUTFactory::create(const std::string& filename, const int fwVersion) {
     ReturnType p;
 
     switch (fwVersion) {
