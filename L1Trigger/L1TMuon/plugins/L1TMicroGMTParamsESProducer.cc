@@ -68,123 +68,27 @@ L1TMicroGMTParamsESProducer::L1TMicroGMTParamsESProducer(const edm::ParameterSet
    // Firmware version
    m_params.setFwVersion(iConfig.getParameter<unsigned>("fwVersion"));
 
-   // LUT parameters
-   edm::ParameterSet aicm_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("AbsIsoCheckMemLUTSettings");
-   m_params.absIsoCheckMemLUTParams()->setAreaSumInWidth(aicm_lut_stgs_.getParameter<int>("areaSum_in_width"));
-   m_params.absIsoCheckMemLUTParams()->setOutWidth(aicm_lut_stgs_.getParameter<int>("out_width"));
-   m_params.absIsoCheckMemLUTParams()->setFilename(aicm_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet ismp_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("IdxSelMemPhiLUTSettings");
-   m_params.idxSelMemPhiLUTParams()->setPhiInWidth(ismp_lut_stgs_.getParameter<int>("phi_in_width"));
-   m_params.idxSelMemPhiLUTParams()->setOutWidth(ismp_lut_stgs_.getParameter<int>("out_width"));
-   m_params.idxSelMemPhiLUTParams()->setFilename(ismp_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet fpsmq_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("FwdPosSingleMatchQualLUTSettings");
-   m_params.fwdPosSingleMatchQualLUTParams()->setDeltaEtaRedInWidth(fpsmq_lut_stgs_.getParameter<int>("deltaEtaRed_in_width"));
-   m_params.fwdPosSingleMatchQualLUTParams()->setDeltaPhiRedInWidth(fpsmq_lut_stgs_.getParameter<int>("deltaPhiRed_in_width"));
-   m_params.fwdPosSingleMatchQualLUTParams()->setOutWidth(fpsmq_lut_stgs_.getParameter<int>("out_width"));
-   m_params.fwdPosSingleMatchQualLUTParams()->setFilename(fpsmq_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet bonmq_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("BONegMatchQualLUTSettings");
-   m_params.bONegMatchQualLUTParams()->setDeltaEtaRedInWidth(bonmq_lut_stgs_.getParameter<int>("deltaEtaRed_in_width"));
-   m_params.bONegMatchQualLUTParams()->setDeltaPhiRedInWidth(bonmq_lut_stgs_.getParameter<int>("deltaPhiRed_in_width"));
-   m_params.bONegMatchQualLUTParams()->setOutWidth(bonmq_lut_stgs_.getParameter<int>("out_width"));
-   m_params.bONegMatchQualLUTParams()->setFilename(bonmq_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet onsmq_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("OvlNegSingleMatchQualLUTSettings");
-   m_params.ovlNegSingleMatchQualLUTParams()->setDeltaEtaRedInWidth(onsmq_lut_stgs_.getParameter<int>("deltaEtaRed_in_width"));
-   m_params.ovlNegSingleMatchQualLUTParams()->setDeltaPhiRedInWidth(onsmq_lut_stgs_.getParameter<int>("deltaPhiRed_in_width"));
-   m_params.ovlNegSingleMatchQualLUTParams()->setOutWidth(onsmq_lut_stgs_.getParameter<int>("out_width"));
-   m_params.ovlNegSingleMatchQualLUTParams()->setFilename(onsmq_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet isme_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("IdxSelMemEtaLUTSettings");
-   m_params.idxSelMemEtaLUTParams()->setEtaInWidth(isme_lut_stgs_.getParameter<int>("eta_in_width"));
-   m_params.idxSelMemEtaLUTParams()->setOutWidth(isme_lut_stgs_.getParameter<int>("out_width"));
-   m_params.idxSelMemEtaLUTParams()->setFilename(isme_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet fopmq_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("FOPosMatchQualLUTSettings");
-   m_params.fOPosMatchQualLUTParams()->setDeltaEtaRedInWidth(fopmq_lut_stgs_.getParameter<int>("deltaEtaRed_in_width"));
-   m_params.fOPosMatchQualLUTParams()->setDeltaPhiRedInWidth(fopmq_lut_stgs_.getParameter<int>("deltaPhiRed_in_width"));
-   m_params.fOPosMatchQualLUTParams()->setOutWidth(fopmq_lut_stgs_.getParameter<int>("out_width"));
-   m_params.fOPosMatchQualLUTParams()->setFilename(fopmq_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet fnsmq_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("FwdNegSingleMatchQualLUTSettings");
-   m_params.fwdNegSingleMatchQualLUTParams()->setDeltaEtaRedInWidth(fnsmq_lut_stgs_.getParameter<int>("deltaEtaRed_in_width"));
-   m_params.fwdNegSingleMatchQualLUTParams()->setDeltaPhiRedInWidth(fnsmq_lut_stgs_.getParameter<int>("deltaPhiRed_in_width"));
-   m_params.fwdNegSingleMatchQualLUTParams()->setOutWidth(fnsmq_lut_stgs_.getParameter<int>("out_width"));
-   m_params.fwdNegSingleMatchQualLUTParams()->setFilename(fnsmq_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet bpe_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("BPhiExtrapolationLUTSettings");
-   m_params.bPhiExtrapolationLUTParams()->setEtaAbsRedInWidth(bpe_lut_stgs_.getParameter<int>("etaAbsRed_in_width"));
-   m_params.bPhiExtrapolationLUTParams()->setPtRedInWidth(bpe_lut_stgs_.getParameter<int>("pTred_in_width"));
-   m_params.bPhiExtrapolationLUTParams()->setOutWidth(bpe_lut_stgs_.getParameter<int>("out_width"));
-   m_params.bPhiExtrapolationLUTParams()->setFilename(bpe_lut_stgs_.getParameter<std::string>("filename"));
-   
-   edm::ParameterSet bsmq_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("BrlSingleMatchQualLUTSettings");
-   m_params.brlSingleMatchQualLUTParams()->setDeltaEtaRedInWidth(bsmq_lut_stgs_.getParameter<int>("deltaEtaRed_in_width"));
-   m_params.brlSingleMatchQualLUTParams()->setDeltaPhiRedInWidth(bsmq_lut_stgs_.getParameter<int>("deltaPhiRed_in_width"));
-   m_params.brlSingleMatchQualLUTParams()->setOutWidth(bsmq_lut_stgs_.getParameter<int>("out_width"));
-   m_params.brlSingleMatchQualLUTParams()->setFilename(bsmq_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet ricm_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("RelIsoCheckMemLUTSettings");
-   m_params.relIsoCheckMemLUTParams()->setAreaSumInWidth(ricm_lut_stgs_.getParameter<int>("areaSum_in_width"));
-   m_params.relIsoCheckMemLUTParams()->setPtInWidth(ricm_lut_stgs_.getParameter<int>("pT_in_width"));
-   m_params.relIsoCheckMemLUTParams()->setOutWidth(ricm_lut_stgs_.getParameter<int>("out_width"));
-   m_params.relIsoCheckMemLUTParams()->setFilename(ricm_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet ope_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("OPhiExtrapolationLUTSettings");
-   m_params.oPhiExtrapolationLUTParams()->setEtaAbsRedInWidth(ope_lut_stgs_.getParameter<int>("etaAbsRed_in_width"));
-   m_params.oPhiExtrapolationLUTParams()->setPtRedInWidth(ope_lut_stgs_.getParameter<int>("pTred_in_width"));
-   m_params.oPhiExtrapolationLUTParams()->setOutWidth(ope_lut_stgs_.getParameter<int>("out_width"));
-   m_params.oPhiExtrapolationLUTParams()->setFilename(ope_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet opsmq_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("OvlPosSingleMatchQualLUTSettings");
-   m_params.ovlPosSingleMatchQualLUTParams()->setDeltaEtaRedInWidth(opsmq_lut_stgs_.getParameter<int>("deltaEtaRed_in_width"));
-   m_params.ovlPosSingleMatchQualLUTParams()->setDeltaPhiRedInWidth(opsmq_lut_stgs_.getParameter<int>("deltaPhiRed_in_width"));
-   m_params.ovlPosSingleMatchQualLUTParams()->setOutWidth(opsmq_lut_stgs_.getParameter<int>("out_width"));
-   m_params.ovlPosSingleMatchQualLUTParams()->setFilename(opsmq_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet fee_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("FEtaExtrapolationLUTSettings");
-   m_params.fEtaExtrapolationLUTParams()->setEtaAbsRedInWidth(fee_lut_stgs_.getParameter<int>("etaAbsRed_in_width"));
-   m_params.fEtaExtrapolationLUTParams()->setPtRedInWidth(fee_lut_stgs_.getParameter<int>("pTred_in_width"));
-   m_params.fEtaExtrapolationLUTParams()->setOutWidth(fee_lut_stgs_.getParameter<int>("out_width"));
-   m_params.fEtaExtrapolationLUTParams()->setFilename(fee_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet bopmq_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("BOPosMatchQualLUTSettings");
-   m_params.bOPosMatchQualLUTParams()->setDeltaEtaRedInWidth(bopmq_lut_stgs_.getParameter<int>("deltaEtaRed_in_width"));
-   m_params.bOPosMatchQualLUTParams()->setDeltaPhiRedInWidth(bopmq_lut_stgs_.getParameter<int>("deltaPhiRed_in_width"));
-   m_params.bOPosMatchQualLUTParams()->setOutWidth(bopmq_lut_stgs_.getParameter<int>("out_width"));
-   m_params.bOPosMatchQualLUTParams()->setFilename(bopmq_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet oee_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("OEtaExtrapolationLUTSettings");
-   m_params.oEtaExtrapolationLUTParams()->setEtaAbsRedInWidth(oee_lut_stgs_.getParameter<int>("etaAbsRed_in_width"));
-   m_params.oEtaExtrapolationLUTParams()->setPtRedInWidth(oee_lut_stgs_.getParameter<int>("pTred_in_width"));
-   m_params.oEtaExtrapolationLUTParams()->setOutWidth(oee_lut_stgs_.getParameter<int>("out_width"));
-   m_params.oEtaExtrapolationLUTParams()->setFilename(oee_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet bee_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("BEtaExtrapolationLUTSettings");
-   m_params.bEtaExtrapolationLUTParams()->setEtaAbsRedInWidth(bee_lut_stgs_.getParameter<int>("etaAbsRed_in_width"));
-   m_params.bEtaExtrapolationLUTParams()->setPtRedInWidth(bee_lut_stgs_.getParameter<int>("pTred_in_width"));
-   m_params.bEtaExtrapolationLUTParams()->setOutWidth(bee_lut_stgs_.getParameter<int>("out_width"));
-   m_params.bEtaExtrapolationLUTParams()->setFilename(bee_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet fpe_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("FPhiExtrapolationLUTSettings");
-   m_params.fPhiExtrapolationLUTParams()->setEtaAbsRedInWidth(fpe_lut_stgs_.getParameter<int>("etaAbsRed_in_width"));
-   m_params.fPhiExtrapolationLUTParams()->setPtRedInWidth(fpe_lut_stgs_.getParameter<int>("pTred_in_width"));
-   m_params.fPhiExtrapolationLUTParams()->setOutWidth(fpe_lut_stgs_.getParameter<int>("out_width"));
-   m_params.fPhiExtrapolationLUTParams()->setFilename(fpe_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet fonmq_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("FONegMatchQualLUTSettings");
-   m_params.fONegMatchQualLUTParams()->setDeltaEtaRedInWidth(fonmq_lut_stgs_.getParameter<int>("deltaEtaRed_in_width"));
-   m_params.fONegMatchQualLUTParams()->setDeltaPhiRedInWidth(fonmq_lut_stgs_.getParameter<int>("deltaPhiRed_in_width"));
-   m_params.fONegMatchQualLUTParams()->setOutWidth(fonmq_lut_stgs_.getParameter<int>("out_width"));
-   m_params.fONegMatchQualLUTParams()->setFilename(fonmq_lut_stgs_.getParameter<std::string>("filename"));
-
-   edm::ParameterSet sr_lut_stgs_ = iConfig.getParameter<edm::ParameterSet>("SortRankLUTSettings");
-   m_params.sortRankLUTParams()->setPtInWidth(sr_lut_stgs_.getParameter<int>("pT_in_width"));
-   m_params.sortRankLUTParams()->setQualInWidth(sr_lut_stgs_.getParameter<int>("qual_in_width"));
-   m_params.sortRankLUTParams()->setOutWidth(sr_lut_stgs_.getParameter<int>("out_width"));
-   m_params.sortRankLUTParams()->setFilename(sr_lut_stgs_.getParameter<std::string>("filename"));
+   // LUT paths
+   m_params.setAbsIsoCheckMemLUTPath        (iConfig.getParameter<std::string>("AbsIsoCheckMemLUTPath"));
+   m_params.setRelIsoCheckMemLUTPath        (iConfig.getParameter<std::string>("RelIsoCheckMemLUTPath"));
+   m_params.setIdxSelMemPhiLUTPath          (iConfig.getParameter<std::string>("IdxSelMemPhiLUTPath"));
+   m_params.setIdxSelMemEtaLUTPath          (iConfig.getParameter<std::string>("IdxSelMemEtaLUTPath"));
+   m_params.setBrlSingleMatchQualLUTPath    (iConfig.getParameter<std::string>("BrlSingleMatchQualLUTPath"));
+   m_params.setFwdPosSingleMatchQualLUTPath (iConfig.getParameter<std::string>("FwdPosSingleMatchQualLUTPath"));
+   m_params.setFwdNegSingleMatchQualLUTPath (iConfig.getParameter<std::string>("FwdNegSingleMatchQualLUTPath"));
+   m_params.setOvlPosSingleMatchQualLUTPath (iConfig.getParameter<std::string>("OvlPosSingleMatchQualLUTPath"));
+   m_params.setOvlNegSingleMatchQualLUTPath (iConfig.getParameter<std::string>("OvlNegSingleMatchQualLUTPath"));
+   m_params.setBOPosMatchQualLUTPath        (iConfig.getParameter<std::string>("BOPosMatchQualLUTPath"));
+   m_params.setBONegMatchQualLUTPath        (iConfig.getParameter<std::string>("BONegMatchQualLUTPath"));
+   m_params.setFOPosMatchQualLUTPath        (iConfig.getParameter<std::string>("FOPosMatchQualLUTPath"));
+   m_params.setFONegMatchQualLUTPath        (iConfig.getParameter<std::string>("FONegMatchQualLUTPath"));
+   m_params.setBPhiExtrapolationLUTPath     (iConfig.getParameter<std::string>("BPhiExtrapolationLUTPath"));
+   m_params.setOPhiExtrapolationLUTPath     (iConfig.getParameter<std::string>("OPhiExtrapolationLUTPath"));
+   m_params.setFPhiExtrapolationLUTPath     (iConfig.getParameter<std::string>("FPhiExtrapolationLUTPath"));
+   m_params.setBEtaExtrapolationLUTPath     (iConfig.getParameter<std::string>("BEtaExtrapolationLUTPath"));
+   m_params.setOEtaExtrapolationLUTPath     (iConfig.getParameter<std::string>("OEtaExtrapolationLUTPath"));
+   m_params.setFEtaExtrapolationLUTPath     (iConfig.getParameter<std::string>("FEtaExtrapolationLUTPath"));
+   m_params.setSortRankLUTPath              (iConfig.getParameter<std::string>("SortRankLUTPath"));
 }
 
 

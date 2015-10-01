@@ -23,7 +23,6 @@
 #include <fstream>
 #include <sstream>
 
-
 // user include files
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -423,7 +422,8 @@ l1t::MicroGMTEmulator::beginRun(edm::Run const& run, edm::EventSetup const& iSet
     edm::LogError("L1TMicroGMTEmulator") << "Could not retrieve parameters from Event Setup" << std::endl;
   }
 
-  m_rankPtQualityLUT = l1t::MicroGMTRankPtQualLUTFactory::create(microGMTParams->sortRankLUTParams()->filename(), microGMTParams->fwVersion());
+  //microGMTParams->print(std::cout);
+  m_rankPtQualityLUT = l1t::MicroGMTRankPtQualLUTFactory::create(microGMTParams->sortRankLUTPath(), microGMTParams->fwVersion());
   m_isolationUnit.initialise(microGMTParams.get());
   m_cancelOutUnit.initialise(microGMTParams.get());
 }
