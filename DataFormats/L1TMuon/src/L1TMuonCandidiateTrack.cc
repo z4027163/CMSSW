@@ -1,4 +1,4 @@
-#include "DataFormats/L1TMuon/interface/L1TMuonCandidateTrack.h"
+#include "DataFormats/L1TMuon/interface/MuonCandidateTrack.h"
 
 using namespace L1TMuon;
 

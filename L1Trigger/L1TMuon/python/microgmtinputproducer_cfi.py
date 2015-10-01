@@ -1,5 +1,5 @@
 import FWCore.ParameterSet.Config as cms
 
-MicroGMTInputProducer = cms.EDProducer('l1t::MicroGMTInputProducer',
+L1TMicroGMTInputProducer = cms.EDProducer('L1TMicroGMTInputProducer',
     inputFileName = cms.string("../test/test.dat")
 )
