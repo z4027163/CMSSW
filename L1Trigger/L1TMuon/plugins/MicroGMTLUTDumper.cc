@@ -59,7 +59,7 @@ class MicroGMTLUTDumper : public edm::EDAnalyzer {
       void dumpLut(MicroGMTLUT*, const std::string&);
 
       // ----------member data ---------------------------
-      MicroGMTParams* microGMTParams;
+      std::unique_ptr<MicroGMTParams> microGMTParams;
       std::string m_foldername;
       std::shared_ptr<MicroGMTRankPtQualLUT> m_rankLUT;
 
@@ -90,6 +90,8 @@ MicroGMTLUTDumper::MicroGMTLUTDumper(const edm::ParameterSet& iConfig)
 {
   //now do what ever other initialization is needed
   m_foldername = iConfig.getParameter<std::string> ("out_directory");
+
+  microGMTParams = std::unique_ptr<MicroGMTParams>(new MicroGMTParams());
 }
 
 
@@ -138,8 +140,7 @@ MicroGMTLUTDumper::beginRun(edm::Run const& run, edm::EventSetup const& iSetup)
   edm::ESHandle<MicroGMTParams> microGMTParamsHandle;
   microGMTParamsRcd.get(microGMTParamsHandle);
 
-  delete microGMTParams;
-  microGMTParams = new (microGMTParams) MicroGMTParams(*microGMTParamsHandle.product());
+  microGMTParams = std::unique_ptr<MicroGMTParams>(new MicroGMTParams(*microGMTParamsHandle.product()));
   if (!microGMTParams) {
     edm::LogError("L1TMicroGMTLUTDumper") << "Could not retrieve parameters from Event Setup" << std::endl;
   }

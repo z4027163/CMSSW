@@ -96,7 +96,7 @@ namespace l1t {
                                    int bx) const;
 
         // ----------member data ---------------------------
-        l1t::MicroGMTParams* microGMTParams;
+        std::unique_ptr<MicroGMTParams> microGMTParams;
         edm::InputTag m_barrelTfInputTag;
         edm::InputTag m_overlapTfInputTag;
         edm::InputTag m_endcapTfInputTag;
@@ -149,8 +149,7 @@ l1t::MicroGMTEmulator::MicroGMTEmulator(const edm::ParameterSet& iConfig) : m_de
   produces<MuonBxCollection>("imdMuonsOMTFPos");
   produces<MuonBxCollection>("imdMuonsOMTFNeg");
 
-  microGMTParams = new l1t::MicroGMTParams();
-
+  microGMTParams = std::unique_ptr<MicroGMTParams>(new MicroGMTParams());
 }
 
 l1t::MicroGMTEmulator::~MicroGMTEmulator()
@@ -419,15 +418,14 @@ l1t::MicroGMTEmulator::beginRun(edm::Run const& run, edm::EventSetup const& iSet
   edm::ESHandle<l1t::MicroGMTParams> microGMTParamsHandle;
   microGMTParamsRcd.get(microGMTParamsHandle);
 
-  delete microGMTParams;
-  microGMTParams = new (microGMTParams) l1t::MicroGMTParams(*microGMTParamsHandle.product());
+  microGMTParams = std::unique_ptr<MicroGMTParams>(new MicroGMTParams(*microGMTParamsHandle.product()));
   if (!microGMTParams) {
     edm::LogError("L1TMicroGMTEmulator") << "Could not retrieve parameters from Event Setup" << std::endl;
   }
 
   m_rankPtQualityLUT = l1t::MicroGMTRankPtQualLUTFactory::create(microGMTParams->sortRankLUTParams()->filename(), microGMTParams->fwVersion());
-  m_isolationUnit.initialise(microGMTParams);
-  m_cancelOutUnit.initialise(microGMTParams);
+  m_isolationUnit.initialise(microGMTParams.get());
+  m_cancelOutUnit.initialise(microGMTParams.get());
 }
 
 // ------------ method called when ending the processing of a run  ------------
