@@ -107,11 +107,11 @@ process.bmtfEmulator = cms.EDProducer("BMTrackFinder",
 
                                       )
 
-process.MicroGMTCaloInputProducer = cms.EDProducer("l1t::MicroGMTCaloInputProducer",
+process.MicroGMTCaloInputProducer = cms.EDProducer("L1TMicroGMTCaloInputProducer",
                                                caloStage2Layer2Label=cms.InputTag("caloStage2Layer1Digis"),
 )
 # WORKAROUNDS FOR WRONG SCALES / MISSING COLLECTIONS:
-process.bmtfConverter = cms.EDProducer("l1t::BMTFConverter",)
+process.bmtfConverter = cms.EDProducer("L1TBMTFConverter",)
 
 # Adjust input tags if running on GEN-SIM-RAW (have to re-digi)
 if SAMPLE == "zmumu" or SAMPLE == "minbias":
