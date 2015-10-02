@@ -11,7 +11,7 @@ VERBOSE = False
 SAMPLE = "zmumu"  # "relval"##"minbias"
 EDM_OUT = True
 # min bias: 23635 => 3477 passed L1TMuonFilter (~6.7%), zmumu ~84%
-NEVENTS = 50
+NEVENTS = 5
 if VERBOSE:
     process.MessageLogger = cms.Service("MessageLogger",
                                         suppressInfo=cms.untracked.vstring('AfterSource', 'PostModule'),
@@ -75,6 +75,9 @@ process.source = cms.Source(
 
 process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(NEVENTS))
 
+# print executed modules
+#process.Tracer = cms.Service("Tracer")
+
 # PostLS1 geometry used
 process.load('Configuration.Geometry.GeometryExtended2015Reco_cff')
 process.load('Configuration.Geometry.GeometryExtended2015_cff')
@@ -124,18 +127,18 @@ process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfConverter", "ConvBMTF
 process.microGMTEmulator.triggerTowerInput = cms.InputTag("MicroGMTCaloInputProducer", "TriggerTowerSums")
 
 # disable pre-loaded cancel-out lookup tables (they currently contain only 0)
-process.microGMTEmulator.OvlNegSingleMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.OvlPosSingleMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.FOPosMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.FONegMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.BrlSingleMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.BOPosMatchQualLUTSettings.filename = cms.string("")
-process.microGMTEmulator.BONegMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.OvlNegSingleMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.OvlPosSingleMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.FOPosMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.FONegMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.BrlSingleMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.BOPosMatchQualLUTSettings.filename = cms.string("")
+#process.microGMTEmulator.BONegMatchQualLUTSettings.filename = cms.string("")
 
 # output file
 process.TFileService = cms.Service("TFileService",
                                    fileName=cms.string(
-                                       '/afs/cern.ch/work/j/jlingema/private/l1ntuples_upgrade/l1ntuple_{sample}_n.root'.format(sample=SAMPLE))
+                                       '/afs/cern.ch/work/t/treis/private/l1ntuples_upgrade/l1ntuple_{sample}_n.root'.format(sample=SAMPLE))
                                    )
 
 process.load('Configuration.StandardSequences.SimL1Emulator_cff')
@@ -146,6 +149,15 @@ process = customise_csc_PostLS1(process)
 # upgrade calo stage 2
 process.load('L1Trigger.L1TCalorimeter.L1TCaloStage2_PPFromRaw_cff')
 
+# test L1TMicroGMTESProducer
+process.load('L1Trigger.L1TMuon.l1tmicrogmtparamsesproducer_cfi')
+process.esTest = cms.EDAnalyzer("EventSetupRecordDataGetter",
+   toGet = cms.VPSet(
+      cms.PSet(record = cms.string('L1TMicroGMTParamsRcd'),
+               data = cms.vstring('l1t::MicroGMTParams'))
+                    ),
+   verbose = cms.untracked.bool(True)
+)
 
 process.L1TMuonSeq = cms.Sequence(
     process.SimL1Emulator
@@ -156,6 +168,7 @@ process.L1TMuonSeq = cms.Sequence(
     + process.omtfEmulator
     + process.L1TMuonEndcapTrackFinder
     + process.L1TCaloStage2_PPFromRaw
+    + process.esTest
     + process.MicroGMTCaloInputProducer
     + process.microGMTEmulator
 )
