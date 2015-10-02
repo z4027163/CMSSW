@@ -1,8 +1,6 @@
-#include "CondFormats/L1TObjects/interface/MicroGMTParams.h"
+#include "CondFormats/L1TObjects/interface/L1TGMTParams.h"
 
-using namespace l1t;
-
-void MicroGMTParams::print(std::ostream& out) const {
+void L1TGMTParams::print(std::ostream& out) const {
 
   out << "L1 MicroGMT Parameters" << std::endl;
 

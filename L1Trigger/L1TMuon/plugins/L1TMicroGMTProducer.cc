@@ -45,8 +45,8 @@
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/GMTInternalMuon.h"
 
-#include "CondFormats/L1TObjects/interface/MicroGMTParams.h"
-#include "CondFormats/DataRecord/interface/L1TMicroGMTParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TGMTParams.h"
+#include "CondFormats/DataRecord/interface/L1TGMTParamsRcd.h"
 
 #include "TMath.h"
 //
@@ -96,7 +96,7 @@ using namespace l1t;
                                    int bx) const;
 
         // ----------member data ---------------------------
-        std::unique_ptr<MicroGMTParams> microGMTParams;
+        std::unique_ptr<L1TGMTParams> microGMTParams;
         edm::InputTag m_barrelTfInputTag;
         edm::InputTag m_overlapTfInputTag;
         edm::InputTag m_endcapTfInputTag;
@@ -149,7 +149,7 @@ L1TMicroGMTProducer::L1TMicroGMTProducer(const edm::ParameterSet& iConfig) : m_d
   produces<MuonBxCollection>("imdMuonsOMTFPos");
   produces<MuonBxCollection>("imdMuonsOMTFNeg");
 
-  microGMTParams = std::unique_ptr<MicroGMTParams>(new MicroGMTParams());
+  microGMTParams = std::unique_ptr<L1TGMTParams>(new L1TGMTParams());
 }
 
 L1TMicroGMTProducer::~L1TMicroGMTProducer()
@@ -414,11 +414,11 @@ L1TMicroGMTProducer::endJob() {
 void
 L1TMicroGMTProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup)
 {
-  const L1TMicroGMTParamsRcd& microGMTParamsRcd = iSetup.get<L1TMicroGMTParamsRcd>();
-  edm::ESHandle<l1t::MicroGMTParams> microGMTParamsHandle;
+  const L1TGMTParamsRcd& microGMTParamsRcd = iSetup.get<L1TGMTParamsRcd>();
+  edm::ESHandle<L1TGMTParams> microGMTParamsHandle;
   microGMTParamsRcd.get(microGMTParamsHandle);
 
-  microGMTParams = std::unique_ptr<MicroGMTParams>(new MicroGMTParams(*microGMTParamsHandle.product()));
+  microGMTParams = std::unique_ptr<L1TGMTParams>(new L1TGMTParams(*microGMTParamsHandle.product()));
   if (!microGMTParams) {
     edm::LogError("L1TMicroGMTProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
   }

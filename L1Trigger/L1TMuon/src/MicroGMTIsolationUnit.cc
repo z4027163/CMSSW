@@ -15,7 +15,7 @@ l1t::MicroGMTIsolationUnit::~MicroGMTIsolationUnit ()
 }
 
 void
-l1t::MicroGMTIsolationUnit::initialise(MicroGMTParams* microGMTParams) {
+l1t::MicroGMTIsolationUnit::initialise(L1TGMTParams* microGMTParams) {
   int fwVersion = microGMTParams->fwVersion();
   m_BEtaExtrapolation = l1t::MicroGMTExtrapolationLUTFactory::create(microGMTParams->bEtaExtrapolationLUTPath(), fwVersion);
   m_BPhiExtrapolation = l1t::MicroGMTExtrapolationLUTFactory::create(microGMTParams->bPhiExtrapolationLUTPath(), fwVersion);

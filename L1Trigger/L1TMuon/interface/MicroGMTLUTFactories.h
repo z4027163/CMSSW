@@ -9,7 +9,7 @@
 #include "L1Trigger/L1TMuon/interface/MicroGMTCaloIndexSelectionLUT.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTAbsoluteIsolationCheckLUT.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTRelativeIsolationCheckLUT.h"
-#include "CondFormats/L1TObjects/interface/MicroGMTParams.h"
+#include "CondFormats/L1TObjects/interface/L1TGMTParams.h"
 
 namespace l1t {
   class MicroGMTRankPtQualLUTFactory {

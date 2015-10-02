@@ -17,10 +17,10 @@ l1t::MicroGMTRankPtQualLUT::MicroGMTRankPtQualLUT (const std::string& fname) : M
 
 l1t::MicroGMTRankPtQualLUT::MicroGMTRankPtQualLUT () : MicroGMTLUT(), m_ptMask(0), m_qualMask(0), m_ptInWidth(9), m_qualInWidth(4)
 {
+  m_totalInWidth = m_ptInWidth + m_qualInWidth;
   m_ptMask = (1 << m_ptInWidth) - 1;
   m_qualMask = (1 << (m_totalInWidth - 1)) - m_ptMask - 1;
   m_outWidth = 10;
-  m_totalInWidth = m_ptInWidth + m_qualInWidth;
 } 
 
 l1t::MicroGMTRankPtQualLUT::~MicroGMTRankPtQualLUT ()
@@ -33,7 +33,7 @@ l1t::MicroGMTRankPtQualLUT::lookup(int pt, int qual) const
 {
   // normalize these two to the same scale and then calculate?
   if (m_initialized) {
-    return m_contents.at(hashInput(checkedInput(pt, m_ptInWidth), checkedInput(qual, m_qualInWidth)));
+    return data((unsigned)hashInput(checkedInput(pt, m_ptInWidth), checkedInput(qual, m_qualInWidth)));
   }
 
   int result = 0;
@@ -45,7 +45,7 @@ l1t::MicroGMTRankPtQualLUT::lookup(int pt, int qual) const
 int 
 l1t::MicroGMTRankPtQualLUT::lookupPacked(int in) const {
   if (m_initialized) {
-    return m_contents.at(in);
+    return data((unsigned)in);
   }
 
   int pt = 0;

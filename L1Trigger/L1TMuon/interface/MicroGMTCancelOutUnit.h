@@ -4,7 +4,7 @@
 #include "MicroGMTConfiguration.h"
 #include "MicroGMTMatchQualLUT.h"
 
-#include "CondFormats/L1TObjects/interface/MicroGMTParams.h"
+#include "CondFormats/L1TObjects/interface/L1TGMTParams.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTLUTFactories.h"
 
 namespace l1t {
@@ -18,7 +18,7 @@ namespace l1t {
       virtual ~MicroGMTCancelOutUnit ();
 
       /// Initialisation from ES record
-      void initialise(MicroGMTParams*);
+      void initialise(L1TGMTParams*);
       /// Cancel out between sectors/wedges in one track finder
       void setCancelOutBits(GMTInternalWedges&, tftype, cancelmode);
       /// Cancel-out between overlap and barrel track finders

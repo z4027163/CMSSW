@@ -27,25 +27,23 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/ESProducts.h"
 
-#include "CondFormats/L1TObjects/interface/MicroGMTParams.h"
-#include "CondFormats/DataRecord/interface/L1TMicroGMTParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TGMTParams.h"
+#include "CondFormats/DataRecord/interface/L1TGMTParamsRcd.h"
 
 //
 // class declaration
 //
-
-using namespace l1t;
 
 class L1TMicroGMTParamsESProducer : public edm::ESProducer {
    public:
       L1TMicroGMTParamsESProducer(const edm::ParameterSet&);
       ~L1TMicroGMTParamsESProducer();
 
-      typedef boost::shared_ptr<MicroGMTParams> ReturnType;
+      typedef boost::shared_ptr<L1TGMTParams> ReturnType;
 
-      ReturnType produce(const L1TMicroGMTParamsRcd&);
+      ReturnType produce(const L1TGMTParamsRcd&);
    private:
-      MicroGMTParams m_params;
+      L1TGMTParams m_params;
 };
 
 //
@@ -103,12 +101,12 @@ L1TMicroGMTParamsESProducer::~L1TMicroGMTParamsESProducer()
 
 // ------------ method called to produce the data  ------------
 L1TMicroGMTParamsESProducer::ReturnType
-L1TMicroGMTParamsESProducer::produce(const L1TMicroGMTParamsRcd& iRecord)
+L1TMicroGMTParamsESProducer::produce(const L1TGMTParamsRcd& iRecord)
 {
    using namespace edm::es;
-   boost::shared_ptr<MicroGMTParams> pMicroGMTParams;
+   boost::shared_ptr<L1TGMTParams> pMicroGMTParams;
 
-   pMicroGMTParams = boost::shared_ptr<MicroGMTParams>(new MicroGMTParams(m_params));
+   pMicroGMTParams = boost::shared_ptr<L1TGMTParams>(new L1TGMTParams(m_params));
    return pMicroGMTParams;
 }
 

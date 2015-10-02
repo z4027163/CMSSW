@@ -153,8 +153,8 @@ process.load('L1Trigger.L1TCalorimeter.L1TCaloStage2_PPFromRaw_cff')
 process.load('L1Trigger.L1TMuon.l1tmicrogmtparamsesproducer_cfi')
 process.esTest = cms.EDAnalyzer("EventSetupRecordDataGetter",
    toGet = cms.VPSet(
-      cms.PSet(record = cms.string('L1TMicroGMTParamsRcd'),
-               data = cms.vstring('l1t::MicroGMTParams'))
+      cms.PSet(record = cms.string('L1TGMTParamsRcd'),
+               data = cms.vstring('L1TGMTParams'))
                     ),
    verbose = cms.untracked.bool(True)
 )
