@@ -119,7 +119,7 @@ process.bmtfConverter = cms.EDProducer("L1TBMTFConverter",)
 if SAMPLE == "zmumu" or SAMPLE == "minbias":
     process.L1TMuonTriggerPrimitives.CSC.src = cms.InputTag('simCscTriggerPrimitiveDigis')
 
-process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
+process.load("L1Trigger.L1TMuon.l1tmicrogmtproducer_cfi")
 
 process.microGMTEmulator.overlapTFInput = cms.InputTag("omtfEmulator", "OMTF")
 process.microGMTEmulator.forwardTFInput = cms.InputTag("L1TMuonEndcapTrackFinder", "EMUTF")

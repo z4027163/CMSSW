@@ -126,7 +126,7 @@ process.load("L1TriggerDPG.L1Ntuples.l1ExtraTreeProducer_cfi")
 process.load("L1TriggerDPG.L1Ntuples.l1MuonRecoTreeProducer_cfi")
 process.load("L1TriggerDPG.L1Ntuples.l1MuonUpgradeTreeProducer_cfi")
 
-process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
+process.load("L1Trigger.L1TMuon.l1tmicrogmtproducer_cfi")
 
 process.microGMTEmulator.overlapTFInput = cms.InputTag("omtfEmulator", "OMTF")
 process.l1MuonUpgradeTreeProducer.omtfTag = cms.InputTag("omtfEmulator", "OMTF")
