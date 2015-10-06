@@ -126,15 +126,6 @@ process.microGMTEmulator.forwardTFInput = cms.InputTag("L1TMuonEndcapTrackFinder
 process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfConverter", "ConvBMTFMuons")
 process.microGMTEmulator.triggerTowerInput = cms.InputTag("MicroGMTCaloInputProducer", "TriggerTowerSums")
 
-# disable pre-loaded cancel-out lookup tables (they currently contain only 0)
-#process.microGMTEmulator.OvlNegSingleMatchQualLUTSettings.filename = cms.string("")
-#process.microGMTEmulator.OvlPosSingleMatchQualLUTSettings.filename = cms.string("")
-#process.microGMTEmulator.FOPosMatchQualLUTSettings.filename = cms.string("")
-#process.microGMTEmulator.FONegMatchQualLUTSettings.filename = cms.string("")
-#process.microGMTEmulator.BrlSingleMatchQualLUTSettings.filename = cms.string("")
-#process.microGMTEmulator.BOPosMatchQualLUTSettings.filename = cms.string("")
-#process.microGMTEmulator.BONegMatchQualLUTSettings.filename = cms.string("")
-
 # output file
 process.TFileService = cms.Service("TFileService",
                                    fileName=cms.string(
@@ -151,6 +142,28 @@ process.load('L1Trigger.L1TCalorimeter.L1TCaloStage2_PPFromRaw_cff')
 
 # test L1TMicroGMTESProducer
 process.load('L1Trigger.L1TMuon.l1tmicrogmtparamsesproducer_cfi')
+# reset LUT paths to trigger CMSSW internal LUT generation
+#process.l1tGMTParamsESProducer.AbsIsoCheckMemLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.RelIsoCheckMemLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.IdxSelMemPhiLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.IdxSelMemEtaLUTPath = cms.string('')
+process.l1tGMTParamsESProducer.BrlSingleMatchQualLUTPath = cms.string('')
+process.l1tGMTParamsESProducer.FwdPosSingleMatchQualLUTPath = cms.string('')
+process.l1tGMTParamsESProducer.FwdNegSingleMatchQualLUTPath = cms.string('')
+process.l1tGMTParamsESProducer.OvlPosSingleMatchQualLUTPath = cms.string('')
+process.l1tGMTParamsESProducer.OvlNegSingleMatchQualLUTPath = cms.string('')
+process.l1tGMTParamsESProducer.BOPosMatchQualLUTPath = cms.string('')
+process.l1tGMTParamsESProducer.BONegMatchQualLUTPath = cms.string('')
+process.l1tGMTParamsESProducer.FOPosMatchQualLUTPath = cms.string('')
+process.l1tGMTParamsESProducer.FONegMatchQualLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.BPhiExtrapolationLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.OPhiExtrapolationLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.FPhiExtrapolationLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.BEtaExtrapolationLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.OEtaExtrapolationLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.FEtaExtrapolationLUTPath = cms.string('')
+#process.l1tGMTParamsESProducer.SortRankLUTPath = cms.string('')
+
 process.esTest = cms.EDAnalyzer("EventSetupRecordDataGetter",
    toGet = cms.VPSet(
       cms.PSet(record = cms.string('L1TGMTParamsRcd'),

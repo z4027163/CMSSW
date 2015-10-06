@@ -5,9 +5,10 @@
 #include "MicroGMTConfiguration.h"
 
 namespace l1t {
-  class MicroGMTRelativeIsolationCheckLUT : MicroGMTLUT {
+  class MicroGMTRelativeIsolationCheckLUT : public MicroGMTLUT {
     public: 
-      MicroGMTRelativeIsolationCheckLUT(const std::string& fname);
+      MicroGMTRelativeIsolationCheckLUT();
+      explicit MicroGMTRelativeIsolationCheckLUT(const std::string& fname);
       virtual ~MicroGMTRelativeIsolationCheckLUT() {};
 
       // returns the index corresponding to the calo tower sum 

@@ -7,9 +7,10 @@
 #include "MicroGMTConfiguration.h"
 
 namespace l1t {
-  class MicroGMTExtrapolationLUT : MicroGMTLUT {
+  class MicroGMTExtrapolationLUT : public MicroGMTLUT {
     public: 
-      MicroGMTExtrapolationLUT(const std::string& fname);
+      MicroGMTExtrapolationLUT();
+      explicit MicroGMTExtrapolationLUT(const std::string& fname);
       virtual ~MicroGMTExtrapolationLUT() {};
 
       // returns the index corresponding to the calo tower sum 

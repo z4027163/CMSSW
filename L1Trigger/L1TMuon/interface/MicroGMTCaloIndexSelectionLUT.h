@@ -5,9 +5,10 @@
 #include "MicroGMTConfiguration.h"
 
 namespace l1t {
-  class MicroGMTCaloIndexSelectionLUT : MicroGMTLUT {
+  class MicroGMTCaloIndexSelectionLUT : public MicroGMTLUT {
     public: 
-      MicroGMTCaloIndexSelectionLUT (const std::string& fname, int type);
+      MicroGMTCaloIndexSelectionLUT ();
+      explicit MicroGMTCaloIndexSelectionLUT (const std::string& fname, int type);
       virtual ~MicroGMTCaloIndexSelectionLUT() {};
 
       // returns the index corresponding to the calo tower sum 

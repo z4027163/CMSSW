@@ -77,6 +77,7 @@ namespace CondFormats_L1TObjects {
 //    std::vector<L1RPCConeDefinition::TRingToTower> dummy15a;
 //    std::vector<L1RPCConeDefinition::TRingToLP> dummy15b;
     L1TGMTParams dummy16;
+    std::vector<L1TGMTParams::Node> dummy16a;
 
 
   };
