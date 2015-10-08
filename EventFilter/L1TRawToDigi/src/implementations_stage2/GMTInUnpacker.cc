@@ -2,6 +2,7 @@
 
 #include "EventFilter/L1TRawToDigi/interface/Unpacker.h"
 
+#include "L1Trigger/L1TMuon/interface/RegionalMuonRawDigiTranslator.h"
 #include "GMTCollections.h"
 
 namespace l1t {
@@ -82,32 +83,11 @@ namespace l1t {
                   LogDebug("L1T") << "Raw data is zero. Skip.";
                   continue;
                }
-
+ 
                RegionalMuonCand mu = RegionalMuonCand();
-                   
-               mu.setHwPt((raw_data_00_31 >> 0) & 0x1FF);
-               mu.setHwQual((raw_data_00_31 >> 9) & 0xF); 
+ 
+               RegionalMuonRawDigiTranslator::fillRegionalMuonCand(mu, raw_data_00_31, raw_data_32_63, processor, trackFinder);
 
-               // eta is coded as two's complement
-               int abs_eta = (raw_data_00_31 >> 13) & 0xFF;
-               if ((raw_data_00_31 >> 21) & 0x1) {
-                  mu.setHwEta(abs_eta - 256);
-               } else {
-                  mu.setHwEta(abs_eta);
-               }
-
-               mu.setHwPhi((raw_data_00_31 >> 23) & 0xFF);
-               // sign is coded as -1^signBit
-               int signBit = (raw_data_32_63 >> 0) & 0x1;
-               mu.setHwSign(1 - 2*signBit);
-               mu.setHwSignValid((raw_data_32_63 >> 1) & 0x1);
-               // FIXME: not jet implemented in FW. just a dummy for now
-               mu.setHwHF((raw_data_00_31 >> 22) & 0x1);
-               // FIXME: just a dummy for now
-               mu.setHwTrackAddress((raw_data_32_63 >> 4) & 0x1FFF);
-               mu.setTFIdentifiers(processor, trackFinder);
-               mu.setDataword(raw_data_32_63, raw_data_00_31);
-          
                LogDebug("L1T") << "Mu" << nWord/2 << ": eta " << mu.hwEta() << " phi " << mu.hwPhi() << " pT " << mu.hwPt() << " qual " << mu.hwQual() << " sign " << mu.hwSign() << " sign valid " << mu.hwSignValid();
 
                res->push_back(bx, mu);
