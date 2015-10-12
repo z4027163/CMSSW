@@ -17,7 +17,11 @@ namespace l1t {
                return std::unique_ptr<PackerTokens>(new GMTTokens(cfg, cc));
             };
 
-            virtual void fillDescription(edm::ParameterSetDescription& desc) override {};
+            virtual void fillDescription(edm::ParameterSetDescription& desc) override {
+               desc.addOptional<edm::InputTag>("BMTFInputLabel")->setComment("for stage2");
+               desc.addOptional<edm::InputTag>("OMTFInputLabel")->setComment("for stage2");
+               desc.addOptional<edm::InputTag>("EMTFInputLabel")->setComment("for stage2");
+            };
 
             virtual PackerMap getPackers(int fed, unsigned int fw) override {
                PackerMap res;
@@ -26,7 +30,7 @@ namespace l1t {
                   // Use amc_no and board id 1 for packing
                   res[{1, 1}] = {
                      PackerFactory::get()->make("stage2::RegionalMuonPacker"),
-                     //PackerFactory::get()->make("stage2::GMTOutPacker"),
+                     PackerFactory::get()->make("stage2::MuonPacker"),
                   };
                }
 

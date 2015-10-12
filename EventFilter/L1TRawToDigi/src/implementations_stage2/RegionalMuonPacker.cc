@@ -52,8 +52,8 @@ namespace l1t {
 
                RegionalMuonRawDigiTranslator::generatePackedDataWords(*mu, lsw, msw);
 
-               loadMap.at(mu->link()*2).push_back(lsw);
-               loadMap.at(mu->link()*2).push_back(msw);
+               loadMap[mu->link()*2].push_back(lsw);
+               loadMap[mu->link()*2].push_back(msw);
             }
          }
 

@@ -2,6 +2,7 @@
 
 #include "EventFilter/L1TRawToDigi/interface/Unpacker.h"
 
+#include "L1Trigger/L1TMuon/interface/MuonRawDigiTranslator.h"
 #include "GMTCollections.h"
 
 namespace l1t {
@@ -54,24 +55,8 @@ namespace l1t {
 
                Muon mu = Muon();
                    
-               mu.setHwPt((raw_data_00_31 >> 10) & 0x1FF);
-               mu.setHwQual((raw_data_00_31 >> 19) & 0xF); 
+               MuonRawDigiTranslator::fillMuon(mu, raw_data_00_31, raw_data_32_63);
 
-               // eta is coded as two's complement
-               int abs_eta = (raw_data_00_31 >> 23) & 0xFF;
-               if ((raw_data_00_31 >> 31) & 0x1) {
-                  mu.setHwEta(abs_eta - 256);
-               } else {
-                  mu.setHwEta(abs_eta);
-               }
-
-               mu.setHwPhi((raw_data_00_31 >> 0) & 0x3FF);
-               mu.setHwIso((raw_data_32_63 >> 0) & 0x3); 
-               // charge is coded as -1^chargeBit
-               int chargeBit = (raw_data_32_63 >> 2) & 0x1;
-               mu.setHwCharge(1 - 2*chargeBit);
-               mu.setHwChargeValid((raw_data_32_63 >> 3) & 0x1);
-          
                LogDebug("L1T") << "Mu" << nWord/2 << ": eta " << mu.hwEta() << " phi " << mu.hwPhi() << " pT " << mu.hwPt() << " iso " << mu.hwIso() << " qual " << mu.hwQual() << " charge " << mu.hwCharge() << " charge valid " << mu.hwChargeValid();
 
                res->push_back(bx, mu);
