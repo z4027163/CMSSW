@@ -6,7 +6,7 @@
 
 namespace l1t {
    namespace stage2 {
-      class GMTOutUnpacker : public Unpacker {
+      class MuonUnpacker : public Unpacker {
          public:
             virtual bool unpack(const Block& block, UnpackerCollections *coll) override;
       };
@@ -17,7 +17,7 @@ namespace l1t {
 namespace l1t {
    namespace stage2 {
       bool
-      GMTOutUnpacker::unpack(const Block& block, UnpackerCollections *coll)
+      MuonUnpacker::unpack(const Block& block, UnpackerCollections *coll)
       {
          LogDebug("L1T") << "Block ID  = " << block.header().getID() << " size = " << block.header().getSize();
 
@@ -82,4 +82,4 @@ namespace l1t {
    }
 }
 
-DEFINE_L1T_UNPACKER(l1t::stage2::GMTOutUnpacker);
+DEFINE_L1T_UNPACKER(l1t::stage2::MuonUnpacker);

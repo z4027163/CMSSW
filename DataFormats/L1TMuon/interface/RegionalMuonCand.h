@@ -1,22 +1,25 @@
 #ifndef __l1t_regional_muon_candidate_h__
 #define __l1t_regional_muon_candidate_h__
 
-#include "RegionalMuonCandFwd.h"
 #include <iostream>
-namespace l1t {
+#include "RegionalMuonCandFwd.h"
 
+namespace l1t {
 class RegionalMuonCand {
   public:
-    explicit RegionalMuonCand(uint64_t dataword);
+    explicit RegionalMuonCand(uint64_t dataword) : m_dataword(dataword)
+      {};
 
     RegionalMuonCand() :
       m_hwPt(0), m_hwPhi(0), m_hwEta(0), m_hwHF(false), m_hwSign(0), m_hwSignValid(0), m_hwQuality(0),
-      m_hwTrackAddress(0), m_link(0), m_processor(0), m_trackFinder(bmtf), m_dataword(0)
-      {};
+      m_hwTrackAddress(0), m_processor(0), m_trackFinder(bmtf)
+      {
+        setTFIdentifiers(m_processor, m_trackFinder);
+      };
 
     RegionalMuonCand(int pt, int phi, int eta, int sign, int signvalid, int quality, int processor, tftype trackFinder) :
       m_hwPt(pt), m_hwPhi(phi), m_hwEta(eta), m_hwHF(false), m_hwSign(sign), m_hwSignValid(signvalid), m_hwQuality(quality),
-      m_hwTrackAddress(0), m_link(0), m_dataword(0)
+      m_hwTrackAddress(0)
       {
         setTFIdentifiers(processor, trackFinder);
       };
