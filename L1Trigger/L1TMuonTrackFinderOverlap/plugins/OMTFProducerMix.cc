@@ -145,7 +145,7 @@ void OMTFProducerMix::produce(edm::Event& iEvent, const edm::EventSetup& evSetup
         l1t::RegionalMuonCand cand = myOTFCandidates.at(bx, iCand);
 	int phiValue = (cand.hwPhi()+procOffset+lowScaleEnd);
 	if(phiValue>=(int)OMTFConfiguration::nPhiBins) phiValue-=OMTFConfiguration::nPhiBins;
-	///TEST phiValue/=10; //MicroGMT has 10x coarser scale than OMTF
+	phiValue/=10; //MicroGMT has 10x coarser scale than OMTF
 	cand.setHwPhi(phiValue);
 	cand.setHwSignValid(iEventMix);
 	// store candidate

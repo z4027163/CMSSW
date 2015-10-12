@@ -48,12 +48,74 @@ XMLConfigReader::XMLConfigReader(){
 
   doc = 0;
 
+  
+  
+}
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+void XMLConfigReader::readLUT(l1t::LUT *lut, const std::string & type){
+
+  std::stringstream strStream;
+  int totalInWidth = 6;
+  int outWidth = 6;
+
+  if(type=="iCharge") outWidth = 1;
+  if(type=="iEta") outWidth = 2;
+  if(type=="iPt") outWidth = 6;
+  if(type=="meanDistPhi"){
+    outWidth = 11;
+    totalInWidth = 14;
+  }
+  if(type=="pdf"){
+    outWidth = 6;
+    totalInWidth = 20;
+  }
+  
+  ///Prepare the header 
+  strStream <<"#<header> V1 "<<totalInWidth<<" "<<outWidth<<" </header> "<<std::endl;
+  
+  ///Fill payload string  
+  const std::vector<GoldenPattern *> & aGPs = readPatterns();
+  unsigned int in = 0;
+  int out = 0;
+  for(auto it: aGPs){
+    if(type=="iCharge") out = it->key().theCharge + 1*(it->key().theCharge<0);
+    if(type=="iEta") out = it->key().theEtaCode;
+    if(type=="iPt") out = it->key().thePtCode;
+    if(type=="meanDistPhi"){
+      for(unsigned int iLayer = 0;iLayer<OMTFConfiguration::nLayers;++iLayer){
+	for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){
+	  out = (1<<(outWidth-1)) + it->meanDistPhiValue(iLayer,iRefLayer);
+	  strStream<<in<<" "<<out<<std::endl;
+	  ++in;
+	}
+      }
+    }
+    if(type=="pdf"){
+      for(unsigned int iLayer = 0;iLayer<OMTFConfiguration::nLayers;++iLayer){
+	for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){
+	  for(unsigned int iPdf=0;iPdf<exp2(OMTFConfiguration::nPdfAddrBits);++iPdf){
+	    out = it->pdfValue(iLayer,iRefLayer,iPdf);
+	    strStream<<in<<" "<<out<<std::endl;
+	    ++in;
+	  }
+	}
+      }
+    }
+    if(type!="meanDistPhi" && type!="pdf"){
+      strStream<<in<<" "<<out<<std::endl;
+      ++in;
+    }
+  } 
+  ///Read the data into LUT
+  lut->read(strStream);
 }
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 std::vector<GoldenPattern*> XMLConfigReader::readPatterns(){
 
-  std::vector<GoldenPattern*> aGPs;
+  if(aGPs.size()) return aGPs;
+  
   parser->parse(patternsFile.c_str()); 
   xercesc::DOMDocument* doc = parser->getDocument();
   assert(doc);

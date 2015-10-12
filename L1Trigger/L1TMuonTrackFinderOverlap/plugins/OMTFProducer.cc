@@ -7,6 +7,9 @@
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
 
+#include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+
 #include "L1Trigger/L1TMuonTrackFinderOverlap/plugins/OMTFProducer.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFProcessor.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinputMaker.h"
@@ -40,7 +43,7 @@ OMTFProducer::OMTFProducer(const edm::ParameterSet& cfg):
 
   if(dumpResultToXML || dumpGPToXML){
     myWriter = new XMLConfigWriter();
-    std::string fName = "OMTF_Events";
+    std::string fName = "OMTF";
     myWriter->initialiseXMLDocument(fName);
   }
 
@@ -86,7 +89,7 @@ void OMTFProducer::endJob(){
     myWriter->initialiseXMLDocument(fName);
     const std::map<Key,GoldenPattern*> & myGPmap = myOMTF->getPatterns();
     for(auto itGP: myGPmap){
-      //std::cout<<*itGP.second<<std::endl;
+      if(itGP.second->key().thePtCode==6) std::cout<<*itGP.second<<std::endl;
       //myWriter->writeGPData(*itGP.second);
       if(itGP.second->key().thePtCode>5) myWriter->writeGPData(*itGP.second,*dummy, *dummy, *dummy);
     }
@@ -124,8 +127,6 @@ void OMTFProducer::writeMergedGPs(){
     GoldenPattern *aGP3 = dummy;
     GoldenPattern *aGP4 = dummy;
 
-    std::cout<<"A "<<aGP1->key()<<std::endl;
-
     ++aKey.thePtCode;
     if(aKey.thePtCode<=31 && myGPmap.find(aKey)!=myGPmap.end()) aGP2 =  myGPmap.find(aKey)->second;
 
@@ -141,7 +142,6 @@ void OMTFProducer::writeMergedGPs(){
 
     ///Write the opposite charge.
     Key aTmpKey = aGP1->key();
-    std::cout<<aTmpKey<<std::endl;
     aTmpKey.theCharge = 1;
     if(myGPmap.find(aTmpKey)!=myGPmap.end()) aGP1 =  myGPmap.find(aTmpKey)->second;
     else aGP1 = dummy;
@@ -166,6 +166,23 @@ void OMTFProducer::writeMergedGPs(){
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
+void OMTFProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup){
+
+  const L1TMTFOverlapParamsRcd& omtfParamsRcd = iSetup.get<L1TMTFOverlapParamsRcd>();
+  
+  edm::ESHandle<L1TMTFOverlapParams> omtfParamsHandle;
+  omtfParamsRcd.get(omtfParamsHandle);
+
+  omtfParams = std::unique_ptr<L1TMTFOverlapParams>(new L1TMTFOverlapParams(*omtfParamsHandle.product()));
+  if (!omtfParams) {
+    edm::LogError("OMTFProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
+  }
+
+  myOMTF->configure(omtfParams);
+  
+}
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 
   std::ostringstream myStr;
@@ -181,11 +198,6 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
   std::auto_ptr<l1t::RegionalMuonCandBxCollection > myCands(new l1t::RegionalMuonCandBxCollection);
 
   if(dumpResultToXML) aTopElement = myWriter->writeEventHeader(iEvent.id().event());
-
-  //l1t::tftype mtfType = l1t::tftype::bmtf;
-  //l1t::tftype mtfType = l1t::tftype::omtf_pos;
-  //l1t::tftype mtfType = l1t::tftype::omtf_neg;
-  //l1t::tftype mtfType = l1t::tftype::emtf_pos;
 
   // NOTE: assuming all is for bx 0
   int bx = 0;

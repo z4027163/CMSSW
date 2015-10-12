@@ -10,3 +10,5 @@ DEFINE_FWK_MODULE(OMTFProducer);
 #include "OMTFPatternMaker.h"
 DEFINE_FWK_MODULE(OMTFPatternMaker);
 
+#include "L1TMTFOverlapParamsESProducer.h"
+DEFINE_FWK_EVENTSETUP_MODULE(L1TMTFOverlapParamsESProducer);

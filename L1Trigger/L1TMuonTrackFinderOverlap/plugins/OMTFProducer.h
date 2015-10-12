@@ -17,6 +17,7 @@
 
 #include "TRandom3.h"
 
+class L1TMTFOverlapParams;
 class OMTFProcessor;
 class OMTFConfiguration;
 class OMTFConfigMaker;
@@ -43,6 +44,8 @@ class OMTFProducer : public edm::EDProducer {
 
   virtual void endJob();
 
+  virtual void beginRun(edm::Run const& run, edm::EventSetup const& iSetup);
+  
   virtual void produce(edm::Event&, const edm::EventSetup&);
 
  private:
@@ -72,6 +75,7 @@ class OMTFProducer : public edm::EDProducer {
   xercesc::DOMElement *aTopElement;
   OMTFConfigMaker *myOMTFConfigMaker;
   XMLConfigWriter *myWriter;
+  std::shared_ptr<L1TMTFOverlapParams> omtfParams;
   ///
 
 };

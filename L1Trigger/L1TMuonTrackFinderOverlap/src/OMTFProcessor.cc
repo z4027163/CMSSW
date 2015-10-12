@@ -7,6 +7,8 @@
 #include "FWCore/ParameterSet/interface/FileInPath.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
+#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFProcessor.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/GoldenPattern.h"
@@ -50,36 +52,65 @@ OMTFProcessor::~OMTFProcessor(){
 ///////////////////////////////////////////////
 bool OMTFProcessor::configure(XMLConfigReader *aReader){
 
+  /*
   const std::vector<GoldenPattern *> & aGPs = aReader->readPatterns();
   for(auto it: aGPs){    
     if(!addGP(it)) return false;
   }
-  /*
-  GoldenPattern *aGP = new GoldenPattern(Key(0,5,-1));
-  GoldenPattern::vector2D meanDistPhi2D(OMTFConfiguration::nLayers);
-  GoldenPattern::vector1D pdf1D(exp2(OMTFConfiguration::nPdfAddrBits));
-  GoldenPattern::vector3D pdf3D(OMTFConfiguration::nLayers);
-  GoldenPattern::vector2D pdf2D(OMTFConfiguration::nRefLayers);
-  aGP->setMeanDistPhi(meanDistPhi2D);
-  aGP->setPdf(pdf3D);
-  addGP(aGP);
+  */
+  return true;
+}
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+bool OMTFProcessor::configure( std::shared_ptr<L1TMTFOverlapParams> omtfParams){
 
-  aGP = new GoldenPattern(Key(1,5,1));
-  aGP->setMeanDistPhi(meanDistPhi2D);
-  aGP->setPdf(pdf3D);
-  addGP(aGP);
+  l1t::LUT* chargeLUT =  omtfParams->chargeLUT();
+  l1t::LUT* etaLUT =  omtfParams->etaLUT();
+  l1t::LUT* ptLUT =  omtfParams->ptLUT();
+  l1t::LUT* pdfLUT =  omtfParams->pdfLUT();
+  l1t::LUT* meanDistPhiLUT =  omtfParams->meanDistPhiLUT();
 
-  aGP = new GoldenPattern(Key(1,4,1));
-  aGP->setMeanDistPhi(meanDistPhi2D);
-  aGP->setPdf(pdf3D);
-  addGP(aGP);
+  unsigned int nGPs = 52;//FIX ME: read this from config file  
+  unsigned int address = 0;
+  unsigned int iEta, iPt, iCharge;
+  for(unsigned int iGP=0;iGP<nGPs;++iGP){
+    address = iGP;
+    iEta = etaLUT->data(address);
+    iCharge = chargeLUT->data(address);
+    if(iCharge==0) iCharge = -1;//FIXME: Standarise to 0,1
+    iPt = ptLUT->data(address);
 
-  aGP = new GoldenPattern(Key(1,4,-1));
-  aGP->setMeanDistPhi(meanDistPhi2D);
-  aGP->setPdf(pdf3D);
-  addGP(aGP);
-*/
-
+    GoldenPattern::vector2D meanDistPhi2D(OMTFConfiguration::nLayers);
+    GoldenPattern::vector1D pdf1D(exp2(OMTFConfiguration::nPdfAddrBits));
+    GoldenPattern::vector3D pdf3D(OMTFConfiguration::nLayers);
+    GoldenPattern::vector2D pdf2D(OMTFConfiguration::nRefLayers);
+    ///Mean dist phi data
+    for(unsigned int iLayer=0;iLayer<OMTFConfiguration::nLayers;++iLayer){
+      GoldenPattern::vector1D meanDistPhi1D(OMTFConfiguration::nRefLayers);
+      for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){
+	address = iRefLayer + iLayer*OMTFConfiguration::nRefLayers + iGP*(OMTFConfiguration::nRefLayers*OMTFConfiguration::nLayers);
+	meanDistPhi1D[iRefLayer] = meanDistPhiLUT->data(address) - (1<<(meanDistPhiLUT->nrBitsData() -1));	
+      }
+      meanDistPhi2D[iLayer] = meanDistPhi1D;    
+      ///Pdf data
+      for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){
+	pdf1D.assign(1<<OMTFConfiguration::nPdfAddrBits,0);
+	for(unsigned int iPdf=0;iPdf<(unsigned int)(1<<OMTFConfiguration::nPdfAddrBits);++iPdf){
+	  address = iPdf + iRefLayer*(1<<OMTFConfiguration::nPdfAddrBits) +
+	    iLayer*OMTFConfiguration::nRefLayers*(1<<OMTFConfiguration::nPdfAddrBits) +
+	    iGP*OMTFConfiguration::nLayers*OMTFConfiguration::nRefLayers*(1<<OMTFConfiguration::nPdfAddrBits);
+	  pdf1D[iPdf] = pdfLUT->data(address);
+	}
+	pdf2D[iRefLayer] = pdf1D;
+      }
+      pdf3D[iLayer] = pdf2D;
+    }
+    Key aKey(iEta,iPt,iCharge);
+    GoldenPattern *aGP = new GoldenPattern(aKey);
+    aGP->setMeanDistPhi(meanDistPhi2D);
+    aGP->setPdf(pdf3D);
+    addGP(aGP);
+  }
   return true;
 }
 ///////////////////////////////////////////////

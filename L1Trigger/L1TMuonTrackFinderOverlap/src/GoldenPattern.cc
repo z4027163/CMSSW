@@ -16,11 +16,6 @@ GoldenPattern::layerResult GoldenPattern::process1Layer1RefLayer(unsigned int iR
 								 const OMTFinput::vector1D & layerHits){
 
   GoldenPattern::layerResult aResult;
-  std::ostringstream myStr;
-
-  myStr<<"pt: "<<this->key().thePtCode
-       <<" charge: "<<this->key().theCharge
-       <<" iRefLayer: "<<iRefLayer<<" iLayer: "<<iLayer;
 
   int phiMean = meanDistPhi[iLayer][iRefLayer];
   int phiDist = exp2(OMTFConfiguration::nPdfAddrBits);

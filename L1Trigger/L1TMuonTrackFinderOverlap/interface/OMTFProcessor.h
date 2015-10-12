@@ -6,6 +6,7 @@
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/GoldenPattern.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFResult.h"
 
+class L1TMTFOverlapParams;
 class OMTFConfiguration;
 class XMLConfigReader;
 class OMTFinput;
@@ -26,8 +27,11 @@ class OMTFProcessor{
 
   ~OMTFProcessor();
   
-  ///Fill GP map with patterns
+  ///Fill GP map with patterns from XML file
   bool configure(XMLConfigReader *aReader);
+
+  ///Fill GP map with patterns from CondFormats object
+  bool configure(std::shared_ptr<L1TMTFOverlapParams> omtfParams);
 
   ///Process input data from a single event
   ///Input data is represented by hits in logic layers expressed in local coordinates

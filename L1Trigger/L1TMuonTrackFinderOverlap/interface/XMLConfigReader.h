@@ -3,12 +3,16 @@
 
 #include <string>
 #include <vector>
+#include <ostream>
 
 #include "xercesc/util/XercesDefs.hpp"
 #include "xercesc/dom/DOM.hpp"
 
+#include "CondFormats/L1TObjects/interface/LUT.h"
+
 class GoldenPattern;
 class OMTFConfiguration;
+
 
 namespace XERCES_CPP_NAMESPACE{
 
@@ -33,6 +37,8 @@ class XMLConfigReader{
 
   std::vector<GoldenPattern*> readPatterns();
 
+  void readLUT(l1t::LUT *lut, const std::string & type);
+
   void readConfig(OMTFConfiguration *aConfig);
 
   std::vector<std::vector<int> > readEvent(unsigned int iEvent=0,
@@ -46,10 +52,13 @@ class XMLConfigReader{
   std::string eventsFile;   //XML file with events
 
   GoldenPattern * buildGP(xercesc::DOMElement* aGPElement,
-			  unsigned int index=0); 
+			  unsigned int index=0);
   
   xercesc::XercesDOMParser *parser;
   xercesc::DOMDocument* doc;
+
+  ///Cache with GPs read.
+  std::vector<GoldenPattern*> aGPs;
 
 };
 
