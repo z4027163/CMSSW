@@ -24,44 +24,49 @@ namespace l1t {
       {
          edm::Handle<MuonBxCollection> muons;
          event.getByToken(static_cast<const GMTTokens*>(toks)->getMuonToken(), muons);
-   
+
          LoadMap loadMap;
-   
+
          for (int i = muons->getFirstBX(); i <= muons->getLastBX(); ++i) {
-            int muCtr = 0;
-            int blkCtr = 1;
             if (muons->size(i) == 0)
                continue;
-            for (auto mu = muons->begin(i); mu != muons->end(i); ++mu) {
+
+            // the first muon in every BX and every block id is 0
+            for (unsigned int blkId = 1; blkId < 8; blkId += 2) {
+               loadMap[blkId].push_back(0);
+               loadMap[blkId].push_back(0);
+            }
+
+            unsigned int blkId = 1;
+            int muCtr = 1;
+            for (auto mu = muons->begin(i); mu != muons->end(i) && muCtr <= 8; ++mu, ++muCtr) {
                uint32_t msw = 0;
                uint32_t lsw = 0;
 
                MuonRawDigiTranslator::generatePackedDataWords(*mu, lsw, msw);
 
-               // FIXME: need to define block id somehow. round robin for now
-               loadMap[blkCtr].push_back(lsw);
-               loadMap[blkCtr].push_back(msw);
+               loadMap[blkId].push_back(lsw);
+               loadMap[blkId].push_back(msw);
 
-               // FIXME: As long as the muons are not assigned to one link
-               // skip every 3rd slot in block so that there are only 2 muons per block
-               if ((muCtr+2)%3 == 0) {
-                  ++muCtr;
-                  blkCtr += 2;
+               // go to next block id after two muons
+               if (muCtr%2 == 0) {
+                  blkId += 2;
                }
-               ++muCtr;
+            }
+
+            // padding empty muons to reach 3 muons per block id per BX
+            for (auto &kv : loadMap) {
+               while (kv.second.size()%6 != 0) {
+                  kv.second.push_back(0);
+               }
             }
          }
 
-         // padding empty muons to reach 3 muons per id (link)
-         // and push everything in the blocks vector
          Blocks blocks;
+         // push everything in the blocks vector
          for (auto &kv : loadMap) {
-            for (auto i = kv.second.size()-1; i < 5; ++i) {
-               kv.second.push_back(0);
-            }
             blocks.push_back(Block(kv.first, kv.second));
          }
-
          return blocks;
       }
    }

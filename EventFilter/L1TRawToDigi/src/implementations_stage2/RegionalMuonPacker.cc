@@ -57,14 +57,17 @@ namespace l1t {
                loadMap[mu->link()*2].push_back(lsw);
                loadMap[mu->link()*2].push_back(msw);
             }
+
+            // padding to 3 muons per block id (link) per BX
+            for (auto &kv : loadMap) {
+               while (kv.second.size()%6 != 0) {
+                  kv.second.push_back(0);
+               }
+            }
          }
 
-         // padding to 3 muons per id (link)
-         // and push everything in the blocks vector
+         // push everything in the blocks vector
          for (auto &kv : loadMap) {
-            for (auto i = kv.second.size()-1; i < 5; ++i) {
-               kv.second.push_back(0);
-            }
             blocks.push_back(Block(kv.first, kv.second));
          }
       }
