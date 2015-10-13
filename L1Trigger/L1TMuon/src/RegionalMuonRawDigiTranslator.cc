@@ -9,17 +9,17 @@ l1t::RegionalMuonRawDigiTranslator::fillRegionalMuonCand(RegionalMuonCand& mu, u
 
   // eta is coded as two's complement
   int abs_eta = (raw_data_00_31 >> absEtaShift_) & absEtaWidth_;
-  if ((raw_data_00_31 >> etaSignShift_) & etaSignWidth_) {
-     mu.setHwEta(abs_eta - 256);
+  if ((raw_data_00_31 >> etaSignShift_) & 0x1) {
+     mu.setHwEta(abs_eta - (1 << (etaSignShift_ - absEtaShift_)));
   } else {
      mu.setHwEta(abs_eta);
   }
 
   mu.setHwPhi((raw_data_00_31 >> phiShift_) & phiWidth_);
   // sign is coded as -1^signBit
-  int signBit = (raw_data_32_63 >> signShift_) & signWidth_;
+  int signBit = (raw_data_32_63 >> signShift_) & 0x1;
   mu.setHwSign(1 - 2*signBit);
-  mu.setHwSignValid((raw_data_32_63 >> signValidShift_) & signValidWidth_);
+  mu.setHwSignValid((raw_data_32_63 >> signValidShift_) & 0x1);
   mu.setHwHF((raw_data_00_31 >> hfShift_) & hfWidth_);
   mu.setHwTrackAddress((raw_data_32_63 >> trackAddressShift_) & trackAddressWidth_);
   mu.setTFIdentifiers(proc, tf);
@@ -38,12 +38,12 @@ l1t::RegionalMuonRawDigiTranslator::generatePackedDataWords(const RegionalMuonCa
   raw_data_00_31 = (mu.hwPt() & ptWidth_) << ptShift_
                  | (mu.hwQual() & qualWidth_) << qualShift_
                  | (abs(mu.hwEta()) & absEtaWidth_) << absEtaShift_
-                 | ((mu.hwEta() < 0) & etaSignWidth_) << etaSignShift_
+                 | (mu.hwEta() < 0) << etaSignShift_
                  | (mu.hwHF() & hfWidth_) << hfShift_
                  | (mu.hwPhi() & phiWidth_) << phiShift_;
 
-  raw_data_32_63 = ((mu.hwSign() > 0) & signWidth_) << signShift_
-                 | (mu.hwSignValid() & signValidWidth_) << signValidShift_
+  raw_data_32_63 = (mu.hwSign() > 0) << signShift_
+                 | mu.hwSignValid() << signValidShift_
                  | (mu.hwTrackAddress() & trackAddressWidth_) << trackAddressShift_;
 }
 

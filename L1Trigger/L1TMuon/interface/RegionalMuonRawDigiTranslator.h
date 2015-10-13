@@ -18,15 +18,12 @@ namespace l1t {
       static const unsigned qualShift_ = 9;
       static const unsigned absEtaWidth_ = 0xFF;
       static const unsigned absEtaShift_ = 13;
-      static const unsigned etaSignWidth_ = 0x1;
       static const unsigned etaSignShift_ = 21;
       static const unsigned hfWidth_ = 0x1;
       static const unsigned hfShift_ = 22;
       static const unsigned phiWidth_ = 0xFF;
       static const unsigned phiShift_ = 23;
-      static const unsigned signWidth_ = 0x1;
       static const unsigned signShift_ = 0;
-      static const unsigned signValidWidth_ = 0x1;
       static const unsigned signValidShift_ = 1;
       static const unsigned trackAddressWidth_ = 0x1FFF;
       static const unsigned trackAddressShift_ = 4;

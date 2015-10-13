@@ -29,6 +29,9 @@ namespace l1t {
    
          for (int i = muons->getFirstBX(); i <= muons->getLastBX(); ++i) {
             int muCtr = 0;
+            int blkCtr = 1;
+            if (muons->size(i) == 0)
+               continue;
             for (auto mu = muons->begin(i); mu != muons->end(i); ++mu) {
                uint32_t msw = 0;
                uint32_t lsw = 0;
@@ -36,19 +39,20 @@ namespace l1t {
                MuonRawDigiTranslator::generatePackedDataWords(*mu, lsw, msw);
 
                // FIXME: need to define block id somehow. round robin for now
-               loadMap[muCtr%3].push_back(lsw);
-               loadMap[muCtr%3].push_back(msw);
+               loadMap[blkCtr].push_back(lsw);
+               loadMap[blkCtr].push_back(msw);
 
                // FIXME: As long as the muons are not assigned to one link
                // skip every 3rd slot in block so that there are only 2 muons per block
                if ((muCtr+2)%3 == 0) {
                   ++muCtr;
+                  blkCtr += 2;
                }
                ++muCtr;
             }
          }
 
-         // padding to 3 muons per id (link)
+         // padding empty muons to reach 3 muons per id (link)
          // and push everything in the blocks vector
          Blocks blocks;
          for (auto &kv : loadMap) {

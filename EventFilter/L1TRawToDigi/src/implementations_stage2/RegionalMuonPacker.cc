@@ -46,6 +46,8 @@ namespace l1t {
          LoadMap loadMap;
    
          for (int i = muons->getFirstBX(); i <= muons->getLastBX(); ++i) {
+            if (muons->size(i) == 0)
+               continue;
             for (auto mu = muons->begin(i); mu != muons->end(i); ++mu) {
                uint32_t msw = 0;
                uint32_t lsw = 0;
