@@ -94,11 +94,18 @@ process.gmtStage2Digis.InputLabel = cms.InputTag('stage2GMTRaw')
 #process.gmtStage2Digis.FWId       = cms.uint32(0xffffffff)
 process.gmtStage2Digis.debug      = cms.untracked.bool (True)
 
+process.load('EventFilter.L1TRawToDigi.gmtStage2Raw_cfi')
+
+process.dumpRaw2 = process.dumpRaw.clone()
+process.dumpRaw2.label = cms.untracked.string("gmtStage2Raw")
+
 # Path and EndPath definitions
 process.path = cms.Path(
     process.stage2GMTRaw
     +process.dumpRaw
     +process.gmtStage2Digis
+    +process.gmtStage2Raw
+    +process.dumpRaw2
 )
 
 process.out = cms.EndPath(

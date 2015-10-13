@@ -31,13 +31,17 @@ l1t::MuonRawDigiTranslator::fillMuon(Muon& mu, uint64_t dataword)
 void
 l1t::MuonRawDigiTranslator::generatePackedDataWords(const Muon& mu, uint32_t &raw_data_00_31, uint32_t &raw_data_32_63)
 {
+  int abs_eta = mu.hwEta();
+  if (abs_eta < 0) {
+    abs_eta += (1 << (etaSignShift_ - absEtaShift_));
+  }
   raw_data_00_31 = (mu.hwPt() & ptWidth_) << ptShift_
                  | (mu.hwQual() & qualWidth_) << qualShift_
-                 | (abs(mu.hwEta()) & absEtaWidth_) << absEtaShift_
+                 | (abs_eta & absEtaWidth_) << absEtaShift_
                  | (mu.hwEta() < 0) << etaSignShift_
                  | (mu.hwPhi() & phiWidth_) << phiShift_;
 
-  raw_data_32_63 = (mu.hwCharge() > 0) << chargeShift_
+  raw_data_32_63 = (mu.hwCharge() < 0) << chargeShift_
                  | mu.hwChargeValid() << chargeValidShift_
                  | (mu.hwIso() & isoWidth_) << isoShift_;
 }

@@ -35,14 +35,18 @@ l1t::RegionalMuonRawDigiTranslator::fillRegionalMuonCand(RegionalMuonCand& mu, u
 void
 l1t::RegionalMuonRawDigiTranslator::generatePackedDataWords(const RegionalMuonCand& mu, uint32_t &raw_data_00_31, uint32_t &raw_data_32_63)
 {
+  int abs_eta = mu.hwEta();
+  if (abs_eta < 0) {
+    abs_eta += (1 << (etaSignShift_ - absEtaShift_));
+  }
   raw_data_00_31 = (mu.hwPt() & ptWidth_) << ptShift_
                  | (mu.hwQual() & qualWidth_) << qualShift_
-                 | (abs(mu.hwEta()) & absEtaWidth_) << absEtaShift_
+                 | (abs_eta & absEtaWidth_) << absEtaShift_
                  | (mu.hwEta() < 0) << etaSignShift_
                  | (mu.hwHF() & hfWidth_) << hfShift_
                  | (mu.hwPhi() & phiWidth_) << phiShift_;
 
-  raw_data_32_63 = (mu.hwSign() > 0) << signShift_
+  raw_data_32_63 = (mu.hwSign() < 0) << signShift_
                  | mu.hwSignValid() << signValidShift_
                  | (mu.hwTrackAddress() & trackAddressWidth_) << trackAddressShift_;
 }
