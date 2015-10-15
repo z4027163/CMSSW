@@ -39,7 +39,7 @@ namespace l1t {
 
             unsigned int blkId = 1;
             int muCtr = 1;
-            for (auto mu = muons->begin(i); mu != muons->end(i) && muCtr <= 8; ++mu, ++muCtr) {
+            for (auto mu = muons->begin(i); mu != muons->end(i); ++mu, ++muCtr) {
                uint32_t msw = 0;
                uint32_t lsw = 0;
 
