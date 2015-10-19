@@ -24,21 +24,20 @@
 ///////////////////////////////////////////////
 OMTFProcessor::OMTFProcessor(const edm::ParameterSet & theConfig){
 
-
   myResults.assign(OMTFConfiguration::nTestRefHits,OMTFProcessor::resultsMap());
 
-  if ( !theConfig.exists("patternsXMLFiles") ) return;
-
-
-  std::vector<std::string> fileNames;
-  for(auto it: theConfig.getParameter<std::vector<edm::ParameterSet> >("patternsXMLFiles")){
-    fileNames.push_back(it.getParameter<edm::FileInPath>("patternsXMLFile").fullPath());
-  }  
-
-  XMLConfigReader myReader;
-  for(auto it: fileNames){
-   myReader.setPatternsFile(it);
-   configure(&myReader);
+  if(theConfig.getParameter<bool>("configFromXML")){    
+    if ( !theConfig.exists("patternsXMLFiles") ) return;
+    std::vector<std::string> fileNames;
+    for(auto it: theConfig.getParameter<std::vector<edm::ParameterSet> >("patternsXMLFiles")){
+      fileNames.push_back(it.getParameter<edm::FileInPath>("patternsXMLFile").fullPath());
+    }  
+    
+    XMLConfigReader myReader;
+    for(auto it: fileNames){
+      myReader.setPatternsFile(it);
+      configure(&myReader);
+    }
   }
 }
 ///////////////////////////////////////////////
@@ -52,12 +51,11 @@ OMTFProcessor::~OMTFProcessor(){
 ///////////////////////////////////////////////
 bool OMTFProcessor::configure(XMLConfigReader *aReader){
 
-  /*
   const std::vector<GoldenPattern *> & aGPs = aReader->readPatterns();
   for(auto it: aGPs){    
     if(!addGP(it)) return false;
   }
-  */
+  
   return true;
 }
 ///////////////////////////////////////////////

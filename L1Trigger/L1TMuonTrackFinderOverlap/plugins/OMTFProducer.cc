@@ -178,7 +178,7 @@ void OMTFProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup){
     edm::LogError("OMTFProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
   }
 
-  myOMTF->configure(omtfParams);
+  if(!theConfig.getParameter<edm::ParameterSet>("omtf").getParameter<bool>("configFromXML")) myOMTF->configure(omtfParams);
   
 }
 /////////////////////////////////////////////////////

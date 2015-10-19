@@ -67,7 +67,7 @@ process.source = cms.Source(
     fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/JPsi_21kEvents.root')
     )
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(60))
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100))
 
 ###PostLS1 geometry used
 process.load('Configuration.Geometry.GeometryExtended2015_cff')
@@ -81,6 +81,8 @@ process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer
 
 ###OMTF emulator configuration
 process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi')
+process.omtfEmulator.dumpResultToXML = cms.bool(True)
+process.omtfEmulator.dumpDetailedResultToXML = cms.bool(True)
 
 process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives +
                                    process.omtfEmulator)
