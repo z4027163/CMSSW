@@ -11,7 +11,7 @@ namespace l1t {
          public:
             virtual Blocks pack(const edm::Event&, const PackerTokens*) override;
          private:
-            typedef std::map<unsigned int, std::vector<uint32_t>> LoadMap;
+            typedef std::map<unsigned int, std::vector<uint32_t>> PayloadMap;
             void packTF(const edm::Event&, const edm::EDGetTokenT<RegionalMuonCandBxCollection>&, Blocks&, const std::vector<unsigned int>&);
       };
    }
@@ -48,7 +48,7 @@ namespace l1t {
          edm::Handle<RegionalMuonCandBxCollection> muons;
          event.getByToken(tfToken, muons);
    
-         LoadMap loadMap;
+         PayloadMap payloadMap;
    
          for (int i = muons->getFirstBX(); i <= muons->getLastBX(); ++i) {
             for (auto mu = muons->begin(i); mu != muons->end(i); ++mu) {
@@ -57,21 +57,21 @@ namespace l1t {
 
                RegionalMuonRawDigiTranslator::generatePackedDataWords(*mu, lsw, msw);
 
-               loadMap[mu->link()*2].push_back(lsw);
-               loadMap[mu->link()*2].push_back(msw);
+               payloadMap[mu->link()*2].push_back(lsw);
+               payloadMap[mu->link()*2].push_back(msw);
             }
 
             // muons are expected to come on a range of links depending on the the TF
             // but even if there was no muon coming from a processor the block should be generated
             // so add these links without muons to the map as well so that they will be filled with zeros
             for (const auto &link : links) {
-               if (loadMap.count(link*2) == 0) {
-                  loadMap[link*2].push_back(0);
+               if (payloadMap.count(link*2) == 0) {
+                  payloadMap[link*2].push_back(0);
                }
             }
 
             // padding to 3 muons per block id (link) per BX
-            for (auto &kv : loadMap) {
+            for (auto &kv : payloadMap) {
                while (kv.second.size()%6 != 0) {
                   kv.second.push_back(0);
                }
@@ -79,7 +79,7 @@ namespace l1t {
          }
 
          // push everything in the blocks vector
-         for (auto &kv : loadMap) {
+         for (auto &kv : payloadMap) {
             blocks.push_back(Block(kv.first, kv.second));
          }
       }

@@ -11,7 +11,7 @@ namespace l1t {
          public:
             virtual Blocks pack(const edm::Event&, const PackerTokens*) override;
          private:
-            typedef std::map<unsigned int, std::vector<uint32_t>> LoadMap;
+            typedef std::map<unsigned int, std::vector<uint32_t>> PayloadMap;
       };
    }
 }
@@ -25,13 +25,13 @@ namespace l1t {
          edm::Handle<MuonBxCollection> muons;
          event.getByToken(static_cast<const GMTTokens*>(toks)->getMuonToken(), muons);
 
-         LoadMap loadMap;
+         PayloadMap payloadMap;
 
          for (int i = muons->getFirstBX(); i <= muons->getLastBX(); ++i) {
             // the first muon in every BX and every block id is 0
             for (unsigned int blkId = 1; blkId < 8; blkId += 2) {
-               loadMap[blkId].push_back(0);
-               loadMap[blkId].push_back(0);
+               payloadMap[blkId].push_back(0);
+               payloadMap[blkId].push_back(0);
             }
 
             unsigned int blkId = 1;
@@ -42,8 +42,8 @@ namespace l1t {
 
                MuonRawDigiTranslator::generatePackedDataWords(*mu, lsw, msw);
 
-               loadMap[blkId].push_back(lsw);
-               loadMap[blkId].push_back(msw);
+               payloadMap[blkId].push_back(lsw);
+               payloadMap[blkId].push_back(msw);
 
                // go to next block id after two muons
                if (muCtr%2 == 0) {
@@ -52,7 +52,7 @@ namespace l1t {
             }
 
             // padding empty muons to reach 3 muons per block id per BX
-            for (auto &kv : loadMap) {
+            for (auto &kv : payloadMap) {
                while (kv.second.size()%6 != 0) {
                   kv.second.push_back(0);
                }
@@ -61,7 +61,7 @@ namespace l1t {
 
          Blocks blocks;
          // push everything in the blocks vector
-         for (auto &kv : loadMap) {
+         for (auto &kv : payloadMap) {
             blocks.push_back(Block(kv.first, kv.second));
          }
          return blocks;
