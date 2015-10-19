@@ -12,7 +12,7 @@ namespace l1t {
             virtual Blocks pack(const edm::Event&, const PackerTokens*) override;
          private:
             typedef std::map<unsigned int, std::vector<uint32_t>> LoadMap;
-            void packTF(const edm::Event&, const edm::EDGetTokenT<RegionalMuonCandBxCollection>&, Blocks&);
+            void packTF(const edm::Event&, const edm::EDGetTokenT<RegionalMuonCandBxCollection>&, Blocks&, const std::vector<unsigned int>&);
       };
    }
 }
@@ -29,16 +29,21 @@ namespace l1t {
 
          Blocks blocks;
 
+         // link ids for the different TFs
+         std::vector<unsigned int> bmtfLinks {48,49,50,51,52,53,54,55,56,57,58,59};
+         std::vector<unsigned int> omtfLinks {42,43,44,45,46,47,60,61,62,63,64,65};
+         std::vector<unsigned int> emtfLinks {36,37,38,39,40,41,66,67,68,69,70,71};
+
          // pack the muons for each TF in blocks
-         packTF(event, bmtfToken, blocks);
-         packTF(event, omtfToken, blocks);
-         packTF(event, emtfToken, blocks);
+         packTF(event, bmtfToken, blocks, bmtfLinks);
+         packTF(event, omtfToken, blocks, omtfLinks);
+         packTF(event, emtfToken, blocks, emtfLinks);
 
          return blocks;
       }
 
       void
-      RegionalMuonPacker::packTF(const edm::Event& event, const edm::EDGetTokenT<RegionalMuonCandBxCollection>& tfToken, Blocks &blocks)
+      RegionalMuonPacker::packTF(const edm::Event& event, const edm::EDGetTokenT<RegionalMuonCandBxCollection>& tfToken, Blocks &blocks, const std::vector<unsigned int>& links)
       {
          edm::Handle<RegionalMuonCandBxCollection> muons;
          event.getByToken(tfToken, muons);
@@ -46,8 +51,6 @@ namespace l1t {
          LoadMap loadMap;
    
          for (int i = muons->getFirstBX(); i <= muons->getLastBX(); ++i) {
-            if (muons->size(i) == 0)
-               continue;
             for (auto mu = muons->begin(i); mu != muons->end(i); ++mu) {
                uint32_t msw = 0;
                uint32_t lsw = 0;
@@ -56,6 +59,15 @@ namespace l1t {
 
                loadMap[mu->link()*2].push_back(lsw);
                loadMap[mu->link()*2].push_back(msw);
+            }
+
+            // muons are expected to come on a range of links depending on the the TF
+            // but even if there was no muon coming from a processor the block should be generated
+            // so add these links without muons to the map as well so that they will be filled with zeros
+            for (const auto &link : links) {
+               if (loadMap.count(link*2) == 0) {
+                  loadMap[link*2].push_back(0);
+               }
             }
 
             // padding to 3 muons per block id (link) per BX
