@@ -24,8 +24,6 @@
 ///////////////////////////////////////////////
 OMTFProcessor::OMTFProcessor(const edm::ParameterSet & theConfig){
 
-  myResults.assign(OMTFConfiguration::nTestRefHits,OMTFProcessor::resultsMap());
-
   if(theConfig.getParameter<bool>("configFromXML")){    
     if ( !theConfig.exists("patternsXMLFiles") ) return;
     std::vector<std::string> fileNames;
@@ -51,6 +49,8 @@ OMTFProcessor::~OMTFProcessor(){
 ///////////////////////////////////////////////
 bool OMTFProcessor::configure(XMLConfigReader *aReader){
 
+  myResults.assign(OMTFConfiguration::nTestRefHits,OMTFProcessor::resultsMap());
+
   const std::vector<GoldenPattern *> & aGPs = aReader->readPatterns();
   for(auto it: aGPs){    
     if(!addGP(it)) return false;
@@ -62,6 +62,8 @@ bool OMTFProcessor::configure(XMLConfigReader *aReader){
 ///////////////////////////////////////////////
 bool OMTFProcessor::configure( std::shared_ptr<L1TMTFOverlapParams> omtfParams){
 
+  myResults.assign(OMTFConfiguration::nTestRefHits,OMTFProcessor::resultsMap());
+  
   l1t::LUT* chargeLUT =  omtfParams->chargeLUT();
   l1t::LUT* etaLUT =  omtfParams->etaLUT();
   l1t::LUT* ptLUT =  omtfParams->ptLUT();
@@ -261,7 +263,7 @@ const std::vector<OMTFProcessor::resultsMap> & OMTFProcessor::processInput(unsig
 										      phiRef,
 										      restrictedLayerHits);
        
-	int phiRefSt2 = itGP.second->propagateRefPhi(phiRef, etaRef, aRefHitDef.iRefLayer);
+	int phiRefSt2 = itGP.second->propagateRefPhi(phiRef, etaRef, aRefHitDef.iRefLayer);       	
 	myResults[OMTFConfiguration::nTestRefHits-nTestedRefHits-1][itGP.second->key()].addResult(aRefHitDef.iRefLayer,iLayer,
 												  aLayerResult.first,
 												  phiRefSt2,etaRef);	 

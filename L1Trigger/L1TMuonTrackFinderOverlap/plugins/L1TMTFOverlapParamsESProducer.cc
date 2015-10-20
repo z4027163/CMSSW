@@ -19,19 +19,28 @@ L1TMTFOverlapParamsESProducer::L1TMTFOverlapParamsESProducer(const edm::Paramete
    // data is being produced
    setWhatProduced(this);
 
+   if (!theConfig.exists("configXMLFile") ) return;
+   std::string fName = theConfig.getParameter<edm::FileInPath>("configXMLFile").fullPath();
+
+   ///WARNING: filling the CondFormats objects works only for a single XML patterns file.
    if ( !theConfig.exists("patternsXMLFiles") ) return;
    std::vector<std::string> fileNames;
    for(auto it: theConfig.getParameter<std::vector<edm::ParameterSet> >("patternsXMLFiles")){
      fileNames.push_back(it.getParameter<edm::FileInPath>("patternsXMLFile").fullPath());
    }  
 
-
-   myOMTFConfig = new OMTFConfiguration(theConfig);
    
    XMLConfigReader myReader;
+   myReader.setConfigFile(fName);
+   readConnectionsXML(&myReader);
+   
+   myOMTFConfig = new OMTFConfiguration(theConfig);
+   std::shared_ptr<L1TMTFOverlapParams> aL1TMTFOverlapParams = std::shared_ptr<L1TMTFOverlapParams>(new L1TMTFOverlapParams(m_params));
+   myOMTFConfig->configure(aL1TMTFOverlapParams);
+
    for(auto it: fileNames){
      myReader.setPatternsFile(it);
-     readXML(&myReader);
+     readPatternsXML(&myReader);
    }  
 }
 ///////////////////////////////////////////////////////////////////
@@ -39,13 +48,24 @@ L1TMTFOverlapParamsESProducer::L1TMTFOverlapParamsESProducer(const edm::Paramete
 L1TMTFOverlapParamsESProducer::~L1TMTFOverlapParamsESProducer() {}
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
-bool L1TMTFOverlapParamsESProducer::readXML(XMLConfigReader *aReader){
+bool L1TMTFOverlapParamsESProducer::readConnectionsXML(XMLConfigReader *aReader){
 
-  
+  std::cout<<"L1TMTFOverlapParamsESProducer::readConnectionsXML BEGIN"<<std::endl;
 
-  std::cout<<"L1TMTFOverlapParamsESProducer::readXML BEGIN"<<std::endl;
+  aReader->readConfig(&m_params);
   
-  std::cout<<"L1TMTFOverlapParamsESProducer::readXML charge"<<std::endl;
+  std::cout<<"L1TMTFOverlapParamsESProducer::readConnectionsXML END"<<std::endl;
+
+  return true;
+  
+}
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+bool L1TMTFOverlapParamsESProducer::readPatternsXML(XMLConfigReader *aReader){
+
+  std::cout<<"L1TMTFOverlapParamsESProducer::readPatternsXML BEGIN"<<std::endl;
+  
+  std::cout<<"L1TMTFOverlapParamsESProducer::readPatternsXML charge"<<std::endl;
 
   l1t::LUT chargeLUT;
   aReader->readLUT(&chargeLUT,"iCharge");
@@ -87,7 +107,7 @@ L1TMTFOverlapParamsESProducer::produce(const L1TMTFOverlapParamsRcd& iRecord)
 {
    using namespace edm::es;
    boost::shared_ptr<L1TMTFOverlapParams> aL1TMTFOverlapParams;
-
+  
    aL1TMTFOverlapParams = boost::shared_ptr<L1TMTFOverlapParams>(new L1TMTFOverlapParams(m_params));
    return aL1TMTFOverlapParams;
 }

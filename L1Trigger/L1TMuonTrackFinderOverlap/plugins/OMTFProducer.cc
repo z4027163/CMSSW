@@ -168,6 +168,9 @@ void OMTFProducer::writeMergedGPs(){
 /////////////////////////////////////////////////////
 void OMTFProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup){
 
+  ///If configuration is read from XML do not look as the DB.
+  if(theConfig.getParameter<edm::ParameterSet>("omtf").getParameter<bool>("configFromXML")) return;  
+
   const L1TMTFOverlapParamsRcd& omtfParamsRcd = iSetup.get<L1TMTFOverlapParamsRcd>();
   
   edm::ESHandle<L1TMTFOverlapParams> omtfParamsHandle;
@@ -178,7 +181,8 @@ void OMTFProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup){
     edm::LogError("OMTFProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
   }
 
-  if(!theConfig.getParameter<edm::ParameterSet>("omtf").getParameter<bool>("configFromXML")) myOMTF->configure(omtfParams);
+  myOMTFConfig->configure(omtfParams);
+  myOMTF->configure(omtfParams);
   
 }
 /////////////////////////////////////////////////////

@@ -8,6 +8,8 @@
 #include "DataFormats/MuonDetId/interface/DTChamberId.h"
 #include "DataFormats/MuonDetId/interface/MuonSubdetId.h"
 
+#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/XMLConfigReader.h"
 
@@ -21,6 +23,9 @@ unsigned int OMTFConfiguration::nPhiBits;
 unsigned int OMTFConfiguration::nPhiBins;
 unsigned int OMTFConfiguration::nRefHits;
 unsigned int OMTFConfiguration::nTestRefHits;
+unsigned int OMTFConfiguration::nProcessors;
+unsigned int OMTFConfiguration::nLogicRegions;
+unsigned int OMTFConfiguration::nInputs;
 
 std::map<int,int> OMTFConfiguration::hwToLogicLayer;
 std::map<int,int> OMTFConfiguration::logicToHwLayer;
@@ -79,35 +84,136 @@ std::ostream & operator << (std::ostream &out, const  RefHitDef & aRefHitDef){
 ///////////////////////////////////////////////
 OMTFConfiguration::OMTFConfiguration(const edm::ParameterSet & theConfig){
 
-  if (!theConfig.exists("configXMLFile") ) return;
-  //std::string fName = theConfig.getParameter<std::string>("configXMLFile");
-  std::string fName = theConfig.getParameter<edm::FileInPath>("configXMLFile").fullPath();
+  if(theConfig.getParameter<bool>("configFromXML")){  
+    if (!theConfig.exists("configXMLFile") ) return;
+    std::string fName = theConfig.getParameter<edm::FileInPath>("configXMLFile").fullPath();
 
-  XMLConfigReader myReader;
-  myReader.setConfigFile(fName);
-  configure(&myReader);
-
-  ///Vector of all inpouts (14)
-  std::vector<int> aLayer1D(14,0);
+    XMLConfigReader myReader;
+    myReader.setConfigFile(fName);
+    configure(&myReader);
+  }
+}
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+void OMTFConfiguration::initCounterMatrices(){
+  
+  ///Vector of all inputs
+  std::vector<int> aLayer1D(nInputs,0);
 
   ///Vector of all layers 
   OMTFConfiguration::vector2D aLayer2D;
-  aLayer2D.assign(OMTFConfiguration::nLayers,aLayer1D);
+  aLayer2D.assign(nLayers,aLayer1D);
 
   ///Vector of all logic cones
   OMTFConfiguration::vector3D aLayer3D;
-  aLayer3D.assign(6,aLayer2D);
+  aLayer3D.assign(nLogicRegions,aLayer2D);
 
   ///Vector of all processors
-  measurements4D.assign(6,aLayer3D);
-  measurements4Dref.assign(6,aLayer3D);
+  measurements4D.assign(nProcessors,aLayer3D);
+  measurements4Dref.assign(nProcessors,aLayer3D);
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 void OMTFConfiguration::configure(XMLConfigReader *aReader){
 
  aReader->readConfig(this);
+ initCounterMatrices();
 
+}
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+void OMTFConfiguration::configure(std::shared_ptr<L1TMTFOverlapParams> omtfParams){
+
+  ///Set global parameters
+  minPdfVal = 0.001;
+  nPdfAddrBits = omtfParams->nPdfAddrBits();  
+  nPdfValBits = omtfParams->nPdfValBits();
+  nHitsPerLayer = omtfParams->nHitsPerLayer();
+  nPhiBits = omtfParams->nPhiBits();
+  nPhiBins = omtfParams->nPhiBins();
+  nRefHits = omtfParams->nRefHits();
+  nTestRefHits = omtfParams->nTestRefHits();
+  nProcessors = omtfParams->nProcessors();
+  nLogicRegions = omtfParams->nLogicRegions();
+  nInputs = omtfParams->nInputs();
+  nLayers = omtfParams->nLayers();
+  nRefLayers = omtfParams->nRefLayers();
+
+  ///Set connections tables
+  std::vector<L1TMTFOverlapParams::LayerMapNode> *layerMap = omtfParams->layerMap();
+
+  for(unsigned int iLayer=0;iLayer<OMTFConfiguration::nLayers;++iLayer){
+    L1TMTFOverlapParams::LayerMapNode aNode = layerMap->at(iLayer);    
+    hwToLogicLayer[aNode.hwNumber] = aNode.logicNumber;
+    logicToHwLayer[aNode.logicNumber] = aNode.hwNumber;
+    logicToLogic[aNode.logicNumber] = aNode.connectedToLayer;    
+    if(aNode.bendingLayer) bendingLayers.insert(aNode.logicNumber);        
+  }
+  /////
+  refToLogicNumber.resize(nRefLayers);
+  
+  std::vector<L1TMTFOverlapParams::RefLayerMapNode> *refLayerMap = omtfParams->refLayerMap();
+  for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){
+    L1TMTFOverlapParams::RefLayerMapNode aNode = refLayerMap->at(iRefLayer);    
+    refToLogicNumber[aNode.refLayer] = aNode.logicNumber;
+  }
+  /////
+  std::vector<int> vector1D(OMTFConfiguration::nRefLayers,OMTFConfiguration::nPhiBins);
+  processorPhiVsRefLayer.assign(OMTFConfiguration::nProcessors,vector1D);
+
+  ///connections tables for each processor each logic cone
+  ///Vector of all layers
+  OMTFConfiguration::vector1D_A aLayer1D(OMTFConfiguration::nLayers);
+  ///Vector of all logic cones
+  OMTFConfiguration::vector2D_A aLayer2D;
+  aLayer2D.assign(OMTFConfiguration::nLogicRegions,aLayer1D);
+  ///Vector of all processors
+  connections.assign(OMTFConfiguration::nProcessors,aLayer2D);
+
+  ///Starting phis of each region
+  ///Vector of all regions in one processor
+  std::vector<std::pair<int,int> > aRefHit1D(OMTFConfiguration::nLogicRegions,std::pair<int,int>(9999,9999));
+  ///Vector of all reflayers
+  std::vector<std::vector<std::pair<int,int> > > aRefHit2D;
+  aRefHit2D.assign(OMTFConfiguration::nRefLayers,aRefHit1D);
+  ///Vector of all processors
+  regionPhisVsRefLayerVsProcessor.assign(OMTFConfiguration::nProcessors,aRefHit2D);
+
+  //Vector of ref hit definitions
+  std::vector<RefHitDef> aRefHitsDefs(OMTFConfiguration::nRefHits);
+  ///Vector of all processros
+  refHitsDefs.assign(OMTFConfiguration::nProcessors,aRefHitsDefs);
+
+  std::vector<int> *phiStartMap =  omtfParams->globalPhiStartMap();
+  std::vector<L1TMTFOverlapParams::RefHitNode> *refHitMap = omtfParams->refHitMap();
+  std::vector<L1TMTFOverlapParams::LayerInputNode> *layerInputMap = omtfParams->layerInputMap();
+  unsigned int tmpIndex = 0;  
+  for(unsigned int iProcessor=0;iProcessor<OMTFConfiguration::nProcessors;++iProcessor){
+    for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){     
+      int iPhiStart = phiStartMap->at(iRefLayer+iProcessor*OMTFConfiguration::nRefLayers);
+      processorPhiVsRefLayer[iProcessor][iRefLayer] = iPhiStart;
+    }
+    for(unsigned int iRefHit=0;iRefHit<OMTFConfiguration::nRefHits;++iRefHit){
+      int iPhiMin = refHitMap->at(iRefHit+iProcessor*OMTFConfiguration::nRefHits).iPhiMin;
+      int iPhiMax = refHitMap->at(iRefHit+iProcessor*OMTFConfiguration::nRefHits).iPhiMax;
+      unsigned int iInput = refHitMap->at(iRefHit+iProcessor*OMTFConfiguration::nRefHits).iInput;
+      unsigned int iRegion = refHitMap->at(iRefHit+iProcessor*OMTFConfiguration::nRefHits).iRegion;
+      unsigned int iRefLayer = refHitMap->at(iRefHit+iProcessor*OMTFConfiguration::nRefHits).iRefLayer;
+      regionPhisVsRefLayerVsProcessor[iProcessor][iRefLayer][iRegion] = std::pair<int,int>(iPhiMin,iPhiMax);
+      refHitsDefs[iProcessor][iRefHit] = RefHitDef(iInput,iPhiMin,iPhiMax,iRegion,iRefLayer);
+    }
+    for(unsigned int iLogicRegion=0;iLogicRegion<OMTFConfiguration::nLogicRegions;++iLogicRegion){
+      for(unsigned int iLayer=0;iLayer<OMTFConfiguration::nLayers;++iLayer){
+	tmpIndex = iLayer+iLogicRegion*OMTFConfiguration::nLayers + iProcessor*OMTFConfiguration::nLogicRegions*OMTFConfiguration::nLayers;
+	unsigned int iFirstInput = layerInputMap->at(tmpIndex).iFirstInput;
+	unsigned int nInputs = layerInputMap->at(tmpIndex).nInputs;
+	OMTFConfiguration::connections[iProcessor][iLogicRegion][iLayer] = std::pair<unsigned int, unsigned int>(iFirstInput,nInputs);
+      }
+    }  
+  }
+
+  initCounterMatrices();
+  
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
@@ -121,7 +227,7 @@ std::ostream & operator << (std::ostream &out, const OMTFConfiguration & aConfig
      <<" nPdfValBits: "<<aConfig.nPdfValBits
      <<std::endl;
 
-  for(unsigned int iProcessor = 0;iProcessor<6; ++iProcessor){
+  for(unsigned int iProcessor = 0;iProcessor<aConfig.nProcessors; ++iProcessor){
     out<<"Processor: "<<iProcessor;
     for(unsigned int iRefLayer=0;iRefLayer<aConfig.nRefLayers;++iRefLayer){
       out<<" "<<aConfig.processorPhiVsRefLayer[iProcessor][iRefLayer];
@@ -160,18 +266,19 @@ unsigned int OMTFConfiguration::getRegionNumber(unsigned int iProcessor,
 
   if(iPhi>=(int)OMTFConfiguration::nPhiBins) return 99;
 
-  unsigned int logicRegionSize = 10/360.0*OMTFConfiguration::nPhiBins;
+  float logicRegionWidth = 360.0/OMTFConfiguration::nLogicRegions*OMTFConfiguration::nProcessors;
+  unsigned int logicRegionSize = logicRegionWidth/360.0*OMTFConfiguration::nPhiBins;
   
   unsigned int iRegion = 0;
   int iPhiStart = OMTFConfiguration::processorPhiVsRefLayer[iProcessor][iRefLayer];
   
   ///FIX ME 2Pi wrapping  
-  while(!OMTFConfiguration::isInRegionRange(iPhiStart,logicRegionSize,iPhi) && iRegion<6){
+  while(!OMTFConfiguration::isInRegionRange(iPhiStart,logicRegionSize,iPhi) && iRegion<OMTFConfiguration::nLogicRegions){
     ++iRegion;
     iPhiStart+=logicRegionSize;    
   }
   
-  if(iRegion>5) iRegion = 99;  
+  if(iRegion>OMTFConfiguration::nLogicRegions-1) iRegion = 99;  
   return iRegion;
 }
 ///////////////////////////////////////////////
@@ -179,7 +286,7 @@ unsigned int OMTFConfiguration::getRegionNumber(unsigned int iProcessor,
 unsigned int OMTFConfiguration::getRegionNumberFromMap(unsigned int iProcessor,
 						       unsigned int iRefLayer,
 						       int iPhi){
-  for(unsigned int iRegion=0;iRegion<6;++iRegion){
+  for(unsigned int iRegion=0;iRegion<OMTFConfiguration::nLogicRegions;++iRegion){
     if(iPhi>=OMTFConfiguration::regionPhisVsRefLayerVsProcessor[iProcessor][iRefLayer][iRegion].first &&
        iPhi<=OMTFConfiguration::regionPhisVsRefLayerVsProcessor[iProcessor][iRefLayer][iRegion].second)
       return iRegion;

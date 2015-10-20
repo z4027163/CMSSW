@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-###OMTF ESProducer. Fills cond formats from XML files.
+###OMTF ESProducer. Fills CondFormats from XML files.
 omtfParamsSource = cms.ESSource(
     "EmptyESSource",
     recordName = cms.string('L1TMTFOverlapParamsRcd'),
@@ -11,6 +11,7 @@ omtfParamsSource = cms.ESSource(
 
 omtfParams = cms.ESProducer(
     "L1TMTFOverlapParamsESProducer",
+    configFromXML = cms.bool(False),   
     patternsXMLFiles = cms.VPSet(
         cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/Patterns_ipt6_31_750_4x.xml")),
     ),

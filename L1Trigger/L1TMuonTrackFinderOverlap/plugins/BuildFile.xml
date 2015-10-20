@@ -3,7 +3,8 @@
   <use name="L1Trigger/L1TMuonTrackFinderOverlap"/>
   <use name="CondFormats/L1TObjects"/>
   <use name="CondFormats/DataRecord"/>
-  <use name="FWCore/ServiceRegistry"/>  
+  <use name="FWCore/ServiceRegistry"/>
+  <use name="CondCore/DBOutputService"/>
   <use name="root"/>
   <flags EDM_PLUGIN="1"/>
   <flags LDFLAGS="-lXMLIO"/>

@@ -27,30 +27,89 @@ class L1TMTFOverlapParams {
     Node(){ type_="unspecified"; version_=0; }
     COND_SERIALIZABLE;
   };
+
+  class LayerMapNode {
+  public:
+    ///short layer number used within OMTF emulator
+    unsigned int hwNumber;
+    
+    ///logic numer of the layer
+    unsigned int logicNumber;
+
+    ///Is this a bending layers?
+    bool bendingLayer;
+
+    ///Login number of layer to which this layer is tied.
+    ///I.e both layers have to fire to account a hit
+    unsigned int connectedToLayer;
+
+    COND_SERIALIZABLE;
+  };
+
+
+  class RefLayerMapNode{
+
+  public:
+
+    ///Reference layer number 
+    unsigned int refLayer;
+
+    ///Corresponding logical layer number
+    unsigned int logicNumber; 
+
+    COND_SERIALIZABLE;
+  };
+
+
+  class RefHitNode{
+
+  public:
+
+    unsigned int iInput;
+    int  iPhiMin, iPhiMax;
+    unsigned int iRefHit;
+    unsigned int iRefLayer;
+    unsigned int iRegion;
+    
+    COND_SERIALIZABLE;
+  };
+
+  class LayerInputNode{
+
+  public:
+
+    unsigned int iFirstInput;
+    unsigned int iLayer;
+    unsigned int nInputs;
+
+    COND_SERIALIZABLE;
+  };
+  
+  
   
   enum { Version = 1 };
   
   // DO NOT ADD ENTRIES ANYWHERE BUT DIRECTLY BEFORE "NUM_OMTFPARAMNODES"
   enum { CHARGE=0, ETA=1, PT=2, PDF=3, MEANDISTPHI=4,
-	 GENERAL = 5, HWLAYERS=6, BENDLAYERS = 7, CONNECTLAYERS=8,
-	 NUM_OMTFPARAMNODES=9};
+	 GENERAL = 5,
+	 NUM_OMTFPARAMNODES=6};
 
   // General configuration parameters indexes
-  enum {GENERAL_ADDRBITS=0, GENERAL_VALBITS=1, GENERAL_HITSPERLAYER=2, GENERAL_PHIBITS=3, GENERAL_PHIBINS=4, GENERAL_NREFHITS=5, GENERAL_NTESTREFHITS=6};
+  enum {GENERAL_ADDRBITS=0, GENERAL_VALBITS=1, GENERAL_HITSPERLAYER=2, GENERAL_PHIBITS=3, GENERAL_PHIBINS=4, GENERAL_NREFHITS=5, GENERAL_NTESTREFHITS=6,
+	GENERAL_NPROCESSORS=7, GENERAL_NLOGIC_REGIONS=8, GENERAL_NINPUTS=9, GENERAL_NLAYERS=10, GENERAL_NREFLAYERS=11, GENERAL_NCONFIG=12
+  };
 	
   
   L1TMTFOverlapParams() { fwVersion_=Version; pnodes_.resize(NUM_OMTFPARAMNODES); }
   ~L1TMTFOverlapParams() {}
-
-  //<GlobalData minPdfVal="0.001" nPdfAddrBits="7" nPdfValBits="6" nHitsPerLayer="6" nPhiBits="11" nPhiBins="5760" nRefHits="128" nTestRefHits="4"/>
 
   // Firmware version
   unsigned fwVersion() const { return fwVersion_; }
   void setFwVersion(unsigned fwVersion) { fwVersion_ = fwVersion; }
 
   ///General definitions
-  l1t::LUT* generalLUT()        { return &pnodes_[GENERAL].LUT_; }
-  void setGeneralLUT (const l1t::LUT & lut) { pnodes_[GENERAL].type_ = "INT"; pnodes_[GENERAL].LUT_ = lut; }
+  std::vector<int>* generalParams()        { return &pnodes_[GENERAL].iparams_; }
+  void setGeneralParams (const std::vector<int> & paramsVec) { pnodes_[GENERAL].type_ = "INT"; pnodes_[GENERAL].iparams_ = paramsVec;}
 
   ///Access to specific general settings.
   int nPdfAddrBits() { return pnodes_[GENERAL].iparams_[GENERAL_ADDRBITS];};
@@ -66,16 +125,37 @@ class L1TMTFOverlapParams {
   int nRefHits() { return pnodes_[GENERAL].iparams_[GENERAL_NREFHITS];};
     
   int nTestRefHits() { return pnodes_[GENERAL].iparams_[GENERAL_NTESTREFHITS];};
+
+  int nProcessors() { return pnodes_[GENERAL].iparams_[GENERAL_NPROCESSORS];};
+
+  int nLogicRegions() { return pnodes_[GENERAL].iparams_[GENERAL_NLOGIC_REGIONS];};
+
+  int nInputs() { return pnodes_[GENERAL].iparams_[GENERAL_NINPUTS];};
+
+  int nLayers() { return pnodes_[GENERAL].iparams_[GENERAL_NLAYERS];};
+
+  int nRefLayers() { return pnodes_[GENERAL].iparams_[GENERAL_NREFLAYERS];};
   
   ///Connections definitions
-  l1t::LUT* hwLayersLUT()        { return &pnodes_[HWLAYERS].LUT_; }
-  void setHwLayersLUT (const l1t::LUT & lut) { pnodes_[HWLAYERS].type_ = "LUT"; pnodes_[HWLAYERS].LUT_ = lut; }
+  void setLayerMap(const  std::vector<LayerMapNode> &aVector) { layerMap_ = aVector;}
 
-  l1t::LUT* bendLayersLUT()        { return &pnodes_[BENDLAYERS].LUT_; }
-  void setBendLayersLUT (const l1t::LUT & lut) { pnodes_[BENDLAYERS].type_ = "LUT"; pnodes_[BENDLAYERS].LUT_ = lut; }
+  void setRefLayerMap(const  std::vector<RefLayerMapNode> &aVector) { refLayerMap_ = aVector;}
 
-  l1t::LUT* connectLayersLUT()        { return &pnodes_[CONNECTLAYERS].LUT_; }
-  void setConnectLayersLUT (const l1t::LUT & lut) { pnodes_[CONNECTLAYERS].type_ = "LUT"; pnodes_[CONNECTLAYERS].LUT_ = lut; }
+  void setRefHitMap(const std::vector<RefHitNode> &aVector) {refHitMap_ = aVector;};
+
+  void setGlobalPhiStartMap(const std::vector<int> &aVector) {globalPhiStart_ = aVector;};
+
+  void setLayerInputMap(const std::vector<LayerInputNode> &aVector) {layerInputMap_ = aVector;};
+  
+  std::vector<LayerMapNode> * layerMap() { return &layerMap_;};
+
+  std::vector<RefLayerMapNode> * refLayerMap() { return &refLayerMap_;};
+
+  std::vector<RefHitNode> * refHitMap() {return &refHitMap_;};
+  
+  std::vector<int> * globalPhiStartMap() { return &globalPhiStart_;};
+
+  std::vector<LayerInputNode> * layerInputMap() { return &layerInputMap_;};
   
   ///Golden Patterns definitions
   l1t::LUT* chargeLUT()        { return &pnodes_[CHARGE].LUT_; }
@@ -96,6 +176,29 @@ class L1TMTFOverlapParams {
     
   ///vector of LUT like parameters
   std::vector<Node> pnodes_;
+
+  ///Vector of structs representing definitions of measurement layers.
+  std::vector<LayerMapNode> layerMap_;
+
+  ///Vector of structs representing definitins of reference layers
+  ///in terms of logic measurement layers numbers.
+  std::vector<RefLayerMapNode> refLayerMap_;
+
+
+  ///Vector of RefHitNode defining assignenemt of
+  ///reference hits to logical regions.
+  ///definitions for all processor are serialized in a single vector.
+  std::vector<RefHitNode> refHitMap_;
+
+  ///Vector of global phi of processor beggining in each reference layer.
+  ///All processors are serialized in a single vector.
+  std::vector<int> globalPhiStart_;
+
+
+  ///Vector of all definitions of input ranges for given
+  ///logic region.
+  ///All processors and all regions are serialized in a single vector.
+  std::vector<LayerInputNode> layerInputMap_;
   
   COND_SERIALIZABLE;
 };    

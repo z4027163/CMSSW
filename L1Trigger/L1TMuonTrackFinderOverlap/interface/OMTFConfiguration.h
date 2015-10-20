@@ -5,8 +5,9 @@
 #include <set>
 #include <vector>
 #include <ostream>
+#include <memory>
 
-
+class L1TMTFOverlapParams;
 class XMLConfigReader;
 
 namespace edm{
@@ -54,6 +55,10 @@ class OMTFConfiguration{
 
   void configure(XMLConfigReader *aReader);
 
+  void configure(std::shared_ptr<L1TMTFOverlapParams> omtfParams);
+
+  void initCounterMatrices();
+  
   friend std::ostream & operator << (std::ostream &out, const OMTFConfiguration & aConfig);
 
   static float minPdfVal;
@@ -66,6 +71,9 @@ class OMTFConfiguration{
   static unsigned int nPhiBins;
   static unsigned int nRefHits;
   static unsigned int nTestRefHits;
+  static unsigned int nProcessors;
+  static unsigned int nLogicRegions;
+  static unsigned int nInputs;
     
   static std::map<int,int> hwToLogicLayer;
   static std::map<int,int> logicToHwLayer;
@@ -111,6 +119,7 @@ class OMTFConfiguration{
   static vector3D_A connections;
 
   ///Temporary hack to pass data from deep inside class
+  ///Matrices are used during creation of the connections tables.
   typedef std::vector<int> vector1D;
   typedef std::vector<vector1D > vector2D;
   typedef std::vector<vector2D > vector3D;

@@ -26,7 +26,10 @@ class L1TMTFOverlapParamsESProducer : public edm::ESProducer {
    private:
 
       ///Read Golden Patters from single XML file.
-      bool readXML(XMLConfigReader *aReader);
+      bool readPatternsXML(XMLConfigReader *aReader);
+
+      ///Read Connections from single XML file.
+      bool readConnectionsXML(XMLConfigReader *aReader);
 
       L1TMTFOverlapParams m_params;
 
