@@ -447,7 +447,7 @@ void XMLConfigReader::readConfig( L1TMTFOverlapParams *aConfig){
       assert(nElem3==nLayers);
       DOMElement* aLayerElement = 0;
       for(uint iii=0;iii<nElem3;++iii){
-	aNode = aRegionElement->getElementsByTagName(_toDOMS("Layer"))->item(ii);
+	aNode = aRegionElement->getElementsByTagName(_toDOMS("Layer"))->item(iii);
 	aLayerElement = static_cast<DOMElement *>(aNode); 
 	unsigned int iLayer = std::atoi(_toString(aLayerElement->getAttribute(_toDOMS("iLayer"))).c_str());
 	unsigned int iFirstInput = std::atoi(_toString(aLayerElement->getAttribute(_toDOMS("iFirstInput"))).c_str());
@@ -621,7 +621,7 @@ void XMLConfigReader::readConfig(OMTFConfiguration *aConfig){
       assert(nElem3==OMTFConfiguration::nLayers); 
       DOMElement* aLayerElement = 0;
       for(uint iii=0;iii<nElem3;++iii){
-	aNode = aRegionElement->getElementsByTagName(_toDOMS("Layer"))->item(ii);
+	aNode = aRegionElement->getElementsByTagName(_toDOMS("Layer"))->item(iii);
 	aLayerElement = static_cast<DOMElement *>(aNode); 
 	unsigned int iLayer = std::atoi(_toString(aLayerElement->getAttribute(_toDOMS("iLayer"))).c_str());
 	unsigned int iFirstInput = std::atoi(_toString(aLayerElement->getAttribute(_toDOMS("iFirstInput"))).c_str());
