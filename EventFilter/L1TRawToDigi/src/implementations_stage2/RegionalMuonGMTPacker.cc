@@ -7,7 +7,7 @@
 
 namespace l1t {
    namespace stage2 {
-      class RegionalMuonPacker : public Packer {
+      class RegionalMuonGMTPacker : public Packer {
          public:
             virtual Blocks pack(const edm::Event&, const PackerTokens*) override;
          private:
@@ -21,7 +21,7 @@ namespace l1t {
 namespace l1t {
    namespace stage2 {
       Blocks
-      RegionalMuonPacker::pack(const edm::Event& event, const PackerTokens* toks)
+      RegionalMuonGMTPacker::pack(const edm::Event& event, const PackerTokens* toks)
       {
          auto bmtfToken = static_cast<const GMTTokens*>(toks)->getRegionalMuonCandTokenBMTF();
          auto omtfToken = static_cast<const GMTTokens*>(toks)->getRegionalMuonCandTokenOMTF();
@@ -43,7 +43,7 @@ namespace l1t {
       }
 
       void
-      RegionalMuonPacker::packTF(const edm::Event& event, const edm::EDGetTokenT<RegionalMuonCandBxCollection>& tfToken, Blocks &blocks, const std::vector<unsigned int>& links)
+      RegionalMuonGMTPacker::packTF(const edm::Event& event, const edm::EDGetTokenT<RegionalMuonCandBxCollection>& tfToken, Blocks &blocks, const std::vector<unsigned int>& links)
       {
          edm::Handle<RegionalMuonCandBxCollection> muons;
          event.getByToken(tfToken, muons);
@@ -86,4 +86,4 @@ namespace l1t {
    }
 }
 
-DEFINE_L1T_PACKER(l1t::stage2::RegionalMuonPacker);
+DEFINE_L1T_PACKER(l1t::stage2::RegionalMuonGMTPacker);
