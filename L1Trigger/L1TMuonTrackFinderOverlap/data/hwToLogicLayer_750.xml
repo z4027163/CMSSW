@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <OMTF xmlns:xi="http://www.w3.org/2001/XInclude" version="0x00010001">
 
-<GlobalData nPdfAddrBits="7" nPdfValBits="6" nHitsPerLayer="6" nPhiBits="11" nPhiBins="5760" nRefHits="128" nTestRefHits="4" nProcessors="6" nLogicRegions="6" nInputs="14" nLayers="18" nRefLayers="8"/>
+<GlobalData nPdfAddrBits="7" nPdfValBits="6" nHitsPerLayer="6" nPhiBits="11" nPhiBins="5760" nRefHits="128" nTestRefHits="4" nProcessors="6" nLogicRegions="6" nInputs="14" nLayers="18" nRefLayers="8" nGoldenPatterns="52"/>
+
+<ConnectionMap iProcessor="0" barrelMin="2" barrelMax="4" endcap10DegMin="3" endcap10DegMax="9" endcap20DegMin="2" endcap20DegMax="5"/>
+<ConnectionMap iProcessor="1" barrelMin="4" barrelMax="6" endcap10DegMin="9" endcap10DegMax="15" endcap20DegMin="5" endcap20DegMax="8"/>
+<ConnectionMap iProcessor="2" barrelMin="6" barrelMax="8" endcap10DegMin="15" endcap10DegMax="21" endcap20DegMin="8" endcap20DegMax="11"/>
+<ConnectionMap iProcessor="3" barrelMin="8" barrelMax="10" endcap10DegMin="21" endcap10DegMax="27" endcap20DegMin="11" endcap20DegMax="14"/>
+<ConnectionMap iProcessor="4" barrelMin="10" barrelMax="12" endcap10DegMin="27" endcap10DegMax="33" endcap20DegMin="14" endcap20DegMax="17"/>
+<ConnectionMap iProcessor="5" barrelMin="12" barrelMax="2" endcap10DegMin="33" endcap10DegMax="3" endcap20DegMin="17" endcap20DegMax="2"/>
 
 <LayerMap hwNumber = "101" logicNumber = "0"  bendingLayer = "0" connectedToLayer="1"/>
 <LayerMap hwNumber = "1101" logicNumber = "1" bendingLayer = "1" connectedToLayer="0"/>

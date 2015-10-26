@@ -33,7 +33,9 @@ L1TMTFOverlapParamsESProducer::L1TMTFOverlapParamsESProducer(const edm::Paramete
    XMLConfigReader myReader;
    myReader.setConfigFile(fName);
    readConnectionsXML(&myReader);
-   
+
+   ///Have to fill OMTFConfiguration data to be able to read the Golden Patterns file, as there are
+   ///some consistency checks during XML parsing.
    myOMTFConfig = new OMTFConfiguration(theConfig);
    std::shared_ptr<L1TMTFOverlapParams> aL1TMTFOverlapParams = std::shared_ptr<L1TMTFOverlapParams>(new L1TMTFOverlapParams(m_params));
    myOMTFConfig->configure(aL1TMTFOverlapParams);

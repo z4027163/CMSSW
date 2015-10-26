@@ -61,7 +61,7 @@ class OMTFConfiguration{
   
   friend std::ostream & operator << (std::ostream &out, const OMTFConfiguration & aConfig);
 
-  static float minPdfVal;
+  static float minPdfVal;  
   static unsigned int nLayers;
   static unsigned int nHitsPerLayer;
   static unsigned int nRefLayers;
@@ -74,6 +74,7 @@ class OMTFConfiguration{
   static unsigned int nProcessors;
   static unsigned int nLogicRegions;
   static unsigned int nInputs;
+  static unsigned int nGoldenPatterns;
     
   static std::map<int,int> hwToLogicLayer;
   static std::map<int,int> logicToHwLayer;

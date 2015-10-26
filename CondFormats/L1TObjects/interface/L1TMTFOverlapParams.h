@@ -91,12 +91,13 @@ class L1TMTFOverlapParams {
   
   // DO NOT ADD ENTRIES ANYWHERE BUT DIRECTLY BEFORE "NUM_OMTFPARAMNODES"
   enum { CHARGE=0, ETA=1, PT=2, PDF=3, MEANDISTPHI=4,
-	 GENERAL = 5,
-	 NUM_OMTFPARAMNODES=6};
+	 GENERAL = 5, SECTORS_START=6, SECTORS_END=7,
+	 NUM_OMTFPARAMNODES=8};
 
   // General configuration parameters indexes
   enum {GENERAL_ADDRBITS=0, GENERAL_VALBITS=1, GENERAL_HITSPERLAYER=2, GENERAL_PHIBITS=3, GENERAL_PHIBINS=4, GENERAL_NREFHITS=5, GENERAL_NTESTREFHITS=6,
-	GENERAL_NPROCESSORS=7, GENERAL_NLOGIC_REGIONS=8, GENERAL_NINPUTS=9, GENERAL_NLAYERS=10, GENERAL_NREFLAYERS=11, GENERAL_NCONFIG=12
+	GENERAL_NPROCESSORS=7, GENERAL_NLOGIC_REGIONS=8, GENERAL_NINPUTS=9, GENERAL_NLAYERS=10, GENERAL_NREFLAYERS=11, GENERAL_NGOLDENPATTERNS=12,
+	GENERAL_NCONFIG=13
   };
 	
   
@@ -135,7 +136,9 @@ class L1TMTFOverlapParams {
   int nLayers() { return pnodes_[GENERAL].iparams_[GENERAL_NLAYERS];};
 
   int nRefLayers() { return pnodes_[GENERAL].iparams_[GENERAL_NREFLAYERS];};
-  
+
+  int nGoldenPatterns() { return pnodes_[GENERAL].iparams_[GENERAL_NGOLDENPATTERNS];};
+    
   ///Connections definitions
   void setLayerMap(const  std::vector<LayerMapNode> &aVector) { layerMap_ = aVector;}
 
@@ -146,6 +149,10 @@ class L1TMTFOverlapParams {
   void setGlobalPhiStartMap(const std::vector<int> &aVector) {globalPhiStart_ = aVector;};
 
   void setLayerInputMap(const std::vector<LayerInputNode> &aVector) {layerInputMap_ = aVector;};
+
+  void setConnectedSectorsStart(const std::vector<int> &aVector){pnodes_[SECTORS_START].type_ = "INT"; pnodes_[SECTORS_START].iparams_ = aVector;};
+  
+  void setConnectedSectorsEnd(const std::vector<int> &aVector){pnodes_[SECTORS_END].type_ = "INT"; pnodes_[SECTORS_END].iparams_ = aVector;};
   
   std::vector<LayerMapNode> * layerMap() { return &layerMap_;};
 
@@ -156,7 +163,12 @@ class L1TMTFOverlapParams {
   std::vector<int> * globalPhiStartMap() { return &globalPhiStart_;};
 
   std::vector<LayerInputNode> * layerInputMap() { return &layerInputMap_;};
+
+  std::vector<int> * connectedSectorsStart() { return &pnodes_[SECTORS_START].iparams_;};
   
+  std::vector<int> * connectedSectorsEnd() { return &pnodes_[SECTORS_END].iparams_;};
+
+ 
   ///Golden Patterns definitions
   l1t::LUT* chargeLUT()        { return &pnodes_[CHARGE].LUT_; }
   l1t::LUT* etaLUT()        { return &pnodes_[ETA].LUT_; }
@@ -172,6 +184,8 @@ class L1TMTFOverlapParams {
   
   
  private:
+
+  ///Version of firmware configuration
   unsigned fwVersion_;
     
   ///vector of LUT like parameters
@@ -184,7 +198,6 @@ class L1TMTFOverlapParams {
   ///in terms of logic measurement layers numbers.
   std::vector<RefLayerMapNode> refLayerMap_;
 
-
   ///Vector of RefHitNode defining assignenemt of
   ///reference hits to logical regions.
   ///definitions for all processor are serialized in a single vector.
@@ -193,7 +206,6 @@ class L1TMTFOverlapParams {
   ///Vector of global phi of processor beggining in each reference layer.
   ///All processors are serialized in a single vector.
   std::vector<int> globalPhiStart_;
-
 
   ///Vector of all definitions of input ranges for given
   ///logic region.

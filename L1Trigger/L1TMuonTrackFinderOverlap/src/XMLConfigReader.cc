@@ -313,7 +313,10 @@ void XMLConfigReader::readConfig( L1TMTFOverlapParams *aConfig){
     assert(nElem==1);
   }
   DOMNode *aNode = doc->getElementsByTagName(_toDOMS("OMTF"))->item(0);
-  DOMElement* aOMTFElement = static_cast<DOMElement *>(aNode);  
+  DOMElement* aOMTFElement = static_cast<DOMElement *>(aNode);
+
+  unsigned int version = std::atoi(_toString(aOMTFElement->getAttribute(_toDOMS("version"))).c_str());
+  aConfig->setFwVersion(version);
 
   ///Addresing bits numbers
   nElem = aOMTFElement->getElementsByTagName(_toDOMS("GlobalData"))->getLength();
@@ -333,6 +336,7 @@ void XMLConfigReader::readConfig( L1TMTFOverlapParams *aConfig){
   unsigned int nInputs =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nInputs"))).c_str());
   unsigned int nLayers =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nLayers"))).c_str());
   unsigned int nRefLayers =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nRefLayers"))).c_str());
+  unsigned int nGoldenPatterns =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nGoldenPatterns"))).c_str());
 
   std::vector<int> paramsVec(L1TMTFOverlapParams::GENERAL_NCONFIG);
   paramsVec[L1TMTFOverlapParams::GENERAL_ADDRBITS] = nPdfAddrBits;
@@ -347,8 +351,37 @@ void XMLConfigReader::readConfig( L1TMTFOverlapParams *aConfig){
   paramsVec[L1TMTFOverlapParams::GENERAL_NINPUTS] = nInputs;
   paramsVec[L1TMTFOverlapParams::GENERAL_NLAYERS] = nLayers;
   paramsVec[L1TMTFOverlapParams::GENERAL_NREFLAYERS] = nRefLayers;
+  paramsVec[L1TMTFOverlapParams::GENERAL_NGOLDENPATTERNS] = nGoldenPatterns;
   aConfig->setGeneralParams(paramsVec);
-  
+
+  ///Chamber sectors connections to logic processros.
+  ///Start/End values for all processors, and chamber types are put into a single vector
+  std::vector<int> sectorsStart(3*6), sectorsEnd(3*6);
+  nElem = aOMTFElement->getElementsByTagName(_toDOMS("ConnectionMap"))->getLength();
+  DOMElement* aConnectionElement = 0;
+  for(uint i=0;i<nElem;++i){
+    aNode = aOMTFElement->getElementsByTagName(_toDOMS("ConnectionMap"))->item(i);
+    aConnectionElement = static_cast<DOMElement *>(aNode);
+    unsigned int iProcessor = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("iProcessor"))).c_str());
+    unsigned int barrelMin = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("barrelMin"))).c_str());
+    unsigned int barrelMax = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("barrelMax"))).c_str());
+    unsigned int endcap10DegMin = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("endcap10DegMin"))).c_str());
+    unsigned int endcap10DegMax = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("endcap10DegMax"))).c_str());
+    unsigned int endcap20DegMin = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("endcap20DegMin"))).c_str());
+    unsigned int endcap20DegMax = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("endcap20DegMax"))).c_str());
+
+    sectorsStart[iProcessor] = barrelMin;
+    sectorsStart[iProcessor + 6] = endcap10DegMin;
+    sectorsStart[iProcessor  +12] = endcap20DegMin;
+
+    sectorsEnd[iProcessor] = barrelMax;
+    sectorsEnd[iProcessor + 6] = endcap10DegMax;
+    sectorsEnd[iProcessor + 12] = endcap20DegMax;       
+  }  
+  aConfig->setConnectedSectorsStart(sectorsStart);
+  aConfig->setConnectedSectorsEnd(sectorsEnd);
+
+    
   ///hw <-> logic numbering map
   std::vector<L1TMTFOverlapParams::LayerMapNode> aLayerMapVec;
   L1TMTFOverlapParams::LayerMapNode aLayerMapNode;
@@ -497,7 +530,8 @@ void XMLConfigReader::readConfig(OMTFConfiguration *aConfig){
   unsigned int nTestRefHits =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nTestRefHits"))).c_str());
   unsigned int nProcessors =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nProcessors"))).c_str());
   unsigned int nLogicRegions =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nLogicRegions"))).c_str());
-  unsigned int nInputs =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nInputs"))).c_str()); 
+  unsigned int nInputs =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nInputs"))).c_str());
+  unsigned int nGoldenPatterns =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nGoldenPatterns"))).c_str()); 
   OMTFConfiguration::minPdfVal = minPdfVal;
   OMTFConfiguration::nPdfAddrBits = nPdfAddrBits;
   OMTFConfiguration::nPdfValBits = nPdfValBits;
@@ -509,6 +543,39 @@ void XMLConfigReader::readConfig(OMTFConfiguration *aConfig){
   OMTFConfiguration::nProcessors = nProcessors;
   OMTFConfiguration::nLogicRegions = nLogicRegions;
   OMTFConfiguration::nInputs = nInputs;
+  OMTFConfiguration::nGoldenPatterns = nGoldenPatterns;
+
+  ///Chamber sectors connections to logic processros.
+  OMTFConfiguration::barrelMin =  std::vector<unsigned int>(6);
+  OMTFConfiguration::barrelMax =  std::vector<unsigned int>(6);
+  
+  OMTFConfiguration::endcap10DegMin =  std::vector<unsigned int>(6);
+  OMTFConfiguration::endcap10DegMax =  std::vector<unsigned int>(6);
+  
+  OMTFConfiguration::endcap20DegMin =  std::vector<unsigned int>(6);
+  OMTFConfiguration::endcap20DegMax =  std::vector<unsigned int>(6);
+  
+  nElem = aOMTFElement->getElementsByTagName(_toDOMS("ConnectionMap"))->getLength();
+  DOMElement* aConnectionElement = 0;
+  for(uint i=0;i<nElem;++i){
+    aNode = aOMTFElement->getElementsByTagName(_toDOMS("ConnectionMap"))->item(i);
+    aConnectionElement = static_cast<DOMElement *>(aNode);
+    unsigned int iProcessor = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("iProcessor"))).c_str());
+    unsigned int barrelMin = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("barrelMin"))).c_str());
+    unsigned int barrelMax = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("barrelMax"))).c_str());
+    unsigned int endcap10DegMin = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("endcap10DegMin"))).c_str());
+    unsigned int endcap10DegMax = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("endcap10DegMax"))).c_str());
+    unsigned int endcap20DegMin = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("endcap20DegMin"))).c_str());
+    unsigned int endcap20DegMax = std::atoi(_toString(aConnectionElement->getAttribute(_toDOMS("endcap20DegMax"))).c_str());
+
+    OMTFConfiguration::barrelMin[iProcessor] = barrelMin;
+    OMTFConfiguration::endcap10DegMin[iProcessor] = endcap10DegMin;
+    OMTFConfiguration::endcap20DegMin[iProcessor] = endcap20DegMin;
+
+    OMTFConfiguration::barrelMax[iProcessor] = barrelMax;
+    OMTFConfiguration::endcap10DegMin[iProcessor] = endcap10DegMax;
+    OMTFConfiguration::endcap20DegMin[iProcessor] = endcap20DegMax;       
+  }  
 
   ///hw <-> logic numbering map
   unsigned int nLogicLayers = 0;

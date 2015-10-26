@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/ParameterSet/interface/FileInPath.h"
@@ -26,6 +27,7 @@ unsigned int OMTFConfiguration::nTestRefHits;
 unsigned int OMTFConfiguration::nProcessors;
 unsigned int OMTFConfiguration::nLogicRegions;
 unsigned int OMTFConfiguration::nInputs;
+unsigned int OMTFConfiguration::nGoldenPatterns;
 
 std::map<int,int> OMTFConfiguration::hwToLogicLayer;
 std::map<int,int> OMTFConfiguration::logicToHwLayer;
@@ -41,14 +43,14 @@ std::vector<std::vector<RefHitDef> >OMTFConfiguration::refHitsDefs;
 OMTFConfiguration::vector4D OMTFConfiguration::measurements4D;
 OMTFConfiguration::vector4D OMTFConfiguration::measurements4Dref;
 
-std::vector<unsigned int> OMTFConfiguration::barrelMin({2, 4, 6, 8, 10, 12});
-std::vector<unsigned int> OMTFConfiguration::barrelMax({4, 6, 8, 10, 12, 2});
+std::vector<unsigned int> OMTFConfiguration::barrelMin;
+std::vector<unsigned int> OMTFConfiguration::barrelMax;
 
-std::vector<unsigned int> OMTFConfiguration::endcap10DegMin({3, 9, 15, 21, 27, 33});
-std::vector<unsigned int> OMTFConfiguration::endcap10DegMax({9, 15, 21, 27, 33, 3});
+std::vector<unsigned int> OMTFConfiguration::endcap10DegMin;
+std::vector<unsigned int> OMTFConfiguration::endcap10DegMax;
 
-std::vector<unsigned int> OMTFConfiguration::endcap20DegMin({2, 5, 8, 11, 14, 17});
-std::vector<unsigned int> OMTFConfiguration::endcap20DegMax({5, 8, 11, 14, 17, 2});
+std::vector<unsigned int> OMTFConfiguration::endcap20DegMin;
+std::vector<unsigned int> OMTFConfiguration::endcap20DegMax;
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 RefHitDef::RefHitDef(unsigned int aInput, 
@@ -138,6 +140,27 @@ void OMTFConfiguration::configure(std::shared_ptr<L1TMTFOverlapParams> omtfParam
   nInputs = omtfParams->nInputs();
   nLayers = omtfParams->nLayers();
   nRefLayers = omtfParams->nRefLayers();
+  nGoldenPatterns = omtfParams->nGoldenPatterns();
+
+  ///Set chamber sectors connections to logic processros.
+  barrelMin.resize(OMTFConfiguration::nProcessors);
+  endcap10DegMin.resize(OMTFConfiguration::nProcessors);
+  endcap20DegMin.resize(OMTFConfiguration::nProcessors);
+
+  barrelMax.resize(OMTFConfiguration::nProcessors);
+  endcap10DegMax.resize(OMTFConfiguration::nProcessors);
+  endcap20DegMax.resize(OMTFConfiguration::nProcessors);
+
+  std::vector<int> *connectedSectorsStartVec =  omtfParams->connectedSectorsStart();
+  std::vector<int> *connectedSectorsEndVec =  omtfParams->connectedSectorsEnd();
+
+  std::copy(connectedSectorsStartVec->begin(), connectedSectorsStartVec->begin()+6, barrelMin.begin());  
+  std::copy(connectedSectorsStartVec->begin()+6, connectedSectorsStartVec->begin()+12, endcap10DegMin.begin());
+  std::copy(connectedSectorsStartVec->begin()+12, connectedSectorsStartVec->end(), endcap20DegMin.begin());
+
+  std::copy(connectedSectorsEndVec->begin(), connectedSectorsEndVec->begin()+6, barrelMax.begin());
+  std::copy(connectedSectorsEndVec->begin()+6, connectedSectorsEndVec->begin()+12, endcap10DegMax.begin());
+  std::copy(connectedSectorsEndVec->begin()+12, connectedSectorsEndVec->end(), endcap20DegMax.begin());
 
   ///Set connections tables
   std::vector<L1TMTFOverlapParams::LayerMapNode> *layerMap = omtfParams->layerMap();

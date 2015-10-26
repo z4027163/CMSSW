@@ -70,7 +70,7 @@ bool OMTFProcessor::configure( std::shared_ptr<L1TMTFOverlapParams> omtfParams){
   l1t::LUT* pdfLUT =  omtfParams->pdfLUT();
   l1t::LUT* meanDistPhiLUT =  omtfParams->meanDistPhiLUT();
 
-  unsigned int nGPs = 52;//FIX ME: read this from config file  
+  unsigned int nGPs = OMTFConfiguration::nGoldenPatterns;
   unsigned int address = 0;
   unsigned int iEta, iPt, iCharge;
   for(unsigned int iGP=0;iGP<nGPs;++iGP){
