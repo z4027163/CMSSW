@@ -852,6 +852,8 @@ float getPt(unsigned long Address)
         cout << "getMaxPT: eta = " << TrackEta << ",  old = " << BDTPt << " , new = " << BDTPt__ << endl;
         MpT = BDTPt__; 
       }
+	  
+	  delete forest;
 	}
 
 	return MpT;
