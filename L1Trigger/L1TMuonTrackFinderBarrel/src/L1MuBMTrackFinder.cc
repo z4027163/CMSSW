@@ -255,13 +255,17 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
         int abs_add_3 = setAdd(3,(*iter)->address(3));
         int abs_add_4 = setAdd(4,(*iter)->address(4));
 
-        int track_add = abs_add_1*1000000 + abs_add_2*10000 + abs_add_3*100 + abs_add_4;
-        rmc.setHwTrackAddress(track_add);
+        rmc.setTrackSubAddress(l1t::RegionalMuonCand::kWheel, 0); // this has to be set!
+        rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat1, abs_add_1);
+        rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat2, abs_add_2);
+        rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat3, abs_add_3);
+        rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat4, abs_add_4);
+
 
         rmc.setHwPhi((*iter)->hwPhi());
 	if((*iter)->hwEta()>-33 || (*iter)->hwEta()<32 )
 	        rmc.setHwEta(eta_map[(*iter)->hwEta()]);
-	else 
+	else
 		rmc.setHwEta(-1000);
         //cout<<(*iter)->hwEta()<<"    "<<eta_map[(*iter)->hwEta()]<<endl;
         rmc.setHwSign((*iter)->hwSign());
