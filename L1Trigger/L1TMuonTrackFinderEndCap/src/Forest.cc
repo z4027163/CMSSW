@@ -16,8 +16,8 @@
 // _______________________Includes_______________________________________//
 ///////////////////////////////////////////////////////////////////////////
 
-#include "Forest.h"
-#include "Utilities.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Forest.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Utilities.h"
 
 #include "TRandom3.h"
 #include "TStopwatch.h"

@@ -7,8 +7,8 @@
 ////
 ////
 
-#include "EmulatorClasses.h"
-#include "PhThLUTs.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/EmulatorClasses.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PhThLUTs.h"
 
 		     
 int ph_offsetss[5][9][3] = {{{2,2,-99},{20,20,-99},{39,39,-99},{2,-99,-99},{21,-99,-99},{39,-99,-99},{4,-99,-99},{23,-99,-99},{42,-99,-99}},

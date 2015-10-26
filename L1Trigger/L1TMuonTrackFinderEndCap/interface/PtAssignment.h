@@ -3,13 +3,13 @@
 ////2985826856 old checksum11 in DataFormats/L1TMuon/src/classes_def.xml
 ////1494215132 12
 
-#include "EmulatorClasses.h"
-#include "L1TMuonUpgradedTrackFinder.h"
-#include "Forest.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/EmulatorClasses.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/plugins/L1TMuonUpgradedTrackFinder.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Forest.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "getMaxPt.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/getMaxPt.h"
 //add this bobby the 3 files below
 #include "Geometry/CSCGeometry/interface/CSCGeometry.h"
 #include "Geometry/Records/interface/MuonGeometryRecord.h"
@@ -1002,7 +1002,7 @@ float CalculatePt(L1TMuon::InternalTrack track , const edm::EventSetup& es){///a
 		
 			if(verbose) std::cout<< "s= " << s << " " << endl; 
 			etas[s-8] = (fabs((stubs.find(s)->second)[0]->getCMSGlobalEta()) + 0.9)/(0.0125);
-      	if(verbose) std::cout<< "eta= " << etas[s-8] << " " << endl;
+      		if(verbose) std::cout<< "eta= " << etas[s-8] << " " << endl;
 			phis[s-8] = track.phis[x];//(stubs.find(s)->second)[0]->getCMSGlobalPhi();//
           	if(verbose) std::cout<< "phi= " << phis[s-8] << " " << endl;
 			clct[s-8] = (stubs.find(s)->second)[0]->getPattern();

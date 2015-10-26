@@ -12,7 +12,7 @@
 #define ADD_FUNCTION
 
 #include "TMath.h"
-#include "Event.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Event.h"
 #include <cmath>
 
 //////////////////////////////////////////////////////////////////////////
