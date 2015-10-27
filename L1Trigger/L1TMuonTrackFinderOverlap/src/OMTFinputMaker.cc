@@ -10,6 +10,7 @@
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinputMaker.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinput.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/AngleConverter.h"
 
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
@@ -21,6 +22,7 @@ OMTFinputMaker::OMTFinputMaker(){
   myInput = new OMTFinput();
 
   geom.reset(new L1TMuon::GeometryTranslator());
+  katownik.reset(new AngleConverter());
 
 }
 ///////////////////////////////////////
@@ -28,6 +30,7 @@ OMTFinputMaker::OMTFinputMaker(){
 void OMTFinputMaker::initialize(const edm::EventSetup& es){ 
 
   geom->checkAndUpdateGeometry(es);
+  katownik->checkAndUpdateGeometry(es);
 
 }
 ///////////////////////////////////////
@@ -230,17 +233,159 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
   ///Chambers divided into two rolls have rolls number 1 and 3
   iInput+=iRoll-1;
 
-  /////TEST
-  //if(type==l1t::tftype::emtf_pos || type==l1t::tftype::emtf_neg) iInput = 0;
-  /////////
-
-  
   return iInput;
 }
+////////////////////////////////////////////
+////////////////////////////////////////////
+void OMTFinputMaker::processDT(const L1MuDTChambPhContainer *dtPhDigis,
+	       const L1MuDTChambThContainer *dtThDigis,
+	       unsigned int iProcessor,
+	       l1t::tftype type){
+
+  for (const auto digiIt: *dtPhDigis->getContainer()) {
+
+    DTChamberId detid(digiIt.whNum(),digiIt.stNum(),digiIt.scNum()+1);
+
+    ///Check it the data fits into given processor input range
+    if(!acceptDigi(detid.rawId(), iProcessor, type)) continue;
+    ///Check Trigger primitive quality
+    if (digiIt.bxNum()!= 0 || digiIt.BxCnt()!= 0 || digiIt.Ts2Tag()!= 0 || digiIt.code()<4) continue;
+
+    unsigned int hwNumber = OMTFConfiguration::getLayerNumber(detid.rawId());
+    if(OMTFConfiguration::hwToLogicLayer.find(hwNumber)==OMTFConfiguration::hwToLogicLayer.end()) continue;
+    
+    unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
+    int iPhi =  katownik->getGlobalPhi(detid.rawId(), digiIt);
+    int iEta =  0;//TEST
+    unsigned int iInput= getInputNumber(detid.rawId(), iProcessor, type);
+
+    myInput->addLayerHit(iLayer,iInput,iPhi,iEta);
+    myInput->addLayerHit(iLayer+1,iInput,digiIt.phiB(),iEta);
+  }
+  
+}
+////////////////////////////////////////////
+////////////////////////////////////////////
+void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
+	       unsigned int iProcessor,
+	       l1t::tftype type){
+
+  auto chamber = cscDigis->begin();
+  auto chend  = cscDigis->end();
+  for( ; chamber != chend; ++chamber ) {   
+    unsigned int rawid = (*chamber).first;
+    ///Check it the data fits into given processor input range
+    if(!acceptDigi(rawid, iProcessor, type)) continue;
+
+    auto digi = (*chamber).second.first;
+    auto dend = (*chamber).second.second;    
+    for( ; digi != dend; ++digi ) {
+      ///Check Trigger primitive quality
+      if (digi->getBX()!=0) continue;
+
+      unsigned int hwNumber = OMTFConfiguration::getLayerNumber(rawid);
+      if(OMTFConfiguration::hwToLogicLayer.find(hwNumber)==OMTFConfiguration::hwToLogicLayer.end()) continue;
+
+      unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
+      int iPhi = katownik->getGlobalPhi(rawid, *digi);
+      int iEta = katownik->getGlobalEta(rawid, *digi);
+      if(abs(iEta)>1.23/2.61*240) continue;///Accept CSC digis only up to eta=1.23     
+      unsigned int iInput= getInputNumber(rawid, iProcessor, type);      
+      myInput->addLayerHit(iLayer,iInput,iPhi,iEta);     
+    }
+  }      
+}
+////////////////////////////////////////////
 ////////////////////////////////////////////
 ///Helper function for sorting the RPC primitives by strip number
 bool rpcPrimitiveCmp(const L1TMuon::TriggerPrimitive *a,
 		     const L1TMuon::TriggerPrimitive *b) { return a->getStrip()<b->getStrip(); };
+
+bool rpcPrimitiveCmp1(const  RPCDigi &a,
+		     const  RPCDigi &b) { return a.strip() < b.strip(); };
+////////////////////////////////////////////
+////////////////////////////////////////////
+void OMTFinputMaker::processRPC(const RPCDigiCollection *rpcDigis,
+				unsigned int iProcessor,
+				l1t::tftype type){
+
+  std::ostringstream myStr;
+
+  typedef std::pair<RPCDigi *, RPCDigi *> halfDigi;
+  
+  auto chamber = rpcDigis->begin();
+  auto chend  = rpcDigis->end();
+  for( ; chamber != chend; ++chamber ) {
+    unsigned int rawid = (*chamber).first;
+    ///Check it the data fits into given processor input range
+    if(!acceptDigi(rawid, iProcessor, type)) continue;
+
+    ///Find clusters of consecutive fired strips.
+    ///Have to copy the digis in chamber to sort them (not optimal).
+    ///NOTE: when copying I select only digis with bx==0
+    std::vector<RPCDigi> digisCopy;
+    std::copy_if((*chamber).second.first, (*chamber).second.second, std::back_inserter(digisCopy), [](const RPCDigi & aDigi){return (aDigi.bx()==0);});
+    std::sort(digisCopy.begin(),digisCopy.end(),rpcPrimitiveCmp1);
+    std::vector<halfDigi> result;
+    for(auto &stripIt: digisCopy) {
+      if(result.empty()) result.push_back(halfDigi(&stripIt,&stripIt));
+      else if (stripIt.strip() - result.back().second->strip() == 1) result.back().second = &stripIt;
+      else if (stripIt.strip() - result.back().second->strip() > 1) result.push_back(halfDigi(&stripIt,&stripIt));
+      for(auto halfDigiIt:result){
+	int strip1 = halfDigiIt.first->strip();
+	int strip2 = halfDigiIt.second->strip();
+	int clusterHalfStrip = strip1 + strip2;
+	int iPhi1 = katownik->getGlobalPhi(rawid,*halfDigiIt.first);
+	int iPhi2 = katownik->getGlobalPhi(rawid,*halfDigiIt.second);
+	int iPhi = (iPhi1 + iPhi2)/2;
+
+	///If phi1 is close to Pi, and phi2 close to -Pi the result mean phi is close to 0
+	///instead +-pi
+	if(iPhi1*iPhi2<0 && abs(iPhi1)>OMTFConfiguration::nPhiBins/2.0){
+	  iPhi = (OMTFConfiguration::nPhiBins/2-iPhi)*(1 - 2*std::signbit(iPhi));
+	  std::cout<<" close to Pi "<<iPhi1<<" "<<iPhi2<<" "<<iPhi<<std::endl;	  
+	}
+	int iEta =  katownik->getGlobalEta(rawid,*halfDigiIt.first);
+	unsigned int hwNumber = OMTFConfiguration::getLayerNumber(rawid);
+	unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];
+	unsigned int iInput= getInputNumber(rawid, iProcessor, type);
+	
+	myInput->addLayerHit(iLayer,iInput,iPhi,iEta);
+	
+	myStr<<" RPC halfDigi "
+	     <<" begin: "<<halfDigiIt.first->strip()<<" end: "<<halfDigiIt.second->strip()
+	     <<" clusterHalfStrip: "<<clusterHalfStrip
+	     <<" iPhi1: "<<iPhi1
+	     <<" iPhi2: "<<iPhi2
+	     <<" iPhi: "<<iPhi
+	     <<" iEta: "<<iEta
+	     <<" hwNumber: "<<hwNumber
+	     <<" iInput: "<<iInput
+	     <<" iLayer: "<<iLayer
+	     <<" nPhiBins: "<<OMTFConfiguration::nPhiBins
+	     <<std::endl;
+      }
+    }
+  }
+  edm::LogInfo("OMTFInputMaker")<<myStr.str();
+}
+////////////////////////////////////////////
+////////////////////////////////////////////
+const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1MuDTChambPhContainer *dtPhDigis,
+							 const L1MuDTChambThContainer *dtThDigis,
+							 const CSCCorrelatedLCTDigiCollection *cscDigis,
+							 const RPCDigiCollection *rpcDigis,
+							 unsigned int iProcessor,
+							 l1t::tftype type){  
+  myInput->clear();	
+
+  processDT(dtPhDigis, dtThDigis, iProcessor, type);
+  processCSC(cscDigis, iProcessor, type);
+  processRPC(rpcDigis, iProcessor, type);
+
+  return myInput;
+
+}
 ////////////////////////////////////////////
 const OMTFinput * OMTFinputMaker::buildInputForProcessor(const L1TMuon::TriggerPrimitiveCollection & vDigi,
 							 unsigned int iProcessor,

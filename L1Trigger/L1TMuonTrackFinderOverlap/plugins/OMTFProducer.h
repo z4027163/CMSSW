@@ -3,9 +3,6 @@
 
 #include "xercesc/util/XercesDefs.hpp"
 
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
-
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
 
@@ -14,6 +11,11 @@
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EDProducer.h"
+
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
+#include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigiCollection.h"
+#include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
 
 #include "TRandom3.h"
 
@@ -24,8 +26,9 @@ class OMTFConfigMaker;
 class OMTFinputMaker;
 class OMTFSorter;
 class OMTFinput;
-
 class XMLConfigWriter;
+
+
 
 namespace XERCES_CPP_NAMESPACE{
   class DOMElement;
@@ -51,15 +54,16 @@ class OMTFProducer : public edm::EDProducer {
  private:
 
   edm::ParameterSet theConfig;
-  edm::InputTag trigPrimSrc;
-  edm::EDGetTokenT<L1TMuon::TriggerPrimitiveCollection> inputToken;
+  
+  edm::EDGetTokenT<L1MuDTChambPhContainer> inputTokenDTPh;
+  edm::EDGetTokenT<L1MuDTChambThContainer> inputTokenDTTh;
+  edm::EDGetTokenT<CSCCorrelatedLCTDigiCollection> inputTokenCSC;
+  edm::EDGetTokenT<RPCDigiCollection> inputTokenRPC;
 
   void processCandidates(unsigned int iProcessor, int bx,
 			 std::auto_ptr<l1t::RegionalMuonCandBxCollection > & myCands,
 			 l1t::RegionalMuonCandBxCollection & myOTFCandidates,
 			 l1t::tftype mtfType);
-
-  const L1TMuon::TriggerPrimitiveCollection filterDigis(const L1TMuon::TriggerPrimitiveCollection & vDigi);
 
   void writeMergedGPs();
 

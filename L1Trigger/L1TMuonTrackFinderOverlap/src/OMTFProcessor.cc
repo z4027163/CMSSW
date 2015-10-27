@@ -279,6 +279,7 @@ const std::vector<OMTFProcessor::resultsMap> & OMTFProcessor::processInput(unsig
   myStr<<"iProcessor: "<<iProcessor<<std::endl;
   myStr<<"Input: ------------"<<std::endl;
   myStr<<aInput<<std::endl;
+  /*
   for(auto itRefHit: myResults){
     myStr<<"--- Reference hit ---"<<std::endl;
     for(auto itKey: itRefHit){      
@@ -288,6 +289,7 @@ const std::vector<OMTFProcessor::resultsMap> & OMTFProcessor::processInput(unsig
     }
     myStr<<"--------------------"<<std::endl;
   }
+  */
   //LogDebug("OMTF processor")<<myStr.str();
   edm::LogInfo("OMTF processor")<<myStr.str();
   //#endif

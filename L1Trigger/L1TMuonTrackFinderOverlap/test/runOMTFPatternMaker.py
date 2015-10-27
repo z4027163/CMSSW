@@ -4,7 +4,7 @@ import os
 import sys
 import commands
 
-verbose = False
+verbose = True
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 
@@ -75,11 +75,20 @@ process.source.fileNames =  cms.untracked.vstring()
 for aFile in fileList:
     process.source.fileNames.append('file:'+aFile)
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10000))
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10))
+
+###TEST
+process.source = cms.Source(
+    'PoolSource',
+    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root')
+    #fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/JPsi_21kEvents.root')
+    )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10))
+#######
 
 ###PostLS1 geometry used
-process.load('Configuration.Geometry.GeometryExtendedPostLS1Reco_cff')
-process.load('Configuration.Geometry.GeometryExtendedPostLS1_cff')
+process.load('Configuration.Geometry.GeometryExtended2015_cff')
+process.load('Configuration.Geometry.GeometryExtended2015Reco_cff')
 ############################
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
@@ -99,10 +108,11 @@ process.omtfPatternMaker = cms.EDAnalyzer("OMTFPatternMaker",
                                       ptCode = cms.int32(16),
                                       charge = cms.int32(1),
                                       omtf = cms.PSet(
-                                      patternsXMLFiles = cms.VPSet(
-                                       cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/Patterns_ipt4_31_750.xml")),
-                                      ),
-                                      configXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/hwToLogicLayer_750.xml"),
+                                          configFromXML = cms.bool(True),   
+                                          patternsXMLFiles = cms.VPSet(                                       
+                                              cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/Patterns_ipt4_31_750.xml")),
+                                          ),
+                                          configXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/hwToLogicLayer_750.xml"),
                               )
 )
 

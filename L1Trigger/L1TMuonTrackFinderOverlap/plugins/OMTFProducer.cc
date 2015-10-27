@@ -20,13 +20,14 @@
 
 using namespace L1TMuon;
 
-OMTFProducer::OMTFProducer(const edm::ParameterSet& cfg):
-  theConfig(cfg),
-  trigPrimSrc(cfg.getParameter<edm::InputTag>("TriggerPrimitiveSrc")){
+OMTFProducer::OMTFProducer(const edm::ParameterSet& cfg):theConfig(cfg){
 
   produces<l1t::RegionalMuonCandBxCollection >("OMTF");
 
-  inputToken = consumes<TriggerPrimitiveCollection>(trigPrimSrc);
+  inputTokenDTPh = consumes<L1MuDTChambPhContainer>(theConfig.getParameter<edm::InputTag>("srcDTPh"));
+  inputTokenDTTh = consumes<L1MuDTChambThContainer>(theConfig.getParameter<edm::InputTag>("srcDTTh"));
+  inputTokenCSC = consumes<CSCCorrelatedLCTDigiCollection>(theConfig.getParameter<edm::InputTag>("srcCSC"));
+  inputTokenRPC = consumes<RPCDigiCollection>(theConfig.getParameter<edm::InputTag>("srcRPC"));
 
   if(!theConfig.exists("omtf")){
     edm::LogError("OMTFProducer")<<"omtf configuration not found in cfg.py";
@@ -193,12 +194,19 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 
   myInputMaker->initialize(evSetup);
 
-  edm::Handle<TriggerPrimitiveCollection> trigPrimitives;
-  iEvent.getByToken(inputToken, trigPrimitives);
+  edm::Handle<L1MuDTChambPhContainer> dtPhDigis;
+  edm::Handle<L1MuDTChambThContainer> dtThDigis;
+  edm::Handle<CSCCorrelatedLCTDigiCollection> cscDigis;
+  edm::Handle<RPCDigiCollection> rpcDigis;
 
   ///Filter digis by dropping digis from selected (by cfg.py) subsystems
-  const L1TMuon::TriggerPrimitiveCollection filteredDigis = filterDigis(*trigPrimitives);
-
+  if(!theConfig.getParameter<bool>("dropDTPrimitives")){
+    iEvent.getByToken(inputTokenDTPh,dtPhDigis);
+    iEvent.getByToken(inputTokenDTTh,dtThDigis);
+  }
+  if(!theConfig.getParameter<bool>("dropRPCPrimitives")) iEvent.getByToken(inputTokenRPC,rpcDigis);  
+  if(!theConfig.getParameter<bool>("dropCSCPrimitives")) iEvent.getByToken(inputTokenCSC,cscDigis);
+  
   std::auto_ptr<l1t::RegionalMuonCandBxCollection > myCands(new l1t::RegionalMuonCandBxCollection);
 
   if(dumpResultToXML) aTopElement = myWriter->writeEventHeader(iEvent.id().event());
@@ -209,13 +217,29 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
 
-    myStr<<" iProcessor: "<<iProcessor;
+    //myStr<<" iProcessor: "<<iProcessor;
 
     ///Input data with phi ranges shifted for each processor, so it fits 11 bits range
-    const OMTFinput *myInputPos = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor, l1t::tftype::omtf_pos);
+    const OMTFinput *myInputPos = myInputMaker->buildInputForProcessor(dtPhDigis.product(),
+								       dtThDigis.product(),
+								       cscDigis.product(),
+								       rpcDigis.product(),								       
+								       iProcessor,
+								       l1t::tftype::omtf_pos);
+
+    std::cout<<*myInputPos<<std::endl;
+    continue;
+    
     OMTFinput myShiftedInputPos =  myOMTF->shiftInput(iProcessor,*myInputPos);
 
-    const OMTFinput *myInputNeg = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor, l1t::tftype::omtf_neg);
+    const OMTFinput *myInputNeg = myInputMaker->buildInputForProcessor(dtPhDigis.product(),
+								       dtThDigis.product(),
+								       cscDigis.product(),
+								       rpcDigis.product(),								       
+								       iProcessor,
+								       l1t::tftype::omtf_neg);
+
+    
     OMTFinput myShiftedInputNeg =  myOMTF->shiftInput(iProcessor,*myInputNeg);
 
     l1t::RegionalMuonCandBxCollection myOTFCandidatesPos, myOTFCandidatesNeg;
@@ -284,31 +308,4 @@ void OMTFProducer::processCandidates(unsigned int iProcessor, int bx,
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-const L1TMuon::TriggerPrimitiveCollection OMTFProducer::filterDigis(const L1TMuon::TriggerPrimitiveCollection & vDigi){
 
-  if(!theConfig.getParameter<bool>("dropRPCPrimitives") &&
-     !theConfig.getParameter<bool>("dropDTPrimitives") &&
-     !theConfig.getParameter<bool>("dropCSCPrimitives")) return vDigi;
-
-  L1TMuon::TriggerPrimitiveCollection filteredDigis;
-  for(auto it:vDigi){
-    switch (it.subsystem()) {
-    case L1TMuon::TriggerPrimitive::kRPC: {
-      if(!theConfig.getParameter<bool>("dropRPCPrimitives")) filteredDigis.push_back(it);
-      break;
-    }
-    case L1TMuon::TriggerPrimitive::kDT: {
-      if(!theConfig.getParameter<bool>("dropDTPrimitives")) filteredDigis.push_back(it);
-      break;
-    }
-    case L1TMuon::TriggerPrimitive::kCSC: {
-      if(!theConfig.getParameter<bool>("dropCSCPrimitives")) filteredDigis.push_back(it);
-      break;
-    }
-    case L1TMuon::TriggerPrimitive::kNSubsystems: {break;}
-    }
-  }
-  return filteredDigis;
-}
-/////////////////////////////////////////////////////
-/////////////////////////////////////////////////////

@@ -11,7 +11,12 @@
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
 
-class MtfCoordinateConverter;
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
+#include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigiCollection.h"
+#include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
+
+class AngleConverter;
 class OMTFinput;
 
 namespace edm{
@@ -34,7 +39,40 @@ class OMTFinputMaker{
 					   unsigned int iProcessor,
 					   l1t::tftype type=l1t::tftype::omtf_pos);
 
+
+  const OMTFinput * buildInputForProcessor(const L1MuDTChambPhContainer *dtPhDigis,
+					   const L1MuDTChambThContainer *dtThDigis,
+					   const CSCCorrelatedLCTDigiCollection *cscDigis,
+					   const RPCDigiCollection *rpcDigis,
+					   unsigned int iProcessor,
+					   l1t::tftype type=l1t::tftype::omtf_pos);
+  
+
  private:
+
+  ///Take the DT digis, select chambers connected to given
+  ///processor, convers logal angles to global scale.
+  ///For DT take also the bending angle.
+  void processDT(const L1MuDTChambPhContainer *dtPhDigis,
+		 const L1MuDTChambThContainer *dtThDigis,
+		 unsigned int iProcessor,
+		 l1t::tftype type);
+
+  ///Take the CSC digis, select chambers connected to given
+  ///processor, convers logal angles to global scale.
+  ///For CSC do NOT take the bending angle.
+  void processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
+		  unsigned int iProcessor,
+		  l1t::tftype type);
+
+  ///Take the CSC digis, select chambers connected to given
+  ///processor, convers logal angles to global scale.
+  ///Decluster nearby hits in single chamber, by taking
+  ///average clister position, expressed in half RPC strip:
+  ///pos = cluster_begin + cluster_end)/2
+  void processRPC(const RPCDigiCollection *rpcDigis,
+		  unsigned int iProcessor,
+		  l1t::tftype type);
 
   ///Check if digis are within a give processor input.
   ///Simply checks sectors range.
@@ -50,13 +88,11 @@ class OMTFinputMaker{
   unsigned int getInputNumber(unsigned int rawId,
 			      unsigned int iProcessor,
 			      l1t::tftype type);
-  /*
-  ///Helper function for sorting the RPC primitives by strip number
-  bool rpcPrimitiveCmp(const L1TMuon::TriggerPrimitive *a,
-		       const L1TMuon::TriggerPrimitive *b) { return a->getStrip()<b->getStrip(); };
-  */
+
+  ///Output object
   OMTFinput *myInput;
 
+  std::unique_ptr<AngleConverter> katownik;
 
   std::unique_ptr<L1TMuon::GeometryTranslator> geom;
 

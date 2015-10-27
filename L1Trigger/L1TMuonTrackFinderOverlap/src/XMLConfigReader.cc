@@ -573,10 +573,10 @@ void XMLConfigReader::readConfig(OMTFConfiguration *aConfig){
     OMTFConfiguration::endcap20DegMin[iProcessor] = endcap20DegMin;
 
     OMTFConfiguration::barrelMax[iProcessor] = barrelMax;
-    OMTFConfiguration::endcap10DegMin[iProcessor] = endcap10DegMax;
-    OMTFConfiguration::endcap20DegMin[iProcessor] = endcap20DegMax;       
+    OMTFConfiguration::endcap10DegMax[iProcessor] = endcap10DegMax;
+    OMTFConfiguration::endcap20DegMax[iProcessor] = endcap20DegMax;       
   }  
-
+  
   ///hw <-> logic numbering map
   unsigned int nLogicLayers = 0;
   nElem = aOMTFElement->getElementsByTagName(_toDOMS("LayerMap"))->getLength();

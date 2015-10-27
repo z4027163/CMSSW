@@ -2,7 +2,10 @@ import FWCore.ParameterSet.Config as cms
 
 ###OMTF emulator configuration
 omtfEmulator = cms.EDProducer("OMTFProducer",
-                              TriggerPrimitiveSrc = cms.InputTag('L1TMuonTriggerPrimitives'),
+                              srcDTPh = cms.InputTag('simDtTriggerPrimitiveDigis'),
+                              srcDTTh = cms.InputTag('simDtTriggerPrimitiveDigis'),
+                              srcCSC = cms.InputTag('simCscTriggerPrimitiveDigis','MPCSORTED'),
+                              srcRPC = cms.InputTag('simMuonRPCDigis'),                              
                               dumpResultToXML = cms.bool(False),
                               dumpDetailedResultToXML = cms.bool(False),
                               XMLDumpFileName = cms.string("TestEvents.xml"),                                     

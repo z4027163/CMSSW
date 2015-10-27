@@ -135,12 +135,13 @@ void OMTFPatternMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
-
-    //if(iProcessor!=0) continue;
     
-    edm::LogInfo("OMTF ROOTReader")<<"iProcessor: "<<iProcessor;
+    //edm::LogInfo("OMTF Pattern maker")<<"iProcessor: "<<iProcessor;
     
     const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor,mtfType);
+
+    std::cout<<*myInput<<std::endl;
+    continue;
        
     ///Input data with phi ranges shifted for each processor, so it fits 10 bits range
     const OMTFinput myShiftedInput =  myOMTF->shiftInput(iProcessor,*myInput);	
