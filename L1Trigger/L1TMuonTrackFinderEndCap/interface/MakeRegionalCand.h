@@ -84,7 +84,8 @@ l1t::RegionalMuonCand MakeRegionalCand(float pt, int phi, int theta,
   	Cand.setHwSign(1);
 	Cand.setHwSignValid(0);
   	Cand.setHwQual(iQual);
-  	Cand.setHwTrackAddress(trackaddress);
+  	// jl: FIXME this has to be adapted to the new schema of saving track addresses
+  	Cand.setTrackSubAddress(l1t::RegionalMuonCand::kME12, trackaddress);
 	Cand.setTFIdentifiers(sector,TFtype);
 
 

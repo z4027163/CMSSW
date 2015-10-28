@@ -73,8 +73,13 @@ BMTrackCand::BMTrackCand( int pt, int phi, int eta, int charge, int quality, int
   setAdd(3);
   setAdd(4);
 
-  setHwTrackAddress(TrkAdd[0]*1000000 + TrkAdd[1]*10000 + TrkAdd[2]*100 + TrkAdd[3] );
+  // setHwTrackAddress(TrkAdd[0]*1000000 + TrkAdd[1]*10000 + TrkAdd[2]*100 + TrkAdd[3] );
 
+  setTrackSubAddress(RegionalMuonCand::kWheel, uwh);
+  setTrackSubAddress(RegionalMuonCand::kStat1, adr1);
+  setTrackSubAddress(RegionalMuonCand::kStat2, adr2);
+  setTrackSubAddress(RegionalMuonCand::kStat3, adr3);
+  setTrackSubAddress(RegionalMuonCand::kStat4, adr4);
 
   TClassCode      = utc;
   setTC();
