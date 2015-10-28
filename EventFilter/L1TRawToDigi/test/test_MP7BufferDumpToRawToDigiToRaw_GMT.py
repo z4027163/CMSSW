@@ -5,7 +5,23 @@
 # with command line options: SingleElectronPt10_cfi.py -s GEN,SIM,DIGI,L1 --pileup=NoPileUp --geometry DB --conditions=auto:startup -n 1 --no_exec
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process('L1')
+# options
+import FWCore.ParameterSet.VarParsing as VarParsing
+options = VarParsing.VarParsing('analysis')
+options.register('skipEvents',
+                 0,
+                 VarParsing.VarParsing.multiplicity.singleton,
+                 VarParsing.VarParsing.varType.int,
+                 "Number of events to skip")
+options.register('streamer',
+                 False,
+                 VarParsing.VarParsing.multiplicity.singleton,
+                 VarParsing.VarParsing.varType.bool,
+                 "Use streamer file as input")
+
+options.parseArguments()
+
+process = cms.Process('Raw2Digi')
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -22,7 +38,14 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 # Input source
-process.source = cms.Source("EmptySource")
+if (options.streamer) :
+    process.source = cms.Source(
+        "NewEventStreamFileReader",
+        fileNames = cms.untracked.vstring (options.inputFiles),
+        skipEvents=cms.untracked.uint32(options.skipEvents)
+    )
+else :
+    process.source = cms.Source("EmptySource")
 
 process.options = cms.untracked.PSet(
     SkipEvent = cms.untracked.vstring('ProductNotFound')
@@ -89,7 +112,12 @@ process.dumpRaw = cms.EDAnalyzer(
 
 # raw to digi
 process.load('EventFilter.L1TRawToDigi.gmtStage2Digis_cfi')
-process.gmtStage2Digis.InputLabel = cms.InputTag('stage2GMTRaw')
+if options.streamer:
+    process.gmtStage2Digis.InputLabel = cms.InputTag('rawDataCollector')
+    process.dumpRaw.label = cms.untracked.string('rawDataCollector')
+else:
+    process.gmtStage2Digis.InputLabel = cms.InputTag('stage2GMTRaw')
+
 #process.gmtStage2Digis.FWOverride = cms.bool(True)
 #process.gmtStage2Digis.FWId       = cms.uint32(0xffffffff)
 process.gmtStage2Digis.debug      = cms.untracked.bool (True)
@@ -107,6 +135,8 @@ process.path = cms.Path(
     +process.gmtStage2Raw
     +process.dumpRaw2
 )
+if options.streamer:
+    process.path.remove(process.stage2GMTRaw)
 
 process.out = cms.EndPath(
     process.output

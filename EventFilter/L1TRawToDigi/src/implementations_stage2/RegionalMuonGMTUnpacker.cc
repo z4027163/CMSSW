@@ -21,7 +21,7 @@ namespace l1t {
       RegionalMuonGMTUnpacker::unpack(const Block& block, UnpackerCollections *coll)
       {
          unsigned int blockId = block.header().getID();
-         LogDebug("L1T") << "Block ID  = " << blockId << " size = " << block.header().getSize();
+         LogDebug("L1T|Muon") << "Block ID  = " << blockId << " size = " << block.header().getSize();
 
          auto payload = block.payload();
 
@@ -30,9 +30,9 @@ namespace l1t {
          nBX = int(ceil(block.header().getSize() / nwords));
          getBXRange(nBX, firstBX, lastBX);
          // only use central BX for now
-         firstBX = 0;
-         lastBX = 0;
-         LogDebug("L1T") << "BX override. Set first BX = lastBX = 0.";
+         //firstBX = 0;
+         //lastBX = 0;
+         //LogDebug("L1T|Muon") << "BX override. Set first BX = lastBX = 0.";
 
          // decide which collection to use according to the link ID
          unsigned int linkId = blockId / 2;
@@ -62,12 +62,12 @@ namespace l1t {
                processor = linkId - 66;
             }
          } else {
-            edm::LogError("L1T") << "No TF muon expected for link " << linkId;
+            edm::LogError("L1T|Muon") << "No TF muon expected for link " << linkId;
             return false;
          }
          res->setBXRange(firstBX, lastBX);
 
-         LogDebug("L1T") << "nBX = " << nBX << " first BX = " << firstBX << " lastBX = " << lastBX;
+         LogDebug("L1T|Muon") << "nBX = " << nBX << " first BX = " << firstBX << " lastBX = " << lastBX;
 
          // Initialise index
          int unsigned i = 0;
@@ -77,10 +77,10 @@ namespace l1t {
             for (unsigned nWord = 0; nWord < block.header().getSize(); nWord += 2) {
                uint32_t raw_data_00_31 = payload[i++];
                uint32_t raw_data_32_63 = payload[i++];        
-               LogDebug("L1T") << "raw_data_00_31 = 0x" << hex << raw_data_00_31 << " raw_data_32_63 = 0x" << raw_data_32_63;
+               LogDebug("L1T|Muon") << "raw_data_00_31 = 0x" << hex << raw_data_00_31 << " raw_data_32_63 = 0x" << raw_data_32_63;
                // skip empty muons (all 64 bits 0)
                if (raw_data_00_31 == 0 && raw_data_32_63 == 0) {
-                  LogDebug("L1T") << "Raw data is zero. Skip.";
+                  LogDebug("L1T|Muon") << "Raw data is zero. Skip.";
                   continue;
                }
  
@@ -88,7 +88,7 @@ namespace l1t {
  
                RegionalMuonRawDigiTranslator::fillRegionalMuonCand(mu, raw_data_00_31, raw_data_32_63, processor, trackFinder);
 
-               LogDebug("L1T") << "Mu" << nWord/2 << ": eta " << mu.hwEta() << " phi " << mu.hwPhi() << " pT " << mu.hwPt() << " qual " << mu.hwQual() << " sign " << mu.hwSign() << " sign valid " << mu.hwSignValid();
+               LogDebug("L1T|Muon") << "Mu" << nWord/2 << ": eta " << mu.hwEta() << " phi " << mu.hwPhi() << " pT " << mu.hwPt() << " qual " << mu.hwQual() << " sign " << mu.hwSign() << " sign valid " << mu.hwSignValid();
 
                res->push_back(bx, mu);
             }
