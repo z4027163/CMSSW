@@ -24,11 +24,12 @@
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "DataFormats/L1CSCTrackFinder/interface/TrackStub.h"
 //#include "DataFormats/L1CSCTrackFinder/interface/CSCTriggerContainer.h"
+#include <FWCore/Framework/interface/ConsumesCollector.h>
 
 
-#include "../src/L1MuBMTFConfig.h"
-#include "../interface/L1MuBMTFSetup.h"
-#include "../interface/L1MuBMTrackFinder.h"
+#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTFConfig.h"
+#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTFSetup.h"
+#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrackFinder.h"
 
 #include <iostream>
 #include <iomanip>
@@ -44,8 +45,8 @@ BMTrackFinder::BMTrackFinder(const edm::ParameterSet & pset) {
   setup1 = new L1MuBMTFSetup(pset,consumesCollector());
   usesResource("BMTrackFinder");
   consumes<L1MuDTChambPhContainer>(pset.getParameter<edm::InputTag>("DTDigi_Source"));
-  consumes<L1MuDTChambThContainer>(pset.getParameter<edm::InputTag>("DTDigi_Source"));
-//  consumes<CSCTriggerContainer<csctf::TrackStub>>(pset.getParameter<edm::InputTag>("CSCStub_Source"));
+  consumes<L1MuDTChambThContainer>(pset.getParameter<edm::InputTag>("DTDigi_Theta_Source"));
+ // consumes<L1TMuon::MBLTContainer>(iConfig.getParameter<edm::InputTag>("MBLTCollection"));
 
 }
 
@@ -82,3 +83,7 @@ void BMTrackFinder::produce(edm::Event& e, const edm::EventSetup& c) {
   e.put(vec_product,"BM");
 
 }
+
+#include "FWCore/Framework/interface/MakerMacros.h"
+DEFINE_FWK_MODULE(BMTrackFinder);
+

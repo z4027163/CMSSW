@@ -6,4 +6,16 @@
 <use   name="CondFormats/DataRecord"/>
 <use   name="DataFormats/L1GlobalMuonTrigger"/>
 <use   name="DataFormats/L1TMuon"/>
+<use name="L1Trigger/L1TMuonTrackFinderEndCap"/>
+
+<use name="Geometry/Records"/>
+
+<use name="L1Trigger/DTTrackFinder"/>
+<use name="Geometry/DTGeometry"/>
+<use name="L1Trigger/DTUtilities"/>
+
+<use name="Geometry/CSCGeometry"/>
+<use name="L1Trigger/CSCCommonTrigger"/>
+
+<use name="Geometry/RPCGeometry"/>
 
