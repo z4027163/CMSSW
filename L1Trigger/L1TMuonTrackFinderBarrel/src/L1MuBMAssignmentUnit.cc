@@ -37,8 +37,11 @@
 #include "L1MuBMTrackSegLoc.h"
 #include "L1MuBMTrackAssembler.h"
 #include "L1MuBMTrackAssParam.h"
-#include "CondFormats/L1TObjects/interface/L1MuDTPhiLut.h"
-#include "CondFormats/DataRecord/interface/L1MuDTPhiLutRcd.h"
+//#include "CondFormats/L1TObjects/interface/L1MuDTPhiLut.h"
+//#include "CondFormats/DataRecord/interface/L1MuDTPhiLutRcd.h"
+//#include "CondFormats/L1TObjects/interface/L1MuDTPtaLut.h"
+//#include "CondFormats/DataRecord/interface/L1MuDTPtaLutRcd.h"
+
 #include "../interface/L1MuBMPhiLut.h"
 #include "../interface/L1MuBMPtaLut.h"
 #include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrack.h"
@@ -123,13 +126,6 @@ void L1MuBMAssignmentUnit::run(const edm::EventSetup& c) {
 
   // assign quality
   QuaAU();
-
-  // special hack for overlap region
-  //  for ( iter = m_TSphi.begin(); iter != m_TSphi.end(); iter++ ) {
-  //    int wheel = abs((*iter)->wheel());
-    //    if ( wheel == 3 && (*iter)->etaFlag() ) m_sp.track(m_id)->disable();
-    //    if ( wheel == 3 && (*iter)->etaFlag() ) m_sp.tracK(m_id)->disable();
-  //  }
 
 }
 
@@ -226,7 +222,7 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
 //
 void L1MuBMAssignmentUnit::PtAU(const edm::EventSetup& c) {
 
-  //c.get< L1MuBMPtaLutRcd >().get( thePtaLUTs );
+  //c.get< L1MuDTPtaLutRcd >().get( thePtaLUTs );
 
   //thePtaLUTs->print();
 
@@ -401,7 +397,7 @@ PtAssMethod L1MuBMAssignmentUnit::getPtMethod() const {
   if ( !s.test(0) &&  s.test(1) && s.test(3) ) method = 4; // stations 2 and 4
   if ( !s.test(0) &&  s.test(1) && s.test(2) ) method = 3; // stations 2 and 3
   if ( !s.test(0) && !s.test(1) && s.test(2) && s.test(3) ) method = 5; // stations 3 and 4
-
+/*
   if ( m_sp.ovl() ) {
     int adr = m_addArray.station(3);
     bool s5 = (adr == 15) ? false : ((adr/2)%2 == 1);
@@ -414,7 +410,7 @@ PtAssMethod L1MuBMAssignmentUnit::getPtMethod() const {
     if ( !s.test(0) &&  s.test(1) && s.test(2) && !s5 ) method = 9;  // stations 2 and 3
     if ( !s.test(0) && !s.test(1) && s.test(2) &&  s.test(3) ) method = 11; // stations 3 and 4
   }
-
+*/
   int threshold = thePtaLUTs->getPtLutThreshold(method);
 
   // phib values of track segments from stations 1, 2 and 4
