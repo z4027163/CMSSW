@@ -25,8 +25,24 @@ namespace l1t {
       static const unsigned phiShift_ = 23;
       static const unsigned signShift_ = 0;
       static const unsigned signValidShift_ = 1;
-      static const unsigned trackAddressWidth_ = 0x1FFF;
-      static const unsigned trackAddressShift_ = 4;
+      static const unsigned trackAddressWidth_ = 0x1FFFFFFF;
+      static const unsigned trackAddressShift_ = 2;
+      // relative shifts inside track address
+      // TODO: set real widths and shifts
+      static const unsigned bmtfTrAddrWheelWidth_ = 0x1FFFFFFF;
+      static const unsigned bmtfTrAddrWheelShift_ = 0;
+      static const unsigned bmtfTrAddrStat1Width_ = 0x1FFFFFFF;
+      static const unsigned bmtfTrAddrStat1Shift_ = 0;
+      static const unsigned bmtfTrAddrStat2Width_ = 0x1FFFFFFF;
+      static const unsigned bmtfTrAddrStat2Shift_ = 0;
+      static const unsigned bmtfTrAddrStat3Width_ = 0x1FFFFFFF;
+      static const unsigned bmtfTrAddrStat3Shift_ = 0;
+      static const unsigned bmtfTrAddrStat4Width_ = 0x1FFFFFFF;
+      static const unsigned bmtfTrAddrStat4Shift_ = 0;
+      static const unsigned emtfTrAddrMe12Width_ = 0x1FFFFFFF;
+      static const unsigned emtfTrAddrMe12Shift_ = 0;
+      static const unsigned emtfTrAddrMe22Width_ = 0x1FFFFFFF;
+      static const unsigned emtfTrAddrMe22Shift_ = 0;
   };
 }
 

@@ -21,7 +21,31 @@ l1t::RegionalMuonRawDigiTranslator::fillRegionalMuonCand(RegionalMuonCand& mu, u
   mu.setHwSign(1 - 2*signBit);
   mu.setHwSignValid((raw_data_32_63 >> signValidShift_) & 0x1);
   mu.setHwHF((raw_data_00_31 >> hfShift_) & hfWidth_);
-  mu.setHwTrackAddress((raw_data_32_63 >> trackAddressShift_) & trackAddressWidth_);
+
+  // set track address with subaddresses
+  int rawTrackAddress = (raw_data_32_63 >> trackAddressShift_) & trackAddressWidth_;
+  if (tf == bmtf) {
+    int wheel = (rawTrackAddress >> bmtfTrAddrWheelShift_) & bmtfTrAddrWheelWidth_;
+    int statAddr1 = (rawTrackAddress >> bmtfTrAddrStat1Shift_) & bmtfTrAddrStat1Width_;
+    int statAddr2 = (rawTrackAddress >> bmtfTrAddrStat2Shift_) & bmtfTrAddrStat2Width_;
+    int statAddr3 = (rawTrackAddress >> bmtfTrAddrStat3Shift_) & bmtfTrAddrStat3Width_;
+    int statAddr4 = (rawTrackAddress >> bmtfTrAddrStat4Shift_) & bmtfTrAddrStat4Width_;
+    mu.setTrackSubAddress(RegionalMuonCand::kWheel, wheel);
+    mu.setTrackSubAddress(RegionalMuonCand::kStat1, statAddr1);
+    mu.setTrackSubAddress(RegionalMuonCand::kStat2, statAddr2);
+    mu.setTrackSubAddress(RegionalMuonCand::kStat3, statAddr3);
+    mu.setTrackSubAddress(RegionalMuonCand::kStat4, statAddr4);
+  } else if (tf == emtf_neg || tf == emtf_pos) {
+    int me12 = (rawTrackAddress >> emtfTrAddrMe12Shift_) & emtfTrAddrMe12Width_;
+    int me22 = (rawTrackAddress >> emtfTrAddrMe22Shift_) & emtfTrAddrMe22Width_;
+    mu.setTrackSubAddress(RegionalMuonCand::kME12, me12);
+    mu.setTrackSubAddress(RegionalMuonCand::kME22, me22);
+  } else {
+    std::map<int, int> trackAddr;
+    trackAddr[0] = rawTrackAddress;
+    mu.setTrackAddress(trackAddr);
+  }
+
   mu.setTFIdentifiers(proc, tf);
   mu.setDataword(raw_data_32_63, raw_data_00_31);
 }
@@ -46,9 +70,24 @@ l1t::RegionalMuonRawDigiTranslator::generatePackedDataWords(const RegionalMuonCa
                  | (mu.hwHF() & hfWidth_) << hfShift_
                  | (mu.hwPhi() & phiWidth_) << phiShift_;
 
+  int tf = mu.trackFinderType();
+  int rawTrkAddr = 0;
+  if (tf == bmtf) {
+    rawTrkAddr = (mu.trackSubAddress(RegionalMuonCand::kWheel) & bmtfTrAddrWheelWidth_) << bmtfTrAddrWheelShift_
+               | (mu.trackSubAddress(RegionalMuonCand::kStat1) & bmtfTrAddrStat1Width_) << bmtfTrAddrStat1Shift_
+               | (mu.trackSubAddress(RegionalMuonCand::kStat2) & bmtfTrAddrStat2Width_) << bmtfTrAddrStat2Shift_
+               | (mu.trackSubAddress(RegionalMuonCand::kStat3) & bmtfTrAddrStat3Width_) << bmtfTrAddrStat3Shift_
+               | (mu.trackSubAddress(RegionalMuonCand::kStat4) & bmtfTrAddrStat4Width_) << bmtfTrAddrStat4Shift_;
+  } else if (tf == emtf_neg || tf == emtf_pos) {
+    rawTrkAddr = (mu.trackSubAddress(RegionalMuonCand::kME12) & emtfTrAddrMe12Width_) << emtfTrAddrMe12Shift_
+               | (mu.trackSubAddress(RegionalMuonCand::kME22) & emtfTrAddrMe22Width_) << emtfTrAddrMe22Shift_;
+  } else {
+    rawTrkAddr = mu.trackAddress().at(0);
+  }
+
   raw_data_32_63 = (mu.hwSign() < 0) << signShift_
                  | mu.hwSignValid() << signValidShift_
-                 | (mu.hwTrackAddress() & trackAddressWidth_) << trackAddressShift_;
+                 | (rawTrkAddr & trackAddressWidth_) << trackAddressShift_;
 }
 
 uint64_t 
