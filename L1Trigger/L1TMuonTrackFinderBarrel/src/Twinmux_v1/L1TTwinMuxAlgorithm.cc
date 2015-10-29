@@ -1,3 +1,13 @@
+//-------------------------------------------------
+//
+//   Class: L1TTwinMuxAlgortithm
+//
+//   L1TTwinMuxAlgortithm
+//
+//
+//   Author :
+//   G. Flouris               U Ioannina    Oct. 2015
+//--------------------------------------------------
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -30,17 +40,6 @@ public:
 L1TTwinMuxAlgortithm::L1TTwinMuxAlgortithm() {
 
 }
-
-/*
-inline std::auto_ptr<L1MuDTChambPhContainer> L1TTwinMuxAlgortithm::produce(edm::Event& e, const edm::EventSetup& c) {
-
-  TriggerPrimitiveCollection *l1tmtpp =  L1TMuonTPPproducer(e,c);
-  std::auto_ptr<MBLTContainer> mblt = MBLTProducer(l1tmtpp);
-  L1ITMuonBarrelPrimitiveProducer *lmbpp = new L1ITMuonBarrelPrimitiveProducer(mblt);
-  std::auto_ptr<L1MuDTChambPhContainer> l1ttma = lmbpp->produce(e,c);
-  return l1ttma;
-
-}*/
 
 
 inline std::auto_ptr<L1MuDTChambPhContainer> L1TTwinMuxAlgortithm::produce(
