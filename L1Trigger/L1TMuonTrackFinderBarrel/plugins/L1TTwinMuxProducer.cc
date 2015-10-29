@@ -1,10 +1,22 @@
+//-------------------------------------------------
+//
+//   Class: L1TTwinMuxProducer
+//
+//   L1TTwinMuxProducer EDProducer
+//
+//
+//   Author :
+//   G. Flouris               U Ioannina    Oct. 2015
+//--------------------------------------------------
+
+
+
 #include "FWCore/Framework/interface/Event.h"
 #include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/L1TTwinMuxAlgorithm.cc"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include <FWCore/Framework/interface/ConsumesCollector.h>
 #include <FWCore/Framework/interface/one/EDProducer.h>
 #include <FWCore/ParameterSet/interface/ParameterSet.h>
-#include <FWCore/Framework/interface/ConsumesCollector.h>
 
 
 #include <iostream>
@@ -18,7 +30,8 @@ public:
   ~L1TTwinMuxProducer() {}
   void produce(edm::Event & e, const edm::EventSetup& c);
 private:
-  L1TTwinMuxAlgortithm * l1tma;
+  L1TTwinMuxAlgortithm * m_l1tma;
+  edm::EDGetToken m_dtdigi, m_dtthetadigi, m_rpcsource;
 
 };
 
@@ -26,26 +39,28 @@ private:
 
 
 L1TTwinMuxProducer::L1TTwinMuxProducer(const edm::ParameterSet & pset) {
-l1tma = new L1TTwinMuxAlgortithm();
-consumes<L1MuDTChambPhContainer>(pset.getParameter<edm::InputTag>("DTDigi_Source"));
-consumes<L1MuDTChambThContainer>(pset.getParameter<edm::InputTag>("DTThetaDigi_Source"));
-consumes<RPCDigiCollection>(pset.getParameter<edm::InputTag>("RPC_Source"));
+m_l1tma = new L1TTwinMuxAlgortithm();
+
+m_dtdigi      = consumes<L1MuDTChambPhContainer>(pset.getParameter<edm::InputTag>("DTDigi_Source"));
+m_dtthetadigi = consumes<L1MuDTChambThContainer>(pset.getParameter<edm::InputTag>("DTThetaDigi_Source"));
+m_rpcsource   = consumes<RPCDigiCollection>(pset.getParameter<edm::InputTag>("RPC_Source"));
+
 produces<L1MuDTChambPhContainer>();
 
 }
 
 void L1TTwinMuxProducer::produce(edm::Event& e, const edm::EventSetup& c) {
 
-  edm::InputTag _src("simDtTriggerPrimitiveDigis");
   edm::Handle<L1MuDTChambPhContainer> phiDigis;
   edm::Handle<L1MuDTChambThContainer> thetaDigis;
-  e.getByLabel(_src,phiDigis);
-  e.getByLabel(_src,thetaDigis);
-  edm::Handle<RPCDigiCollection> rpcDigis;
-  edm::InputTag _srcrpc("simMuonRPCDigis");
-  e.getByLabel(_srcrpc,rpcDigis);
+  e.getByToken(m_dtdigi, phiDigis);
+  e.getByToken(m_dtthetadigi, thetaDigis);
 
-  std::auto_ptr<L1MuDTChambPhContainer> l1ttmp = l1tma->produce(phiDigis, thetaDigis, rpcDigis,c);
+  edm::Handle<RPCDigiCollection> rpcDigis;
+  e.getByToken(m_rpcsource, rpcDigis);
+
+
+  std::auto_ptr<L1MuDTChambPhContainer> l1ttmp = m_l1tma->produce(phiDigis, thetaDigis, rpcDigis,c);
   e.put(l1ttmp);
 }
 
