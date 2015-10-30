@@ -62,7 +62,7 @@ process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 process.source = cms.Source(
     'PoolSource',
-    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root')
+    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root'),
 )
 
 ##Use all available events in a single job.
@@ -80,8 +80,9 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10))
 ###TEST
 process.source = cms.Source(
     'PoolSource',
-    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root')
+    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root'),
     #fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/JPsi_21kEvents.root')
+    eventsToProcess = cms.untracked.VEventRange('16:8')
     )
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10))
 #######
@@ -123,3 +124,5 @@ process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
 
 process.schedule = cms.Schedule(process.L1TMuonPath)
 
+
+# grep "Logic layer" new.out > new.hits; grep "Logic layer" old.out > old.hits; diff old.hits new.hits

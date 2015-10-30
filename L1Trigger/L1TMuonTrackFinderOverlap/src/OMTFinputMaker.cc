@@ -289,7 +289,7 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
       unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
       int iPhi = katownik->getGlobalPhi(rawid, *digi);
       int iEta = katownik->getGlobalEta(rawid, *digi);
-      if(abs(iEta)>1.23/2.61*240) continue;///Accept CSC digis only up to eta=1.23     
+      //TEST if(abs(iEta)>1.23/2.61*240) continue;///Accept CSC digis only up to eta=1.23     
       unsigned int iInput= getInputNumber(rawid, iProcessor, type);      
       myInput->addLayerHit(iLayer,iInput,iPhi,iEta);     
     }
@@ -331,20 +331,23 @@ void OMTFinputMaker::processRPC(const RPCDigiCollection *rpcDigis,
       if(result.empty()) result.push_back(halfDigi(&stripIt,&stripIt));
       else if (stripIt.strip() - result.back().second->strip() == 1) result.back().second = &stripIt;
       else if (stripIt.strip() - result.back().second->strip() > 1) result.push_back(halfDigi(&stripIt,&stripIt));
+    }
       for(auto halfDigiIt:result){
+	/* This code should be used when LUT for RPC angle converiosn will be implemented.
 	int strip1 = halfDigiIt.first->strip();
 	int strip2 = halfDigiIt.second->strip();
 	int clusterHalfStrip = strip1 + strip2;
-	int iPhi1 = katownik->getGlobalPhi(rawid,*halfDigiIt.first);
-	int iPhi2 = katownik->getGlobalPhi(rawid,*halfDigiIt.second);
-	int iPhi = (iPhi1 + iPhi2)/2;
-
-	///If phi1 is close to Pi, and phi2 close to -Pi the result mean phi is close to 0
-	///instead +-pi
-	if(iPhi1*iPhi2<0 && abs(iPhi1)>OMTFConfiguration::nPhiBins/2.0){
-	  iPhi = (OMTFConfiguration::nPhiBins/2-iPhi)*(1 - 2*std::signbit(iPhi));
-	  std::cout<<" close to Pi "<<iPhi1<<" "<<iPhi2<<" "<<iPhi<<std::endl;	  
-	}
+	int iPhi = katownik->getGlobalPhi(rawid,clusterHalfStrip);
+	*/
+	////Temporary code
+	float phi1 =  katownik->getGlobalPhi(rawid,*halfDigiIt.first);
+	float phi2 =  katownik->getGlobalPhi(rawid,*halfDigiIt.second);
+	float phi = (phi1+phi2)/2.0;
+	///If phi1 is close to Pi, and phi2 close to -Pi the results phi is 0
+	///instead -pi
+	if(phi1*phi2<0 && fabs(phi1)>M_PI/2.0) phi = (M_PI-phi)*(1 - 2*std::signbit(phi));
+	int iPhi =  phi/(2.0*M_PI)*OMTFConfiguration::nPhiBins;
+	////////////////	
 	int iEta =  katownik->getGlobalEta(rawid,*halfDigiIt.first);
 	unsigned int hwNumber = OMTFConfiguration::getLayerNumber(rawid);
 	unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];
@@ -354,18 +357,13 @@ void OMTFinputMaker::processRPC(const RPCDigiCollection *rpcDigis,
 	
 	myStr<<" RPC halfDigi "
 	     <<" begin: "<<halfDigiIt.first->strip()<<" end: "<<halfDigiIt.second->strip()
-	     <<" clusterHalfStrip: "<<clusterHalfStrip
-	     <<" iPhi1: "<<iPhi1
-	     <<" iPhi2: "<<iPhi2
 	     <<" iPhi: "<<iPhi
 	     <<" iEta: "<<iEta
 	     <<" hwNumber: "<<hwNumber
 	     <<" iInput: "<<iInput
 	     <<" iLayer: "<<iLayer
-	     <<" nPhiBins: "<<OMTFConfiguration::nPhiBins
 	     <<std::endl;
-      }
-    }
+      }    
   }
   edm::LogInfo("OMTFInputMaker")<<myStr.str();
 }
