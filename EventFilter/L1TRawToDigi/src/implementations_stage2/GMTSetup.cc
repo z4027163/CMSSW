@@ -54,9 +54,14 @@ namespace l1t {
                auto gmt_in_unp = UnpackerFactory::get()->make("stage2::RegionalMuonGMTUnpacker");
                auto gmt_out_unp = UnpackerFactory::get()->make("stage2::MuonUnpacker");
 
+               // input muons
                for (int iLink = 72; iLink < 144; iLink += 2)
                    res[iLink] = gmt_in_unp;
+               // output muons
                for (int oLink = 1; oLink < 9; oLink += 2)
+                   res[oLink] = gmt_out_unp;
+               // internal muons
+               for (int oLink = 9; oLink < 24; oLink += 2)
                    res[oLink] = gmt_out_unp;
 
                return res;
