@@ -231,6 +231,8 @@ void OMTFConfiguration::configure(std::shared_ptr<L1TMTFOverlapParams> omtfParam
 	unsigned int iFirstInput = layerInputMap->at(tmpIndex).iFirstInput;
 	unsigned int nInputs = layerInputMap->at(tmpIndex).nInputs;
 	OMTFConfiguration::connections[iProcessor][iLogicRegion][iLayer] = std::pair<unsigned int, unsigned int>(iFirstInput,nInputs);
+	///Symetrize connections. Use th same connections for all processors
+	if(iProcessor!=0) OMTFConfiguration::connections[iProcessor][iLogicRegion][iLayer] = OMTFConfiguration::connections[0][iLogicRegion][iLayer];
       }
     }  
   }
@@ -289,7 +291,7 @@ unsigned int OMTFConfiguration::getRegionNumber(unsigned int iProcessor,
 
   if(iPhi>=(int)OMTFConfiguration::nPhiBins) return 99;
 
-  float logicRegionWidth = 360.0/OMTFConfiguration::nLogicRegions*OMTFConfiguration::nProcessors;
+  float logicRegionWidth = 360.0/(OMTFConfiguration::nLogicRegions*OMTFConfiguration::nProcessors);
   unsigned int logicRegionSize = logicRegionWidth/360.0*OMTFConfiguration::nPhiBins;
   
   unsigned int iRegion = 0;

@@ -83,12 +83,15 @@ void OMTFConfigMaker::makeConnetionsMap(unsigned int iProcessor,
   fillPhiMaps(iProcessor,aInput);
   
   for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){
-    const OMTFinput::vector1D & refLayerHits = aInput.getLayerData(OMTFConfiguration::refToLogicNumber[iRefLayer]);	
+    const OMTFinput::vector1D & refLayerHits = aInput.getLayerData(OMTFConfiguration::refToLogicNumber[iRefLayer]);    
     if(!refLayerHits.size()) continue;
     //////////////////////
     for(unsigned int iInput=0;iInput<refLayerHits.size();++iInput){
       int phiRef = refLayerHits[iInput];
-      unsigned int iRegion = OMTFConfiguration::getRegionNumber(iProcessor,iRefLayer,phiRef);         
+      unsigned int iRegion = OMTFConfiguration::getRegionNumber(iProcessor,iRefLayer,phiRef);
+
+      //if(iRegion==0) std::cout<<aInput<<std::endl;
+      
       if(iRegion>5) continue;      
       fillInputRange(iProcessor,iRegion,aInput);
       fillInputRange(iProcessor,iRegion,iRefLayer,iInput);
@@ -132,13 +135,25 @@ void OMTFConfigMaker::printConnections(std::ostream & out,
      <<" iRegion: "<<iRegion
      <<std::endl;
 
+  out<<"Ref hits"<<std::endl;
   for(unsigned int iLogicLayer=0;iLogicLayer<OMTFConfiguration::nLayers;++iLogicLayer){
     out<<"Logic layer: "<<iLogicLayer<<" Hits: ";
-    for(unsigned int iHit=0;iHit<14;++iHit){
-      out<<OMTFConfiguration::measurements4Dref[iProcessor][iRegion][iLogicLayer][iHit]<<"\t";
+    for(unsigned int iInput=0;iInput<14;++iInput){
+      out<<OMTFConfiguration::measurements4Dref[iProcessor][iRegion][iLogicLayer][iInput]<<"\t";
     }
     out<<std::endl;
   }
+  /*
+  out<<"Measurement hits"<<std::endl;
+  for(unsigned int iLogicLayer=0;iLogicLayer<OMTFConfiguration::nLayers;++iLogicLayer){
+    out<<"Logic layer: "<<iLogicLayer<<" Hits: ";
+    for(unsigned int iInput=0;iInput<14;++iInput){
+      out<<OMTFConfiguration::measurements4D[iProcessor][iRegion][iLogicLayer][iInput]<<"\t";
+    }
+    out<<std::endl;
+  }
+  */
+  out<<std::endl;
 }
 /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////

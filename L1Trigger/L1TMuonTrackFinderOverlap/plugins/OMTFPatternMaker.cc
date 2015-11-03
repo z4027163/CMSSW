@@ -100,12 +100,17 @@ void OMTFPatternMaker::endJob(){
     unsigned int iProcessor = 0;
     ///Order important: printPhiMap updates global vector in OMTFConfiguration
     myOMTFConfigMaker->printPhiMap(std::cout);
-    myOMTFConfigMaker->printConnections(std::cout,iProcessor,0);
+    myOMTFConfigMaker->printConnections(std::cout,iProcessor,5);
+    myOMTFConfigMaker->printConnections(std::cout,1,0);
+
+
+    /*
     myOMTFConfigMaker->printConnections(std::cout,iProcessor,1);
     myOMTFConfigMaker->printConnections(std::cout,iProcessor,2);
     myOMTFConfigMaker->printConnections(std::cout,iProcessor,3);
     myOMTFConfigMaker->printConnections(std::cout,iProcessor,4);
     myOMTFConfigMaker->printConnections(std::cout,iProcessor,5);
+    */
     myWriter->writeConnectionsData(OMTFConfiguration::measurements4D);
     myWriter->finaliseXMLDocument(fName);
   }
@@ -139,9 +144,6 @@ void OMTFPatternMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     //edm::LogInfo("OMTF Pattern maker")<<"iProcessor: "<<iProcessor;
     
     const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor,mtfType);
-
-    std::cout<<*myInput<<std::endl;
-    continue;
        
     ///Input data with phi ranges shifted for each processor, so it fits 10 bits range
     const OMTFinput myShiftedInput =  myOMTF->shiftInput(iProcessor,*myInput);	

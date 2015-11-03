@@ -96,7 +96,7 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
       aMin = OMTFConfiguration::endcap10DegMin[iProcessor];
       aMax = OMTFConfiguration::endcap10DegMax[iProcessor];
     }
-
+   
     break;
   }
   case MuonSubdetId::DT: {
@@ -141,6 +141,7 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
   if(aMax>aMin && aSector>=aMin && aSector<=aMax) return true;
   if(aMax<aMin && (aSector>=aMin || aSector<=aMax)) return true;
 
+
   return false;
 }
 ///////////////////////////////////////
@@ -152,10 +153,11 @@ bool OMTFinputMaker::filterDigiQuality(const L1TMuon::TriggerPrimitive & aDigi) 
     if (aDigi.getDTData().bx!= 0 || aDigi.getDTData().BxCntCode!= 0 || aDigi.getDTData().Ts2TagCode!= 0 || aDigi.getDTData().qualityCode<4) return false;  
     break;
   }
-  case L1TMuon::TriggerPrimitive::kCSC: { return fabs(aDigi.getCMSGlobalEta())<1.23;} //Filter CSCdigis outsice OMTF eta coverage
-  case L1TMuon::TriggerPrimitive::kRPC: {}
-  case L1TMuon::TriggerPrimitive::kNSubsystems: {if(aDigi.getBX()!=0) return false; }
-  }    
+    //Filter CSCdigis outside the OMTF eta coverage
+  case L1TMuon::TriggerPrimitive::kCSC: { if(abs(aDigi.getBX()-6)>1 || fabs(aDigi.getCMSGlobalEta())>1.23) return false; break;}
+  case L1TMuon::TriggerPrimitive::kRPC: {if(aDigi.getBX()!=0) return false; break;}///FIXME: chekc why RPC digis have non zero BX
+  case L1TMuon::TriggerPrimitive::kNSubsystems: {}
+  }
   return true;
 }
 ///////////////////////////////////////
@@ -198,7 +200,7 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
       ///on the 0-2pi border we need to add 4 10 deg sectors
       ///to get the correct index
       if(iProcessor==5 && aSector<5) aMin = -3;
-    }
+    }    
     break;
   }
   case MuonSubdetId::DT: {
@@ -211,7 +213,7 @@ unsigned int OMTFinputMaker::getInputNumber(unsigned int rawId,
   }
   case MuonSubdetId::CSC: {   
     CSCDetId csc(rawId);    
-    aSector = csc.chamber();
+    aSector = csc.chamber();    
     aMin = OMTFConfiguration::endcap10DegMin[iProcessor];       
     ///on the 0-2pi border we need to add 4 10deg sectors
     ///to get the correct index
@@ -280,8 +282,12 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
     auto digi = (*chamber).second.first;
     auto dend = (*chamber).second.second;    
     for( ; digi != dend; ++digi ) {
-      ///Check Trigger primitive quality
-      if (digi->getBX()!=0) continue;
+
+      ///Check Trigger primitive quality.
+      ///CSC central BX is 6 for some reason. Following DT track finder we take
+      ///digis from +-1 bx around the central bx.
+      if ( abs(digi->getBX()- 6)>1) continue;
+      
 
       unsigned int hwNumber = OMTFConfiguration::getLayerNumber(rawid);
       if(OMTFConfiguration::hwToLogicLayer.find(hwNumber)==OMTFConfiguration::hwToLogicLayer.end()) continue;
@@ -289,7 +295,7 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
       unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
       int iPhi = katownik->getGlobalPhi(rawid, *digi);
       int iEta = katownik->getGlobalEta(rawid, *digi);
-      //TEST if(abs(iEta)>1.23/2.61*240) continue;///Accept CSC digis only up to eta=1.23     
+      if(abs(iEta)>1.23/2.61*240) continue;///Accept CSC digis only up to eta=1.23     
       unsigned int iInput= getInputNumber(rawid, iProcessor, type);      
       myInput->addLayerHit(iLayer,iInput,iPhi,iEta);     
     }
@@ -317,6 +323,7 @@ void OMTFinputMaker::processRPC(const RPCDigiCollection *rpcDigis,
   auto chend  = rpcDigis->end();
   for( ; chamber != chend; ++chamber ) {
     unsigned int rawid = (*chamber).first;
+    
     ///Check it the data fits into given processor input range
     if(!acceptDigi(rawid, iProcessor, type)) continue;
 

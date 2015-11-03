@@ -4,7 +4,7 @@ import os
 import sys
 import commands
 
-verbose = True
+verbose = False
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 
@@ -62,7 +62,8 @@ process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 process.source = cms.Source(
     'PoolSource',
-    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root'),
+    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/750_FullEta_v2/data/SingleMu_12_m_1_1_hh0.root')
+    #fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/WToMuNu_Tune4C_13TeV-pythia8/Fall13dr-tsg_PU40bx50_POSTLS162_V2-v1/GEN-SIM-RAW/data/WToMuNu_Tune4C_13TeV-pythia8_10_1_9XA.root')
 )
 
 ##Use all available events in a single job.
@@ -75,16 +76,19 @@ process.source.fileNames =  cms.untracked.vstring()
 for aFile in fileList:
     process.source.fileNames.append('file:'+aFile)
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10))
+
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10000))
 
 ###TEST
+'''
 process.source = cms.Source(
     'PoolSource',
     fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root'),
     #fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/JPsi_21kEvents.root')
-    eventsToProcess = cms.untracked.VEventRange('16:8')
+    #eventsToProcess = cms.untracked.VEventRange('16:8')
     )
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10))
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000))
+'''
 #######
 
 ###PostLS1 geometry used
@@ -101,11 +105,11 @@ process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer
 process.omtfPatternMaker = cms.EDAnalyzer("OMTFPatternMaker",
                                       TriggerPrimitiveSrc = cms.InputTag('L1TMuonTriggerPrimitives'),
                                       g4SimTrackSrc = cms.InputTag('g4SimHits'),
-                                      makeGoldenPatterns = cms.bool(True),                                     
-                                      makeConnectionsMaps = cms.bool(False),                                      
+                                      makeGoldenPatterns = cms.bool(False),                                     
+                                      makeConnectionsMaps = cms.bool(True),                                      
                                       dropRPCPrimitives = cms.bool(False),                                    
-                                      dropDTPrimitives = cms.bool(False),                                    
-                                      dropCSCPrimitives = cms.bool(False),   
+                                      dropDTPrimitives = cms.bool(True),                                    
+                                      dropCSCPrimitives = cms.bool(True),   
                                       ptCode = cms.int32(16),
                                       charge = cms.int32(1),
                                       omtf = cms.PSet(
@@ -123,6 +127,3 @@ process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives+
 process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
 
 process.schedule = cms.Schedule(process.L1TMuonPath)
-
-
-# grep "Logic layer" new.out > new.hits; grep "Logic layer" old.out > old.hits; diff old.hits new.hits

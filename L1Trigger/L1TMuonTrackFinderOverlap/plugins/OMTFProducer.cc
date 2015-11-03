@@ -227,9 +227,6 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 								       iProcessor,
 								       l1t::tftype::omtf_pos);
 
-    std::cout<<*myInputPos<<std::endl;
-    continue;
-    
     OMTFinput myShiftedInputPos =  myOMTF->shiftInput(iProcessor,*myInputPos);
 
     const OMTFinput *myInputNeg = myInputMaker->buildInputForProcessor(dtPhDigis.product(),

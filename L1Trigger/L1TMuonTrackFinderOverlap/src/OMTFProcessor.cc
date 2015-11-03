@@ -319,12 +319,14 @@ OMTFinput::vector1D OMTFProcessor::restrictInput(unsigned int iProcessor,
 						 const OMTFinput::vector1D & layerHits){
 
   OMTFinput::vector1D myHits = layerHits;
+ 
   unsigned int iStart = OMTFConfiguration::connections[iProcessor][iRegion][iLayer].first;
   unsigned int iEnd = iStart + OMTFConfiguration::connections[iProcessor][iRegion][iLayer].second -1;
 
-  for(unsigned int iHit=0;iHit<14;++iHit){
-    if(iHit<iStart || iHit>iEnd) myHits[iHit] = OMTFConfiguration::nPhiBins;    
-  }
+  for(unsigned int iInput=0;iInput<14;++iInput){    
+    if(iInput<iStart || iInput>iEnd) myHits[iInput] = OMTFConfiguration::nPhiBins;
+  }  
+  
   return myHits;
 }
 ////////////////////////////////////////////
