@@ -3,14 +3,16 @@
 
 #include "xercesc/util/XercesDefs.hpp"
 
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
-
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
+
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
+#include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigiCollection.h"
+#include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
 
 class OMTFProcessor;
 class OMTFConfiguration;
@@ -45,10 +47,13 @@ private:
   const SimTrack *findSimMuon(const edm::Event &ev, const edm::EventSetup &es, const SimTrack *previous=0);
 
   edm::ParameterSet theConfig;
-  edm::InputTag trigPrimSrc, g4SimTrackSrc;
-  edm::EDGetTokenT<L1TMuon::TriggerPrimitiveCollection> inputToken;
+  edm::InputTag g4SimTrackSrc;
 
-  const L1TMuon::TriggerPrimitiveCollection filterDigis(const L1TMuon::TriggerPrimitiveCollection & vDigi);
+  edm::EDGetTokenT<L1MuDTChambPhContainer> inputTokenDTPh;
+  edm::EDGetTokenT<L1MuDTChambThContainer> inputTokenDTTh;
+  edm::EDGetTokenT<CSCCorrelatedLCTDigiCollection> inputTokenCSC;
+  edm::EDGetTokenT<RPCDigiCollection> inputTokenRPC;
+
 
   bool makeConnectionsMaps, makeGoldenPatterns;
 

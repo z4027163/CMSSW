@@ -8,9 +8,6 @@
 #include "L1Trigger/L1TMuon/interface/GeometryTranslator.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
 
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
-
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
 #include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigiCollection.h"
@@ -34,12 +31,6 @@ class OMTFinputMaker{
   void initialize(const edm::EventSetup& es);
 
   ///Method translating trigger digis into input matrix with global phi coordinates
-  ///Flavour using a vector of trigger primitives.
-  const OMTFinput * buildInputForProcessor(const L1TMuon::TriggerPrimitiveCollection & vDigi,
-					   unsigned int iProcessor,
-					   l1t::tftype type=l1t::tftype::omtf_pos);
-
-
   const OMTFinput * buildInputForProcessor(const L1MuDTChambPhContainer *dtPhDigis,
 					   const L1MuDTChambThContainer *dtThDigis,
 					   const CSCCorrelatedLCTDigiCollection *cscDigis,
@@ -80,8 +71,6 @@ class OMTFinputMaker{
 		  unsigned int iProcessor,
 		  l1t::tftype type);
 
-  bool filterDigiQuality(const L1TMuon::TriggerPrimitive & aDigi) const;
-
   ///Give input number for givedn processor, using
   ///the chamber sector number.
   ///Result is modulo allowed number of hits per chamber
@@ -93,8 +82,6 @@ class OMTFinputMaker{
   OMTFinput *myInput;
 
   std::unique_ptr<AngleConverter> katownik;
-
-  std::unique_ptr<L1TMuon::GeometryTranslator> geom;
 
 };
 

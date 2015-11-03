@@ -99,30 +99,30 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
-
 ###OMTF pattern maker configuration
 process.omtfPatternMaker = cms.EDAnalyzer("OMTFPatternMaker",
-                                      TriggerPrimitiveSrc = cms.InputTag('L1TMuonTriggerPrimitives'),
-                                      g4SimTrackSrc = cms.InputTag('g4SimHits'),
-                                      makeGoldenPatterns = cms.bool(False),                                     
-                                      makeConnectionsMaps = cms.bool(True),                                      
-                                      dropRPCPrimitives = cms.bool(False),                                    
-                                      dropDTPrimitives = cms.bool(True),                                    
-                                      dropCSCPrimitives = cms.bool(True),   
-                                      ptCode = cms.int32(16),
-                                      charge = cms.int32(1),
-                                      omtf = cms.PSet(
-                                          configFromXML = cms.bool(True),   
-                                          patternsXMLFiles = cms.VPSet(                                       
-                                              cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/Patterns_ipt4_31_750.xml")),
-                                          ),
-                                          configXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/hwToLogicLayer_750.xml"),
-                              )
+                                          srcDTPh = cms.InputTag('simDtTriggerPrimitiveDigis'),
+                                          srcDTTh = cms.InputTag('simDtTriggerPrimitiveDigis'),
+                                          srcCSC = cms.InputTag('simCscTriggerPrimitiveDigis','MPCSORTED'),
+                                          srcRPC = cms.InputTag('simMuonRPCDigis'),                                              
+                                          g4SimTrackSrc = cms.InputTag('g4SimHits'),
+                                          makeGoldenPatterns = cms.bool(False),                                     
+                                          makeConnectionsMaps = cms.bool(True),                                      
+                                          dropRPCPrimitives = cms.bool(False),                                    
+                                          dropDTPrimitives = cms.bool(True),                                    
+                                          dropCSCPrimitives = cms.bool(True),   
+                                          ptCode = cms.int32(16),
+                                          charge = cms.int32(1),
+                                          omtf = cms.PSet(
+                                              configFromXML = cms.bool(True),   
+                                              patternsXMLFiles = cms.VPSet(                                       
+                                                  cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/Patterns_ipt4_31_750.xml")),
+                                              ),
+                                              configXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/hwToLogicLayer_750.xml"),
+                                          )
 )
 
-process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives+ 
-                                   process.omtfPatternMaker)
+process.L1TMuonSeq = cms.Sequence(process.omtfPatternMaker)
 
 process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
 

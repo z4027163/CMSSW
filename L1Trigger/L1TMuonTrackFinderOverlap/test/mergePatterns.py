@@ -82,14 +82,14 @@ for ipt in xrange(4,32):
     patternsXMLFiles.append(cms.PSet(patternsXMLFile = cms.FileInPath(path+"SingleMu_"+str(ipt)+"_p/GPs.xml")))
     patternsXMLFiles.append(cms.PSet(patternsXMLFile = cms.FileInPath(path+"SingleMu_"+str(ipt)+"_m/GPs.xml")))
             
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
-
 patternsXMLFiles = cms.VPSet()
 patternsXMLFiles.append(cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/Patterns_ipt4_31_750_4x.xml")))
 
-
 ###OMTF emulator configuration
 process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi')
+##Load configuration directly from XML
+process.omtfEmulator.omtf.configFromXML = cms.bool(True)
+
 process.omtfEmulator.omtf.patternsXMLFiles = patternsXMLFiles
 process.omtfEmulator.dumpGPToXML = cms.bool(True)  
 
@@ -102,10 +102,7 @@ process.MuonEtaFilter = cms.EDFilter("SimTrackEtaFilter",
 process.GenMuPath = cms.Path(process.MuonEtaFilter)
 ##########################################
 
-
-
-process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives+ 
-                                   process.omtfEmulator)
+process.L1TMuonSeq = cms.Sequence(process.omtfEmulator)
 
 process.L1TMuonPath = cms.Path(process.MuonEtaFilter*process.L1TMuonSeq)
 

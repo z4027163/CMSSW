@@ -19,12 +19,13 @@ using namespace L1TMuon;
 
 OMTFPatternMaker::OMTFPatternMaker(const edm::ParameterSet& cfg):
   theConfig(cfg),
-  trigPrimSrc(cfg.getParameter<edm::InputTag>("TriggerPrimitiveSrc")),
   g4SimTrackSrc(cfg.getParameter<edm::InputTag>("g4SimTrackSrc")){
 
-  inputToken = consumes<TriggerPrimitiveCollection>(trigPrimSrc);
-  consumes<edm::SimTrackContainer>(g4SimTrackSrc);
-  
+  inputTokenDTPh = consumes<L1MuDTChambPhContainer>(theConfig.getParameter<edm::InputTag>("srcDTPh"));
+  inputTokenDTTh = consumes<L1MuDTChambThContainer>(theConfig.getParameter<edm::InputTag>("srcDTTh"));
+  inputTokenCSC = consumes<CSCCorrelatedLCTDigiCollection>(theConfig.getParameter<edm::InputTag>("srcCSC"));
+  inputTokenRPC = consumes<RPCDigiCollection>(theConfig.getParameter<edm::InputTag>("srcRPC"));
+    
   if(!theConfig.exists("omtf")){
     edm::LogError("OMTFPatternMaker")<<"omtf configuration not found in cfg.py";
   }
@@ -128,11 +129,18 @@ void OMTFPatternMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   
   myInputMaker->initialize(evSetup);
 
-  edm::Handle<TriggerPrimitiveCollection> trigPrimitives;
-  iEvent.getByToken(inputToken, trigPrimitives);
-
-  ///Filter digis by dropping digis from selected (by cfg.py) subsystem
-  const L1TMuon::TriggerPrimitiveCollection filteredDigis = filterDigis(*trigPrimitives);
+  edm::Handle<L1MuDTChambPhContainer> dtPhDigis;
+  edm::Handle<L1MuDTChambThContainer> dtThDigis;
+  edm::Handle<CSCCorrelatedLCTDigiCollection> cscDigis;
+  edm::Handle<RPCDigiCollection> rpcDigis;
+  
+  ///Filter digis by dropping digis from selected (by cfg.py) subsystems
+  if(!theConfig.getParameter<bool>("dropDTPrimitives")){
+    iEvent.getByToken(inputTokenDTPh,dtPhDigis);
+    iEvent.getByToken(inputTokenDTTh,dtThDigis);
+  }
+  if(!theConfig.getParameter<bool>("dropRPCPrimitives")) iEvent.getByToken(inputTokenRPC,rpcDigis);  
+  if(!theConfig.getParameter<bool>("dropCSCPrimitives")) iEvent.getByToken(inputTokenCSC,cscDigis);
 
   //l1t::tftype mtfType = l1t::tftype::bmtf;
   l1t::tftype mtfType = l1t::tftype::omtf_pos;
@@ -140,11 +148,15 @@ void OMTFPatternMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   
   ///Loop over all processors, each covering 60 deg in phi
   for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
+        
+    ///Input data with phi ranges shifted for each processor, so it fits 11 bits range
+    const OMTFinput *myInput = myInputMaker->buildInputForProcessor(dtPhDigis.product(),
+								    dtThDigis.product(),
+								    cscDigis.product(),
+								    rpcDigis.product(),								       
+								    iProcessor,
+								    mtfType);
     
-    //edm::LogInfo("OMTF Pattern maker")<<"iProcessor: "<<iProcessor;
-    
-    const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor,mtfType);
-       
     ///Input data with phi ranges shifted for each processor, so it fits 10 bits range
     const OMTFinput myShiftedInput =  myOMTF->shiftInput(iProcessor,*myInput);	
     
@@ -154,34 +166,6 @@ void OMTFPatternMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     if(makeGoldenPatterns) myOMTF->fillCounts(iProcessor,myShiftedInput, aSimMuon);
     
   }
-}
-/////////////////////////////////////////////////////
-/////////////////////////////////////////////////////  
-const L1TMuon::TriggerPrimitiveCollection OMTFPatternMaker::filterDigis(const L1TMuon::TriggerPrimitiveCollection & vDigi){
-
-  if(!theConfig.getParameter<bool>("dropRPCPrimitives") &&
-     !theConfig.getParameter<bool>("dropDTPrimitives") &&
-     !theConfig.getParameter<bool>("dropCSCPrimitives")) return vDigi;
-  
-  L1TMuon::TriggerPrimitiveCollection filteredDigis;
-  for(auto it:vDigi){
-    switch (it.subsystem()) {
-    case L1TMuon::TriggerPrimitive::kRPC: {
-      if(!theConfig.getParameter<bool>("dropRPCPrimitives")) filteredDigis.push_back(it);
-      break;
-    }
-    case L1TMuon::TriggerPrimitive::kDT: {
-      if(!theConfig.getParameter<bool>("dropDTPrimitives")) filteredDigis.push_back(it);
-      break;
-    }
-    case L1TMuon::TriggerPrimitive::kCSC: {
-      if(!theConfig.getParameter<bool>("dropCSCPrimitives")) filteredDigis.push_back(it);
-      break;
-    }
-    case L1TMuon::TriggerPrimitive::kNSubsystems: {break;} 
-    }
-  }
-  return filteredDigis;
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////  

@@ -70,8 +70,8 @@ process.source = cms.Source(
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(8))
 
 ###PostLS1 geometry used
-process.load('Configuration.Geometry.GeometryExtendedPostLS1Reco_cff')
-process.load('Configuration.Geometry.GeometryExtendedPostLS1_cff')
+process.load('Configuration.Geometry.GeometryExtended2015_cff')
+process.load('Configuration.Geometry.GeometryExtended2015Reco_cff')
 ############################
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
@@ -79,11 +79,14 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 path = os.environ['CMSSW_BASE']+"/src/L1Trigger/L1TMuonTrackFinderOverlap/data/"
 
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
-
 ###OMTF emulator configuration
+process.load('L1Trigger.L1TMuonTrackFinderOverlap.omtfParams_cfi')
+
 process.omtfEmulator = cms.EDProducer("OMTFProducerMix",
-                                      TriggerPrimitiveSrc = cms.InputTag('L1TMuonTriggerPrimitives'),
+                                      srcDTPh = cms.InputTag('simDtTriggerPrimitiveDigis'),
+                                      srcDTTh = cms.InputTag('simDtTriggerPrimitiveDigis'),
+                                      srcCSC = cms.InputTag('simCscTriggerPrimitiveDigis','MPCSORTED'),
+                                      srcRPC = cms.InputTag('simMuonRPCDigis'), 
                                       eventsXMLFiles = cms.vstring("MixEvents_Ipt16_p.xml"),
                                       eventsToMix = cms.uint32(2),
                                       dumpResultToXML = cms.bool(True),
@@ -91,13 +94,13 @@ process.omtfEmulator = cms.EDProducer("OMTFProducerMix",
                                       dropDTPrimitives = cms.bool(False),                                    
                                       dropCSCPrimitives = cms.bool(False),   
                                       omtf = cms.PSet(
-        configXMLFile = cms.string(path+"hwToLogicLayer_721_5760.xml"),
-        patternsXMLFiles = cms.vstring(path+"Patterns_ipt4_31_5760.xml"),
-        )
+                                          configFromXML = cms.bool(False),   
+                                          configXMLFile = cms.string(path+"hwToLogicLayer_721_5760.xml"),
+                                          patternsXMLFiles = cms.vstring(path+"Patterns_ipt4_31_5760.xml"),
+                                      )
                                       )
 
-process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives +
-                                   process.omtfEmulator)
+process.L1TMuonSeq = cms.Sequence(process.omtfEmulator)
 
 process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
 

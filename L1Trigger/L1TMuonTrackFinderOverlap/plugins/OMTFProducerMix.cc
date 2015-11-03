@@ -7,6 +7,9 @@
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
 
+#include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+
 #include "L1Trigger/L1TMuonTrackFinderOverlap/plugins/OMTFProducerMix.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFProcessor.h"
 #include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinputMaker.h"
@@ -20,12 +23,15 @@
 using namespace L1TMuon;
 
 OMTFProducerMix::OMTFProducerMix(const edm::ParameterSet& cfg):
-  theConfig(cfg),
-  trigPrimSrc(cfg.getParameter<edm::InputTag>("TriggerPrimitiveSrc")){
+  theConfig(cfg){
 
   produces<l1t::RegionalMuonCandBxCollection >("OMTF");
 
-  inputToken = consumes<TriggerPrimitiveCollection>(trigPrimSrc);
+  inputTokenDTPh = consumes<L1MuDTChambPhContainer>(theConfig.getParameter<edm::InputTag>("srcDTPh"));
+  inputTokenDTTh = consumes<L1MuDTChambThContainer>(theConfig.getParameter<edm::InputTag>("srcDTTh"));
+  inputTokenCSC = consumes<CSCCorrelatedLCTDigiCollection>(theConfig.getParameter<edm::InputTag>("srcCSC"));
+  inputTokenRPC = consumes<RPCDigiCollection>(theConfig.getParameter<edm::InputTag>("srcRPC"));
+  
   dumpResultToXML = theConfig.getParameter<bool>("dumpResultToXML");
 
   if(!theConfig.exists("omtf")){
@@ -69,6 +75,27 @@ OMTFProducerMix::~OMTFProducerMix(){
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
+void OMTFProducerMix::beginRun(edm::Run const& run, edm::EventSetup const& iSetup){
+
+  ///If configuration is read from XML do not look at the DB.
+  if(theConfig.getParameter<edm::ParameterSet>("omtf").getParameter<bool>("configFromXML")) return;  
+
+  const L1TMTFOverlapParamsRcd& omtfParamsRcd = iSetup.get<L1TMTFOverlapParamsRcd>();
+  
+  edm::ESHandle<L1TMTFOverlapParams> omtfParamsHandle;
+  omtfParamsRcd.get(omtfParamsHandle);
+
+  omtfParams = std::unique_ptr<L1TMTFOverlapParams>(new L1TMTFOverlapParams(*omtfParamsHandle.product()));
+  if (!omtfParams) {
+    edm::LogError("OMTFProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
+  }
+
+  myOMTFConfig->configure(omtfParams);
+  myOMTF->configure(omtfParams);
+  
+}
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 void OMTFProducerMix::beginJob(){
 
   if(theConfig.exists("omtf")){
@@ -95,11 +122,18 @@ void OMTFProducerMix::produce(edm::Event& iEvent, const edm::EventSetup& evSetup
 
   myInputMaker->initialize(evSetup);
 
-  edm::Handle<TriggerPrimitiveCollection> trigPrimitives;
-  iEvent.getByToken(inputToken, trigPrimitives);
-
+  edm::Handle<L1MuDTChambPhContainer> dtPhDigis;
+  edm::Handle<L1MuDTChambThContainer> dtThDigis;
+  edm::Handle<CSCCorrelatedLCTDigiCollection> cscDigis;
+  edm::Handle<RPCDigiCollection> rpcDigis;
+  
   ///Filter digis by dropping digis from selected (by cfg.py) subsystems
-  const L1TMuon::TriggerPrimitiveCollection filteredDigis = filterDigis(*trigPrimitives);
+  if(!theConfig.getParameter<bool>("dropDTPrimitives")){
+    iEvent.getByToken(inputTokenDTPh,dtPhDigis);
+    iEvent.getByToken(inputTokenDTTh,dtThDigis);
+  }
+  if(!theConfig.getParameter<bool>("dropRPCPrimitives")) iEvent.getByToken(inputTokenRPC,rpcDigis);  
+  if(!theConfig.getParameter<bool>("dropCSCPrimitives")) iEvent.getByToken(inputTokenCSC,cscDigis);
 
   std::auto_ptr<l1t::RegionalMuonCandBxCollection > myCands(new l1t::RegionalMuonCandBxCollection);
 
@@ -114,7 +148,13 @@ void OMTFProducerMix::produce(edm::Event& iEvent, const edm::EventSetup& evSetup
     for(unsigned int iProcessor=0;iProcessor<6;++iProcessor){
 
       edm::LogInfo("OMTFOMTFProducerMix")<<" iProcessor: "<<iProcessor;
-      const OMTFinput *myInput = myInputMaker->buildInputForProcessor(filteredDigis,iProcessor);
+      const OMTFinput *myInput = myInputMaker->buildInputForProcessor(dtPhDigis.product(),
+									 dtThDigis.product(),
+									 cscDigis.product(),
+									 rpcDigis.product(),								       
+									 iProcessor,
+									 l1t::tftype::omtf_pos);
+      
 
       ///Input data with phi ranges shifted for each processor, so it fits 11 bits range
       OMTFinput myShiftedInput =  myOMTF->shiftInput(iProcessor,*myInput);
@@ -174,31 +214,4 @@ void OMTFProducerMix::produce(edm::Event& iEvent, const edm::EventSetup& evSetup
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-const L1TMuon::TriggerPrimitiveCollection OMTFProducerMix::filterDigis(const L1TMuon::TriggerPrimitiveCollection & vDigi){
 
-  if(!theConfig.getParameter<bool>("dropRPCPrimitives") &&
-     !theConfig.getParameter<bool>("dropDTPrimitives") &&
-     !theConfig.getParameter<bool>("dropCSCPrimitives")) return vDigi;
-
-  L1TMuon::TriggerPrimitiveCollection filteredDigis;
-  for(auto it:vDigi){
-    switch (it.subsystem()) {
-    case L1TMuon::TriggerPrimitive::kRPC: {
-      if(!theConfig.getParameter<bool>("dropRPCPrimitives")) filteredDigis.push_back(it);
-      break;
-    }
-    case L1TMuon::TriggerPrimitive::kDT: {
-      if(!theConfig.getParameter<bool>("dropDTPrimitives")) filteredDigis.push_back(it);
-      break;
-    }
-    case L1TMuon::TriggerPrimitive::kCSC: {
-      if(!theConfig.getParameter<bool>("dropCSCPrimitives")) filteredDigis.push_back(it);
-      break;
-    }
-    case L1TMuon::TriggerPrimitive::kNSubsystems: {break;}
-    }
-  }
-  return filteredDigis;
-}
-/////////////////////////////////////////////////////
-/////////////////////////////////////////////////////

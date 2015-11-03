@@ -169,7 +169,7 @@ void OMTFProducer::writeMergedGPs(){
 /////////////////////////////////////////////////////
 void OMTFProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup){
 
-  ///If configuration is read from XML do not look as the DB.
+  ///If configuration is read from XML do not look at the DB.
   if(theConfig.getParameter<edm::ParameterSet>("omtf").getParameter<bool>("configFromXML")) return;  
 
   const L1TMTFOverlapParamsRcd& omtfParamsRcd = iSetup.get<L1TMTFOverlapParamsRcd>();

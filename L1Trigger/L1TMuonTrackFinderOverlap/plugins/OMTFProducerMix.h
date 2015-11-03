@@ -4,17 +4,20 @@
 
 #include "xercesc/util/XercesDefs.hpp"
 
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
-
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EDProducer.h"
 
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
+#include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigiCollection.h"
+#include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
+
 #include "TRandom3.h"
 
+class L1TMTFOverlapParams;
 class OMTFProcessor;
 class OMTFConfiguration;
 class OMTFConfigMaker;
@@ -38,6 +41,8 @@ class OMTFProducerMix : public edm::EDProducer {
   
   ~OMTFProducerMix();
 
+  virtual void beginRun(edm::Run const& run, edm::EventSetup const& iSetup);
+
   virtual void beginJob();
 
   virtual void endJob();
@@ -47,10 +52,11 @@ class OMTFProducerMix : public edm::EDProducer {
  private:
 
   edm::ParameterSet theConfig;
-  edm::InputTag trigPrimSrc;
-  edm::EDGetTokenT<L1TMuon::TriggerPrimitiveCollection> inputToken;
 
-  const L1TMuon::TriggerPrimitiveCollection filterDigis(const L1TMuon::TriggerPrimitiveCollection & vDigi);
+  edm::EDGetTokenT<L1MuDTChambPhContainer> inputTokenDTPh;
+  edm::EDGetTokenT<L1MuDTChambThContainer> inputTokenDTTh;
+  edm::EDGetTokenT<CSCCorrelatedLCTDigiCollection> inputTokenCSC;
+  edm::EDGetTokenT<RPCDigiCollection> inputTokenRPC;
 
   ///OMTF objects
   OMTFConfiguration *myOMTFConfig;
@@ -62,7 +68,8 @@ class OMTFProducerMix : public edm::EDProducer {
   xercesc::DOMElement *aTopElement;
   OMTFConfigMaker *myOMTFConfigMaker;
   XMLConfigWriter *myWriter; 
-  XMLConfigReader *myReader; 
+  XMLConfigReader *myReader;
+  std::shared_ptr<L1TMTFOverlapParams> omtfParams;
   ///
   unsigned int myEventNumber;
   unsigned int eventsToMix;

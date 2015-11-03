@@ -77,12 +77,11 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
-
 ###OMTF CondFormats ESProducer. ESSetup is filled from XML file
-#process.load('L1Trigger.L1TMuonTrackFinderOverlap.omtfParams_cfi')
+process.load('L1Trigger.L1TMuonTrackFinderOverlap.omtfParams_cfi')
 
 ###OMTF ConfFormats are loaded from sqlite file
+'''
 process.load("CondCore.DBCommon.CondDBCommon_cfi")
 process.CondDBCommon.connect = 'sqlite_file:Patterns_ipt6_31_750_4x.db'
 process.PoolDBESSource = cms.ESSource("PoolDBESSource",
@@ -93,6 +92,7 @@ process.PoolDBESSource = cms.ESSource("PoolDBESSource",
         tag = cms.string('OMTFParams_test')
     )),
 )
+'''
 
 ###OMTF emulator configuration
 process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi')
@@ -103,8 +103,7 @@ process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi')
 ##Add debug details to the XML event
 #process.omtfEmulator.dumpDetailedResultToXML = cms.bool(True)
 
-process.L1TMuonSeq = cms.Sequence( process.L1TMuonTriggerPrimitives +
-                                   process.omtfEmulator)
+process.L1TMuonSeq = cms.Sequence(process.omtfEmulator)
 
 process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
 
