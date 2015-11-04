@@ -1,3 +1,4 @@
+#include "TMath.h"
 #include "L1Trigger/L1TMuon/interface/MuonRawDigiTranslator.h"
 
 void
@@ -20,6 +21,11 @@ l1t::MuonRawDigiTranslator::fillMuon(Muon& mu, uint32_t raw_data_00_31, uint32_t
   int chargeBit = (raw_data_32_63 >> chargeShift_) & 0x1;
   mu.setHwCharge(1 - 2*chargeBit);
   mu.setHwChargeValid((raw_data_32_63 >> chargeValidShift_) & 0x1);
+
+  if (mu.hwPt() > 0) {
+    math::PtEtaPhiMLorentzVector vec{mu.hwPt()*0.5, mu.hwEta()*0.010875, mu.hwPhi()*0.010908, 0.0};
+    mu.setP4(vec);
+  }
 }
 
 void

@@ -1,3 +1,4 @@
+#include "TMath.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 #include "EventFilter/L1TRawToDigi/interface/Unpacker.h"
@@ -53,7 +54,7 @@ namespace l1t {
                   continue;
                }
 
-               Muon mu = Muon();
+               Muon mu;
                    
                MuonRawDigiTranslator::fillMuon(mu, raw_data_00_31, raw_data_32_63);
 
