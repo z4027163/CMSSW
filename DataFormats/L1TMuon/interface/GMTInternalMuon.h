@@ -49,7 +49,6 @@ class GMTInternalMuon {
     inline const int hwSign() const { return m_regional.hwSign(); };
     inline const int hwSignValid() const { return m_regional.hwSignValid(); };
     inline const int hwQual() const { return m_regional.hwQual(); };
-    inline const int hwTrackAddress() const { return m_regional.hwTrackAddress(); };
     inline const int processor() const { return m_regional.processor(); };
     inline const tftype trackFinderType() const { return m_regional.trackFinderType(); };
     inline const int link() const { return m_regional.link(); }

@@ -203,7 +203,9 @@ l1t::RegionalMuonCand OMTFSorter::sortProcessor(const std::vector<OMTFProcessor:
   candidate.setHwSign(myCand.charge);
   candidate.setHwQual(myCand.hits);
   ///Temporary assignement
-  candidate.setHwTrackAddress(myCand.refLayer);
+  std::map<int, int> trackAddr;
+  trackAddr[0] = myCand.refLayer;
+  candidate.setTrackAddress(trackAddr);
   //candidate.setLink(myCand.disc);
   /////////////
   return candidate;
@@ -228,7 +230,9 @@ void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & pr
     candidate.setHwPhi(myCand.phi);
     candidate.setHwSign(myCand.charge+1*(myCand.charge<0));
     candidate.setHwQual(bits.count());
-    candidate.setHwTrackAddress(myCand.hits);
+    std::map<int, int> trackAddr;
+    trackAddr[0] = myCand.hits;
+    candidate.setTrackAddress(trackAddr);
     ///Temporary assignement
     //candidate.setHwQual(myCand.refLayer);
     //candidate.setLink(myCand.disc);
