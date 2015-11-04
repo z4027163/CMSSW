@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<OMTF xmlns:xi="http://www.w3.org/2001/XInclude" version="0x00010001">
+<OMTF xmlns:xi="http://www.w3.org/2001/XInclude" version="0x00010002">
 
 <GlobalData nPdfAddrBits="7" nPdfValBits="6" nHitsPerLayer="6" nPhiBits="11" nPhiBins="5760" nRefHits="128" nTestRefHits="4" nProcessors="6" nLogicRegions="6" nInputs="14" nLayers="18" nRefLayers="8" nGoldenPatterns="52"/>
 

@@ -52,12 +52,8 @@ L1TMTFOverlapParamsESProducer::~L1TMTFOverlapParamsESProducer() {}
 ///////////////////////////////////////////////////////////////////
 bool L1TMTFOverlapParamsESProducer::readConnectionsXML(XMLConfigReader *aReader){
 
-  std::cout<<"L1TMTFOverlapParamsESProducer::readConnectionsXML BEGIN"<<std::endl;
-
   aReader->readConfig(&m_params);
   
-  std::cout<<"L1TMTFOverlapParamsESProducer::readConnectionsXML END"<<std::endl;
-
   return true;
   
 }
@@ -65,42 +61,27 @@ bool L1TMTFOverlapParamsESProducer::readConnectionsXML(XMLConfigReader *aReader)
 ///////////////////////////////////////////////////////////////////
 bool L1TMTFOverlapParamsESProducer::readPatternsXML(XMLConfigReader *aReader){
 
-  std::cout<<"L1TMTFOverlapParamsESProducer::readPatternsXML BEGIN"<<std::endl;
-  
-  std::cout<<"L1TMTFOverlapParamsESProducer::readPatternsXML charge"<<std::endl;
-
   l1t::LUT chargeLUT;
   aReader->readLUT(&chargeLUT,"iCharge");
   m_params.setChargeLUT(chargeLUT);
-
-  std::cout<<"L1TMTFOverlapParamsESProducer::readXML eta"<<std::endl;
 
   l1t::LUT etaLUT;
   aReader->readLUT(&etaLUT,"iEta");
   m_params.setEtaLUT(etaLUT);
 
-  std::cout<<"L1TMTFOverlapParamsESProducer::readXML pt"<<std::endl;
-
   l1t::LUT ptLUT;
   aReader->readLUT(&ptLUT,"iPt");
   m_params.setPtLUT(ptLUT);
-
-  std::cout<<"L1TMTFOverlapParamsESProducer::readXML meanDistPhi"<<std::endl;
 
   l1t::LUT meanDistPhiLUT;
   aReader->readLUT(&meanDistPhiLUT,"meanDistPhi");
   m_params.setMeanDistPhiLUT(meanDistPhiLUT);
   
-  std::cout<<"L1TMTFOverlapParamsESProducer::readXML pdf"<<std::endl;
-
   l1t::LUT pdfLUT;
   aReader->readLUT(&pdfLUT,"pdf");
   m_params.setPdfLUT(pdfLUT);
   
-  std::cout<<"L1TMTFOverlapParamsESProducer::readXML DONE"<<std::endl;
-  
-  return true;
-  
+  return true;  
 }
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////

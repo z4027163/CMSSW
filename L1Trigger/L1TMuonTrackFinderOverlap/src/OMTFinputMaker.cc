@@ -225,6 +225,10 @@ void OMTFinputMaker::processDT(const L1MuDTChambPhContainer *dtPhDigis,
 	       unsigned int iProcessor,
 	       l1t::tftype type){
 
+  //std::cout<<"DT size: "<<dtPhDigis->getContainer()->size()<<std::endl;
+
+  if(!dtPhDigis) return;
+
   for (const auto digiIt: *dtPhDigis->getContainer()) {
 
     DTChamberId detid(digiIt.whNum(),digiIt.stNum(),digiIt.scNum()+1);
@@ -253,6 +257,8 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
 	       unsigned int iProcessor,
 	       l1t::tftype type){
 
+  if(!cscDigis) return;
+  
   auto chamber = cscDigis->begin();
   auto chend  = cscDigis->end();
   for( ; chamber != chend; ++chamber ) {   
@@ -275,8 +281,8 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
       int iPhi = katownik->getGlobalPhi(rawid, *digi);
       int iEta = katownik->getGlobalEta(rawid, *digi);
       ///Accept CSC digis only up to eta=1.26.
-      ///The nominal OMTF range is up to 1.23, but cutting at 1.23
-      ///kill efficnency at the edge. 1.26 is two eta bins above nominal.
+      ///The nominal OMTF range is up to 1.24, but cutting at 1.24
+      ///kill efficnency at the edge. 1.26 is one eta bin above nominal.
       if(abs(iEta)>1.26/2.61*240) continue;
       unsigned int iInput= getInputNumber(rawid, iProcessor, type);      
       myInput->addLayerHit(iLayer,iInput,iPhi,iEta);     
@@ -292,6 +298,8 @@ bool rpcPrimitiveCmp(const  RPCDigi &a,
 void OMTFinputMaker::processRPC(const RPCDigiCollection *rpcDigis,
 				unsigned int iProcessor,
 				l1t::tftype type){
+
+  if(!rpcDigis) return;
 
   std::ostringstream myStr;
 

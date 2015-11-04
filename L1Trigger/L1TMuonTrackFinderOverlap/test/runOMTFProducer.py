@@ -78,24 +78,13 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 ###OMTF CondFormats ESProducer. ESSetup is filled from XML file
-process.load('L1Trigger.L1TMuonTrackFinderOverlap.omtfParams_cfi')
-
-###OMTF ConfFormats are loaded from sqlite file
-'''
-process.load("CondCore.DBCommon.CondDBCommon_cfi")
-process.CondDBCommon.connect = 'sqlite_file:Patterns_ipt6_31_750_4x.db'
-process.PoolDBESSource = cms.ESSource("PoolDBESSource",
-    process.CondDBCommon,
-    DumpStat=cms.untracked.bool(True),
-    toGet = cms.VPSet(cms.PSet(
-        record = cms.string('L1TMTFOverlapParamsRcd'),
-        tag = cms.string('OMTFParams_test')
-    )),
-)
-'''
+#process.load('L1Trigger.L1TMuonTrackFinderOverlap.omtfParams_cfi')
 
 ###OMTF emulator configuration
-process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi')
+process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cff')
+
+
+#process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi')
 ##Load configuration directly from XML
 #process.omtfEmulator.omtf.configFromXML = cms.bool(True)
 ##Dump event to XML file
