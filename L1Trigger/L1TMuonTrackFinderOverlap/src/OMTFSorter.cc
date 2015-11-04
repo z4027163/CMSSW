@@ -197,17 +197,20 @@ l1t::RegionalMuonCand OMTFSorter::sortProcessor(const std::vector<OMTFProcessor:
   InternalObj myCand = sortProcessorResults(procResults, charge);
 
   l1t::RegionalMuonCand candidate;
-  candidate.setHwPt(myCand.pt);
-  candidate.setHwEta(myCand.eta);
+  std::bitset<17> bits(myCand.hits);
+  int ipt = myCand.pt+1;
+  if(ipt>31) ipt=31;
+  candidate.setHwPt(RPCConst::ptFromIpt(ipt)*2.0);//MicroGMT has 0.5 GeV pt bins
+  candidate.setHwEta(myCand.eta);//eta scale set during input making in OMTFInputmaker
   candidate.setHwPhi(myCand.phi);
-  candidate.setHwSign(myCand.charge);
-  candidate.setHwQual(myCand.hits);
-  ///Temporary assignement
+  candidate.setHwSign(myCand.charge+1*(myCand.charge<0));
+  candidate.setHwQual(bits.count());
   std::map<int, int> trackAddr;
-  trackAddr[0] = myCand.refLayer;
+  trackAddr[0] = myCand.hits;
+  trackAddr[1] = myCand.refLayer;
+  trackAddr[2] = myCand.disc;
   candidate.setTrackAddress(trackAddr);
-  //candidate.setLink(myCand.disc);
-  /////////////
+  
   return candidate;
 }
 ///////////////////////////////////////////////////////
@@ -232,11 +235,10 @@ void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & pr
     candidate.setHwQual(bits.count());
     std::map<int, int> trackAddr;
     trackAddr[0] = myCand.hits;
+    trackAddr[1] = myCand.refLayer;
+    trackAddr[2] = myCand.disc;
     candidate.setTrackAddress(trackAddr);
-    ///Temporary assignement
-    //candidate.setHwQual(myCand.refLayer);
-    //candidate.setLink(myCand.disc);
-    /////////////
+
     sortedCands.push_back(bx, candidate);
   }
 

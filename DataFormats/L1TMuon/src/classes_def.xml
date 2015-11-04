@@ -73,7 +73,8 @@
   <class name="edm::reftobase::RefHolder<L1TMuon::CSCTrackRef>"/>
   <class name="edm::reftobase::RefHolder<L1TMuon::InternalTrackRef>"/>
 
- <class name="BMTrackCand" ClassVersion="21">
+ <class name="BMTrackCand" ClassVersion="22">
+  <version ClassVersion="22" checksum="612222572"/>
   <version ClassVersion="21" checksum="1616896838"/>
   <version ClassVersion="20" checksum="612222572"/>
  </class>

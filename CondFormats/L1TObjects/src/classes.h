@@ -82,8 +82,8 @@ namespace CondFormats_L1TObjects {
     std::vector<L1TGMTParams::Node> dummy16a;
 
 
-    L1TMTFOverlapParams dummy16;
-    std::vector< L1TMTFOverlapParams::Node> dummy16a;
+    L1TMTFOverlapParams dummy17;
+    std::vector< L1TMTFOverlapParams::Node> dummy17a;
 
   };
 }
