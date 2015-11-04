@@ -84,7 +84,7 @@ namespace l1t {
                   continue;
                }
  
-               RegionalMuonCand mu = RegionalMuonCand();
+               RegionalMuonCand mu;
  
                RegionalMuonRawDigiTranslator::fillRegionalMuonCand(mu, raw_data_00_31, raw_data_32_63, processor, trackFinder);
 
