@@ -274,7 +274,10 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
       unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
       int iPhi = katownik->getGlobalPhi(rawid, *digi);
       int iEta = katownik->getGlobalEta(rawid, *digi);
-      if(abs(iEta)>1.23/2.61*240) continue;///Accept CSC digis only up to eta=1.23     
+      ///Accept CSC digis only up to eta=1.26.
+      ///The nominal OMTF range is up to 1.23, but cutting at 1.23
+      ///kill efficnency at the edge. 1.26 is two eta bins above nominal.
+      if(abs(iEta)>1.26/2.61*240) continue;
       unsigned int iInput= getInputNumber(rawid, iProcessor, type);      
       myInput->addLayerHit(iLayer,iInput,iPhi,iEta);     
     }
