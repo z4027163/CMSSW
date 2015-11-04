@@ -43,8 +43,8 @@
 #include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
 
 
-#include "PhiMemoryImage.h"
-#include "EmulatorClasses.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PhiMemoryImage.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/EmulatorClasses.h"
 #include "L1Trigger/CSCTrackFinder/interface/CSCTFPtLUT.h"
 #include "L1Trigger/CSCTrackFinder/interface/CSCSectorReceiverLUT.h"
 

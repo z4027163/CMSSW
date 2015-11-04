@@ -30,3 +30,4 @@
 <use name="L1Trigger/RPCTrigger"/>
 
 <flags ADD_SUBDIR="1"/>
+<flags LDFLAGS="-lXMLIO"/>

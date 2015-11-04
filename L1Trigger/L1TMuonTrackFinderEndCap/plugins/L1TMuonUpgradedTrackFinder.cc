@@ -18,16 +18,16 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "PrimitiveConverter.h"
-#include "BXAnalyzer.h"
-#include "ZoneCreation.h"
-#include "PatternRecognition.h"
-#include "SortSector.h"
-#include "Matching.h"
-#include "Deltas.h"
-#include "BestTracks.h"
-#include "PtAssignment.h"
-#include "MakeRegionalCand.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PrimitiveConverter.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/BXAnalyzer.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/ZoneCreation.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PatternRecognition.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SortSector.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Matching.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Deltas.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/BestTracks.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PtAssignment.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/MakeRegionalCand.h"
 
 
 using namespace L1TMuon;

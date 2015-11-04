@@ -49,7 +49,7 @@
 
 #include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
 #include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
-#include "PhiMemoryImage.h"
+#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PhiMemoryImage.h"
   
 #include "TFile.h"
 #include "TH1.h"

@@ -36,10 +36,13 @@
 //------------------------------------
 #include "../interface/L1MuBMPtaLut.h"
 #include "../interface/L1MuBMPhiLut.h"
+//#include "CondFormats/L1TObjects/interface/L1MuDTPtaLut.h"
+//#include "CondFormats/L1TObjects/interface/L1MuDTPhiLut.h"
+
 
 
 #include <FWCore/Framework/interface/ESHandle.h>
-#include "CondFormats/L1TObjects/interface/L1MuDTAssParam.h"
+#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMAssParam.h"
 #include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMAddressArray.h"
 //class L1MuBMPhiLut;
 //class L1MuBMPtaLut;
@@ -112,8 +115,8 @@ class L1MuBMAssignmentUnit : public L1AbstractProcessor {
 
     //edm::ESHandle< L1MuDTPhiLut > thePhiLUTs;  ///< phi-assignment look-up tables
     //edm::ESHandle< L1MuDTPtaLut > thePtaLUTs;  ///< pt-assignment look-up tables
-    L1MuBMPtaLut  *thePtaLUTs =  new typename L1MuBMPtaLut::L1MuBMPtaLut();   ///< pt-assignment look-up tables 
-    L1MuBMPhiLut  *thePhiLUTs =  new typename L1MuBMPhiLut::L1MuBMPhiLut();  ///< phi-assignment look-up tables 
+    L1MuBMPtaLut  *thePtaLUTs =  new typename L1MuBMPtaLut::L1MuBMPtaLut();   ///< pt-assignment look-up tables
+    L1MuBMPhiLut  *thePhiLUTs =  new typename L1MuBMPhiLut::L1MuBMPhiLut();  ///< phi-assignment look-up tables
     static unsigned short      nbit_phi;       ///< # of bits used for pt-assignment
     static unsigned short      nbit_phib;      ///< # of bits used for pt-assignment
 
