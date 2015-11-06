@@ -240,7 +240,8 @@ void OMTFinputMaker::processDT(const L1MuDTChambPhContainer *dtPhDigis,
     
     unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
     int iPhi =  katownik->getGlobalPhi(detid.rawId(), digiIt);
-    int iEta =  0.9;//Temporary value.
+    int iEta =  0.9/2.61*240;//Temporary value.
+    if(detid.wheel()<0) iEta*=-1;
     unsigned int iInput= getInputNumber(detid.rawId(), iProcessor, type);
 
     myInput->addLayerHit(iLayer,iInput,iPhi,iEta);
