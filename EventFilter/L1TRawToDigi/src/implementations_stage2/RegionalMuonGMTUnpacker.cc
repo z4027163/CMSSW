@@ -74,7 +74,7 @@ namespace l1t {
 
          // Loop over multiple BX and then number of muons filling muon collection
          for (int bx = firstBX; bx <= lastBX; ++bx) {
-            for (unsigned nWord = 0; nWord < nWords; nWord += 2) {
+            for (unsigned nWord = 0; nWord < nWords && i < block.header().getSize(); nWord += 2) {
                uint32_t raw_data_00_31 = payload[i++];
                uint32_t raw_data_32_63 = payload[i++];        
                LogDebug("L1T|Muon") << "raw_data_00_31 = 0x" << hex << raw_data_00_31 << " raw_data_32_63 = 0x" << raw_data_32_63;
