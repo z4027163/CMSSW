@@ -23,7 +23,7 @@ l1t::MuonRawDigiTranslator::fillMuon(Muon& mu, uint32_t raw_data_00_31, uint32_t
   mu.setHwChargeValid((raw_data_32_63 >> chargeValidShift_) & 0x1);
 
   if (mu.hwPt() > 0) {
-    math::PtEtaPhiMLorentzVector vec{mu.hwPt()*0.5, mu.hwEta()*0.010875, mu.hwPhi()*0.010908, 0.0};
+    math::PtEtaPhiMLorentzVector vec{(mu.hwPt()-1)*0.5, mu.hwEta()*0.010875, mu.hwPhi()*0.010908, 0.0};
     mu.setP4(vec);
   }
 }
