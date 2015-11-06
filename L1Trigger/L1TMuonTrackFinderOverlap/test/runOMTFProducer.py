@@ -64,7 +64,8 @@ process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.source = cms.Source(
     'PoolSource',
     #fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/SingleMuFullEtaTestSample/720_FullEta_v1/data/SingleMu_16_p_1_2_TWz.root')
-    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/JPsi_21kEvents.root')
+    #fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Crab/JPsi_21kEvents.root')
+    fileNames = cms.untracked.vstring('file:/home/akalinow/scratch/CMS/OverlapTrackFinder/Prod/test/test.root')
     )
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100))
@@ -77,14 +78,8 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
-###OMTF CondFormats ESProducer. ESSetup is filled from XML file
-#process.load('L1Trigger.L1TMuonTrackFinderOverlap.omtfParams_cfi')
-
 ###OMTF emulator configuration
 process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cff')
-
-
-#process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi')
 ##Load configuration directly from XML
 #process.omtfEmulator.omtf.configFromXML = cms.bool(True)
 ##Dump event to XML file

@@ -107,8 +107,7 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
     break;
   }
   case MuonSubdetId::CSC: {
-    CSCDetId csc(rawId);
-    
+    CSCDetId csc(rawId);    
     if(type==l1t::tftype::omtf_pos &&
        (csc.endcap()==2 || csc.ring()==1 || csc.station()==4)) return false;
     if(type==l1t::tftype::omtf_neg &&
@@ -225,8 +224,6 @@ void OMTFinputMaker::processDT(const L1MuDTChambPhContainer *dtPhDigis,
 	       unsigned int iProcessor,
 	       l1t::tftype type){
 
-  //std::cout<<"DT size: "<<dtPhDigis->getContainer()->size()<<std::endl;
-
   if(!dtPhDigis) return;
 
   for (const auto digiIt: *dtPhDigis->getContainer()) {
@@ -243,7 +240,7 @@ void OMTFinputMaker::processDT(const L1MuDTChambPhContainer *dtPhDigis,
     
     unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
     int iPhi =  katownik->getGlobalPhi(detid.rawId(), digiIt);
-    int iEta =  0;//TEST
+    int iEta =  0.9;//Temporary value.
     unsigned int iInput= getInputNumber(detid.rawId(), iProcessor, type);
 
     myInput->addLayerHit(iLayer,iInput,iPhi,iEta);
@@ -261,7 +258,7 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
   
   auto chamber = cscDigis->begin();
   auto chend  = cscDigis->end();
-  for( ; chamber != chend; ++chamber ) {   
+  for( ; chamber != chend; ++chamber ) {    
     unsigned int rawid = (*chamber).first;
     ///Check it the data fits into given processor input range
     if(!acceptDigi(rawid, iProcessor, type)) continue;
@@ -271,7 +268,7 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
     for( ; digi != dend; ++digi ) {
 
       ///Check Trigger primitive quality.
-      ///CSC central BX is 6 for some reason. 
+      ///CSC central BX is 6 for some reason.
       if (abs(digi->getBX()- 6)>0) continue;
       
       unsigned int hwNumber = OMTFConfiguration::getLayerNumber(rawid);
