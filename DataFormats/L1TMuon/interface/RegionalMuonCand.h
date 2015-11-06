@@ -53,7 +53,7 @@ class RegionalMuonCand {
     // this is left to still be compatible with OMTF
     void setLink(int link);
     // Set the 64 bit word from two 32 words. bits 0-31->lsbs, bits 32-63->msbs
-    void setDataword(int msbs, int lsbs) { m_dataword = (((uint64_t)msbs) << 32) + lsbs; };
+    void setDataword(uint32_t msbs, uint32_t lsbs) { m_dataword = (((uint64_t)msbs) << 32) + lsbs; };
     // Set the 64 bit word coming from HW directly
     void setDataword(uint64_t bits) { m_dataword = bits; };
     /// Set a part of the muon candidates track address; specialised for BMTF
@@ -93,9 +93,9 @@ class RegionalMuonCand {
     /// Get 64 bit data word
     const uint64_t dataword() const { return m_dataword; };
     /// Get 32 MSBs of data word
-    const int dataword32Msb() const { return (int)((m_dataword >> 32) & 0xFFFFFFFF); };
+    const uint32_t dataword32Msb() const { return (uint32_t)((m_dataword >> 32) & 0xFFFFFFFF); };
     /// Get 32 LSBs of data word
-    const int dataword32Lsb() const { return (int)(m_dataword & 0xFFFFFFFF); };
+    const uint32_t dataword32Lsb() const { return (uint32_t)(m_dataword & 0xFFFFFFFF); };
     /// Get the track address (identifies track primitives used for reconstruction)
     const std::map<int, int>& trackAddress() const {
         return m_trackAddress;
