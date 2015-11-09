@@ -233,6 +233,9 @@ void OMTFinputMaker::processDT(const L1MuDTChambPhContainer *dtPhDigis,
     ///Check it the data fits into given processor input range
     if(!acceptDigi(detid.rawId(), iProcessor, type)) continue;
     ///Check Trigger primitive quality
+    ///Ts2Tag() == 0 - take only first track from DT Trigger Server
+    ///BxCnt()  == 0 - ??
+    ///code()>=3     - take only double layer hits, HH, HL and LL
     if (digiIt.bxNum()!= 0 || digiIt.BxCnt()!= 0 || digiIt.Ts2Tag()!= 0 || digiIt.code()<4) continue;
 
     unsigned int hwNumber = OMTFConfiguration::getLayerNumber(detid.rawId());

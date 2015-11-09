@@ -278,17 +278,20 @@ const int AngleConverter::findBTIgroup(const L1MuDTChambPhDigi &aDigi,
 
   int bti_group = -1;
   
-  //Digi quality selection in OMTFInputMaker select Ts2Tag==0, which
-  //is equivalent to taking L1MuDTChambPhContainer::chPhiSegm1()
   const L1MuDTChambThDigi *theta_segm = dtThDigis->chThetaSegm(aDigi.whNum(),
 							       aDigi.stNum(),
 							       aDigi.scNum(),
 							       aDigi.bxNum());
   if(!theta_segm) return  bti_group;
   
-  int pos = 1;
-  for(unsigned int i = 0; i < 7; ++i ) if(theta_segm->position(i) == pos ) bti_group = i;
-  
+  for(unsigned int i = 0; i < 7; ++i ){
+    if(theta_segm->position(i) && bti_group<0) bti_group = i;
+    ///If there are more than one theta digi we do not take is
+    ///due to unresolvet ambiguity. In this case we take eta of the
+    ///middle of the chamber.
+    else if(theta_segm->position(i) && bti_group>-1) return -1;
+  }
+      
   return bti_group;
 }
 ///////////////////////////////////////
