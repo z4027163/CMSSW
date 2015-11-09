@@ -79,6 +79,7 @@ l1t::RegionalMuonRawDigiTranslator::generatePackedDataWords(const RegionalMuonCa
   int tf = mu.trackFinderType();
   int rawTrkAddr = 0;
   if (tf == bmtf) {
+    int wheel = mu.trackSubAddress(RegionalMuonCand::kWheel);
     int stat1 = mu.trackSubAddress(RegionalMuonCand::kStat1);
     int stat2 = mu.trackSubAddress(RegionalMuonCand::kStat2);
     int stat3 = mu.trackSubAddress(RegionalMuonCand::kStat3);
@@ -90,8 +91,8 @@ l1t::RegionalMuonRawDigiTranslator::generatePackedDataWords(const RegionalMuonCa
                | (stat4 & 0x10) >> 1;
 
     rawTrkAddr = (segSel & bmtfTrAddrSegSelMask_) << bmtfTrAddrSegSelShift_
-               | (mu.trackSubAddress(RegionalMuonCand::kWheel) < 0) << bmtfTrAddrDetSideShift_
-               | (abs(mu.trackSubAddress(RegionalMuonCand::kWheel)) & bmtfTrAddrWheelMask_) << bmtfTrAddrWheelShift_
+               | (wheel < 0) << bmtfTrAddrDetSideShift_
+               | (abs(wheel) & bmtfTrAddrWheelMask_) << bmtfTrAddrWheelShift_
                | (stat1 & bmtfTrAddrStat1Mask_) << bmtfTrAddrStat1Shift_
                | (stat2 & bmtfTrAddrStat2Mask_) << bmtfTrAddrStat2Shift_
                | (stat3 & bmtfTrAddrStat3Mask_) << bmtfTrAddrStat3Shift_
