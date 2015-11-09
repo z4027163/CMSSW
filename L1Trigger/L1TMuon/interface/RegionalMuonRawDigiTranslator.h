@@ -28,6 +28,8 @@ namespace l1t {
       static const unsigned trackAddressMask_ = 0x1FFFFFFF;
       static const unsigned trackAddressShift_ = 2;
       // relative shifts within track address
+      static const unsigned bmtfTrAddrSegSelMask_ = 0xF;
+      static const unsigned bmtfTrAddrSegSelShift_ = 21;
       static const unsigned bmtfTrAddrDetSideShift_ = 20;
       static const unsigned bmtfTrAddrWheelMask_ = 0x3;
       static const unsigned bmtfTrAddrWheelShift_ = 18;
