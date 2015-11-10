@@ -311,7 +311,9 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 														         CombAddress,mode,1,sector);
         // NOTE: assuming that all candidates come from the central BX:
         int bx = 0;
-		if(!ME13)
+		float theta_angle = (FourBest[fbest].theta*0.2851562 + 8.5)*(3.14159265359/180);
+		float eta = (-1)*log(tan(theta_angle/2));
+		if(!ME13 && fabs(eta) > 1.1)
 			OutputCands->push_back(bx, outCand);
 	}
   }
