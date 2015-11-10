@@ -1,5 +1,5 @@
-#ifndef __GEOMETRYTRANSLATOR_H__
-#define ___GEOMETRYTRANSLATOR_H__
+#ifndef __ANGLECONVERTER_H__
+#define __ANGLECONVERTER_H__
 
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "DataFormats/GeometryVector/interface/GlobalPoint.h"
