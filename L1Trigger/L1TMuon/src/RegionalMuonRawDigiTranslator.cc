@@ -25,12 +25,17 @@ l1t::RegionalMuonRawDigiTranslator::fillRegionalMuonCand(RegionalMuonCand& mu, u
   // set track address with subaddresses
   int rawTrackAddress = (raw_data_32_63 >> trackAddressShift_) & trackAddressMask_;
   if (tf == bmtf) {
+    int segSel = (rawTrackAddress >> bmtfTrAddrSegSelShift_) & bmtfTrAddrSegSelMask_;
     int detSide = (rawTrackAddress >> bmtfTrAddrDetSideShift_) & 0x1;
     int wheel = (1 - 2*detSide) * ((rawTrackAddress >> bmtfTrAddrWheelShift_) & bmtfTrAddrWheelMask_);
-    int statAddr1 = (rawTrackAddress >> bmtfTrAddrStat1Shift_) & bmtfTrAddrStat1Mask_;
-    int statAddr2 = (rawTrackAddress >> bmtfTrAddrStat2Shift_) & bmtfTrAddrStat2Mask_;
-    int statAddr3 = (rawTrackAddress >> bmtfTrAddrStat3Shift_) & bmtfTrAddrStat3Mask_;
-    int statAddr4 = (rawTrackAddress >> bmtfTrAddrStat4Shift_) & bmtfTrAddrStat4Mask_;
+    int statAddr1 = ((rawTrackAddress >> bmtfTrAddrStat1Shift_) & bmtfTrAddrStat1Mask_)
+                  | ((segSel & 0x1) << 2);
+    int statAddr2 = ((rawTrackAddress >> bmtfTrAddrStat2Shift_) & bmtfTrAddrStat2Mask_)
+                  | ((segSel & 0x2) << 3);
+    int statAddr3 = ((rawTrackAddress >> bmtfTrAddrStat3Shift_) & bmtfTrAddrStat3Mask_)
+                  | ((segSel & 0x4) << 2);
+    int statAddr4 = ((rawTrackAddress >> bmtfTrAddrStat4Shift_) & bmtfTrAddrStat4Mask_)
+                  | ((segSel & 0x8) << 1);
     mu.setTrackSubAddress(RegionalMuonCand::kWheel, wheel);
     mu.setTrackSubAddress(RegionalMuonCand::kStat1, statAddr1);
     mu.setTrackSubAddress(RegionalMuonCand::kStat2, statAddr2);
@@ -74,12 +79,24 @@ l1t::RegionalMuonRawDigiTranslator::generatePackedDataWords(const RegionalMuonCa
   int tf = mu.trackFinderType();
   int rawTrkAddr = 0;
   if (tf == bmtf) {
-    rawTrkAddr = (mu.trackSubAddress(RegionalMuonCand::kWheel) < 0) << bmtfTrAddrDetSideShift_
-               | (abs(mu.trackSubAddress(RegionalMuonCand::kWheel)) & bmtfTrAddrWheelMask_) << bmtfTrAddrWheelShift_
-               | (mu.trackSubAddress(RegionalMuonCand::kStat1) & bmtfTrAddrStat1Mask_) << bmtfTrAddrStat1Shift_
-               | (mu.trackSubAddress(RegionalMuonCand::kStat2) & bmtfTrAddrStat2Mask_) << bmtfTrAddrStat2Shift_
-               | (mu.trackSubAddress(RegionalMuonCand::kStat3) & bmtfTrAddrStat3Mask_) << bmtfTrAddrStat3Shift_
-               | (mu.trackSubAddress(RegionalMuonCand::kStat4) & bmtfTrAddrStat4Mask_) << bmtfTrAddrStat4Shift_;
+    int wheel = mu.trackSubAddress(RegionalMuonCand::kWheel);
+    int stat1 = mu.trackSubAddress(RegionalMuonCand::kStat1);
+    int stat2 = mu.trackSubAddress(RegionalMuonCand::kStat2);
+    int stat3 = mu.trackSubAddress(RegionalMuonCand::kStat3);
+    int stat4 = mu.trackSubAddress(RegionalMuonCand::kStat4);
+
+    int segSel = (stat1 & 0x4) >> 2
+               | (stat2 & 0x10) >> 3
+               | (stat3 & 0x10) >> 2
+               | (stat4 & 0x10) >> 1;
+
+    rawTrkAddr = (segSel & bmtfTrAddrSegSelMask_) << bmtfTrAddrSegSelShift_
+               | (wheel < 0) << bmtfTrAddrDetSideShift_
+               | (abs(wheel) & bmtfTrAddrWheelMask_) << bmtfTrAddrWheelShift_
+               | (stat1 & bmtfTrAddrStat1Mask_) << bmtfTrAddrStat1Shift_
+               | (stat2 & bmtfTrAddrStat2Mask_) << bmtfTrAddrStat2Shift_
+               | (stat3 & bmtfTrAddrStat3Mask_) << bmtfTrAddrStat3Shift_
+               | (stat4 & bmtfTrAddrStat4Mask_) << bmtfTrAddrStat4Shift_;
   } else if (tf == emtf_neg || tf == emtf_pos) {
     rawTrkAddr = (mu.trackSubAddress(RegionalMuonCand::kME12) & emtfTrAddrMe12Mask_) << emtfTrAddrMe12Shift_
                | (mu.trackSubAddress(RegionalMuonCand::kME22) & emtfTrAddrMe22Mask_) << emtfTrAddrMe22Shift_;

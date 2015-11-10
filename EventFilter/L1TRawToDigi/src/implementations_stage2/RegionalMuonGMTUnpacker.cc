@@ -25,9 +25,9 @@ namespace l1t {
 
          auto payload = block.payload();
 
-         int nwords = 2; // every link transmits 2 words per event
+         unsigned int nWords = 6; // every link transmits 6 words (3 muons) per bx
          int nBX, firstBX, lastBX;
-         nBX = int(ceil(block.header().getSize() / nwords));
+         nBX = int(ceil(block.header().getSize() / nWords));
          getBXRange(nBX, firstBX, lastBX);
          // only use central BX for now
          //firstBX = 0;
@@ -74,12 +74,13 @@ namespace l1t {
 
          // Loop over multiple BX and then number of muons filling muon collection
          for (int bx = firstBX; bx <= lastBX; ++bx) {
-            for (unsigned nWord = 0; nWord < block.header().getSize(); nWord += 2) {
+            for (unsigned nWord = 0; nWord < nWords && i < block.header().getSize(); nWord += 2) {
                uint32_t raw_data_00_31 = payload[i++];
                uint32_t raw_data_32_63 = payload[i++];        
                LogDebug("L1T|Muon") << "raw_data_00_31 = 0x" << hex << raw_data_00_31 << " raw_data_32_63 = 0x" << raw_data_32_63;
-               // skip empty muons (all 64 bits 0)
-               if (raw_data_00_31 == 0 && raw_data_32_63 == 0) {
+               // skip empty muons
+               // the msb are reserved for global information
+               if ((raw_data_00_31 & 0x7FFFFFFF) == 0 && (raw_data_32_63 & 0x7FFFFFFF) == 0) {
                   LogDebug("L1T|Muon") << "Raw data is zero. Skip.";
                   continue;
                }
