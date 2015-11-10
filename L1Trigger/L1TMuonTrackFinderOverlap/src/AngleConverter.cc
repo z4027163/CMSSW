@@ -15,6 +15,7 @@
 
 #include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigi.h"
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhDigi.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
 #include "DataFormats/RPCDigi/interface/RPCDigi.h"
 
 #include <cmath> 
@@ -141,10 +142,11 @@ int AngleConverter::getGlobalPhi(unsigned int rawid, const CSCCorrelatedLCTDigi 
 }
 ///////////////////////////////////////
 ///////////////////////////////////////
-int AngleConverter::getGlobalEta(unsigned int rawid, const L1MuDTChambPhDigi &aDigi){
+int AngleConverter::getGlobalEta(unsigned int rawid,
+				 const L1MuDTChambPhDigi &aDigi,
+				 const L1MuDTChambThContainer *dtThDigis){
 
   
-  int theta_bti_group = 3;//TEST
   const DTChamberId baseid(aDigi.whNum(),aDigi.stNum(),aDigi.scNum()+1);
   
   // do not use this pointer for anything other than creating a trig geom
@@ -160,7 +162,7 @@ int AngleConverter::getGlobalEta(unsigned int rawid, const L1MuDTChambPhDigi &aD
   // TODO:::::>>> need to make sure this ordering doesn't flip under wheel sign
   const int NBTI_theta = ( (baseid.station() != 4) ? 
 			   trig_geom->nCell(2) : trig_geom->nCell(3) );
-  const int bti_group = theta_bti_group;
+  const int bti_group = findBTIgroup(aDigi,dtThDigis);
   const unsigned bti_actual = bti_group*NBTI_theta/7 + NBTI_theta/14 + 1;  
   DTBtiId thetaBTI;  
   if ( baseid.station() != 4 && bti_group != -1) {
@@ -171,10 +173,8 @@ int AngleConverter::getGlobalEta(unsigned int rawid, const L1MuDTChambPhDigi &aD
     thetaBTI = DTBtiId(baseid,3,1); 
   }
   const GlobalPoint theta_gp = trig_geom->CMSPosition(thetaBTI);
-  return theta_gp.theta();  
-  
-  return 0;
-  
+  int iEta = theta_gp.eta()/2.61*240;
+  return iEta;
 }
 ///////////////////////////////////////
 ///////////////////////////////////////
@@ -243,7 +243,6 @@ int AngleConverter::getGlobalEta(unsigned int rawid, const CSCCorrelatedLCTDigi 
   layer.release();
 
   int iEta =  final_gp.eta()/2.61*240;
-  
   return iEta;  
 }
 ///////////////////////////////////////
@@ -264,13 +263,6 @@ int AngleConverter::getGlobalEta(unsigned int rawid, const RPCDigi &aDigi){
 } 
 ///////////////////////////////////////
 ///////////////////////////////////////
-
-
-
-
-
-
-
 bool AngleConverter::
 isCSCCounterClockwise(const std::unique_ptr<const CSCLayer>& layer) const {
   const int nStrips = layer->geometry()->numberOfStrips();
@@ -279,3 +271,28 @@ isCSCCounterClockwise(const std::unique_ptr<const CSCLayer>& layer) const {
   return ( (std::abs(phi1 - phiN) < M_PI  && phi1 >= phiN) || 
 	   (std::abs(phi1 - phiN) >= M_PI && phi1 < phiN)     );  
 }
+///////////////////////////////////////
+///////////////////////////////////////
+const int AngleConverter::findBTIgroup(const L1MuDTChambPhDigi &aDigi,
+				       const L1MuDTChambThContainer *dtThDigis){
+
+  int bti_group = -1;
+  
+  const L1MuDTChambThDigi *theta_segm = dtThDigis->chThetaSegm(aDigi.whNum(),
+							       aDigi.stNum(),
+							       aDigi.scNum(),
+							       aDigi.bxNum());
+  if(!theta_segm) return  bti_group;
+  
+  for(unsigned int i = 0; i < 7; ++i ){
+    if(theta_segm->position(i) && bti_group<0) bti_group = i;
+    ///If there are more than one theta digi we do not take is
+    ///due to unresolvet ambiguity. In this case we take eta of the
+    ///middle of the chamber.
+    else if(theta_segm->position(i) && bti_group>-1) return -1;
+  }
+      
+  return bti_group;
+}
+///////////////////////////////////////
+///////////////////////////////////////

@@ -232,7 +232,10 @@ void OMTFSorter::sortProcessor(const std::vector<OMTFProcessor::resultsMap> & pr
     candidate.setHwEta(myCand.eta);//eta scale set during input making in OMTFInputmaker
     candidate.setHwPhi(myCand.phi);
     candidate.setHwSign(myCand.charge+1*(myCand.charge<0));
-    candidate.setHwQual(bits.count());
+    ///Quality is set to number of leayers hit.
+    ///DT bending and position hit is counted as one.
+    ///thus we subtract 1 for each DT station hit.
+    candidate.setHwQual(bits.count() - bits.test(0) - bits.test(2) - bits.test(4));
     std::map<int, int> trackAddr;
     trackAddr[0] = myCand.hits;
     trackAddr[1] = myCand.refLayer;

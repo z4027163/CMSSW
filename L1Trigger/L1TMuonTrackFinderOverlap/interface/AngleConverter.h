@@ -1,5 +1,5 @@
-#ifndef __GEOMETRYTRANSLATOR_H__
-#define ___GEOMETRYTRANSLATOR_H__
+#ifndef __ANGLECONVERTER_H__
+#define __ANGLECONVERTER_H__
 
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "DataFormats/GeometryVector/interface/GlobalPoint.h"
@@ -15,6 +15,7 @@ class CSCLayer;
 class DTGeometry;
 
 class L1MuDTChambPhDigi;
+class L1MuDTChambThContainer;
 class CSCCorrelatedLCTDigi;
 class RPCDigi;
 
@@ -38,7 +39,8 @@ class RPCDigi;
     float getGlobalPhi(unsigned int rawid, const RPCDigi &aDigi);
 
     ///Convert local eta coordinate to global digital microGMT scale.
-    int getGlobalEta(unsigned int rawid, const L1MuDTChambPhDigi &aDigi);
+    int getGlobalEta(unsigned int rawid, const L1MuDTChambPhDigi &aDigi,
+		     const L1MuDTChambThContainer *dtThDigis);
     
     ///Convert local eta coordinate to global digital microGMT scale.
     int getGlobalEta(unsigned int rawid, const CSCCorrelatedLCTDigi &aDigi);
@@ -48,7 +50,13 @@ class RPCDigi;
 
   private:
 
+    ///Check orientation of strips in given CSC chamber
     bool isCSCCounterClockwise(const std::unique_ptr<const CSCLayer>& layer) const;
+
+
+    ///Find BTI group
+    const int findBTIgroup(const L1MuDTChambPhDigi &aDigi,
+			   const L1MuDTChambThContainer *dtThDigis);
     
     // pointers to the current geometry records
     unsigned long long _geom_cache_id;

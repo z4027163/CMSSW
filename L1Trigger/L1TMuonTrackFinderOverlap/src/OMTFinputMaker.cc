@@ -107,6 +107,7 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
     break;
   }
   case MuonSubdetId::CSC: {
+
     CSCDetId csc(rawId);    
     if(type==l1t::tftype::omtf_pos &&
        (csc.endcap()==2 || csc.ring()==1 || csc.station()==4)) return false;
@@ -121,7 +122,7 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
        ) return false;
 
     aSector =  csc.chamber();   	
-    
+
     aMin = OMTFConfiguration::endcap10DegMin[iProcessor];
     aMax = OMTFConfiguration::endcap10DegMax[iProcessor];
 
@@ -129,14 +130,13 @@ bool  OMTFinputMaker::acceptDigi(uint32_t rawId,
 	csc.station()>1 && csc.ring()==1){
       aMin = OMTFConfiguration::endcap20DegMin[iProcessor];
       aMax = OMTFConfiguration::endcap20DegMax[iProcessor];
-    }    
+    }
     break;
-  }
+  }    
   }
   
   if(aMax>aMin && aSector>=aMin && aSector<=aMax) return true;
   if(aMax<aMin && (aSector>=aMin || aSector<=aMax)) return true;
-
 
   return false;
 }
@@ -233,6 +233,9 @@ void OMTFinputMaker::processDT(const L1MuDTChambPhContainer *dtPhDigis,
     ///Check it the data fits into given processor input range
     if(!acceptDigi(detid.rawId(), iProcessor, type)) continue;
     ///Check Trigger primitive quality
+    ///Ts2Tag() == 0 - take only first track from DT Trigger Server
+    ///BxCnt()  == 0 - ??
+    ///code()>=3     - take only double layer hits, HH, HL and LL
     if (digiIt.bxNum()!= 0 || digiIt.BxCnt()!= 0 || digiIt.Ts2Tag()!= 0 || digiIt.code()<4) continue;
 
     unsigned int hwNumber = OMTFConfiguration::getLayerNumber(detid.rawId());
@@ -240,8 +243,7 @@ void OMTFinputMaker::processDT(const L1MuDTChambPhContainer *dtPhDigis,
     
     unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
     int iPhi =  katownik->getGlobalPhi(detid.rawId(), digiIt);
-    int iEta =  0.9/2.61*240;//Temporary value.
-    if(detid.wheel()<0) iEta*=-1;
+    int iEta =  katownik->getGlobalEta(detid.rawId(), digiIt, dtThDigis);
     unsigned int iInput= getInputNumber(detid.rawId(), iProcessor, type);
 
     myInput->addLayerHit(iLayer,iInput,iPhi,iEta);
@@ -256,10 +258,11 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
 	       l1t::tftype type){
 
   if(!cscDigis) return;
-  
+
   auto chamber = cscDigis->begin();
   auto chend  = cscDigis->end();
-  for( ; chamber != chend; ++chamber ) {    
+  for( ; chamber != chend; ++chamber ) {
+
     unsigned int rawid = (*chamber).first;
     ///Check it the data fits into given processor input range
     if(!acceptDigi(rawid, iProcessor, type)) continue;
@@ -275,7 +278,7 @@ void OMTFinputMaker::processCSC(const CSCCorrelatedLCTDigiCollection *cscDigis,
       unsigned int hwNumber = OMTFConfiguration::getLayerNumber(rawid);
       if(OMTFConfiguration::hwToLogicLayer.find(hwNumber)==OMTFConfiguration::hwToLogicLayer.end()) continue;
 
-      unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];   
+      unsigned int iLayer = OMTFConfiguration::hwToLogicLayer[hwNumber];      
       int iPhi = katownik->getGlobalPhi(rawid, *digi);
       int iEta = katownik->getGlobalEta(rawid, *digi);
       ///Accept CSC digis only up to eta=1.26.
