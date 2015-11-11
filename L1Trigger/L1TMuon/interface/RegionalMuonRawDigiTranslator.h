@@ -11,7 +11,6 @@ namespace l1t {
       static void generatePackedDataWords(const RegionalMuonCand&, uint32_t&, uint32_t&);
       static uint64_t generate64bitDataWord(const RegionalMuonCand&);
 
-    private:
       static const unsigned ptMask_ = 0x1FF;
       static const unsigned ptShift_ = 0;
       static const unsigned qualMask_ = 0xF;

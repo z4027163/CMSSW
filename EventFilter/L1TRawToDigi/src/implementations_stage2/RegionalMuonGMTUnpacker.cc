@@ -78,10 +78,11 @@ namespace l1t {
                uint32_t raw_data_00_31 = payload[i++];
                uint32_t raw_data_32_63 = payload[i++];        
                LogDebug("L1T|Muon") << "raw_data_00_31 = 0x" << hex << raw_data_00_31 << " raw_data_32_63 = 0x" << raw_data_32_63;
-               // skip empty muons
-               // the msb are reserved for global information
-               if ((raw_data_00_31 & 0x7FFFFFFF) == 0 && (raw_data_32_63 & 0x7FFFFFFF) == 0) {
-                  LogDebug("L1T|Muon") << "Raw data is zero. Skip.";
+               // skip empty muons (hwPt == 0)
+               //// the msb are reserved for global information
+               //if ((raw_data_00_31 & 0x7FFFFFFF) == 0 && (raw_data_32_63 & 0x7FFFFFFF) == 0) {
+               if (((raw_data_00_31 >> l1t::RegionalMuonRawDigiTranslator::ptShift_) & l1t::RegionalMuonRawDigiTranslator::ptMask_) == 0) {
+                  LogDebug("L1T|Muon") << "Muon hwPt zero. Skip.";
                   continue;
                }
  
