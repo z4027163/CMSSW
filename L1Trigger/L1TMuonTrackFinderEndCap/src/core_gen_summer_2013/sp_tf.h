@@ -13,7 +13,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "Riostream.h"
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -55,7 +54,7 @@
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
 
-
+#include "Riostream.h"
 #include "vppc_sim_lib.h"
 #include "sp.h"
 
