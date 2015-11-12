@@ -36,7 +36,8 @@
 // Collaborating Class Declarations --
 //------------------------------------
 
-#include <FWCore/Framework/interface/Event.h>
+#include "FWCore/Framework/interface/ConsumesCollector.h"
+#include "FWCore/Framework/interface/Event.h"
 class L1MuBMSectorReceiver;
 class L1MuBMDataBuffer;
 class L1MuBMExtrapolationUnit;
@@ -54,7 +55,7 @@ class L1MuBMSectorProcessor {
   public:
 
     /// constructor
-    L1MuBMSectorProcessor(const L1MuBMTrackFinder&, const L1MuBMSecProcId& );
+    L1MuBMSectorProcessor(const L1MuBMTrackFinder&, const L1MuBMSecProcId&, edm::ConsumesCollector&&);
 
     /// destructor
     virtual ~L1MuBMSectorProcessor();

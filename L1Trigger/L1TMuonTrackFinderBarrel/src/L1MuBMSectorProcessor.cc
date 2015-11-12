@@ -51,9 +51,11 @@ using namespace std;
 //----------------
 
 L1MuBMSectorProcessor::L1MuBMSectorProcessor(const L1MuBMTrackFinder& tf,
-                                             const L1MuBMSecProcId& id) :
+                                             const L1MuBMSecProcId& id,
+                                             edm::ConsumesCollector&& iC) :
+
       m_tf(tf), m_spid(id),
-      m_SectorReceiver(new L1MuBMSectorReceiver(*this)),
+      m_SectorReceiver(new L1MuBMSectorReceiver(*this, std::move(iC))),
       m_DataBuffer(new L1MuBMDataBuffer(*this)),
       m_EU(new L1MuBMExtrapolationUnit(*this)),
       m_TA(new L1MuBMTrackAssembler(*this)),
