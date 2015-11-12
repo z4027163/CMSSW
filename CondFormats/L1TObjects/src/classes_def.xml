@@ -42,6 +42,15 @@
     <field name="sparams_" mapping="blob"/>
     <field name="uparams_" mapping="blob"/>
   </class>
+  <class name="L1TBMTFParams">
+    <field name="pnodes_" mapping="blob"/>
+  </class>
+  <class name="L1TBMTFParams::Node">
+    <field name="dparams_" mapping="blob"/>
+    <field name="iparams_" mapping="blob"/>
+    <field name="sparams_" mapping="blob"/>
+    <field name="uparams_" mapping="blob"/>
+  </class>
   <class name="L1MuScale"/>
   <class name="L1MuBinnedScale">
     <field name="m_Scale" mapping="blob" />
