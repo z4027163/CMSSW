@@ -28,7 +28,6 @@
 //----------------------
 
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
-#include "DataFormats/L1TMuon/interface/MuonCandidateTrack.h"
 
 //------------------------------------
 // Collaborating Class Declarations --
@@ -43,9 +42,9 @@
 #include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackSegEta.h"
 #include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcId.h"
 
-#include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
+//#include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
 
-using namespace L1TMuon;
+//using namespace L1TMuon;
 
 //              ---------------------
 //              -- Class Interface --
