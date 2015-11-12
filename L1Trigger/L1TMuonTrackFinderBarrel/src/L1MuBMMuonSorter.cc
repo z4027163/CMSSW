@@ -16,7 +16,7 @@
 // This Class's Header --
 //-----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMMuonSorter.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMMuonSorter.h"
 
 //---------------
 // C++ Headers --
@@ -29,11 +29,11 @@
 // Collaborating Class Headers --
 //-------------------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTFConfig.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMWedgeSorter.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcId.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrackFinder.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrack.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTFConfig.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMWedgeSorter.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSecProcId.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrackFinder.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
 
 using namespace std;
 

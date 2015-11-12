@@ -10,7 +10,7 @@
 //////////////////////////////////////////////////////////////
 
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/plugins/L1TMuonUpgradedTrackFinder.h"
+#include "L1Trigger/L1TMuonEndCap/plugins/L1TMuonUpgradedTrackFinder.h"
 #include "L1Trigger/CSCCommonTrigger/interface/CSCPatternLUT.h"
 #include "L1Trigger/CSCTrackFinder/test/src/RefTrack.h"
 
@@ -18,16 +18,16 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PrimitiveConverter.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/BXAnalyzer.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/ZoneCreation.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PatternRecognition.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SortSector.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Matching.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Deltas.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/BestTracks.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PtAssignment.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/MakeRegionalCand.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PrimitiveConverter.h"
+#include "L1Trigger/L1TMuonEndCap/interface/BXAnalyzer.h"
+#include "L1Trigger/L1TMuonEndCap/interface/ZoneCreation.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PatternRecognition.h"
+#include "L1Trigger/L1TMuonEndCap/interface/SortSector.h"
+#include "L1Trigger/L1TMuonEndCap/interface/Matching.h"
+#include "L1Trigger/L1TMuonEndCap/interface/Deltas.h"
+#include "L1Trigger/L1TMuonEndCap/interface/BestTracks.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PtAssignment.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MakeRegionalCand.h"
 
 
 using namespace L1TMuon;

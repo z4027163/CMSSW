@@ -5,8 +5,8 @@
 ///////which are PhiMemoryImages containing all of the hits
 ///////
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PhiMemoryImage.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/EmulatorClasses.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
+#include "L1Trigger/L1TMuonEndCap/interface/EmulatorClasses.h"
 
 
 ZonesOutput zonemaker(std::vector<ConvertedHit> ConvHits){

@@ -15,7 +15,7 @@
 // This Class's Header --
 //-----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackSegLoc.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegLoc.h"
 
 //---------------
 // C++ Headers --

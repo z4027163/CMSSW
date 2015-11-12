@@ -116,9 +116,9 @@ process.omtfPatternMaker = cms.EDAnalyzer("OMTFPatternMaker",
                                           omtf = cms.PSet(
                                               configFromXML = cms.bool(True),   
                                               patternsXMLFiles = cms.VPSet(                                       
-                                                  cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/Patterns_ipt4_31_750.xml")),
+                                                  cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonOverlap/data/Patterns_ipt4_31_750.xml")),
                                               ),
-                                              configXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/hwToLogicLayer_750.xml"),
+                                              configXMLFile = cms.FileInPath("L1Trigger/L1TMuonOverlap/data/hwToLogicLayer_750.xml"),
                                           )
 )
 

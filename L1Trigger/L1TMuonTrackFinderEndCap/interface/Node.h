@@ -5,7 +5,7 @@
 
 #include <string>
 #include <vector>
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Event.h"
+#include "L1Trigger/L1TMuonEndCap/interface/Event.h"
 
 class Node
 {

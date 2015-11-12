@@ -1,7 +1,7 @@
 #ifndef __EmulatorClasses_
 #define __EmulatorClasses_
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PhiMemoryImage.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
 #include "DataFormats/L1TMuon/src/classes.h"
 
 typedef std::vector<std::vector<PhiMemoryImage>> ImageCollector;

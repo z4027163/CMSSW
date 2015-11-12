@@ -4,9 +4,9 @@
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/GoldenPattern.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinput.h"
+#include "L1Trigger/L1TMuonOverlap/interface/GoldenPattern.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFinput.h"
 
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////

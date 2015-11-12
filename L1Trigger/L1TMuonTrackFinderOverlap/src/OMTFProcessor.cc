@@ -9,12 +9,12 @@
 
 #include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFProcessor.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/GoldenPattern.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/XMLConfigReader.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinput.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFResult.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFProcessor.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/GoldenPattern.h"
+#include "L1Trigger/L1TMuonOverlap/interface/XMLConfigReader.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFinput.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFResult.h"
 
 #include "L1Trigger/RPCTrigger/interface/RPCConst.h"
 

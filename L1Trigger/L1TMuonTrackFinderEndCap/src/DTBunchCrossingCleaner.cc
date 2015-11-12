@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/DTBunchCrossingCleaner.h"
+#include "L1Trigger/L1TMuonEndCap/interface/DTBunchCrossingCleaner.h"
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
 #include "DataFormats/Common/interface/Handle.h"
 #include "FWCore/Framework/interface/Event.h"

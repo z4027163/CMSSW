@@ -9,7 +9,7 @@
 //
 //--------------------------------------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackAssParam.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackAssParam.h"
 #include <iostream>
 
 using namespace std;

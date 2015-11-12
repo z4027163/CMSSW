@@ -22,7 +22,7 @@
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SubsystemCollectorFactory.h"
+#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollectorFactory.h"
 
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
@@ -39,7 +39,7 @@
 #include <TH2.h>
 #include <TH1F.h>
 #include <TFile.h>
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/GeometryTranslator.h"
+#include "L1Trigger/L1TMuonEndCap/interface/GeometryTranslator.h"
 
 #include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
 #include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
@@ -71,7 +71,7 @@
 
 
 /////////////////////  From Matt's Code  ////////////////////////
-//#include "L1Trigger/L1TMuonTrackFinderEndCap/plugins/L1TMuonTFAlgorithm.h"
+//#include "L1Trigger/L1TMuonEndCap/plugins/L1TMuonTFAlgorithm.h"
 
 
 using namespace L1TMuon;

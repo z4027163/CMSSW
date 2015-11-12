@@ -4,7 +4,7 @@
 #define ADD_TREE
 
 #include <list>
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Node.h"
+#include "L1Trigger/L1TMuonEndCap/interface/Node.h"
 #include "TXMLEngine.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Event.h"

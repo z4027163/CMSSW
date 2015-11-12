@@ -15,7 +15,7 @@
 // This Class's Header --
 //-----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSEU.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSEU.h"
 
 //---------------
 // C++ Headers --
@@ -28,14 +28,14 @@
 // Collaborating Class Headers --
 //-------------------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTFConfig.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSectorProcessor.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMDataBuffer.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackSegLoc.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackSegPhi.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMExtrapolationUnit.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMEUX.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMERS.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTFConfig.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSectorProcessor.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMDataBuffer.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegLoc.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegPhi.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMExtrapolationUnit.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMEUX.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMERS.h"
 
 using namespace std;
 

@@ -23,7 +23,7 @@
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SubsystemCollectorFactory.h"
+#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollectorFactory.h"
 
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
@@ -42,14 +42,14 @@
 #include <TH2.h>
 #include <TH1F.h>
 #include <TFile.h>
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/GeometryTranslator.h"
+#include "L1Trigger/L1TMuonEndCap/interface/GeometryTranslator.h"
     
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
 
 #include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
 #include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PhiMemoryImage.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
   
 #include "TFile.h"
 #include "TH1.h"

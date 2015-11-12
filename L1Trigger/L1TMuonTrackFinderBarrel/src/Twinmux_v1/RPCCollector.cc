@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/RPCCollector.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/RPCCollector.h"
 #include "DataFormats/RPCDigi/interface/RPCDigi.h"
 #include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
 #include "DataFormats/MuonDetId/interface/RPCDetId.h"
@@ -53,5 +53,5 @@ extractPrimitives(edm::Handle<RPCDigiCollection> rpcDigis,
   }
 }
 
-//#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SubsystemCollectorFactory.h"
+//#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollectorFactory.h"
 //DEFINE_EDM_PLUGIN( SubsystemCollectorFactory, RPCCollector, "RPCCollector");

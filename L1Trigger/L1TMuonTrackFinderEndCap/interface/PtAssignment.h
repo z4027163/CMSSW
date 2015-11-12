@@ -3,13 +3,13 @@
 ////2985826856 old checksum11 in DataFormats/L1TMuon/src/classes_def.xml
 ////1494215132 12
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/EmulatorClasses.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/plugins/L1TMuonUpgradedTrackFinder.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Forest.h"
+#include "L1Trigger/L1TMuonEndCap/interface/EmulatorClasses.h"
+#include "L1Trigger/L1TMuonEndCap/plugins/L1TMuonUpgradedTrackFinder.h"
+#include "L1Trigger/L1TMuonEndCap/interface/Forest.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/getMaxPt.h"
+#include "L1Trigger/L1TMuonEndCap/interface/getMaxPt.h"
 //add this bobby the 3 files below
 #include "Geometry/CSCGeometry/interface/CSCGeometry.h"
 #include "Geometry/Records/interface/MuonGeometryRecord.h"
@@ -88,8 +88,8 @@ int ModeVariables_Scheme3[13][6] =
     {3,5,10,13,-999,-999},              // 14
     {0,3,5,20,-999,-999}            // 15
   };
-//const char *dirSchemeC = "L1Trigger/L1TMuonTrackFinderEndCap/plugins/ModeVariables/trees";
-const char *dirSchemeC = "L1Trigger/L1TMuonTrackFinderEndCap/plugins/ModeVariables/trees";
+//const char *dirSchemeC = "L1Trigger/L1TMuonEndCap/plugins/ModeVariables/trees";
+const char *dirSchemeC = "L1Trigger/L1TMuonEndCap/plugins/ModeVariables/trees";
 
 //------------------------------------------------//
 
@@ -781,7 +781,7 @@ float getPt(unsigned long Address)
 		//std::cout<<"\nMode = "<<mode<<"\n\n";
 		
 		Forest *forest = new Forest();
-		//const char *dir = "L1Trigger/L1TMuonTrackFinderEndCap/plugins/ModeVariables/trees";
+		//const char *dir = "L1Trigger/L1TMuonEndCap/plugins/ModeVariables/trees";
 		std::stringstream ss;
     ss << dir << "/" << mode;//
 		

@@ -32,14 +32,14 @@
 // Base Class Headers --
 //----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1AbstractProcessor.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1AbstractProcessor.h"
 
 //------------------------------------
 // Collaborating Class Declarations --
 //------------------------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackAssParam.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMAddressArray.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackAssParam.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMAddressArray.h"
 class L1MuBMSectorProcessor;
 
 //              ---------------------

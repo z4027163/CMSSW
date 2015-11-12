@@ -31,7 +31,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 #process.MicroGMTInputProducer = cms.EDProducer("l1t::MicroGMTInputProducerFromGen",
 #)
 
-#process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
+#process.load('L1Trigger.L1TMuonEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
 
 #process.load("L1Trigger.L1TMuon.microgmtemulator_cfi")
 
@@ -40,7 +40,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 
 
-process.load('L1Trigger.L1TMuonTrackFinderBarrel.bmtfDigis_cfi')
+process.load('L1Trigger.L1TMuonBarrel.bmtfDigis_cfi')
 
 
 ####BMTF Emulator

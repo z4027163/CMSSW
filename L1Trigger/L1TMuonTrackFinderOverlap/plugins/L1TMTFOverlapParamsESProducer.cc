@@ -9,8 +9,8 @@
 #include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
 #include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/XMLConfigReader.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/plugins/L1TMTFOverlapParamsESProducer.h"
+#include "L1Trigger/L1TMuonOverlap/interface/XMLConfigReader.h"
+#include "L1Trigger/L1TMuonOverlap/plugins/L1TMTFOverlapParamsESProducer.h"
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////

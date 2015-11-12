@@ -16,7 +16,7 @@
 // _______________________Includes_______________________________________//
 ///////////////////////////////////////////////////////////////////////////
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Node.h"
+#include "L1Trigger/L1TMuonEndCap/interface/Node.h"
 #include "TRandom3.h"
 #include "TStopwatch.h"
 #include <iostream>

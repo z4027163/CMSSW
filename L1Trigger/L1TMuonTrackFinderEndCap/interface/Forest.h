@@ -3,8 +3,8 @@
 #ifndef ADD_FOREST
 #define ADD_FOREST
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Tree.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/LossFunctions.h"
+#include "L1Trigger/L1TMuonEndCap/interface/Tree.h"
+#include "L1Trigger/L1TMuonEndCap/interface/LossFunctions.h"
 
 class Forest
 {

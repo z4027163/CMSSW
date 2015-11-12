@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PtAssignmentUnitFactory.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PtAssignmentUnitFactory.h"
 
 using namespace L1TMuon;
 

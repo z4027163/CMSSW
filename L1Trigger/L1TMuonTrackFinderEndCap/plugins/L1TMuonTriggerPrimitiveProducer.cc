@@ -18,7 +18,7 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EDProducer.h"
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/GeometryTranslator.h"
+#include "L1Trigger/L1TMuonEndCap/interface/GeometryTranslator.h"
 
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
@@ -28,7 +28,7 @@
 #include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigiCollection.h"
 #include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SubsystemCollectorFactory.h"
+#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollectorFactory.h"
 
 using namespace L1TMuon;
 

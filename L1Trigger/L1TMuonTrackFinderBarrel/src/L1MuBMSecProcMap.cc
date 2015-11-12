@@ -15,7 +15,7 @@
 // This Class's Header --
 //-----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcMap.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSecProcMap.h"
 
 //---------------
 // C++ Headers --
@@ -27,8 +27,8 @@
 // Collaborating Class Headers --
 //-------------------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcId.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSectorProcessor.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSecProcId.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSectorProcessor.h"
 
 using namespace std;
 

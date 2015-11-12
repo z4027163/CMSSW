@@ -30,7 +30,7 @@
 // Base Class Headers --
 //----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcId.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSecProcId.h"
 
 //------------------------------------
 // Collaborating Class Declarations --

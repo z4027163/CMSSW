@@ -10,11 +10,11 @@
 #include <FWCore/Framework/interface/ConsumesCollector.h>
 
 // L1IT include files
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MBLTCollection.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MBLTCollectionFwd.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTCollection.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTCollectionFwd.h"
 
 #include "DataFormats/MuonDetId/interface/RPCDetId.h"
 #include "DataFormats/MuonDetId/interface/DTChamberId.h"
@@ -26,7 +26,7 @@
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
 
 #include "Geometry/Records/interface/MuonGeometryRecord.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/PrimitiveCombiner.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/PrimitiveCombiner.h"
 
 // user include files
 #include "DataFormats/Math/interface/deltaPhi.h"

@@ -138,7 +138,7 @@ float CalculatePt_FullPrecision(L1TMuon::InternalTrack track){
 		if(verbose) std::cout<<"\nMode = "<<mode<<"\n\n";
 		
 		Forest *forest = new Forest();
-		const char *dir = "L1Trigger/L1TMuonTrackFinderEndCap/plugins/ModeVariables/trees";
+		const char *dir = "L1Trigger/L1TMuonEndCap/plugins/ModeVariables/trees";
 		std::stringstream ss;
         ss << dir << "/" << mode;//
 		

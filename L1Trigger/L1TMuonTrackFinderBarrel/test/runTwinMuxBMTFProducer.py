@@ -26,14 +26,14 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 ####BMTF Emulator
-process.load('L1Trigger.L1TMuonTrackFinderBarrel.bmtfDigis_cfi')
+process.load('L1Trigger.L1TMuonBarrel.bmtfDigis_cfi')
 process.bmtfEmulator = cms.EDProducer("BMTrackFinder",
    DTDigi_Source = cms.InputTag("L1TTwinMuxProducer"),
    DTDigi_Theta_Source = cms.InputTag("simDtTriggerPrimitiveDigis"),
    Debug = cms.untracked.int32(0)
 )
 ####TwinMux Emulator
-process.load('L1Trigger.L1TMuonTrackFinderBarrel.L1TTwinMuxProducer_cfi')
+process.load('L1Trigger.L1TMuonBarrel.L1TTwinMuxProducer_cfi')
 
 
 process.L1TMuonSeq = cms.Sequence( process.L1TTwinMuxProducer +

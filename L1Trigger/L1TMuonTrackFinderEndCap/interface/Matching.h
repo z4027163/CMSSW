@@ -5,8 +5,8 @@
 //////
 //////
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/EmulatorClasses.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PhiMemoryImage.h"
+#include "L1Trigger/L1TMuonEndCap/interface/EmulatorClasses.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
 
 
 MatchingOutput PhiMatching(SortingOutput Sout){

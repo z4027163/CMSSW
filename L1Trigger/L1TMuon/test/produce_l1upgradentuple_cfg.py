@@ -86,11 +86,11 @@ process.load('Configuration.Geometry.GeometryExtended2015_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
+process.load('L1Trigger.L1TMuonEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
 
-path = "L1Trigger/L1TMuonTrackFinderOverlap/data/"
+path = "L1Trigger/L1TMuonOverlap/data/"
 # OMTF emulator configuration
-process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cff')
+process.load('L1Trigger.L1TMuonOverlap.OMTFProducer_cff')
 
 process.L1TMuonEndcapTrackFinder = cms.EDProducer(
     'L1TMuonUpgradedTrackFinder',
@@ -102,10 +102,10 @@ process.L1TMuonEndcapTrackFinder = cms.EDProducer(
 )
 
 # TwinMux Emulator
-process.load('L1Trigger.L1TMuonTrackFinderBarrel.L1TTwinMuxProducer_cfi')
+process.load('L1Trigger.L1TMuonBarrel.L1TTwinMuxProducer_cfi')
 
 # BMTF Emulator
-process.load('L1Trigger.L1TMuonTrackFinderBarrel.bmtfDigis_cfi')
+process.load('L1Trigger.L1TMuonBarrel.bmtfDigis_cfi')
 process.bmtfDigis.DTDigi_Source=cms.InputTag("L1TTwinMuxProducer")
 
 process.MicroGMTCaloInputProducer = cms.EDProducer("L1TMicroGMTCaloInputProducer",

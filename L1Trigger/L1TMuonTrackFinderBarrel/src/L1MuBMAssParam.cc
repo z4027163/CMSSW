@@ -12,7 +12,7 @@
 //
 //--------------------------------------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMAssParam.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMAssParam.h"
 #include <iostream>
 
 using namespace std;

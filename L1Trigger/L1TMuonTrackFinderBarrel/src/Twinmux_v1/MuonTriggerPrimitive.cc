@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
 
 // the primitive types we can use
 #include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigi.h"

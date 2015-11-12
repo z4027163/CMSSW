@@ -2,8 +2,8 @@
 #include <ostream>
 #include <cmath>
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFResult.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFResult.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
 
 ////////////////////////////////////////////
 ////////////////////////////////////////////

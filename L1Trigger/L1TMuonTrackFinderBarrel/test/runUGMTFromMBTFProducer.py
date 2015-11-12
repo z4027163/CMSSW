@@ -26,10 +26,10 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
+process.load('L1Trigger.L1TMuonEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
 
 ###BMTF emulator configuration
-process.load('L1Trigger.L1TMuonTrackFinderBarrel.bmtfDigis_cfi')
+process.load('L1Trigger.L1TMuonBarrel.bmtfDigis_cfi')
 
 
 ####BMTF Emulator

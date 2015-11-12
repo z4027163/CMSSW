@@ -25,8 +25,8 @@
 #include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
 
 // interface to Pt assignment and refinement
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PtAssignmentUnitFactory.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PtRefinementUnitFactory.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PtAssignmentUnitFactory.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PtRefinementUnitFactory.h"
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
 

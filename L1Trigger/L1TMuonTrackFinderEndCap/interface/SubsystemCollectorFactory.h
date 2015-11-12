@@ -9,7 +9,7 @@
 // Author: L. Gray (FNAL)
 //
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SubsystemCollector.h"
+#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollector.h"
 #include "FWCore/PluginManager/interface/PluginFactory.h"
 
 namespace L1TMuon {

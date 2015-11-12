@@ -36,12 +36,12 @@
 
 #include <FWCore/Framework/interface/ESHandle.h>
 #include <FWCore/Framework/interface/EventSetup.h>
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackAssParam.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackAssParam.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMAddressArray.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackSegPhi.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackSegEta.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcId.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackAssParam.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackAssParam.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMAddressArray.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegPhi.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegEta.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSecProcId.h"
 
 #include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
 

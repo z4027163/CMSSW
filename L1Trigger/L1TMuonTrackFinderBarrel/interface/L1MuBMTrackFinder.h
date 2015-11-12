@@ -39,7 +39,7 @@
 #include <FWCore/Framework/interface/Event.h>
 #include <FWCore/ParameterSet/interface/ParameterSet.h>
 #include "FWCore/Framework/interface/ConsumesCollector.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrack.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
 
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 

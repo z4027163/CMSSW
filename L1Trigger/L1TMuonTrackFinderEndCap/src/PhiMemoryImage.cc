@@ -1,5 +1,5 @@
 #include <iostream>
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PhiMemoryImage.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
 
 PhiMemoryImage::PhiMemoryImage():_keyStationOffset(0){
   for (int i = 0; i < PhiMemoryImage::TOTAL_UNITS; i++) _buffer[i] = 0;

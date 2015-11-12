@@ -10,8 +10,8 @@
 //
 #include <vector>
 #include <memory>
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SubsystemCollector.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/DTBunchCrossingCleaner.h"
+#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollector.h"
+#include "L1Trigger/L1TMuonEndCap/interface/DTBunchCrossingCleaner.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
 class L1MuDTChambPhDigi;

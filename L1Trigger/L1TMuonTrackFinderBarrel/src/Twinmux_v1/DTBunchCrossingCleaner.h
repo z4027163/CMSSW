@@ -10,7 +10,7 @@
 // Author: L. Gray (FNAL)
 //
 #include <vector>
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
 namespace edm{

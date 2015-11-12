@@ -13,12 +13,12 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/L1ITMuonBarrelPrimitiveProducer.cc"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/L1TMuonTriggerPrimitiveProducer.cc"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/L1ITMuonBarrelPrimitiveProducer.cc"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/L1TMuonTriggerPrimitiveProducer.cc"
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MBLTProducer.cc"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MBLTCollection.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MBLTCollectionFwd.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTProducer.cc"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTCollection.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTCollectionFwd.h"
 
 #include <iostream>
 #include <iomanip>

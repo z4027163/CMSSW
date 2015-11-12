@@ -5,7 +5,7 @@
 #ifndef ADD_LOSS
 #define ADD_LOSS
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/Event.h"
+#include "L1Trigger/L1TMuonEndCap/interface/Event.h"
 #include <string>
 #include <algorithm>
 

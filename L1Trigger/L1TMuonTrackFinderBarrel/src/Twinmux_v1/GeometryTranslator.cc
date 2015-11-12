@@ -1,5 +1,5 @@
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/GeometryTranslator.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/GeometryTranslator.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
 
 // event setup stuff / geometries
 #include "FWCore/Framework/interface/EventSetup.h"

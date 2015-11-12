@@ -11,7 +11,7 @@
 #include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
 #include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
 
 class L1TMTFOverlapParamsESProducer : public edm::ESProducer {
    public:

@@ -20,7 +20,7 @@
 // This Class's Header --
 //-----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMEtaProcessor.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMEtaProcessor.h"
 
 //---------------
 // C++ Headers --
@@ -34,12 +34,12 @@
 // Collaborating Class Headers --
 //-------------------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTFConfig.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackSegEta.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcId.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSectorProcessor.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrackFinder.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrack.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTFConfig.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegEta.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSecProcId.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSectorProcessor.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrackFinder.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
 #include "CondFormats/L1TObjects/interface/L1MuDTEtaPattern.h"
 #include "CondFormats/L1TObjects/interface/L1MuDTEtaPatternLut.h"
 #include "CondFormats/DataRecord/interface/L1MuDTEtaPatternLutRcd.h"

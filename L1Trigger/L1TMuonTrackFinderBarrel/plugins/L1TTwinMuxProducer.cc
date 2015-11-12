@@ -12,7 +12,7 @@
 
 
 #include "FWCore/Framework/interface/Event.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/L1TTwinMuxAlgorithm.cc"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/L1TTwinMuxAlgorithm.cc"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include <FWCore/Framework/interface/ConsumesCollector.h>
 #include <FWCore/Framework/interface/one/EDProducer.h>

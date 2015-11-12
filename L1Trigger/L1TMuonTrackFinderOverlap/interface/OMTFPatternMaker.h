@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/GoldenPattern.h"
+#include "L1Trigger/L1TMuonOverlap/interface/GoldenPattern.h"
 
 class OMTFConfiguration;
 class XMLConfigReader;

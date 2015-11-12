@@ -10,13 +10,13 @@
 #include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
 #include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/plugins/OMTFProducer.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFProcessor.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinputMaker.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinput.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFSorter.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/XMLConfigWriter.h"
+#include "L1Trigger/L1TMuonOverlap/plugins/OMTFProducer.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFProcessor.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFinputMaker.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFinput.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFSorter.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/XMLConfigWriter.h"
 
 using namespace L1TMuon;
 

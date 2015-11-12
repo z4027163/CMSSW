@@ -9,8 +9,8 @@
 // Author: L. Gray (FNAL)
 //
 #include <vector>
-//#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/SubsystemCollector.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
+//#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/SubsystemCollector.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "DataFormats/RPCDigi/interface/RPCDigi.h"
 #include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"

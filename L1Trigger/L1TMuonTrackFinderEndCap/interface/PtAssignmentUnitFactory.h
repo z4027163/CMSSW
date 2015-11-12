@@ -9,7 +9,7 @@
 // Author: L. Gray (FNAL)
 //
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PtAssignmentUnit.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PtAssignmentUnit.h"
 #include "FWCore/PluginManager/interface/PluginFactory.h"
 
 namespace L1TMuon {

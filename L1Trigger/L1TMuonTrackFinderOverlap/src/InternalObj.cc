@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/InternalObj.h"
+#include "L1Trigger/L1TMuonOverlap/interface/InternalObj.h"
 
 #include <bitset>
 

@@ -16,7 +16,7 @@
 // This Class's Header --
 //-----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSectorReceiver.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSectorReceiver.h"
 
 //---------------
 // C++ Headers --
@@ -29,11 +29,11 @@
 // Collaborating Class Headers --
 //-------------------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTFConfig.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSectorProcessor.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMDataBuffer.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackSegLoc.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTrackSegPhi.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTFConfig.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSectorProcessor.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMDataBuffer.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegLoc.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegPhi.h"
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhDigi.h"
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
 //#include "DataFormats/L1CSCTrackFinder/interface/TrackStub.h"

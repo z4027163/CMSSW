@@ -1,7 +1,7 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/plugins/L1TMTFOverlapParamsDBProducer.h"
+#include "L1Trigger/L1TMuonOverlap/plugins/L1TMTFOverlapParamsDBProducer.h"
 
 #include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
 #include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"

@@ -7,8 +7,8 @@
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFSorter.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFSorter.h"
 
 #include "L1Trigger/RPCTrigger/interface/RPCConst.h"
 ///////////////////////////////////////////////////////

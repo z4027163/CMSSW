@@ -10,7 +10,7 @@
 //
 
 #include "FWCore/Framework/interface/ESHandle.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
 
 #include <cmath>
 

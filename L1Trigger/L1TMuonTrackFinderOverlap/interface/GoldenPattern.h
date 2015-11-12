@@ -4,7 +4,7 @@
 #include <vector>
 #include <ostream>
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinput.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFinput.h"
 
 class OMTFConfigMaker;
 class OMTFProcessor;

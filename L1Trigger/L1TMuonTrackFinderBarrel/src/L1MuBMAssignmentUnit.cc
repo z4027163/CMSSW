@@ -44,7 +44,7 @@
 
 #include "../interface/L1MuBMPhiLut.h"
 #include "../interface/L1MuBMPtaLut.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrack.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
 
 using namespace std;
 

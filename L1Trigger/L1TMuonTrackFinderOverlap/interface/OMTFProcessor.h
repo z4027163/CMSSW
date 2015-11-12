@@ -3,8 +3,8 @@
 
 #include <map>
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/GoldenPattern.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFResult.h"
+#include "L1Trigger/L1TMuonOverlap/interface/GoldenPattern.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFResult.h"
 
 class L1TMTFOverlapParams;
 class OMTFConfiguration;

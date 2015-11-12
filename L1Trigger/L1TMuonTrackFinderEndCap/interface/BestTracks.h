@@ -7,7 +7,7 @@ Author: Matthew R. Carver
 Date: 7/29/13
 */
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/EmulatorClasses.h"
+#include "L1Trigger/L1TMuonEndCap/interface/EmulatorClasses.h"
 
 
 std::vector<BTrack> BestTracks(std::vector<std::vector<DeltaOutput>> Dout){

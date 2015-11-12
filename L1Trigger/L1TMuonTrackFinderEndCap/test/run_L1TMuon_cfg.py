@@ -11,11 +11,11 @@ process.load('Configuration.Geometry.GeometryIdeal_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1CSCTFTrackConverter_cfi')
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1DTTFTrackConverter_cfi')
-process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1RPCTFTrackConverter_cfi')
-#process.load('L1Trigger.L1TMuonTrackFinderEndCap.L1TMuonSimpleDeltaEtaHitMatcher_cfi')
+process.load('L1Trigger.L1TMuonEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
+process.load('L1Trigger.L1TMuonEndCap.L1CSCTFTrackConverter_cfi')
+process.load('L1Trigger.L1TMuonEndCap.L1DTTFTrackConverter_cfi')
+process.load('L1Trigger.L1TMuonEndCap.L1RPCTFTrackConverter_cfi')
+#process.load('L1Trigger.L1TMuonEndCap.L1TMuonSimpleDeltaEtaHitMatcher_cfi')
 
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')

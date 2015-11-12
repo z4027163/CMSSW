@@ -16,7 +16,7 @@
 // This Class's Header --
 //-----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTFSetup.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTFSetup.h"
 
 //---------------
 // C++ Headers --
@@ -29,7 +29,7 @@
 // Collaborating Class Headers --
 //-------------------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrackFinder.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrackFinder.h"
 
 using namespace std;
 

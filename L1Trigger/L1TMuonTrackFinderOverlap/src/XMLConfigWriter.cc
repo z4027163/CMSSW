@@ -1,12 +1,12 @@
 #include "FWCore/Framework/interface/Event.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/XMLConfigWriter.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/GoldenPattern.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinput.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFResult.h"
+#include "L1Trigger/L1TMuonOverlap/interface/XMLConfigWriter.h"
+#include "L1Trigger/L1TMuonOverlap/interface/GoldenPattern.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFinput.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFResult.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/InternalObj.h"
+#include "L1Trigger/L1TMuonOverlap/interface/InternalObj.h"
 
 #include <iostream>
 #include <sstream>

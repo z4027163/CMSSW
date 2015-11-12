@@ -15,8 +15,8 @@ PoolDBESSource = cms.ESSource("PoolDBESSource",
 '''
 
 ###OMTF CondFormats ESProducer. ESSetup is filled from XML file
-from L1Trigger.L1TMuonTrackFinderOverlap.omtfParams_cfi import *
+from L1Trigger.L1TMuonOverlap.omtfParams_cfi import *
 
 ###OMTF emulator configuration
-from L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi import *
+from L1Trigger.L1TMuonOverlap.OMTFProducer_cfi import *
 

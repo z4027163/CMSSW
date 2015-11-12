@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/RPCCollector.h"
+#include "L1Trigger/L1TMuonEndCap/interface/RPCCollector.h"
 #include "DataFormats/RPCDigi/interface/RPCDigi.h"
 #include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
 #include "DataFormats/MuonDetId/interface/RPCDetId.h"
@@ -34,5 +34,5 @@ extractPrimitives(const edm::Event& ev,
   }  
 }
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SubsystemCollectorFactory.h"
+#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollectorFactory.h"
 DEFINE_EDM_PLUGIN( SubsystemCollectorFactory, RPCCollector, "RPCCollector");

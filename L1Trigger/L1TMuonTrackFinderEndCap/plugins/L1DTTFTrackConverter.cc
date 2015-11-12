@@ -26,7 +26,7 @@
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/helpers.h"
+#include "L1Trigger/L1TMuonEndCap/interface/helpers.h"
 
 // this magic file contains a DT TrackClass -> mode LUT
 #include "L1Trigger/DTTrackFinder/src/L1MuDTTrackAssParam.h"

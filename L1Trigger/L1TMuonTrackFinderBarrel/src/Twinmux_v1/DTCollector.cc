@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/DTCollector.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/DTCollector.h"
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
 #include "DataFormats/MuonDetId/interface/DTChamberId.h"
@@ -178,5 +178,5 @@ findBTIGroupForThetaDigi(const L1MuDTChambThDigi& digi,
   return result;
 }
 
-//#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SubsystemCollectorFactory.h"
+//#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollectorFactory.h"
 //DEFINE_EDM_PLUGIN( SubsystemCollectorFactory, DTCollector, "DTCollector");

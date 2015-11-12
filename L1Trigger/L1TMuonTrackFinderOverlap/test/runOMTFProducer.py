@@ -79,7 +79,7 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
 ###OMTF emulator configuration
-process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cff')
+process.load('L1Trigger.L1TMuonOverlap.OMTFProducer_cff')
 ##Load configuration directly from XML
 #process.omtfEmulator.omtf.configFromXML = cms.bool(True)
 ##Dump event to XML file

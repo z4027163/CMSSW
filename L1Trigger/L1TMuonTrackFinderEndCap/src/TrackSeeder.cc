@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/TrackSeeder.h"
+#include "L1Trigger/L1TMuonEndCap/interface/TrackSeeder.h"
 
 using namespace L1TMuon;
 

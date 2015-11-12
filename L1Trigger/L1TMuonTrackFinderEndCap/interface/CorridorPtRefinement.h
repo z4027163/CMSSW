@@ -11,7 +11,7 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PtRefinementUnit.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PtRefinementUnit.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "FWCore/ParameterSet/interface/FileInPath.h"
 

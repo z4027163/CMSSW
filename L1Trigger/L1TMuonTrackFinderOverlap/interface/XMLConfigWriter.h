@@ -6,7 +6,7 @@
 
 #include "xercesc/util/XercesDefs.hpp"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
 
 class GoldenPattern;
 class OMTFConfiguration;

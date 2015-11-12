@@ -83,10 +83,10 @@ for ipt in xrange(4,32):
     patternsXMLFiles.append(cms.PSet(patternsXMLFile = cms.FileInPath(path+"SingleMu_"+str(ipt)+"_m/GPs.xml")))
             
 patternsXMLFiles = cms.VPSet()
-patternsXMLFiles.append(cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonTrackFinderOverlap/data/Patterns_ipt4_31_750_4x.xml")))
+patternsXMLFiles.append(cms.PSet(patternsXMLFile = cms.FileInPath("L1Trigger/L1TMuonOverlap/data/Patterns_ipt4_31_750_4x.xml")))
 
 ###OMTF emulator configuration
-process.load('L1Trigger.L1TMuonTrackFinderOverlap.OMTFProducer_cfi')
+process.load('L1Trigger.L1TMuonOverlap.OMTFProducer_cfi')
 ##Load configuration directly from XML
 process.omtfEmulator.omtf.configFromXML = cms.bool(True)
 

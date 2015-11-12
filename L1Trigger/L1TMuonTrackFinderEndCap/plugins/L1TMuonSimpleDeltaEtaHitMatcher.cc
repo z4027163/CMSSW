@@ -18,7 +18,7 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EDProducer.h"
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/GeometryTranslator.h"
+#include "L1Trigger/L1TMuonEndCap/interface/GeometryTranslator.h"
 
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
 #include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"

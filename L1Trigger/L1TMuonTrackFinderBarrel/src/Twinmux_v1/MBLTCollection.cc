@@ -1,7 +1,7 @@
 //Authors:
 // Carlo Battilana - Giuseppe Codispoti
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MBLTCollection.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTCollection.h"
 
 #include "DataFormats/MuonDetId/interface/RPCDetId.h"
 #include "DataFormats/MuonDetId/interface/DTChamberId.h"

@@ -7,8 +7,8 @@
 //////Author M. Carver, UF
 //////
 
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/EmulatorClasses.h"
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/PhiMemoryImage.h"
+#include "L1Trigger/L1TMuonEndCap/interface/EmulatorClasses.h"
+#include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
 
 
 std::vector<std::vector<ConvertedHit>> GroupBX(std::vector<ConvertedHit> ConvHits){

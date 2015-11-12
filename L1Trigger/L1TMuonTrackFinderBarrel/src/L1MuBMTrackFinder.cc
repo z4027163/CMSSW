@@ -16,7 +16,7 @@
 // This Class's Header --
 //-----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrackFinder.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrackFinder.h"
 
 //---------------
 // C++ Headers --
@@ -34,14 +34,14 @@
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
 //#include "DataFormats/L1DTTrackFinder/interface/L1MuDTTrackCand.h"
 #include "DataFormats/L1TMuon/interface/BMTrackCand.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTFConfig.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcId.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcMap.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSectorProcessor.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMEtaProcessor.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMWedgeSorter.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMMuonSorter.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMTrack.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMTFConfig.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSecProcId.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSecProcMap.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMSectorProcessor.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMEtaProcessor.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMWedgeSorter.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMMuonSorter.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
 
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 

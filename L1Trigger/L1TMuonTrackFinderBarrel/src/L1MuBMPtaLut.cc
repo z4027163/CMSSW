@@ -39,7 +39,7 @@
 #include "CondFormats/L1TObjects/interface/DTTFBitArray.h"
 //#include "CondFormats/L1TObjects/interface/L1MuDTAssParam.h"
 #include "CondFormats/L1TObjects/interface/L1TriggerLutFile.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMAssParam.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMAssParam.h"
 
 using namespace std;
 

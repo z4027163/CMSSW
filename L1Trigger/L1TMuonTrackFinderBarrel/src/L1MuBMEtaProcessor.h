@@ -37,7 +37,7 @@
 #include <FWCore/Framework/interface/Event.h>
 #include <FWCore/Framework/interface/ESHandle.h>
 #include <FWCore/Framework/interface/EventSetup.h>
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMAddressArray.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMAddressArray.h"
 class L1MuBMTrackSegEta;
 class L1MuBMTrackFinder;
 class L1MuBMTrack;

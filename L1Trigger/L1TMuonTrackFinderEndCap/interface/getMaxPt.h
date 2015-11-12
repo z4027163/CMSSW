@@ -66,7 +66,7 @@ void load(int perCUT=90)
  
   hPT__ = new TH1F("hPT__","",NPTBins,0,200); 
  
-  TString name = "/lfs/scratch/mrcarver/MuonDevelopment/CMSSW_7_5_0_pre1/src/L1Trigger/L1TMuonTrackFinderEndCap/plugins/dPhi_Cuts_";
+  TString name = "/lfs/scratch/mrcarver/MuonDevelopment/CMSSW_7_5_0_pre1/src/L1Trigger/L1TMuonEndCap/plugins/dPhi_Cuts_";
   name += perCUT; name += ".root";
 
   TFile f(name);

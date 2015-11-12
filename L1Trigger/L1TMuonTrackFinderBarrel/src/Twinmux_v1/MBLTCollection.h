@@ -13,8 +13,8 @@
 
 #include <iostream>
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
 //#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
 //#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
 

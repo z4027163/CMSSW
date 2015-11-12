@@ -29,7 +29,7 @@
 // Base Class Headers --
 //----------------------
 
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1AbstractProcessor.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1AbstractProcessor.h"
 
 //------------------------------------
 // Collaborating Class Declarations --
@@ -42,8 +42,8 @@
 
 
 #include <FWCore/Framework/interface/ESHandle.h>
-#include "L1Trigger/L1TMuonTrackFinderBarrel/interface/L1MuBMAssParam.h"
-#include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMAddressArray.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMAssParam.h"
+#include "L1Trigger/L1TMuonBarrel/src/L1MuBMAddressArray.h"
 //class L1MuBMPhiLut;
 //class L1MuBMPtaLut;
 class L1MuBMTrackSegPhi;

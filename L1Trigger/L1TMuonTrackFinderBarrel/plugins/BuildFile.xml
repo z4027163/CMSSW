@@ -1,12 +1,12 @@
 <library   file="*.cc" name="L1TriggerL1BarrelMuonTrackFinderPlugins">
-<use name="L1Trigger/L1TMuonTrackFinderEndCap"/>
+<use name="L1Trigger/L1TMuonEndCap"/>
 <use name="L1Trigger/DTTrackFinder"/>
 <use name="FWCore/ServiceRegistry"/>
 <use name="CommonTools/UtilAlgos"/>
 <use name="DataFormats/HepMCCandidate"/>
 <use name="DataFormats/L1TMuon"/>
 <use name="DQM/DTMonitorModule"/>
-<use name="L1Trigger/L1TMuonTrackFinderBarrel"/>
+<use name="L1Trigger/L1TMuonBarrel"/>
 <flags LDFLAGS="-fPIC"/>
 <flags EDM_PLUGIN="1"/>
 <flags ADD_SUBDIR="1"/>

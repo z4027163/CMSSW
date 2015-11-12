@@ -7,9 +7,9 @@
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFResult.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFProcessor.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/InternalObj.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFResult.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFProcessor.h"
+#include "L1Trigger/L1TMuonOverlap/interface/InternalObj.h"
 
 
 class OMTFSorter{

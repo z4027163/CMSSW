@@ -2,9 +2,9 @@
 #include <iostream>
 #include <cmath>
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinput.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/XMLConfigReader.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFinput.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/XMLConfigReader.h"
 
 ///////////////////////////////////////////////////
 ///////////////////////////////////////////////////

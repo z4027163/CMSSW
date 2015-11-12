@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonTrackFinderEndCap/interface/SubsystemCollectorFactory.h"
+#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollectorFactory.h"
 
 using namespace L1TMuon;
 

@@ -2,13 +2,13 @@
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "L1Trigger/L1TMuonTrackFinderOverlap/plugins/OMTFPatternMaker.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFProcessor.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinputMaker.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFinput.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfiguration.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/OMTFConfigMaker.h"
-#include "L1Trigger/L1TMuonTrackFinderOverlap/interface/XMLConfigWriter.h"
+#include "L1Trigger/L1TMuonOverlap/plugins/OMTFPatternMaker.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFProcessor.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFinputMaker.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFinput.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
+#include "L1Trigger/L1TMuonOverlap/interface/OMTFConfigMaker.h"
+#include "L1Trigger/L1TMuonOverlap/interface/XMLConfigWriter.h"
 
 #include "SimDataFormats/Track/interface/SimTrack.h"
 #include "SimDataFormats/Track/interface/SimTrackContainer.h"
