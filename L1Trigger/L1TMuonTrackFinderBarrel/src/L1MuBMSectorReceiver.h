@@ -35,6 +35,11 @@
 #include <DataFormats/Common/interface/Handle.h>
 #include <FWCore/Framework/interface/ESHandle.h>
 #include <FWCore/Framework/interface/Event.h>
+#include "FWCore/Utilities/interface/EDGetToken.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhDigi.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h"
+
 class L1MuBMSectorProcessor;
 class L1MuDTTFParameters;
 class L1MuDTTFMasks;
@@ -48,7 +53,7 @@ class L1MuBMSectorReceiver {
   public:
 
     /// constructor
-    L1MuBMSectorReceiver(L1MuBMSectorProcessor& );
+    L1MuBMSectorReceiver(L1MuBMSectorProcessor& , edm::ConsumesCollector&& iC);
 
     /// destructor
     virtual ~L1MuBMSectorReceiver();
@@ -79,6 +84,7 @@ class L1MuBMSectorReceiver {
 
     edm::ESHandle< L1MuDTTFParameters > pars;
     edm::ESHandle< L1MuDTTFMasks >      msks;
+    edm::EDGetTokenT<L1MuDTChambPhContainer> m_DTDigiToken;
 
 };
 

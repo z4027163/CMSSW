@@ -31,9 +31,6 @@
 
 #include <DataFormats/Common/interface/Handle.h>
 #include <FWCore/Framework/interface/Event.h>
-#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
-//#include "DataFormats/L1DTTrackFinder/interface/L1MuDTTrackCand.h"
-#include "DataFormats/L1TMuon/interface/BMTrackCand.h"
 #include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTFConfig.h"
 #include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcId.h"
 #include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMSecProcMap.h"
@@ -56,9 +53,11 @@ using namespace std;
 //----------------
 // Constructors --
 //----------------
-
+//:
+//_cache(36, -9, 8)
 L1MuBMTrackFinder::L1MuBMTrackFinder(const edm::ParameterSet & ps,edm::ConsumesCollector && iC):
-_cache(36, -9, 8) {
+
+_cache0(144,-9,8),_cache(36, -9, 8) {
 
   // set configuration parameters
   if ( m_config == 0 ) m_config = new L1MuBMTFConfig(ps);
@@ -76,9 +75,9 @@ _cache(36, -9, 8) {
   // As I (Joschka) don't know how to decode the 4*17, I'm not sure which
   // need to book the BXVector accordingly (_cache(n_per_bx, bx_min, bx_max))
   // _cache.reserve(4*17);
-  _cache0.reserve(144*17);
+  //_cache0.reserve(144*17);
 
-  iC.consumes<L1MuDTChambPhDigi>(L1MuBMTFConfig::getBMDigiInputTag());
+  m_DTDigiToken = iC.consumes<L1MuDTChambPhContainer>(L1MuBMTFConfig::getBMDigiInputTag());
 }
 
 
@@ -119,7 +118,7 @@ L1MuBMTrackFinder::~L1MuBMTrackFinder() {
 //
 // setup MTTF configuration
 //
-void L1MuBMTrackFinder::setup() {
+void L1MuBMTrackFinder::setup(edm::ConsumesCollector&& iC) {
 
   // build the barrel Muon Trigger Track Finder
 
@@ -132,7 +131,7 @@ void L1MuBMTrackFinder::setup() {
     if ( wh == 0 ) continue;
     for ( int sc = 0; sc < 12; sc++ ) {
       L1MuBMSecProcId tmpspid(wh,sc);
-      L1MuBMSectorProcessor* sp = new L1MuBMSectorProcessor(*this,tmpspid);
+      L1MuBMSectorProcessor* sp = new L1MuBMSectorProcessor(*this,tmpspid,std::move(iC));
       if ( L1MuBMTFConfig::Debug(2) ) cout << "creating " << tmpspid << endl;
       m_spmap->insert(tmpspid,sp);
     }
@@ -140,7 +139,7 @@ void L1MuBMTrackFinder::setup() {
 
   // create new eta processors and wedge sorters
   for ( int sc = 0; sc < 12; sc++ ) {
-    L1MuBMEtaProcessor* ep = new L1MuBMEtaProcessor(*this,sc);
+    L1MuBMEtaProcessor* ep = new L1MuBMEtaProcessor(*this,sc, std::move(iC));
     if ( L1MuBMTFConfig::Debug(2) ) cout << "creating Eta Processor " << sc << endl;
     m_epvec.push_back(ep);
     L1MuBMWedgeSorter* ws = new L1MuBMWedgeSorter(*this,sc);
@@ -160,10 +159,11 @@ void L1MuBMTrackFinder::setup() {
 //
 void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
 
+ m_config->setDefaultsES(c);
   // run the barrel Muon Trigger Track Finder
 
   edm::Handle<L1MuDTChambPhContainer> dttrig;
-  e.getByLabel(L1MuBMTFConfig::getBMDigiInputTag(),dttrig);
+  e.getByToken(m_DTDigiToken,dttrig);
   if ( dttrig->getContainer()->size() == 0 ) return;
 
   if ( L1MuBMTFConfig::Debug(2) ) cout << endl;
@@ -213,13 +213,35 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
         const L1MuBMTrack* cand = (*it_sp).second->tracK(number);
 
         if ( cand && !cand->empty() ) {
-		int eta_value = -1000;
-	        if(cand->eta()>-33 || cand->eta()<32 )
-	                eta_value = eta_map[cand->eta()];
 
-		 _cache0.push_back(BMTrackCand(cand->pt(),cand->phi(),eta_value,cand->charge(),cand->quality(),
-                                               cand->bx(),cand->spid().wheel(),cand->spid().sector(),number,
-                                               cand->address(1),cand->address(2),cand->address(3),cand->address(4),cand->tc()));
+            l1t::RegionalMuonCand rmc;
+
+            int eta_value = -1000;
+            if(cand->hwEta()>-33 || cand->hwEta()<32 )
+                rmc.setHwEta(eta_map[cand->hwEta()]);
+            else
+                rmc.setHwEta(-1000);
+
+            rmc.setHwPt(cand->pt());
+            int abs_add_1 = setAdd(1,cand->address(1));
+            int abs_add_2 = setAdd(2,cand->address(2));
+            int abs_add_3 = setAdd(3,cand->address(3));
+            int abs_add_4 = setAdd(4,cand->address(4));
+
+            rmc.setTrackSubAddress(l1t::RegionalMuonCand::kWheel, cand->spid().wheel()); // this has to be set!
+            rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat1, abs_add_1);
+            rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat2, abs_add_2);
+            rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat3, abs_add_3);
+            rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat4, abs_add_4);
+
+            rmc.setHwPhi(cand->hwPhi());
+            rmc.setHwEta(eta_value);
+            rmc.setHwSign(cand->hwSign());
+            rmc.setHwSignValid(cand->hwSignValid());
+            rmc.setHwQual(cand->hwQual());
+            rmc.setTFIdentifiers(cand->spid().sector(),l1t::tftype::bmtf);
+
+            _cache0.push_back(cand->bx(), rmc);
 
       }
      }
@@ -255,7 +277,7 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
         int abs_add_3 = setAdd(3,(*iter)->address(3));
         int abs_add_4 = setAdd(4,(*iter)->address(4));
 
-        rmc.setTrackSubAddress(l1t::RegionalMuonCand::kWheel, 0); // this has to be set!
+        rmc.setTrackSubAddress(l1t::RegionalMuonCand::kWheel, (*iter)->spid().wheel()); // this has to be set!
         rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat1, abs_add_1);
         rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat2, abs_add_2);
         rmc.setTrackSubAddress(l1t::RegionalMuonCand::kStat3, abs_add_3);
@@ -263,11 +285,10 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
 
 
         rmc.setHwPhi((*iter)->hwPhi());
-	if((*iter)->hwEta()>-33 || (*iter)->hwEta()<32 )
-	        rmc.setHwEta(eta_map[(*iter)->hwEta()]);
-	else
-		rmc.setHwEta(-1000);
-        //cout<<(*iter)->hwEta()<<"    "<<eta_map[(*iter)->hwEta()]<<endl;
+        if((*iter)->hwEta()>-33 || (*iter)->hwEta()<32 )
+                rmc.setHwEta(eta_map[(*iter)->hwEta()]);
+        else
+            rmc.setHwEta(-1000);
         rmc.setHwSign((*iter)->hwSign());
         rmc.setHwSignValid((*iter)->hwSignValid());
         rmc.setHwQual((*iter)->hwQual());
@@ -276,7 +297,7 @@ void L1MuBMTrackFinder::run(const edm::Event& e, const edm::EventSetup& c) {
         if ( *iter ){ _cache.push_back((*iter)->bx(), rmc);}
      }
     }
-  }
+  }//end of bx loop
 }
 
 
