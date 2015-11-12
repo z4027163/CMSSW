@@ -48,9 +48,12 @@
 #include "CondFormats/L1TObjects/interface/CaloParams.h"
 #include "CondFormats/L1TObjects/interface/CaloConfig.h"
 
+#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+#include "CondFormats/L1TObjects/interface/L1TGMTParams.h"
 
 namespace CondFormats_L1TObjects {
   struct dictionary {
+    
     std::vector<l1t::CaloParams::Node> dummy1a;
     l1t::CaloParams dummy1b;
     l1t::LUT dummy1c;
@@ -75,6 +78,12 @@ namespace CondFormats_L1TObjects {
 //    std::vector<L1RPCConeDefinition::TLPSize> dummy15;
 //    std::vector<L1RPCConeDefinition::TRingToTower> dummy15a;
 //    std::vector<L1RPCConeDefinition::TRingToLP> dummy15b;
+    L1TGMTParams dummy16;
+    std::vector<L1TGMTParams::Node> dummy16a;
+
+
+    L1TMTFOverlapParams dummy17;
+    std::vector< L1TMTFOverlapParams::Node> dummy17a;
 
   };
 }
