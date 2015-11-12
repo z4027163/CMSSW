@@ -1,7 +1,7 @@
 #ifndef __L1TMUON_TRIGGERPRIMITIVE_H__
 #define __L1TMUON_TRIGGERPRIMITIVE_H__
 // 
-// Class: l1t::MuonTriggerPrimitive
+// Class: L1TMuon::TriggerPrimitive
 //
 // Info: This class implements a unifying layer between DT, CSC and RPC
 //       trigger primitives (TPs) such that TPs from different subsystems
@@ -37,26 +37,9 @@ class CSCDetId;
 class RPCDigiL1Link;
 class RPCDetId;
 
+namespace L1TMuon {
 
-#include <map>
-#include "DataFormats/Common/interface/Ref.h"
-#include "DataFormats/Common/interface/Ptr.h"
-
-namespace l1t {
-
-  class MuonTriggerPrimitive;
-
-  typedef std::vector<MuonTriggerPrimitive> MuonTriggerPrimitiveCollection;  
-  typedef edm::Ref<MuonTriggerPrimitiveCollection> MuonTriggerPrimitiveRef;
-  typedef std::vector<MuonTriggerPrimitiveRef> MuonTriggerPrimitiveList;
-  typedef edm::Ptr<MuonTriggerPrimitive> MuonTriggerPrimitivePtr;
-  typedef std::map<unsigned,MuonTriggerPrimitiveList> MuonTriggerPrimitiveStationMap;
-
-
-
-
-
-  class MuonTriggerPrimitive {
+  class TriggerPrimitive {
   public:
     // define the subsystems that we have available
     enum subsystem_type{kDT,kCSC,kRPC,kNSubsystems};
@@ -118,33 +101,33 @@ namespace l1t {
     };
     
     //Persistency
-    MuonTriggerPrimitive(): _subsystem(kNSubsystems) {}
+    TriggerPrimitive(): _subsystem(kNSubsystems) {}
       
     //DT      
-    MuonTriggerPrimitive(const DTChamberId&,		     
+    TriggerPrimitive(const DTChamberId&,		     
 		     const L1MuDTChambPhDigi&,
 		     const int segment_number);
-    MuonTriggerPrimitive(const DTChamberId&,		     
+    TriggerPrimitive(const DTChamberId&,		     
 		     const L1MuDTChambThDigi&,
 		     const int segment_number);
-    MuonTriggerPrimitive(const DTChamberId&,		     
+    TriggerPrimitive(const DTChamberId&,		     
 		     const L1MuDTChambPhDigi&,
 		     const L1MuDTChambThDigi&,
 		     const int theta_bti_group);    
     //CSC
-    MuonTriggerPrimitive(const CSCDetId&,
+    TriggerPrimitive(const CSCDetId&,
 		     const CSCCorrelatedLCTDigi&);
     //RPC
-    MuonTriggerPrimitive(const RPCDetId& detid,
+    TriggerPrimitive(const RPCDetId& detid,
 		     const unsigned strip,
 		     const unsigned layer,
 		     const uint16_t bx);
     
     //copy
-    MuonTriggerPrimitive(const MuonTriggerPrimitive&);
+    TriggerPrimitive(const TriggerPrimitive&);
 
-    MuonTriggerPrimitive& operator=(const MuonTriggerPrimitive& tp);
-    bool operator==(const MuonTriggerPrimitive& tp) const;
+    TriggerPrimitive& operator=(const TriggerPrimitive& tp);
+    bool operator==(const TriggerPrimitive& tp) const;
 
     // return the subsystem we belong to
     const subsystem_type subsystem() const { return _subsystem; }    
@@ -211,4 +194,3 @@ namespace l1t {
 }
 
 #endif
-
