@@ -28,6 +28,8 @@
 
 #include <FWCore/ParameterSet/interface/ParameterSet.h>
 #include <FWCore/Framework/interface/ConsumesCollector.h>
+#include "FWCore/Framework/interface/Event.h"
+
 class L1MuBMTrackFinder;
 
 //              ---------------------
@@ -52,7 +54,7 @@ class L1MuBMTFSetup {
   private:
 
     L1MuBMTrackFinder* m_tf;
-
+    const edm::EventSetup* m_es;
 };
 
 #endif
