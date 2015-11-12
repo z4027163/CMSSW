@@ -18,6 +18,9 @@
 
 #include "L1Trigger/L1TMuonTrackFinderBarrel/src/L1MuBMTFConfig.h"
 
+#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
+#include "CondFormats/DataRecord/interface/L1TBMTFParamsRcd.h"
+
 //---------------
 // C++ Headers --
 //---------------
@@ -39,9 +42,10 @@ using namespace std;
 // Constructors --
 //----------------
 
-L1MuBMTFConfig::L1MuBMTFConfig(const edm::ParameterSet & ps) {
+L1MuBMTFConfig::L1MuBMTFConfig(const edm::ParameterSet & ps ) {
 
     m_ps = &ps;
+    //m_es = &c;
     setDefaults();
 
 }
@@ -62,47 +66,8 @@ void L1MuBMTFConfig::setDefaults() {
   m_BMDigiInputTag = m_ps->getParameter<edm::InputTag>("DTDigi_Source");
   m_BMThetaDigiInputTag = m_ps->getParameter<edm::InputTag>("DTDigi_Theta_Source");
 
-  //m_CSCTrSInputTag = m_ps->getParameter<edm::InputTag>("CSCStub_Source");
-
   m_debug = true;
   m_dbgLevel = m_ps->getUntrackedParameter<int>("Debug",0);
-
-  //m_overlap = m_ps->getUntrackedParameter<bool>("Overlap",true);
-
-  // set min and max bunch crossing
-  m_BxMin = m_ps->getUntrackedParameter<int>("BX_min",-9);
-  m_BxMax = m_ps->getUntrackedParameter<int>("BX_max", 7);
-
-  // set Filter for Extrapolator
-  m_extTSFilter = m_ps->getUntrackedParameter<int>("Extrapolation_Filter",1);
-
-  // set switch for open LUTs usage
-  m_openLUTs = m_ps->getUntrackedParameter<bool>("Open_LUTs",false);
-
-  // set switch for EX21 usage
-  m_useEX21 = m_ps->getUntrackedParameter<bool>("Extrapolation_21",false);
-
-  // set switch for eta track finder usage
-  m_etaTF = m_ps->getUntrackedParameter<bool>("EtaTrackFinder",true);
-
-  // set switch for etaFlag cancellation of CSC segments
-  //m_etacanc = m_ps->getUntrackedParameter<bool>("CSC_Eta_Cancellation",false);
-
-  // set Filter for Out-of-time Track Segments
-  m_TSOutOfTimeFilter = m_ps->getUntrackedParameter<bool>("OutOfTime_Filter",false);
-  m_TSOutOfTimeWindow = m_ps->getUntrackedParameter<int>("OutOfTime_Filter_Window",1);
-
-  // set precision for extrapolation
-  m_NbitsExtPhi  = m_ps->getUntrackedParameter<int>("Extrapolation_nbits_Phi", 8);
-  m_NbitsExtPhib = m_ps->getUntrackedParameter<int>("Extrapolation_nbits_PhiB",8);
-
-  // set precision for pt-assignment
-  m_NbitsPtaPhi  = m_ps->getUntrackedParameter<int>("PT_Assignment_nbits_Phi", 12);
-  m_NbitsPtaPhib = m_ps->getUntrackedParameter<int>("PT_Assignment_nbits_PhiB",10);
-
-  // set precision for phi-assignment look-up tables
-  m_NbitsPhiPhi  = m_ps->getUntrackedParameter<int>("PHI_Assignment_nbits_Phi", 10);
-  m_NbitsPhiPhib = m_ps->getUntrackedParameter<int>("PHI_Assignment_nbits_PhiB",10);
 
   if ( Debug(1) ) cout << endl;
   if ( Debug(1) ) cout << "*******************************************" << endl;
@@ -111,10 +76,55 @@ void L1MuBMTFConfig::setDefaults() {
   if ( Debug(1) ) cout << endl;
 
   if ( Debug(1) ) cout << "L1 barrel Track Finder : BM Digi Source:  " <<  m_BMDigiInputTag << endl;
-  //if ( Debug(1) ) cout << "L1 barrel Track Finder : CSC Stub Source: " <<  m_CSCTrSInputTag << endl;
+  if ( Debug(1) ) cout << "L1 barrel Track Finder : BM Digi Source:  " <<  m_BMThetaDigiInputTag << endl;
   if ( Debug(1) ) cout << endl;
 
   if ( Debug(1) ) cout << "L1 barrel Track Finder : debug level: " << m_dbgLevel << endl;
+
+}
+
+
+void L1MuBMTFConfig::setDefaultsES(const edm::EventSetup& c) {
+    m_es = &c;
+
+
+  const L1TBMTFParamsRcd& bmtfParamsRcd = m_es->get<L1TBMTFParamsRcd>();
+  bmtfParamsRcd.get(bmtfParamsHandle);
+  L1TBMTFParams *bmtfParams = new L1TBMTFParams();
+  bmtfParams = new L1TBMTFParams(*bmtfParamsHandle.product());
+
+
+  // set min and max bunch crossing
+  m_BxMin = bmtfParams->get_BX_min();
+  m_BxMax = bmtfParams->get_BX_max();
+
+  // set Filter for Extrapolator
+  m_extTSFilter = bmtfParams->get_Extrapolation_Filter();
+
+  // set switch for open LUTs usage
+  m_openLUTs = bmtfParams->get_Open_LUTs();
+
+  // set switch for EX21 usage
+  m_useEX21 = bmtfParams->get_Extrapolation_21();
+
+  // set switch for eta track finder usage
+  m_etaTF = bmtfParams->get_EtaTrackFinder();
+
+  // set Filter for Out-of-time Track Segments
+  m_TSOutOfTimeFilter = bmtfParams->get_OutOfTime_Filter();
+  m_TSOutOfTimeWindow = bmtfParams->get_OutOfTime_Filter_Window();
+
+  // set precision for extrapolation
+  m_NbitsExtPhi = bmtfParams->get_Extrapolation_nbits_Phi();
+  m_NbitsExtPhib = bmtfParams->get_Extrapolation_nbits_PhiB();
+
+  // set precision for pt-assignment
+  m_NbitsPtaPhi = bmtfParams->get_PT_Assignment_nbits_Phi();
+  m_NbitsPtaPhib = bmtfParams->get_PT_Assignment_nbits_PhiB();
+
+  // set precision for phi-assignment look-up tables
+  m_NbitsPhiPhi = bmtfParams->get_PHI_Assignment_nbits_Phi();
+  m_NbitsExtPhib = bmtfParams->get_PHI_Assignment_nbits_PhiB();
 
   if ( Debug(1) ) cout << "L1 barrel Track Finder : minimal bunch-crossing : " << m_BxMin << endl;
   if ( Debug(1) ) cout << "L1 barrel Track Finder : maximal bunch-crossing : " << m_BxMax << endl;
@@ -142,12 +152,6 @@ void L1MuBMTFConfig::setDefaults() {
     cout << "L1 barrel Track Finder : Eta Track Finder : off" << endl;
   }
 
-  //if ( Debug(1) && m_etacanc ) {
-  //  cout << "L1 barrel Track Finder : CSC etaFlag cancellation : on" << endl;
-  //}
-  //if ( Debug(1) && !m_etacanc ) {
-  //  cout << "L1 barrel Track Finder : CSC etaFlag cancellation : off" << endl;
-  //}
 
   if ( Debug(1) && m_TSOutOfTimeFilter ) {
     cout << "L1 barrel Track Finder : out-of-time TS filter : on" << endl;
@@ -164,6 +168,8 @@ void L1MuBMTFConfig::setDefaults() {
   if ( Debug(1) ) cout << "L1 barrel Track Finder : # of bits used for phi  (phi-assignment) : " << m_NbitsPhiPhi << endl;
   if ( Debug(1) ) cout << "L1 barrel Track Finder : # of bits used for phib (phi-assignment) : " << m_NbitsPhiPhib << endl;
 
+  delete bmtfParams;
+
 }
 
 
@@ -171,7 +177,6 @@ void L1MuBMTFConfig::setDefaults() {
 
 edm::InputTag L1MuBMTFConfig::m_BMDigiInputTag = edm::InputTag();
 edm::InputTag L1MuBMTFConfig::m_BMThetaDigiInputTag = edm::InputTag();
-//edm::InputTag L1MuBMTFConfig::m_CSCTrSInputTag = edm::InputTag();
 
 bool L1MuBMTFConfig::m_debug = false;
 int  L1MuBMTFConfig::m_dbgLevel = -1;
@@ -181,7 +186,6 @@ int  L1MuBMTFConfig::m_extTSFilter  = 1;
 bool L1MuBMTFConfig::m_openLUTs  = false;
 bool L1MuBMTFConfig::m_useEX21 = false;
 bool L1MuBMTFConfig::m_etaTF = true;
-//bool L1MuBMTFConfig::m_etacanc = false;
 bool L1MuBMTFConfig::m_TSOutOfTimeFilter = false;
 int  L1MuBMTFConfig::m_TSOutOfTimeWindow = 1;
 int  L1MuBMTFConfig::m_NbitsExtPhi  = 8;
