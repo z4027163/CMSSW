@@ -19,11 +19,9 @@
 
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
-#include "DataFormats/L1TMuon/interface/BMTrackContainer.h"
 #include "FWCore/Utilities/interface/EDGetToken.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "DataFormats/L1CSCTrackFinder/interface/TrackStub.h"
-//#include "DataFormats/L1CSCTrackFinder/interface/CSCTriggerContainer.h"
 #include <FWCore/Framework/interface/ConsumesCollector.h>
 
 
@@ -37,26 +35,23 @@
 using namespace std;
 
 BMTrackFinder::BMTrackFinder(const edm::ParameterSet & pset) {
+  m_ps = &pset;
 
-  produces<BMTrackContainer>("BMTF");
+  //produces<BMTrackContainer>("BMTF");
   produces<l1t::RegionalMuonCandBxCollection>("BM");
-
-
-  setup1 = new L1MuBMTFSetup(pset,consumesCollector());
+  produces<l1t::RegionalMuonCandBxCollection>("BMTF");
   usesResource("BMTrackFinder");
-  consumes<L1MuDTChambPhContainer>(pset.getParameter<edm::InputTag>("DTDigi_Source"));
-  consumes<L1MuDTChambThContainer>(pset.getParameter<edm::InputTag>("DTDigi_Theta_Source"));
- // consumes<L1TMuon::MBLTContainer>(iConfig.getParameter<edm::InputTag>("MBLTCollection"));
+  setup1 = new L1MuBMTFSetup(*m_ps,consumesCollector());
 
 }
 
 BMTrackFinder::~BMTrackFinder() {
 
   delete setup1;
-
 }
 
 void BMTrackFinder::produce(edm::Event& e, const edm::EventSetup& c) {
+
 
   if ( L1MuBMTFConfig::Debug(1) ) cout << endl;
   if ( L1MuBMTFConfig::Debug(1) ) cout << "**** L1MuonBMTFTrigger processing event  ****" << endl;
@@ -70,19 +65,22 @@ void BMTrackFinder::produce(edm::Event& e, const edm::EventSetup& c) {
   if ( L1MuBMTFConfig::Debug(1) ) cout << "Number of muons found by the L1 BBMX TRIGGER : "
                                        << ndt << endl;
 
-  auto_ptr<BMTrackContainer> tra_product(new BMTrackContainer);
+  std::auto_ptr<l1t::RegionalMuonCandBxCollection> tra_product(new l1t::RegionalMuonCandBxCollection);
   std::auto_ptr<l1t::RegionalMuonCandBxCollection> vec_product(new l1t::RegionalMuonCandBxCollection);
 
-  vector<BMTrackCand>  dtTracks = dtbx->getcache0();
-  tra_product->setContainer(dtTracks);
-  l1t::RegionalMuonCandBxCollection& BMTracks = dtbx->getcache();
+  ///Muons before muon sorter
+  l1t::RegionalMuonCandBxCollection  dtTracks = dtbx->getcache0();
+  *tra_product = dtTracks;
 
+  ///Muons after muon sorter, for uGMT
+  l1t::RegionalMuonCandBxCollection BMTracks = dtbx->getcache();
   *vec_product = BMTracks;
 
   e.put(tra_product,"BMTF");
   e.put(vec_product,"BM");
 
 }
+
 
 #include "FWCore/Framework/interface/MakerMacros.h"
 DEFINE_FWK_MODULE(BMTrackFinder);

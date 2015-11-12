@@ -35,6 +35,8 @@ class BMTrackFinder: public edm::one::EDProducer<edm::one::SharedResources> {
  private:
 
   L1MuBMTFSetup* setup1;
+  const edm::ParameterSet* m_ps;
+
 
 };
 
