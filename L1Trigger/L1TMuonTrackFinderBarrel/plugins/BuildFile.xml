@@ -6,6 +6,8 @@
 <use name="DataFormats/HepMCCandidate"/>
 <use name="DataFormats/L1TMuon"/>
 <use name="DQM/DTMonitorModule"/>
+<use name="CondFormats/DataRecord"/>
+<use name="CondFormats/L1TObjects"/>
 <use name="L1Trigger/L1TMuonTrackFinderBarrel"/>
 <flags LDFLAGS="-fPIC"/>
 <flags EDM_PLUGIN="1"/>
