@@ -21,7 +21,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.L1TMuonEndcapTrackFinder = cms.EDProducer(
-    'L1TMuonUpgradedTrackFinder',
+    'L1TMuonEndCapTrackProducer',
     
 	
     primitiveSrcs = cms.VInputTag(

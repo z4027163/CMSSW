@@ -39,7 +39,7 @@
 #include "L1Trigger/L1TMuon/interface/MicroGMTMatchQualLUT.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTLUTFactories.h"
 
-#include "CondFormats/L1TObjects/interface/L1TGMTParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonGlobalParams.h"
 #include "CondFormats/DataRecord/interface/L1TGMTParamsRcd.h"
 
 #include <iostream>
@@ -60,7 +60,7 @@ class L1TMicroGMTLUTDumper : public edm::EDAnalyzer {
       void dumpLut(MicroGMTLUT*, const std::string&);
 
       // ----------member data ---------------------------
-      std::unique_ptr<L1TGMTParams> microGMTParams;
+      std::unique_ptr<L1TMuonGlobalParams> microGMTParams;
       std::string m_foldername;
       std::shared_ptr<MicroGMTRankPtQualLUT> m_rankLUT;
 
@@ -92,7 +92,7 @@ L1TMicroGMTLUTDumper::L1TMicroGMTLUTDumper(const edm::ParameterSet& iConfig)
   //now do what ever other initialization is needed
   m_foldername = iConfig.getParameter<std::string> ("out_directory");
 
-  microGMTParams = std::unique_ptr<L1TGMTParams>(new L1TGMTParams());
+  microGMTParams = std::unique_ptr<L1TMuonGlobalParams>(new L1TMuonGlobalParams());
 }
 
 
@@ -138,10 +138,10 @@ void
 L1TMicroGMTLUTDumper::beginRun(edm::Run const& run, edm::EventSetup const& iSetup)
 {
   const L1TGMTParamsRcd& microGMTParamsRcd = iSetup.get<L1TGMTParamsRcd>();
-  edm::ESHandle<L1TGMTParams> microGMTParamsHandle;
+  edm::ESHandle<L1TMuonGlobalParams> microGMTParamsHandle;
   microGMTParamsRcd.get(microGMTParamsHandle);
 
-  microGMTParams = std::unique_ptr<L1TGMTParams>(new L1TGMTParams(*microGMTParamsHandle.product()));
+  microGMTParams = std::unique_ptr<L1TMuonGlobalParams>(new L1TMuonGlobalParams(*microGMTParamsHandle.product()));
   if (!microGMTParams) {
     edm::LogError("L1TMicroGMTLUTDumper") << "Could not retrieve parameters from Event Setup" << std::endl;
   }

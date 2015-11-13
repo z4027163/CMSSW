@@ -12,7 +12,7 @@
 
 class GoldenPattern;
 class OMTFConfiguration;
-class L1TMTFOverlapParams;
+class L1TMuonOverlapParams;
 
 
 namespace XERCES_CPP_NAMESPACE{
@@ -42,7 +42,7 @@ class XMLConfigReader{
 
   void readConfig(OMTFConfiguration *aConfig);
 
-  void readConfig(L1TMTFOverlapParams *aConfig);
+  void readConfig(L1TMuonOverlapParams *aConfig);
 
   std::vector<std::vector<int> > readEvent(unsigned int iEvent=0,
 					   unsigned int iProcessor=0,

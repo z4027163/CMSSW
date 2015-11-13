@@ -11,7 +11,7 @@
 
 ///////////////////////////////////////
 ///////////////////////////////////////
-class L1TMTFOverlapParams {
+class L1TMuonOverlapParams {
   
  public:
   
@@ -101,8 +101,8 @@ class L1TMTFOverlapParams {
   };
 	
   
-  L1TMTFOverlapParams() { fwVersion_=Version; pnodes_.resize(NUM_OMTFPARAMNODES); }
-  ~L1TMTFOverlapParams() {}
+  L1TMuonOverlapParams() { fwVersion_=Version; pnodes_.resize(NUM_OMTFPARAMNODES); }
+  ~L1TMuonOverlapParams() {}
 
   // Firmware version
   unsigned fwVersion() const { return fwVersion_; }

@@ -1,6 +1,6 @@
-#include "CondFormats/L1TObjects/interface/L1TGMTParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonGlobalParams.h"
 
-void L1TGMTParams::print(std::ostream& out) const {
+void L1TMuonGlobalParams::print(std::ostream& out) const {
 
   out << "L1 MicroGMT Parameters" << std::endl;
 

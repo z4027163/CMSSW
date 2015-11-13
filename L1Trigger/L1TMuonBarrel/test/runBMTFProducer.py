@@ -44,7 +44,7 @@ process.load('L1Trigger.L1TMuonBarrel.bmtfDigis_cfi')
 
 
 ####BMTF Emulator
-process.bmtfEmulator = cms.EDProducer("BMTrackFinder",
+process.bmtfEmulator = cms.EDProducer("L1TMuonBarrelTrackProducer",
     DTDigi_Source = cms.InputTag("simDtTriggerPrimitiveDigis"),
     CSCStub_Source = cms.InputTag("none"),
     Debug = cms.untracked.int32(0)

@@ -1,10 +1,10 @@
 <lcgdict>
 
-  <class name="std::vector<L1TMTFOverlapParams::Node>"/>
-  <class name="L1TMTFOverlapParams">
+  <class name="std::vector<L1TMuonOverlapParams::Node>"/>
+  <class name="L1TMuonOverlapParams">
     <field name="pnode_" mapping="blob"/>  
   </class>
-  <class name="L1TMTFOverlapParams::Node">
+  <class name="L1TMuonOverlapParams::Node">
     <field name="dparams_" mapping="blob"/>  
     <field name="iparams_" mapping="blob"/>  
     <field name="sparams_" mapping="blob"/>  
@@ -33,10 +33,10 @@
   <class name="l1t::CaloParams::JetParams"/>
   <class name="l1t::CaloParams::TauParams"/>
   <class name="l1t::CaloConfig"/>
-  <class name="L1TGMTParams">
+  <class name="L1TMuonGlobalParams">
     <field name="pnodes_" mapping="blob"/>
   </class>
-  <class name="L1TGMTParams::Node">
+  <class name="L1TMuonGlobalParams::Node">
     <field name="dparams_" mapping="blob"/>
     <field name="iparams_" mapping="blob"/>
     <field name="sparams_" mapping="blob"/>

@@ -7,8 +7,8 @@
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
 
-#include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
-#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+#include "CondFormats/DataRecord/interface/L1TMuonOverlapParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonOverlapParams.h"
 
 #include "L1Trigger/L1TMuonOverlap/plugins/OMTFProducerMix.h"
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFProcessor.h"
@@ -80,14 +80,14 @@ void OMTFProducerMix::beginRun(edm::Run const& run, edm::EventSetup const& iSetu
   ///If configuration is read from XML do not look at the DB.
   if(theConfig.getParameter<edm::ParameterSet>("omtf").getParameter<bool>("configFromXML")) return;  
 
-  const L1TMTFOverlapParamsRcd& omtfParamsRcd = iSetup.get<L1TMTFOverlapParamsRcd>();
+  const L1TMuonOverlapParamsRcd& omtfParamsRcd = iSetup.get<L1TMuonOverlapParamsRcd>();
   
-  edm::ESHandle<L1TMTFOverlapParams> omtfParamsHandle;
+  edm::ESHandle<L1TMuonOverlapParams> omtfParamsHandle;
   omtfParamsRcd.get(omtfParamsHandle);
 
-  omtfParams = std::unique_ptr<L1TMTFOverlapParams>(new L1TMTFOverlapParams(*omtfParamsHandle.product()));
+  omtfParams = std::unique_ptr<L1TMuonOverlapParams>(new L1TMuonOverlapParams(*omtfParamsHandle.product()));
   if (!omtfParams) {
-    edm::LogError("OMTFProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
+    edm::LogError("L1TMuonOverlapTrackProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
   }
 
   myOMTFConfig->configure(omtfParams);

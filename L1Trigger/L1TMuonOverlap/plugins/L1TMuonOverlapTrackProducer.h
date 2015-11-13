@@ -19,7 +19,7 @@
 
 #include "TRandom3.h"
 
-class L1TMTFOverlapParams;
+class L1TMuonOverlapParams;
 class OMTFProcessor;
 class OMTFConfiguration;
 class OMTFConfigMaker;
@@ -37,11 +37,11 @@ namespace XERCES_CPP_NAMESPACE{
 }
 
 
-class OMTFProducer : public edm::EDProducer {
+class L1TMuonOverlapTrackProducer : public edm::EDProducer {
  public:
-  OMTFProducer(const edm::ParameterSet&);
+  L1TMuonOverlapTrackProducer(const edm::ParameterSet&);
 
-  ~OMTFProducer();
+  ~L1TMuonOverlapTrackProducer();
 
   virtual void beginJob();
 
@@ -79,7 +79,7 @@ class OMTFProducer : public edm::EDProducer {
   xercesc::DOMElement *aTopElement;
   OMTFConfigMaker *myOMTFConfigMaker;
   XMLConfigWriter *myWriter;
-  std::shared_ptr<L1TMTFOverlapParams> omtfParams;
+  std::shared_ptr<L1TMuonOverlapParams> omtfParams;
   ///
 
 };

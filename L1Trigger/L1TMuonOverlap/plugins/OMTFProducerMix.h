@@ -17,7 +17,7 @@
 
 #include "TRandom3.h"
 
-class L1TMTFOverlapParams;
+class L1TMuonOverlapParams;
 class OMTFProcessor;
 class OMTFConfiguration;
 class OMTFConfigMaker;
@@ -69,7 +69,7 @@ class OMTFProducerMix : public edm::EDProducer {
   OMTFConfigMaker *myOMTFConfigMaker;
   XMLConfigWriter *myWriter; 
   XMLConfigReader *myReader;
-  std::shared_ptr<L1TMTFOverlapParams> omtfParams;
+  std::shared_ptr<L1TMuonOverlapParams> omtfParams;
   ///
   unsigned int myEventNumber;
   unsigned int eventsToMix;

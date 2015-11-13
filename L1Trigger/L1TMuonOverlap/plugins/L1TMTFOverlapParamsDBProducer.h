@@ -9,7 +9,7 @@
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
-class L1TMTFOverlapParams;
+class L1TMuonOverlapParams;
 
 class L1MTFOverlapParamsDBProducer : public edm::EDAnalyzer {
 public:
@@ -22,7 +22,7 @@ public:
 
 private:
 
-  std::unique_ptr<L1TMTFOverlapParams> omtfParams;
+  std::unique_ptr<L1TMuonOverlapParams> omtfParams;
 
 }; 
 

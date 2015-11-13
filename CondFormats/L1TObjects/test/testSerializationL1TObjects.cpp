@@ -5,7 +5,7 @@
 int main()
 {
 
-  testSerialization<L1TMTFOverlapParams>();  
+  testSerialization<L1TMuonOverlapParams>();  
   testSerialization<l1t::CaloParams>();
   testSerialization<l1t::CaloConfig>();
     testSerialization<L1CaloEcalScale>();

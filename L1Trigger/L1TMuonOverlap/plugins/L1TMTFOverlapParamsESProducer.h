@@ -8,8 +8,8 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/ESProducts.h"
 
-#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
-#include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonOverlapParams.h"
+#include "CondFormats/DataRecord/interface/L1TMuonOverlapParamsRcd.h"
 
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
 
@@ -19,9 +19,9 @@ class L1TMTFOverlapParamsESProducer : public edm::ESProducer {
       L1TMTFOverlapParamsESProducer(const edm::ParameterSet&);
       ~L1TMTFOverlapParamsESProducer();
 
-      typedef boost::shared_ptr<L1TMTFOverlapParams> ReturnType;
+      typedef boost::shared_ptr<L1TMuonOverlapParams> ReturnType;
 
-      ReturnType produce(const L1TMTFOverlapParamsRcd&);
+      ReturnType produce(const L1TMuonOverlapParamsRcd&);
 
    private:
 
@@ -31,7 +31,7 @@ class L1TMTFOverlapParamsESProducer : public edm::ESProducer {
       ///Read Connections from single XML file.
       bool readConnectionsXML(XMLConfigReader *aReader);
 
-      L1TMTFOverlapParams m_params;
+      L1TMuonOverlapParams m_params;
 
       OMTFConfiguration *myOMTFConfig;
 

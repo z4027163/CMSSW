@@ -4,7 +4,7 @@
 ////1494215132 12
 
 #include "EmulatorClasses.h"
-#include "L1TMuonUpgradedTrackFinder.h"
+#include "L1TMuonEndCapTrackProducer.h"
 #include "Forest.h"
 #include <stdio.h>
 #include <stdlib.h>

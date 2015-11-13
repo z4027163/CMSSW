@@ -1,6 +1,6 @@
 //-------------------------------------------------
 //
-//   Class: BMTrackFinder
+//   Class: L1TMuonBarrelTrackProducer
 //
 //   L1 BM Track Finder EDProducer
 //
@@ -12,7 +12,7 @@
 //   G. Flouris               U Ioannina
 //--------------------------------------------------
 
-#include "BMTrackFinder.h"
+#include "L1TMuonBarrelTrackProducer.h"
 
 #include "DataFormats/Common/interface/Handle.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -36,27 +36,27 @@
 
 using namespace std;
 
-BMTrackFinder::BMTrackFinder(const edm::ParameterSet & pset) {
+L1TMuonBarrelTrackProducer::L1TMuonBarrelTrackProducer(const edm::ParameterSet & pset) {
 
   produces<BMTrackContainer>("BMTF");
   produces<l1t::RegionalMuonCandBxCollection>("BM");
 
 
   setup1 = new L1MuBMTFSetup(pset,consumesCollector());
-  usesResource("BMTrackFinder");
+  usesResource("L1TMuonBarrelTrackProducer");
   consumes<L1MuDTChambPhContainer>(pset.getParameter<edm::InputTag>("DTDigi_Source"));
   consumes<L1MuDTChambThContainer>(pset.getParameter<edm::InputTag>("DTDigi_Theta_Source"));
  // consumes<L1TMuon::MBLTContainer>(iConfig.getParameter<edm::InputTag>("MBLTCollection"));
 
 }
 
-BMTrackFinder::~BMTrackFinder() {
+L1TMuonBarrelTrackProducer::~L1TMuonBarrelTrackProducer() {
 
   delete setup1;
 
 }
 
-void BMTrackFinder::produce(edm::Event& e, const edm::EventSetup& c) {
+void L1TMuonBarrelTrackProducer::produce(edm::Event& e, const edm::EventSetup& c) {
 
   if ( L1MuBMTFConfig::Debug(1) ) cout << endl;
   if ( L1MuBMTFConfig::Debug(1) ) cout << "**** L1MuonBMTFTrigger processing event  ****" << endl;
@@ -85,5 +85,5 @@ void BMTrackFinder::produce(edm::Event& e, const edm::EventSetup& c) {
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
-DEFINE_FWK_MODULE(BMTrackFinder);
+DEFINE_FWK_MODULE(L1TMuonBarrelTrackProducer);
 

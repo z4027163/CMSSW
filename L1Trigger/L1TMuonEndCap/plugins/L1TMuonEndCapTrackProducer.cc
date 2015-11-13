@@ -10,7 +10,7 @@
 //////////////////////////////////////////////////////////////
 
 
-#include "L1Trigger/L1TMuonEndCap/plugins/L1TMuonUpgradedTrackFinder.h"
+#include "L1Trigger/L1TMuonEndCap/plugins/L1TMuonEndCapTrackProducer.h"
 #include "L1Trigger/CSCCommonTrigger/interface/CSCPatternLUT.h"
 #include "L1Trigger/CSCTrackFinder/test/src/RefTrack.h"
 
@@ -33,7 +33,7 @@
 using namespace L1TMuon;
 
 
-L1TMuonUpgradedTrackFinder::L1TMuonUpgradedTrackFinder(const PSet& p) {
+L1TMuonEndCapTrackProducer::L1TMuonEndCapTrackProducer(const PSet& p) {
 
 
   _tpinputs = p.getParameter<std::vector<edm::InputTag> >("primitiveSrcs");
@@ -45,7 +45,7 @@ L1TMuonUpgradedTrackFinder::L1TMuonUpgradedTrackFinder(const PSet& p) {
 }
 
 
-void L1TMuonUpgradedTrackFinder::produce(edm::Event& ev,
+void L1TMuonEndCapTrackProducer::produce(edm::Event& ev,
 			       const edm::EventSetup& es) {
 
   //bool verbose = false;
@@ -325,13 +325,13 @@ ev.put( OutputCands, "EMUTF");
 
 }//analyzer
 
-void L1TMuonUpgradedTrackFinder::beginJob()
+void L1TMuonEndCapTrackProducer::beginJob()
 {
 
 }
-void L1TMuonUpgradedTrackFinder::endJob()
+void L1TMuonEndCapTrackProducer::endJob()
 {
 
 }
 #include "FWCore/Framework/interface/MakerMacros.h"
-DEFINE_FWK_MODULE(L1TMuonUpgradedTrackFinder);
+DEFINE_FWK_MODULE(L1TMuonEndCapTrackProducer);

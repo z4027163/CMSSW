@@ -4,8 +4,8 @@
 #include "OMTFProducerMix.h"
 DEFINE_FWK_MODULE(OMTFProducerMix);
 
-#include "OMTFProducer.h"
-DEFINE_FWK_MODULE(OMTFProducer);
+#include "L1TMuonOverlapTrackProducer.h"
+DEFINE_FWK_MODULE(L1TMuonOverlapTrackProducer);
 
 #include "OMTFPatternMaker.h"
 DEFINE_FWK_MODULE(OMTFPatternMaker);

@@ -12,7 +12,7 @@ MicroGMTCancelOutUnit::~MicroGMTCancelOutUnit ()
 }
 
 void
-MicroGMTCancelOutUnit::initialise(L1TGMTParams* microGMTParams) {
+MicroGMTCancelOutUnit::initialise(L1TMuonGlobalParams* microGMTParams) {
     int fwVersion = microGMTParams->fwVersion();
     m_boPosMatchQualLUT = l1t::MicroGMTMatchQualLUTFactory::create(microGMTParams->bOPosMatchQualLUTPath(), cancel_t::omtf_bmtf_pos, fwVersion);
     m_boNegMatchQualLUT = l1t::MicroGMTMatchQualLUTFactory::create(microGMTParams->bONegMatchQualLUTPath(), cancel_t::omtf_bmtf_neg, fwVersion);

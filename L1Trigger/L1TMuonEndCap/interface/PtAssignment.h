@@ -4,7 +4,7 @@
 ////1494215132 12
 
 #include "L1Trigger/L1TMuonEndCap/interface/EmulatorClasses.h"
-#include "L1Trigger/L1TMuonEndCap/plugins/L1TMuonUpgradedTrackFinder.h"
+#include "L1Trigger/L1TMuonEndCap/plugins/L1TMuonEndCapTrackProducer.h"
 #include "L1Trigger/L1TMuonEndCap/interface/Forest.h"
 #include <stdio.h>
 #include <stdlib.h>

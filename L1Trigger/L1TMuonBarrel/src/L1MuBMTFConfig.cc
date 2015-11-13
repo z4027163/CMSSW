@@ -2,7 +2,7 @@
 //
 //   Class: L1MuBMTFConfig
 //
-//   Description: BMTrackFinder parameters for L1MuBMTrackFinder
+//   Description: L1TMuonBarrelTrackProducer parameters for L1MuBMTrackFinder
 //
 //
 //

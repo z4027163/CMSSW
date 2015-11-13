@@ -1,6 +1,6 @@
 //-------------------------------------------------
 //
-/**  \class BMTrackFinder
+/**  \class L1TMuonBarrelTrackProducer
  *
  *   L1 BM Track Finder EDProducer
  *
@@ -21,13 +21,13 @@
 class L1MuBMTFSetup;
 
 
-class BMTrackFinder: public edm::one::EDProducer<edm::one::SharedResources> {
+class L1TMuonBarrelTrackProducer: public edm::one::EDProducer<edm::one::SharedResources> {
  public:
   /// Constructor
-  BMTrackFinder(const edm::ParameterSet & pset);
+  L1TMuonBarrelTrackProducer(const edm::ParameterSet & pset);
 
   /// Destructor
-  virtual ~BMTrackFinder();
+  virtual ~L1TMuonBarrelTrackProducer();
 
   /// Produce digis out of raw data
   void produce(edm::Event & e, const edm::EventSetup& c);

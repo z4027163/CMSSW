@@ -9,7 +9,7 @@
 #include "DataFormats/MuonDetId/interface/DTChamberId.h"
 #include "DataFormats/MuonDetId/interface/MuonSubdetId.h"
 
-#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonOverlapParams.h"
 
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
 #include "L1Trigger/L1TMuonOverlap/interface/XMLConfigReader.h"
@@ -124,7 +124,7 @@ void OMTFConfiguration::configure(XMLConfigReader *aReader){
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
-void OMTFConfiguration::configure(std::shared_ptr<L1TMTFOverlapParams> omtfParams){
+void OMTFConfiguration::configure(std::shared_ptr<L1TMuonOverlapParams> omtfParams){
 
   ///Set global parameters
   minPdfVal = 0.001;
@@ -163,10 +163,10 @@ void OMTFConfiguration::configure(std::shared_ptr<L1TMTFOverlapParams> omtfParam
   std::copy(connectedSectorsEndVec->begin()+12, connectedSectorsEndVec->end(), endcap20DegMax.begin());
 
   ///Set connections tables
-  std::vector<L1TMTFOverlapParams::LayerMapNode> *layerMap = omtfParams->layerMap();
+  std::vector<L1TMuonOverlapParams::LayerMapNode> *layerMap = omtfParams->layerMap();
 
   for(unsigned int iLayer=0;iLayer<OMTFConfiguration::nLayers;++iLayer){
-    L1TMTFOverlapParams::LayerMapNode aNode = layerMap->at(iLayer);    
+    L1TMuonOverlapParams::LayerMapNode aNode = layerMap->at(iLayer);    
     hwToLogicLayer[aNode.hwNumber] = aNode.logicNumber;
     logicToHwLayer[aNode.logicNumber] = aNode.hwNumber;
     logicToLogic[aNode.logicNumber] = aNode.connectedToLayer;    
@@ -175,9 +175,9 @@ void OMTFConfiguration::configure(std::shared_ptr<L1TMTFOverlapParams> omtfParam
   /////
   refToLogicNumber.resize(nRefLayers);
   
-  std::vector<L1TMTFOverlapParams::RefLayerMapNode> *refLayerMap = omtfParams->refLayerMap();
+  std::vector<L1TMuonOverlapParams::RefLayerMapNode> *refLayerMap = omtfParams->refLayerMap();
   for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){
-    L1TMTFOverlapParams::RefLayerMapNode aNode = refLayerMap->at(iRefLayer);    
+    L1TMuonOverlapParams::RefLayerMapNode aNode = refLayerMap->at(iRefLayer);    
     refToLogicNumber[aNode.refLayer] = aNode.logicNumber;
   }
   /////
@@ -208,8 +208,8 @@ void OMTFConfiguration::configure(std::shared_ptr<L1TMTFOverlapParams> omtfParam
   refHitsDefs.assign(OMTFConfiguration::nProcessors,aRefHitsDefs);
 
   std::vector<int> *phiStartMap =  omtfParams->globalPhiStartMap();
-  std::vector<L1TMTFOverlapParams::RefHitNode> *refHitMap = omtfParams->refHitMap();
-  std::vector<L1TMTFOverlapParams::LayerInputNode> *layerInputMap = omtfParams->layerInputMap();
+  std::vector<L1TMuonOverlapParams::RefHitNode> *refHitMap = omtfParams->refHitMap();
+  std::vector<L1TMuonOverlapParams::LayerInputNode> *layerInputMap = omtfParams->layerInputMap();
   unsigned int tmpIndex = 0;  
   for(unsigned int iProcessor=0;iProcessor<OMTFConfiguration::nProcessors;++iProcessor){
     for(unsigned int iRefLayer=0;iRefLayer<OMTFConfiguration::nRefLayers;++iRefLayer){     

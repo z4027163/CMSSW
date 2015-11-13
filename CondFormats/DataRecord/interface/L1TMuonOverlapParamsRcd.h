@@ -3,9 +3,9 @@
 // -*- C++ -*-
 //
 // Package:     CondFormats/DataRecord
-// Class  :     L1TMTFOverlapParamsRcd
+// Class  :     L1TMuonOverlapParamsRcd
 // 
-/**\class L1TMTFOverlapParamsRcd L1TMTFOverlapParamsRcd.h CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h
+/**\class L1TMuonOverlapParamsRcd L1TMuonOverlapParamsRcd.h CondFormats/DataRecord/interface/L1TMuonOverlapParamsRcd.h
 
  Description: [one line class summary]
 
@@ -20,6 +20,6 @@
 
 #include "FWCore/Framework/interface/EventSetupRecordImplementation.h"
 
-class L1TMTFOverlapParamsRcd : public edm::eventsetup::EventSetupRecordImplementation<L1TMTFOverlapParamsRcd> {};
+class L1TMuonOverlapParamsRcd : public edm::eventsetup::EventSetupRecordImplementation<L1TMuonOverlapParamsRcd> {};
 
 #endif

@@ -7,7 +7,7 @@
 #include <ostream>
 #include <memory>
 
-class L1TMTFOverlapParams;
+class L1TMuonOverlapParams;
 class XMLConfigReader;
 
 namespace edm{
@@ -55,7 +55,7 @@ class OMTFConfiguration{
 
   void configure(XMLConfigReader *aReader);
 
-  void configure(std::shared_ptr<L1TMTFOverlapParams> omtfParams);
+  void configure(std::shared_ptr<L1TMuonOverlapParams> omtfParams);
 
   void initCounterMatrices();
   

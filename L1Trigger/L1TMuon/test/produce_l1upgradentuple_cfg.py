@@ -93,7 +93,7 @@ path = "L1Trigger/L1TMuonOverlap/data/"
 process.load('L1Trigger.L1TMuonOverlap.OMTFProducer_cff')
 
 process.L1TMuonEndcapTrackFinder = cms.EDProducer(
-    'L1TMuonUpgradedTrackFinder',
+    'L1TMuonEndCapTrackProducer',
     primitiveSrcs = cms.VInputTag(
     cms.InputTag('L1TMuonTriggerPrimitives', 'CSC'),
     cms.InputTag('L1TMuonTriggerPrimitives', 'DT'),
@@ -183,7 +183,7 @@ process.l1tGMTParamsESProducer.FONegMatchQualLUTPath = cms.string('')
 process.esTest = cms.EDAnalyzer("EventSetupRecordDataGetter",
    toGet = cms.VPSet(
       cms.PSet(record = cms.string('L1TGMTParamsRcd'),
-               data = cms.vstring('L1TGMTParams'))
+               data = cms.vstring('L1TMuonGlobalParams'))
                     ),
    verbose = cms.untracked.bool(True)
 )

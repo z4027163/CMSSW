@@ -1,5 +1,5 @@
 ///
-/// \class L1TGMTParams
+/// \class L1TMuonGlobalParams
 ///
 /// Description: Placeholder for MicroGMT parameters
 ///
@@ -18,7 +18,7 @@
 #include "CondFormats/Serialization/interface/Serializable.h"
 #include "CondFormats/L1TObjects/interface/LUT.h"
 
-class L1TGMTParams {
+class L1TMuonGlobalParams {
 
 public:
   enum { Version = 1 };
@@ -59,8 +59,8 @@ public:
 	NUM_CALOPARAMNODES=20
   };
 
-  L1TGMTParams() { version_=Version; pnodes_.resize(NUM_CALOPARAMNODES); }
-  ~L1TGMTParams() {}
+  L1TMuonGlobalParams() { version_=Version; pnodes_.resize(NUM_CALOPARAMNODES); }
+  ~L1TMuonGlobalParams() {}
 
   // FW version
   unsigned fwVersion() const { return fwVersion_; }
@@ -152,7 +152,7 @@ public:
 
   // print parameters to stream:
   void print(std::ostream&) const;
-  friend std::ostream& operator<<(std::ostream& o, const L1TGMTParams & p) { p.print(o); return o; }
+  friend std::ostream& operator<<(std::ostream& o, const L1TMuonGlobalParams & p) { p.print(o); return o; }
 
 private:
   unsigned version_;

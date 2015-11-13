@@ -7,10 +7,10 @@
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCandFwd.h"
 
-#include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
-#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+#include "CondFormats/DataRecord/interface/L1TMuonOverlapParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonOverlapParams.h"
 
-#include "L1Trigger/L1TMuonOverlap/plugins/OMTFProducer.h"
+#include "L1Trigger/L1TMuonOverlap/plugins/L1TMuonOverlapTrackProducer.h"
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFProcessor.h"
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFinputMaker.h"
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFinput.h"
@@ -20,7 +20,7 @@
 
 using namespace L1TMuon;
 
-OMTFProducer::OMTFProducer(const edm::ParameterSet& cfg):theConfig(cfg){
+L1TMuonOverlapTrackProducer::L1TMuonOverlapTrackProducer(const edm::ParameterSet& cfg):theConfig(cfg){
 
   produces<l1t::RegionalMuonCandBxCollection >("OMTF");
 
@@ -30,7 +30,7 @@ OMTFProducer::OMTFProducer(const edm::ParameterSet& cfg):theConfig(cfg){
   inputTokenRPC = consumes<RPCDigiCollection>(theConfig.getParameter<edm::InputTag>("srcRPC"));
 
   if(!theConfig.exists("omtf")){
-    edm::LogError("OMTFProducer")<<"omtf configuration not found in cfg.py";
+    edm::LogError("L1TMuonOverlapTrackProducer")<<"omtf configuration not found in cfg.py";
   }
 
   myInputMaker = new OMTFinputMaker();
@@ -52,7 +52,7 @@ OMTFProducer::OMTFProducer(const edm::ParameterSet& cfg):theConfig(cfg){
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-OMTFProducer::~OMTFProducer(){
+L1TMuonOverlapTrackProducer::~L1TMuonOverlapTrackProducer(){
 
   delete myOMTFConfig;
   delete myOMTF;
@@ -65,7 +65,7 @@ OMTFProducer::~OMTFProducer(){
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-void OMTFProducer::beginJob(){
+void L1TMuonOverlapTrackProducer::beginJob(){
 
   if(theConfig.exists("omtf")){
     myOMTFConfig = new OMTFConfiguration(theConfig.getParameter<edm::ParameterSet>("omtf"));
@@ -74,7 +74,7 @@ void OMTFProducer::beginJob(){
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-void OMTFProducer::endJob(){
+void L1TMuonOverlapTrackProducer::endJob(){
 
   if(dumpResultToXML && !dumpGPToXML){
     std::string fName = theConfig.getParameter<std::string>("XMLDumpFileName");
@@ -112,7 +112,7 @@ void OMTFProducer::endJob(){
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-void OMTFProducer::writeMergedGPs(){
+void L1TMuonOverlapTrackProducer::writeMergedGPs(){
   
   const std::map<Key,GoldenPattern*> & myGPmap = myOMTF->getPatterns();
 
@@ -167,19 +167,19 @@ void OMTFProducer::writeMergedGPs(){
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-void OMTFProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup){
+void L1TMuonOverlapTrackProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup){
 
   ///If configuration is read from XML do not look at the DB.
   if(theConfig.getParameter<edm::ParameterSet>("omtf").getParameter<bool>("configFromXML")) return;  
 
-  const L1TMTFOverlapParamsRcd& omtfParamsRcd = iSetup.get<L1TMTFOverlapParamsRcd>();
+  const L1TMuonOverlapParamsRcd& omtfParamsRcd = iSetup.get<L1TMuonOverlapParamsRcd>();
   
-  edm::ESHandle<L1TMTFOverlapParams> omtfParamsHandle;
+  edm::ESHandle<L1TMuonOverlapParams> omtfParamsHandle;
   omtfParamsRcd.get(omtfParamsHandle);
 
-  omtfParams = std::unique_ptr<L1TMTFOverlapParams>(new L1TMTFOverlapParams(*omtfParamsHandle.product()));
+  omtfParams = std::unique_ptr<L1TMuonOverlapParams>(new L1TMuonOverlapParams(*omtfParamsHandle.product()));
   if (!omtfParams) {
-    edm::LogError("OMTFProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
+    edm::LogError("L1TMuonOverlapTrackProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
   }
 
   myOMTFConfig->configure(omtfParams);
@@ -188,7 +188,7 @@ void OMTFProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup){
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
+void L1TMuonOverlapTrackProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 
   std::ostringstream myStr;
 
@@ -278,7 +278,7 @@ void OMTFProducer::produce(edm::Event& iEvent, const edm::EventSetup& evSetup){
 }
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-void OMTFProducer::processCandidates(unsigned int iProcessor, int bx,
+void L1TMuonOverlapTrackProducer::processCandidates(unsigned int iProcessor, int bx,
 				     std::auto_ptr<l1t::RegionalMuonCandBxCollection > & myCands,
 				     l1t::RegionalMuonCandBxCollection & myOTFCandidates,
 				     l1t::tftype mtfType){

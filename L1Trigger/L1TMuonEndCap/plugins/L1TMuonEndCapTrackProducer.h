@@ -51,12 +51,12 @@
 typedef edm::ParameterSet PSet;
 
 
-//class L1TMuonUpgradedTrackFinder : public edm::EDAnalyzer {
+//class L1TMuonEndCapTrackProducer : public edm::EDAnalyzer {
 
-class L1TMuonUpgradedTrackFinder : public edm::EDProducer {
+class L1TMuonEndCapTrackProducer : public edm::EDProducer {
 public:
-  L1TMuonUpgradedTrackFinder(const PSet&);
-  ~L1TMuonUpgradedTrackFinder() {}
+  L1TMuonEndCapTrackProducer(const PSet&);
+  ~L1TMuonEndCapTrackProducer() {}
 	
  //void analyze(const edm::Event&, const edm::EventSetup&); 
  void produce(edm::Event&, const edm::EventSetup&); 

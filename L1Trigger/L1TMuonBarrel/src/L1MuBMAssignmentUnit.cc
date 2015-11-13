@@ -67,11 +67,11 @@ L1MuBMAssignmentUnit::L1MuBMAssignmentUnit(L1MuBMSectorProcessor& sp, int id) :
 
   int phi_load = thePhiLUTs->load();
     if ( phi_load != 0 ) {
-      cout << "Can not open files to load pt-assignment look-up tables for BMTrackFinder!" << endl;
+      cout << "Can not open files to load pt-assignment look-up tables for L1TMuonBarrelTrackProducer!" << endl;
     }
     int pta_load = thePtaLUTs->load();
     if ( pta_load != 0 ) {
-      cout << "Can not open files to load pt-assignment look-up tables for BMTrackFinder!" << endl;
+      cout << "Can not open files to load pt-assignment look-up tables for L1TMuonBarrelTrackProducer!" << endl;
     }
 
 }

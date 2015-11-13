@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    L1TMicroGMTProducer
-// Class:      L1TMicroGMTProducer
+// Package:    L1TMuonProducer
+// Class:      L1TMuonProducer
 //
-/**\class L1TMicroGMTProducer L1TMicroGMTProducer.cc L1Trigger/L1TMuon/src/L1TMicroGMTProducer.cc
+/**\class L1TMuonProducer L1TMuonProducer.cc L1Trigger/L1TMuon/src/L1TMuonProducer.cc
 
  Description: Takes txt-file input and produces barrel- / overlap- / forward TF muons
 
@@ -45,7 +45,7 @@
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 #include "DataFormats/L1TMuon/interface/GMTInternalMuon.h"
 
-#include "CondFormats/L1TObjects/interface/L1TGMTParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonGlobalParams.h"
 #include "CondFormats/DataRecord/interface/L1TGMTParamsRcd.h"
 
 #include "TMath.h"
@@ -54,10 +54,10 @@
 //
 using namespace l1t;
 
-  class L1TMicroGMTProducer : public edm::EDProducer {
+  class L1TMuonProducer : public edm::EDProducer {
      public:
-        explicit L1TMicroGMTProducer(const edm::ParameterSet&);
-        ~L1TMicroGMTProducer();
+        explicit L1TMuonProducer(const edm::ParameterSet&);
+        ~L1TMuonProducer();
 
         static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -96,7 +96,7 @@ using namespace l1t;
                                    int bx) const;
 
         // ----------member data ---------------------------
-        std::unique_ptr<L1TGMTParams> microGMTParams;
+        std::unique_ptr<L1TMuonGlobalParams> microGMTParams;
         edm::InputTag m_barrelTfInputTag;
         edm::InputTag m_overlapTfInputTag;
         edm::InputTag m_endcapTfInputTag;
@@ -125,7 +125,7 @@ using namespace l1t;
 //
 // constructors and destructor
 //
-L1TMicroGMTProducer::L1TMicroGMTProducer(const edm::ParameterSet& iConfig) : m_debugOut("test/debug/iso_debug.dat")
+L1TMuonProducer::L1TMuonProducer(const edm::ParameterSet& iConfig) : m_debugOut("test/debug/iso_debug.dat")
 {
   // edm::InputTag barrelTfInputTag = iConfig.getParameter<edm::InputTag>("barrelTFInput");
   // edm::InputTag overlapTfInputTag = iConfig.getParameter<edm::InputTag>("overlapTFInput");
@@ -149,10 +149,10 @@ L1TMicroGMTProducer::L1TMicroGMTProducer(const edm::ParameterSet& iConfig) : m_d
   produces<MuonBxCollection>("imdMuonsOMTFPos");
   produces<MuonBxCollection>("imdMuonsOMTFNeg");
 
-  microGMTParams = std::unique_ptr<L1TGMTParams>(new L1TGMTParams());
+  microGMTParams = std::unique_ptr<L1TMuonGlobalParams>(new L1TMuonGlobalParams());
 }
 
-L1TMicroGMTProducer::~L1TMicroGMTProducer()
+L1TMuonProducer::~L1TMuonProducer()
 {
   m_debugOut.close();
 }
@@ -166,7 +166,7 @@ L1TMicroGMTProducer::~L1TMicroGMTProducer()
 
 // ------------ method called to produce the data  ------------
 void
-L1TMicroGMTProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
+L1TMuonProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
   std::auto_ptr<MuonBxCollection> outMuons (new MuonBxCollection());
@@ -279,13 +279,13 @@ L1TMicroGMTProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 
 bool
-L1TMicroGMTProducer::compareMuons(const std::shared_ptr<MicroGMTConfiguration::InterMuon>& mu1,
+L1TMuonProducer::compareMuons(const std::shared_ptr<MicroGMTConfiguration::InterMuon>& mu1,
                                     const std::shared_ptr<MicroGMTConfiguration::InterMuon>& mu2) {
   return (mu1->hwWins() > mu2->hwWins());
 }
 
 void
-L1TMicroGMTProducer::sortMuons(MicroGMTConfiguration::InterMuonList& muons, unsigned nSurvivors) const {
+L1TMuonProducer::sortMuons(MicroGMTConfiguration::InterMuonList& muons, unsigned nSurvivors) const {
   MicroGMTConfiguration::InterMuonList::iterator mu1;
   // reset from previous sort stage
   for (mu1 = muons.begin(); mu1 != muons.end(); ++mu1) {
@@ -316,13 +316,13 @@ L1TMicroGMTProducer::sortMuons(MicroGMTConfiguration::InterMuonList& muons, unsi
     }
     ++mu1;
   }
-  muons.sort(L1TMicroGMTProducer::compareMuons);
+  muons.sort(L1TMuonProducer::compareMuons);
 }
 
 
 
 void
-L1TMicroGMTProducer::calculateRank(MicroGMTConfiguration::InterMuonList& muons) const
+L1TMuonProducer::calculateRank(MicroGMTConfiguration::InterMuonList& muons) const
 {
   for (auto& mu1 : muons) {
     int rank = m_rankPtQualityLUT->lookup(mu1->hwPt(), mu1->hwQual());
@@ -332,7 +332,7 @@ L1TMicroGMTProducer::calculateRank(MicroGMTConfiguration::InterMuonList& muons) 
 
 
 void
-L1TMicroGMTProducer::addMuonsToCollections(MicroGMTConfiguration::InterMuonList& coll,
+L1TMuonProducer::addMuonsToCollections(MicroGMTConfiguration::InterMuonList& coll,
                                              MicroGMTConfiguration::InterMuonList& interout,
                                              std::auto_ptr<MuonBxCollection>& out, int bx) const
 {
@@ -347,7 +347,7 @@ L1TMicroGMTProducer::addMuonsToCollections(MicroGMTConfiguration::InterMuonList&
 }
 
 void
-L1TMicroGMTProducer::splitAndConvertMuons(const edm::Handle<MicroGMTConfiguration::InputCollection>& in,
+L1TMuonProducer::splitAndConvertMuons(const edm::Handle<MicroGMTConfiguration::InputCollection>& in,
                                             MicroGMTConfiguration::InterMuonList& out_pos,
                                             MicroGMTConfiguration::InterMuonList& out_neg,
                                             GMTInternalWedges& wedges_pos,
@@ -379,7 +379,7 @@ L1TMicroGMTProducer::splitAndConvertMuons(const edm::Handle<MicroGMTConfiguratio
 }
 
 void
-L1TMicroGMTProducer::convertMuons(const edm::Handle<MicroGMTConfiguration::InputCollection>& in,
+L1TMuonProducer::convertMuons(const edm::Handle<MicroGMTConfiguration::InputCollection>& in,
                                     MicroGMTConfiguration::InterMuonList& out,
                                     GMTInternalWedges& wedges, int bx) const
 {
@@ -401,26 +401,26 @@ L1TMicroGMTProducer::convertMuons(const edm::Handle<MicroGMTConfiguration::Input
 
 // ------------ method called once each job just before starting event loop  ------------
 void
-L1TMicroGMTProducer::beginJob()
+L1TMuonProducer::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
 void
-L1TMicroGMTProducer::endJob() {
+L1TMuonProducer::endJob() {
 }
 
 // ------------ method called when starting to processes a run  ------------
 void
-L1TMicroGMTProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup)
+L1TMuonProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup)
 {
   const L1TGMTParamsRcd& microGMTParamsRcd = iSetup.get<L1TGMTParamsRcd>();
-  edm::ESHandle<L1TGMTParams> microGMTParamsHandle;
+  edm::ESHandle<L1TMuonGlobalParams> microGMTParamsHandle;
   microGMTParamsRcd.get(microGMTParamsHandle);
 
-  microGMTParams = std::unique_ptr<L1TGMTParams>(new L1TGMTParams(*microGMTParamsHandle.product()));
+  microGMTParams = std::unique_ptr<L1TMuonGlobalParams>(new L1TMuonGlobalParams(*microGMTParamsHandle.product()));
   if (!microGMTParams) {
-    edm::LogError("L1TMicroGMTProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
+    edm::LogError("L1TMuonProducer") << "Could not retrieve parameters from Event Setup" << std::endl;
   }
 
   //microGMTParams->print(std::cout);
@@ -431,25 +431,25 @@ L1TMicroGMTProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup
 
 // ------------ method called when ending the processing of a run  ------------
 void
-L1TMicroGMTProducer::endRun(edm::Run const&, edm::EventSetup const&)
+L1TMuonProducer::endRun(edm::Run const&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when starting to processes a luminosity block  ------------
 void
-L1TMicroGMTProducer::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
+L1TMuonProducer::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a luminosity block  ------------
 void
-L1TMicroGMTProducer::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
+L1TMuonProducer::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
 {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-L1TMicroGMTProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+L1TMuonProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
@@ -458,4 +458,4 @@ L1TMicroGMTProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptio
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(L1TMicroGMTProducer);
+DEFINE_FWK_MODULE(L1TMuonProducer);

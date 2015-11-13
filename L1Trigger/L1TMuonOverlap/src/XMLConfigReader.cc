@@ -8,7 +8,7 @@
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFinput.h"
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
 
-#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonOverlapParams.h"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
@@ -302,7 +302,7 @@ std::vector<std::vector<int> > XMLConfigReader::readEvent(unsigned int iEvent,
 }
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
-void XMLConfigReader::readConfig( L1TMTFOverlapParams *aConfig){
+void XMLConfigReader::readConfig( L1TMuonOverlapParams *aConfig){
 
  parser->parse(configFile.c_str()); 
   xercesc::DOMDocument* doc = parser->getDocument();
@@ -338,20 +338,20 @@ void XMLConfigReader::readConfig( L1TMTFOverlapParams *aConfig){
   unsigned int nRefLayers =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nRefLayers"))).c_str());
   unsigned int nGoldenPatterns =  std::atoi(_toString(aElement->getAttribute(_toDOMS("nGoldenPatterns"))).c_str());
 
-  std::vector<int> paramsVec(L1TMTFOverlapParams::GENERAL_NCONFIG);
-  paramsVec[L1TMTFOverlapParams::GENERAL_ADDRBITS] = nPdfAddrBits;
-  paramsVec[L1TMTFOverlapParams::GENERAL_VALBITS] = nPdfValBits;
-  paramsVec[L1TMTFOverlapParams::GENERAL_HITSPERLAYER] = nHitsPerLayer;
-  paramsVec[L1TMTFOverlapParams::GENERAL_PHIBITS] = nPhiBits;
-  paramsVec[L1TMTFOverlapParams::GENERAL_PHIBINS] = nPhiBins;
-  paramsVec[L1TMTFOverlapParams::GENERAL_NREFHITS] = nRefHits;
-  paramsVec[L1TMTFOverlapParams::GENERAL_NTESTREFHITS] = nTestRefHits;
-  paramsVec[L1TMTFOverlapParams::GENERAL_NPROCESSORS] = nProcessors;
-  paramsVec[L1TMTFOverlapParams::GENERAL_NLOGIC_REGIONS] = nLogicRegions;
-  paramsVec[L1TMTFOverlapParams::GENERAL_NINPUTS] = nInputs;
-  paramsVec[L1TMTFOverlapParams::GENERAL_NLAYERS] = nLayers;
-  paramsVec[L1TMTFOverlapParams::GENERAL_NREFLAYERS] = nRefLayers;
-  paramsVec[L1TMTFOverlapParams::GENERAL_NGOLDENPATTERNS] = nGoldenPatterns;
+  std::vector<int> paramsVec(L1TMuonOverlapParams::GENERAL_NCONFIG);
+  paramsVec[L1TMuonOverlapParams::GENERAL_ADDRBITS] = nPdfAddrBits;
+  paramsVec[L1TMuonOverlapParams::GENERAL_VALBITS] = nPdfValBits;
+  paramsVec[L1TMuonOverlapParams::GENERAL_HITSPERLAYER] = nHitsPerLayer;
+  paramsVec[L1TMuonOverlapParams::GENERAL_PHIBITS] = nPhiBits;
+  paramsVec[L1TMuonOverlapParams::GENERAL_PHIBINS] = nPhiBins;
+  paramsVec[L1TMuonOverlapParams::GENERAL_NREFHITS] = nRefHits;
+  paramsVec[L1TMuonOverlapParams::GENERAL_NTESTREFHITS] = nTestRefHits;
+  paramsVec[L1TMuonOverlapParams::GENERAL_NPROCESSORS] = nProcessors;
+  paramsVec[L1TMuonOverlapParams::GENERAL_NLOGIC_REGIONS] = nLogicRegions;
+  paramsVec[L1TMuonOverlapParams::GENERAL_NINPUTS] = nInputs;
+  paramsVec[L1TMuonOverlapParams::GENERAL_NLAYERS] = nLayers;
+  paramsVec[L1TMuonOverlapParams::GENERAL_NREFLAYERS] = nRefLayers;
+  paramsVec[L1TMuonOverlapParams::GENERAL_NGOLDENPATTERNS] = nGoldenPatterns;
   aConfig->setGeneralParams(paramsVec);
 
   ///Chamber sectors connections to logic processros.
@@ -383,8 +383,8 @@ void XMLConfigReader::readConfig( L1TMTFOverlapParams *aConfig){
 
     
   ///hw <-> logic numbering map
-  std::vector<L1TMTFOverlapParams::LayerMapNode> aLayerMapVec;
-  L1TMTFOverlapParams::LayerMapNode aLayerMapNode;
+  std::vector<L1TMuonOverlapParams::LayerMapNode> aLayerMapVec;
+  L1TMuonOverlapParams::LayerMapNode aLayerMapNode;
  
   nElem = aOMTFElement->getElementsByTagName(_toDOMS("LayerMap"))->getLength();
   DOMElement* aLayerElement = 0;
@@ -404,8 +404,8 @@ void XMLConfigReader::readConfig( L1TMTFOverlapParams *aConfig){
   aConfig->setLayerMap(aLayerMapVec);
 
   ///ref<->logic numberig map
-  std::vector<L1TMTFOverlapParams::RefLayerMapNode> aRefLayerMapVec;
-  L1TMTFOverlapParams::RefLayerMapNode aRefLayerNode;
+  std::vector<L1TMuonOverlapParams::RefLayerMapNode> aRefLayerMapVec;
+  L1TMuonOverlapParams::RefLayerMapNode aRefLayerNode;
   
   nElem = aOMTFElement->getElementsByTagName(_toDOMS("RefLayerMap"))->getLength();
   DOMElement* aRefLayerElement = 0;
@@ -423,11 +423,11 @@ void XMLConfigReader::readConfig( L1TMTFOverlapParams *aConfig){
 
   std::vector<int> aGlobalPhiStartVec(nProcessors*nRefLayers);
   
-  std::vector<L1TMTFOverlapParams::RefHitNode> aRefHitMapVec(nProcessors*nRefHits);
-  L1TMTFOverlapParams::RefHitNode aRefHitNode;
+  std::vector<L1TMuonOverlapParams::RefHitNode> aRefHitMapVec(nProcessors*nRefHits);
+  L1TMuonOverlapParams::RefHitNode aRefHitNode;
   
-  std::vector<L1TMTFOverlapParams::LayerInputNode> aLayerInputMapVec(nProcessors*nLogicRegions*nLayers);  
-  L1TMTFOverlapParams::LayerInputNode aLayerInputNode;
+  std::vector<L1TMuonOverlapParams::LayerInputNode> aLayerInputMapVec(nProcessors*nLogicRegions*nLayers);  
+  L1TMuonOverlapParams::LayerInputNode aLayerInputNode;
   
   nElem = aOMTFElement->getElementsByTagName(_toDOMS("Processor"))->getLength();
   assert(nElem==nProcessors);

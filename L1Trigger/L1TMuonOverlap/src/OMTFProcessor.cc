@@ -7,7 +7,7 @@
 #include "FWCore/ParameterSet/interface/FileInPath.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
-#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonOverlapParams.h"
 
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFProcessor.h"
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
@@ -60,7 +60,7 @@ bool OMTFProcessor::configure(XMLConfigReader *aReader){
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
-bool OMTFProcessor::configure( std::shared_ptr<L1TMTFOverlapParams> omtfParams){
+bool OMTFProcessor::configure( std::shared_ptr<L1TMuonOverlapParams> omtfParams){
 
   myResults.assign(OMTFConfiguration::nTestRefHits,OMTFProcessor::resultsMap());
   

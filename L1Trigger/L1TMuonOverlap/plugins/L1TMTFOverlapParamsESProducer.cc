@@ -6,8 +6,8 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/ESProducts.h"
 
-#include "CondFormats/L1TObjects/interface/L1TMTFOverlapParams.h"
-#include "CondFormats/DataRecord/interface/L1TMTFOverlapParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonOverlapParams.h"
+#include "CondFormats/DataRecord/interface/L1TMuonOverlapParamsRcd.h"
 
 #include "L1Trigger/L1TMuonOverlap/interface/XMLConfigReader.h"
 #include "L1Trigger/L1TMuonOverlap/plugins/L1TMTFOverlapParamsESProducer.h"
@@ -37,7 +37,7 @@ L1TMTFOverlapParamsESProducer::L1TMTFOverlapParamsESProducer(const edm::Paramete
    ///Have to fill OMTFConfiguration data to be able to read the Golden Patterns file, as there are
    ///some consistency checks during XML parsing.
    myOMTFConfig = new OMTFConfiguration(theConfig);
-   std::shared_ptr<L1TMTFOverlapParams> aL1TMTFOverlapParams = std::shared_ptr<L1TMTFOverlapParams>(new L1TMTFOverlapParams(m_params));
+   std::shared_ptr<L1TMuonOverlapParams> aL1TMTFOverlapParams = std::shared_ptr<L1TMuonOverlapParams>(new L1TMuonOverlapParams(m_params));
    myOMTFConfig->configure(aL1TMTFOverlapParams);
 
    for(auto it: fileNames){
@@ -86,12 +86,12 @@ bool L1TMTFOverlapParamsESProducer::readPatternsXML(XMLConfigReader *aReader){
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
 L1TMTFOverlapParamsESProducer::ReturnType
-L1TMTFOverlapParamsESProducer::produce(const L1TMTFOverlapParamsRcd& iRecord)
+L1TMTFOverlapParamsESProducer::produce(const L1TMuonOverlapParamsRcd& iRecord)
 {
    using namespace edm::es;
-   boost::shared_ptr<L1TMTFOverlapParams> aL1TMTFOverlapParams;
+   boost::shared_ptr<L1TMuonOverlapParams> aL1TMTFOverlapParams;
   
-   aL1TMTFOverlapParams = boost::shared_ptr<L1TMTFOverlapParams>(new L1TMTFOverlapParams(m_params));
+   aL1TMTFOverlapParams = boost::shared_ptr<L1TMuonOverlapParams>(new L1TMuonOverlapParams(m_params));
    return aL1TMTFOverlapParams;
 }
 ///////////////////////////////////////////////////////////////////
