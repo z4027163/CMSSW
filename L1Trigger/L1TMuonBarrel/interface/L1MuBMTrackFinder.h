@@ -40,7 +40,8 @@
 #include <FWCore/ParameterSet/interface/ParameterSet.h>
 #include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
-
+#include "FWCore/Utilities/interface/EDGetToken.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 
 class L1MuBMTFConfig;
@@ -73,7 +74,7 @@ class L1MuBMTrackFinder {
     virtual ~L1MuBMTrackFinder();
 
     /// build the structure of the barrel MTTF
-    void setup();
+    void setup(edm::ConsumesCollector&& );
 
     /// run the barrel MTTF
     void run(const edm::Event& e, const edm::EventSetup& c);
@@ -110,9 +111,10 @@ class L1MuBMTrackFinder {
     /// return configuration
     static L1MuBMTFConfig* config() { return m_config; }
 
-    std::vector<BMTrackCand>& getcache0() { return _cache0; }
+//    std::vector<BMTrackCand>& getcache0() { return _cache0; }
 
     l1t::RegionalMuonCandBxCollection& getcache() { return _cache; }
+    l1t::RegionalMuonCandBxCollection& getcache0() { return _cache0; }
 
   private:
 
@@ -121,7 +123,7 @@ class L1MuBMTrackFinder {
 
   private:
 
-    std::vector<BMTrackCand>     _cache0;
+    l1t::RegionalMuonCandBxCollection _cache0;
     l1t::RegionalMuonCandBxCollection _cache;
     L1MuBMSecProcMap*                m_spmap;        ///< Sector Processors
     std::vector<L1MuBMEtaProcessor*> m_epvec;        ///< Eta Processors
@@ -138,6 +140,8 @@ class L1MuBMTrackFinder {
     {   8,    31},{   9,    35},{  10,    39},{  11,    43},{  12,    46},{  13,    50},{  14,    54},{  15,    58},{  16,    61},{  17,    65},
     {  18,    69},{  19,    73},{  20,    76},{  21,    80},{  22,    84},{  23,    88},{  24,    91},{  25,    95},{  26,    99},{  27,   103},
     {  28,   106},{  29,   110},{  30,   114},{  31,   118}};
+
+    edm::EDGetTokenT<L1MuDTChambPhContainer> m_DTDigiToken;
 
 
 };

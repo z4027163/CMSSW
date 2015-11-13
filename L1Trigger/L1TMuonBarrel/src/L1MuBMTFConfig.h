@@ -29,6 +29,9 @@
 
 #include <FWCore/ParameterSet/interface/ParameterSet.h>
 #include <FWCore/Utilities/interface/InputTag.h>
+#include <FWCore/Framework/interface/ESHandle.h>
+#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
+#include "FWCore/Framework/interface/Event.h"
 
 //              ---------------------
 //              -- Class Interface --
@@ -41,13 +44,13 @@ class L1MuBMTFConfig {
     /// constructor
     L1MuBMTFConfig(const edm::ParameterSet & ps);
 
+    void setDefaultsES(const edm::EventSetup& c);
+
     /// destructor
     virtual ~L1MuBMTFConfig();
 
     static edm::InputTag getBMDigiInputTag() { return m_BMDigiInputTag; }
     static edm::InputTag getBMThetaDigiInputTag() { return m_BMThetaDigiInputTag; }
-
-    //static edm::InputTag getCSCTrSInputTag() { return m_CSCTrSInputTag; }
 
     static bool Debug() { return m_debug; }
     static bool Debug(int level) { return (m_debug && m_dbgLevel >= level); }
@@ -74,14 +77,15 @@ class L1MuBMTFConfig {
 
     void setDefaults();
 
+    edm::ESHandle< L1TBMTFParams > bmtfParamsHandle;
+
   private:
 
     const edm::ParameterSet* m_ps;
+    const edm::EventSetup* m_es;
 
     static edm::InputTag m_BMDigiInputTag;
     static edm::InputTag m_BMThetaDigiInputTag;
-
-    //static edm::InputTag m_CSCTrSInputTag;
 
     static bool   m_debug;             // debug flag
     static int    m_dbgLevel;          // debug level

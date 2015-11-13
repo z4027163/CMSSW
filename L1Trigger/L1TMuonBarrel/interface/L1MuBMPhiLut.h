@@ -19,7 +19,7 @@
 // C++ Headers --
 //---------------
 
-//#include "CondFormats/Serialization/interface/Serializable.h"
+#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
 
 #include <vector>
 #include <map>
@@ -42,18 +42,13 @@
 class L1MuBMPhiLut {
 
   public:
+typedef std::map<short, short, std::less<short> > LUT;
 
     /// constructor
-    L1MuBMPhiLut();
+    L1MuBMPhiLut(const L1TBMTFParams &l1params);
 
     /// destructor
     virtual ~L1MuBMPhiLut();
-
-    /// reset phi-assignment look-up tables
-    void reset();
-    
-    /// load phi-assignment look-up tables
-    int load();
 
     /// print phi-assignment look-up tables
     void print() const;
@@ -66,18 +61,8 @@ class L1MuBMPhiLut {
 
   private:
 
-    /// set precision for look-up tables
-    void setPrecision();
-      
-  private:
+    const L1TBMTFParams *l1tbmphiparams;
 
-    typedef std::map<short, short, std::less<short> > LUT;
-
-    std::vector<LUT> phi_lut;
-    
-    unsigned short int nbit_phi;
-    unsigned short int nbit_phib;
-    
 
 };
 

@@ -34,10 +34,7 @@
 #include "L1Trigger/L1TMuonBarrel/src/L1MuBMDataBuffer.h"
 #include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegLoc.h"
 #include "L1Trigger/L1TMuonBarrel/src/L1MuBMTrackSegPhi.h"
-#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhDigi.h"
-#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
-//#include "DataFormats/L1CSCTrackFinder/interface/TrackStub.h"
-//#include "DataFormats/L1CSCTrackFinder/interface/CSCTriggerContainer.h"
+
 #include "CondFormats/L1TObjects/interface/L1MuDTTFParameters.h"
 #include "CondFormats/DataRecord/interface/L1MuDTTFParametersRcd.h"
 #include "CondFormats/L1TObjects/interface/L1MuDTTFMasks.h"
@@ -52,8 +49,9 @@ using namespace std;
 //----------------
 // Constructors --
 //----------------
-L1MuBMSectorReceiver::L1MuBMSectorReceiver(L1MuBMSectorProcessor& sp) :
-        m_sp(sp) {
+L1MuBMSectorReceiver::L1MuBMSectorReceiver(L1MuBMSectorProcessor& sp, edm::ConsumesCollector && iC) :
+       m_sp(sp),
+       m_DTDigiToken(iC.consumes<L1MuDTChambPhContainer>(L1MuBMTFConfig::getBMDigiInputTag())){
 
 }
 
@@ -103,16 +101,14 @@ void L1MuBMSectorReceiver::reset() {
 // receive track segment data from the BBMX chamber trigger
 //
 void L1MuBMSectorReceiver::receiveBBMXData(int bx, const edm::Event& e, const edm::EventSetup& c) {
-
   edm::Handle<L1MuDTChambPhContainer> dttrig;
-  e.getByLabel(L1MuBMTFConfig::getBMDigiInputTag(),dttrig);
-
+  //e.getByLabel(L1MuBMTFConfig::getBMDigiInputTag(),dttrig);
+  e.getByToken(m_DTDigiToken,dttrig);
   L1MuDTChambPhDigi const* ts=0;
 
   // const int bx_offset = dttrig->correctBX();
   int bx_offset=0;
   bx = bx + bx_offset;
-
   // get BBMX phi track segments
   int address = 0;
   for ( int station = 1; station <= 4; station++ ) {

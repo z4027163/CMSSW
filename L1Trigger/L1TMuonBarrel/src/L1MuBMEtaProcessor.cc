@@ -47,8 +47,6 @@
 #include "CondFormats/DataRecord/interface/L1MuDTQualPatternLutRcd.h"
 #include "CondFormats/L1TObjects/interface/L1MuDTTFMasks.h"
 #include "CondFormats/DataRecord/interface/L1MuDTTFMasksRcd.h"
-#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThDigi.h"
-#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
 
 using namespace std;
 
@@ -60,8 +58,9 @@ using namespace std;
 // Constructors --
 //----------------
 
-L1MuBMEtaProcessor::L1MuBMEtaProcessor(const L1MuBMTrackFinder& tf, int id) :
-      m_tf(tf), m_epid(id), m_foundPattern(0), m_tseta(15) {
+L1MuBMEtaProcessor::L1MuBMEtaProcessor(const L1MuBMTrackFinder& tf, int id, edm::ConsumesCollector&& iC) :
+      m_tf(tf), m_epid(id), m_foundPattern(0), m_tseta(15), m_DTDigiToken(iC.consumes<L1MuDTChambThContainer>(L1MuBMTFConfig::getBMThetaDigiInputTag()))
+ {
 
   m_tseta.reserve(15);
 
@@ -217,7 +216,8 @@ void L1MuBMEtaProcessor::receiveData(int bx, const edm::Event& e, const edm::Eve
   c.get< L1MuDTTFMasksRcd >().get( msks );
 
   edm::Handle<L1MuDTChambThContainer> dttrig;
-  e.getByLabel(L1MuBMTFConfig::getBMThetaDigiInputTag(),dttrig);
+//  e.getByLabel(L1MuBMTFConfig::getBMThetaDigiInputTag(),dttrig);
+  e.getByToken(m_DTDigiToken,dttrig);
 
   // const int bx_offset = dttrig->correctBX();
   int bx_offset=0;

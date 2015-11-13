@@ -20,6 +20,8 @@
 //---------------
 
 //#include "CondFormats/Serialization/interface/Serializable.h"
+#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
+#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
 
 #include <vector>
 #include <map>
@@ -42,18 +44,12 @@
 class L1MuBMPtaLut {
 
   public:
-
+    typedef std::map<short, short, std::less<short> > LUT;
     /// constructor
-    L1MuBMPtaLut();
+    L1MuBMPtaLut(const L1TBMTFParams &l1params);
 
     /// destructor
     virtual ~L1MuBMPtaLut();
-
-    /// reset pt-assignment look-up tables
-    void reset();
-
-    /// load pt-assignment look-up tables
-    int load();
 
     /// print pt-assignment look-up tables
     void print() const;
@@ -65,19 +61,9 @@ class L1MuBMPtaLut {
     int getPtLutThreshold(int pta_ind) const;
 
   private:
+    const L1TBMTFParams* l1tbmparams;
 
-    /// set precision for look-up tables
-    void setPrecision();
 
-  private:
-
-    typedef std::map<short, short, std::less<short> > LUT;
-
-    std::vector<LUT> pta_lut;
-    std::vector<int> pta_threshold;
-
-    unsigned short int nbit_phi;
-    
 
 };
 

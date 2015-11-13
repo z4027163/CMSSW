@@ -50,6 +50,8 @@
 
 #include "CondFormats/L1TObjects/interface/L1TMuonOverlapParams.h"
 #include "CondFormats/L1TObjects/interface/L1TMuonGlobalParams.h"
+#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
+
 
 namespace CondFormats_L1TObjects {
   struct dictionary {
@@ -84,6 +86,10 @@ namespace CondFormats_L1TObjects {
 
     L1TMuonOverlapParams dummy17;
     std::vector< L1TMuonOverlapParams::Node> dummy17a;
+
+    L1TBMTFParams dummy18;
+    std::vector<L1TBMTFParams::Node> dummy18a;
+
 
   };
 }

@@ -44,9 +44,10 @@ using namespace std;
 
 L1MuBMTFSetup::L1MuBMTFSetup(const edm::ParameterSet & ps, edm::ConsumesCollector && iC) : m_tf(new L1MuBMTrackFinder(ps,std::move(iC))) {
   // setup  the barrel Muon Trigger Track Finder
-  m_tf->setup();
+  m_tf->setup(std::move(iC));
 
 }
+
 
 
 //--------------
@@ -58,6 +59,7 @@ L1MuBMTFSetup::~L1MuBMTFSetup() {
   delete m_tf;
 
 }
+
 
 
 //--------------

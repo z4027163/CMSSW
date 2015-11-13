@@ -1,14 +1,15 @@
-<library file="*.cc" name="L1TriggerL1TMuonBarrelPlugins">
-  <use name="FWCore/Framework"/>
-  <use name="FWCore/PluginManager"/>
-  <use name="FWCore/ParameterSet"/>
-  <use name="FWCore/Utilities"/>
-  <use name="L1Trigger/L1TMuon"/>
-  <use name="L1Trigger/L1TMuonBarrel"/>
-  <use name="DataFormats/L1Trigger"/>
-  <use name="DataFormats/L1TMuon"/>
-  <use name="CondFormats/L1TObjects"/>
-  <use name="CondFormats/DataRecord"/>
-  <flags EDM_PLUGIN="1"/>
+<library   file="*.cc" name="L1TriggerL1TMuonBarrelPlugins">
+<use name="L1Trigger/L1TMuonEndCap"/>
+<use name="L1Trigger/DTTrackFinder"/>
+<use name="FWCore/ServiceRegistry"/>
+<use name="CommonTools/UtilAlgos"/>
+<use name="DataFormats/HepMCCandidate"/>
+<use name="DataFormats/L1TMuon"/>
+<use name="DQM/DTMonitorModule"/>
+<use name="CondFormats/DataRecord"/>
+<use name="CondFormats/L1TObjects"/>
+<use name="L1Trigger/L1TMuonBarrel"/>
+<flags LDFLAGS="-fPIC"/>
+<flags EDM_PLUGIN="1"/>
+<flags ADD_SUBDIR="1"/>
 </library>
-

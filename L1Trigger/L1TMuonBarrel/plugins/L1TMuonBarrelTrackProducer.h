@@ -35,6 +35,8 @@ class L1TMuonBarrelTrackProducer: public edm::one::EDProducer<edm::one::SharedRe
  private:
 
   L1MuBMTFSetup* setup1;
+  const edm::ParameterSet* m_ps;
+
 
 };
 

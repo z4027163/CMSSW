@@ -37,7 +37,12 @@
 #include <FWCore/Framework/interface/Event.h>
 #include <FWCore/Framework/interface/ESHandle.h>
 #include <FWCore/Framework/interface/EventSetup.h>
+#include "FWCore/Utilities/interface/EDGetToken.h"
 #include "L1Trigger/L1TMuonBarrel/src/L1MuBMAddressArray.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThDigi.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h"
+
 class L1MuBMTrackSegEta;
 class L1MuBMTrackFinder;
 class L1MuBMTrack;
@@ -54,7 +59,7 @@ class L1MuBMEtaProcessor {
   public:
 
     /// constructor
-    L1MuBMEtaProcessor(const L1MuBMTrackFinder&, int id );
+    L1MuBMEtaProcessor(const L1MuBMTrackFinder&, int id, edm::ConsumesCollector&& iC );
 
     /// destructor
     virtual ~L1MuBMEtaProcessor();
@@ -121,6 +126,8 @@ class L1MuBMEtaProcessor {
     edm::ESHandle< L1MuDTEtaPatternLut >  theEtaPatternLUT;  // ETF look-up table
     edm::ESHandle< L1MuDTQualPatternLut > theQualPatternLUT; // EMU look-up tables
     edm::ESHandle< L1MuDTTFMasks >        msks;
+
+    edm::EDGetTokenT<L1MuDTChambThContainer>  m_DTDigiToken;
 
 };
 

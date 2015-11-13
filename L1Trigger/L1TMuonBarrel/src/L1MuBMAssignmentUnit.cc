@@ -9,7 +9,7 @@
 //   Author :
 //   N. Neumeister            CERN EP
 //   J. Troconiz              UAM Madrid
-//
+//   G. Flouris               U. Ioannina
 //--------------------------------------------------
 
 //-----------------------
@@ -37,14 +37,9 @@
 #include "L1MuBMTrackSegLoc.h"
 #include "L1MuBMTrackAssembler.h"
 #include "L1MuBMTrackAssParam.h"
-//#include "CondFormats/L1TObjects/interface/L1MuDTPhiLut.h"
-//#include "CondFormats/DataRecord/interface/L1MuDTPhiLutRcd.h"
-//#include "CondFormats/L1TObjects/interface/L1MuDTPtaLut.h"
-//#include "CondFormats/DataRecord/interface/L1MuDTPtaLutRcd.h"
 
-#include "../interface/L1MuBMPhiLut.h"
-#include "../interface/L1MuBMPtaLut.h"
-#include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
+#include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -62,17 +57,7 @@ L1MuBMAssignmentUnit::L1MuBMAssignmentUnit(L1MuBMSectorProcessor& sp, int id) :
 
   m_TSphi.reserve(4);  // a track candidate can consist of max 4 TS
   reset();
-
   setPrecision();
-
-  int phi_load = thePhiLUTs->load();
-    if ( phi_load != 0 ) {
-      cout << "Can not open files to load pt-assignment look-up tables for L1TMuonBarrelTrackProducer!" << endl;
-    }
-    int pta_load = thePtaLUTs->load();
-    if ( pta_load != 0 ) {
-      cout << "Can not open files to load pt-assignment look-up tables for L1TMuonBarrelTrackProducer!" << endl;
-    }
 
 }
 
@@ -81,7 +66,8 @@ L1MuBMAssignmentUnit::L1MuBMAssignmentUnit(L1MuBMSectorProcessor& sp, int id) :
 // Destructor --
 //--------------
 
-L1MuBMAssignmentUnit::~L1MuBMAssignmentUnit() {}
+L1MuBMAssignmentUnit::~L1MuBMAssignmentUnit() {
+}
 
 
 //--------------
@@ -147,10 +133,12 @@ void L1MuBMAssignmentUnit::reset() {
 //
 void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
 
-  // calculate phi at station 2 using 8 bits (precision = 2.5 degrees)
-
-  //c.get< L1MuDTPhiLutRcd >().get( thePhiLUTs );
-
+  const L1TBMTFParamsRcd& bmtfParamsRcd = c.get<L1TBMTFParamsRcd>();
+  bmtfParamsRcd.get(bmtfParamsHandle);
+  const L1TBMTFParams& bmtfParams = *bmtfParamsHandle.product();
+  thePhiLUTs =  new L1MuBMPhiLut(bmtfParams);  ///< phi-assignment look-up tables
+  //thePhiLUTs->print();
+  // calculate phi at station 2 using 8 bits (precision = 0.625 degrees)
   int sh_phi  = 12 - L1MuBMTFConfig::getNbitsPhiPhi();
   int sh_phib = 10 - L1MuBMTFConfig::getNbitsPhiPhib();
 
@@ -160,7 +148,6 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
 
   int phi2 = 0;         // phi-value at station 2
   int sector = 0;
-
   if ( second ) {
     phi2 = second->phi() >> sh_phi;
     sector = second->sector();
@@ -182,10 +169,6 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
   if ( sectordiff >= 6 ) sectordiff -= 12;
   if ( sectordiff < -6 ) sectordiff += 12;
 
-
-  // get sector center in 8 bit coding
-  //int sector_8 = convertSector(sector0);
-
   // convert phi to 0.625 degree precision
   int phi_precision = 4096 >> sh_phi;
   const double k = 57.2958/0.625/static_cast<float>(phi_precision);
@@ -195,10 +178,13 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
   if ( second == 0 && first ) {
     int bend_angle = (first->phib() >> sh_phib) << sh_phib;
     phi_8 = phi_8 + thePhiLUTs->getDeltaPhi(0,bend_angle);
+    //phi_8 = phi_8 + getDeltaPhi(0, bend_angle, bmtfParams->phi_lut());
   }
   else if ( second == 0 && forth ) {
+
     int bend_angle = (forth->phib() >> sh_phib) << sh_phib;
     phi_8 = phi_8 + thePhiLUTs->getDeltaPhi(1,bend_angle);
+    //phi_8 = phi_8 + getDeltaPhi(1, bend_angle, bmtfParams->phi_lut());
   }
 
   //If muon is found at the neighbour sector - second station
@@ -212,8 +198,7 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
   m_sp.track(m_id)->setPhi(phi); // Regional
   m_sp.tracK(m_id)->setPhi(phi);
 
-
-
+delete thePhiLUTs;
 }
 
 
@@ -222,13 +207,14 @@ void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
 //
 void L1MuBMAssignmentUnit::PtAU(const edm::EventSetup& c) {
 
-  //c.get< L1MuDTPtaLutRcd >().get( thePtaLUTs );
-
+  const L1TBMTFParamsRcd& bmtfParamsRcd = c.get<L1TBMTFParamsRcd>();
+  bmtfParamsRcd.get(bmtfParamsHandle);
+  const L1TBMTFParams& bmtfParams = *bmtfParamsHandle.product();
+  thePtaLUTs =  new L1MuBMPtaLut(bmtfParams);   ///< pt-assignment look-up tables
   //thePtaLUTs->print();
-
   // get pt-assignment method as function of track class and TS phib values
+  //m_ptAssMethod = getPtMethod(bmtfParams);
   m_ptAssMethod = getPtMethod();
-
   // get input address for look-up table
   int bend_angle = getPtAddress(m_ptAssMethod);
   int bend_carga = getPtAddress(m_ptAssMethod, 1);
@@ -236,7 +222,7 @@ void L1MuBMAssignmentUnit::PtAU(const edm::EventSetup& c) {
   // retrieve pt value from look-up table
   int lut_idx = m_ptAssMethod;
   int pt = thePtaLUTs->getPt(lut_idx,bend_angle );
-
+  //int pt = getPt(lut_idx, bend_angle, bmtfParams->pta_lut());
   m_sp.track(m_id)->setPt(pt);
   m_sp.tracK(m_id)->setPt(pt);
 
@@ -245,6 +231,7 @@ void L1MuBMAssignmentUnit::PtAU(const edm::EventSetup& c) {
   int charge = ( bend_carga >= 0 ) ? chsign : -1 * chsign;
   m_sp.track(m_id)->setCharge(charge);
   m_sp.tracK(m_id)->setCharge(charge);
+  delete thePtaLUTs;
 
 }
 
@@ -349,22 +336,7 @@ int L1MuBMAssignmentUnit::getCharge(PtAssMethod method) {
     case PT24H  : { chargesign = -1; break; }
     case PT34L  : { chargesign =  1; break; }
     case PT34H  : { chargesign =  1; break; }
-    /*case PT12LO : { chargesign = -1; break; }
-    case PT12HO : { chargesign = -1; break; }
-    case PT13LO : { chargesign = -1; break; }
-    case PT13HO : { chargesign = -1; break; }
-    case PT14LO : { chargesign = -1; break; }
-    case PT14HO : { chargesign = -1; break; }
-    case PT23LO : { chargesign = -1; break; }
-    case PT23HO : { chargesign = -1; break; }
-    case PT24LO : { chargesign = -1; break; }
-    case PT24HO : { chargesign = -1; break; }
-    case PT34LO : { chargesign =  1; break; }
-    case PT34HO : { chargesign =  1; break; }
-    case PT15LO : { chargesign = -1; break; }
-    case PT15HO : { chargesign = -1; break; }
-    case PT25LO : { chargesign = -1; break; }
-    case PT25HO : { chargesign = -1; break; }*/
+
     case NODEF  : { chargesign = 0;
     //                    cerr << "AssignmentUnit::getCharge : undefined PtAssMethod!"
     //                         << endl;
@@ -380,6 +352,7 @@ int L1MuBMAssignmentUnit::getCharge(PtAssMethod method) {
 //
 // determine pt-assignment method
 //
+//PtAssMethod L1MuBMAssignmentUnit::getPtMethod(L1TBMTFParams *l1tbmparams) const {
 PtAssMethod L1MuBMAssignmentUnit::getPtMethod() const {
 
   // determine which pt-assignment method should be used as a function
@@ -397,20 +370,6 @@ PtAssMethod L1MuBMAssignmentUnit::getPtMethod() const {
   if ( !s.test(0) &&  s.test(1) && s.test(3) ) method = 4; // stations 2 and 4
   if ( !s.test(0) &&  s.test(1) && s.test(2) ) method = 3; // stations 2 and 3
   if ( !s.test(0) && !s.test(1) && s.test(2) && s.test(3) ) method = 5; // stations 3 and 4
-/*
-  if ( m_sp.ovl() ) {
-    int adr = m_addArray.station(3);
-    bool s5 = (adr == 15) ? false : ((adr/2)%2 == 1);
-    if (  s.test(0) &&  s.test(3) ) method = 8;  // stations 1 and 4
-    if (  s.test(0) &&  s.test(2) &&  s5 ) method = 12; // stations 1 and 5
-    if (  s.test(0) &&  s.test(2) && !s5 ) method = 7;  // stations 1 and 3
-    if (  s.test(0) &&  s.test(1) ) method = 6;  // stations 1 and 2
-    if ( !s.test(0) &&  s.test(1) && s.test(3) ) method = 10; // stations 2 and 4
-    if ( !s.test(0) &&  s.test(1) && s.test(2) &&  s5 ) method = 13; // stations 2 and 5
-    if ( !s.test(0) &&  s.test(1) && s.test(2) && !s5 ) method = 9;  // stations 2 and 3
-    if ( !s.test(0) && !s.test(1) && s.test(2) &&  s.test(3) ) method = 11; // stations 3 and 4
-  }
-*/
   int threshold = thePtaLUTs->getPtLutThreshold(method);
 
   // phib values of track segments from stations 1, 2 and 4
@@ -427,14 +386,6 @@ PtAssMethod L1MuBMAssignmentUnit::getPtMethod() const {
     case 3 :  { pam = ( abs(phib2) < threshold ) ? PT23H  : PT23L;  break; }
     case 4 :  { pam = ( abs(phib2) < threshold ) ? PT24H  : PT24L;  break; }
     case 5 :  { pam = ( abs(phib4) < threshold ) ? PT34H  : PT34L;  break; }
-    /*case 6 :  { pam = ( abs(phib1) < threshold ) ? PT12HO : PT12LO; break; }
-    case 7 :  { pam = ( abs(phib1) < threshold ) ? PT13HO : PT13LO; break; }
-    case 8 :  { pam = ( abs(phib1) < threshold ) ? PT14HO : PT14LO; break; }
-    case 9 :  { pam = ( abs(phib2) < threshold ) ? PT23HO : PT23LO; break; }
-    case 10 : { pam = ( abs(phib2) < threshold ) ? PT24HO : PT24LO; break; }
-    case 11 : { pam = ( abs(phib4) < threshold ) ? PT34HO : PT34LO; break; }
-    case 12 : { pam = ( abs(phib1) < threshold ) ? PT15HO : PT15LO; break; }
-    case 13 : { pam = ( abs(phib2) < threshold ) ? PT25HO : PT25LO; break; }*/
     default : ;
       //cout << "L1MuBMAssignmentUnit : Error in PT ass method evaluation" << endl;
   }
@@ -465,22 +416,6 @@ int L1MuBMAssignmentUnit::getPtAddress(PtAssMethod method, int bendcharge) const
     case PT24H  : { bendangle = phiDiff(2,4); break; }
     case PT34L  : { bendangle = phiDiff(4,3); break; }
     case PT34H  : { bendangle = phiDiff(4,3); break; }
-    /*case PT12LO : { bendangle = phiDiff(1,2); break; }
-    case PT12HO : { bendangle = phiDiff(1,2); break; }
-    case PT13LO : { bendangle = phiDiff(1,3); break; }
-    case PT13HO : { bendangle = phiDiff(1,3); break; }
-    case PT14LO : { bendangle = phiDiff(1,4); break; }
-    case PT14HO : { bendangle = phiDiff(1,4); break; }
-    case PT23LO : { bendangle = phiDiff(2,3); break; }
-    case PT23HO : { bendangle = phiDiff(2,3); break; }
-    case PT24LO : { bendangle = phiDiff(2,4); break; }
-    case PT24HO : { bendangle = phiDiff(2,4); break; }
-    case PT34LO : { bendangle = phiDiff(4,3); break; }
-    case PT34HO : { bendangle = phiDiff(4,3); break; }
-    case PT15LO : { bendangle = phiDiff(1,3); break; }
-    case PT15HO : { bendangle = phiDiff(1,3); break; }
-    case PT25LO : { bendangle = phiDiff(2,3); break; }
-    case PT25HO : { bendangle = phiDiff(2,3); break; }*/
     case NODEF :  { bendangle = 0;
     //                    cerr << "AssignmentUnit::getPtAddress : undefined PtAssMethod" << endl;
                     break;
