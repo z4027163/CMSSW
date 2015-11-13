@@ -1,0 +1,14 @@
+<library file="*.cc" name="L1TriggerL1TMuonBarrelPlugins">
+  <use name="FWCore/Framework"/>
+  <use name="FWCore/PluginManager"/>
+  <use name="FWCore/ParameterSet"/>
+  <use name="FWCore/Utilities"/>
+  <use name="L1Trigger/L1TMuon"/>
+  <use name="L1Trigger/L1TMuonBarrel"/>
+  <use name="DataFormats/L1Trigger"/>
+  <use name="DataFormats/L1TMuon"/>
+  <use name="CondFormats/L1TObjects"/>
+  <use name="CondFormats/DataRecord"/>
+  <flags EDM_PLUGIN="1"/>
+</library>
+
