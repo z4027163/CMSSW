@@ -3,12 +3,12 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process('L1EMTF')
 process.load("FWCore.MessageService.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100))
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10))
 #process.SimpleMemoryCheck = cms.Service("SimpleMemoryCheck",ignoreTotal = cms.untracked.int32(1))
 process.load("L1TriggerConfig.L1ScalesProducers.L1MuTriggerScalesConfig_cff")
 process.load("L1TriggerConfig.L1ScalesProducers.L1MuTriggerPtScaleConfig_cff")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-process.load('L1Trigger.L1TMuonEndCap.L1TMuonTriggerPrimitiveProducer_cfi')
+
 process.load('Configuration.Geometry.GeometryExtended2015Reco_cff')
 process.load('Configuration.Geometry.GeometryExtended2015_cff')
 
@@ -23,7 +23,7 @@ process.options = cms.untracked.PSet(
 process.L1TMuonEndcapTrackFinder = cms.EDProducer(
     'L1TMuonEndCapTrackProducer',
     
-	
+	CSCInput = cms.InputTag('simCscTriggerPrimitiveDigis',''),
     primitiveSrcs = cms.VInputTag(
     cms.InputTag('L1TMuonTriggerPrimitives','CSC'),
     cms.InputTag('L1TMuonTriggerPrimitives','DT'),
@@ -34,7 +34,21 @@ process.L1TMuonEndcapTrackFinder = cms.EDProducer(
 
 process.content = cms.EDAnalyzer("EventContentAnalyzer")
 
+process.load('Configuration.StandardSequences.SimL1Emulator_cff')
+process.load("Configuration.StandardSequences.RawToDigi_cff")
+
+process.L1ReEmulSeq = cms.Sequence(process.SimL1Emulator
+                                   + process.ecalDigis
+                                   + process.hcalDigis
+                                   + process.gtDigis
+                                   + process.gtEvmDigis
+                                   + process.csctfDigis
+                                   + process.dttfDigis
+                                   )
+
 infile = [
+
+		'/store/mc/Fall13dr/MuPlus_Pt-1to150_PositiveEndcap-gun/GEN-SIM-RAW/tsg_PU40bx25_POSTLS162_V2-v1/20000/00662BFD-DC81-E311-AB4A-1CC1DE046FC0.root',
 
 		'/store/relval/CMSSW_7_5_0_pre1/RelValSingleMuPt100_UP15/GEN-SIM-DIGI-RECO/MCRUN2_74_V7_FastSim-v1/00000/04DB6E17-72E2-E411-8311-0025905964BA.root',
        '/store/relval/CMSSW_7_5_0_pre1/RelValSingleMuPt100_UP15/GEN-SIM-DIGI-RECO/MCRUN2_74_V7_FastSim-v1/00000/24978F06-72E2-E411-8346-0025905A6084.root',
@@ -65,10 +79,9 @@ process.FEVTDEBUGoutput = cms.OutputModule(
     )
 )
 
-process.L1TMuonSequence = cms.Sequence(process.L1TMuonTriggerPrimitives + 
-									process.L1TMuonEndcapTrackFinder)
+process.L1TMuonSequence = cms.Sequence(process.L1TMuonEndcapTrackFinder)
 
-process.L1TMuonPath = cms.Path(process.L1TMuonSequence)
+process.L1TMuonPath = cms.Path(process.L1ReEmulSeq+process.L1TMuonSequence)
 
 process.outPath = cms.EndPath(process.FEVTDEBUGoutput)
 

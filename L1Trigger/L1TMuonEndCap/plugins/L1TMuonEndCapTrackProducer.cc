@@ -36,10 +36,12 @@ using namespace L1TMuon;
 L1TMuonEndCapTrackProducer::L1TMuonEndCapTrackProducer(const PSet& p) {
 
 
-  _tpinputs = p.getParameter<std::vector<edm::InputTag> >("primitiveSrcs");
-  for (auto& tfinput: _tpinputs) {
-    consumes<TriggerPrimitiveCollection>(tfinput);
-  }
+ // _tpinputs = p.getParameter<std::vector<edm::InputTag> >("primitiveSrcs");
+  _CSCInput = p.getParameter<edm::InputTag>("CSCInput");
+ // for (auto& tfinput: _tpinputs) {
+ //   consumes<TriggerPrimitiveCollection>(tfinput);
+  //}
+  consumes<CSCCorrelatedLCTDigiCollection>(_CSCInput);
    // produces<L1TMuon::InternalTrackCollection> ("DataITC").setBranchAlias("DataITC");
 	produces<l1t::RegionalMuonCandBxCollection >("EMUTF");
 }
@@ -61,33 +63,53 @@ void L1TMuonEndCapTrackProducer::produce(edm::Event& ev,
 
   std::vector<BTrack> PTracks[12];
 
-  std::vector<TriggerPrimitiveRef> tester;
+  std::vector<TriggerPrimitive> tester;
   //std::vector<InternalTrack> FoundTracks;
+  
+  
+  //////////////////////////////////////////////
+  ///////// Make Trigger Primitives ////////////
+  //////////////////////////////////////////////
+  
+  edm::Handle<CSCCorrelatedLCTDigiCollection> MDC;
+  ev.getByLabel("simCscTriggerPrimitiveDigis","",MDC);
+  std::vector<TriggerPrimitive> out;
+  
+  auto chamber = MDC->begin();
+  auto chend  = MDC->end();
+  for( ; chamber != chend; ++chamber ) {
+    auto digi = (*chamber).second.first;
+    auto dend = (*chamber).second.second;
+    for( ; digi != dend; ++digi ) {
+      out.push_back(TriggerPrimitive((*chamber).first,*digi));
+    }
+  }
+  
 
   //////////////////////////////////////////////
-  ///////// Get Trigger Primitives /////////////  Retrieve TriggerPrimitives from the event record
+  ///////// Get Trigger Primitives /////////////  Retrieve TriggerPrimitives from the event record: Currently does nothing because we don't take RPC's
   //////////////////////////////////////////////
 
-  auto tpsrc = _tpinputs.cbegin();
-  auto tpend = _tpinputs.cend();
-  for( ; tpsrc != tpend; ++tpsrc ) {
-    edm::Handle<TriggerPrimitiveCollection> tps;
-    ev.getByLabel(*tpsrc,tps);
-    auto tp = tps->cbegin();
-    auto tpend = tps->cend();
+ // auto tpsrc = _tpinputs.cbegin();
+  //auto tpend = _tpinputs.cend();
+ // for( ; tpsrc != tpend; ++tpsrc ) {
+   // edm::Handle<TriggerPrimitiveCollection> tps;
+   // ev.getByLabel(*tpsrc,tps);
+    auto tp = out.cbegin();
+    auto tpend = out.cend();
 
     for( ; tp != tpend; ++tp ) {
       if(tp->subsystem() == 1)
       {
-		TriggerPrimitiveRef tpref(tps,tp - tps -> cbegin());
+		//TriggerPrimitiveRef tpref(out,tp - out.cbegin());
 
-		tester.push_back(tpref);
+		tester.push_back(*tp);
 
 		//if(verbose) std::cout<<"\ntrigger prim found station:"<<tp->detId<CSCDetId>().station()<<std::endl;
       }
 
      }
-   }
+   //}
   std::vector<ConvertedHit> CHits[12];
   MatchingOutput MO[12];
 
@@ -248,14 +270,14 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 
 			if(A->Phi() != -999){
 
-				int station = A->TP()->detId<CSCDetId>().station();
-				int id = A->TP()->getCSCData().cscID;
-				int trknm = A->TP()->getCSCData().trknmb;
+				int station = A->TP().detId<CSCDetId>().station();
+				int id = A->TP().getCSCData().cscID;
+				int trknm = A->TP().getCSCData().trknmb;
 
 				tempTrack.addStub(A->TP());
 				ps.push_back(A->Phi());
 				ts.push_back(A->Theta());
-				sector = (A->TP()->detId<CSCDetId>().endcap() -1)*6 + A->TP()->detId<CSCDetId>().triggerSector() - 1;
+				sector = (A->TP().detId<CSCDetId>().endcap() -1)*6 + A->TP().detId<CSCDetId>().triggerSector() - 1;
 				//std::cout<<"Q: "<<A->Quality()<<", keywire: "<<A->Wire()<<", strip: "<<A->Strip()<<std::endl;
 
 				switch(station){
@@ -267,13 +289,13 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 				}
 
 
-				if(A->TP()->detId<CSCDetId>().station() == 1 && A->TP()->detId<CSCDetId>().ring() == 3)
+				if(A->TP().detId<CSCDetId>().station() == 1 && A->TP().detId<CSCDetId>().ring() == 3)
 					ME13 = true;
 
 				if(station == 1 && id > 3 && id < 7){
 
 					int sub = 2;
-					if(A->TP()->detId<CSCDetId>().chamber()%6 > 2)
+					if(A->TP().detId<CSCDetId>().chamber()%6 > 2)
 						sub = 1;
 
 					me1address = id;

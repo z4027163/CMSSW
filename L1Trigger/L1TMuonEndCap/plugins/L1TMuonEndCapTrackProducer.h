@@ -36,17 +36,18 @@
 #include <TFile.h>
 #include "L1Trigger/L1TMuonEndCap/interface/GeometryTranslator.h"
 
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitiveFwd.h"
 
-#include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
-#include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrack.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrackFwd.h"
 
 
 #include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
 #include "L1Trigger/L1TMuonEndCap/interface/EmulatorClasses.h"
 #include "L1Trigger/CSCTrackFinder/interface/CSCTFPtLUT.h"
 #include "L1Trigger/CSCTrackFinder/interface/CSCSectorReceiverLUT.h"
+#include "DataFormats/CSCDigi/interface/CSCCorrelatedLCTDigiCollection.h"
 
 typedef edm::ParameterSet PSet;
 
@@ -90,6 +91,7 @@ public:
 private:
 
   std::vector<edm::InputTag> _tpinputs, _convTrkInputs;
+  edm::InputTag _CSCInput;
   
 };
 

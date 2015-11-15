@@ -1003,18 +1003,18 @@ float CalculatePt(L1TMuon::InternalTrack track , const edm::EventSetup& es){///a
 			
 		
 			if(verbose) std::cout<< "s= " << s << " " << endl; 
-			etas[s-8] = (fabs((stubs.find(s)->second)[0]->getCMSGlobalEta()) + 0.9)/(0.0125);
+			etas[s-8] = (fabs((stubs.find(s)->second)[0].getCMSGlobalEta()) + 0.9)/(0.0125);
       		if(verbose) std::cout<< "eta= " << etas[s-8] << " " << endl;
-			phis[s-8] = track.phis[x];//(stubs.find(s)->second)[0]->getCMSGlobalPhi();//
+			phis[s-8] = track.phis[x];//(stubs.find(s)->second)[0].getCMSGlobalPhi();//
           	if(verbose) std::cout<< "phi= " << phis[s-8] << " " << endl;
-			clct[s-8] = (stubs.find(s)->second)[0]->getPattern();
+			clct[s-8] = (stubs.find(s)->second)[0].getPattern();
           	if(verbose) std::cout<< "clct= " << clct[s-8] << " " << endl;
-			cscid[s-8] = (stubs.find(s)->second)[0]->Id();
+			cscid[s-8] = (stubs.find(s)->second)[0].Id();
           	if(verbose) std::cout<< "cscid= " << cscid[s-8] << " " << endl;
 
-      if(verbose) std::cout<< s << " " << (stubs.find(s)->second)[0]->detId<CSCDetId>().station()<<" " << phis[s-8] << endl;;
+      if(verbose) std::cout<< s << " " << (stubs.find(s)->second)[0].detId<CSCDetId>().station()<<" " << phis[s-8] << endl;;
 
-      const CSCChamber* layer = cscGeometry->chamber((stubs.find(s)->second)[0]->detId<CSCDetId>());///add this bobby
+      const CSCChamber* layer = cscGeometry->chamber((stubs.find(s)->second)[0].detId<CSCDetId>());///add this bobby
       LocalPoint llc(0.,0.,0.);///add this bobby
       GlobalPoint glc = layer->toGlobal(llc);///add this bobby
             

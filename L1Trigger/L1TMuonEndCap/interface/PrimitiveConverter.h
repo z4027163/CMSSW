@@ -18,21 +18,21 @@ int ph_offsetss[5][9][3] = {{{2,2,-99},{20,20,-99},{39,39,-99},{2,-99,-99},{21,-
 			   {{1,-99,-99},{39,-99,-99},{76,-99,-99},{2,1,-99},{21,20,-99},{39,39,-99},{58,58,-99},{77,76,-99},{95,95,-99}}};//[station][id][phzvl look up #(-99 indicates invaled entry)]
 
 
-std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitiveRef> TriggPrim, int SectIndex){
+std::vector<ConvertedHit> PrimConv(std::vector<TriggerPrimitive> TriggPrim, int SectIndex){
 
 	//bool verbose = false;
 
 	std::vector<ConvertedHit> ConvHits;
-	for(std::vector<TriggerPrimitiveRef>::iterator C1 = TriggPrim.begin();C1 != TriggPrim.end();C1++){
+	for(std::vector<TriggerPrimitive>::iterator C1 = TriggPrim.begin();C1 != TriggPrim.end();C1++){
 	
   	/////////////////////////////////////
   	///// get all input variables ///////
 	/////////////////////////////////////
-	TriggerPrimitiveRef C3 = *C1;
-	CSCDetId Det = C3->detId<CSCDetId>();
+	TriggerPrimitive C3 = *C1;
+	CSCDetId Det = C3.detId<CSCDetId>();
 	
-	int station = Det.station(), chamber = Det.chamber(), ring = Det.ring(), wire = C3->getCSCData().keywire, sector = Det.triggerSector(), strip = C3->getCSCData().strip; 
-	int pattern = C3->getPattern(), Id = C3->Id(), quality = C3->getCSCData().quality, BX = C3->getCSCData().bx, endcap = Det.endcap();
+	int station = Det.station(), chamber = Det.chamber(), ring = Det.ring(), wire = C3.getCSCData().keywire, sector = Det.triggerSector(), strip = C3.getCSCData().strip; 
+	int pattern = C3.getPattern(), Id = C3.Id(), quality = C3.getCSCData().quality, BX = C3.getCSCData().bx, endcap = Det.endcap();
 	
 	if(ring == 4){Id += 9;}
 

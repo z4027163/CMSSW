@@ -45,7 +45,7 @@ class ConvertedHit{
 		
 		void SetTheta(int theta){_th = theta;};
 		
-		void SetTP(TriggerPrimitiveRef tp){_tp = tp;};
+		void SetTP(TriggerPrimitive tp){_tp = tp;};
 		
 		void SetZoneContribution(std::vector<int> zonecontribution){_zonecont = zonecontribution;};
 		
@@ -63,14 +63,14 @@ class ConvertedHit{
 		int Strip(){return _strip;};
 		int Zhit(){return _zhit;};
 		int BX(){return _bx;};
-		TriggerPrimitiveRef TP(){return _tp;};
+		TriggerPrimitive TP(){return _tp;};
 		std::vector<int> ZoneContribution(){return _zonecont;};
 		
 		
 	private:
 	
 		int _ph,_th,_phit,_phzvl,_sta,_sub,_id,_qual,_patt,_wire,_strip,_zhit,_bx;
-		TriggerPrimitiveRef _tp;
+		TriggerPrimitive _tp;
 		std::vector<int> _zonecont;
 
 };
