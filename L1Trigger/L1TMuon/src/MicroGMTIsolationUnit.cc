@@ -1,7 +1,7 @@
 #include "../interface/MicroGMTIsolationUnit.h"
 
+#include "L1Trigger/L1TMuon/interface/GMTInternalMuon.h"
 #include "DataFormats/L1TMuon/interface/GMTInputCaloSum.h"
-#include "DataFormats/L1TMuon/interface/GMTInternalMuon.h"
 #include "DataFormats/L1Trigger/interface/Muon.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 

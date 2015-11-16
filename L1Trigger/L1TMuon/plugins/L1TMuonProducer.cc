@@ -39,11 +39,11 @@
 #include "L1Trigger/L1TMuon/interface/MicroGMTIsolationUnit.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTCancelOutUnit.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTLUTFactories.h"
+#include "L1Trigger/L1TMuon/interface/GMTInternalMuon.h"
 
 #include "DataFormats/Math/interface/LorentzVector.h"
 #include "DataFormats/L1Trigger/interface/Muon.h"
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
-#include "DataFormats/L1TMuon/interface/GMTInternalMuon.h"
 
 #include "CondFormats/L1TObjects/interface/L1TMuonGlobalParams.h"
 #include "CondFormats/DataRecord/interface/L1TGMTParamsRcd.h"
