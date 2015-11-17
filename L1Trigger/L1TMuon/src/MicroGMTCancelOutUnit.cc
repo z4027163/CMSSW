@@ -1,5 +1,5 @@
 #include "../interface/MicroGMTCancelOutUnit.h"
-#include "DataFormats/L1TMuon/interface/GMTInternalMuon.h"
+#include "L1Trigger/L1TMuon/interface/GMTInternalMuon.h"
 
 namespace l1t {
 MicroGMTCancelOutUnit::MicroGMTCancelOutUnit ()

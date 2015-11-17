@@ -97,6 +97,7 @@ process.load('L1Trigger.L1TMuonOverlap.OMTFProducer_cff')
 
 process.L1TMuonEndcapTrackFinder = cms.EDProducer(
     'L1TMuonEndCapTrackProducer',
+    CSCInput = cms.InputTag('simCscTriggerPrimitiveDigis',''),
     primitiveSrcs = cms.VInputTag(
     cms.InputTag('L1TMuonTriggerPrimitives', 'CSC'),
     cms.InputTag('L1TMuonTriggerPrimitives', 'DT'),
@@ -108,6 +109,7 @@ process.L1TMuonEndcapTrackFinder = cms.EDProducer(
 process.load('L1Trigger.L1TMuonBarrel.L1TTwinMuxProducer_cfi')
 
 # BMTF Emulator
+process.load('L1Trigger.L1TMuonBarrel.l1tmbtfparamsproducer_cfi')
 process.load('L1Trigger.L1TMuonBarrel.bmtfDigis_cfi')
 process.bmtfDigis.DTDigi_Source=cms.InputTag("L1TTwinMuxProducer")
 
@@ -115,8 +117,8 @@ process.MicroGMTCaloInputProducer = cms.EDProducer("L1TMicroGMTCaloInputProducer
                                                caloStage2Layer2Label=cms.InputTag("caloStage2Layer1Digis"),
 )
 # WORKAROUNDS FOR WRONG SCALES / MISSING COLLECTIONS:
-process.bmtfConverter = cms.EDProducer("L1TBMTFConverter",
-                                       barrelTFInput = cms.InputTag("bmtfDigis", "BM"))
+#process.bmtfConverter = cms.EDProducer("L1TBMTFConverter",
+#                                       barrelTFInput = cms.InputTag("bmtfDigis", "BM"))
 
 # Adjust input tags if running on GEN-SIM-RAW (have to re-digi)
 if SAMPLE == "zmumu" or SAMPLE == "minbias":
@@ -127,7 +129,7 @@ process.load("L1Trigger.L1TMuon.l1tmicrogmtproducer_cfi")
 
 process.microGMTEmulator.overlapTFInput = cms.InputTag("omtfEmulator", "OMTF")
 process.microGMTEmulator.forwardTFInput = cms.InputTag("L1TMuonEndcapTrackFinder", "EMUTF")
-process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfConverter", "ConvBMTFMuons")
+process.microGMTEmulator.barrelTFInput = cms.InputTag("bmtfDigis", "BM")
 process.microGMTEmulator.triggerTowerInput = cms.InputTag("MicroGMTCaloInputProducer", "TriggerTowerSums")
 
 # output file
@@ -189,7 +191,7 @@ process.L1TMuonSeq = cms.Sequence(
     process.L1TMuonTriggerPrimitives
     + process.L1TTwinMuxProducer
     + process.bmtfDigis
-    + process.bmtfConverter
+    #+ process.bmtfConverter
     + process.omtfEmulator
     + process.L1TMuonEndcapTrackFinder
     + process.L1TCaloStage2_PPFromRaw
