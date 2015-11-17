@@ -97,6 +97,7 @@ process.load('L1Trigger.L1TMuonOverlap.OMTFProducer_cff')
 
 process.L1TMuonEndcapTrackFinder = cms.EDProducer(
     'L1TMuonEndCapTrackProducer',
+    CSCInput = cms.InputTag('simCscTriggerPrimitiveDigis',''),
     primitiveSrcs = cms.VInputTag(
     cms.InputTag('L1TMuonTriggerPrimitives', 'CSC'),
     cms.InputTag('L1TMuonTriggerPrimitives', 'DT'),
