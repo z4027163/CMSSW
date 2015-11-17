@@ -44,11 +44,11 @@
 #include <TFile.h>
 #include "L1Trigger/L1TMuonEndCap/interface/GeometryTranslator.h"
     
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitiveFwd.h"
 
-#include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
-#include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrack.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrackFwd.h"
 #include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
   
 #include "TFile.h"
@@ -215,8 +215,10 @@ void DiagMaker::analyze(const edm::Event& ev, const edm::EventSetup& es)
       for(unsigned meNum=id; meNum<(id+4); meNum++)
       { 
           // Getting the trig prim lists for this station
-          TriggerPrimitiveList tplData = tpsmData[meNum];
-          TriggerPrimitiveList tplEmu  = tpsmEmu[meNum];
+          //TriggerPrimitiveList tplData = tpsmData[meNum];
+          //TriggerPrimitiveList tplEmu  = tpsmEmu[meNum];
+		  std::vector<TriggerPrimitive> tplData = tpsmData[meNum];
+          std::vector<TriggerPrimitive> tplEmu  = tpsmEmu[meNum];
 
           cout << "ME " << meNum-id+1 << " -  # Trig Prims = " << tplData.size() << endl;
 
@@ -225,34 +227,34 @@ void DiagMaker::analyze(const edm::Event& ev, const edm::EventSetup& es)
           {
               cout << " ----- tp #" << tpNum << endl; 
               // Creating references to the trig prim info
-              TriggerPrimitiveRef tprData = tplData.at(tpNum);
-              TriggerPrimitiveRef tprEmu  = tplEmu.at(tpNum);
+              TriggerPrimitive tprData = tplData.at(tpNum);
+              TriggerPrimitive tprEmu  = tplEmu.at(tpNum);
 
-              trknmbData     = (*tprData).getCSCData().trknmb;
-              validData      = (*tprData).getCSCData().valid;
-              qualityData    = (*tprData).getCSCData().quality;
-              keywireData    = (*tprData).getCSCData().keywire;
-              stripData      = (*tprData).getCSCData().strip;
-              patternData    = (*tprData).getCSCData().pattern;
-              bendData       = (*tprData).getCSCData().bend;
-              bxData         = (*tprData).getCSCData().bx;
-              mpclinkData    = (*tprData).getCSCData().mpclink;
-              bx0Data        = (*tprData).getCSCData().bx0;
-              syncErrData    = (*tprData).getCSCData().syncErr;
-              cscIDData      = (*tprData).getCSCData().cscID;
+              trknmbData     = (tprData).getCSCData().trknmb;
+              validData      = (tprData).getCSCData().valid;
+              qualityData    = (tprData).getCSCData().quality;
+              keywireData    = (tprData).getCSCData().keywire;
+              stripData      = (tprData).getCSCData().strip;
+              patternData    = (tprData).getCSCData().pattern;
+              bendData       = (tprData).getCSCData().bend;
+              bxData         = (tprData).getCSCData().bx;
+              mpclinkData    = (tprData).getCSCData().mpclink;
+              bx0Data        = (tprData).getCSCData().bx0;
+              syncErrData    = (tprData).getCSCData().syncErr;
+              cscIDData      = (tprData).getCSCData().cscID;
              
-              trknmbEmu     = (*tprEmu).getCSCData().trknmb;
-              validEmu      = (*tprEmu).getCSCData().valid;
-              qualityEmu    = (*tprEmu).getCSCData().quality;
-              keywireEmu    = (*tprEmu).getCSCData().keywire;
-              stripEmu      = (*tprEmu).getCSCData().strip;
-              patternEmu    = (*tprEmu).getCSCData().pattern;
-              bendEmu       = (*tprEmu).getCSCData().bend;
-              bxEmu         = (*tprEmu).getCSCData().bx;
-              mpclinkEmu    = (*tprEmu).getCSCData().mpclink;
-              bx0Emu        = (*tprEmu).getCSCData().bx0;
-              syncErrEmu    = (*tprEmu).getCSCData().syncErr;
-              cscIDEmu      = (*tprEmu).getCSCData().cscID;
+              trknmbEmu     = (tprEmu).getCSCData().trknmb;
+              validEmu      = (tprEmu).getCSCData().valid;
+              qualityEmu    = (tprEmu).getCSCData().quality;
+              keywireEmu    = (tprEmu).getCSCData().keywire;
+              stripEmu      = (tprEmu).getCSCData().strip;
+              patternEmu    = (tprEmu).getCSCData().pattern;
+              bendEmu       = (tprEmu).getCSCData().bend;
+              bxEmu         = (tprEmu).getCSCData().bx;
+              mpclinkEmu    = (tprEmu).getCSCData().mpclink;
+              bx0Emu        = (tprEmu).getCSCData().bx0;
+              syncErrEmu    = (tprEmu).getCSCData().syncErr;
+              cscIDEmu      = (tprEmu).getCSCData().cscID;
 
               cout << "trknmb:   " << "data=" << trknmbData  << ",  emu=" << trknmbEmu  << endl;
               cout << "valid:    " << "data=" << validData   << ",  emu=" << validEmu   << endl;
