@@ -9,7 +9,7 @@
 // Author: L. Gray (FNAL)
 //
 #include <vector>
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitive.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
 namespace edm {

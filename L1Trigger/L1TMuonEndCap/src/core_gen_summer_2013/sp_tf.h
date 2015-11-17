@@ -41,8 +41,8 @@
 #include <TFile.h>
 #include "L1Trigger/L1TMuonEndCap/interface/GeometryTranslator.h"
 
-#include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
-#include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrack.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrackFwd.h"
 
 #include "TFile.h"
 #include "TH1.h"

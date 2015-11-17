@@ -7,8 +7,8 @@
 // Author: L. Gray (FNAL)
 //
 
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitive.h"
 #include "DataFormats/Common/interface/Handle.h"
 
 namespace L1TMuon {

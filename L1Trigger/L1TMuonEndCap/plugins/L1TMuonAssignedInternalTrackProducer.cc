@@ -18,11 +18,11 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EDProducer.h"
 
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
-#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitiveFwd.h"
 
-#include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
-#include "DataFormats/L1TMuon/interface/MuonInternalTrackFwd.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrack.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrackFwd.h"
 
 // interface to Pt assignment and refinement
 #include "L1Trigger/L1TMuonEndCap/interface/PtAssignmentUnitFactory.h"

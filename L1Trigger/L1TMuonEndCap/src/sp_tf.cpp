@@ -64,8 +64,9 @@ void sptf::produce(edm::Event& ev, const edm::EventSetup& es)
   ///////// Get Trigger Primitives /////////////
   //////////////////////////////////////////////
 
-  TriggerPrimitiveList CSCTP;
-  std::vector<TriggerPrimitiveRef> tester;
+  //TriggerPrimitiveList 
+  std::vector<TriggerPrimitive> CSCTP;
+  std::vector<TriggerPrimitive> tester;
   count++;
   cout << "\n    EVENT " << count << endl;
 
@@ -114,15 +115,15 @@ void sptf::produce(edm::Event& ev, const edm::EventSetup& es)
 //
           if(fu.triggerSector() == 1)
           {
-              TriggerPrimitiveRef tpref(tps,tp - tps -> cbegin());
-              tempTrack.addStub( tpref );
+              //TriggerPrimitive tpref(tps,tp - tps -> cbegin());
+              tempTrack.addStub( *tp );
 
        //       (trkCollect->at(0)).addStub( tpref );         
 
        ///       if(fu.station() == 1)
        ///       {         
-                  CSCTP.push_back(tpref); 
-                  tester.push_back(tpref);
+                  CSCTP.push_back(*tp); 
+                  tester.push_back(*tp);
                   the_bxValue.push_back(tp->getCSCData().bx);  
                   the_inputOrder[tp->getCSCData().bx - 4].push_back(hitCount);
        ///       }
@@ -164,19 +165,19 @@ cout << "Tester size: " << tester.size() << endl;
 
   hitCount = 0;
   int bxIndex = 0;
-  for(std::vector<TriggerPrimitiveRef>::iterator h = tester.begin(); h != tester.end(); h++)
+  for(std::vector<TriggerPrimitive>::iterator h = tester.begin(); h != tester.end(); h++)
 //  for(std::vector<ConvertedHit>::iterator h = ConvHits.begin();h != ConvHits.end();h++)
   {
       cout << "An iteration through the trig prim h loop.\n";
 
-      TriggerPrimitiveRef C3 = *h;
-      CSCDetId Det = C3->detId<CSCDetId>();
+      TriggerPrimitive C3 = *h;
+      CSCDetId Det = C3.detId<CSCDetId>();
       int station = Det.station();
 
       //int sector = Det.triggerSector();
       int chamber = Det.chamber();
       int sub = 0;
-      int strip = (Det.ring() == 4) ? (C3->getCSCData().strip + 128): C3->getCSCData().strip;
+      int strip = (Det.ring() == 4) ? (C3.getCSCData().strip + 128): C3.getCSCData().strip;
       	
       
       std::cout<<"ring = "<<Det.ring()<<" strip = "<<strip<<std::endl;
@@ -217,13 +218,13 @@ cout << "Tester size: " << tester.size() << endl;
       the_station[bxIndex].push_back(    station           );
 //      the_station[bxIndex].push_back(    (*h).station      );
       the_valid[bxIndex].push_back(      1                 );
-      the_quality[bxIndex].push_back(    C3->getCSCData().quality    );
+      the_quality[bxIndex].push_back(    C3.getCSCData().quality    );
 //      the_quality[bxIndex].push_back(    (*h).quality      );
-      the_pattern[bxIndex].push_back(    C3->getPattern()    );
+      the_pattern[bxIndex].push_back(    C3.getPattern()    );
 //      the_pattern[bxIndex].push_back(    (*h).pattern      );
-      the_wiregroup[bxIndex].push_back(  C3->getCSCData().keywire       );
+      the_wiregroup[bxIndex].push_back(  C3.getCSCData().keywire       );
 //      the_wiregroup[bxIndex].push_back(  (*h).wire         );
-      the_cscid[bxIndex].push_back(      C3->Id()         );
+      the_cscid[bxIndex].push_back(      C3.Id()         );
 //      the_cscid[bxIndex].push_back(      (*h).id           );
       the_bend[bxIndex].push_back(       0                 );
       the_halfstrip[bxIndex].push_back(  strip      );
@@ -768,8 +769,8 @@ cout << "Tester size: " << tester.size() << endl;
                   if(the_primSelector[m][i] > 0) 
                   {
                       // Creating a stub reference and adding it to the collection
-                      TriggerPrimitiveRef tpref(tps,tp-tps->cbegin());
-                      (trkCollect->at(the_primSelector[m][i] - 1)) . addStub( tpref );
+                      //TriggerPrimitiveRef tpref(tps,tp-tps->cbegin());
+                      (trkCollect->at(the_primSelector[m][i] - 1)) . addStub( *tp );
                       cout << "Just added a stub to the emu ITC.\n";
                   }
               }
