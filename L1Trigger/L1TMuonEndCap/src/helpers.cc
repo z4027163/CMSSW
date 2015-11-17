@@ -82,14 +82,16 @@ namespace {
 namespace L1TMuon {
   namespace helpers {
     
-    TriggerPrimitiveList 
+    //TriggerPrimitiveList 
+	TriggerPrimitiveCollection
+	
     getPrimitivesByCSCTriggerInfo(const int endcap,
 				  const int sector,
 			    const edm::Handle<TriggerPrimitiveCollection>& tps,
 				  const std::vector<unsigned>& trkNmbs) {
-      TriggerPrimitiveList result;
+      TriggerPrimitiveCollection result;
       auto tp = tps->cbegin();
-      auto tbeg = tps->cbegin();
+      //auto tbeg = tps->cbegin();
       auto tend = tps->cend();
       
       std::vector<unsigned>::const_iterator ista;
@@ -127,7 +129,8 @@ namespace L1TMuon {
 			  (csubsector!=0)*(csubsector-1)*3 );	    
 	      if( cendcap == endcap && cstation == station && 
 		  csector == sector && ctrkNmb == *ista ) {
-		result.push_back(TriggerPrimitiveRef(tps,tp - tbeg));
+		//result.push_back(TriggerPrimitiveRef(tps,tp - tbeg));
+		result.push_back(*tp);
 	      }	  
 	    }
 	    break;
@@ -145,7 +148,8 @@ namespace L1TMuon {
 	      //dtrkNmb = tp->getDTData().segment_number;	      
 	      if( twheel == dwheel && 
 		  (dsector == tsector ) ) {
-		result.push_back(TriggerPrimitiveRef(tps,tp-tbeg));
+		//result.push_back(TriggerPrimitiveRef(tps,tp-tbeg));
+		result.push_back(*tp);
 	      }
 	    }	    
 	    break;
@@ -157,16 +161,16 @@ namespace L1TMuon {
       return result;
     }
 
-    TriggerPrimitiveList 
+    TriggerPrimitiveCollection
     getPrimitivesByDTTriggerInfo(const int wheel,
 				 const int sp_wheel,
 				 const int sector,
 			    const edm::Handle<TriggerPrimitiveCollection>& tps,
 				 const unsigned mode,
 				 const std::vector<unsigned>& trkNmbs) {
-      TriggerPrimitiveList result;
+      TriggerPrimitiveCollection result;
       auto tp = tps->cbegin();
-      auto tbeg = tps->cbegin();
+      //auto tbeg = tps->cbegin();
       auto tend = tps->cend();
       
       std::vector<unsigned>::const_iterator ista;
@@ -210,7 +214,8 @@ namespace L1TMuon {
 	    if( expectedsector == dsector &&
 		expectedwheel  == dwheel  && 
 		expectedtrkNmb == dtrkNmb    ) {
-	      result.push_back(TriggerPrimitiveRef(tps,tp - tbeg));
+	      //result.push_back(TriggerPrimitiveRef(tps,tp - tbeg));
+		  result.push_back(*tp);
 	    }
 	    break;
 	  case TriggerPrimitive::kCSC:
@@ -239,7 +244,8 @@ namespace L1TMuon {
 
 	    if( expectedsector == csector_asdt &&
 		expectedtrkNmb == ctrkNmb         ) {	      
-	      result.push_back(TriggerPrimitiveRef(tps,tp - tbeg));
+	      //result.push_back(TriggerPrimitiveRef(tps,tp - tbeg));
+		  result.push_back(*tp);
 	    }
 	    break;
 	  default: // don't care about RPCs

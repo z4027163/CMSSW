@@ -8,8 +8,8 @@ namespace L1TMuon {
   class InternalTrack;
 
   typedef std::vector<InternalTrack> InternalTrackCollection;
-  typedef edm::Ref<InternalTrackCollection> InternalTrackRef;
-  typedef edm::Ptr<InternalTrack> InternalTrackPtr;
+  //typedef edm::Ref<InternalTrackCollection> InternalTrackRef;
+  //typedef edm::Ptr<InternalTrack> InternalTrackPtr;
 }
 
 #endif

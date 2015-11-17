@@ -38,7 +38,7 @@
 
 using namespace std;
 
-#include "DataFormats/L1TMuon/interface/MuonInternalTrack.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrack.h"
 
 // --------------------------------
 //       class L1MuBMTrack

@@ -11,9 +11,9 @@ namespace L1TMuon{
 
   typedef std::vector<TriggerPrimitive> TriggerPrimitiveCollection;
   
-  typedef edm::Ref<TriggerPrimitiveCollection> TriggerPrimitiveRef;
-  typedef std::vector<TriggerPrimitiveRef> TriggerPrimitiveList;
-  typedef edm::Ptr<TriggerPrimitive> TriggerPrimitivePtr;
+  //typedef edm::Ref<TriggerPrimitiveCollection> TriggerPrimitiveRef;
+  //typedef std::vector<TriggerPrimitiveRef> TriggerPrimitiveList;
+  //typedef edm::Ptr<TriggerPrimitive> TriggerPrimitivePtr;
   typedef std::map<unsigned,TriggerPrimitiveCollection> TriggerPrimitiveStationMap;
 }
 

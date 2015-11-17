@@ -13,12 +13,12 @@
 
 namespace L1TMuon {
   namespace helpers {
-    TriggerPrimitiveList
+    TriggerPrimitiveCollection
       getPrimitivesByCSCTriggerInfo(const int endcap,
 				    const int sector,
 			    const edm::Handle<TriggerPrimitiveCollection>& tps,
 				    const std::vector<unsigned>& trkNmbs);
-    TriggerPrimitiveList 
+    TriggerPrimitiveCollection
       getPrimitivesByDTTriggerInfo(const int wheel,
 				   const int sp_wheel,
 				   const int sector,
