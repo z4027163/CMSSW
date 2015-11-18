@@ -38,8 +38,6 @@
 
 using namespace std;
 
-#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrack.h"
-
 // --------------------------------
 //       class L1MuBMTrack
 //---------------------------------

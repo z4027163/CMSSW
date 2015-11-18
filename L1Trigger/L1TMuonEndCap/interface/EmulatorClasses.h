@@ -2,7 +2,10 @@
 #define __EmulatorClasses_
 
 #include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
-#include "DataFormats/L1TMuon/src/classes.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitiveFwd.h"
+
+using namespace L1TMuon;
 
 typedef std::vector<std::vector<PhiMemoryImage>> ImageCollector;
 typedef std::vector<std::vector<int>> Code;

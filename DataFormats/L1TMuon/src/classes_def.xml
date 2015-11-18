@@ -1,49 +1,10 @@
 <lcgdict>
  <selection>
-  <class name="L1TMuon::DTTrackCollection"/>
-  <class name="edm::Wrapper<L1TMuon::DTTrackCollection>"/>
-  <class name="L1TMuon::DTTrackPtr"/>
-  <class name="L1TMuon::DTTrackRef"/>
-
-  <class name="L1TMuon::CSCTrackCollection"/>
-  <class name="edm::Wrapper<L1TMuon::CSCTrackCollection>"/>
-  <class name="L1TMuon::CSCTrackPtr"/>
-  <class name="L1TMuon::CSCTrackRef"/>
-
-  <class name="L1TMuon::RegionalCandBaseRef"/>
-  <class name="L1TMuon::RegionalCandRef"/>
-  <class name="L1TMuon::RegionalCandPtr"/>
-
-  <class name="L1TMuon::RPCL1LinkPtr"/>
-  <class name="L1TMuon::RPCL1LinkRef"/>
-
   <class name="l1t::RegionalMuonCand"/>
   <class name="l1t::RegionalMuonCandBxCollection"/>
   <class name="edm::Wrapper<l1t::RegionalMuonCandBxCollection>"/>
   <class name="l1t::GMTInputCaloSum"/>
   <class name="l1t::GMTInputCaloSumBxCollection"/>
   <class name="edm::Wrapper<l1t::GMTInputCaloSumBxCollection>"/>
-
-  <class name="edm::reftobase::BaseHolder<L1MuRegionalCand>"/>
-  <class name="edm::reftobase::Holder<L1MuRegionalCand,L1TMuon::RegionalCandRef>"/>
-  <class name="edm::reftobase::Holder<L1MuRegionalCand,L1TMuon::DTTrackRef>"/>
-  <class name="edm::reftobase::Holder<L1MuRegionalCand,L1TMuon::CSCTrackRef>"/>
-  <class name="edm::reftobase::RefHolder<L1TMuon::RegionalCandRef>"/>
-  <class name="edm::reftobase::RefHolder<L1TMuon::DTTrackRef>"/>
-  <class name="edm::reftobase::RefHolder<L1TMuon::CSCTrackRef>"/>
-
- <class name="BMTrackCand" ClassVersion="23">
-  <version ClassVersion="23" checksum="1616896838"/>
-  <version ClassVersion="22" checksum="612222572"/>
-  <version ClassVersion="21" checksum="1616896838"/>
-  <version ClassVersion="20" checksum="612222572"/>
- </class>
- <class name="std::vector<BMTrackCand>"/>
- <class name="BMTrackContainer" ClassVersion="13">
-  <version ClassVersion="13" checksum="1872326082"/>
- </class>
- <class name="edm::Wrapper<BMTrackContainer>"/>
-
-
  </selection>
 </lcgdict>

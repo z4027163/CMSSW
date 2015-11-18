@@ -21,13 +21,18 @@
 #include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitiveFwd.h"
 #include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitive.h"
 #include "DataFormats/L1GlobalMuonTrigger/interface/L1MuRegionalCand.h"
-#include "DataFormats/L1TMuon/interface/MuonRegionalTracksFwd.h"
-#include "DataFormats/Common/interface/RefToBase.h"
+#include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrackFwd.h"
 
-class L1MuDTTrackCand;
-namespace csc {
-  class L1Track;
-}
+#include "DataFormats/RPCDigi/interface/RPCDigiL1Link.h"
+#include "DataFormats/L1CSCTrackFinder/interface/L1CSCTrackCollection.h"
+#include "DataFormats/L1DTTrackFinder/interface/L1MuDTTrackContainer.h"
+#include "DataFormats/L1GlobalMuonTrigger/interface/L1MuRegionalCand.h"
+
+//This is *not* a forward declaration, so instead full includes are above...
+//class L1MuDTTrackCand;
+//namespace csc {
+//  class L1Track;
+//}
 
 namespace L1TMuon{
   class InternalTrack : public L1MuRegionalCand {   
