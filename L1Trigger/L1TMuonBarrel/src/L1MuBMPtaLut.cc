@@ -51,7 +51,7 @@ using namespace std;
 // Constructors --
 //----------------
 
-L1MuBMPtaLut::L1MuBMPtaLut(const L1TBMTFParams &l1params) {
+L1MuBMPtaLut::L1MuBMPtaLut(const L1TMuonBarrelParams &l1params) {
     l1tbmparams = &l1params;
 }
 

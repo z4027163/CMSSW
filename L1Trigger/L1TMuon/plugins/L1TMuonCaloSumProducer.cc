@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    L1TMicroGMTCaloInputProducer
-// Class:      L1TMicroGMTCaloInputProducer
+// Package:    L1TMuonCaloSumProducer
+// Class:      L1TMuonCaloSumProducer
 //
-/**\class L1TMicroGMTCaloInputProducer L1TMicroGMTCaloInputProducer.cc L1Trigger/L1TGlobalMuon/plugins/L1TMicroGMTCaloInputProducer.cc
+/**\class L1TMuonCaloSumProducer L1TMuonCaloSumProducer.cc L1Trigger/L1TGlobalMuon/plugins/L1TMuonCaloSumProducer.cc
 
  Description: takes generated muons and fills them in the expected collections for the MicroGMT
 
@@ -33,8 +33,8 @@
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "DataFormats/L1TMuon/interface/GMTInputCaloSumFwd.h"
-#include "DataFormats/L1TMuon/interface/GMTInputCaloSum.h"
+#include "DataFormats/L1TMuon/interface/MuonCaloSumFwd.h"
+#include "DataFormats/L1TMuon/interface/MuonCaloSum.h"
 #include "DataFormats/L1TCalorimeter/interface/CaloTower.h"
 
 #include "TMath.h"
@@ -45,10 +45,10 @@
 //
 using namespace l1t;
 
-class L1TMicroGMTCaloInputProducer : public edm::EDProducer {
+class L1TMuonCaloSumProducer : public edm::EDProducer {
    public:
-      explicit L1TMicroGMTCaloInputProducer(const edm::ParameterSet&);
-      ~L1TMicroGMTCaloInputProducer();
+      explicit L1TMuonCaloSumProducer(const edm::ParameterSet&);
+      ~L1TMuonCaloSumProducer();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -79,17 +79,17 @@ class L1TMicroGMTCaloInputProducer : public edm::EDProducer {
 //
 // constructors and destructor
 //
-L1TMicroGMTCaloInputProducer::L1TMicroGMTCaloInputProducer(const edm::ParameterSet& iConfig) {
+L1TMuonCaloSumProducer::L1TMuonCaloSumProducer(const edm::ParameterSet& iConfig) {
   //register your inputs:
   m_caloLabel = iConfig.getParameter<edm::InputTag> ("caloStage2Layer2Label");
   m_caloTowerToken = consumes <CaloTowerBxCollection> (m_caloLabel);
   //register your products
-  produces<GMTInputCaloSumBxCollection>("TriggerTowerSums");
-  produces<GMTInputCaloSumBxCollection>("TriggerTower2x2s");
+  produces<MuonCaloSumBxCollection>("TriggerTowerSums");
+  produces<MuonCaloSumBxCollection>("TriggerTower2x2s");
 }
 
 
-L1TMicroGMTCaloInputProducer::~L1TMicroGMTCaloInputProducer()
+L1TMuonCaloSumProducer::~L1TMuonCaloSumProducer()
 {
   // do anything here that needs to be done at desctruction time
   // (e.g. close files, deallocate resources etc.)
@@ -103,16 +103,16 @@ L1TMicroGMTCaloInputProducer::~L1TMicroGMTCaloInputProducer()
 
 // ------------ method called to produce the data  ------------
 void
-L1TMicroGMTCaloInputProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
+L1TMuonCaloSumProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
-  std::auto_ptr<GMTInputCaloSumBxCollection> towerSums (new GMTInputCaloSumBxCollection());
-  std::auto_ptr<GMTInputCaloSumBxCollection> tower2x2s (new GMTInputCaloSumBxCollection());
+  std::auto_ptr<MuonCaloSumBxCollection> towerSums (new MuonCaloSumBxCollection());
+  std::auto_ptr<MuonCaloSumBxCollection> tower2x2s (new MuonCaloSumBxCollection());
 
   edm::Handle<CaloTowerBxCollection> caloTowers;
   // Make sure that you can get genParticles
-  std::map<int, GMTInputCaloSum> sums;
-  std::map<int, GMTInputCaloSum> regs;
+  std::map<int, MuonCaloSum> sums;
+  std::map<int, MuonCaloSum> regs;
 
   if (iEvent.getByToken(m_caloTowerToken, caloTowers)) {
     for (auto it = caloTowers->begin(0); it != caloTowers->end(0); ++it) {
@@ -124,7 +124,7 @@ L1TMicroGMTCaloInputProducer::produce(edm::Event& iEvent, const edm::EventSetup&
       int iphi2x2 = twr.hwPhi() / 2;
       int muon_idx = iphi2x2 * 28 + ieta2x2;
       if (regs.count(muon_idx) == 0) {
-        regs[muon_idx] = GMTInputCaloSum(twr.hwPt(), iphi2x2, ieta2x2, muon_idx);
+        regs[muon_idx] = MuonCaloSum(twr.hwPt(), iphi2x2, ieta2x2, muon_idx);
       } else {
         regs.at(muon_idx).setEtBits(regs.at(muon_idx).etBits() + twr.hwPt());
       }
@@ -147,7 +147,7 @@ L1TMicroGMTCaloInputProducer::produce(edm::Event& iEvent, const edm::EventSetup&
             int iphimu = iphi / 2;
             int idxmu = iphimu * 28 + ietamu;
             if (sums.count(idxmu) == 0) {
-              sums[idxmu] = GMTInputCaloSum(twr.hwPt(), iphimu, ietamu, idxmu);
+              sums[idxmu] = MuonCaloSum(twr.hwPt(), iphimu, ietamu, idxmu);
             } else {
               sums.at(idxmu).setEtBits(sums.at(idxmu).etBits() + twr.hwPt());
             }
@@ -162,7 +162,7 @@ L1TMicroGMTCaloInputProducer::produce(edm::Event& iEvent, const edm::EventSetup&
 
   for (auto it = sums.begin(); it != sums.end(); ++it) {
     if (it->second.etBits() > 0) {
-      GMTInputCaloSum sum = GMTInputCaloSum(it->second);
+      MuonCaloSum sum = MuonCaloSum(it->second);
       // convert Et to correct scale:
       if (sum.etBits() > 31) {
         sum.setEtBits(31);
@@ -183,42 +183,42 @@ L1TMicroGMTCaloInputProducer::produce(edm::Event& iEvent, const edm::EventSetup&
 
 // ------------ method called once each job just before starting event loop  ------------
 void
-L1TMicroGMTCaloInputProducer::beginJob()
+L1TMuonCaloSumProducer::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
 void
-L1TMicroGMTCaloInputProducer::endJob() {
+L1TMuonCaloSumProducer::endJob() {
 }
 
 // ------------ method called when starting to processes a run  ------------
 void
-L1TMicroGMTCaloInputProducer::beginRun(edm::Run&, edm::EventSetup const&)
+L1TMuonCaloSumProducer::beginRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a run  ------------
 void
-L1TMicroGMTCaloInputProducer::endRun(edm::Run&, edm::EventSetup const&)
+L1TMuonCaloSumProducer::endRun(edm::Run&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when starting to processes a luminosity block  ------------
 void
-L1TMicroGMTCaloInputProducer::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+L1TMuonCaloSumProducer::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }
 
 // ------------ method called when ending the processing of a luminosity block  ------------
 void
-L1TMicroGMTCaloInputProducer::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
+L1TMuonCaloSumProducer::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-L1TMicroGMTCaloInputProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+L1TMuonCaloSumProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
@@ -227,4 +227,4 @@ L1TMicroGMTCaloInputProducer::fillDescriptions(edm::ConfigurationDescriptions& d
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(L1TMicroGMTCaloInputProducer);
+DEFINE_FWK_MODULE(L1TMuonCaloSumProducer);

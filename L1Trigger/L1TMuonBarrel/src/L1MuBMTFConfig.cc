@@ -18,8 +18,8 @@
 
 #include "L1Trigger/L1TMuonBarrel/src/L1MuBMTFConfig.h"
 
-#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
-#include "CondFormats/DataRecord/interface/L1TBMTFParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonBarrelParams.h"
+#include "CondFormats/DataRecord/interface/L1TMuonBarrelParamsRcd.h"
 
 //---------------
 // C++ Headers --
@@ -88,10 +88,10 @@ void L1MuBMTFConfig::setDefaultsES(const edm::EventSetup& c) {
     m_es = &c;
 
 
-  const L1TBMTFParamsRcd& bmtfParamsRcd = m_es->get<L1TBMTFParamsRcd>();
+  const L1TMuonBarrelParamsRcd& bmtfParamsRcd = m_es->get<L1TMuonBarrelParamsRcd>();
   bmtfParamsRcd.get(bmtfParamsHandle);
-  L1TBMTFParams *bmtfParams = new L1TBMTFParams();
-  bmtfParams = new L1TBMTFParams(*bmtfParamsHandle.product());
+  L1TMuonBarrelParams *bmtfParams = new L1TMuonBarrelParams();
+  bmtfParams = new L1TMuonBarrelParams(*bmtfParamsHandle.product());
 
 
   // set min and max bunch crossing

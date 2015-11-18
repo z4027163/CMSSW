@@ -1,6 +1,6 @@
-#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonBarrelParams.h"
 
-void L1TBMTFParams::print(std::ostream& out) const {
+void L1TMuonBarrelParams::print(std::ostream& out) const {
 
   out << "L1 BMTF Parameters" << std::endl;
 

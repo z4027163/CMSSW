@@ -110,7 +110,7 @@ process.load('L1Trigger.L1TMuonBarrel.l1tmbtfparamsproducer_cfi')
 process.load('L1Trigger.L1TMuonBarrel.bmtfDigis_cfi')
 process.bmtfDigis.DTDigi_Source=cms.InputTag("L1TTwinMuxProducer")
 
-process.MicroGMTCaloInputProducer = cms.EDProducer("L1TMicroGMTCaloInputProducer",
+process.MicroGMTCaloInputProducer = cms.EDProducer("L1TMuonCaloSumProducer",
                                                caloStage2Layer2Label=cms.InputTag("caloStage2Layer1Digis"),
 )
 # WORKAROUNDS FOR WRONG SCALES / MISSING COLLECTIONS:

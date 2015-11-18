@@ -30,7 +30,7 @@
 #include <FWCore/ParameterSet/interface/ParameterSet.h>
 #include <FWCore/Utilities/interface/InputTag.h>
 #include <FWCore/Framework/interface/ESHandle.h>
-#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonBarrelParams.h"
 #include "FWCore/Framework/interface/Event.h"
 
 //              ---------------------
@@ -77,7 +77,7 @@ class L1MuBMTFConfig {
 
     void setDefaults();
 
-    edm::ESHandle< L1TBMTFParams > bmtfParamsHandle;
+    edm::ESHandle< L1TMuonBarrelParams > bmtfParamsHandle;
 
   private:
 

@@ -48,7 +48,7 @@ using namespace std;
 // Constructors --
 //----------------
 
-L1MuBMPhiLut::L1MuBMPhiLut(const L1TBMTFParams& l1params) {
+L1MuBMPhiLut::L1MuBMPhiLut(const L1TMuonBarrelParams& l1params) {
     l1tbmphiparams = &l1params;
 }
 

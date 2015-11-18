@@ -3,8 +3,8 @@
   <class name="l1t::RegionalMuonCand"/>
   <class name="l1t::RegionalMuonCandBxCollection"/>
   <class name="edm::Wrapper<l1t::RegionalMuonCandBxCollection>"/>
-  <class name="l1t::GMTInputCaloSum"/>
-  <class name="l1t::GMTInputCaloSumBxCollection"/>
-  <class name="edm::Wrapper<l1t::GMTInputCaloSumBxCollection>"/>
+  <class name="l1t::MuonCaloSum"/>
+  <class name="l1t::MuonCaloSumBxCollection"/>
+  <class name="edm::Wrapper<l1t::MuonCaloSumBxCollection>"/>
  </selection>
 </lcgdict>

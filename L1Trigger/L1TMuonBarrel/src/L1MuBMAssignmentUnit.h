@@ -36,8 +36,8 @@
 //------------------------------------
 #include "L1Trigger/L1TMuonBarrel/interface/L1MuBMPtaLut.h"
 #include "L1Trigger/L1TMuonBarrel/interface/L1MuBMPhiLut.h"
-#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
-#include "CondFormats/DataRecord/interface/L1TBMTFParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonBarrelParams.h"
+#include "CondFormats/DataRecord/interface/L1TMuonBarrelParamsRcd.h"
 
 #include <FWCore/Framework/interface/ESHandle.h>
 #include "L1Trigger/L1TMuonBarrel/interface/L1MuBMAssParam.h"
@@ -111,7 +111,7 @@ class L1MuBMAssignmentUnit : public L1AbstractProcessor {
     std::vector<const L1MuBMTrackSegPhi*> m_TSphi;
     PtAssMethod                           m_ptAssMethod;
 
-    edm::ESHandle< L1TBMTFParams > bmtfParamsHandle;
+    edm::ESHandle< L1TMuonBarrelParams > bmtfParamsHandle;
     L1MuBMPtaLut  *thePtaLUTs;  ///< pt-assignment look-up tables
     L1MuBMPhiLut  *thePhiLUTs;  ///< phi-assignment look-up tables
     static unsigned short      nbit_phi;       ///< # of bits used for pt-assignment

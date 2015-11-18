@@ -19,7 +19,7 @@
 // C++ Headers --
 //---------------
 
-#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonBarrelParams.h"
 
 #include <vector>
 #include <map>
@@ -45,7 +45,7 @@ class L1MuBMPhiLut {
 typedef std::map<short, short, std::less<short> > LUT;
 
     /// constructor
-    L1MuBMPhiLut(const L1TBMTFParams &l1params);
+    L1MuBMPhiLut(const L1TMuonBarrelParams &l1params);
 
     /// destructor
     virtual ~L1MuBMPhiLut();
@@ -61,7 +61,7 @@ typedef std::map<short, short, std::less<short> > LUT;
 
   private:
 
-    const L1TBMTFParams *l1tbmphiparams;
+    const L1TMuonBarrelParams *l1tbmphiparams;
 
 
 };

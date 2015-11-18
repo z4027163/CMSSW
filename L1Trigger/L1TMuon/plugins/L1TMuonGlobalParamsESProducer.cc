@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    L1Trigger/L1TMicroGMTParamsESProducer
-// Class:      L1TMicroGMTParamsESProducer
+// Package:    L1Trigger/L1TMuonGlobalParamsESProducer
+// Class:      L1TMuonGlobalParamsESProducer
 // 
-/**\class L1TMicroGMTParamsESProducer L1TMicroGMTParamsESProducer.h L1Trigger/L1TMicroGMTParamsESProducer/plugins/L1TMicroGMTParamsESProducer.cc
+/**\class L1TMuonGlobalParamsESProducer L1TMuonGlobalParamsESProducer.h L1Trigger/L1TMuonGlobalParamsESProducer/plugins/L1TMuonGlobalParamsESProducer.cc
 
  Description: [one line class summary]
 
@@ -35,10 +35,10 @@
 // class declaration
 //
 
-class L1TMicroGMTParamsESProducer : public edm::ESProducer {
+class L1TMuonGlobalParamsESProducer : public edm::ESProducer {
    public:
-      L1TMicroGMTParamsESProducer(const edm::ParameterSet&);
-      ~L1TMicroGMTParamsESProducer();
+      L1TMuonGlobalParamsESProducer(const edm::ParameterSet&);
+      ~L1TMuonGlobalParamsESProducer();
 
       typedef boost::shared_ptr<L1TMuonGlobalParams> ReturnType;
 
@@ -58,7 +58,7 @@ class L1TMicroGMTParamsESProducer : public edm::ESProducer {
 //
 // constructors and destructor
 //
-L1TMicroGMTParamsESProducer::L1TMicroGMTParamsESProducer(const edm::ParameterSet& iConfig)
+L1TMuonGlobalParamsESProducer::L1TMuonGlobalParamsESProducer(const edm::ParameterSet& iConfig)
 {
    //the following line is needed to tell the framework what
    // data is being produced
@@ -134,7 +134,7 @@ L1TMicroGMTParamsESProducer::L1TMicroGMTParamsESProducer(const edm::ParameterSet
 }
 
 
-L1TMicroGMTParamsESProducer::~L1TMicroGMTParamsESProducer()
+L1TMuonGlobalParamsESProducer::~L1TMuonGlobalParamsESProducer()
 {
 }
 
@@ -144,8 +144,8 @@ L1TMicroGMTParamsESProducer::~L1TMicroGMTParamsESProducer()
 //
 
 // ------------ method called to produce the data  ------------
-L1TMicroGMTParamsESProducer::ReturnType
-L1TMicroGMTParamsESProducer::produce(const L1TGMTParamsRcd& iRecord)
+L1TMuonGlobalParamsESProducer::ReturnType
+L1TMuonGlobalParamsESProducer::produce(const L1TGMTParamsRcd& iRecord)
 {
    using namespace edm::es;
    boost::shared_ptr<L1TMuonGlobalParams> pMicroGMTParams;
@@ -155,4 +155,4 @@ L1TMicroGMTParamsESProducer::produce(const L1TGMTParamsRcd& iRecord)
 }
 
 //define this as a plug-in
-DEFINE_FWK_EVENTSETUP_MODULE(L1TMicroGMTParamsESProducer);
+DEFINE_FWK_EVENTSETUP_MODULE(L1TMuonGlobalParamsESProducer);

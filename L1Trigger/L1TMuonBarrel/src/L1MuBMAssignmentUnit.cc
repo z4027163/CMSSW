@@ -133,9 +133,9 @@ void L1MuBMAssignmentUnit::reset() {
 //
 void L1MuBMAssignmentUnit::PhiAU(const edm::EventSetup& c) {
 
-  const L1TBMTFParamsRcd& bmtfParamsRcd = c.get<L1TBMTFParamsRcd>();
+  const L1TMuonBarrelParamsRcd& bmtfParamsRcd = c.get<L1TMuonBarrelParamsRcd>();
   bmtfParamsRcd.get(bmtfParamsHandle);
-  const L1TBMTFParams& bmtfParams = *bmtfParamsHandle.product();
+  const L1TMuonBarrelParams& bmtfParams = *bmtfParamsHandle.product();
   thePhiLUTs =  new L1MuBMPhiLut(bmtfParams);  ///< phi-assignment look-up tables
   //thePhiLUTs->print();
   // calculate phi at station 2 using 8 bits (precision = 0.625 degrees)
@@ -207,9 +207,9 @@ delete thePhiLUTs;
 //
 void L1MuBMAssignmentUnit::PtAU(const edm::EventSetup& c) {
 
-  const L1TBMTFParamsRcd& bmtfParamsRcd = c.get<L1TBMTFParamsRcd>();
+  const L1TMuonBarrelParamsRcd& bmtfParamsRcd = c.get<L1TMuonBarrelParamsRcd>();
   bmtfParamsRcd.get(bmtfParamsHandle);
-  const L1TBMTFParams& bmtfParams = *bmtfParamsHandle.product();
+  const L1TMuonBarrelParams& bmtfParams = *bmtfParamsHandle.product();
   thePtaLUTs =  new L1MuBMPtaLut(bmtfParams);   ///< pt-assignment look-up tables
   //thePtaLUTs->print();
   // get pt-assignment method as function of track class and TS phib values
@@ -352,7 +352,7 @@ int L1MuBMAssignmentUnit::getCharge(PtAssMethod method) {
 //
 // determine pt-assignment method
 //
-//PtAssMethod L1MuBMAssignmentUnit::getPtMethod(L1TBMTFParams *l1tbmparams) const {
+//PtAssMethod L1MuBMAssignmentUnit::getPtMethod(L1TMuonBarrelParams *l1tbmparams) const {
 PtAssMethod L1MuBMAssignmentUnit::getPtMethod() const {
 
   // determine which pt-assignment method should be used as a function

@@ -50,7 +50,7 @@
 
 #include "CondFormats/L1TObjects/interface/L1TMuonOverlapParams.h"
 #include "CondFormats/L1TObjects/interface/L1TMuonGlobalParams.h"
-#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonBarrelParams.h"
 
 
 namespace CondFormats_L1TObjects {
@@ -87,8 +87,8 @@ namespace CondFormats_L1TObjects {
     L1TMuonOverlapParams dummy17;
     std::vector< L1TMuonOverlapParams::Node> dummy17a;
 
-    L1TBMTFParams dummy18;
-    std::vector<L1TBMTFParams::Node> dummy18a;
+    L1TMuonBarrelParams dummy18;
+    std::vector<L1TMuonBarrelParams::Node> dummy18a;
 
 
   };

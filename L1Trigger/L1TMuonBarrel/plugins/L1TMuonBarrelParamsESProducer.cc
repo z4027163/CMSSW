@@ -1,6 +1,6 @@
 // -*- C++ -*-
 //
-// Class:      L1TBMTFParamsESProducer
+// Class:      L1TMuonBarrelParamsESProducer
 //
 // Original Author:  Giannis Flouris
 //         Created:
@@ -18,8 +18,8 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/ESProducts.h"
 
-#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
-#include "CondFormats/DataRecord/interface/L1TBMTFParamsRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonBarrelParams.h"
+#include "CondFormats/DataRecord/interface/L1TMuonBarrelParamsRcd.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTLUTFactories.h"
 
 #include "FWCore/ParameterSet/interface/FileInPath.h"
@@ -30,19 +30,19 @@
 //
 typedef std::map<short, short, std::less<short> > LUT;
 
-class L1TBMTFParamsESProducer : public edm::ESProducer {
+class L1TMuonBarrelParamsESProducer : public edm::ESProducer {
    public:
-      L1TBMTFParamsESProducer(const edm::ParameterSet&);
-      ~L1TBMTFParamsESProducer();
+      L1TMuonBarrelParamsESProducer(const edm::ParameterSet&);
+      ~L1TMuonBarrelParamsESProducer();
       int load_pt(std::vector<LUT>& , std::vector<int>&, unsigned short int, std::string);
       int load_phi(std::vector<LUT>& , unsigned short int, unsigned short int, std::string);
       //void print(std::vector<LUT>& , std::vector<int>& ) const;
       int getPtLutThreshold(int ,std::vector<int>& ) const;
-      typedef boost::shared_ptr<L1TBMTFParams> ReturnType;
+      typedef boost::shared_ptr<L1TMuonBarrelParams> ReturnType;
 
-      ReturnType produce(const L1TBMTFParamsRcd&);
+      ReturnType produce(const L1TMuonBarrelParamsRcd&);
    private:
-      L1TBMTFParams m_params;
+      L1TMuonBarrelParams m_params;
 };
 
 //
@@ -56,7 +56,7 @@ class L1TBMTFParamsESProducer : public edm::ESProducer {
 //
 // constructors and destructor
 //
-L1TBMTFParamsESProducer::L1TBMTFParamsESProducer(const edm::ParameterSet& iConfig)
+L1TMuonBarrelParamsESProducer::L1TMuonBarrelParamsESProducer(const edm::ParameterSet& iConfig)
 {
    //the following line is needed to tell the framework what
    // data is being produced
@@ -118,11 +118,11 @@ L1TBMTFParamsESProducer::L1TBMTFParamsESProducer(const edm::ParameterSet& iConfi
 }
 
 
-L1TBMTFParamsESProducer::~L1TBMTFParamsESProducer()
+L1TMuonBarrelParamsESProducer::~L1TMuonBarrelParamsESProducer()
 {
 }
 
-int L1TBMTFParamsESProducer::load_pt(std::vector<LUT>& pta_lut,
+int L1TMuonBarrelParamsESProducer::load_pt(std::vector<LUT>& pta_lut,
                                   std::vector<int>& pta_threshold,
                                   unsigned short int nbitphi,
                                   std::string AssLUTpath
@@ -218,7 +218,7 @@ enum PtAssMethod { PT12L,  PT12H,  PT13L,  PT13H,  PT14L,  PT14H,
 
 
 
-int L1TBMTFParamsESProducer::load_phi(std::vector<LUT>& phi_lut,
+int L1TMuonBarrelParamsESProducer::load_phi(std::vector<LUT>& phi_lut,
                                   unsigned short int nbit_phi,
                                   unsigned short int nbit_phib,
                                   std::string AssLUTpath
@@ -283,7 +283,7 @@ int L1TBMTFParamsESProducer::load_phi(std::vector<LUT>& phi_lut,
 
 }
 
-int L1TBMTFParamsESProducer::getPtLutThreshold(int pta_ind, std::vector<int>& pta_threshold) const {
+int L1TMuonBarrelParamsESProducer::getPtLutThreshold(int pta_ind, std::vector<int>& pta_threshold) const {
 
   if ( pta_ind >= 0 && pta_ind < 13/2 ) {
     return pta_threshold[pta_ind];
@@ -300,15 +300,15 @@ int L1TBMTFParamsESProducer::getPtLutThreshold(int pta_ind, std::vector<int>& pt
 //
 
 // ------------ method called to produce the data  ------------
-L1TBMTFParamsESProducer::ReturnType
-L1TBMTFParamsESProducer::produce(const L1TBMTFParamsRcd& iRecord)
+L1TMuonBarrelParamsESProducer::ReturnType
+L1TMuonBarrelParamsESProducer::produce(const L1TMuonBarrelParamsRcd& iRecord)
 {
    using namespace edm::es;
-   boost::shared_ptr<L1TBMTFParams> pBMTFParams;
+   boost::shared_ptr<L1TMuonBarrelParams> pBMTFParams;
 
-   pBMTFParams = boost::shared_ptr<L1TBMTFParams>(new L1TBMTFParams(m_params));
+   pBMTFParams = boost::shared_ptr<L1TMuonBarrelParams>(new L1TMuonBarrelParams(m_params));
    return pBMTFParams;
 }
 
 //define this as a plug-in
-DEFINE_FWK_EVENTSETUP_MODULE(L1TBMTFParamsESProducer);
+DEFINE_FWK_EVENTSETUP_MODULE(L1TMuonBarrelParamsESProducer);

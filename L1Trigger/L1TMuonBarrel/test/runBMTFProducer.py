@@ -30,8 +30,8 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 process.load('L1Trigger.L1TMuonBarrel.l1tmbtfparamsproducer_cfi')
 process.esProd = cms.EDAnalyzer("EventSetupRecordDataGetter",
    toGet = cms.VPSet(
-      cms.PSet(record = cms.string('L1TBMTFParamsRcd'),
-               data = cms.vstring('L1TBMTFParams'))
+      cms.PSet(record = cms.string('L1TMuonBarrelParamsRcd'),
+               data = cms.vstring('L1TMuonBarrelParams'))
                    ),
    verbose = cms.untracked.bool(True)
 )

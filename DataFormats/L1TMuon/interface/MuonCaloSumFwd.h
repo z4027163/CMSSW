@@ -4,8 +4,8 @@
 #include "DataFormats/L1Trigger/interface/BXVector.h"
 
 namespace l1t {
-  class GMTInputCaloSum;
-  typedef BXVector<GMTInputCaloSum> GMTInputCaloSumBxCollection;
+  class MuonCaloSum;
+  typedef BXVector<MuonCaloSum> MuonCaloSumBxCollection;
 }
 
 #endif

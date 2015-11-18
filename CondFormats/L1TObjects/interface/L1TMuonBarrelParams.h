@@ -1,5 +1,5 @@
 ///
-/// \class L1TBMTFParams
+/// \class L1TMuonBarrelParams
 ///
 /// Description: Placeholder for BMTF parameters
 ///
@@ -18,7 +18,7 @@
 #include "CondFormats/L1TObjects/interface/LUT.h"
 #include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
 
-class L1TBMTFParams {
+class L1TMuonBarrelParams {
 
 public:
   enum { Version = 1 };
@@ -125,15 +125,15 @@ public:
     bool get_Extrapolation_21() const {return conparams_.Extrapolation_21 ;}
 
 
-  L1TBMTFParams() { version_=Version; pnodes_.resize(NUM_BMTFPARAMNODES); }
-  ~L1TBMTFParams() {}
+  L1TMuonBarrelParams() { version_=Version; pnodes_.resize(NUM_BMTFPARAMNODES); }
+  ~L1TMuonBarrelParams() {}
 
   // FW version
   unsigned fwVersion() const { return fwVersion_; }
   void setFwVersion(unsigned fwVersion) { fwVersion_ = fwVersion; }
   // print parameters to stream:
   void print(std::ostream&) const;
-  friend std::ostream& operator<<(std::ostream& o, const L1TBMTFParams & p) { p.print(o); return o; }
+  friend std::ostream& operator<<(std::ostream& o, const L1TMuonBarrelParams & p) { p.print(o); return o; }
 
 private:
   unsigned version_;

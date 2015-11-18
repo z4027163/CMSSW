@@ -12,7 +12,7 @@ l1tGMTParamsSource = cms.ESSource(
     firstValid = cms.vuint32(1)
 )
 
-l1tGMTParamsESProducer = cms.ESProducer('L1TMicroGMTParamsESProducer',
+l1tGMTParamsESProducer = cms.ESProducer('L1TMuonGlobalParamsESProducer',
     fwVersion = cms.uint32(1),
 
     AbsIsoCheckMemLUTPath        = cms.string(os.path.join(lut_dir, 'AbsIsoCheckMem.lut')),

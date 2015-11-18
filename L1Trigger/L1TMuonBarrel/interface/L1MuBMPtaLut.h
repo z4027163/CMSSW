@@ -21,7 +21,7 @@
 
 //#include "CondFormats/Serialization/interface/Serializable.h"
 #include "L1Trigger/L1TMuonBarrel/interface/L1MuBMTrack.h"
-#include "CondFormats/L1TObjects/interface/L1TBMTFParams.h"
+#include "CondFormats/L1TObjects/interface/L1TMuonBarrelParams.h"
 
 #include <vector>
 #include <map>
@@ -46,7 +46,7 @@ class L1MuBMPtaLut {
   public:
     typedef std::map<short, short, std::less<short> > LUT;
     /// constructor
-    L1MuBMPtaLut(const L1TBMTFParams &l1params);
+    L1MuBMPtaLut(const L1TMuonBarrelParams &l1params);
 
     /// destructor
     virtual ~L1MuBMPtaLut();
@@ -61,7 +61,7 @@ class L1MuBMPtaLut {
     int getPtLutThreshold(int pta_ind) const;
 
   private:
-    const L1TBMTFParams* l1tbmparams;
+    const L1TMuonBarrelParams* l1tbmparams;
 
 
 
