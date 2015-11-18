@@ -33,13 +33,13 @@ namespace l1t {
       static const unsigned bmtfTrAddrWheelMask_ = 0x3;
       static const unsigned bmtfTrAddrWheelShift_ = 18;
       static const unsigned bmtfTrAddrStat1Mask_ = 0x3;
-      static const unsigned bmtfTrAddrStat1Shift_ = 2;
+      static const unsigned bmtfTrAddrStat1Shift_ = 14;
       static const unsigned bmtfTrAddrStat2Mask_ = 0xF;
-      static const unsigned bmtfTrAddrStat2Shift_ = 4;
+      static const unsigned bmtfTrAddrStat2Shift_ = 10;
       static const unsigned bmtfTrAddrStat3Mask_ = 0xF;
-      static const unsigned bmtfTrAddrStat3Shift_ = 8;
+      static const unsigned bmtfTrAddrStat3Shift_ = 6;
       static const unsigned bmtfTrAddrStat4Mask_ = 0xF;
-      static const unsigned bmtfTrAddrStat4Shift_ = 12;
+      static const unsigned bmtfTrAddrStat4Shift_ = 2;
       // TODO: set real widths and shifts for EMTF
       static const unsigned emtfTrAddrMe12Mask_ = 0x1FFFFFFF;
       static const unsigned emtfTrAddrMe12Shift_ = 0;
