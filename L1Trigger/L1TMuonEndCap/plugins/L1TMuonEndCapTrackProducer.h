@@ -34,10 +34,9 @@
 #include <TH2.h>
 #include <TH1F.h>
 #include <TFile.h>
-#include "L1Trigger/L1TMuonEndCap/interface/GeometryTranslator.h"
+#include "L1Trigger/L1TMuon/interface/GeometryTranslator.h"
 
-#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitive.h"
-#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/MuonTriggerPrimitive.h"
 
 #include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrack.h"
 #include "L1Trigger/L1TMuonEndCap/interface/MuonInternalTrackFwd.h"

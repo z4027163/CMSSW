@@ -18,8 +18,6 @@
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
 #include "L1Trigger/L1TMuonOverlap/interface/XMLConfigWriter.h"
 
-using namespace L1TMuon;
-
 L1TMuonOverlapTrackProducer::L1TMuonOverlapTrackProducer(const edm::ParameterSet& cfg):theConfig(cfg){
 
   produces<l1t::RegionalMuonCandBxCollection >("OMTF");

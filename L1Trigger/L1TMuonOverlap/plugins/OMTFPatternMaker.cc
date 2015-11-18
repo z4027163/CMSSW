@@ -15,8 +15,6 @@
 
 #include "Math/VectorUtil.h"
 
-using namespace L1TMuon;
-
 OMTFPatternMaker::OMTFPatternMaker(const edm::ParameterSet& cfg):
   theConfig(cfg),
   g4SimTrackSrc(cfg.getParameter<edm::InputTag>("g4SimTrackSrc")){

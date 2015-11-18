@@ -2,8 +2,7 @@
 #define __EmulatorClasses_
 
 #include "L1Trigger/L1TMuonEndCap/interface/PhiMemoryImage.h"
-#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitive.h"
-#include "L1Trigger/L1TMuonEndCap/interface/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/MuonTriggerPrimitive.h"
 
 using namespace L1TMuon;
 

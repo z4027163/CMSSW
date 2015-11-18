@@ -37,6 +37,8 @@ class CSCDetId;
 class RPCDigiL1Link;
 class RPCDetId;
 
+#include "MuonTriggerPrimitiveFwd.h"
+
 namespace L1TMuon {
 
   class TriggerPrimitive {

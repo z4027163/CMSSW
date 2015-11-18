@@ -20,8 +20,6 @@
 #include "L1Trigger/L1TMuonOverlap/interface/XMLConfigWriter.h"
 #include "L1Trigger/L1TMuonOverlap/interface/XMLConfigReader.h"
 
-using namespace L1TMuon;
-
 OMTFProducerMix::OMTFProducerMix(const edm::ParameterSet& cfg):
   theConfig(cfg){
 
