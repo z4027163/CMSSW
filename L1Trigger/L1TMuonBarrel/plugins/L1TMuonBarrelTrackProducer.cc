@@ -38,8 +38,8 @@ L1TMuonBarrelTrackProducer::L1TMuonBarrelTrackProducer(const edm::ParameterSet &
   m_ps = &pset;
 
 
-  produces<l1t::RegionalMuonCandBxCollection>("BM");
   produces<l1t::RegionalMuonCandBxCollection>("BMTF");
+  produces<l1t::RegionalMuonCandBxCollection>("BmtfUnsorted");
   usesResource("L1TMuonBarrelTrackProducer");
   setup1 = new L1MuBMTFSetup(*m_ps,consumesCollector());
 
@@ -77,8 +77,8 @@ void L1TMuonBarrelTrackProducer::produce(edm::Event& e, const edm::EventSetup& c
   l1t::RegionalMuonCandBxCollection BMTracks = dtbx->getcache();
   *vec_product = BMTracks;
 
-  e.put(tra_product,"BMTF");
-  e.put(vec_product,"BM");
+  e.put(tra_product,"UnsortedBMTF");
+  e.put(vec_product,"BMTF");
 
 }
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import FWCore.ParameterSet.Config as cms
 process = cms.Process("L1TMuonEmulation")
 import os
@@ -41,6 +40,13 @@ process.load('L1Trigger.L1TCalorimeter.caloStage2Layer1Digis_cfi')
 process.dumpED = cms.EDAnalyzer("EventContentAnalyzer")
 process.dumpES = cms.EDAnalyzer("PrintEventSetupContent")
 
+#process.l1tSummary = cms.EDAnalyzer("L1TSummary")
+#process.l1tSummary.egToken   = cms.InputTag("simCaloStage2Digis");
+#process.l1tSummary.tauToken  = cms.InputTag("simCaloStage2Digis");
+#process.l1tSummary.jetToken  = cms.InputTag("simCaloStage2Digis");
+#process.l1tSummary.sumToken  = cms.InputTag("simCaloStage2Digis");
+#process.l1tSummary.muonToken = cms.InputTag("simGmtDigis","");
+##process.l1tSummary.muonToken = cms.InputTag("simGmtDigis","imdMuonsBMTF");
 
 process.load('L1Trigger.L1TCalorimeter.caloStage2Layer1Digis_cfi')
 process.caloStage2Layer1Digis.ecalToken = cms.InputTag("simEcalTriggerPrimitiveDigis")
@@ -53,8 +59,9 @@ process.L1TMuonSeq = cms.Sequence(   process.caloStage2Layer1Digis
                                    + process.simOmtfDigis 
                                    + process.simGmtCaloSumDigis
                                    + process.simGmtDigis
-                                   + process.dumpED
-                                   + process.dumpES
+#                                   + process.dumpED
+#                                   + process.dumpES
+#                                   + process.l1tSummary
 )
 
 process.L1TMuonPath = cms.Path(process.L1TMuonSeq)
