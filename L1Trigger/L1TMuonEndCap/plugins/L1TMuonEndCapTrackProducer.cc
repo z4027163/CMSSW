@@ -35,15 +35,9 @@ using namespace L1TMuon;
 
 L1TMuonEndCapTrackProducer::L1TMuonEndCapTrackProducer(const PSet& p) {
 
-
- // _tpinputs = p.getParameter<std::vector<edm::InputTag> >("primitiveSrcs");
-  _CSCInput = p.getParameter<edm::InputTag>("CSCInput");
- // for (auto& tfinput: _tpinputs) {
- //   consumes<TriggerPrimitiveCollection>(tfinput);
-  //}
-  consumes<CSCCorrelatedLCTDigiCollection>(_CSCInput);
-   // produces<L1TMuon::InternalTrackCollection> ("DataITC").setBranchAlias("DataITC");
-	produces<l1t::RegionalMuonCandBxCollection >("EMUTF");
+  inputTokenCSC = consumes<CSCCorrelatedLCTDigiCollection>(p.getParameter<edm::InputTag>("CSCInput"));
+  
+  produces<l1t::RegionalMuonCandBxCollection >("EMTF");
 }
 
 
@@ -72,7 +66,7 @@ void L1TMuonEndCapTrackProducer::produce(edm::Event& ev,
   //////////////////////////////////////////////
   
   edm::Handle<CSCCorrelatedLCTDigiCollection> MDC;
-  ev.getByLabel("simCscTriggerPrimitiveDigis","",MDC);
+  ev.getByToken(inputTokenCSC, MDC);
   std::vector<TriggerPrimitive> out;
   
   auto chamber = MDC->begin();
@@ -342,7 +336,7 @@ for(int SectIndex=0;SectIndex<12;SectIndex++){//perform TF on all 12 sectors
 
 
 //ev.put( FoundTracks, "DataITC");
-ev.put( OutputCands, "EMUTF");
+ev.put( OutputCands, "EMTF");
   //std::cout<<"End Upgraded Track Finder Prducer:::::::::::::::::::::::::::\n:::::::::::::::::::::::::::::::::::::::::::::::::\n\n";
 
 }//analyzer

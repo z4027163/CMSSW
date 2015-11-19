@@ -10,11 +10,11 @@
 #include "CondFormats/DataRecord/interface/L1TMuonOverlapParamsRcd.h"
 
 #include "L1Trigger/L1TMuonOverlap/interface/XMLConfigReader.h"
-#include "L1Trigger/L1TMuonOverlap/plugins/L1TMTFOverlapParamsESProducer.h"
+#include "L1Trigger/L1TMuonOverlap/plugins/L1TMuonOverlapParamsESProducer.h"
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
-L1TMTFOverlapParamsESProducer::L1TMTFOverlapParamsESProducer(const edm::ParameterSet& theConfig){
+L1TMuonOverlapParamsESProducer::L1TMuonOverlapParamsESProducer(const edm::ParameterSet& theConfig){
    //the following line is needed to tell the framework what
    // data is being produced
    setWhatProduced(this);
@@ -47,10 +47,10 @@ L1TMTFOverlapParamsESProducer::L1TMTFOverlapParamsESProducer(const edm::Paramete
 }
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
-L1TMTFOverlapParamsESProducer::~L1TMTFOverlapParamsESProducer() {}
+L1TMuonOverlapParamsESProducer::~L1TMuonOverlapParamsESProducer() {}
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
-bool L1TMTFOverlapParamsESProducer::readConnectionsXML(XMLConfigReader *aReader){
+bool L1TMuonOverlapParamsESProducer::readConnectionsXML(XMLConfigReader *aReader){
 
   aReader->readConfig(&m_params);
   
@@ -59,7 +59,7 @@ bool L1TMTFOverlapParamsESProducer::readConnectionsXML(XMLConfigReader *aReader)
 }
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
-bool L1TMTFOverlapParamsESProducer::readPatternsXML(XMLConfigReader *aReader){
+bool L1TMuonOverlapParamsESProducer::readPatternsXML(XMLConfigReader *aReader){
 
   l1t::LUT chargeLUT;
   aReader->readLUT(&chargeLUT,"iCharge");
@@ -85,8 +85,8 @@ bool L1TMTFOverlapParamsESProducer::readPatternsXML(XMLConfigReader *aReader){
 }
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
-L1TMTFOverlapParamsESProducer::ReturnType
-L1TMTFOverlapParamsESProducer::produce(const L1TMuonOverlapParamsRcd& iRecord)
+L1TMuonOverlapParamsESProducer::ReturnType
+L1TMuonOverlapParamsESProducer::produce(const L1TMuonOverlapParamsRcd& iRecord)
 {
    using namespace edm::es;
    boost::shared_ptr<L1TMuonOverlapParams> aL1TMTFOverlapParams;
@@ -96,4 +96,7 @@ L1TMTFOverlapParamsESProducer::produce(const L1TMuonOverlapParamsRcd& iRecord)
 }
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
+
+#include "FWCore/Framework/interface/MakerMacros.h"
+DEFINE_FWK_EVENTSETUP_MODULE(L1TMuonOverlapParamsESProducer);
 

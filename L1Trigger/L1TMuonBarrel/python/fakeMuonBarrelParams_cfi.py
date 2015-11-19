@@ -4,14 +4,14 @@ import os
 
 l1tbmtfluts_dir = "L1Trigger/L1TMuon/data/bmtf_luts/"
 
-l1tBMTFParamsSource = cms.ESSource(
+bmbtfParamsSource = cms.ESSource(
     "EmptyESSource",
     recordName = cms.string('L1TMuonBarrelParamsRcd'),
     iovIsRunNotTime = cms.bool(True),
     firstValid = cms.vuint32(1)
 )
 
-l1tBMTFParamsESProducer = cms.ESProducer('L1TMuonBarrelParamsESProducer',
+bmtfParams = cms.ESProducer('L1TMuonBarrelParamsESProducer',
     fwVersion = cms.uint32(1),
 
     AssLUTPath        = cms.string(os.path.join(l1tbmtfluts_dir, 'LUTs_Ass/')),

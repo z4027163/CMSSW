@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 ###OMTF emulator configuration
-omtfEmulator = cms.EDProducer("L1TMuonOverlapTrackProducer",
+simOmtfDigis = cms.EDProducer("L1TMuonOverlapTrackProducer",
                               srcDTPh = cms.InputTag('simDtTriggerPrimitiveDigis'),
                               srcDTTh = cms.InputTag('simDtTriggerPrimitiveDigis'),
                               srcCSC = cms.InputTag('simCscTriggerPrimitiveDigis','MPCSORTED'),

@@ -304,3 +304,5 @@ void L1TMuonOverlapTrackProducer::processCandidates(unsigned int iProcessor, int
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 
+#include "FWCore/Framework/interface/MakerMacros.h"
+DEFINE_FWK_MODULE(L1TMuonOverlapTrackProducer);

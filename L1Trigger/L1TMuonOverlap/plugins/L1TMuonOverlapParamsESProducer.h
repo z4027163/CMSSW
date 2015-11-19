@@ -13,11 +13,11 @@
 
 #include "L1Trigger/L1TMuonOverlap/interface/OMTFConfiguration.h"
 
-class L1TMTFOverlapParamsESProducer : public edm::ESProducer {
+class L1TMuonOverlapParamsESProducer : public edm::ESProducer {
    public:
   
-      L1TMTFOverlapParamsESProducer(const edm::ParameterSet&);
-      ~L1TMTFOverlapParamsESProducer();
+      L1TMuonOverlapParamsESProducer(const edm::ParameterSet&);
+      ~L1TMuonOverlapParamsESProducer();
 
       typedef boost::shared_ptr<L1TMuonOverlapParams> ReturnType;
 

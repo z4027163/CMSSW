@@ -89,8 +89,7 @@ public:
 
 private:
 
-  std::vector<edm::InputTag> _tpinputs, _convTrkInputs;
-  edm::InputTag _CSCInput;
+  edm::EDGetTokenT<CSCCorrelatedLCTDigiCollection> inputTokenCSC;
   
 };
 

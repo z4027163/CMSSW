@@ -5,14 +5,14 @@ import os
 l1tgmt_basedir = "L1Trigger/L1TMuon/"
 lut_dir = os.path.join(l1tgmt_basedir, "data/microgmt_luts/")
 
-l1tGMTParamsSource = cms.ESSource(
+gmtParamsSource = cms.ESSource(
     "EmptyESSource",
     recordName = cms.string('L1TGMTParamsRcd'),
     iovIsRunNotTime = cms.bool(True),
     firstValid = cms.vuint32(1)
 )
 
-l1tGMTParamsESProducer = cms.ESProducer('L1TMuonGlobalParamsESProducer',
+gmtParams = cms.ESProducer('L1TMuonGlobalParamsESProducer',
     fwVersion = cms.uint32(1),
 
     AbsIsoCheckMemLUTPath        = cms.string(os.path.join(lut_dir, 'AbsIsoCheckMem.lut')),
