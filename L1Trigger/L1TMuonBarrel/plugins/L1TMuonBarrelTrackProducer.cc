@@ -39,7 +39,7 @@ L1TMuonBarrelTrackProducer::L1TMuonBarrelTrackProducer(const edm::ParameterSet &
 
 
   produces<l1t::RegionalMuonCandBxCollection>("BMTF");
-  produces<l1t::RegionalMuonCandBxCollection>("BmtfUnsorted");
+  produces<l1t::RegionalMuonCandBxCollection>("UnsortedBMTF");
   usesResource("L1TMuonBarrelTrackProducer");
   setup1 = new L1MuBMTFSetup(*m_ps,consumesCollector());
 
