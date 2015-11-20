@@ -186,7 +186,7 @@ process.l1tGMTParamsESProducer.FONegMatchQualLUTPath = cms.string('')
 
 process.esTest = cms.EDAnalyzer("EventSetupRecordDataGetter",
    toGet = cms.VPSet(
-      cms.PSet(record = cms.string('L1TGMTParamsRcd'),
+      cms.PSet(record = cms.string('L1TMuonGlobalParamsRcd'),
                data = cms.vstring('L1TMuonGlobalParams'))
                     ),
    verbose = cms.untracked.bool(True)

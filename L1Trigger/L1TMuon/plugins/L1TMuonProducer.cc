@@ -46,7 +46,7 @@
 #include "DataFormats/L1TMuon/interface/RegionalMuonCand.h"
 
 #include "CondFormats/L1TObjects/interface/L1TMuonGlobalParams.h"
-#include "CondFormats/DataRecord/interface/L1TGMTParamsRcd.h"
+#include "CondFormats/DataRecord/interface/L1TMuonGlobalParamsRcd.h"
 
 #include "TMath.h"
 //
@@ -414,7 +414,7 @@ L1TMuonProducer::endJob() {
 void
 L1TMuonProducer::beginRun(edm::Run const& run, edm::EventSetup const& iSetup)
 {
-  const L1TGMTParamsRcd& microGMTParamsRcd = iSetup.get<L1TGMTParamsRcd>();
+  const L1TMuonGlobalParamsRcd& microGMTParamsRcd = iSetup.get<L1TMuonGlobalParamsRcd>();
   edm::ESHandle<L1TMuonGlobalParams> microGMTParamsHandle;
   microGMTParamsRcd.get(microGMTParamsHandle);
 

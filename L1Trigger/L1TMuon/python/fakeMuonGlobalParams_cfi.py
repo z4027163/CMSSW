@@ -7,7 +7,7 @@ lut_dir = os.path.join(l1tgmt_basedir, "data/microgmt_luts/")
 
 gmtParamsSource = cms.ESSource(
     "EmptyESSource",
-    recordName = cms.string('L1TGMTParamsRcd'),
+    recordName = cms.string('L1TMuonGlobalParamsRcd'),
     iovIsRunNotTime = cms.bool(True),
     firstValid = cms.vuint32(1)
 )

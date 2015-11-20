@@ -28,7 +28,7 @@
 #include "FWCore/Framework/interface/ESProducts.h"
 
 #include "CondFormats/L1TObjects/interface/L1TMuonGlobalParams.h"
-#include "CondFormats/DataRecord/interface/L1TGMTParamsRcd.h"
+#include "CondFormats/DataRecord/interface/L1TMuonGlobalParamsRcd.h"
 #include "L1Trigger/L1TMuon/interface/MicroGMTLUTFactories.h"
 
 //
@@ -42,7 +42,7 @@ class L1TMuonGlobalParamsESProducer : public edm::ESProducer {
 
       typedef boost::shared_ptr<L1TMuonGlobalParams> ReturnType;
 
-      ReturnType produce(const L1TGMTParamsRcd&);
+      ReturnType produce(const L1TMuonGlobalParamsRcd&);
    private:
       L1TMuonGlobalParams m_params;
 };
@@ -145,7 +145,7 @@ L1TMuonGlobalParamsESProducer::~L1TMuonGlobalParamsESProducer()
 
 // ------------ method called to produce the data  ------------
 L1TMuonGlobalParamsESProducer::ReturnType
-L1TMuonGlobalParamsESProducer::produce(const L1TGMTParamsRcd& iRecord)
+L1TMuonGlobalParamsESProducer::produce(const L1TMuonGlobalParamsRcd& iRecord)
 {
    using namespace edm::es;
    boost::shared_ptr<L1TMuonGlobalParams> pMicroGMTParams;

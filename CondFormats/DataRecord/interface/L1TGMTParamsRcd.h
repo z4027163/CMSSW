@@ -3,9 +3,9 @@
 // -*- C++ -*-
 //
 // Package:     Subsystem/Package
-// Class  :     L1TGMTParamsRcd
+// Class  :     L1TMuonGlobalParamsRcd
 // 
-/**\class L1TGMTParamsRcd L1TGMTParamsRcd.h Subsystem/Package/interface/L1TGMTParamsRcd.h
+/**\class L1TMuonGlobalParamsRcd L1TMuonGlobalParamsRcd.h Subsystem/Package/interface/L1TMuonGlobalParamsRcd.h
 
  Description: [one line class summary]
 
@@ -20,6 +20,6 @@
 
 #include "FWCore/Framework/interface/EventSetupRecordImplementation.h"
 
-class L1TGMTParamsRcd : public edm::eventsetup::EventSetupRecordImplementation<L1TGMTParamsRcd> {};
+class L1TMuonGlobalParamsRcd : public edm::eventsetup::EventSetupRecordImplementation<L1TMuonGlobalParamsRcd> {};
 
 #endif
