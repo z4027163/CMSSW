@@ -10,11 +10,13 @@
 //
 
 #include "FWCore/Framework/interface/ESHandle.h"
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/MuonTriggerPrimitive.h"
 
 #include <cmath>
 
 class DTGeometry;
+
+using namespace L1TMuon;
 
 namespace L1TwinMux {
 

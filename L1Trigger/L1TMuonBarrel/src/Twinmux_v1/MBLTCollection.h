@@ -13,16 +13,20 @@
 
 #include <iostream>
 
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
-//#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
-//#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/MuonTriggerPrimitive.h"
 
 #include "DataFormats/Common/interface/RefToBase.h"
-
 #include "DataFormats/MuonDetId/interface/DTChamberId.h"
+#include "DataFormats/Common/interface/Ref.h"
+#include "DataFormats/Common/interface/Ptr.h"
+
+
+using namespace L1TMuon;
 
 namespace L1TwinMux {
+
+   typedef edm::Ref<TriggerPrimitiveCollection> TriggerPrimitiveRef;
+   typedef std::vector<TriggerPrimitiveRef> TriggerPrimitiveList;
 
   class MBLTCollection {
 
@@ -48,7 +52,7 @@ namespace L1TwinMux {
 
     /// selectively add Trigger Primitives to the MBLTCollection
     /// dt, rpc up layer and rpc down layer are stored in separated collections
-    void addStub( const L1TwinMux::TriggerPrimitiveRef& stub );
+    void addStub( const TriggerPrimitiveRef & stub );
 
 
     /// return a reference to the DT only segments

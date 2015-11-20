@@ -14,7 +14,7 @@ L1TwinMux::MBLTCollection::MBLTCollection( const DTChamberId & dtId )
   _station = dtId.station();
 }
 
-void L1TwinMux::MBLTCollection::addStub(const TriggerPrimitiveRef& stub)
+void L1TwinMux::MBLTCollection::addStub(const TriggerPrimitiveRef & stub)
 {
 
   TriggerPrimitive::subsystem_type type = stub->subsystem();

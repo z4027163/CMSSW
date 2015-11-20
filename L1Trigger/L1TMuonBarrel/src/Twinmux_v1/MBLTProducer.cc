@@ -9,12 +9,7 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include <FWCore/Framework/interface/ConsumesCollector.h>
 
-// user include files
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
-//#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitive.h"
-//#include "DataFormats/L1TMuon/interface/MuonTriggerPrimitiveFwd.h"
-
+#include "L1Trigger/L1TMuon/interface/deprecate/MuonTriggerPrimitive.h"
 #include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTCollection.h"
 #include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTCollectionFwd.h"
 

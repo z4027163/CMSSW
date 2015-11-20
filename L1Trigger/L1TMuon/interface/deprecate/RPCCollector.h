@@ -1,23 +1,23 @@
-#ifndef __L1TMUON_CSCCOLLECTOR_H__
-#define __L1TMUON_CSCCOLLECTOR_H__
+#ifndef __L1TMUON_RPCCOLLECTOR_H__
+#define __L1TMUON_RPCCOLLECTOR_H__
 // 
-// Class: L1TMuon::CSCCollector
+// Class: L1TMuon::RPCCollector
 //
-// Info: Processes CSC digis into ITMu trigger primitives. 
+// Info: Processes RPC digis into L1TMuon trigger primitives. 
 //       Positional information is not assigned here.
 //
 // Author: L. Gray (FNAL)
 //
 #include <vector>
-#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollector.h"
+#include "SubsystemCollector.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
 namespace L1TMuon {
   
-  class CSCCollector: public SubsystemCollector {
+  class RPCCollector: public SubsystemCollector {
   public:
-    CSCCollector(const edm::ParameterSet&);
-    ~CSCCollector() {}
+    RPCCollector(const edm::ParameterSet&);
+    ~RPCCollector() {}
 
     virtual void extractPrimitives(const edm::Event&, const edm::EventSetup&, 
 				   std::vector<TriggerPrimitive>&) const;

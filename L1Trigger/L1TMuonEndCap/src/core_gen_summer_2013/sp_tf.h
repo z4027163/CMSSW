@@ -22,7 +22,7 @@
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
-#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollectorFactory.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/SubsystemCollectorFactory.h"
 
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"

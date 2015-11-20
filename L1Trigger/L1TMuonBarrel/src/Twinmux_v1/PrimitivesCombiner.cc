@@ -1,7 +1,6 @@
 //Author: Giuseppe Codispoti
 
 #include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/PrimitiveCombiner.h"
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
 
 #include "Geometry/Records/interface/MuonGeometryRecord.h"
 #include "Geometry/DTGeometry/interface/DTGeometry.h"

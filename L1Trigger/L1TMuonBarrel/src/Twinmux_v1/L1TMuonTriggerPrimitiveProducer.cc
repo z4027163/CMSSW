@@ -21,12 +21,9 @@
 #include "DataFormats/Common/interface/Handle.h"
 #include "FWCore/Framework/interface/Event.h"
 
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/GeometryTranslator.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/GeometryTranslator.h"
 #include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/DTCollector.h"
 #include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/RPCCollector.h"
-
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
 
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambPhContainer.h"
 #include "DataFormats/L1DTTrackFinder/interface/L1MuDTChambThContainer.h"
@@ -35,9 +32,9 @@
 #include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
-//#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/SubsystemCollectorFactory.h"
-
 using namespace L1TwinMux;
+using namespace L1TMuon;
+
 using namespace edm;
 using namespace std;
 

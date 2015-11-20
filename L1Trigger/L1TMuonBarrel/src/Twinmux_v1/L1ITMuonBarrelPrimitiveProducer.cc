@@ -10,8 +10,7 @@
 #include <FWCore/Framework/interface/ConsumesCollector.h>
 
 // L1IT include files
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitive.h"
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MuonTriggerPrimitiveFwd.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/MuonTriggerPrimitive.h"
 
 #include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTCollection.h"
 #include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/MBLTCollectionFwd.h"
@@ -32,6 +31,8 @@
 #include "DataFormats/Math/interface/deltaPhi.h"
 
 using namespace L1TwinMux;
+using namespace L1TMuon;
+
 class L1ITMuonBarrelPrimitiveProducer  {
 
 public:
@@ -46,7 +47,7 @@ private:
 std::auto_ptr<MBLTContainer> mbltContainer;
 };
 
-inline std::ostream & operator<< (std::ostream & out, const L1TwinMux::TriggerPrimitiveList & rpc )
+inline std::ostream & operator<< (std::ostream & out, const TriggerPrimitiveList & rpc )
 {
   std::vector<TriggerPrimitiveRef>::const_iterator it = rpc.begin();
   std::vector<TriggerPrimitiveRef>::const_iterator end = rpc.end();
@@ -150,14 +151,14 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
       int bx=-999;
       int iDt = correlated.at(idxDt);
       if ( iDt < 0 ) continue;
-      const L1TwinMux::TriggerPrimitive & dt = *mbltStation.getDtSegments().at(iDt);
-      L1TwinMux::TriggerPrimitiveList rpcInMatch = mbltStation.getRpcInAssociatedStubs( iDt );
-      L1TwinMux::TriggerPrimitiveList rpcOutMatch = mbltStation.getRpcOutAssociatedStubs( iDt );
+      const TriggerPrimitive & dt = *mbltStation.getDtSegments().at(iDt);
+      TriggerPrimitiveList rpcInMatch = mbltStation.getRpcInAssociatedStubs( iDt );
+      TriggerPrimitiveList rpcOutMatch = mbltStation.getRpcOutAssociatedStubs( iDt );
       size_t rpcInMatchSize = rpcInMatch.size();
       size_t rpcOutMatchSize = rpcOutMatch.size();
       if ( rpcInMatchSize && rpcOutMatchSize ) {
-	const L1TwinMux::TriggerPrimitive & rpcIn = *rpcInMatch.front();
-	const L1TwinMux::TriggerPrimitive & rpcOut = *rpcOutMatch.front();
+	const TriggerPrimitive & rpcIn = *rpcInMatch.front();
+	const TriggerPrimitive & rpcOut = *rpcOutMatch.front();
 	/// only the first is real...
 	// LG try also to reassign BX to single H using RPC BX, e.g. do not ask for DT and RPC to have the same BX
 	if ( ( dt.getBX() == rpcIn.getBX() && dt.getBX() == rpcOut.getBX() )
@@ -165,13 +166,13 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
 	  bx = rpcIn.getBX();
 	}
       } else if (rpcInMatchSize){
-	const L1TwinMux::TriggerPrimitive & rpcIn = *rpcInMatch.front();
+	const TriggerPrimitive & rpcIn = *rpcInMatch.front();
 	if ( dt.getBX() == rpcIn.getBX() || (_qualityRemappingMode>1 && abs(dt.getBX()-rpcIn.getBX())<=1)) {
 	  bx = rpcIn.getBX();
 	}
       }
       else if (rpcOutMatchSize){
-	const L1TwinMux::TriggerPrimitive & rpcOut = *rpcOutMatch.front();
+	const TriggerPrimitive & rpcOut = *rpcOutMatch.front();
 	if ( dt.getBX() == rpcOut.getBX() || (_qualityRemappingMode>1 && abs(dt.getBX()-rpcOut.getBX())<=1)) {
 	  bx = rpcOut.getBX();
 	}
@@ -207,7 +208,7 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
 
       int iDt = uncorrelated.at(idxDt);
       if ( iDt < 0 ) continue;
-      const L1TwinMux::TriggerPrimitive & dt = *mbltStation.getDtSegments().at(iDt);
+      const TriggerPrimitive & dt = *mbltStation.getDtSegments().at(iDt);
 
       /// check if there is a pair of HI+HO at different bx
       int closest = -1;
@@ -255,28 +256,28 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
 
 	/// redefine quality
 	/// qualityCode = 4;
-	L1TwinMux::TriggerPrimitiveList rpcInMatch = mbltStation.getRpcInAssociatedStubs( iDt );
-	L1TwinMux::TriggerPrimitiveList rpcOutMatch = mbltStation.getRpcOutAssociatedStubs( iDt );
+	TriggerPrimitiveList rpcInMatch = mbltStation.getRpcInAssociatedStubs( iDt );
+	TriggerPrimitiveList rpcOutMatch = mbltStation.getRpcOutAssociatedStubs( iDt );
 
 	/// there is a pair HI+HO with a shared inner RPC hit
 	if ( match == MBLTCollection::INMATCH ) {
 
-	  const L1TwinMux::TriggerPrimitive & rpcIn = *rpcInMatch.front();
+	  const TriggerPrimitive & rpcIn = *rpcInMatch.front();
 	  combiner.addRpcIn( rpcIn );
 	  bx = rpcIn.getBX();
 
 	  /// there is a pair HI+HO with a shared outer RPC hit
 	} else if ( match == MBLTCollection::OUTMATCH ) {
 
-	  const L1TwinMux::TriggerPrimitive & rpcOut = *rpcOutMatch.front();
+	  const TriggerPrimitive & rpcOut = *rpcOutMatch.front();
 	  combiner.addRpcOut( rpcOut );
 	  bx = rpcOut.getBX();
 
 	  /// there is a pair HI+HO with both shared inner and outer RPC hit
 	} else if ( match == MBLTCollection::FULLMATCH ) {
 
-	  const L1TwinMux::TriggerPrimitive & rpcIn = *rpcInMatch.front();
-	  const L1TwinMux::TriggerPrimitive & rpcOut = *rpcOutMatch.front();
+	  const TriggerPrimitive & rpcIn = *rpcInMatch.front();
+	  const TriggerPrimitive & rpcOut = *rpcOutMatch.front();
 	  combiner.addRpcIn( rpcIn );
 	  combiner.addRpcOut( rpcOut );
 	  bx = rpcIn.getBX();
@@ -285,15 +286,15 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
 
       } else { /// there is no match
 
-	L1TwinMux::TriggerPrimitiveList rpcInMatch = mbltStation.getRpcInAssociatedStubs( iDt );
-	L1TwinMux::TriggerPrimitiveList rpcOutMatch = mbltStation.getRpcOutAssociatedStubs( iDt );
+	TriggerPrimitiveList rpcInMatch = mbltStation.getRpcInAssociatedStubs( iDt );
+	TriggerPrimitiveList rpcOutMatch = mbltStation.getRpcOutAssociatedStubs( iDt );
 	size_t rpcInMatchSize = rpcInMatch.size();
 	size_t rpcOutMatchSize = rpcOutMatch.size();
 
 	/// the uncorrelated has possibly inner and outer confirmation
 	if ( rpcInMatchSize && rpcOutMatchSize ) {
-	  const L1TwinMux::TriggerPrimitive & rpcIn = *rpcInMatch.front();
-	  const L1TwinMux::TriggerPrimitive & rpcOut = *rpcOutMatch.front();
+	  const TriggerPrimitive & rpcIn = *rpcInMatch.front();
+	  const TriggerPrimitive & rpcOut = *rpcOutMatch.front();
 	  /// only the first is real...
 	  // LG try also to reassign BX to single H using RPC BX, e.g. do not ask for DT and RPC to have the same BX
 	  if (( dt.getBX() == rpcIn.getBX() && dt.getBX() == rpcOut.getBX() )
@@ -311,7 +312,7 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
 
 	/// the uncorrelated has a possible inner confirmation
 	} else if ( rpcInMatchSize ) {
-	  const L1TwinMux::TriggerPrimitive & rpcIn = *rpcInMatch.front();
+	  const TriggerPrimitive & rpcIn = *rpcInMatch.front();
 	  if ( dt.getBX() == rpcIn.getBX() || (_qualityRemappingMode>1 && abs(dt.getBX()-rpcIn.getBX())<=1)) {
 	    bx = rpcIn.getBX();
 	    combiner.addRpcIn( rpcIn );
@@ -319,7 +320,7 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
 
 	/// the uncorrelated has a possible outer confirmation
 	} else if ( rpcOutMatchSize ) {
-	  const L1TwinMux::TriggerPrimitive & rpcOut = *rpcOutMatch.front();
+	  const TriggerPrimitive & rpcOut = *rpcOutMatch.front();
 	  if ( dt.getBX() == rpcOut.getBX()|| (_qualityRemappingMode>1  && abs(dt.getBX()-rpcOut.getBX())<=1)) {
 	    bx = rpcOut.getBX();
 	    combiner.addRpcOut( rpcOut );
@@ -363,8 +364,8 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
     } /// end of the Uncorrelated loop
 //     ////////////////////////////////////////////////////
 //     /// loop over unassociated inner and outer RPC hits
-//     const L1TwinMux::TriggerPrimitiveList & rpcInUnass = mbltStation.getRpcInUnassociatedStubs();
-//     const L1TwinMux::TriggerPrimitiveList & rpcOutUnass = mbltStation.getRpcOutUnassociatedStubs();
+//     const TriggerPrimitiveList & rpcInUnass = mbltStation.getRpcInUnassociatedStubs();
+//     const TriggerPrimitiveList & rpcOutUnass = mbltStation.getRpcOutUnassociatedStubs();
 
 //     size_t rpcInUSize = rpcInUnass.size();
 //     size_t rpcOutUsize = rpcOutUnass.size();
@@ -372,13 +373,13 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
 //     for ( size_t in = 0; in < rpcInUSize; ++in ) {
 //     for ( size_t out = 0; out < rpcOutUSize; ++out ) {
 
-    const std::vector< std::pair< L1TwinMux::TriggerPrimitiveList, L1TwinMux::TriggerPrimitiveList > >
+    const std::vector< std::pair< TriggerPrimitiveList, TriggerPrimitiveList > >
       rpcPairList = mbltStation.getUnassociatedRpcClusters( 0.05 );
     auto rpcPair = rpcPairList.cbegin();
     auto rpcPairEnd = rpcPairList.cend();
     for ( ; rpcPair != rpcPairEnd; ++ rpcPair ) {
-      const L1TwinMux::TriggerPrimitiveList & inRpc = rpcPair->first;
-      const L1TwinMux::TriggerPrimitiveList & outRpc = rpcPair->second;
+      const TriggerPrimitiveList & inRpc = rpcPair->first;
+      const TriggerPrimitiveList & outRpc = rpcPair->second;
 
       if ( inRpc.empty() && outRpc.empty() ) continue;
 
@@ -416,8 +417,8 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
           }
         }
 
-	// const L1TwinMux::TriggerPrimitive & rpc = (*inRpc.at(inPos));
-	L1TwinMux::TriggerPrimitive rpc = (*inRpc.at(inPos));
+	// const TriggerPrimitive & rpc = (*inRpc.at(inPos));
+	TriggerPrimitive rpc = (*inRpc.at(inPos));
 	rpc.setCMSGlobalPhi( avPhiIn );
         station = rpc.detId<RPCDetId>().station();
         sector  = rpc.detId<RPCDetId>().sector();
@@ -451,8 +452,8 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
             minDist = dist;
           }
         }
-        // const L1TwinMux::TriggerPrimitive & rpc = (*outRpc.at(outPos));
-	L1TwinMux::TriggerPrimitive rpc = (*outRpc.at(outPos));
+        // const TriggerPrimitive & rpc = (*outRpc.at(outPos));
+	TriggerPrimitive rpc = (*outRpc.at(outPos));
 	rpc.setCMSGlobalPhi( avPhiOut );
         station = rpc.detId<RPCDetId>().station();
         sector  = rpc.detId<RPCDetId>().sector();
@@ -477,9 +478,9 @@ inline std::auto_ptr<L1MuDTChambPhContainer> L1ITMuonBarrelPrimitiveProducer::pr
 //             }
 //           }
 //         }
-//         const L1TwinMux::TriggerPrimitive & rpc_in = (*inRpc.at(inPos));
+//         const TriggerPrimitive & rpc_in = (*inRpc.at(inPos));
 
-//         const L1TwinMux::TriggerPrimitive & rpc_out = (*outRpc.at(outPos));
+//         const TriggerPrimitive & rpc_out = (*outRpc.at(outPos));
 //         station = rpc_in.detId<RPCDetId>().station();
 //         sector  = rpc_in.detId<RPCDetId>().sector();
 //         wheel = rpc_in.detId<RPCDetId>().ring();

@@ -19,6 +19,8 @@
 #include "DataFormats/GeometryVector/interface/GlobalPoint.h"
 #include <memory>
 
+#include "MuonTriggerPrimitive.h"
+
 // forwards
 namespace edm {  
   class EventSetup;
@@ -30,7 +32,6 @@ class CSCLayer;
 class DTGeometry;
 
 namespace L1TMuon{
-  class TriggerPrimitive;
 
   class GeometryTranslator {
   public:

@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollectorFactory.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/SubsystemCollectorFactory.h"
 
 using namespace L1TMuon;
 

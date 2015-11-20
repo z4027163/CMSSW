@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonBarrel/src/Twinmux_v1/RPCCollector.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/RPCCollector.h"
 #include "DataFormats/RPCDigi/interface/RPCDigi.h"
 #include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
 #include "DataFormats/MuonDetId/interface/RPCDetId.h"
@@ -7,16 +7,19 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 
-using namespace L1TwinMux;
+using namespace L1TMuon;
 
-RPCCollector::RPCCollector( )
-{
+RPCCollector::RPCCollector( const edm::ParameterSet& ps ):
+  SubsystemCollector(ps) {
 }
 
 void RPCCollector::
-extractPrimitives(edm::Handle<RPCDigiCollection> rpcDigis,
+extractPrimitives(const edm::Event& ev, 
+		  const edm::EventSetup& es, 
 		  std::vector<TriggerPrimitive>& out) const {
-
+  edm::Handle<RPCDigiCollection> rpcDigis;  
+  ev.getByLabel(_src,rpcDigis);
+  
   auto chamber = rpcDigis->begin();
   auto chend  = rpcDigis->end();
   for( ; chamber != chend; ++chamber ) {
@@ -28,7 +31,8 @@ extractPrimitives(edm::Handle<RPCDigiCollection> rpcDigis,
 				     (*chamber).first.layer(),
 				     digi->bx()));
     }
-  }
+  }  
 }
 
-
+#include "L1Trigger/L1TMuon/interface/deprecate/SubsystemCollectorFactory.h"
+DEFINE_EDM_PLUGIN( SubsystemCollectorFactory, RPCCollector, "RPCCollector");

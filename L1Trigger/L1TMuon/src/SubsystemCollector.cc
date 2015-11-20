@@ -1,4 +1,4 @@
-#include "L1Trigger/L1TMuonEndCap/interface/SubsystemCollector.h"
+#include "L1Trigger/L1TMuon/interface/deprecate/SubsystemCollector.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
 using namespace L1TMuon;
