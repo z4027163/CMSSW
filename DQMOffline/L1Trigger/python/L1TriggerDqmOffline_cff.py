@@ -47,6 +47,8 @@ from DQMOffline.L1Trigger.L1TSync_Offline_cfi import *
 from DQMOffline.L1Trigger.L1TEmulatorMonitorOffline_cff import *  
 l1TdeRCT.rctSourceData = 'gctDigis'
 
+from DQM.L1TMonitor.L1TMonitor_cff import *
+
 # DQM Offline Step 2 cfi/cff imports
 from DQMOffline.L1Trigger.L1TEmulatorMonitorClientOffline_cff import *
 from DQMOffline.L1Trigger.L1TEmulatorMonitorClientOffline_cff import *
@@ -126,12 +128,27 @@ eras.stage1L1Trigger.toModify(l1compareforstage1, stage1_layer2_ = cms.bool(True
 
 eras.stage1L1Trigger.toModify(valStage1GtDigis, GctInputTag = 'caloStage1LegacyFormatDigis')
 
+##Stage 2
+
+from DQM.L1TMonitor.L1TStage2_cff import *
+
+stage2UnpackPath = cms.Sequence(
+     l1tCaloLayer1Digis *
+     caloStage2Digis *
+     gmtStage2Digis *
+     gtStage2Digis *
+     BMTFStage2Digis *
+     emtfStage2Digis
+)
+
 #
 # define sequences 
 #
 
 l1TriggerOnline = cms.Sequence(
-                               l1tMonitorStage1Online
+            #                   l1tMonitorStage1Online *
+                                 stage2UnpackPath
+                                * l1tStage2online
                                 * dqmEnvL1T
                                )
                                     
