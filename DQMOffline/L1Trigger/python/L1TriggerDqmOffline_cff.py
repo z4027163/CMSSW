@@ -44,24 +44,23 @@ dqmEnvL1TEMU = DQMServices.Components.DQMEnvironment_cfi.dqmEnv.clone()
 dqmEnvL1TEMU.subSystemFolder = 'L1T2016EMU'
 
 # DQM Offline Step 1 cfi/cff imports
-from DQMOffline.L1Trigger.L1TRate_Offline_cfi import *
-from DQMOffline.L1Trigger.L1TSync_Offline_cfi import *
-from DQMOffline.L1Trigger.L1TEmulatorMonitorOffline_cff import *  
-l1TdeRCT.rctSourceData = 'gctDigis'
+#from DQMOffline.L1Trigger.L1TRate_Offline_cfi import *
+#from DQMOffline.L1Trigger.L1TSync_Offline_cfi import *
+#from DQMOffline.L1Trigger.L1TEmulatorMonitorOffline_cff import *  
+#l1TdeRCT.rctSourceData = 'gctDigis'
 
 from DQM.L1TMonitor.L1TMonitor_cff import *
 
 # DQM Offline Step 2 cfi/cff imports
 from DQMOffline.L1Trigger.L1TEmulatorMonitorClientOffline_cff import *
-from DQMOffline.L1Trigger.L1TEmulatorMonitorClientOffline_cff import *
 
 
 # Stage1 customization
-l1TdeRCT.rctSourceData = 'gctDigis'
-l1TdeRCTfromRCT.rctSourceData = 'gctDigis'
-l1tRct.rctSource = 'gctDigis'
-l1tRctfromRCT.rctSource = 'gctDigis'
-l1tPUM.regionSource = cms.InputTag("gctDigis")
+#l1TdeRCT.rctSourceData = 'gctDigis'
+#l1TdeRCTfromRCT.rctSourceData = 'gctDigis'
+#l1tRct.rctSource = 'gctDigis'
+#l1tRctfromRCT.rctSource = 'gctDigis'
+#l1tPUM.regionSource = cms.InputTag("gctDigis")
 
 
 #l1compareforstage1.GCTsourceData = cms.InputTag("gctDigis")
@@ -73,6 +72,20 @@ l1tPUM.regionSource = cms.InputTag("gctDigis")
 from Configuration.StandardSequences.Eras import eras
 
 
+#### Test Add
+# Filter fat events
+#from HLTrigger.HLTfilters.hltHighLevel_cfi import hltHighLevel
+#hltFatEventFilter = hltHighLevel.clone()
+#hltFatEventFilter.throw = cms.bool(False)
+#hltFatEventFilter.HLTPaths = cms.vstring('HLT_L1FatEvents_v*')
+
+#selfFatEventFilter = cms.EDFilter("HLTL1NumberFilter",
+#        invert = cms.bool(False),
+#        period = cms.uint32(107),
+#        rawInput = cms.InputTag("rawDataCollector"),
+#        fedId = cms.int32(1024)
+#        )
+
 
 
 ##Stage 2
@@ -82,7 +95,8 @@ from DQM.L1TMonitor.L1TStage2_cff import *
 stage2UnpackPath = cms.Sequence(
      l1tCaloLayer1Digis +
      caloStage2Digis +
-     BMTFStage2Digis
+     bmtfDigis  +
+#     BMTFStage2Digis +
      emtfStage2Digis +
      gmtStage2Digis +
      gtStage2Digis 
@@ -91,12 +105,12 @@ stage2UnpackPath = cms.Sequence(
 ##Stage 2 Emulator
 
 from DQM.L1TMonitor.L1TStage2Emulator_cff import *
-l1tEmulatorMonitorPath = cms.Sequence(
-#    hltFatEventFilter +
-    l1tStage2Unpack  +
-    Stage2L1HardwareValidation +
-    l1tStage2EmulatorOnlineDQM
-)
+#l1tEmulatorMonitorPath = cms.Sequence(
+##    hltFatEventFilter +
+#    l1tStage2Unpack  +
+#    Stage2L1HardwareValidation +
+#    l1tStage2EmulatorOnlineDQM
+#)
 
 
 
@@ -118,8 +132,11 @@ l1TriggerOffline = cms.Sequence(
 #
  
 l1TriggerEmulatorOnline = cms.Sequence(
-                                l1Stage1HwValEmulatorMonitor
-                                * dqmEnvL1TEMU
+
+#                                l1Stage1HwValEmulatorMonitor
+                                 Stage2L1HardwareValidation +
+                                 l1tStage2EmulatorOnlineDQM +
+                                 dqmEnvL1TEMU
                                 )
 
 l1TriggerEmulatorOffline = cms.Sequence(
@@ -130,15 +147,17 @@ l1TriggerEmulatorOffline = cms.Sequence(
 # DQM Offline Step 1 sequence
 l1TriggerDqmOffline = cms.Sequence(
                                 l1TriggerOffline
-                                * l1tRate_Offline
-                                * l1tSync_Offline
+ #                               * l1tRate_Offline
+  #                              * l1tSync_Offline
                                 * l1TriggerEmulatorOffline
                                 )                                  
 
 # DQM Offline Step 2 sequence                                 
 l1TriggerDqmOfflineClient = cms.Sequence(
-                                l1tMonitorStage1Client
-                                * l1EmulatorMonitorClient
+                           #     l1tMonitorStage1Client
+                                l1tStage2EmulatorMonitorClient
+                                * l1tStage2MonitorClient
+                           #      * l1EmulatorMonitorClient
                                 )
 
 
