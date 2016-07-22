@@ -120,6 +120,7 @@ from DQM.L1TMonitor.L1TStage2Emulator_cff import *
 
 l1TriggerOnline = cms.Sequence(
                                  stage2UnpackPath
+                                * Stage2L1HardwareValidation
                                 * l1tStage2online
                                 * dqmEnvL1T
                                )
