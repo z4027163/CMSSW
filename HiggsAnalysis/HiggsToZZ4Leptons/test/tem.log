@@ -7,17 +7,17 @@ hoho
 
 Warning in <TInterpreter::ReadRootmapFile>: class  edm::ValueMap<float> found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
 Warning in <TInterpreter::ReadRootmapFile>: class  edm::Wrapper<edm::ValueMap<float> > found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
-26-Aug-2016 12:36:34 CDT  Initiating request to open file root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root
-%MSG-w XrdAdaptor:  file_open 26-Aug-2016 12:36:35 CDT pre-events
-Data is served from T2_US_Wisconsin instead of original site CERN-PROD
+26-Aug-2016 14:01:42 CDT  Initiating request to open file root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root
+%MSG-w XrdAdaptor:  file_open 26-Aug-2016 14:01:44 CDT pre-events
+Data is served from T2_US_Florida instead of original site CERN-PROD
 %MSG
-26-Aug-2016 12:36:36 CDT  Successfully opened file root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root
+26-Aug-2016 14:01:45 CDT  Successfully opened file root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root
 [STATUS] Reading energy scale correction  values from file: EgammaAnalysis/ElectronTools/data/76X_16DecRereco_2015_scales.dat
 Reading parameters from cfg
 Filling a ROOT tree for offline selection
 Input Filename is=root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root
 Input Filename is=root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root
-Begin processing the 1st record. Run 1, Event 51106901, LumiSection 511070 at 26-Aug-2016 12:37:12.583 CDT
+Begin processing the 1st record. Run 1, Event 51106901, LumiSection 511070 at 26-Aug-2016 14:02:23.844 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 10.4253 Corrected Muon pT= 10.4127 and pT error= 0.113845
 Muon pT= 4.4282 Corrected Muon pT= 4.42804 and pT error= 0.223018
@@ -234,7 +234,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.5923
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.5923
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.5923
-Begin processing the 2nd record. Run 1, Event 51106904, LumiSection 511070 at 26-Aug-2016 12:37:20.275 CDT
+Begin processing the 2nd record. Run 1, Event 51106904, LumiSection 511070 at 26-Aug-2016 14:02:30.618 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.03938 Corrected Muon pT= 1.04153 and pT error= 0.0224682
 Muon pT= 0.94157 Corrected Muon pT= 0.944045 and pT error= 0.0208295
@@ -420,7 +420,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.6052
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.6052
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.6052
-Begin processing the 3rd record. Run 1, Event 51106905, LumiSection 511070 at 26-Aug-2016 12:37:20.294 CDT
+Begin processing the 3rd record. Run 1, Event 51106905, LumiSection 511070 at 26-Aug-2016 14:02:30.637 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 29.4613 Corrected Muon pT= 29.35 and pT error= 0.874496
 Selected a muon with pT= 29.4613
@@ -566,7 +566,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.8307
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.8307
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.8307
-Begin processing the 4th record. Run 1, Event 51106913, LumiSection 511070 at 26-Aug-2016 12:37:20.305 CDT
+Begin processing the 4th record. Run 1, Event 51106913, LumiSection 511070 at 26-Aug-2016 14:02:30.648 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.245245 0.395707 7.12047
@@ -691,7 +691,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.9771
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.9771
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.9771
-Begin processing the 5th record. Run 1, Event 51106917, LumiSection 511070 at 26-Aug-2016 12:37:20.310 CDT
+Begin processing the 5th record. Run 1, Event 51106917, LumiSection 511070 at 26-Aug-2016 14:02:30.654 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.00699 Corrected Muon pT= 1.00847 and pT error= 0.0265006
 Selected a muon with pT= 1.00699
@@ -789,7 +789,7 @@ Btag test
  Jet 1 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.5373
  Jet 1 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.5373
  Jet 1 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.5373
-Begin processing the 6th record. Run 1, Event 51106918, LumiSection 511070 at 26-Aug-2016 12:37:20.323 CDT
+Begin processing the 6th record. Run 1, Event 51106918, LumiSection 511070 at 26-Aug-2016 14:02:30.667 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 55.8421 Corrected Muon pT= 55.6736 and pT error= 2.95626
 Muon pT= 7.61559 Corrected Muon pT= 7.60815 and pT error= 0.0836796
@@ -933,7 +933,7 @@ Btag test
  Jet 1 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 45.7712
  Jet 1 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 45.7712
  Jet 1 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 45.7712
-Begin processing the 7th record. Run 1, Event 51106920, LumiSection 511070 at 26-Aug-2016 12:37:20.341 CDT
+Begin processing the 7th record. Run 1, Event 51106920, LumiSection 511070 at 26-Aug-2016 14:02:30.685 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1:HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon22_AND_HE10_R9Id65_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.06837 Corrected Muon pT= 1.07073 and pT error= 0.0231383
 Selected a muon with pT= 1.06837
@@ -1048,7 +1048,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.5471
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.5471
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.5471
-Begin processing the 8th record. Run 1, Event 51106924, LumiSection 511070 at 26-Aug-2016 12:37:20.352 CDT
+Begin processing the 8th record. Run 1, Event 51106924, LumiSection 511070 at 26-Aug-2016 14:02:30.696 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 4.43618 Corrected Muon pT= 4.4318 and pT error= 0.0931762
 Selected a muon with pT= 4.43618
@@ -1195,7 +1195,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.4731
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.4731
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.4731
-Begin processing the 9th record. Run 1, Event 51106927, LumiSection 511070 at 26-Aug-2016 12:37:20.362 CDT
+Begin processing the 9th record. Run 1, Event 51106927, LumiSection 511070 at 26-Aug-2016 14:02:30.707 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.4124 Corrected Muon pT= 1.41424 and pT error= 0.0378187
 Muon pT= 1.337 Corrected Muon pT= 1.33841 and pT error= 0.0256695
@@ -1323,7 +1323,7 @@ Btag test
  Jet 1 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 36.2429
  Jet 1 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 36.2429
  Jet 1 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 36.2429
-Begin processing the 10th record. Run 1, Event 51106935, LumiSection 511070 at 26-Aug-2016 12:37:20.377 CDT
+Begin processing the 10th record. Run 1, Event 51106935, LumiSection 511070 at 26-Aug-2016 14:02:30.723 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_L2DoubleMu38_NoVertex_2Cha_Angle2p5_Mass10_v1:HLT_L2DoubleMu28_NoVertex_2Cha_Angle2p5_Mass10_v1:HLT_L2DoubleMu23_NoVertex_v1:HLT_ReducedIterativeTracking_v1:HLT_DoubleMu38NoFiltersNoVtx_v1:HLT_DoubleMu33NoFiltersNoVtx_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 45.1227 Corrected Muon pT= 45.0479 and pT error= 1.02898
 Muon pT= 44.1411 Corrected Muon pT= 44.1607 and pT error= 0.970858
@@ -1468,7 +1468,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.055
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.055
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.055
-Begin processing the 11th record. Run 1, Event 51106936, LumiSection 511070 at 26-Aug-2016 12:37:20.400 CDT
+Begin processing the 11th record. Run 1, Event 51106936, LumiSection 511070 at 26-Aug-2016 14:02:30.750 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.24295 0.391046 2.09815
@@ -1619,7 +1619,7 @@ Btag test
  Jet 11 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.0834
  Jet 11 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.0834
  Jet 11 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.0834
-Begin processing the 12th record. Run 1, Event 51106939, LumiSection 511070 at 26-Aug-2016 12:37:20.408 CDT
+Begin processing the 12th record. Run 1, Event 51106939, LumiSection 511070 at 26-Aug-2016 14:02:30.762 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 226.393 Corrected Muon pT= 224.984 and pT error= 207.048
 Muon pT= 7.13593 Corrected Muon pT= 7.13564 and pT error= 0.400237
@@ -1788,7 +1788,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.3356
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.3356
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.3356
-Begin processing the 13th record. Run 1, Event 51106940, LumiSection 511070 at 26-Aug-2016 12:37:20.463 CDT
+Begin processing the 13th record. Run 1, Event 51106940, LumiSection 511070 at 26-Aug-2016 14:02:30.831 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.240058 0.384873 -6.29151
@@ -1903,7 +1903,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.147
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.147
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.147
-Begin processing the 14th record. Run 1, Event 51106944, LumiSection 511070 at 26-Aug-2016 12:37:20.469 CDT
+Begin processing the 14th record. Run 1, Event 51106944, LumiSection 511070 at 26-Aug-2016 14:02:30.840 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 2.07518 Corrected Muon pT= 2.07364 and pT error= 0.062241
 Selected a muon with pT= 2.07518
@@ -2015,7 +2015,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.3102
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.3102
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.3102
-Begin processing the 15th record. Run 1, Event 51106953, LumiSection 511070 at 26-Aug-2016 12:37:20.477 CDT
+Begin processing the 15th record. Run 1, Event 51106953, LumiSection 511070 at 26-Aug-2016 14:02:30.849 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.248752 0.394633 -0.562819
@@ -2131,7 +2131,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.978
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.978
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.978
-Begin processing the 16th record. Run 1, Event 51106959, LumiSection 511070 at 26-Aug-2016 12:37:20.489 CDT
+Begin processing the 16th record. Run 1, Event 51106959, LumiSection 511070 at 26-Aug-2016 14:02:30.862 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.13549 Corrected Muon pT= 1.13736 and pT error= 0.0281454
 Selected a muon with pT= 1.13549
@@ -2286,7 +2286,7 @@ Btag test
  Jet 10 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.0398
  Jet 10 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.0398
  Jet 10 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.0398
-Begin processing the 17th record. Run 1, Event 51106963, LumiSection 511070 at 26-Aug-2016 12:37:20.500 CDT
+Begin processing the 17th record. Run 1, Event 51106963, LumiSection 511070 at 26-Aug-2016 14:02:30.873 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon22_AND_HE10_R9Id65_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.243868 0.392116 8.09916
@@ -2395,7 +2395,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.7805
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.7805
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.7805
-Begin processing the 18th record. Run 1, Event 51106968, LumiSection 511070 at 26-Aug-2016 12:37:20.506 CDT
+Begin processing the 18th record. Run 1, Event 51106968, LumiSection 511070 at 26-Aug-2016 14:02:30.879 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_L2DoubleMu28_NoVertex_2Cha_Angle2p5_Mass10_v1:HLT_L2DoubleMu23_NoVertex_v1:HLT_ReducedIterativeTracking_v1:HLT_DoubleMu38NoFiltersNoVtx_v1:HLT_DoubleMu33NoFiltersNoVtx_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 41.3726 Corrected Muon pT= 41.3273 and pT error= 0.419723
 Muon pT= 40.0017 Corrected Muon pT= 39.9492 and pT error= 0.719835
@@ -2548,7 +2548,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.1268
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.1268
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.1268
-Begin processing the 19th record. Run 1, Event 51106969, LumiSection 511070 at 26-Aug-2016 12:37:20.521 CDT
+Begin processing the 19th record. Run 1, Event 51106969, LumiSection 511070 at 26-Aug-2016 14:02:30.894 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 21.1011 Corrected Muon pT= 21.0797 and pT error= 0.372873
 Muon pT= 15.5166 Corrected Muon pT= 15.4935 and pT error= 0.467462
@@ -2715,7 +2715,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.3156
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.3156
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.3156
-Begin processing the 20th record. Run 1, Event 51106971, LumiSection 511070 at 26-Aug-2016 12:37:20.537 CDT
+Begin processing the 20th record. Run 1, Event 51106971, LumiSection 511070 at 26-Aug-2016 14:02:30.910 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Photon155_v1:HLT_DoublePhoton85_v1:HLT_Ele95_CaloIdVT_GsfTrkIdT_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1:HLT_Photon160_VBF_v1:HLT_Photon150_VBF_v1:HLT_Photon135_VBF_v1:HLT_Photon90_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon75_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon50_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon160_PFMET40_v1:HLT_Photon150_PFMET40_v1:HLT_Photon135_PFMET40_v1:HLT_Photon90_R9Id90_HE10_Iso40_EBOnly_PFMET40_v1:HLT_Photon75_R9Id90_HE10_Iso40_EBOnly_PFMET40_v1:HLT_Photon50_R9Id90_HE10_Iso40_EBOnly_PFMET40_v1:HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_PFMET40_v1:HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_PFMET40_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_PFJet260_v1:HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon22_AND_HE10_R9Id65_v1:HLT_Photon36_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon18_AND_HE10_R9Id65_Mass95_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 7.37867 Corrected Muon pT= 7.35917 and pT error= 0.827228
 Muon pT= 2.04698 Corrected Muon pT= 2.04491 and pT error= 0.0617309
@@ -2869,7 +2869,7 @@ Btag test
  Jet 7 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.3938
  Jet 7 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.3938
  Jet 7 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.3938
-Begin processing the 21st record. Run 1, Event 51106974, LumiSection 511070 at 26-Aug-2016 12:37:20.560 CDT
+Begin processing the 21st record. Run 1, Event 51106974, LumiSection 511070 at 26-Aug-2016 14:02:30.934 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 0.972467 Corrected Muon pT= 0.973893 and pT error= 0.0273874
 Selected a muon with pT= 0.972467
@@ -3025,7 +3025,7 @@ Btag test
  Jet 11 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.9193
  Jet 11 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.9193
  Jet 11 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.9193
-Begin processing the 22nd record. Run 1, Event 51106975, LumiSection 511070 at 26-Aug-2016 12:37:20.979 CDT
+Begin processing the 22nd record. Run 1, Event 51106975, LumiSection 511070 at 26-Aug-2016 14:02:32.407 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.243096 0.396834 -2.27988
@@ -3151,7 +3151,7 @@ Btag test
  Jet 7 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.2661
  Jet 7 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.2661
  Jet 7 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.2661
-Begin processing the 23rd record. Run 1, Event 51106979, LumiSection 511070 at 26-Aug-2016 12:37:20.986 CDT
+Begin processing the 23rd record. Run 1, Event 51106979, LumiSection 511070 at 26-Aug-2016 14:02:32.418 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.243989 0.390106 12.1815
@@ -3256,7 +3256,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.3021
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.3021
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.3021
-Begin processing the 24th record. Run 1, Event 51106981, LumiSection 511070 at 26-Aug-2016 12:37:20.991 CDT
+Begin processing the 24th record. Run 1, Event 51106981, LumiSection 511070 at 26-Aug-2016 14:02:32.425 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.12961 Corrected Muon pT= 1.13019 and pT error= 0.0863173
 Selected a muon with pT= 1.12961
@@ -3421,7 +3421,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.2743
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.2743
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.2743
-Begin processing the 25th record. Run 1, Event 51106982, LumiSection 511070 at 26-Aug-2016 12:37:21.001 CDT
+Begin processing the 25th record. Run 1, Event 51106982, LumiSection 511070 at 26-Aug-2016 14:02:32.441 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.12944 Corrected Muon pT= 1.13008 and pT error= 0.0317995
 Muon pT= 1.01844 Corrected Muon pT= 1.01947 and pT error= 0.0323088
@@ -3570,7 +3570,7 @@ Btag test
  Jet 10 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.0172
  Jet 10 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.0172
  Jet 10 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.0172
-Begin processing the 26th record. Run 1, Event 51106989, LumiSection 511070 at 26-Aug-2016 12:37:21.021 CDT
+Begin processing the 26th record. Run 1, Event 51106989, LumiSection 511070 at 26-Aug-2016 14:02:32.465 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 7.64542 Corrected Muon pT= 7.64462 and pT error= 0.585005
 Muon pT= 0.857452 Corrected Muon pT= 0.860274 and pT error= 0.0200687
@@ -3704,7 +3704,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.7613
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.7613
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.7613
-Begin processing the 27th record. Run 1, Event 51106992, LumiSection 511070 at 26-Aug-2016 12:37:21.033 CDT
+Begin processing the 27th record. Run 1, Event 51106992, LumiSection 511070 at 26-Aug-2016 14:02:32.476 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 17.2519 Corrected Muon pT= 17.2255 and pT error= 0.355788
 Selected a muon with pT= 17.2519
@@ -3823,7 +3823,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.5814
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.5814
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.5814
-Begin processing the 28th record. Run 1, Event 51106993, LumiSection 511070 at 26-Aug-2016 12:37:21.040 CDT
+Begin processing the 28th record. Run 1, Event 51106993, LumiSection 511070 at 26-Aug-2016 14:02:32.484 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 0.847576 Corrected Muon pT= 0.849068 and pT error= 0.0250439
 Selected a muon with pT= 0.847576
@@ -3958,7 +3958,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.3748
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.3748
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.3748
-Begin processing the 29th record. Run 1, Event 51106996, LumiSection 511070 at 26-Aug-2016 12:37:21.050 CDT
+Begin processing the 29th record. Run 1, Event 51106996, LumiSection 511070 at 26-Aug-2016 14:02:32.494 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 26.3688 Corrected Muon pT= 26.3383 and pT error= 0.321973
 Muon pT= 22.3496 Corrected Muon pT= 22.3232 and pT error= 0.456195
@@ -4111,7 +4111,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.3423
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.3423
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.3423
-Begin processing the 30th record. Run 1, Event 51106999, LumiSection 511070 at 26-Aug-2016 12:37:21.064 CDT
+Begin processing the 30th record. Run 1, Event 51106999, LumiSection 511070 at 26-Aug-2016 14:02:32.509 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 46.9004 Corrected Muon pT= 46.8254 and pT error= 0.72799
 Selected a muon with pT= 46.9004
@@ -4241,7 +4241,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.2957
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.2957
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.2957
-Begin processing the 31st record. Run 1, Event 51107000, LumiSection 511070 at 26-Aug-2016 12:37:21.078 CDT
+Begin processing the 31st record. Run 1, Event 51107000, LumiSection 511070 at 26-Aug-2016 14:02:32.523 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 0.760294 Corrected Muon pT= 0.762553 and pT error= 0.0215557
 Selected a muon with pT= 0.760294
@@ -4352,7 +4352,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.6824
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.6824
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.6824
-Begin processing the 32nd record. Run 1, Event 51107001, LumiSection 511071 at 26-Aug-2016 12:37:21.093 CDT
+Begin processing the 32nd record. Run 1, Event 51107001, LumiSection 511071 at 26-Aug-2016 14:02:32.539 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 12.3861 Corrected Muon pT= 12.365 and pT error= 0.259272
 Muon pT= 3.77624 Corrected Muon pT= 3.77397 and pT error= 0.217327
@@ -4497,7 +4497,7 @@ Btag test
  Jet 1 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 19.9953
  Jet 1 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 19.9953
  Jet 1 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 19.9953
-Begin processing the 33rd record. Run 1, Event 51107002, LumiSection 511071 at 26-Aug-2016 12:37:21.110 CDT
+Begin processing the 33rd record. Run 1, Event 51107002, LumiSection 511071 at 26-Aug-2016 14:02:32.560 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon22_AND_HE10_R9Id65_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.1701 Corrected Muon pT= 1.17022 and pT error= 0.0570636
 Selected a muon with pT= 1.1701
@@ -4633,7 +4633,7 @@ Btag test
  Jet 7 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.1934
  Jet 7 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.1934
  Jet 7 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.1934
-Begin processing the 34th record. Run 1, Event 51107004, LumiSection 511071 at 26-Aug-2016 12:37:21.120 CDT
+Begin processing the 34th record. Run 1, Event 51107004, LumiSection 511071 at 26-Aug-2016 14:02:32.576 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.242127 0.39403 -0.212469
@@ -4765,7 +4765,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.3409
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.3409
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.3409
-Begin processing the 35th record. Run 1, Event 51107005, LumiSection 511071 at 26-Aug-2016 12:37:21.126 CDT
+Begin processing the 35th record. Run 1, Event 51107005, LumiSection 511071 at 26-Aug-2016 14:02:32.585 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 0.777929 Corrected Muon pT= 0.780072 and pT error= 0.0213182
 Selected a muon with pT= 0.777929
@@ -4888,7 +4888,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.9022
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.9022
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.9022
-Begin processing the 36th record. Run 1, Event 51107015, LumiSection 511071 at 26-Aug-2016 12:37:21.139 CDT
+Begin processing the 36th record. Run 1, Event 51107015, LumiSection 511071 at 26-Aug-2016 14:02:32.604 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 44.7404 Corrected Muon pT= 44.6362 and pT error= 0.663846
 Muon pT= 1.83975 Corrected Muon pT= 1.83956 and pT error= 0.048982
@@ -5088,7 +5088,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.6452
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.6452
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.6452
-Begin processing the 37th record. Run 1, Event 51107019, LumiSection 511071 at 26-Aug-2016 12:37:21.156 CDT
+Begin processing the 37th record. Run 1, Event 51107019, LumiSection 511071 at 26-Aug-2016 14:02:32.630 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 23.0831 Corrected Muon pT= 23.0249 and pT error= 0.719668
 Muon pT= 0.808117 Corrected Muon pT= 0.809962 and pT error= 0.0234604
@@ -5212,7 +5212,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.8779
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.8779
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.8779
-Begin processing the 38th record. Run 1, Event 51107023, LumiSection 511071 at 26-Aug-2016 12:37:21.169 CDT
+Begin processing the 38th record. Run 1, Event 51107023, LumiSection 511071 at 26-Aug-2016 14:02:32.648 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 3.35831 Corrected Muon pT= 3.35352 and pT error= 0.0995814
 Muon pT= 0.86794 Corrected Muon pT= 0.870913 and pT error= 0.0170408
@@ -5362,7 +5362,7 @@ Btag test
  Jet 7 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.144
  Jet 7 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.144
  Jet 7 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.144
-Begin processing the 39th record. Run 1, Event 51107024, LumiSection 511071 at 26-Aug-2016 12:37:21.183 CDT
+Begin processing the 39th record. Run 1, Event 51107024, LumiSection 511071 at 26-Aug-2016 14:02:32.668 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 20.1096 Corrected Muon pT= 20.1067 and pT error= 0.166904
 Selected a muon with pT= 20.1096
@@ -5572,7 +5572,7 @@ Btag test
  Jet 8 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.2856
  Jet 8 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.2856
  Jet 8 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.2856
-Begin processing the 40th record. Run 1, Event 51107031, LumiSection 511071 at 26-Aug-2016 12:37:21.215 CDT
+Begin processing the 40th record. Run 1, Event 51107031, LumiSection 511071 at 26-Aug-2016 14:02:32.716 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 3.50633 Corrected Muon pT= 3.50105 and pT error= 0.333187
 Muon pT= 1.42991 Corrected Muon pT= 1.4298 and pT error= 0.0400019
@@ -5692,7 +5692,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.042
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.042
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.042
-Begin processing the 41st record. Run 1, Event 51107035, LumiSection 511071 at 26-Aug-2016 12:37:21.232 CDT
+Begin processing the 41st record. Run 1, Event 51107035, LumiSection 511071 at 26-Aug-2016 14:02:32.742 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.244217 0.391267 -1.73182
@@ -5867,7 +5867,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.1176
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.1176
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.1176
-Begin processing the 42nd record. Run 1, Event 51107037, LumiSection 511071 at 26-Aug-2016 12:37:21.240 CDT
+Begin processing the 42nd record. Run 1, Event 51107037, LumiSection 511071 at 26-Aug-2016 14:02:32.753 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_PFMET40_v1:HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_PFMET40_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 7.58166 Corrected Muon pT= 7.56658 and pT error= 5.79076
 Muon pT= 5.92306 Corrected Muon pT= 5.91494 and pT error= 0.123056
@@ -6052,7 +6052,7 @@ Btag test
  Jet 8 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.7787
  Jet 8 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.7787
  Jet 8 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.7787
-Begin processing the 43rd record. Run 1, Event 51107040, LumiSection 511071 at 26-Aug-2016 12:37:21.265 CDT
+Begin processing the 43rd record. Run 1, Event 51107040, LumiSection 511071 at 26-Aug-2016 14:02:32.791 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.247595 0.395755 -2.52406
@@ -6180,7 +6180,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.1399
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.1399
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.1399
-Begin processing the 44th record. Run 1, Event 51107042, LumiSection 511071 at 26-Aug-2016 12:37:21.275 CDT
+Begin processing the 44th record. Run 1, Event 51107042, LumiSection 511071 at 26-Aug-2016 14:02:32.806 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon22_AND_HE10_R9Id65_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.14704 Corrected Muon pT= 1.14777 and pT error= 0.0337902
 Selected a muon with pT= 1.14704
@@ -6298,7 +6298,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.5618
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.5618
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.5618
-Begin processing the 45th record. Run 1, Event 51107045, LumiSection 511071 at 26-Aug-2016 12:37:21.285 CDT
+Begin processing the 45th record. Run 1, Event 51107045, LumiSection 511071 at 26-Aug-2016 14:02:32.820 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 0.95456 Corrected Muon pT= 0.956439 and pT error= 0.0250723
 Muon pT= 0.768933 Corrected Muon pT= 0.770503 and pT error= 0.024094
@@ -6431,7 +6431,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.6008
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.6008
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.6008
-Begin processing the 46th record. Run 1, Event 51107047, LumiSection 511071 at 26-Aug-2016 12:37:21.296 CDT
+Begin processing the 46th record. Run 1, Event 51107047, LumiSection 511071 at 26-Aug-2016 14:02:32.837 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.56635 Corrected Muon pT= 1.56863 and pT error= 0.0302469
 Muon pT= 0.895738 Corrected Muon pT= 0.898093 and pT error= 0.0239214
@@ -6623,7 +6623,7 @@ Btag test
  Jet 7 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.4962
  Jet 7 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.4962
  Jet 7 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.4962
-Begin processing the 47th record. Run 1, Event 51107054, LumiSection 511071 at 26-Aug-2016 12:37:21.311 CDT
+Begin processing the 47th record. Run 1, Event 51107054, LumiSection 511071 at 26-Aug-2016 14:02:32.859 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.247478 0.398819 3.58603
@@ -6779,7 +6779,7 @@ Btag test
  Jet 1 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 21.2006
  Jet 1 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 21.2006
  Jet 1 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 21.2006
-Begin processing the 48th record. Run 1, Event 51107057, LumiSection 511071 at 26-Aug-2016 12:37:21.322 CDT
+Begin processing the 48th record. Run 1, Event 51107057, LumiSection 511071 at 26-Aug-2016 14:02:32.875 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 2.22676 Corrected Muon pT= 2.23009 and pT error= 0.0398904
 Muon pT= 0.727326 Corrected Muon pT= 0.729243 and pT error= 0.0312038
@@ -6908,7 +6908,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.628
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.628
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.628
-Begin processing the 49th record. Run 1, Event 51107060, LumiSection 511071 at 26-Aug-2016 12:37:21.335 CDT
+Begin processing the 49th record. Run 1, Event 51107060, LumiSection 511071 at 26-Aug-2016 14:02:32.895 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 2.15045 Corrected Muon pT= 2.15273 and pT error= 0.0469471
 Selected a muon with pT= 2.15045
@@ -7043,7 +7043,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.6255
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.6255
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.6255
-Begin processing the 50th record. Run 1, Event 51107061, LumiSection 511071 at 26-Aug-2016 12:37:21.346 CDT
+Begin processing the 50th record. Run 1, Event 51107061, LumiSection 511071 at 26-Aug-2016 14:02:32.909 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 0.866325 Corrected Muon pT= 0.868351 and pT error= 0.0246763
 Selected a muon with pT= 0.866325
@@ -7171,7 +7171,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.3755
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.3755
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.3755
-Begin processing the 51st record. Run 1, Event 51107062, LumiSection 511071 at 26-Aug-2016 12:37:21.355 CDT
+Begin processing the 51st record. Run 1, Event 51107062, LumiSection 511071 at 26-Aug-2016 14:02:32.924 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.243744 0.388194 0.19421
@@ -7307,7 +7307,7 @@ Btag test
  Jet 8 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.4904
  Jet 8 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.4904
  Jet 8 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.4904
-Begin processing the 52nd record. Run 1, Event 51107063, LumiSection 511071 at 26-Aug-2016 12:37:21.363 CDT
+Begin processing the 52nd record. Run 1, Event 51107063, LumiSection 511071 at 26-Aug-2016 14:02:32.936 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 85.0372 Corrected Muon pT= 84.9948 and pT error= 2.3389
 Muon pT= 31.3456 Corrected Muon pT= 31.2514 and pT error= 0.630185
@@ -7532,7 +7532,7 @@ Btag test
  Jet 13 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.5427
  Jet 13 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.5427
  Jet 13 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.5427
-Begin processing the 53rd record. Run 1, Event 51107065, LumiSection 511071 at 26-Aug-2016 12:37:21.392 CDT
+Begin processing the 53rd record. Run 1, Event 51107065, LumiSection 511071 at 26-Aug-2016 14:02:32.978 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 22.209 Corrected Muon pT= 22.193 and pT error= 0.375519
 Muon pT= 5.87532 Corrected Muon pT= 5.86573 and pT error= 0.321737
@@ -7684,7 +7684,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 15.3805
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 15.3805
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 15.3805
-Begin processing the 54th record. Run 1, Event 51107067, LumiSection 511071 at 26-Aug-2016 12:37:21.412 CDT
+Begin processing the 54th record. Run 1, Event 51107067, LumiSection 511071 at 26-Aug-2016 14:02:33.007 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.243495 0.394775 -3.55434
@@ -7806,7 +7806,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.8948
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.8948
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.8948
-Begin processing the 55th record. Run 1, Event 51107069, LumiSection 511071 at 26-Aug-2016 12:37:21.418 CDT
+Begin processing the 55th record. Run 1, Event 51107069, LumiSection 511071 at 26-Aug-2016 14:02:33.016 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 31.2162 Corrected Muon pT= 31.1762 and pT error= 0.721511
 Selected a muon with pT= 31.2162
@@ -7935,7 +7935,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.6819
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.6819
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.6819
-Begin processing the 56th record. Run 1, Event 51107076, LumiSection 511071 at 26-Aug-2016 12:37:21.427 CDT
+Begin processing the 56th record. Run 1, Event 51107076, LumiSection 511071 at 26-Aug-2016 14:02:33.030 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 10.9953 Corrected Muon pT= 10.9791 and pT error= 10.2243
 Muon pT= 6.34916 Corrected Muon pT= 6.33502 and pT error= 0.17582
@@ -8087,7 +8087,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 13.0463
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 13.0463
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 13.0463
-Begin processing the 57th record. Run 1, Event 51107078, LumiSection 511071 at 26-Aug-2016 12:37:21.447 CDT
+Begin processing the 57th record. Run 1, Event 51107078, LumiSection 511071 at 26-Aug-2016 14:02:33.060 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 52.4302 Corrected Muon pT= 52.2315 and pT error= 1.31356
 Muon pT= 0.839078 Corrected Muon pT= 0.841972 and pT error= 0.0171438
@@ -8254,7 +8254,7 @@ Btag test
  Jet 7 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.4254
  Jet 7 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.4254
  Jet 7 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.4254
-Begin processing the 58th record. Run 1, Event 51107085, LumiSection 511071 at 26-Aug-2016 12:37:21.466 CDT
+Begin processing the 58th record. Run 1, Event 51107085, LumiSection 511071 at 26-Aug-2016 14:02:33.088 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 2.15786 Corrected Muon pT= 2.15622 and pT error= 0.0572829
 Muon pT= 1.60947 Corrected Muon pT= 1.61075 and pT error= 0.0317231
@@ -8478,7 +8478,7 @@ Btag test
  Jet 13 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.7259
  Jet 13 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.7259
  Jet 13 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.7259
-Begin processing the 59th record. Run 1, Event 51107087, LumiSection 511071 at 26-Aug-2016 12:37:21.482 CDT
+Begin processing the 59th record. Run 1, Event 51107087, LumiSection 511071 at 26-Aug-2016 14:02:33.112 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 3.94717 Corrected Muon pT= 3.93968 and pT error= 0.139427
 Selected a muon with pT= 3.94717
@@ -8607,7 +8607,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.298
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.298
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.298
-Begin processing the 60th record. Run 1, Event 51107088, LumiSection 511071 at 26-Aug-2016 12:37:21.491 CDT
+Begin processing the 60th record. Run 1, Event 51107088, LumiSection 511071 at 26-Aug-2016 14:02:33.126 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 33.9257 Corrected Muon pT= 33.8724 and pT error= 1.19441
 Muon pT= 0.837135 Corrected Muon pT= 0.838719 and pT error= 0.0260575
@@ -8749,7 +8749,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.1476
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.1476
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.1476
-Begin processing the 61st record. Run 1, Event 51107089, LumiSection 511071 at 26-Aug-2016 12:37:21.504 CDT
+Begin processing the 61st record. Run 1, Event 51107089, LumiSection 511071 at 26-Aug-2016 14:02:33.144 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 3.66135 Corrected Muon pT= 3.65771 and pT error= 1.64529
 Selected a muon with pT= 3.66135
@@ -8880,7 +8880,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.8607
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.8607
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.8607
-Begin processing the 62nd record. Run 1, Event 51107093, LumiSection 511071 at 26-Aug-2016 12:37:21.521 CDT
+Begin processing the 62nd record. Run 1, Event 51107093, LumiSection 511071 at 26-Aug-2016 14:02:33.169 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_IsoMu24_eta2p1_IterTrk02_CentralPFJet30_BTagCSV_v1:HLT_IsoMu20_eta2p1_IterTrk02_CentralPFJet30_BTagCSV_v1:HLT_ReducedIterativeTracking_v1:HLT_DoubleMu33NoFiltersNoVtx_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 47.9075 Corrected Muon pT= 47.798 and pT error= 1.20384
 Muon pT= 40.1326 Corrected Muon pT= 40.0261 and pT error= 145.722
@@ -9101,7 +9101,7 @@ Btag test
  Jet 9 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.1049
  Jet 9 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.1049
  Jet 9 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.1049
-Begin processing the 63rd record. Run 1, Event 51107095, LumiSection 511071 at 26-Aug-2016 12:37:21.541 CDT
+Begin processing the 63rd record. Run 1, Event 51107095, LumiSection 511071 at 26-Aug-2016 14:02:33.200 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_DoubleMu38NoFiltersNoVtx_v1:HLT_DoubleMu33NoFiltersNoVtx_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 53.0105 Corrected Muon pT= 52.9456 and pT error= 2.49821
 Muon pT= 39.1958 Corrected Muon pT= 39.1053 and pT error= 0.92172
@@ -9323,7 +9323,7 @@ Btag test
  Jet 8 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.7889
  Jet 8 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.7889
  Jet 8 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.7889
-Begin processing the 64th record. Run 1, Event 51107096, LumiSection 511071 at 26-Aug-2016 12:37:21.565 CDT
+Begin processing the 64th record. Run 1, Event 51107096, LumiSection 511071 at 26-Aug-2016 14:02:33.236 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_L2DoubleMu28_NoVertex_2Cha_Angle2p5_Mass10_v1:HLT_L2DoubleMu23_NoVertex_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 39.4319 Corrected Muon pT= 39.3647 and pT error= 0.827368
 Muon pT= 28.8459 Corrected Muon pT= 28.8287 and pT error= 0.185957
@@ -9481,7 +9481,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.5834
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.5834
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.5834
-Begin processing the 65th record. Run 1, Event 51107099, LumiSection 511071 at 26-Aug-2016 12:37:21.581 CDT
+Begin processing the 65th record. Run 1, Event 51107099, LumiSection 511071 at 26-Aug-2016 14:02:33.260 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.244254 0.395013 -2.53145
@@ -9594,7 +9594,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.6554
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.6554
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.6554
-Begin processing the 66th record. Run 1, Event 51107102, LumiSection 511072 at 26-Aug-2016 12:37:21.594 CDT
+Begin processing the 66th record. Run 1, Event 51107102, LumiSection 511072 at 26-Aug-2016 14:02:33.279 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 7.02483 Corrected Muon pT= 7.01644 and pT error= 0.145006
 Muon pT= 6.33108 Corrected Muon pT= 6.32329 and pT error= 0.650264
@@ -9744,7 +9744,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.2176
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.2176
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.2176
-Begin processing the 67th record. Run 1, Event 51107111, LumiSection 511072 at 26-Aug-2016 12:37:21.609 CDT
+Begin processing the 67th record. Run 1, Event 51107111, LumiSection 511072 at 26-Aug-2016 14:02:33.303 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1:HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 3.95879 Corrected Muon pT= 3.95075 and pT error= 0.444927
 Muon pT= 3.71056 Corrected Muon pT= 3.70631 and pT error= 0.0686848
@@ -9928,7 +9928,7 @@ Btag test
  Jet 8 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.3203
  Jet 8 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.3203
  Jet 8 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.3203
-Begin processing the 68th record. Run 1, Event 51107114, LumiSection 511072 at 26-Aug-2016 12:37:21.623 CDT
+Begin processing the 68th record. Run 1, Event 51107114, LumiSection 511072 at 26-Aug-2016 14:02:33.323 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.70384 Corrected Muon pT= 1.70323 and pT error= 0.0469635
 Muon pT= 1.07422 Corrected Muon pT= 1.07836 and pT error= 0.0260144
@@ -10055,7 +10055,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.838
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.838
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.838
-Begin processing the 69th record. Run 1, Event 51107115, LumiSection 511072 at 26-Aug-2016 12:37:21.637 CDT
+Begin processing the 69th record. Run 1, Event 51107115, LumiSection 511072 at 26-Aug-2016 14:02:33.345 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.35993 Corrected Muon pT= 1.36072 and pT error= 0.0430624
 Selected a muon with pT= 1.35993
@@ -10209,7 +10209,7 @@ Btag test
  Jet 11 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.1153
  Jet 11 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.1153
  Jet 11 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.1153
-Begin processing the 70th record. Run 1, Event 51107119, LumiSection 511072 at 26-Aug-2016 12:37:21.647 CDT
+Begin processing the 70th record. Run 1, Event 51107119, LumiSection 511072 at 26-Aug-2016 14:02:33.360 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 50.0738 Corrected Muon pT= 49.9737 and pT error= 1.12205
 Muon pT= 3.84981 Corrected Muon pT= 3.85051 and pT error= 0.122746
@@ -10347,7 +10347,7 @@ Btag test
  Jet 1 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 15.725
  Jet 1 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 15.725
  Jet 1 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 15.725
-Begin processing the 71st record. Run 1, Event 51107121, LumiSection 511072 at 26-Aug-2016 12:37:21.671 CDT
+Begin processing the 71st record. Run 1, Event 51107121, LumiSection 511072 at 26-Aug-2016 14:02:33.395 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 36.4998 Corrected Muon pT= 36.4967 and pT error= 0.217435
 Muon pT= 33.6512 Corrected Muon pT= 33.6363 and pT error= 0.665073
@@ -10530,7 +10530,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.571
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.571
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.571
-Begin processing the 72nd record. Run 1, Event 51107124, LumiSection 511072 at 26-Aug-2016 12:37:21.686 CDT
+Begin processing the 72nd record. Run 1, Event 51107124, LumiSection 511072 at 26-Aug-2016 14:02:33.418 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 25.2191 Corrected Muon pT= 25.2185 and pT error= 0.292813
 Muon pT= 9.8605 Corrected Muon pT= 9.83483 and pT error= 0.341888
@@ -10690,7 +10690,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.7055
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.7055
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.7055
-Begin processing the 73rd record. Run 1, Event 51107127, LumiSection 511072 at 26-Aug-2016 12:37:21.700 CDT
+Begin processing the 73rd record. Run 1, Event 51107127, LumiSection 511072 at 26-Aug-2016 14:02:33.440 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 74.2538 Corrected Muon pT= 74.1457 and pT error= 1.44143
 Muon pT= 17.3937 Corrected Muon pT= 17.3471 and pT error= 1.12033
@@ -10888,7 +10888,7 @@ Btag test
  Jet 7 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.5127
  Jet 7 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.5127
  Jet 7 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.5127
-Begin processing the 74th record. Run 1, Event 51107133, LumiSection 511072 at 26-Aug-2016 12:37:21.728 CDT
+Begin processing the 74th record. Run 1, Event 51107133, LumiSection 511072 at 26-Aug-2016 14:02:33.482 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 13.7451 Corrected Muon pT= 13.703 and pT error= 2.17953
 Muon pT= 1.17875 Corrected Muon pT= 1.17958 and pT error= 0.03268
@@ -11072,7 +11072,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.7544
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.7544
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.7544
-Begin processing the 75th record. Run 1, Event 51107135, LumiSection 511072 at 26-Aug-2016 12:37:21.746 CDT
+Begin processing the 75th record. Run 1, Event 51107135, LumiSection 511072 at 26-Aug-2016 14:02:33.511 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.242204 0.393878 2.37169
@@ -11213,7 +11213,7 @@ Btag test
  Jet 9 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.8385
  Jet 9 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.8385
  Jet 9 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.8385
-Begin processing the 76th record. Run 1, Event 51107136, LumiSection 511072 at 26-Aug-2016 12:37:21.759 CDT
+Begin processing the 76th record. Run 1, Event 51107136, LumiSection 511072 at 26-Aug-2016 14:02:33.525 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 30.8604 Corrected Muon pT= 30.7631 and pT error= 0.700669
 Muon pT= 27.3488 Corrected Muon pT= 27.3312 and pT error= 0.17589
@@ -11396,7 +11396,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.9718
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.9718
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.9718
-Begin processing the 77th record. Run 1, Event 51107137, LumiSection 511072 at 26-Aug-2016 12:37:21.774 CDT
+Begin processing the 77th record. Run 1, Event 51107137, LumiSection 511072 at 26-Aug-2016 14:02:33.542 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 6.25168 Corrected Muon pT= 6.24943 and pT error= 0.106902
 Selected a muon with pT= 6.25168
@@ -11520,7 +11520,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.8865
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.8865
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.8865
-Begin processing the 78th record. Run 1, Event 51107141, LumiSection 511072 at 26-Aug-2016 12:37:21.783 CDT
+Begin processing the 78th record. Run 1, Event 51107141, LumiSection 511072 at 26-Aug-2016 14:02:33.550 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_Ele32_eta2p1_WP85_Gsf_TriCentralPFJet40_v1:HLT_Ele27_eta2p1_WP85_Gsf_TriCentralPFJet40_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon22_AND_HE10_R9Id65_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 5.05859 Corrected Muon pT= 5.05892 and pT error= 0.285154
 Selected a muon with pT= 5.05859
@@ -11691,7 +11691,7 @@ Btag test
  Jet 11 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.2832
  Jet 11 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.2832
  Jet 11 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.2832
-Begin processing the 79th record. Run 1, Event 51107142, LumiSection 511072 at 26-Aug-2016 12:37:21.821 CDT
+Begin processing the 79th record. Run 1, Event 51107142, LumiSection 511072 at 26-Aug-2016 14:02:33.576 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.249346 0.395285 10.6273
@@ -11799,7 +11799,7 @@ Btag test
  Jet 1 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 30.825
  Jet 1 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 30.825
  Jet 1 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 30.825
-Begin processing the 80th record. Run 1, Event 51107143, LumiSection 511072 at 26-Aug-2016 12:37:21.848 CDT
+Begin processing the 80th record. Run 1, Event 51107143, LumiSection 511072 at 26-Aug-2016 14:02:33.595 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.239724 0.393464 1.452
@@ -11924,7 +11924,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.3248
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.3248
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.3248
-Begin processing the 81st record. Run 1, Event 51107145, LumiSection 511072 at 26-Aug-2016 12:37:21.858 CDT
+Begin processing the 81st record. Run 1, Event 51107145, LumiSection 511072 at 26-Aug-2016 14:02:33.602 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 66.9091 Corrected Muon pT= 66.7659 and pT error= 0.981382
 Muon pT= 11.308 Corrected Muon pT= 11.2932 and pT error= 0.122246
@@ -12079,7 +12079,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.8489
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.8489
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.8489
-Begin processing the 82nd record. Run 1, Event 51107147, LumiSection 511072 at 26-Aug-2016 12:37:21.892 CDT
+Begin processing the 82nd record. Run 1, Event 51107147, LumiSection 511072 at 26-Aug-2016 14:02:33.625 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 2.61125 Corrected Muon pT= 2.61741 and pT error= 0.0490055
 Muon pT= 1.55138 Corrected Muon pT= 1.55483 and pT error= 0.0310265
@@ -12209,7 +12209,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 13.0255
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 13.0255
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 13.0255
-Begin processing the 83rd record. Run 1, Event 51107148, LumiSection 511072 at 26-Aug-2016 12:37:21.915 CDT
+Begin processing the 83rd record. Run 1, Event 51107148, LumiSection 511072 at 26-Aug-2016 14:02:33.641 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.18123 Corrected Muon pT= 1.18546 and pT error= 0.0226671
 Selected a muon with pT= 1.18123
@@ -12337,7 +12337,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.0382
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.0382
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.0382
-Begin processing the 84th record. Run 1, Event 51107151, LumiSection 511072 at 26-Aug-2016 12:37:21.930 CDT
+Begin processing the 84th record. Run 1, Event 51107151, LumiSection 511072 at 26-Aug-2016 14:02:33.651 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 38.6594 Corrected Muon pT= 38.6438 and pT error= 0.463366
 Muon pT= 23.6145 Corrected Muon pT= 23.5425 and pT error= 0.529966
@@ -12505,7 +12505,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 22.6148
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 22.6148
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 22.6148
-Begin processing the 85th record. Run 1, Event 51107152, LumiSection 511072 at 26-Aug-2016 12:37:21.955 CDT
+Begin processing the 85th record. Run 1, Event 51107152, LumiSection 511072 at 26-Aug-2016 14:02:33.668 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.242593 0.389953 6.22891
@@ -12633,7 +12633,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.5886
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.5886
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.5886
-Begin processing the 86th record. Run 1, Event 51107159, LumiSection 511072 at 26-Aug-2016 12:37:21.966 CDT
+Begin processing the 86th record. Run 1, Event 51107159, LumiSection 511072 at 26-Aug-2016 14:02:33.676 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 2.4395 Corrected Muon pT= 2.43785 and pT error= 0.062805
 Muon pT= 1.7674 Corrected Muon pT= 1.77108 and pT error= 0.0346071
@@ -12795,7 +12795,7 @@ Btag test
  Jet 11 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.378
  Jet 11 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.378
  Jet 11 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.378
-Begin processing the 87th record. Run 1, Event 51107161, LumiSection 511072 at 26-Aug-2016 12:37:21.994 CDT
+Begin processing the 87th record. Run 1, Event 51107161, LumiSection 511072 at 26-Aug-2016 14:02:33.695 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 7.26005 Corrected Muon pT= 7.25182 and pT error= 0.478316
 Selected a muon with pT= 7.26005
@@ -12916,7 +12916,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.9424
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.9424
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.9424
-Begin processing the 88th record. Run 1, Event 51107162, LumiSection 511072 at 26-Aug-2016 12:37:22.006 CDT
+Begin processing the 88th record. Run 1, Event 51107162, LumiSection 511072 at 26-Aug-2016 14:02:33.703 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon22_AND_HE10_R9Id65_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 3.01827 Corrected Muon pT= 3.01843 and pT error= 0.155346
 Selected a muon with pT= 3.01827
@@ -13082,7 +13082,7 @@ Btag test
  Jet 10 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.0608
  Jet 10 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.0608
  Jet 10 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.0608
-Begin processing the 89th record. Run 1, Event 51107166, LumiSection 511072 at 26-Aug-2016 12:37:22.025 CDT
+Begin processing the 89th record. Run 1, Event 51107166, LumiSection 511072 at 26-Aug-2016 14:02:33.716 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.05777 Corrected Muon pT= 1.06039 and pT error= 0.0230091
 Selected a muon with pT= 1.05777
@@ -13196,7 +13196,7 @@ Btag test
  Jet 2 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.3186
  Jet 2 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.3186
  Jet 2 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.3186
-Begin processing the 90th record. Run 1, Event 51107169, LumiSection 511072 at 26-Aug-2016 12:37:22.038 CDT
+Begin processing the 90th record. Run 1, Event 51107169, LumiSection 511072 at 26-Aug-2016 14:02:33.725 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 7.60955 Corrected Muon pT= 7.59287 and pT error= 0.215417
 Muon pT= 1.48146 Corrected Muon pT= 1.48286 and pT error= 0.0299479
@@ -13333,7 +13333,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 11.167
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 11.167
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 11.167
-Begin processing the 91st record. Run 1, Event 51107170, LumiSection 511072 at 26-Aug-2016 12:37:22.080 CDT
+Begin processing the 91st record. Run 1, Event 51107170, LumiSection 511072 at 26-Aug-2016 14:02:33.758 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_VBF_v1:HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_PFMET40_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.245193 0.397557 4.73096
@@ -13449,7 +13449,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.3741
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.3741
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.3741
-Begin processing the 92nd record. Run 1, Event 51107183, LumiSection 511072 at 26-Aug-2016 12:37:22.090 CDT
+Begin processing the 92nd record. Run 1, Event 51107183, LumiSection 511072 at 26-Aug-2016 14:02:33.768 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele25WP60_SC4_Mass55_v1:HLT_Ele20WP60_Ele8_Mass55_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1:HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon22_AND_HE10_R9Id65_v1:HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1:HLT_Ele32_eta2p1_WP85_Gsf_v1:HLT_Ele27_eta2p1_WP85_Gsf_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 BeamSpot position: X,Y,Z=0.243996 0.392837 0.381877 0.243996 0.392837 0.381877
 P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.242149 0.397142 5.7648
@@ -13573,7 +13573,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.207
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.207
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.207
-Begin processing the 93rd record. Run 1, Event 51107185, LumiSection 511072 at 26-Aug-2016 12:37:22.100 CDT
+Begin processing the 93rd record. Run 1, Event 51107185, LumiSection 511072 at 26-Aug-2016 14:02:33.778 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.08659 Corrected Muon pT= 1.08849 and pT error= 0.0224494
 Muon pT= 0.746747 Corrected Muon pT= 0.748911 and pT error= 0.0226545
@@ -13761,7 +13761,7 @@ Btag test
  Jet 10 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.1932
  Jet 10 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.1932
  Jet 10 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.1932
-Begin processing the 94th record. Run 1, Event 51107187, LumiSection 511072 at 26-Aug-2016 12:37:22.124 CDT
+Begin processing the 94th record. Run 1, Event 51107187, LumiSection 511072 at 26-Aug-2016 14:02:33.802 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 13.6762 Corrected Muon pT= 13.6396 and pT error= 5.37209
 Muon pT= 0.982814 Corrected Muon pT= 0.984106 and pT error= 0.0356795
@@ -13953,7 +13953,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.4351
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.4351
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.4351
-Begin processing the 95th record. Run 1, Event 51107188, LumiSection 511072 at 26-Aug-2016 12:37:22.149 CDT
+Begin processing the 95th record. Run 1, Event 51107188, LumiSection 511072 at 26-Aug-2016 14:02:33.829 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 1.16215 Corrected Muon pT= 1.16364 and pT error= 0.0341047
 Muon pT= 1.03422 Corrected Muon pT= 1.03842 and pT error= 0.0221429
@@ -14083,7 +14083,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.9906
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.9906
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.9906
-Begin processing the 96th record. Run 1, Event 51107189, LumiSection 511072 at 26-Aug-2016 12:37:22.179 CDT
+Begin processing the 96th record. Run 1, Event 51107189, LumiSection 511072 at 26-Aug-2016 14:02:33.859 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_L2DoubleMu23_NoVertex_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 31.6672 Corrected Muon pT= 31.6382 and pT error= 0.346823
 Muon pT= 30.2988 Corrected Muon pT= 30.2543 and pT error= 0.526633
@@ -14233,7 +14233,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.6008
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.6008
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.6008
-Begin processing the 97th record. Run 1, Event 51107190, LumiSection 511072 at 26-Aug-2016 12:37:22.199 CDT
+Begin processing the 97th record. Run 1, Event 51107190, LumiSection 511072 at 26-Aug-2016 14:02:33.878 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 39.9198 Corrected Muon pT= 39.8432 and pT error= 1.64986
 Muon pT= 1.36477 Corrected Muon pT= 1.36851 and pT error= 0.0274903
@@ -14370,7 +14370,7 @@ Btag test
  Jet 5 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 12.113
  Jet 5 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 12.113
  Jet 5 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 12.113
-Begin processing the 98th record. Run 1, Event 51107191, LumiSection 511072 at 26-Aug-2016 12:37:22.222 CDT
+Begin processing the 98th record. Run 1, Event 51107191, LumiSection 511072 at 26-Aug-2016 14:02:33.901 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_Ele17_Ele12_Ele10_CaloId_TrackId_v1:HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 13.8602 Corrected Muon pT= 13.8485 and pT error= 0.757873
 Muon pT= 1.40024 Corrected Muon pT= 1.40034 and pT error= 0.0393394
@@ -14538,7 +14538,7 @@ Btag test
  Jet 6 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.5464
  Jet 6 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.5464
  Jet 6 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.5464
-Begin processing the 99th record. Run 1, Event 51107196, LumiSection 511072 at 26-Aug-2016 12:37:22.249 CDT
+Begin processing the 99th record. Run 1, Event 51107196, LumiSection 511072 at 26-Aug-2016 14:02:34.155 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:HLT_Mu25_TkMu0_dEta18_Onia_v1:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1:HLT_Mu30_TkMu11_v1:HLT_Mu17_TkMu8_v1:HLT_Mu17_Mu8_v1:HLT_IsoTkMu24_IterTrk02_v1:HLT_IsoMu24_IterTrk02_v1:HLT_IsoTkMu24_eta2p1_IterTrk02_v1:HLT_IsoMu24_eta2p1_IterTrk02_v1:HLT_IsoTkMu20_eta2p1_IterTrk02_v1:HLT_IsoMu20_eta2p1_IterTrk02_v1:HLT_Mu40_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 55.6841 Corrected Muon pT= 55.6128 and pT error= 0.878293
 Muon pT= 29.6203 Corrected Muon pT= 29.5734 and pT error= 1.46289
@@ -14698,7 +14698,7 @@ Btag test
  Jet 4 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 14.1782
  Jet 4 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 14.1782
  Jet 4 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 14.1782
-Begin processing the 100th record. Run 1, Event 51107197, LumiSection 511072 at 26-Aug-2016 12:37:22.281 CDT
+Begin processing the 100th record. Run 1, Event 51107197, LumiSection 511072 at 26-Aug-2016 14:02:34.187 CDT
 HLTFiredString= HLTriggerFinalPath:HLT_Physics_v1:HLT_ZeroBias_v1:HLT_ReducedIterativeTracking_v1:digi2raw_step:L1simulation_step:digitisation_step:generation_step:
 Muon pT= 5.92802 Corrected Muon pT= 5.91969 and pT error= 0.559363
 Muon pT= 1.64977 Corrected Muon pT= 1.64866 and pT error= 0.0497719
@@ -14883,7 +14883,7 @@ Btag test
  Jet 3 has b tag discriminator trackCountingHighEffBJetTags = -1000 and jet Pt = 10.881
  Jet 3 has b tag discriminator trackCountingHighPurBJetTags = -1000 and jet Pt = 10.881
  Jet 3 has b tag discriminator combinedSecondaryVertexBJetTags = -1000 and jet Pt = 10.881
-26-Aug-2016 12:37:22 CDT  Closed file root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root
+26-Aug-2016 14:02:34 CDT  Closed file root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root
 
 TrigReport ---------- Event  Summary ------------
 TrigReport Events total = 100 passed = 100 failed = 0
@@ -15050,20 +15050,20 @@ TrigReport        100        100        100          0          0 hTozzTo4lepton
 TrigReport        100        100        100          0          0 TriggerResults
 
 TimeReport ---------- Event  Summary ---[sec]----
-TimeReport       event loop CPU/event = 0.096086
-TimeReport      event loop Real/event = 0.136606
-TimeReport     sum Streams Real/event = 0.099655
-TimeReport efficiency CPU/Real/thread = 0.703381
+TimeReport       event loop CPU/event = 0.109923
+TimeReport      event loop Real/event = 0.208869
+TimeReport     sum Streams Real/event = 0.110173
+TimeReport efficiency CPU/Real/thread = 0.526275
 
 TimeReport ---------- Path   Summary ---[Real sec]----
 TimeReport  per event     per exec  Name
-TimeReport   0.000071     0.000071  Path_BunchSpacingproducer
-TimeReport   0.000159     0.000159  Flag_HBHENoiseFilter
-TimeReport   0.000004     0.000004  Flag_HBHENoiseIsoFilter
-TimeReport   0.000009     0.000009  Flag_EcalDeadCellTriggerPrimitiveFilter
-TimeReport   0.000183     0.000183  Flag_goodVertices
-TimeReport   0.000102     0.000102  Flag_eeBadScFilter
-TimeReport   0.096029     0.096029  hTozzTo4leptonsSelectionPath
+TimeReport   0.000078     0.000078  Path_BunchSpacingproducer
+TimeReport   0.000172     0.000172  Flag_HBHENoiseFilter
+TimeReport   0.000005     0.000005  Flag_HBHENoiseIsoFilter
+TimeReport   0.000010     0.000010  Flag_EcalDeadCellTriggerPrimitiveFilter
+TimeReport   0.000177     0.000177  Flag_goodVertices
+TimeReport   0.000108     0.000108  Flag_eeBadScFilter
+TimeReport   0.102338     0.102338  hTozzTo4leptonsSelectionPath
 TimeReport  per event     per exec  Name
 
 TimeReport -------End-Path   Summary ---[Real sec]----
@@ -15072,12 +15072,12 @@ TimeReport  per event     per exec  Name
 
 TimeReport ---------- Modules in Path: Path_BunchSpacingproducer ---[Real sec]----
 TimeReport  per event    per visit  Name
-TimeReport   0.000015     0.000015  bunchSpacingProducer
+TimeReport   0.000016     0.000016  bunchSpacingProducer
 
 TimeReport ---------- Modules in Path: Flag_HBHENoiseFilter ---[Real sec]----
 TimeReport  per event    per visit  Name
-TimeReport   0.000030     0.000030  HBHENoiseFilterResultProducer
-TimeReport   0.000001     0.000001  HBHENoiseFilter
+TimeReport   0.000036     0.000036  HBHENoiseFilterResultProducer
+TimeReport   0.000002     0.000002  HBHENoiseFilter
 
 TimeReport ---------- Modules in Path: Flag_HBHENoiseIsoFilter ---[Real sec]----
 TimeReport  per event    per visit  Name
@@ -15094,130 +15094,130 @@ TimeReport   0.000007     0.000007  primaryVertexFilter
 
 TimeReport ---------- Modules in Path: Flag_eeBadScFilter ---[Real sec]----
 TimeReport  per event    per visit  Name
-TimeReport   0.000040     0.000040  eeBadScFilter
+TimeReport   0.000048     0.000048  eeBadScFilter
 
 TimeReport ---------- Modules in Path: hTozzTo4leptonsSelectionPath ---[Real sec]----
 TimeReport  per event    per visit  Name
-TimeReport   0.000033     0.000033  goodOfflinePrimaryVertices
-TimeReport   0.000020     0.000020  genZ
-TimeReport   0.000007     0.000007  digenZ
-TimeReport   0.000021     0.000021  genleptons
-TimeReport   0.002672     0.002672  digenleptons
-TimeReport   0.000100     0.000100  trigenleptons
-TimeReport   0.000190     0.000190  fourgenleptons
-TimeReport   0.000009     0.000009  hTozzTo4leptonsMCDumper
-TimeReport   0.000022     0.000022  hTozzTo4leptonsMCCP
-TimeReport   0.000393     0.000393  hTozzTo4leptonsPFfsrPhoton
-TimeReport   0.000051     0.000051  hTozzTo4leptonsHLTInfo
-TimeReport   0.000040     0.000040  hTozzTo4leptonsHLTAnalysisFilter
-TimeReport   0.000005     0.000005  hTozzTo4leptonsElectronPreSelector
-TimeReport   0.000005     0.000005  hTozzTo4leptonsElectronOrdering
-TimeReport   0.000077     0.000077  calibratedElectrons
+TimeReport   0.000040     0.000040  goodOfflinePrimaryVertices
+TimeReport   0.000022     0.000022  genZ
+TimeReport   0.000008     0.000008  digenZ
+TimeReport   0.000024     0.000024  genleptons
+TimeReport   0.002747     0.002747  digenleptons
+TimeReport   0.000136     0.000136  trigenleptons
+TimeReport   0.000272     0.000272  fourgenleptons
+TimeReport   0.000010     0.000010  hTozzTo4leptonsMCDumper
+TimeReport   0.000026     0.000026  hTozzTo4leptonsMCCP
+TimeReport   0.000473     0.000473  hTozzTo4leptonsPFfsrPhoton
+TimeReport   0.000059     0.000059  hTozzTo4leptonsHLTInfo
+TimeReport   0.000046     0.000046  hTozzTo4leptonsHLTAnalysisFilter
+TimeReport   0.000006     0.000006  hTozzTo4leptonsElectronPreSelector
+TimeReport   0.000006     0.000006  hTozzTo4leptonsElectronOrdering
+TimeReport   0.000074     0.000074  calibratedElectrons
 TimeReport   0.000003     0.000003  hTozzTo4leptonsElectronSelector
-TimeReport   0.000486     0.000486  electronMVAValueMapProducer
-TimeReport   0.007376     0.007376  hTozzTo4leptonsMuonCalibrator
-TimeReport   0.000019     0.000019  cleanMuonsBySegments
-TimeReport   0.000026     0.000026  hTozzTo4leptonsMuonSelector
-TimeReport   0.000007     0.000007  zToEE
-TimeReport   0.000012     0.000012  zToMuMu
-TimeReport   0.000004     0.000004  hTozzTo4leptons
-TimeReport   0.000004     0.000004  hTozzTo4leptonsMMMM
+TimeReport   0.000516     0.000516  electronMVAValueMapProducer
+TimeReport   0.008415     0.008415  hTozzTo4leptonsMuonCalibrator
+TimeReport   0.000022     0.000022  cleanMuonsBySegments
+TimeReport   0.000030     0.000030  hTozzTo4leptonsMuonSelector
+TimeReport   0.000008     0.000008  zToEE
+TimeReport   0.000013     0.000013  zToMuMu
+TimeReport   0.000005     0.000005  hTozzTo4leptons
+TimeReport   0.000005     0.000005  hTozzTo4leptonsMMMM
 TimeReport   0.000004     0.000004  hTozzTo4leptonsEEEE
 TimeReport   0.000004     0.000004  zToEEssplus
 TimeReport   0.000004     0.000004  zToEEssminus
-TimeReport   0.000005     0.000005  zToEEssmerge
-TimeReport   0.000326     0.000326  zToMuMussplus
-TimeReport   0.000009     0.000009  zToMuMussminus
+TimeReport   0.000006     0.000006  zToEEssmerge
+TimeReport   0.000417     0.000417  zToMuMussplus
+TimeReport   0.000012     0.000012  zToMuMussminus
 TimeReport   0.000004     0.000004  zToMuMussmerge
-TimeReport   0.000004     0.000004  zToCrossLeptons
-TimeReport   0.000006     0.000006  dileptons
+TimeReport   0.000005     0.000005  zToCrossLeptons
+TimeReport   0.000007     0.000007  dileptons
 TimeReport   0.000004     0.000004  zToEELooseIsol
-TimeReport   0.000008     0.000008  zToMuMuLooseIsol
-TimeReport   0.000004     0.000004  hTozzTo4leptonsLooseIsol
-TimeReport   0.000004     0.000004  hTozzTo4leptonsMMMMLooseIsol
+TimeReport   0.000010     0.000010  zToMuMuLooseIsol
+TimeReport   0.000005     0.000005  hTozzTo4leptonsLooseIsol
+TimeReport   0.000005     0.000005  hTozzTo4leptonsMMMMLooseIsol
 TimeReport   0.000004     0.000004  hTozzTo4leptonsEEEELooseIsol
-TimeReport   0.069850     0.069850  hTozzTo4leptonsIpToVtxProducer
-TimeReport   0.000064     0.000064  hTozzTo4leptonsIpToVtxProducerKF
-TimeReport   0.000060     0.000060  hTozzTo4leptonsTipLipToVtxProducer
-TimeReport   0.000161     0.000161  hTozzTo4leptonsPFJetSelector
-TimeReport   0.000012     0.000012  myMuons
-TimeReport   0.000025     0.000025  goodMuonMCMatch
+TimeReport   0.060817     0.060817  hTozzTo4leptonsIpToVtxProducer
+TimeReport   0.000074     0.000074  hTozzTo4leptonsIpToVtxProducerKF
+TimeReport   0.000070     0.000070  hTozzTo4leptonsTipLipToVtxProducer
+TimeReport   0.000193     0.000193  hTozzTo4leptonsPFJetSelector
+TimeReport   0.000013     0.000013  myMuons
+TimeReport   0.000027     0.000027  goodMuonMCMatch
 TimeReport   0.000003     0.000003  myElectrons
-TimeReport   0.000007     0.000007  goodElectronMCMatch
-TimeReport   0.000007     0.000007  myGammas
-TimeReport   0.000020     0.000020  goodGammaMCMatch
-TimeReport   0.000008     0.000008  goodZtoMuMuMCMatch
-TimeReport   0.000006     0.000006  goodZtoEEMCMatch
-TimeReport   0.000006     0.000006  goodHiggsTozzToEEMMMCMatch
-TimeReport   0.000006     0.000006  goodHiggsTozzToMMMMMCMatch
-TimeReport   0.000006     0.000006  goodHiggsTozzToEEEEMCMatch
-TimeReport   0.002876     0.002876  hTozzTo4leptonsCommonRootTreePresel
+TimeReport   0.000008     0.000008  goodElectronMCMatch
+TimeReport   0.000008     0.000008  myGammas
+TimeReport   0.000024     0.000024  goodGammaMCMatch
+TimeReport   0.000009     0.000009  goodZtoMuMuMCMatch
+TimeReport   0.000007     0.000007  goodZtoEEMCMatch
+TimeReport   0.000007     0.000007  goodHiggsTozzToEEMMMCMatch
+TimeReport   0.000007     0.000007  goodHiggsTozzToMMMMMCMatch
+TimeReport   0.000007     0.000007  goodHiggsTozzToEEEEMCMatch
+TimeReport   0.003225     0.003225  hTozzTo4leptonsCommonRootTreePresel
 TimeReport  per event    per visit  Name
 
 TimeReport ---------- Module Summary ---[Real sec]----
 TimeReport  per event     per exec    per visit  Name
-TimeReport   0.000024     0.000024     0.000024  TriggerResults
-TimeReport   0.000015     0.000015     0.000015  bunchSpacingProducer
-TimeReport   0.000030     0.000030     0.000015  HBHENoiseFilterResultProducer
-TimeReport   0.000001     0.000001     0.000001  HBHENoiseFilter
+TimeReport   0.000027     0.000027     0.000027  TriggerResults
+TimeReport   0.000016     0.000016     0.000016  bunchSpacingProducer
+TimeReport   0.000036     0.000036     0.000018  HBHENoiseFilterResultProducer
+TimeReport   0.000002     0.000002     0.000002  HBHENoiseFilter
 TimeReport   0.000001     0.000001     0.000001  HBHENoiseIsoFilter
 TimeReport   0.000004     0.000004     0.000004  EcalDeadCellTriggerPrimitiveFilter
 TimeReport   0.000007     0.000007     0.000007  primaryVertexFilter
-TimeReport   0.000040     0.000040     0.000040  eeBadScFilter
-TimeReport   0.000033     0.000033     0.000033  goodOfflinePrimaryVertices
-TimeReport   0.000020     0.000020     0.000020  genZ
-TimeReport   0.000007     0.000007     0.000007  digenZ
-TimeReport   0.000021     0.000021     0.000021  genleptons
-TimeReport   0.002672     0.002672     0.002672  digenleptons
-TimeReport   0.000100     0.000100     0.000100  trigenleptons
-TimeReport   0.000190     0.000190     0.000190  fourgenleptons
-TimeReport   0.000009     0.000009     0.000009  hTozzTo4leptonsMCDumper
-TimeReport   0.000022     0.000022     0.000022  hTozzTo4leptonsMCCP
-TimeReport   0.000393     0.000393     0.000393  hTozzTo4leptonsPFfsrPhoton
-TimeReport   0.000051     0.000051     0.000051  hTozzTo4leptonsHLTInfo
-TimeReport   0.000040     0.000040     0.000040  hTozzTo4leptonsHLTAnalysisFilter
-TimeReport   0.000005     0.000005     0.000005  hTozzTo4leptonsElectronPreSelector
-TimeReport   0.000005     0.000005     0.000005  hTozzTo4leptonsElectronOrdering
-TimeReport   0.000077     0.000077     0.000077  calibratedElectrons
+TimeReport   0.000048     0.000048     0.000048  eeBadScFilter
+TimeReport   0.000040     0.000040     0.000040  goodOfflinePrimaryVertices
+TimeReport   0.000022     0.000022     0.000022  genZ
+TimeReport   0.000008     0.000008     0.000008  digenZ
+TimeReport   0.000024     0.000024     0.000024  genleptons
+TimeReport   0.002747     0.002747     0.002747  digenleptons
+TimeReport   0.000136     0.000136     0.000136  trigenleptons
+TimeReport   0.000272     0.000272     0.000272  fourgenleptons
+TimeReport   0.000010     0.000010     0.000010  hTozzTo4leptonsMCDumper
+TimeReport   0.000026     0.000026     0.000026  hTozzTo4leptonsMCCP
+TimeReport   0.000473     0.000473     0.000473  hTozzTo4leptonsPFfsrPhoton
+TimeReport   0.000059     0.000059     0.000059  hTozzTo4leptonsHLTInfo
+TimeReport   0.000046     0.000046     0.000046  hTozzTo4leptonsHLTAnalysisFilter
+TimeReport   0.000006     0.000006     0.000006  hTozzTo4leptonsElectronPreSelector
+TimeReport   0.000006     0.000006     0.000006  hTozzTo4leptonsElectronOrdering
+TimeReport   0.000074     0.000074     0.000074  calibratedElectrons
 TimeReport   0.000003     0.000003     0.000003  hTozzTo4leptonsElectronSelector
-TimeReport   0.000486     0.000486     0.000486  electronMVAValueMapProducer
-TimeReport   0.007376     0.007376     0.007376  hTozzTo4leptonsMuonCalibrator
-TimeReport   0.000019     0.000019     0.000019  cleanMuonsBySegments
-TimeReport   0.000026     0.000026     0.000026  hTozzTo4leptonsMuonSelector
-TimeReport   0.000007     0.000007     0.000007  zToEE
-TimeReport   0.000012     0.000012     0.000012  zToMuMu
-TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptons
-TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsMMMM
+TimeReport   0.000516     0.000516     0.000516  electronMVAValueMapProducer
+TimeReport   0.008415     0.008415     0.008415  hTozzTo4leptonsMuonCalibrator
+TimeReport   0.000022     0.000022     0.000022  cleanMuonsBySegments
+TimeReport   0.000030     0.000030     0.000030  hTozzTo4leptonsMuonSelector
+TimeReport   0.000008     0.000008     0.000008  zToEE
+TimeReport   0.000013     0.000013     0.000013  zToMuMu
+TimeReport   0.000005     0.000005     0.000005  hTozzTo4leptons
+TimeReport   0.000005     0.000005     0.000005  hTozzTo4leptonsMMMM
 TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsEEEE
 TimeReport   0.000004     0.000004     0.000004  zToEEssplus
 TimeReport   0.000004     0.000004     0.000004  zToEEssminus
-TimeReport   0.000005     0.000005     0.000005  zToEEssmerge
-TimeReport   0.000326     0.000326     0.000326  zToMuMussplus
-TimeReport   0.000009     0.000009     0.000009  zToMuMussminus
+TimeReport   0.000006     0.000006     0.000006  zToEEssmerge
+TimeReport   0.000417     0.000417     0.000417  zToMuMussplus
+TimeReport   0.000012     0.000012     0.000012  zToMuMussminus
 TimeReport   0.000004     0.000004     0.000004  zToMuMussmerge
-TimeReport   0.000004     0.000004     0.000004  zToCrossLeptons
-TimeReport   0.000006     0.000006     0.000006  dileptons
+TimeReport   0.000005     0.000005     0.000005  zToCrossLeptons
+TimeReport   0.000007     0.000007     0.000007  dileptons
 TimeReport   0.000004     0.000004     0.000004  zToEELooseIsol
-TimeReport   0.000008     0.000008     0.000008  zToMuMuLooseIsol
-TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsLooseIsol
-TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsMMMMLooseIsol
+TimeReport   0.000010     0.000010     0.000010  zToMuMuLooseIsol
+TimeReport   0.000005     0.000005     0.000005  hTozzTo4leptonsLooseIsol
+TimeReport   0.000005     0.000005     0.000005  hTozzTo4leptonsMMMMLooseIsol
 TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsEEEELooseIsol
-TimeReport   0.069850     0.069850     0.069850  hTozzTo4leptonsIpToVtxProducer
-TimeReport   0.000064     0.000064     0.000064  hTozzTo4leptonsIpToVtxProducerKF
-TimeReport   0.000060     0.000060     0.000060  hTozzTo4leptonsTipLipToVtxProducer
-TimeReport   0.000161     0.000161     0.000161  hTozzTo4leptonsPFJetSelector
-TimeReport   0.000012     0.000012     0.000012  myMuons
-TimeReport   0.000025     0.000025     0.000025  goodMuonMCMatch
+TimeReport   0.060817     0.060817     0.060817  hTozzTo4leptonsIpToVtxProducer
+TimeReport   0.000074     0.000074     0.000074  hTozzTo4leptonsIpToVtxProducerKF
+TimeReport   0.000070     0.000070     0.000070  hTozzTo4leptonsTipLipToVtxProducer
+TimeReport   0.000193     0.000193     0.000193  hTozzTo4leptonsPFJetSelector
+TimeReport   0.000013     0.000013     0.000013  myMuons
+TimeReport   0.000027     0.000027     0.000027  goodMuonMCMatch
 TimeReport   0.000003     0.000003     0.000003  myElectrons
-TimeReport   0.000007     0.000007     0.000007  goodElectronMCMatch
-TimeReport   0.000007     0.000007     0.000007  myGammas
-TimeReport   0.000020     0.000020     0.000020  goodGammaMCMatch
-TimeReport   0.000008     0.000008     0.000008  goodZtoMuMuMCMatch
-TimeReport   0.000006     0.000006     0.000006  goodZtoEEMCMatch
-TimeReport   0.000006     0.000006     0.000006  goodHiggsTozzToEEMMMCMatch
-TimeReport   0.000006     0.000006     0.000006  goodHiggsTozzToMMMMMCMatch
-TimeReport   0.000006     0.000006     0.000006  goodHiggsTozzToEEEEMCMatch
-TimeReport   0.002876     0.002876     0.002876  hTozzTo4leptonsCommonRootTreePresel
+TimeReport   0.000008     0.000008     0.000008  goodElectronMCMatch
+TimeReport   0.000008     0.000008     0.000008  myGammas
+TimeReport   0.000024     0.000024     0.000024  goodGammaMCMatch
+TimeReport   0.000009     0.000009     0.000009  goodZtoMuMuMCMatch
+TimeReport   0.000007     0.000007     0.000007  goodZtoEEMCMatch
+TimeReport   0.000007     0.000007     0.000007  goodHiggsTozzToEEMMMCMatch
+TimeReport   0.000007     0.000007     0.000007  goodHiggsTozzToMMMMMCMatch
+TimeReport   0.000007     0.000007     0.000007  goodHiggsTozzToEEEEMCMatch
+TimeReport   0.003225     0.003225     0.003225  hTozzTo4leptonsCommonRootTreePresel
 TimeReport  per event     per exec    per visit  Name
 
 T---Report end!

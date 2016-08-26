@@ -371,7 +371,7 @@ from RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi import *
 #need to change CommonTools.ParticleFlow.goodOfflinePrimaryVertices_cfi
 
 # Electron PF isolation
-from CommonTools.ParticleFlow.PFBPAT_cff import *
+from CommonTools.ParticleFlow.PFBRECO_cff import *
 from CommonTools.ParticleFlow.Isolation.pfElectronIsolationPFBRECO_cff import *
 elPFIsoDepositChargedPFBRECO.src    = cms.InputTag("hTozzTo4leptonsElectronSelector")
 elPFIsoDepositChargedAllPFBRECO.src = cms.InputTag("hTozzTo4leptonsElectronSelector")
