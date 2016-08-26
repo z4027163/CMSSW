@@ -1,0 +1,7 @@
+----- Begin Fatal Exception 06-Jul-2016 17:01:55 CDT-----------------------
+An exception of category 'ConfigFileReadError' occurred while
+   [0] Processing the python configuration file named HiggsTozz_MiniAOD.py
+Exception Message:
+python encountered the error: <type 'exceptions.AttributeError'>
+'Process' object has no attribute 'hTozzTo4leptonsCommonRootTreePresel'
+----- End Fatal Exception -------------------------------------------------

@@ -1,0 +1,18 @@
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+hahahahha
+
+test
+
+hoho
+
+Warning in <TInterpreter::ReadRootmapFile>: class  edm::ValueMap<float> found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  edm::Wrapper<edm::ValueMap<float> > found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
+03-Aug-2016 17:13:54 CDT  Initiating request to open file root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+03-Aug-2016 17:13:56 CDT  Successfully opened file root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+03-Aug-2016 17:14:03 CDT  Closed file root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+----- Begin Fatal Exception 03-Aug-2016 17:14:03 CDT-----------------------
+An exception of category 'PluginLibraryLoadError' occurred while
+   [0] Constructing the EventProcessor
+Exception Message:
+unable to load /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/lib/slc6_amd64_gcc493/pluginCommonToolsParticleFlow_plugins.so because /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/lib/slc6_amd64_gcc493/pluginCommonToolsParticleFlow_plugins.so: cannot open shared object file: No such file or directory
+----- End Fatal Exception -------------------------------------------------

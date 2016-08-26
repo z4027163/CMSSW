@@ -1,0 +1,199 @@
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+hahahahha
+
+test
+
+hoho
+
+DEBUG 2016-08-26 12:40:33,766: 	 Executing command: 'submit'
+DEBUG 2016-08-26 12:40:33,767: 	 Found CRAB cache file /uscms/home/zwang4/.crab3
+DEBUG 2016-08-26 12:40:33,773: 	 Checking credentials
+DEBUG 2016-08-26 12:40:33,774: 	 Found proxy file /tmp/x509up_u50707
+DEBUG 2016-08-26 12:40:33,774: 	 Getting proxy life time left
+DEBUG 2016-08-26 12:40:33,876: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50707 -timeleft
+ output : 2155
+
+ error: 
+ retcode : 0
+DEBUG 2016-08-26 12:40:33,978: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50707 -actimeleft
+ output : 2155
+
+ error: 
+ retcode : 0
+DEBUG 2016-08-26 12:40:33,978: 	 Proxy valid for 00:35:55 hours
+INFO 2016-08-26 12:40:33,978: 	 Will use CRAB configuration file crab.py
+DEBUG 2016-08-26 12:40:33,978: 	 Loading CRAB configuration file.
+DEBUG 2016-08-26 12:40:33,989: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+DEBUG 2016-08-26 12:40:34,099: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=wangz/CN=748795/CN=Zhangqier Wang
+
+ error: 
+ retcode : 0
+DEBUG 2016-08-26 12:40:34,099: 	 Checking credentials
+DEBUG 2016-08-26 12:40:34,099: 	 Found proxy file /tmp/x509up_u50707
+DEBUG 2016-08-26 12:40:34,099: 	 Getting proxy life time left
+DEBUG 2016-08-26 12:40:34,201: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50707 -timeleft
+ output : 2154
+
+ error: 
+ retcode : 0
+DEBUG 2016-08-26 12:40:34,303: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50707 -actimeleft
+ output : 2154
+
+ error: 
+ retcode : 0
+DEBUG 2016-08-26 12:40:34,303: 	 Proxy valid for 00:35:54 hours
+DEBUG 2016-08-26 12:40:34,405: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u50707 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+/cms/uscms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2016-08-26 12:40:35,568: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108).cern.ch
+DEBUG 2016-08-26 12:40:35,673: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=wangz/CN=748795/CN=Zhangqier Wang
+
+ error: 
+ retcode : 0
+DEBUG 2016-08-26 12:40:35,673: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2016-08-26 12:40:35,673: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=wangz/CN=748795/CN=Zhangqier Wang_cmsweb.cern.ch for credential name
+DEBUG 2016-08-26 12:40:36,776: 	 Executing : 
+ command : myproxy-info -l e30ee33de33886b7bc2752e801106afeaf7d19d4 -s myproxy.cern.ch
+ output : username: e30ee33de33886b7bc2752e801106afeaf7d19d4
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=wangz/CN=748795/CN=Zhangqier Wang
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108).cern.ch
+  timeleft: 676:31:59  (28.2 days)
+
+ error: 
+ retcode : 0
+DEBUG 2016-08-26 12:40:36,778: 	 Myproxy is valid: 2435519
+DEBUG 2016-08-26 12:40:36,778: 	 Command use: submit
+DEBUG 2016-08-26 12:40:36,778: 	 Options use: ['-c', 'crab.py']
+DEBUG 2016-08-26 12:40:37,765: 	 CRABClient version: 3.3.1608
+DEBUG 2016-08-26 12:40:37,765: 	 Instance is prod
+DEBUG 2016-08-26 12:40:37,765: 	 Server base url is cmsweb.cern.ch
+DEBUG 2016-08-26 12:40:37,765: 	 Command url /crabserver/prod/workflow
+DEBUG 2016-08-26 12:40:37,765: 	 Started submission
+DEBUG 2016-08-26 12:40:37,765: 	 Working on /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/HiggsToZZ4Leptons/test/crab_projects/crab_DYToLLNtuplerRunIISpring2015_test
+DEBUG 2016-08-26 12:40:38,880: 	 Loading required information from the environment
+DEBUG 2016-08-26 12:40:38,880: 	 Found CMSSW_7_6_3 for slc6_amd64_gcc493 with base /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3
+DEBUG 2016-08-26 12:40:38,889: 	 UNIQUE NAME: tarUUID 943ac461-fafd-4aca-9c73-ebf17fce06eb 
+DEBUG 2016-08-26 12:40:38,890: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferLogs = True
+config.General.transferOutputs = True
+config.General.workArea = 'crab_projects'
+config.General.requestName = 'DYToLLNtuplerRunIISpring2015_test'
+config.section_('JobType')
+config.JobType.psetName = 'HiggsTozz_MiniAOD.py'
+config.JobType.pluginName = 'Analysis'
+config.JobType.outputFiles = ['roottree_leptons.root']
+config.JobType.allowUndistributedCMSSW = True
+config.section_('Data')
+config.Data.outputDatasetTag = 'DYTOLL_13TeV_NTUPLER_v1_test'
+config.Data.totalUnits = 100
+config.Data.unitsPerJob = 1
+config.Data.userInputFiles = ['root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root\n']
+config.Data.ignoreLocality = True
+config.Data.inputDBS = 'global'
+config.Data.splitting = 'FileBased'
+config.Data.outLFNDirBase = '/store/user/wangz/'
+config.Data.publication = False
+config.section_('Site')
+config.Site.blacklist = ['T3_US_Rutgers']
+config.Site.whitelist = ['T2_US*']
+config.Site.storageSite = 'T3_US_FNALLPC'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2016-08-26 12:40:38,890: 	 self.config.JobType.psetName: HiggsTozz_MiniAOD.py
+INFO 2016-08-26 12:40:38,890: 	 Importing CMSSW configuration HiggsTozz_MiniAOD.py
+INFO 2016-08-26 12:40:40,756: 	 Finished importing CMSSW configuration HiggsTozz_MiniAOD.py
+DEBUG 2016-08-26 12:40:40,756: 	 Writing CMSSW configuration to /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/HiggsToZZ4Leptons/test/crab_projects/crab_DYToLLNtuplerRunIISpring2015_test/inputs/PSet.py
+DEBUG 2016-08-26 12:40:41,975: 	 The following EDM output files will be collected: []
+DEBUG 2016-08-26 12:40:41,975: 	 The following TFile output files will be collected: []
+DEBUG 2016-08-26 12:40:41,976: 	 The following user output files will be collected: ['roottree_leptons.root']
+DEBUG 2016-08-26 12:40:41,976: 	 Loading required information from the environment
+DEBUG 2016-08-26 12:40:41,976: 	 Found CMSSW_7_6_3 for slc6_amd64_gcc493 with base /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3
+DEBUG 2016-08-26 12:40:41,976: 	 Making tarball in /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/HiggsToZZ4Leptons/test/crab_projects/crab_DYToLLNtuplerRunIISpring2015_test/inputs/943ac461-fafd-4aca-9c73-ebf17fce06ebdefault.tgz
+DEBUG 2016-08-26 12:40:42,031: 	 Checking directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/lib
+DEBUG 2016-08-26 12:40:42,031: 	 Adding directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/lib to tarball
+DEBUG 2016-08-26 12:40:54,759: 	 Checking directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/biglib
+DEBUG 2016-08-26 12:40:54,759: 	 Adding directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/biglib to tarball
+DEBUG 2016-08-26 12:40:54,761: 	 Checking directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/module
+DEBUG 2016-08-26 12:40:54,766: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/Alignment/APEEstimation/interface to tarball
+DEBUG 2016-08-26 12:40:54,859: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/Alignment/CommonAlignment/interface to tarball
+DEBUG 2016-08-26 12:40:55,005: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/Alignment/CommonAlignmentAlgorithm/interface to tarball
+DEBUG 2016-08-26 12:40:55,128: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/Alignment/MillePedeAlignmentAlgorithm/interface to tarball
+DEBUG 2016-08-26 12:40:55,206: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/Alignment/OfflineValidation/interface to tarball
+DEBUG 2016-08-26 12:40:55,275: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/Alignment/TrackerAlignment/data to tarball
+DEBUG 2016-08-26 12:40:55,329: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/Alignment/TrackerAlignment/interface to tarball
+DEBUG 2016-08-26 12:41:02,126: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/PileupAlgos/interface to tarball
+DEBUG 2016-08-26 12:41:02,164: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/RecoAlgos/interface to tarball
+DEBUG 2016-08-26 12:41:02,313: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/UtilAlgos/interface to tarball
+DEBUG 2016-08-26 12:41:02,948: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/ParticleFlow/interface to tarball
+DEBUG 2016-08-26 12:41:03,356: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/CandAlgos/interface to tarball
+DEBUG 2016-08-26 12:41:03,579: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/CandUtils/interface to tarball
+DEBUG 2016-08-26 12:41:03,823: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/Clustering1D/interface to tarball
+DEBUG 2016-08-26 12:41:03,971: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/ConditionDBWriter/interface to tarball
+DEBUG 2016-08-26 12:41:03,991: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/RecoUtils/interface to tarball
+DEBUG 2016-08-26 12:41:04,080: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/Statistics/interface to tarball
+DEBUG 2016-08-26 12:41:04,280: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/TrackerMap/data to tarball
+DEBUG 2016-08-26 12:41:04,921: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/TrackerMap/interface to tarball
+DEBUG 2016-08-26 12:41:04,957: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/TriggerUtils/interface to tarball
+DEBUG 2016-08-26 12:41:04,983: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CommonTools/Utils/interface to tarball
+DEBUG 2016-08-26 12:41:05,429: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CondCore/CondDB/interface to tarball
+DEBUG 2016-08-26 12:41:05,681: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CondFormats/JetMETObjects/data to tarball
+DEBUG 2016-08-26 12:41:09,212: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CondFormats/JetMETObjects/interface to tarball
+DEBUG 2016-08-26 12:41:09,293: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/CondFormats/L1TObjects/interface to tarball
+DEBUG 2016-08-26 12:41:10,273: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/EgammaAnalysis/ElectronTools/data to tarball
+DEBUG 2016-08-26 12:41:10,400: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/EgammaAnalysis/ElectronTools/interface to tarball
+DEBUG 2016-08-26 12:41:10,562: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/EventFilter/L1TRawToDigi/interface to tarball
+DEBUG 2016-08-26 12:41:10,726: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HLTrigger/HLTanalyzers/interface to tarball
+DEBUG 2016-08-26 12:41:11,010: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HLTrigger/JetMET/interface to tarball
+DEBUG 2016-08-26 12:41:11,197: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/JetMETCorrections/Modules/interface to tarball
+DEBUG 2016-08-26 12:41:11,282: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/L1Trigger/L1TCalorimeter/data to tarball
+DEBUG 2016-08-26 12:41:11,327: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/L1Trigger/L1TCalorimeter/interface to tarball
+DEBUG 2016-08-26 12:41:12,101: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/PhysicsTools/Heppy/data to tarball
+DEBUG 2016-08-26 12:41:12,617: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/PhysicsTools/Heppy/interface to tarball
+DEBUG 2016-08-26 12:41:12,788: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoEgamma/EgammaTools/data to tarball
+DEBUG 2016-08-26 12:41:12,862: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoEgamma/EgammaTools/interface to tarball
+DEBUG 2016-08-26 12:41:13,040: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoEgamma/PhotonIdentification/data to tarball
+DEBUG 2016-08-26 12:41:13,168: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoEgamma/PhotonIdentification/interface to tarball
+DEBUG 2016-08-26 12:41:13,231: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoParticleFlow/PFProducer/data to tarball
+DEBUG 2016-08-26 12:41:13,250: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoParticleFlow/PFProducer/interface to tarball
+DEBUG 2016-08-26 12:41:13,859: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoParticleFlow/PFTracking/data to tarball
+DEBUG 2016-08-26 12:41:13,912: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoParticleFlow/PFTracking/interface to tarball
+DEBUG 2016-08-26 12:41:14,953: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/CombinedLimit/data to tarball
+DEBUG 2016-08-26 12:41:16,408: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/CombinedLimit/interface to tarball
+DEBUG 2016-08-26 12:41:16,692: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/KaMuCa/Calibration/data to tarball
+DEBUG 2016-08-26 12:41:16,710: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/KaMuCa/Calibration/interface to tarball
+DEBUG 2016-08-26 12:41:17,266: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoLuminosity/LumiProducer/interface to tarball
+DEBUG 2016-08-26 12:41:17,463: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoMET/METFilters/data to tarball
+DEBUG 2016-08-26 12:41:17,479: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/RecoMET/METFilters/interface to tarball
+DEBUG 2016-08-26 12:41:17,503: 	 Adding data directory /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/DataFormats/ParticleFlowCandidate/interface to tarball
+DEBUG 2016-08-26 12:41:17,813: 	 Uploading archive /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/HiggsToZZ4Leptons/test/crab_projects/crab_DYToLLNtuplerRunIISpring2015_test/inputs/943ac461-fafd-4aca-9c73-ebf17fce06ebdefault.tgz to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2016-08-26 12:41:28,179: 	 Loading required information from the environment
+DEBUG 2016-08-26 12:41:28,179: 	 Found CMSSW_7_6_3 for slc6_amd64_gcc493 with base /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3
+DEBUG 2016-08-26 12:41:28,179: 	 Making tarball in /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/HiggsToZZ4Leptons/test/crab_projects/crab_DYToLLNtuplerRunIISpring2015_test/inputs/debugFiles.tgz
+DEBUG 2016-08-26 12:41:28,183: 	 Uploading archive /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/HiggsToZZ4Leptons/test/crab_projects/crab_DYToLLNtuplerRunIISpring2015_test/inputs/debugFiles.tgz to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2016-08-26 12:41:29,457: 	 Result uploading input files: 57bf68e4b4b0a29269719d979b6b6fbe65688e680201139a5a03cc78dcbd4393.tar.gz 
+DEBUG 2016-08-26 12:41:29,457: 	 Attaching list of user-specified primary input files.
+INFO 2016-08-26 12:41:29,457: 	 Sending the request to the server
+DEBUG 2016-08-26 12:41:29,457: 	 Submitting {'maxjobruntime': 1250, 'adduserfiles': [], 'extrajdl': [], 'ignorelocality': 1, 'savelogsflag': 1, 'useparent': 0, 'asyncdest': 'T3_US_FNALLPC', 'algoargs': 1, 'cachefilename': '57bf68e4b4b0a29269719d979b6b6fbe65688e680201139a5a03cc78dcbd4393.tar.gz', 'numcores': 1, 'addoutputfiles': ['roottree_leptons.root'], 'generator': 'pythia', 'maxmemory': 2000, 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'priority': 10, 'jobsw': 'CMSSW_7_6_3', 'edmoutfiles': [], 'userfiles': set(['root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root']), 'primarydataset': 'CRAB_UserFiles', 'inputdata': '', 'lfn': '/store/user/wangz/', 'dryrun': 0, 'workflow': 'crab_DYToLLNtuplerRunIISpring2015_test', 'sitewhitelist': ['T2_US*'], 'nonprodsw': 1, 'tfileoutfiles': [], 'oneEventMode': 0, 'debugfilename': 'afbae77a86cefb19bfc4b2a76214b9bd0d14d4ad75ec38d6677eda0fcb0377f3.tar.gz', 'cacheurl': 'https://cmsweb.cern.ch/crabcache', 'saveoutput': 1, 'publication': 0, 'jobarch': 'slc6_amd64_gcc493', 'totalunits': 100, 'splitalgo': 'FileBased', 'nonvaliddata': 0, 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'publishgroupname': 0, 'jobtype': 'Analysis', 'siteblacklist': ['T3_US_Rutgers'], 'publishname2': 'DYTOLL_13TeV_NTUPLER_v1_test'} 
+DEBUG 2016-08-26 12:41:29,457: 	 Encoded submit request: maxjobruntime=1250&ignorelocality=1&savelogsflag=1&useparent=0&asyncdest=T3_US_FNALLPC&algoargs=1&cachefilename=57bf68e4b4b0a29269719d979b6b6fbe65688e680201139a5a03cc78dcbd4393.tar.gz&numcores=1&generator=pythia&maxmemory=2000&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&priority=10&jobsw=CMSSW_7_6_3&primarydataset=CRAB_UserFiles&inputdata=&lfn=%2Fstore%2Fuser%2Fwangz%2F&dryrun=0&workflow=crab_DYToLLNtuplerRunIISpring2015_test&nonprodsw=1&oneEventMode=0&debugfilename=afbae77a86cefb19bfc4b2a76214b9bd0d14d4ad75ec38d6677eda0fcb0377f3.tar.gz&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2Fcrabcache&saveoutput=1&publication=0&jobarch=slc6_amd64_gcc493&totalunits=100&splitalgo=FileBased&nonvaliddata=0&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&publishgroupname=0&jobtype=Analysis&publishname2=DYTOLL_13TeV_NTUPLER_v1_test&addoutputfiles=roottree_leptons.root&sitewhitelist=T2_US%2A&siteblacklist=T3_US_Rutgers&userfiles=root%3A//cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root
+DEBUG 2016-08-26 12:41:30,698: 	 Result: {'result': [{'RequestName': '160826_174130:wangz_crab_DYToLLNtuplerRunIISpring2015_test'}]}
+INFO 2016-08-26 12:41:30,699: 	 Success: Your task has been delivered to the CRAB3 server.
+INFO 2016-08-26 12:41:30,700: 	 Task name: 160826_174130:wangz_crab_DYToLLNtuplerRunIISpring2015_test
+INFO 2016-08-26 12:41:30,700: 	 Please use 'crab status' to check how the submission process proceeds.
+DEBUG 2016-08-26 12:41:30,700: 	 About to return
+INFO 2016-08-26 12:41:30,705: 	 Log file is /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/HiggsToZZ4Leptons/test/crab_projects/crab_DYToLLNtuplerRunIISpring2015_test/crab.log

@@ -1,0 +1,784 @@
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+hahahahha
+
+test
+
+hoho
+
+Warning in <TInterpreter::ReadRootmapFile>: class  edm::ValueMap<float> found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  edm::Wrapper<edm::ValueMap<float> > found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
+09-Aug-2016 13:05:38 CDT  Initiating request to open file root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+09-Aug-2016 13:05:39 CDT  Successfully opened file root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+[STATUS] Reading energy scale correction  values from file: EgammaAnalysis/ElectronTools/data/76X_16DecRereco_2015_scales.dat
+Reading parameters from cfg
+Filling a ROOT tree for offline selection
+Input Filename is=root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+Input Filename is=root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+Begin processing the 1st record. Run 1, Event 74596, LumiSection 376 at 09-Aug-2016 13:07:30.813 CDT
+HLTFiredString= HLT_IsoTkMu15_SaveObjects_v1:HLT_IsoMu_SaveObjects_v1:HLT_AK8CaloHTForMC_v1:HLT_AK8PFHTForMC_v1:HLT_AK8TrimPFJetsForMC_v1:HLT_AK8PFJetsForMC_v1:HLT_CaloMHTForMC_v1:HLT_CaloHTForMC_v1:HLT_AK4CaloJetsForMC_v1:HLT_CaloMETCleanedForMC_v1:HLT_CaloMETForMC_v1:HLT_PFMHTForMC_v1:HLT_PFHTForMC_v1:HLT_AK4PFJetsForMC_v1:HLT_PFMETForMC_v1:AlCa_LumiPixels_ZeroBias_v1:AlCa_LumiPixels_Random_v1:HLT_HcalUTCA_v1:HLT_HcalPhiSym_v1:HLT_HcalNZS_v1:AlCa_EcalPhiSym_v1:HLT_EcalCalibration_v1:HLT_Activity_Ecal_SC7_v1:HLT_ZeroBias_v1:HLT_Random_v1:HLT_ReducedIterativeTracking_v1:HLT_Physics_v1:HLT_Mu24_v1:HLT_Mu17_v1:HLT_Mu8_v1:HLT_Mu24_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_v1:HLT_Mu8_TrkIsoVVL_v1:HLT_TkMu20_v1:HLT_Mu20_v1:HLT_L1SingleMuOpen_v1:HLT_IsoTkMu20_eta2p1_v1:HLT_IsoTkMu20_v1:HLT_IsoMu20_eta2p1_v1:HLT_IsoMu20_v1:HLT_IsoMu20_eta2p1_CentralPFJet30_BTagCSV07_v1:HLT_IsoMu17_eta2p1_v1:digi2raw_step:L1simulation_step:digitisation_step:
+Muon pT= 34.5091 Corrected Muon pT= 34.4197 and pT error= 0.90894
+Muon pT= 1.20895 Corrected Muon pT= 1.21316 and pT error= 0.0245353
+Muon pT= 1.03386 Corrected Muon pT= 1.03626 and pT error= 0.0225797
+Muon pT= 0.830307 Corrected Muon pT= 0.832585 and pT error= 0.0249201
+Selected a muon with pT= 34.5091
+Selected a muon with pT= 1.20895
+Selected a muon with pT= 1.03386
+Selected a muon with pT= 0.830307
+----- Begin Fatal Exception 09-Aug-2016 13:07:31 CDT-----------------------
+An exception of category 'PFPileUp is misconfigured. This needs to be either vector<FwdPtr<PFCandidate> >, or View<PFCandidate>' occurred while
+   [0] Processing run: 1 lumi: 376 event: 74596
+   [1] Running path 'hTozzTo4leptonsSelectionPath'
+   [2] Calling event method for module PFPileUp/'pfPileUpIsoPFBRECO'
+----- End Fatal Exception -------------------------------------------------
+09-Aug-2016 13:07:31 CDT  Closed file root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+
+TrigReport ---------- Event  Summary ------------
+TrigReport Events total = 1 passed = 0 failed = 1
+
+TrigReport ---------- Path   Summary ------------
+TrigReport  Trig Bit#   Executed     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 Path_BunchSpacingproducer
+TrigReport     1    1          1          1          0          0 Flag_HBHENoiseFilter
+TrigReport     1    2          1          1          0          0 Flag_HBHENoiseIsoFilter
+TrigReport     1    3          1          1          0          0 Flag_EcalDeadCellTriggerPrimitiveFilter
+TrigReport     1    4          1          1          0          0 Flag_goodVertices
+TrigReport     1    5          1          1          0          0 Flag_eeBadScFilter
+TrigReport     1    6          1          0          0          1 hTozzTo4leptonsSelectionPath
+
+TrigReport -------End-Path   Summary ------------
+TrigReport  Trig Bit#   Executed     Passed     Failed      Error Name
+
+TrigReport ---------- Modules in Path: Path_BunchSpacingproducer ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 bunchSpacingProducer
+
+TrigReport ---------- Modules in Path: Flag_HBHENoiseFilter ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 HBHENoiseFilterResultProducer
+TrigReport     1    1          1          1          0          0 HBHENoiseFilter
+
+TrigReport ---------- Modules in Path: Flag_HBHENoiseIsoFilter ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 HBHENoiseFilterResultProducer
+TrigReport     1    1          1          1          0          0 HBHENoiseIsoFilter
+
+TrigReport ---------- Modules in Path: Flag_EcalDeadCellTriggerPrimitiveFilter ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 EcalDeadCellTriggerPrimitiveFilter
+
+TrigReport ---------- Modules in Path: Flag_goodVertices ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 primaryVertexFilter
+
+TrigReport ---------- Modules in Path: Flag_eeBadScFilter ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 eeBadScFilter
+
+TrigReport ---------- Modules in Path: hTozzTo4leptonsSelectionPath ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 goodOfflinePrimaryVertices
+TrigReport     1    1          1          1          0          0 genZ
+TrigReport     1    2          1          1          0          0 digenZ
+TrigReport     1    3          1          1          0          0 genleptons
+TrigReport     1    4          1          1          0          0 digenleptons
+TrigReport     1    5          1          1          0          0 trigenleptons
+TrigReport     1    6          1          1          0          0 fourgenleptons
+TrigReport     1    7          1          1          0          0 hTozzTo4leptonsMCDumper
+TrigReport     1    8          1          1          0          0 hTozzTo4leptonsMCCP
+TrigReport     1    9          1          1          0          0 hTozzTo4leptonsPFfsrPhoton
+TrigReport     1   10          1          1          0          0 hTozzTo4leptonsHLTInfo
+TrigReport     1   11          1          1          0          0 hTozzTo4leptonsHLTAnalysisFilter
+TrigReport     1   12          1          1          0          0 hTozzTo4leptonsElectronPreSelector
+TrigReport     1   13          1          1          0          0 hTozzTo4leptonsElectronOrdering
+TrigReport     1   14          1          1          0          0 calibratedElectrons
+TrigReport     1   15          1          1          0          0 hTozzTo4leptonsElectronSelector
+TrigReport     1   16          1          1          0          0 electronMVAValueMapProducer
+TrigReport     1   17          1          1          0          0 hTozzTo4leptonsMuonCalibrator
+TrigReport     1   18          1          1          0          0 cleanMuonsBySegments
+TrigReport     1   19          1          1          0          0 hTozzTo4leptonsMuonSelector
+TrigReport     1   20          1          1          0          0 zToEE
+TrigReport     1   21          1          1          0          0 zToMuMu
+TrigReport     1   22          1          1          0          0 hTozzTo4leptons
+TrigReport     1   23          1          1          0          0 hTozzTo4leptonsMMMM
+TrigReport     1   24          1          1          0          0 hTozzTo4leptonsEEEE
+TrigReport     1   25          1          1          0          0 zToEEssplus
+TrigReport     1   26          1          1          0          0 zToEEssminus
+TrigReport     1   27          1          1          0          0 zToEEssmerge
+TrigReport     1   28          1          1          0          0 zToMuMussplus
+TrigReport     1   29          1          1          0          0 zToMuMussminus
+TrigReport     1   30          1          1          0          0 zToMuMussmerge
+TrigReport     1   31          1          1          0          0 zToCrossLeptons
+TrigReport     1   32          1          1          0          0 dileptons
+TrigReport     1   33          1          0          0          1 pfPileUpIsoPFBRECO
+TrigReport     1   34          0          0          0          0 pfNoPileUpIsoPFBRECO
+TrigReport     1   35          0          0          0          0 pfPileUpPFBRECO
+TrigReport     1   36          0          0          0          0 pfNoPileUpPFBRECO
+TrigReport     1   37          0          0          0          0 pfAllNeutralHadronsPFBRECO
+TrigReport     1   38          0          0          0          0 pfAllChargedHadronsPFBRECO
+TrigReport     1   39          0          0          0          0 pfAllPhotonsPFBRECO
+TrigReport     1   40          0          0          0          0 pfAllChargedParticlesPFBRECO
+TrigReport     1   41          0          0          0          0 pfPileUpAllChargedParticlesPFBRECO
+TrigReport     1   42          0          0          0          0 pfAllNeutralHadronsAndPhotonsPFBRECO
+TrigReport     1   43          0          0          0          0 elPFIsoDepositChargedPFBRECO
+TrigReport     1   44          0          0          0          0 elPFIsoDepositChargedAllPFBRECO
+TrigReport     1   45          0          0          0          0 elPFIsoDepositGammaPFBRECO
+TrigReport     1   46          0          0          0          0 elPFIsoDepositNeutralPFBRECO
+TrigReport     1   47          0          0          0          0 elPFIsoDepositPUPFBRECO
+TrigReport     1   48          0          0          0          0 elPFIsoValueCharged03PFIdPFBRECO
+TrigReport     1   49          0          0          0          0 elPFIsoValueChargedAll03PFIdPFBRECO
+TrigReport     1   50          0          0          0          0 elPFIsoValueGamma03PFIdPFBRECO
+TrigReport     1   51          0          0          0          0 elPFIsoValueNeutral03PFIdPFBRECO
+TrigReport     1   52          0          0          0          0 elPFIsoValuePU03PFIdPFBRECO
+TrigReport     1   53          0          0          0          0 elPFIsoValueCharged04PFIdPFBRECO
+TrigReport     1   54          0          0          0          0 elPFIsoValueChargedAll04PFIdPFBRECO
+TrigReport     1   55          0          0          0          0 elPFIsoValueGamma04PFIdPFBRECO
+TrigReport     1   56          0          0          0          0 elPFIsoValueNeutral04PFIdPFBRECO
+TrigReport     1   57          0          0          0          0 elPFIsoValuePU04PFIdPFBRECO
+TrigReport     1   58          0          0          0          0 elPFIsoValueCharged03NoPFIdPFBRECO
+TrigReport     1   59          0          0          0          0 elPFIsoValueChargedAll03NoPFIdPFBRECO
+TrigReport     1   60          0          0          0          0 elPFIsoValueGamma03NoPFIdPFBRECO
+TrigReport     1   61          0          0          0          0 elPFIsoValueNeutral03NoPFIdPFBRECO
+TrigReport     1   62          0          0          0          0 elPFIsoValuePU03NoPFIdPFBRECO
+TrigReport     1   63          0          0          0          0 elPFIsoValueCharged04NoPFIdPFBRECO
+TrigReport     1   64          0          0          0          0 elPFIsoValueChargedAll04NoPFIdPFBRECO
+TrigReport     1   65          0          0          0          0 elPFIsoValueGamma04NoPFIdPFBRECO
+TrigReport     1   66          0          0          0          0 elPFIsoValueNeutral04NoPFIdPFBRECO
+TrigReport     1   67          0          0          0          0 elPFIsoValuePU04NoPFIdPFBRECO
+TrigReport     1   68          0          0          0          0 muPFIsoDepositChargedPFBRECO
+TrigReport     1   69          0          0          0          0 muPFIsoDepositChargedAllPFBRECO
+TrigReport     1   70          0          0          0          0 muPFIsoDepositGammaPFBRECO
+TrigReport     1   71          0          0          0          0 muPFIsoDepositNeutralPFBRECO
+TrigReport     1   72          0          0          0          0 muPFIsoDepositPUPFBRECO
+TrigReport     1   73          0          0          0          0 muPFIsoValueCharged03PFBRECO
+TrigReport     1   74          0          0          0          0 muPFMeanDRIsoValueCharged03PFBRECO
+TrigReport     1   75          0          0          0          0 muPFSumDRIsoValueCharged03PFBRECO
+TrigReport     1   76          0          0          0          0 muPFIsoValueChargedAll03PFBRECO
+TrigReport     1   77          0          0          0          0 muPFMeanDRIsoValueChargedAll03PFBRECO
+TrigReport     1   78          0          0          0          0 muPFSumDRIsoValueChargedAll03PFBRECO
+TrigReport     1   79          0          0          0          0 muPFIsoValueGamma03PFBRECO
+TrigReport     1   80          0          0          0          0 muPFMeanDRIsoValueGamma03PFBRECO
+TrigReport     1   81          0          0          0          0 muPFSumDRIsoValueGamma03PFBRECO
+TrigReport     1   82          0          0          0          0 muPFIsoValueNeutral03PFBRECO
+TrigReport     1   83          0          0          0          0 muPFMeanDRIsoValueNeutral03PFBRECO
+TrigReport     1   84          0          0          0          0 muPFSumDRIsoValueNeutral03PFBRECO
+TrigReport     1   85          0          0          0          0 muPFIsoValueGammaHighThreshold03PFBRECO
+TrigReport     1   86          0          0          0          0 muPFMeanDRIsoValueGammaHighThreshold03PFBRECO
+TrigReport     1   87          0          0          0          0 muPFSumDRIsoValueGammaHighThreshold03PFBRECO
+TrigReport     1   88          0          0          0          0 muPFIsoValueNeutralHighThreshold03PFBRECO
+TrigReport     1   89          0          0          0          0 muPFMeanDRIsoValueNeutralHighThreshold03PFBRECO
+TrigReport     1   90          0          0          0          0 muPFSumDRIsoValueNeutralHighThreshold03PFBRECO
+TrigReport     1   91          0          0          0          0 muPFIsoValuePU03PFBRECO
+TrigReport     1   92          0          0          0          0 muPFMeanDRIsoValuePU03PFBRECO
+TrigReport     1   93          0          0          0          0 muPFSumDRIsoValuePU03PFBRECO
+TrigReport     1   94          0          0          0          0 muPFIsoValueCharged04PFBRECO
+TrigReport     1   95          0          0          0          0 muPFMeanDRIsoValueCharged04PFBRECO
+TrigReport     1   96          0          0          0          0 muPFSumDRIsoValueCharged04PFBRECO
+TrigReport     1   97          0          0          0          0 muPFIsoValueChargedAll04PFBRECO
+TrigReport     1   98          0          0          0          0 muPFMeanDRIsoValueChargedAll04PFBRECO
+TrigReport     1   99          0          0          0          0 muPFSumDRIsoValueChargedAll04PFBRECO
+TrigReport     1  100          0          0          0          0 muPFIsoValueGamma04PFBRECO
+TrigReport     1  101          0          0          0          0 muPFMeanDRIsoValueGamma04PFBRECO
+TrigReport     1  102          0          0          0          0 muPFSumDRIsoValueGamma04PFBRECO
+TrigReport     1  103          0          0          0          0 muPFIsoValueNeutral04PFBRECO
+TrigReport     1  104          0          0          0          0 muPFMeanDRIsoValueNeutral04PFBRECO
+TrigReport     1  105          0          0          0          0 muPFSumDRIsoValueNeutral04PFBRECO
+TrigReport     1  106          0          0          0          0 muPFIsoValueGammaHighThreshold04PFBRECO
+TrigReport     1  107          0          0          0          0 muPFMeanDRIsoValueGammaHighThreshold04PFBRECO
+TrigReport     1  108          0          0          0          0 muPFSumDRIsoValueGammaHighThreshold04PFBRECO
+TrigReport     1  109          0          0          0          0 muPFIsoValueNeutralHighThreshold04PFBRECO
+TrigReport     1  110          0          0          0          0 muPFMeanDRIsoValueNeutralHighThreshold04PFBRECO
+TrigReport     1  111          0          0          0          0 muPFSumDRIsoValueNeutralHighThreshold04PFBRECO
+TrigReport     1  112          0          0          0          0 muPFIsoValuePU04PFBRECO
+TrigReport     1  113          0          0          0          0 muPFMeanDRIsoValuePU04PFBRECO
+TrigReport     1  114          0          0          0          0 muPFSumDRIsoValuePU04PFBRECO
+TrigReport     1  115          0          0          0          0 phPFIsoDepositChargedPFBRECO
+TrigReport     1  116          0          0          0          0 phPFIsoDepositChargedAllPFBRECO
+TrigReport     1  117          0          0          0          0 phPFIsoDepositGammaPFBRECO
+TrigReport     1  118          0          0          0          0 phPFIsoDepositNeutralPFBRECO
+TrigReport     1  119          0          0          0          0 phPFIsoDepositPUPFBRECO
+TrigReport     1  120          0          0          0          0 phPFIsoValueCharged03PFIdPFBRECO
+TrigReport     1  121          0          0          0          0 phPFIsoValueChargedAll03PFIdPFBRECO
+TrigReport     1  122          0          0          0          0 phPFIsoValueGamma03PFIdPFBRECO
+TrigReport     1  123          0          0          0          0 phPFIsoValueNeutral03PFIdPFBRECO
+TrigReport     1  124          0          0          0          0 phPFIsoValuePU03PFIdPFBRECO
+TrigReport     1  125          0          0          0          0 phPFIsoValueCharged04PFIdPFBRECO
+TrigReport     1  126          0          0          0          0 phPFIsoValueChargedAll04PFIdPFBRECO
+TrigReport     1  127          0          0          0          0 phPFIsoValueGamma04PFIdPFBRECO
+TrigReport     1  128          0          0          0          0 phPFIsoValueNeutral04PFIdPFBRECO
+TrigReport     1  129          0          0          0          0 phPFIsoValuePU04PFIdPFBRECO
+TrigReport     1  130          0          0          0          0 zToEELooseIsol
+TrigReport     1  131          0          0          0          0 zToMuMuLooseIsol
+TrigReport     1  132          0          0          0          0 hTozzTo4leptonsLooseIsol
+TrigReport     1  133          0          0          0          0 hTozzTo4leptonsMMMMLooseIsol
+TrigReport     1  134          0          0          0          0 hTozzTo4leptonsEEEELooseIsol
+TrigReport     1  135          0          0          0          0 hTozzTo4leptonsIpToVtxProducer
+TrigReport     1  136          0          0          0          0 hTozzTo4leptonsIpToVtxProducerKF
+TrigReport     1  137          0          0          0          0 hTozzTo4leptonsTipLipToVtxProducer
+TrigReport     1  138          0          0          0          0 hTozzTo4leptonsPFJetSelector
+TrigReport     1  139          0          0          0          0 ConvValueMapProd
+TrigReport     1  140          0          0          0          0 myMuons
+TrigReport     1  141          0          0          0          0 goodMuonMCMatch
+TrigReport     1  142          0          0          0          0 myElectrons
+TrigReport     1  143          0          0          0          0 goodElectronMCMatch
+TrigReport     1  144          0          0          0          0 myGammas
+TrigReport     1  145          0          0          0          0 goodGammaMCMatch
+TrigReport     1  146          0          0          0          0 goodZtoMuMuMCMatch
+TrigReport     1  147          0          0          0          0 goodZtoEEMCMatch
+TrigReport     1  148          0          0          0          0 goodHiggsTozzToEEMMMCMatch
+TrigReport     1  149          0          0          0          0 goodHiggsTozzToMMMMMCMatch
+TrigReport     1  150          0          0          0          0 goodHiggsTozzToEEEEMCMatch
+TrigReport     1  151          0          0          0          0 hTozzTo4leptonsCommonRootTreePresel
+
+TrigReport ---------- Module Summary ------------
+TrigReport    Visited   Executed     Passed     Failed      Error Name
+TrigReport          1          1          1          0          0 bunchSpacingProducer
+TrigReport          2          1          1          0          0 HBHENoiseFilterResultProducer
+TrigReport          1          1          1          0          0 HBHENoiseFilter
+TrigReport          1          1          1          0          0 HBHENoiseIsoFilter
+TrigReport          1          1          1          0          0 EcalDeadCellTriggerPrimitiveFilter
+TrigReport          1          1          1          0          0 primaryVertexFilter
+TrigReport          1          1          1          0          0 eeBadScFilter
+TrigReport          1          1          1          0          0 goodOfflinePrimaryVertices
+TrigReport          1          1          1          0          0 genZ
+TrigReport          1          1          1          0          0 digenZ
+TrigReport          1          1          1          0          0 genleptons
+TrigReport          1          1          1          0          0 digenleptons
+TrigReport          1          1          1          0          0 trigenleptons
+TrigReport          1          1          1          0          0 fourgenleptons
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMCDumper
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMCCP
+TrigReport          1          1          1          0          0 hTozzTo4leptonsPFfsrPhoton
+TrigReport          1          1          1          0          0 hTozzTo4leptonsHLTInfo
+TrigReport          1          1          1          0          0 hTozzTo4leptonsHLTAnalysisFilter
+TrigReport          1          1          1          0          0 hTozzTo4leptonsElectronPreSelector
+TrigReport          1          1          1          0          0 hTozzTo4leptonsElectronOrdering
+TrigReport          1          1          1          0          0 calibratedElectrons
+TrigReport          1          1          1          0          0 hTozzTo4leptonsElectronSelector
+TrigReport          1          1          1          0          0 electronMVAValueMapProducer
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMuonCalibrator
+TrigReport          1          1          1          0          0 cleanMuonsBySegments
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMuonSelector
+TrigReport          1          1          1          0          0 zToEE
+TrigReport          1          1          1          0          0 zToMuMu
+TrigReport          1          1          1          0          0 hTozzTo4leptons
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMMMM
+TrigReport          1          1          1          0          0 hTozzTo4leptonsEEEE
+TrigReport          1          1          1          0          0 zToEEssplus
+TrigReport          1          1          1          0          0 zToEEssminus
+TrigReport          1          1          1          0          0 zToEEssmerge
+TrigReport          1          1          1          0          0 zToMuMussplus
+TrigReport          1          1          1          0          0 zToMuMussminus
+TrigReport          1          1          1          0          0 zToMuMussmerge
+TrigReport          1          1          1          0          0 zToCrossLeptons
+TrigReport          1          1          1          0          0 dileptons
+TrigReport          1          1          0          0          1 pfPileUpIsoPFBRECO
+TrigReport          0          0          0          0          0 pfNoPileUpIsoPFBRECO
+TrigReport          0          0          0          0          0 pfPileUpPFBRECO
+TrigReport          0          0          0          0          0 pfNoPileUpPFBRECO
+TrigReport          0          0          0          0          0 pfAllNeutralHadronsPFBRECO
+TrigReport          0          0          0          0          0 pfAllChargedHadronsPFBRECO
+TrigReport          0          0          0          0          0 pfAllPhotonsPFBRECO
+TrigReport          0          0          0          0          0 pfAllChargedParticlesPFBRECO
+TrigReport          0          0          0          0          0 pfPileUpAllChargedParticlesPFBRECO
+TrigReport          0          0          0          0          0 pfAllNeutralHadronsAndPhotonsPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoDepositChargedPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoDepositChargedAllPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoDepositGammaPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoDepositNeutralPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoDepositPUPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueCharged03PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueChargedAll03PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueGamma03PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueNeutral03PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValuePU03PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueCharged04PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueChargedAll04PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueGamma04PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueNeutral04PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValuePU04PFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueCharged03NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueChargedAll03NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueGamma03NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueNeutral03NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValuePU03NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueCharged04NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueChargedAll04NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueGamma04NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValueNeutral04NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 elPFIsoValuePU04NoPFIdPFBRECO
+TrigReport          0          0          0          0          0 muPFIsoDepositChargedPFBRECO
+TrigReport          0          0          0          0          0 muPFIsoDepositChargedAllPFBRECO
+TrigReport          0          0          0          0          0 muPFIsoDepositGammaPFBRECO
+TrigReport          0          0          0          0          0 muPFIsoDepositNeutralPFBRECO
+TrigReport          0          0          0          0          0 muPFIsoDepositPUPFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueCharged03PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueCharged03PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueCharged03PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueChargedAll03PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueChargedAll03PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueChargedAll03PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueGamma03PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueGamma03PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueGamma03PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueNeutral03PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueNeutral03PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueNeutral03PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueGammaHighThreshold03PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueGammaHighThreshold03PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueGammaHighThreshold03PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueNeutralHighThreshold03PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueNeutralHighThreshold03PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueNeutralHighThreshold03PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValuePU03PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValuePU03PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValuePU03PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueCharged04PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueCharged04PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueCharged04PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueChargedAll04PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueChargedAll04PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueChargedAll04PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueGamma04PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueGamma04PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueGamma04PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueNeutral04PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueNeutral04PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueNeutral04PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueGammaHighThreshold04PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueGammaHighThreshold04PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueGammaHighThreshold04PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValueNeutralHighThreshold04PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValueNeutralHighThreshold04PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValueNeutralHighThreshold04PFBRECO
+TrigReport          0          0          0          0          0 muPFIsoValuePU04PFBRECO
+TrigReport          0          0          0          0          0 muPFMeanDRIsoValuePU04PFBRECO
+TrigReport          0          0          0          0          0 muPFSumDRIsoValuePU04PFBRECO
+TrigReport          0          0          0          0          0 phPFIsoDepositChargedPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoDepositChargedAllPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoDepositGammaPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoDepositNeutralPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoDepositPUPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValueCharged03PFIdPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValueChargedAll03PFIdPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValueGamma03PFIdPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValueNeutral03PFIdPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValuePU03PFIdPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValueCharged04PFIdPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValueChargedAll04PFIdPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValueGamma04PFIdPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValueNeutral04PFIdPFBRECO
+TrigReport          0          0          0          0          0 phPFIsoValuePU04PFIdPFBRECO
+TrigReport          0          0          0          0          0 zToEELooseIsol
+TrigReport          0          0          0          0          0 zToMuMuLooseIsol
+TrigReport          0          0          0          0          0 hTozzTo4leptonsLooseIsol
+TrigReport          0          0          0          0          0 hTozzTo4leptonsMMMMLooseIsol
+TrigReport          0          0          0          0          0 hTozzTo4leptonsEEEELooseIsol
+TrigReport          0          0          0          0          0 hTozzTo4leptonsIpToVtxProducer
+TrigReport          0          0          0          0          0 hTozzTo4leptonsIpToVtxProducerKF
+TrigReport          0          0          0          0          0 hTozzTo4leptonsTipLipToVtxProducer
+TrigReport          0          0          0          0          0 hTozzTo4leptonsPFJetSelector
+TrigReport          0          0          0          0          0 ConvValueMapProd
+TrigReport          0          0          0          0          0 myMuons
+TrigReport          0          0          0          0          0 goodMuonMCMatch
+TrigReport          0          0          0          0          0 myElectrons
+TrigReport          0          0          0          0          0 goodElectronMCMatch
+TrigReport          0          0          0          0          0 myGammas
+TrigReport          0          0          0          0          0 goodGammaMCMatch
+TrigReport          0          0          0          0          0 goodZtoMuMuMCMatch
+TrigReport          0          0          0          0          0 goodZtoEEMCMatch
+TrigReport          0          0          0          0          0 goodHiggsTozzToEEMMMCMatch
+TrigReport          0          0          0          0          0 goodHiggsTozzToMMMMMCMatch
+TrigReport          0          0          0          0          0 goodHiggsTozzToEEEEMCMatch
+TrigReport          0          0          0          0          0 hTozzTo4leptonsCommonRootTreePresel
+TrigReport          0          0          0          0          0 TriggerResults
+
+TimeReport ---------- Event  Summary ---[sec]----
+TimeReport       event loop CPU/event = 4.279706
+TimeReport      event loop Real/event = 70.881717
+TimeReport     sum Streams Real/event = 1.044620
+TimeReport efficiency CPU/Real/thread = 0.060378
+
+TimeReport ---------- Path   Summary ---[Real sec]----
+TimeReport  per event     per exec  Name
+TimeReport   0.004477     0.004477  Path_BunchSpacingproducer
+TimeReport   0.007411     0.007411  Flag_HBHENoiseFilter
+TimeReport   0.000005     0.000005  Flag_HBHENoiseIsoFilter
+TimeReport   0.000151     0.000151  Flag_EcalDeadCellTriggerPrimitiveFilter
+TimeReport   0.006973     0.006973  Flag_goodVertices
+TimeReport   0.003836     0.003836  Flag_eeBadScFilter
+TimeReport   0.924772     0.924772  hTozzTo4leptonsSelectionPath
+TimeReport  per event     per exec  Name
+
+TimeReport -------End-Path   Summary ---[Real sec]----
+TimeReport  per event     per exec  Name
+TimeReport  per event     per exec  Name
+
+TimeReport ---------- Modules in Path: Path_BunchSpacingproducer ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000158     0.000158  bunchSpacingProducer
+
+TimeReport ---------- Modules in Path: Flag_HBHENoiseFilter ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000308     0.000308  HBHENoiseFilterResultProducer
+TimeReport   0.000027     0.000027  HBHENoiseFilter
+
+TimeReport ---------- Modules in Path: Flag_HBHENoiseIsoFilter ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  HBHENoiseFilterResultProducer
+TimeReport   0.000001     0.000001  HBHENoiseIsoFilter
+
+TimeReport ---------- Modules in Path: Flag_EcalDeadCellTriggerPrimitiveFilter ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000138     0.000138  EcalDeadCellTriggerPrimitiveFilter
+
+TimeReport ---------- Modules in Path: Flag_goodVertices ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000034     0.000034  primaryVertexFilter
+
+TimeReport ---------- Modules in Path: Flag_eeBadScFilter ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000175     0.000175  eeBadScFilter
+
+TimeReport ---------- Modules in Path: hTozzTo4leptonsSelectionPath ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000188     0.000188  goodOfflinePrimaryVertices
+TimeReport   0.000200     0.000200  genZ
+TimeReport   0.000120     0.000120  digenZ
+TimeReport   0.000113     0.000113  genleptons
+TimeReport   0.269798     0.269798  digenleptons
+TimeReport   0.000404     0.000404  trigenleptons
+TimeReport   0.000421     0.000421  fourgenleptons
+TimeReport   0.000029     0.000029  hTozzTo4leptonsMCDumper
+TimeReport   0.000222     0.000222  hTozzTo4leptonsMCCP
+TimeReport   0.012216     0.012216  hTozzTo4leptonsPFfsrPhoton
+TimeReport   0.001003     0.001003  hTozzTo4leptonsHLTInfo
+TimeReport   0.000150     0.000150  hTozzTo4leptonsHLTAnalysisFilter
+TimeReport   0.000097     0.000097  hTozzTo4leptonsElectronPreSelector
+TimeReport   0.000077     0.000077  hTozzTo4leptonsElectronOrdering
+TimeReport   0.006292     0.006292  calibratedElectrons
+TimeReport   0.000006     0.000006  hTozzTo4leptonsElectronSelector
+TimeReport   0.020022     0.020022  electronMVAValueMapProducer
+TimeReport   0.344633     0.344633  hTozzTo4leptonsMuonCalibrator
+TimeReport   0.000472     0.000472  cleanMuonsBySegments
+TimeReport   0.000061     0.000061  hTozzTo4leptonsMuonSelector
+TimeReport   0.000017     0.000017  zToEE
+TimeReport   0.000014     0.000014  zToMuMu
+TimeReport   0.000008     0.000008  hTozzTo4leptons
+TimeReport   0.000007     0.000007  hTozzTo4leptonsMMMM
+TimeReport   0.000007     0.000007  hTozzTo4leptonsEEEE
+TimeReport   0.000007     0.000007  zToEEssplus
+TimeReport   0.000007     0.000007  zToEEssminus
+TimeReport   0.000078     0.000078  zToEEssmerge
+TimeReport   0.000013     0.000013  zToMuMussplus
+TimeReport   0.000010     0.000010  zToMuMussminus
+TimeReport   0.000006     0.000006  zToMuMussmerge
+TimeReport   0.000010     0.000010  zToCrossLeptons
+TimeReport   0.000009     0.000009  dileptons
+TimeReport   0.018173     0.018173  pfPileUpIsoPFBRECO
+TimeReport   0.000000     0.000000  pfNoPileUpIsoPFBRECO
+TimeReport   0.000000     0.000000  pfPileUpPFBRECO
+TimeReport   0.000000     0.000000  pfNoPileUpPFBRECO
+TimeReport   0.000000     0.000000  pfAllNeutralHadronsPFBRECO
+TimeReport   0.000000     0.000000  pfAllChargedHadronsPFBRECO
+TimeReport   0.000000     0.000000  pfAllPhotonsPFBRECO
+TimeReport   0.000000     0.000000  pfAllChargedParticlesPFBRECO
+TimeReport   0.000000     0.000000  pfPileUpAllChargedParticlesPFBRECO
+TimeReport   0.000000     0.000000  pfAllNeutralHadronsAndPhotonsPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoDepositChargedPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoDepositChargedAllPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoDepositGammaPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoDepositNeutralPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoDepositPUPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueCharged03PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueChargedAll03PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueGamma03PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueNeutral03PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValuePU03PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueCharged04PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueChargedAll04PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueGamma04PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueNeutral04PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValuePU04PFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueCharged03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueChargedAll03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueGamma03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueNeutral03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValuePU03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueCharged04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueChargedAll04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueGamma04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValueNeutral04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  elPFIsoValuePU04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000  muPFIsoDepositChargedPFBRECO
+TimeReport   0.000000     0.000000  muPFIsoDepositChargedAllPFBRECO
+TimeReport   0.000000     0.000000  muPFIsoDepositGammaPFBRECO
+TimeReport   0.000000     0.000000  muPFIsoDepositNeutralPFBRECO
+TimeReport   0.000000     0.000000  muPFIsoDepositPUPFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueCharged03PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueCharged03PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueCharged03PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueChargedAll03PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueChargedAll03PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueChargedAll03PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueGamma03PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueGamma03PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueGamma03PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueNeutral03PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueNeutral03PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueNeutral03PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueGammaHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueGammaHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueGammaHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueNeutralHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueNeutralHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueNeutralHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValuePU03PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValuePU03PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValuePU03PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueCharged04PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueCharged04PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueCharged04PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueChargedAll04PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueChargedAll04PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueChargedAll04PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueGamma04PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueGamma04PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueGamma04PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueNeutral04PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueNeutral04PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueNeutral04PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueGammaHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueGammaHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueGammaHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValueNeutralHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValueNeutralHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValueNeutralHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000  muPFIsoValuePU04PFBRECO
+TimeReport   0.000000     0.000000  muPFMeanDRIsoValuePU04PFBRECO
+TimeReport   0.000000     0.000000  muPFSumDRIsoValuePU04PFBRECO
+TimeReport   0.000000     0.000000  phPFIsoDepositChargedPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoDepositChargedAllPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoDepositGammaPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoDepositNeutralPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoDepositPUPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValueCharged03PFIdPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValueChargedAll03PFIdPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValueGamma03PFIdPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValueNeutral03PFIdPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValuePU03PFIdPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValueCharged04PFIdPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValueChargedAll04PFIdPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValueGamma04PFIdPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValueNeutral04PFIdPFBRECO
+TimeReport   0.000000     0.000000  phPFIsoValuePU04PFIdPFBRECO
+TimeReport   0.000000     0.000000  zToEELooseIsol
+TimeReport   0.000000     0.000000  zToMuMuLooseIsol
+TimeReport   0.000000     0.000000  hTozzTo4leptonsLooseIsol
+TimeReport   0.000000     0.000000  hTozzTo4leptonsMMMMLooseIsol
+TimeReport   0.000000     0.000000  hTozzTo4leptonsEEEELooseIsol
+TimeReport   0.000000     0.000000  hTozzTo4leptonsIpToVtxProducer
+TimeReport   0.000000     0.000000  hTozzTo4leptonsIpToVtxProducerKF
+TimeReport   0.000000     0.000000  hTozzTo4leptonsTipLipToVtxProducer
+TimeReport   0.000000     0.000000  hTozzTo4leptonsPFJetSelector
+TimeReport   0.000000     0.000000  ConvValueMapProd
+TimeReport   0.000000     0.000000  myMuons
+TimeReport   0.000000     0.000000  goodMuonMCMatch
+TimeReport   0.000000     0.000000  myElectrons
+TimeReport   0.000000     0.000000  goodElectronMCMatch
+TimeReport   0.000000     0.000000  myGammas
+TimeReport   0.000000     0.000000  goodGammaMCMatch
+TimeReport   0.000000     0.000000  goodZtoMuMuMCMatch
+TimeReport   0.000000     0.000000  goodZtoEEMCMatch
+TimeReport   0.000000     0.000000  goodHiggsTozzToEEMMMCMatch
+TimeReport   0.000000     0.000000  goodHiggsTozzToMMMMMCMatch
+TimeReport   0.000000     0.000000  goodHiggsTozzToEEEEMCMatch
+TimeReport   0.000000     0.000000  hTozzTo4leptonsCommonRootTreePresel
+TimeReport  per event    per visit  Name
+
+TimeReport ---------- Module Summary ---[Real sec]----
+TimeReport  per event     per exec    per visit  Name
+TimeReport   0.000000     0.000000     0.000000  TriggerResults
+TimeReport   0.000158     0.000158     0.000158  bunchSpacingProducer
+TimeReport   0.000308     0.000308     0.000154  HBHENoiseFilterResultProducer
+TimeReport   0.000027     0.000027     0.000027  HBHENoiseFilter
+TimeReport   0.000001     0.000001     0.000001  HBHENoiseIsoFilter
+TimeReport   0.000138     0.000138     0.000138  EcalDeadCellTriggerPrimitiveFilter
+TimeReport   0.000034     0.000034     0.000034  primaryVertexFilter
+TimeReport   0.000175     0.000175     0.000175  eeBadScFilter
+TimeReport   0.000188     0.000188     0.000188  goodOfflinePrimaryVertices
+TimeReport   0.000200     0.000200     0.000200  genZ
+TimeReport   0.000120     0.000120     0.000120  digenZ
+TimeReport   0.000113     0.000113     0.000113  genleptons
+TimeReport   0.269798     0.269798     0.269798  digenleptons
+TimeReport   0.000404     0.000404     0.000404  trigenleptons
+TimeReport   0.000421     0.000421     0.000421  fourgenleptons
+TimeReport   0.000029     0.000029     0.000029  hTozzTo4leptonsMCDumper
+TimeReport   0.000222     0.000222     0.000222  hTozzTo4leptonsMCCP
+TimeReport   0.012216     0.012216     0.012216  hTozzTo4leptonsPFfsrPhoton
+TimeReport   0.001003     0.001003     0.001003  hTozzTo4leptonsHLTInfo
+TimeReport   0.000150     0.000150     0.000150  hTozzTo4leptonsHLTAnalysisFilter
+TimeReport   0.000097     0.000097     0.000097  hTozzTo4leptonsElectronPreSelector
+TimeReport   0.000077     0.000077     0.000077  hTozzTo4leptonsElectronOrdering
+TimeReport   0.006292     0.006292     0.006292  calibratedElectrons
+TimeReport   0.000006     0.000006     0.000006  hTozzTo4leptonsElectronSelector
+TimeReport   0.020022     0.020022     0.020022  electronMVAValueMapProducer
+TimeReport   0.344633     0.344633     0.344633  hTozzTo4leptonsMuonCalibrator
+TimeReport   0.000472     0.000472     0.000472  cleanMuonsBySegments
+TimeReport   0.000061     0.000061     0.000061  hTozzTo4leptonsMuonSelector
+TimeReport   0.000017     0.000017     0.000017  zToEE
+TimeReport   0.000014     0.000014     0.000014  zToMuMu
+TimeReport   0.000008     0.000008     0.000008  hTozzTo4leptons
+TimeReport   0.000007     0.000007     0.000007  hTozzTo4leptonsMMMM
+TimeReport   0.000007     0.000007     0.000007  hTozzTo4leptonsEEEE
+TimeReport   0.000007     0.000007     0.000007  zToEEssplus
+TimeReport   0.000007     0.000007     0.000007  zToEEssminus
+TimeReport   0.000078     0.000078     0.000078  zToEEssmerge
+TimeReport   0.000013     0.000013     0.000013  zToMuMussplus
+TimeReport   0.000010     0.000010     0.000010  zToMuMussminus
+TimeReport   0.000006     0.000006     0.000006  zToMuMussmerge
+TimeReport   0.000010     0.000010     0.000010  zToCrossLeptons
+TimeReport   0.000009     0.000009     0.000009  dileptons
+TimeReport   0.018173     0.018173     0.018173  pfPileUpIsoPFBRECO
+TimeReport   0.000000     0.000000     0.000000  pfNoPileUpIsoPFBRECO
+TimeReport   0.000000     0.000000     0.000000  pfPileUpPFBRECO
+TimeReport   0.000000     0.000000     0.000000  pfNoPileUpPFBRECO
+TimeReport   0.000000     0.000000     0.000000  pfAllNeutralHadronsPFBRECO
+TimeReport   0.000000     0.000000     0.000000  pfAllChargedHadronsPFBRECO
+TimeReport   0.000000     0.000000     0.000000  pfAllPhotonsPFBRECO
+TimeReport   0.000000     0.000000     0.000000  pfAllChargedParticlesPFBRECO
+TimeReport   0.000000     0.000000     0.000000  pfPileUpAllChargedParticlesPFBRECO
+TimeReport   0.000000     0.000000     0.000000  pfAllNeutralHadronsAndPhotonsPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoDepositChargedPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoDepositChargedAllPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoDepositGammaPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoDepositNeutralPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoDepositPUPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueCharged03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueChargedAll03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueGamma03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueNeutral03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValuePU03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueCharged04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueChargedAll04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueGamma04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueNeutral04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValuePU04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueCharged03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueChargedAll03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueGamma03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueNeutral03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValuePU03NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueCharged04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueChargedAll04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueGamma04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValueNeutral04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  elPFIsoValuePU04NoPFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoDepositChargedPFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoDepositChargedAllPFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoDepositGammaPFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoDepositNeutralPFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoDepositPUPFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueCharged03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueCharged03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueCharged03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueChargedAll03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueChargedAll03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueChargedAll03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueGamma03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueGamma03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueGamma03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueNeutral03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueNeutral03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueNeutral03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueGammaHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueGammaHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueGammaHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueNeutralHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueNeutralHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueNeutralHighThreshold03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValuePU03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValuePU03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValuePU03PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueCharged04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueCharged04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueCharged04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueChargedAll04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueChargedAll04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueChargedAll04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueGamma04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueGamma04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueGamma04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueNeutral04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueNeutral04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueNeutral04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueGammaHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueGammaHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueGammaHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValueNeutralHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValueNeutralHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValueNeutralHighThreshold04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFIsoValuePU04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFMeanDRIsoValuePU04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  muPFSumDRIsoValuePU04PFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoDepositChargedPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoDepositChargedAllPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoDepositGammaPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoDepositNeutralPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoDepositPUPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValueCharged03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValueChargedAll03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValueGamma03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValueNeutral03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValuePU03PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValueCharged04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValueChargedAll04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValueGamma04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValueNeutral04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  phPFIsoValuePU04PFIdPFBRECO
+TimeReport   0.000000     0.000000     0.000000  zToEELooseIsol
+TimeReport   0.000000     0.000000     0.000000  zToMuMuLooseIsol
+TimeReport   0.000000     0.000000     0.000000  hTozzTo4leptonsLooseIsol
+TimeReport   0.000000     0.000000     0.000000  hTozzTo4leptonsMMMMLooseIsol
+TimeReport   0.000000     0.000000     0.000000  hTozzTo4leptonsEEEELooseIsol
+TimeReport   0.000000     0.000000     0.000000  hTozzTo4leptonsIpToVtxProducer
+TimeReport   0.000000     0.000000     0.000000  hTozzTo4leptonsIpToVtxProducerKF
+TimeReport   0.000000     0.000000     0.000000  hTozzTo4leptonsTipLipToVtxProducer
+TimeReport   0.000000     0.000000     0.000000  hTozzTo4leptonsPFJetSelector
+TimeReport   0.000000     0.000000     0.000000  ConvValueMapProd
+TimeReport   0.000000     0.000000     0.000000  myMuons
+TimeReport   0.000000     0.000000     0.000000  goodMuonMCMatch
+TimeReport   0.000000     0.000000     0.000000  myElectrons
+TimeReport   0.000000     0.000000     0.000000  goodElectronMCMatch
+TimeReport   0.000000     0.000000     0.000000  myGammas
+TimeReport   0.000000     0.000000     0.000000  goodGammaMCMatch
+TimeReport   0.000000     0.000000     0.000000  goodZtoMuMuMCMatch
+TimeReport   0.000000     0.000000     0.000000  goodZtoEEMCMatch
+TimeReport   0.000000     0.000000     0.000000  goodHiggsTozzToEEMMMCMatch
+TimeReport   0.000000     0.000000     0.000000  goodHiggsTozzToMMMMMCMatch
+TimeReport   0.000000     0.000000     0.000000  goodHiggsTozzToEEEEMCMatch
+TimeReport   0.000000     0.000000     0.000000  hTozzTo4leptonsCommonRootTreePresel
+TimeReport  per event     per exec    per visit  Name
+
+T---Report end!
+
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 Fatal Exception      -s PostProcessPath                        1        1
+    2 fileAction           -s file_close                             1        1
+    3 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 Fatal Exception      1/74596                           
+    2 fileAction           PostEndRun                        
+    3 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  4                   4
+Number of events analysed for the ROOT tree= 0
