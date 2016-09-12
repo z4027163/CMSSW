@@ -21,6 +21,7 @@
 #include "FWCore/Utilities/interface/InputTag.h"
 #include <DataFormats/EgammaCandidates/interface/GsfElectron.h>
 #include <DataFormats/EgammaCandidates/interface/GsfElectronFwd.h>
+#include "DataFormats/PatCandidates/interface/Electron.h"
 
 class HZZ4LeptonsElectronOrdering : public edm::EDProducer {
  public:
@@ -30,7 +31,7 @@ class HZZ4LeptonsElectronOrdering : public edm::EDProducer {
  private:
   virtual void produce(edm::Event&, const edm::EventSetup&);
 
-  edm::EDGetTokenT<reco::GsfElectronCollection> elecLabel;
+  edm::EDGetTokenT<pat::ElectronCollection> elecLabel;
 
   int counterelectron;
  

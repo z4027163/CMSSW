@@ -61,14 +61,14 @@ process.hTozzTo4leptonsSelectionPath = cms.Path(process.noscraping * process.hTo
 ## process.hTozzTo4leptonsSelectionOutputModuleNew.SelectEvents.SelectEvents = cms.vstring('goodvertex','l1tcollpath'')
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10) )
 
 process.source = cms.Source("PoolSource",
                             #lumisToProcess = cms.untracked.VLuminosityBlockRange('138572:113-138572:120'),
                             #lumisToProcess = cms.untracked.VLuminosityBlockRange('138572:137-138572:144'),
              #               lumisToProcess = cms.untracked.VLuminosityBlockRange('138572:161-138572:168'),
                             fileNames = cms.untracked.vstring(
-#'file:/lustre/cms//store/user/ndefilip/H115_ZZ_4l_7TeV_GEN_HLT_CMSSW_3_5_6/RECOSIM_CMSSW_3_6_1_patch4/4f716ffe89f69a873b4d401e7ef6aee3/RAW2DIGI_L1Reco_RECO_33_1_jOy.root'
+'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_data.root'
 #'file:FEC8E6BC-43CA-DF11-B2D6-001CC443B76C.root'
 #'file:/tmp/botta/804D8EF9-4ECA-DF11-B009-1CC1DE051038.root'
 #'file:14268FE8-8450-E011-AF2E-0030487C90D4.root'
@@ -86,7 +86,7 @@ process.source = cms.Source("PoolSource",
 #'/store/data/Run2010A/Mu/AOD/Apr21ReReco-v1/0000/764547F6-5470-E011-BDED-1CC1DE1D1FE6.root'
 #'file:hTozzTo4leptons_run.root'
 #'file:/cmshome/nicola/6E9AE439-10B4-E011-A69A-E0CB4E4408D1.root'
-'/store/data/Run2011B/DoubleMu/AOD/PromptReco-v1/000/176/206/2A916503-D7E0-E011-9657-BCAEC5329707.root'
+#'/store/data/Run2011B/DoubleMu/AOD/PromptReco-v1/000/176/206/2A916503-D7E0-E011-9657-BCAEC5329707.root'
 )
                            )
 

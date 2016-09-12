@@ -465,8 +465,8 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 //    cSV_bTag_               = consumes<edm::AssociationVector<edm::RefToBaseProd<reco::Jet>,std::vector<float>,edm::RefToBase<reco::Jet>,unsigned int,edm::helper::AssociationIdenticalKeyReference> >(pset.getParameter<edm::InputTag>("cSV_bTagLabel"));
 
     // Conversion finder
-    ConvMapDistTag_       = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("ConvMapDist"));
-    ConvMapDcotTag_       = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("ConvMapDcot"));
+//    ConvMapDistTag_       = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("ConvMapDist"));
+//    ConvMapDcotTag_       = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("ConvMapDcot"));
     
     // Matching
     goodElectronMCMatch_  = consumes<edm::Association<std::vector<reco::GenParticle> >>(pset.getParameter<edm::InputTag>("goodElectronMCMatch"));
@@ -3109,11 +3109,11 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
    
     cout << "test 5" << endl; 
     // Conversion Finder
-    edm::Handle<edm::ValueMap<float> > conversiondistmap;
-    iEvent.getByToken(ConvMapDistTag_, conversiondistmap);
+//    edm::Handle<edm::ValueMap<float> > conversiondistmap;
+//    iEvent.getByToken(ConvMapDistTag_, conversiondistmap);
 
-    edm::Handle<edm::ValueMap<float> > conversiondcotmap;
-    iEvent.getByToken(ConvMapDcotTag_, conversiondcotmap);
+//    edm::Handle<edm::ValueMap<float> > conversiondcotmap;
+//    iEvent.getByToken(ConvMapDcotTag_, conversiondcotmap);
 
 
     // primary vertex
@@ -3583,13 +3583,14 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
 
       // Conversion Finder
+/*
       ConvMapDist[index]=(*conversiondistmap)[eletrackref];
       ConvMapDcot[index]=(*conversiondcotmap)[eletrackref];
       std::cout << "Conversion finder = "
 		<< ConvMapDist[index] << " " 
 		<< ConvMapDcot[index] << " " 
 		<< std::endl;
-
+*/
      
       // Matching
       if (fillMCTruth==true){
@@ -5204,7 +5205,7 @@ void fillTracks(const edm::Event& iEvent){
   edm::InputTag cormetMuTag_;
 
   // Conversion
-  edm::EDGetTokenT<edm::ValueMap<float> > ConvMapDistTag_,ConvMapDcotTag_;
+//  edm::EDGetTokenT<edm::ValueMap<float> > ConvMapDistTag_,ConvMapDcotTag_;
 
   // Matching
   edm::EDGetTokenT<edm::Association<std::vector<reco::GenParticle> > > goodElectronMCMatch_;

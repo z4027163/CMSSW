@@ -9,8 +9,9 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 
 // Electrons:
-#include <DataFormats/EgammaCandidates/interface/GsfElectron.h>
-#include <DataFormats/EgammaCandidates/interface/GsfElectronFwd.h>
+//#include <DataFormats/EgammaCandidates/interface/GsfElectron.h>
+//#include <DataFormats/EgammaCandidates/interface/GsfElectronFwd.h>
+#include "DataFormats/PatCandidates/interface/Electron.h"
 
 // Candidate handling
 #include "DataFormats/Candidate/interface/Candidate.h"
@@ -30,7 +31,7 @@ using namespace reco;
 
 
 struct SortCandByDecreasingPt {
-  bool operator()( const reco::GsfElectron &c1, const reco::GsfElectron &c2) const {
+  bool operator()( const pat::Electron &c1, const pat::Electron &c2) const {
     return c1.pt() > c2.pt();
   }
 };
@@ -38,9 +39,9 @@ struct SortCandByDecreasingPt {
 // constructor
 HZZ4LeptonsElectronOrdering::HZZ4LeptonsElectronOrdering(const edm::ParameterSet& pset) {
 
-  elecLabel   = consumes<reco::GsfElectronCollection>(pset.getParameter<edm::InputTag>("electronCollection"));
+  elecLabel   = consumes<pat::ElectronCollection>(pset.getParameter<edm::InputTag>("electronCollection"));
  
-  produces<reco::GsfElectronCollection>(); 
+  produces<pat::ElectronCollection>(); 
 
   counterelectron=0;	
 
@@ -54,16 +55,16 @@ HZZ4LeptonsElectronOrdering::~HZZ4LeptonsElectronOrdering() {
 
 void HZZ4LeptonsElectronOrdering::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
-  auto_ptr<reco::GsfElectronCollection> Gelec( new reco::GsfElectronCollection );
+  auto_ptr<pat::ElectronCollection> Gelec( new pat::ElectronCollection );
 
-  // Get all pixel match GSF electron candidates
-  edm::Handle<reco::GsfElectronCollection> electrons;
+  // Get all pixel match electron candidates
+  edm::Handle<pat::ElectronCollection> electrons;
   iEvent.getByToken(elecLabel, electrons);
 
   if (electrons.isValid()){
-    // Loop over GsfElectrons
+    // Loop over Electrons
     for (unsigned int i = 0; i < electrons->size(); ++i) {
-      Ref<reco::GsfElectronCollection> electronRef(electrons,i);
+      Ref<pat::ElectronCollection> electronRef(electrons,i);
       Gelec->push_back( *electronRef );      
     } 
   }
@@ -71,7 +72,7 @@ void HZZ4LeptonsElectronOrdering::produce(edm::Event& iEvent, const edm::EventSe
   // Ordering leptons in pT;
   std::sort (Gelec->begin(),Gelec->end(),SortCandByDecreasingPt());
 
-  for (reco::GsfElectronCollection::const_iterator cands=Gelec->begin(); cands!= Gelec->end(); ++cands) {
+  for (pat::ElectronCollection::const_iterator cands=Gelec->begin(); cands!= Gelec->end(); ++cands) {
     cout << "Electron Ordered with pt= " << cands->pt() << endl;   
   }
   

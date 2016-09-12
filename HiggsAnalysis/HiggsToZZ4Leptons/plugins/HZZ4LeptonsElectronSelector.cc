@@ -58,7 +58,6 @@ void HZZ4LeptonsElectronSelector::produce(edm::Event& iEvent, const edm::EventSe
   edm::Handle<edm::View<pat::Electron> > electrons;
   iEvent.getByToken(elecLabel, electrons);
 
-  if (electrons.isValid()){
     // Loop over slimmedElectrons
     for (unsigned int i = 0; i < electrons->size(); ++i) {
       Ref<edm::View<pat::Electron> > electronRef(electrons,i);
@@ -68,7 +67,6 @@ void HZZ4LeptonsElectronSelector::produce(edm::Event& iEvent, const edm::EventSe
 	++counterelectron;
       }
     } 
-  }
 
   const string iName = "";
   iEvent.put( Gelec, iName );

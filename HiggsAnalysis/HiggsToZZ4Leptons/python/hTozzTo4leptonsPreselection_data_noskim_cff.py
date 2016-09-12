@@ -116,8 +116,8 @@ if useSkimEarlyData == 'true':
                        " abs(deltaEtaSuperClusterTrackAtVtx) < 0.02 &&" +
                        " (( isEB && sigmaIetaIeta < 0.015) ||" +
                        "  (!isEB && sigmaIetaIeta < 0.035)) )");
-    hTozzTo4leptonsElectronSelector = cms.EDFilter("GsfElectronRefSelector",
-                                         src = cms.InputTag("gedGsfElectrons"),
+    hTozzTo4leptonsElectronSelector = cms.EDFilter("PatElectronRefSelector",
+                                         src = cms.InputTag("slimmedElectrons"),
                                          cut = cms.string(ELECTRON_BASE_CUT),
                                          )
     hTozzTo4leptonsElectronSequence=cms.Sequence(hTozzTo4leptonsElectronIdSequence + hTozzTo4leptonsElectronSelector)
@@ -135,7 +135,7 @@ else:
     # Electron Preselector
     from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsElectronSequences_cff import *
     hTozzTo4leptonsElectronPreSelector=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsElectronSelector_cfi.hTozzTo4leptonsElectronSelector.clone()
-    hTozzTo4leptonsElectronPreSelector.electronCollection=cms.InputTag("gedGsfElectrons")
+    hTozzTo4leptonsElectronPreSelector.electronCollection=cms.InputTag("slimmedElectrons")
     hTozzTo4leptonsElectronPreSelector.electronEtaMax=cms.double(2.5)
     hTozzTo4leptonsElectronPreSelector.electronPtMin=cms.double(5.)
     hTozzTo4leptonsElectronPreSelector.useEleID=cms.bool(False)
@@ -147,14 +147,14 @@ else:
 
     # Electron scale calibration
     from EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi import *
-    calibratedElectrons.electrons = cms.InputTag('hTozzTo4leptonsElectronOrdering')
-    calibratedElectrons.correctionFile = cms.string(files["76XReReco"])
-    calibratedElectrons.isMC = cms.bool(True)
+    calibratedPatElectrons.electrons = cms.InputTag('hTozzTo4leptonsElectronOrdering')
+    calibratedPatElectrons.correctionFile = cms.string(files["76XReReco"])
+    calibratedPatElectrons.isMC = cms.bool(True)
 
     # Electron relaxed selection
     from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsElectronSequences_cff import *
     hTozzTo4leptonsElectronSelector=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsElectronSelector_cfi.hTozzTo4leptonsElectronSelector.clone()
-    hTozzTo4leptonsElectronSelector.electronCollection=cms.InputTag("calibratedElectrons")
+    hTozzTo4leptonsElectronSelector.electronCollection=cms.InputTag("calibratedPatElectrons")
     hTozzTo4leptonsElectronSelector.electronEtaMax=cms.double(2.5)
     hTozzTo4leptonsElectronSelector.electronPtMin=cms.double(3.)
     hTozzTo4leptonsElectronSelector.useEleID=cms.bool(False)
@@ -790,7 +790,7 @@ hTozzTo4leptonsSelectionSequenceData = cms.Sequence(
         hTozzTo4leptonsHLTAnalysisFilter            +
         hTozzTo4leptonsElectronPreSelector          +
         hTozzTo4leptonsElectronOrdering             +
-        calibratedElectrons                         +
+        calibratedPatElectrons                         +
         hTozzTo4leptonsElectronSelector             +
         electronMVAValueMapProducer                 +                   
         hTozzTo4leptonsMuonCalibrator               +
