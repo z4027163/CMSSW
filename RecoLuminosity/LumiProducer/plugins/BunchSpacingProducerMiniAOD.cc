@@ -50,7 +50,7 @@ BunchSpacingProducerMiniAOD::BunchSpacingProducerMiniAOD(const edm::ParameterSet
   produces<unsigned int>();
 
 //  bunchSpacing_ = consumes<int>(edm::InputTag("addPileupInfo","bunchSpacing"));
-  addPUInfo_ =consumes<std::vector<PileupSummaryInfo> >(edm::InputTag("addPileupInfo"));
+  addPUInfo_ =consumes<std::vector<PileupSummaryInfo> >(edm::InputTag("slimmedAddPileupInfo"));
 
   overRide_=false;
   if ( iConfig.exists("overrideBunchSpacing") ) {

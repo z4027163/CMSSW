@@ -69,6 +69,8 @@ void HZZ4LeptonsMuonSelector::produce(edm::Event& iEvent, const edm::EventSetup&
   for (mIter = muons->begin(); mIter != muons->end(); ++mIter ) {
 
     bool matchglb=false, matchtrk=false;
+    
+    cout << "test: muon pT= " << mIter->pt() << endl;
 
     if(isGlobalMuon==true && mIter->isGlobalMuon()){
       matchglb=true;

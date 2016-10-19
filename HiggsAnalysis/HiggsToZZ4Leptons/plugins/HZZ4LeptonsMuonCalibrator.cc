@@ -96,7 +96,7 @@ void HZZ4LeptonsMuonCalibrator::produce(edm::Event& iEvent, const edm::EventSetu
     }
     
     pterror.push_back(smearedPtError);
-    cout << "Muon pT= " << calibmu->pt() << " Corrected Muon pT= " << smearedPt << " and pT error= " << smearedPtError << endl;
+    cout << "Muon pT= " << calibmu->pt() << " Corrected Muon pT= " << smearedPt << " and pT error= " << smearedPtError << " GlobalMuon = " << calibmu->isGlobalMuon() <<" number of matches= " << calibmu->numberOfMatches(reco::Muon::SegmentArbitration) << "Tracknonnull= " << calibmu->reco::Muon::innerTrack().isNonnull() << endl;
     reco::Candidate::PolarLorentzVector p4Polar_;
     p4Polar_ = reco::Candidate::PolarLorentzVector(smearedPt, mIter->eta(), mIter->phi(), mIter->mass());
     calibmu->setP4(p4Polar_);

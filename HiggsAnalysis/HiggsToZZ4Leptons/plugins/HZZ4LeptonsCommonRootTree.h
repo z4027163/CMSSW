@@ -3719,6 +3719,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
     int indexbis=0;
     RECO_NMU=MuCandidates->size();
+    cout << "Event has muon numbers of " << RECO_NMU << endl;
 
     // Matching
     edm::Handle<edm::Association<vector<reco::GenParticle> > > GenParticlesMatchMu;

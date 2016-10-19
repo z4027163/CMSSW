@@ -9,7 +9,7 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
     par_to_search = cms.untracked.string('filename'),
     # PU
     fillPUinfo = cms.untracked.bool(True),
-    PileupSrc  = cms.InputTag("addPileupInfo"),
+    PileupSrc  = cms.InputTag("slimmedAddPileupInfo"),
       
     # Generator
     Generator  = cms.InputTag("generator"),                                           
@@ -97,7 +97,7 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
     ElectronsEgmEcalMapLabel = cms.InputTag("eleIsoFromDepsEcalFromHitsByCrystalOptimized"),
     ElectronsEgmHcalMapLabel = cms.InputTag("eleIsoFromDepsHcalFromTowersOptimized"),
 
-    MuonsLabel               = cms.InputTag("hTozzTo4leptonsMuonIsolationProducer"),
+#    MuonsLabel               = cms.InputTag("hTozzTo4leptonsMuonIsolationProducer"),
     MuonsCorrPtErrorMapLabel = cms.InputTag("hTozzTo4leptonsMuonCalibrator:CorrPtError"),
 
     # PF muons

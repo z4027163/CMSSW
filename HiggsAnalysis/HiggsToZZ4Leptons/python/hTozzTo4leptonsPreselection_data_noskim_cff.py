@@ -166,12 +166,12 @@ else:
     
     # Muon ghost cleaning
     from HiggsAnalysis.HiggsToZZ4Leptons.muonCleanerBySegments_cfi import *
-    cleanMuonsBySegments.src = cms.InputTag("hTozzTo4leptonsMuonCalibrator")
+    cleanPatMuonsBySegments.src = cms.InputTag("hTozzTo4leptonsMuonCalibrator")
 
     # Muon relaxed selection
     from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsMuonSelector_cfi import *
     hTozzTo4leptonsMuonSelector=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsMuonSelector_cfi.hTozzTo4leptonsMuonSelector.clone()
-#    hTozzTo4leptonsMuonSelector.muonCollection = cms.InputTag("cleanMuonsBySegments")
+    hTozzTo4leptonsMuonSelector.muonCollection = cms.InputTag("cleanPatMuonsBySegments")
     hTozzTo4leptonsMuonSelector.isGlobalMuon=cms.bool(False)
     hTozzTo4leptonsMuonSelector.isTrackerMuon=cms.bool(True)
     hTozzTo4leptonsMuonSelector.muonPtMin=cms.double(3.)
@@ -792,9 +792,9 @@ hTozzTo4leptonsSelectionSequenceData = cms.Sequence(
         hTozzTo4leptonsElectronOrdering             +
         calibratedPatElectrons                         +
         hTozzTo4leptonsElectronSelector             +
-        electronMVAValueMapProducer                 +                   
+        electronMVAValueMapProducer                 +                          
         hTozzTo4leptonsMuonCalibrator               +
-        cleanMuonsBySegments                        +
+        cleanPatMuonsBySegments                        +
         hTozzTo4leptonsMuonSelector                 +
         zToEE                                       +
         zToMuMu                                     +

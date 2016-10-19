@@ -87,6 +87,7 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	 hlt.Contains("HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v")  // Triele 
 	 ) {
 	if( debug )cout << "Event passing the HLT trigger vetos for DoubleEG PD" << endl;
+        cout << "HLT1 TEST" << endl;
 	return true;
       }
     }
@@ -126,6 +127,7 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	  )
 	 ) {
 	if( debug )cout << "Event passing the HLT trigger vetos for DoubleMuon PD" << endl;
+        cout << "HLT2 TEST" << endl;
 	return true;
       }
     }  
@@ -168,6 +170,7 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	  )
 	 ) {
 	   if( debug )cout << "Event passing the HLT trigger vetos for MuEG PD" << endl;
+        cout << "HLT3 TEST" << endl;
 	return true;
       }
     }
@@ -212,6 +215,7 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	  )
 	 ) {
 	if( debug )cout << "Event not passing the HLT trigger vetos for SingleElectron PD" << endl;
+        cout << "HLT4 TEST" << endl;
 	return true;
       }
     }
@@ -265,7 +269,8 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
     }
 
   }
-  
+
+  cout << "HLT5 TEST" << endl;
   return true;
 
 }
