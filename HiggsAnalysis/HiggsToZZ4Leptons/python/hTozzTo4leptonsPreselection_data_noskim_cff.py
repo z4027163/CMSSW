@@ -150,6 +150,7 @@ else:
     calibratedPatElectrons.electrons = cms.InputTag('hTozzTo4leptonsElectronOrdering')
     calibratedPatElectrons.correctionFile = cms.string(files["76XReReco"])
     calibratedPatElectrons.isMC = cms.bool(True)
+    calibratedPatElectrons.verbose = cms.bool(True)
 
     # Electron relaxed selection
     from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsElectronSequences_cff import *

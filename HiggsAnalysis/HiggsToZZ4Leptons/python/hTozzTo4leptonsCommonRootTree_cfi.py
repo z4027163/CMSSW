@@ -249,7 +249,7 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
     # Other Objetcs
     PhotonsLabel       = cms.InputTag("slimmedPhotons"),
 #    TracksLabel        = cms.InputTag("generalTracks"),
-    JetsLabel          = cms.InputTag("slimmedJets"),
+    JetsLabel          = cms.InputTag("hTozzTo4leptonsPFJetSelector"),
 #    JetsLabel          = cms.InputTag("ak4PFJetsCorrection"),
 #    JetsDataLabel      = cms.InputTag("ak4PFJetsCorrectionData"),
     JetsMVALabel       = cms.InputTag("hTozzTo4leptonsPFJetSelector"),

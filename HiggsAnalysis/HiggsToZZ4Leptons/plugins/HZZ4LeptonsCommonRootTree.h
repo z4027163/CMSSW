@@ -4259,11 +4259,12 @@ void fillTracks(const edm::Event& iEvent){
     edm::Handle<pat::METCollection> pfmetHandle;
     iEvent.getByToken(pfmetTag_,pfmetHandle);
     for ( pat::METCollection::const_iterator i=pfmetHandle->begin(); i!=pfmetHandle->end(); i++) {
-      pfmet       = i->pt();     
-      pfmet_x     = i->px();
-      pfmet_y     = i->py();
-      pfmet_phi   = i->phi();
-      pfmet_theta = i->theta();
+      cormetmuons = i->pt();
+      pfmet       = i->uncorPt();     
+      pfmet_x     = i->uncorPx();
+      pfmet_y     = i->uncorPy();
+      pfmet_phi   = i->uncorPhi();
+      pfmet_theta = i->uncorP3().theta();
     }
 
     std::cout << "MET:"
@@ -4825,8 +4826,6 @@ void fillTracks(const edm::Event& iEvent){
   		      
   void filljets(const edm::Event& iEvent){
     edm::Handle<pat::JetCollection> pfjets,pfjetsmva;
-//    edm::Handle<edm::ValueMap<float> > puJetIdMVAMC;
-//    edm::Handle<edm::ValueMap<float> > puJetIdMVAData;
 
    iEvent.getByToken(jetsTag_, pfjets);
    iEvent.getByToken(jetsMVATag_, pfjetsmva);
@@ -4861,7 +4860,7 @@ void fillTracks(const edm::Event& iEvent){
       int pupass = 1;
   
 //      mva = i->userFloat("vtxPx");    
-//not available      mva = i->userFloat("pileupJetId:fullDiscriminant");
+      mva = i->userFloat("pileupJetId:fullDiscriminant");
 /*
       if (fillMCTruth == 1){
 	mva = (*puJetIdMVAMC)[pfjetrefmva];
@@ -4904,7 +4903,12 @@ void fillTracks(const edm::Event& iEvent){
 	<< " ETA="  << RECO_PFJET_ETA[index_jets]  
 	<< " PHI="  << RECO_PFJET_PHI[index_jets]  
 	<< " PUID=" << RECO_PFJET_PUID[index_jets] 
-	<< " PUID_MVA=" << RECO_PFJET_PUID_MVA[index_jets] 
+	<< " PUID_MVA=" << RECO_PFJET_PUID_MVA[index_jets]
+       //qier test
+        << " Uncorrected Pt=" << i->correctedP4("Uncorrected").Pt()
+        << " L1FastJet Pt=" << i->correctedP4("L1FastJet").Pt()
+        << " L2Relative Pt=" << i->correctedP4("L2Relative").Pt()
+        << " L3Absolute Pt=" << i->correctedP4("L3Absolute").Pt()
 	<< endl;
       
       index_jets++;
@@ -5556,6 +5560,7 @@ void fillTracks(const edm::Event& iEvent){
   float calomet;
     //calometopt,calometoptnohf,calometoptnohfho,calometoptho,calometnohf,calometnohfho,calometho;       
   float pfmet,pfmet_x,pfmet_y,pfmet_phi,pfmet_theta;
+
     //htmetic5,htmetkt4,htmetkt6,htmetsc5,htmetsc7;        
     float tcmet;
     //jescormetic5,jescormetkt4,jescormetkt6,jescormetsc5,jescormetsc7;    

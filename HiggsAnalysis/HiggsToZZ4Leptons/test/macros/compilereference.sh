@@ -33,6 +33,11 @@ elif [ $1 == "2e2mu" ]; then
     g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir} compilereference_2e2mu_signal.C HZZ4LeptonsAnalysis_2e2mu.C `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lKaMuCaCalibration -o RunReference2e2mu_signal
     g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir} compilereference_2e2mu_data.C HZZ4LeptonsAnalysis_2e2mu.C `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lKaMuCaCalibration -o RunReference2e2mu_data
 
+elif [ $1 == "2mu" ]; then
+    echo "Compiling $1 macros"
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir} compilereference_2mu_single.C HZZ4LeptonsAnalysis_2mu.C `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir}  -lKaMuCaCalibration -o RunReference2mu
+
+
 elif [ $1 == "all" ]; then    
     echo "Compiling $1 macros"
     g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir} -I ${CMSSW_BASE}/src compilereference_4e_single.C HZZ4LeptonsAnalysis_4e.C `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lKaMuCaCalibration -o RunReference4e

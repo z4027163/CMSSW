@@ -30,16 +30,7 @@ int main(int argc, char ** argv){
   
   Char_t nome[300];
 
-  if (site.find("CERN")<5){
-    sprintf(nome,"/castor/cern.ch/user/n/ndefilip/DAS2013/bkg/roottree_leptons_ZZTo2e2mu_8TeV-powheg-pythia6.root"); 
-  }
-  else if (site.find("FNAL")<5){
-    sprintf(nome,"dcap://cmsgridftp.fnal.gov:24125/pnfs/fnal.gov/usr/cms/WAX/11/store/user/cmsdas/2013/HZZ4lExercise/sig/roottree_leptons_GluGluToHToZZTo4L_M-1000_8TeV-powheg-pythia6.root");
-  }
-  else {
-    sprintf(nome,"/localdata/Syncr13TeV/roottree_leptons_sync_Fall15_HiggsToZZ_76x.root");
-    //sprintf(nome,"roottree_leptons.root");
-  }
+   sprintf(nome,"roottree_leptons.root");
 
 
   TFile *file3;
@@ -54,8 +45,8 @@ int main(int argc, char ** argv){
 
   cout << "Read file with name: " << nome << endl;
   TTree *tree3 = (TTree*)file3->Get("HZZ4LeptonsAnalysis");
-  HZZ4LeptonsAnalysis make3(tree3,1.,dataconf,mcconf);
-  //HZZ4LeptonsAnalysis make3(tree3);
+//  HZZ4LeptonsAnalysis make3(tree3,1.,dataconf,mcconf);
+  HZZ4LeptonsAnalysis make3(tree3);
 
   sprintf(nome,"output_Fall15_Higgs.root");
   make3.Loop(nome);

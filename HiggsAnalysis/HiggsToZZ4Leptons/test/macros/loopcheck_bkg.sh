@@ -34,10 +34,10 @@ while [ $n -lt ${nlines} ]; do
   (( m = ${nlines} - n ))
   echo $n $m
   rm -f BkgCards$4$3/bkg_input_${n}.txt
-  cat bkg_input.txt | head -1 > BkgCards$4$3/bkg_input_${n}.txt
+  head -1 bkg_input.txt  > BkgCards$4$3/bkg_input_${n}.txt
   samplename=`cat BkgCards$4$3/bkg_input_${n}.txt | awk '{print $1}'`
   echo $samplename
-  cat bkg_input.txt | tail -n $m >  bkg_input_tmp.txt
+  tail -n $m bkg_input.txt >  bkg_input_tmp.txt
   mv  bkg_input_tmp.txt bkg_input.txt
   rm -f jobs$4/submit_ReferenceAnalysis_bkg_${samplename}_$4.sh
   if [ $1 = ${SCERN} ]; then
