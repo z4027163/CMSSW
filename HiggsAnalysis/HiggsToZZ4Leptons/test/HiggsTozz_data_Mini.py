@@ -19,15 +19,16 @@ process.load('Configuration/EventContent/EventContent_cff')
 
 
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '76X_dataRun2_v15', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_Prompt_v9', '')
 
 # Random generator
 process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
-    calibratedElectrons = cms.PSet(
+    calibratedPatElectrons = cms.PSet(
         initialSeed = cms.untracked.uint32(1),
         engineName = cms.untracked.string('TRandom3')
     )
 )
+
 
 process.load('HiggsAnalysis.HiggsToZZ4Leptons.bunchSpacingProducer_cfi')
 process.load('RecoMET.METFilters.metFiltersMiniAOD_cff')
@@ -79,11 +80,7 @@ process.hTozzTo4leptonsCommonRootTreePresel.triggerEleFilter = cms.string('hltL3
 process.hTozzTo4leptonsCommonRootTreePresel.fillMCTruth  = cms.untracked.bool(False)    
 process.hTozzTo4leptonsCommonRootTreePresel.isVBF  = cms.bool(False)
 
-process.hTozzTo4leptonsPFfsrPhoton = cms.EDFilter(
-    "GenericPackedCandidateSelector",
-    src = cms.InputTag("packedPFCandidates","","RECO"),
-    cut = cms.string("pdgId=22 && pt>2. && abs(eta)<2.4")
-)
+process.hTozzTo4leptonsPFfsrPhoton.src = cms.InputTag("packedPFCandidates","","RECO")
 
 
 process.hTozzTo4leptonsSelectionPath = cms.Path(
