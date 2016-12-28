@@ -10,19 +10,7 @@ PhotonEnergyCalibratorRun2::PhotonEnergyCalibratorRun2(bool isMC, bool synchroni
   isMC_(isMC), synchronization_(synchronization),
   rng_(0),
   _correctionRetriever(correctionFile) // here is opening the files and reading thecorrections
-<<<<<<< HEAD
 {}
-=======
-{
-  if(isMC_) {
-    _correctionRetriever.doScale = false; 
-    _correctionRetriever.doSmearings = true;
-  } else {
-    _correctionRetriever.doScale = true; 
-    _correctionRetriever.doSmearings = false;
-  }
-}
->>>>>>> z4027163/HiggsAnalysis_CMSSW_7_6_3
 
 PhotonEnergyCalibratorRun2::~PhotonEnergyCalibratorRun2()
 {}

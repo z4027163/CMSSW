@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #include "../interface/EnergyScaleCorrection_class.h"
-=======
-#include "../interface/EnergyScaleCorrection_class.hh"
->>>>>>> z4027163/HiggsAnalysis_CMSSW_7_6_3
 #include "FWCore/ParameterSet/interface/FileInPath.h"
 #include <RooDataSet.h>
 #include <RooArgSet.h>
