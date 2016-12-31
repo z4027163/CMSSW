@@ -1,0 +1,431 @@
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+hahahahha
+
+test
+
+hoho
+
+Warning in <TInterpreter::ReadRootmapFile>: class  edm::ValueMap<float> found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  edm::Wrapper<edm::ValueMap<float> > found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
+09-Aug-2016 14:14:47 CDT  Initiating request to open file root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+09-Aug-2016 14:14:49 CDT  Successfully opened file root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+[STATUS] Reading energy scale correction  values from file: EgammaAnalysis/ElectronTools/data/76X_16DecRereco_2015_scales.dat
+Reading parameters from cfg
+Filling a ROOT tree for offline selection
+Input Filename is=root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+Input Filename is=root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+Begin processing the 1st record. Run 1, Event 74596, LumiSection 376 at 09-Aug-2016 14:15:19.777 CDT
+HLTFiredString= HLT_IsoTkMu15_SaveObjects_v1:HLT_IsoMu_SaveObjects_v1:HLT_AK8CaloHTForMC_v1:HLT_AK8PFHTForMC_v1:HLT_AK8TrimPFJetsForMC_v1:HLT_AK8PFJetsForMC_v1:HLT_CaloMHTForMC_v1:HLT_CaloHTForMC_v1:HLT_AK4CaloJetsForMC_v1:HLT_CaloMETCleanedForMC_v1:HLT_CaloMETForMC_v1:HLT_PFMHTForMC_v1:HLT_PFHTForMC_v1:HLT_AK4PFJetsForMC_v1:HLT_PFMETForMC_v1:AlCa_LumiPixels_ZeroBias_v1:AlCa_LumiPixels_Random_v1:HLT_HcalUTCA_v1:HLT_HcalPhiSym_v1:HLT_HcalNZS_v1:AlCa_EcalPhiSym_v1:HLT_EcalCalibration_v1:HLT_Activity_Ecal_SC7_v1:HLT_ZeroBias_v1:HLT_Random_v1:HLT_ReducedIterativeTracking_v1:HLT_Physics_v1:HLT_Mu24_v1:HLT_Mu17_v1:HLT_Mu8_v1:HLT_Mu24_TrkIsoVVL_v1:HLT_Mu17_TrkIsoVVL_v1:HLT_Mu8_TrkIsoVVL_v1:HLT_TkMu20_v1:HLT_Mu20_v1:HLT_L1SingleMuOpen_v1:HLT_IsoTkMu20_eta2p1_v1:HLT_IsoTkMu20_v1:HLT_IsoMu20_eta2p1_v1:HLT_IsoMu20_v1:HLT_IsoMu20_eta2p1_CentralPFJet30_BTagCSV07_v1:HLT_IsoMu17_eta2p1_v1:digi2raw_step:L1simulation_step:digitisation_step:
+Muon pT= 34.5091 Corrected Muon pT= 34.4197 and pT error= 0.90894
+Muon pT= 1.20895 Corrected Muon pT= 1.21316 and pT error= 0.0245353
+Muon pT= 1.03386 Corrected Muon pT= 1.03626 and pT error= 0.0225797
+Muon pT= 0.830307 Corrected Muon pT= 0.832585 and pT error= 0.0249201
+Selected a muon with pT= 34.5091
+Selected a muon with pT= 1.20895
+Selected a muon with pT= 1.03386
+Selected a muon with pT= 0.830307
+BeamSpot position: X,Y,Z=0.0322161 -1.10814e-05 -0.0146611 0.0322161 -1.10814e-05 -0.0146611
+P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.030997 -0.00010064 -3.57844
+3DIP Significance for muons= 0.369629
+BeamSpot position: X,Y,Z=0.0322161 -1.10814e-05 -0.0146611 0.0322161 -1.10814e-05 -0.0146611
+P vertex position used for computing SIP for electron and muons is (x,y,z)= 0.030997 -0.00010064 -3.57844
+3DIP Significance for muons= 0.369629
+Jet passing the loose ID with pT=40.0614 and eta=-1.92511
+Jet passing the loose ID with pT=27.5741 and eta=-3.05553
+Jet passing the loose ID with pT=17.4057 and eta=0.59365
+Jet passing the loose ID with pT=10.1497 and eta=-0.999342
+Dumping the information of the event in a ROOT tree: 1
+Dumping the information of run=1  event=74596  lumisection=376
+ Pileup Information: bunchXing, nvtx: -12 9
+ Pileup Information: bunchXing, nvtx: -11 4
+ Pileup Information: bunchXing, nvtx: -10 7
+ Pileup Information: bunchXing, nvtx: -9 10
+ Pileup Information: bunchXing, nvtx: -8 8
+ Pileup Information: bunchXing, nvtx: -7 4
+ Pileup Information: bunchXing, nvtx: -6 8
+ Pileup Information: bunchXing, nvtx: -5 9
+ Pileup Information: bunchXing, nvtx: -4 9
+ Pileup Information: bunchXing, nvtx: -3 8
+ Pileup Information: bunchXing, nvtx: -2 2
+ Pileup Information: bunchXing, nvtx: -1 10
+ Pileup Information: bunchXing, nvtx: 0 4
+ Pileup Information: bunchXing, nvtx: 1 11
+ Pileup Information: bunchXing, nvtx: 2 11
+ Pileup Information: bunchXing, nvtx: 3 9
+Start Trigger matching for muon
+----- Begin Fatal Exception 09-Aug-2016 14:15:28 CDT-----------------------
+An exception of category 'ProductNotFound' occurred while
+   [0] Processing run: 1 lumi: 376 event: 74596
+   [1] Running path 'hTozzTo4leptonsSelectionPath'
+   [2] Calling event method for module HZZ4LeptonsCommonRootTree/'hTozzTo4leptonsCommonRootTreePresel'
+Exception Message:
+Principal::getByToken: Found zero products matching all criteria
+Looking for type: trigger::TriggerEvent
+Looking for module label: hltTriggerSummaryAOD
+Looking for productInstanceName: 
+Looking for process: HLT
+   Additional Info:
+      [a] If you wish to continue processing events after a ProductNotFound exception,
+add "SkipEvent = cms.untracked.vstring('ProductNotFound')" to the "options" PSet in the configuration.
+
+----- End Fatal Exception -------------------------------------------------
+09-Aug-2016 14:15:28 CDT  Closed file root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_test.root
+
+TrigReport ---------- Event  Summary ------------
+TrigReport Events total = 1 passed = 0 failed = 1
+
+TrigReport ---------- Path   Summary ------------
+TrigReport  Trig Bit#   Executed     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 Path_BunchSpacingproducer
+TrigReport     1    1          1          1          0          0 Flag_HBHENoiseFilter
+TrigReport     1    2          1          1          0          0 Flag_HBHENoiseIsoFilter
+TrigReport     1    3          1          1          0          0 Flag_EcalDeadCellTriggerPrimitiveFilter
+TrigReport     1    4          1          1          0          0 Flag_goodVertices
+TrigReport     1    5          1          1          0          0 Flag_eeBadScFilter
+TrigReport     1    6          1          0          0          1 hTozzTo4leptonsSelectionPath
+
+TrigReport -------End-Path   Summary ------------
+TrigReport  Trig Bit#   Executed     Passed     Failed      Error Name
+
+TrigReport ---------- Modules in Path: Path_BunchSpacingproducer ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 bunchSpacingProducer
+
+TrigReport ---------- Modules in Path: Flag_HBHENoiseFilter ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 HBHENoiseFilterResultProducer
+TrigReport     1    1          1          1          0          0 HBHENoiseFilter
+
+TrigReport ---------- Modules in Path: Flag_HBHENoiseIsoFilter ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 HBHENoiseFilterResultProducer
+TrigReport     1    1          1          1          0          0 HBHENoiseIsoFilter
+
+TrigReport ---------- Modules in Path: Flag_EcalDeadCellTriggerPrimitiveFilter ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 EcalDeadCellTriggerPrimitiveFilter
+
+TrigReport ---------- Modules in Path: Flag_goodVertices ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 primaryVertexFilter
+
+TrigReport ---------- Modules in Path: Flag_eeBadScFilter ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 eeBadScFilter
+
+TrigReport ---------- Modules in Path: hTozzTo4leptonsSelectionPath ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          1          1          0          0 goodOfflinePrimaryVertices
+TrigReport     1    1          1          1          0          0 genZ
+TrigReport     1    2          1          1          0          0 digenZ
+TrigReport     1    3          1          1          0          0 genleptons
+TrigReport     1    4          1          1          0          0 digenleptons
+TrigReport     1    5          1          1          0          0 trigenleptons
+TrigReport     1    6          1          1          0          0 fourgenleptons
+TrigReport     1    7          1          1          0          0 hTozzTo4leptonsMCDumper
+TrigReport     1    8          1          1          0          0 hTozzTo4leptonsMCCP
+TrigReport     1    9          1          1          0          0 hTozzTo4leptonsPFfsrPhoton
+TrigReport     1   10          1          1          0          0 hTozzTo4leptonsHLTInfo
+TrigReport     1   11          1          1          0          0 hTozzTo4leptonsHLTAnalysisFilter
+TrigReport     1   12          1          1          0          0 hTozzTo4leptonsElectronPreSelector
+TrigReport     1   13          1          1          0          0 hTozzTo4leptonsElectronOrdering
+TrigReport     1   14          1          1          0          0 calibratedElectrons
+TrigReport     1   15          1          1          0          0 hTozzTo4leptonsElectronSelector
+TrigReport     1   16          1          1          0          0 electronMVAValueMapProducer
+TrigReport     1   17          1          1          0          0 hTozzTo4leptonsMuonCalibrator
+TrigReport     1   18          1          1          0          0 cleanMuonsBySegments
+TrigReport     1   19          1          1          0          0 hTozzTo4leptonsMuonSelector
+TrigReport     1   20          1          1          0          0 zToEE
+TrigReport     1   21          1          1          0          0 zToMuMu
+TrigReport     1   22          1          1          0          0 hTozzTo4leptons
+TrigReport     1   23          1          1          0          0 hTozzTo4leptonsMMMM
+TrigReport     1   24          1          1          0          0 hTozzTo4leptonsEEEE
+TrigReport     1   25          1          1          0          0 zToEEssplus
+TrigReport     1   26          1          1          0          0 zToEEssminus
+TrigReport     1   27          1          1          0          0 zToEEssmerge
+TrigReport     1   28          1          1          0          0 zToMuMussplus
+TrigReport     1   29          1          1          0          0 zToMuMussminus
+TrigReport     1   30          1          1          0          0 zToMuMussmerge
+TrigReport     1   31          1          1          0          0 zToCrossLeptons
+TrigReport     1   32          1          1          0          0 dileptons
+TrigReport     1   33          1          1          0          0 zToEELooseIsol
+TrigReport     1   34          1          1          0          0 zToMuMuLooseIsol
+TrigReport     1   35          1          1          0          0 hTozzTo4leptonsLooseIsol
+TrigReport     1   36          1          1          0          0 hTozzTo4leptonsMMMMLooseIsol
+TrigReport     1   37          1          1          0          0 hTozzTo4leptonsEEEELooseIsol
+TrigReport     1   38          1          1          0          0 hTozzTo4leptonsIpToVtxProducer
+TrigReport     1   39          1          1          0          0 hTozzTo4leptonsIpToVtxProducerKF
+TrigReport     1   40          1          1          0          0 hTozzTo4leptonsTipLipToVtxProducer
+TrigReport     1   41          1          1          0          0 hTozzTo4leptonsPFJetSelector
+TrigReport     1   42          1          1          0          0 myMuons
+TrigReport     1   43          1          1          0          0 goodMuonMCMatch
+TrigReport     1   44          1          1          0          0 myElectrons
+TrigReport     1   45          1          1          0          0 goodElectronMCMatch
+TrigReport     1   46          1          1          0          0 myGammas
+TrigReport     1   47          1          1          0          0 goodGammaMCMatch
+TrigReport     1   48          1          1          0          0 goodZtoMuMuMCMatch
+TrigReport     1   49          1          1          0          0 goodZtoEEMCMatch
+TrigReport     1   50          1          1          0          0 goodHiggsTozzToEEMMMCMatch
+TrigReport     1   51          1          1          0          0 goodHiggsTozzToMMMMMCMatch
+TrigReport     1   52          1          1          0          0 goodHiggsTozzToEEEEMCMatch
+TrigReport     1   53          1          0          0          1 hTozzTo4leptonsCommonRootTreePresel
+
+TrigReport ---------- Module Summary ------------
+TrigReport    Visited   Executed     Passed     Failed      Error Name
+TrigReport          1          1          1          0          0 bunchSpacingProducer
+TrigReport          2          1          1          0          0 HBHENoiseFilterResultProducer
+TrigReport          1          1          1          0          0 HBHENoiseFilter
+TrigReport          1          1          1          0          0 HBHENoiseIsoFilter
+TrigReport          1          1          1          0          0 EcalDeadCellTriggerPrimitiveFilter
+TrigReport          1          1          1          0          0 primaryVertexFilter
+TrigReport          1          1          1          0          0 eeBadScFilter
+TrigReport          1          1          1          0          0 goodOfflinePrimaryVertices
+TrigReport          1          1          1          0          0 genZ
+TrigReport          1          1          1          0          0 digenZ
+TrigReport          1          1          1          0          0 genleptons
+TrigReport          1          1          1          0          0 digenleptons
+TrigReport          1          1          1          0          0 trigenleptons
+TrigReport          1          1          1          0          0 fourgenleptons
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMCDumper
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMCCP
+TrigReport          1          1          1          0          0 hTozzTo4leptonsPFfsrPhoton
+TrigReport          1          1          1          0          0 hTozzTo4leptonsHLTInfo
+TrigReport          1          1          1          0          0 hTozzTo4leptonsHLTAnalysisFilter
+TrigReport          1          1          1          0          0 hTozzTo4leptonsElectronPreSelector
+TrigReport          1          1          1          0          0 hTozzTo4leptonsElectronOrdering
+TrigReport          1          1          1          0          0 calibratedElectrons
+TrigReport          1          1          1          0          0 hTozzTo4leptonsElectronSelector
+TrigReport          1          1          1          0          0 electronMVAValueMapProducer
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMuonCalibrator
+TrigReport          1          1          1          0          0 cleanMuonsBySegments
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMuonSelector
+TrigReport          1          1          1          0          0 zToEE
+TrigReport          1          1          1          0          0 zToMuMu
+TrigReport          1          1          1          0          0 hTozzTo4leptons
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMMMM
+TrigReport          1          1          1          0          0 hTozzTo4leptonsEEEE
+TrigReport          1          1          1          0          0 zToEEssplus
+TrigReport          1          1          1          0          0 zToEEssminus
+TrigReport          1          1          1          0          0 zToEEssmerge
+TrigReport          1          1          1          0          0 zToMuMussplus
+TrigReport          1          1          1          0          0 zToMuMussminus
+TrigReport          1          1          1          0          0 zToMuMussmerge
+TrigReport          1          1          1          0          0 zToCrossLeptons
+TrigReport          1          1          1          0          0 dileptons
+TrigReport          1          1          1          0          0 zToEELooseIsol
+TrigReport          1          1          1          0          0 zToMuMuLooseIsol
+TrigReport          1          1          1          0          0 hTozzTo4leptonsLooseIsol
+TrigReport          1          1          1          0          0 hTozzTo4leptonsMMMMLooseIsol
+TrigReport          1          1          1          0          0 hTozzTo4leptonsEEEELooseIsol
+TrigReport          1          1          1          0          0 hTozzTo4leptonsIpToVtxProducer
+TrigReport          1          1          1          0          0 hTozzTo4leptonsIpToVtxProducerKF
+TrigReport          1          1          1          0          0 hTozzTo4leptonsTipLipToVtxProducer
+TrigReport          1          1          1          0          0 hTozzTo4leptonsPFJetSelector
+TrigReport          1          1          1          0          0 myMuons
+TrigReport          1          1          1          0          0 goodMuonMCMatch
+TrigReport          1          1          1          0          0 myElectrons
+TrigReport          1          1          1          0          0 goodElectronMCMatch
+TrigReport          1          1          1          0          0 myGammas
+TrigReport          1          1          1          0          0 goodGammaMCMatch
+TrigReport          1          1          1          0          0 goodZtoMuMuMCMatch
+TrigReport          1          1          1          0          0 goodZtoEEMCMatch
+TrigReport          1          1          1          0          0 goodHiggsTozzToEEMMMCMatch
+TrigReport          1          1          1          0          0 goodHiggsTozzToMMMMMCMatch
+TrigReport          1          1          1          0          0 goodHiggsTozzToEEEEMCMatch
+TrigReport          1          1          0          0          1 hTozzTo4leptonsCommonRootTreePresel
+TrigReport          0          0          0          0          0 TriggerResults
+
+TimeReport ---------- Event  Summary ---[sec]----
+TimeReport       event loop CPU/event = 8.000176
+TimeReport      event loop Real/event = 12.363919
+TimeReport     sum Streams Real/event = 8.814696
+TimeReport efficiency CPU/Real/thread = 0.647058
+
+TimeReport ---------- Path   Summary ---[Real sec]----
+TimeReport  per event     per exec  Name
+TimeReport   0.004478     0.004478  Path_BunchSpacingproducer
+TimeReport   0.007291     0.007291  Flag_HBHENoiseFilter
+TimeReport   0.000005     0.000005  Flag_HBHENoiseIsoFilter
+TimeReport   0.000147     0.000147  Flag_EcalDeadCellTriggerPrimitiveFilter
+TimeReport   0.007123     0.007123  Flag_goodVertices
+TimeReport   0.003878     0.003878  Flag_eeBadScFilter
+TimeReport   8.747842     8.747842  hTozzTo4leptonsSelectionPath
+TimeReport  per event     per exec  Name
+
+TimeReport -------End-Path   Summary ---[Real sec]----
+TimeReport  per event     per exec  Name
+TimeReport  per event     per exec  Name
+
+TimeReport ---------- Modules in Path: Path_BunchSpacingproducer ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000163     0.000163  bunchSpacingProducer
+
+TimeReport ---------- Modules in Path: Flag_HBHENoiseFilter ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000323     0.000323  HBHENoiseFilterResultProducer
+TimeReport   0.000025     0.000025  HBHENoiseFilter
+
+TimeReport ---------- Modules in Path: Flag_HBHENoiseIsoFilter ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  HBHENoiseFilterResultProducer
+TimeReport   0.000001     0.000001  HBHENoiseIsoFilter
+
+TimeReport ---------- Modules in Path: Flag_EcalDeadCellTriggerPrimitiveFilter ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000138     0.000138  EcalDeadCellTriggerPrimitiveFilter
+
+TimeReport ---------- Modules in Path: Flag_goodVertices ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000038     0.000038  primaryVertexFilter
+
+TimeReport ---------- Modules in Path: Flag_eeBadScFilter ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000185     0.000185  eeBadScFilter
+
+TimeReport ---------- Modules in Path: hTozzTo4leptonsSelectionPath ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000194     0.000194  goodOfflinePrimaryVertices
+TimeReport   0.000217     0.000217  genZ
+TimeReport   0.000122     0.000122  digenZ
+TimeReport   0.000135     0.000135  genleptons
+TimeReport   0.276229     0.276229  digenleptons
+TimeReport   0.000396     0.000396  trigenleptons
+TimeReport   0.000454     0.000454  fourgenleptons
+TimeReport   0.000031     0.000031  hTozzTo4leptonsMCDumper
+TimeReport   0.000226     0.000226  hTozzTo4leptonsMCCP
+TimeReport   0.000648     0.000648  hTozzTo4leptonsPFfsrPhoton
+TimeReport   0.001012     0.001012  hTozzTo4leptonsHLTInfo
+TimeReport   0.000148     0.000148  hTozzTo4leptonsHLTAnalysisFilter
+TimeReport   0.000103     0.000103  hTozzTo4leptonsElectronPreSelector
+TimeReport   0.000079     0.000079  hTozzTo4leptonsElectronOrdering
+TimeReport   0.006162     0.006162  calibratedElectrons
+TimeReport   0.000007     0.000007  hTozzTo4leptonsElectronSelector
+TimeReport   0.011298     0.011298  electronMVAValueMapProducer
+TimeReport   0.122182     0.122182  hTozzTo4leptonsMuonCalibrator
+TimeReport   0.000258     0.000258  cleanMuonsBySegments
+TimeReport   0.000035     0.000035  hTozzTo4leptonsMuonSelector
+TimeReport   0.000011     0.000011  zToEE
+TimeReport   0.000008     0.000008  zToMuMu
+TimeReport   0.000008     0.000008  hTozzTo4leptons
+TimeReport   0.000004     0.000004  hTozzTo4leptonsMMMM
+TimeReport   0.000004     0.000004  hTozzTo4leptonsEEEE
+TimeReport   0.000004     0.000004  zToEEssplus
+TimeReport   0.000004     0.000004  zToEEssminus
+TimeReport   0.000048     0.000048  zToEEssmerge
+TimeReport   0.000008     0.000008  zToMuMussplus
+TimeReport   0.000005     0.000005  zToMuMussminus
+TimeReport   0.000004     0.000004  zToMuMussmerge
+TimeReport   0.000005     0.000005  zToCrossLeptons
+TimeReport   0.000005     0.000005  dileptons
+TimeReport   0.000004     0.000004  zToEELooseIsol
+TimeReport   0.000005     0.000005  zToMuMuLooseIsol
+TimeReport   0.000004     0.000004  hTozzTo4leptonsLooseIsol
+TimeReport   0.000004     0.000004  hTozzTo4leptonsMMMMLooseIsol
+TimeReport   0.000004     0.000004  hTozzTo4leptonsEEEELooseIsol
+TimeReport   8.119006     8.119006  hTozzTo4leptonsIpToVtxProducer
+TimeReport   0.000077     0.000077  hTozzTo4leptonsIpToVtxProducerKF
+TimeReport   0.000504     0.000504  hTozzTo4leptonsTipLipToVtxProducer
+TimeReport   0.000627     0.000627  hTozzTo4leptonsPFJetSelector
+TimeReport   0.000220     0.000220  myMuons
+TimeReport   0.000676     0.000676  goodMuonMCMatch
+TimeReport   0.000007     0.000007  myElectrons
+TimeReport   0.000021     0.000021  goodElectronMCMatch
+TimeReport   0.000022     0.000022  myGammas
+TimeReport   0.000072     0.000072  goodGammaMCMatch
+TimeReport   0.000022     0.000022  goodZtoMuMuMCMatch
+TimeReport   0.000021     0.000021  goodZtoEEMCMatch
+TimeReport   0.000020     0.000020  goodHiggsTozzToEEMMMCMatch
+TimeReport   0.000021     0.000021  goodHiggsTozzToMMMMMCMatch
+TimeReport   0.000020     0.000020  goodHiggsTozzToEEEEMCMatch
+TimeReport   0.003157     0.003157  hTozzTo4leptonsCommonRootTreePresel
+TimeReport  per event    per visit  Name
+
+TimeReport ---------- Module Summary ---[Real sec]----
+TimeReport  per event     per exec    per visit  Name
+TimeReport   0.000000     0.000000     0.000000  TriggerResults
+TimeReport   0.000163     0.000163     0.000163  bunchSpacingProducer
+TimeReport   0.000323     0.000323     0.000162  HBHENoiseFilterResultProducer
+TimeReport   0.000025     0.000025     0.000025  HBHENoiseFilter
+TimeReport   0.000001     0.000001     0.000001  HBHENoiseIsoFilter
+TimeReport   0.000138     0.000138     0.000138  EcalDeadCellTriggerPrimitiveFilter
+TimeReport   0.000038     0.000038     0.000038  primaryVertexFilter
+TimeReport   0.000185     0.000185     0.000185  eeBadScFilter
+TimeReport   0.000194     0.000194     0.000194  goodOfflinePrimaryVertices
+TimeReport   0.000217     0.000217     0.000217  genZ
+TimeReport   0.000122     0.000122     0.000122  digenZ
+TimeReport   0.000135     0.000135     0.000135  genleptons
+TimeReport   0.276229     0.276229     0.276229  digenleptons
+TimeReport   0.000396     0.000396     0.000396  trigenleptons
+TimeReport   0.000454     0.000454     0.000454  fourgenleptons
+TimeReport   0.000031     0.000031     0.000031  hTozzTo4leptonsMCDumper
+TimeReport   0.000226     0.000226     0.000226  hTozzTo4leptonsMCCP
+TimeReport   0.000648     0.000648     0.000648  hTozzTo4leptonsPFfsrPhoton
+TimeReport   0.001012     0.001012     0.001012  hTozzTo4leptonsHLTInfo
+TimeReport   0.000148     0.000148     0.000148  hTozzTo4leptonsHLTAnalysisFilter
+TimeReport   0.000103     0.000103     0.000103  hTozzTo4leptonsElectronPreSelector
+TimeReport   0.000079     0.000079     0.000079  hTozzTo4leptonsElectronOrdering
+TimeReport   0.006162     0.006162     0.006162  calibratedElectrons
+TimeReport   0.000007     0.000007     0.000007  hTozzTo4leptonsElectronSelector
+TimeReport   0.011298     0.011298     0.011298  electronMVAValueMapProducer
+TimeReport   0.122182     0.122182     0.122182  hTozzTo4leptonsMuonCalibrator
+TimeReport   0.000258     0.000258     0.000258  cleanMuonsBySegments
+TimeReport   0.000035     0.000035     0.000035  hTozzTo4leptonsMuonSelector
+TimeReport   0.000011     0.000011     0.000011  zToEE
+TimeReport   0.000008     0.000008     0.000008  zToMuMu
+TimeReport   0.000008     0.000008     0.000008  hTozzTo4leptons
+TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsMMMM
+TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsEEEE
+TimeReport   0.000004     0.000004     0.000004  zToEEssplus
+TimeReport   0.000004     0.000004     0.000004  zToEEssminus
+TimeReport   0.000048     0.000048     0.000048  zToEEssmerge
+TimeReport   0.000008     0.000008     0.000008  zToMuMussplus
+TimeReport   0.000005     0.000005     0.000005  zToMuMussminus
+TimeReport   0.000004     0.000004     0.000004  zToMuMussmerge
+TimeReport   0.000005     0.000005     0.000005  zToCrossLeptons
+TimeReport   0.000005     0.000005     0.000005  dileptons
+TimeReport   0.000004     0.000004     0.000004  zToEELooseIsol
+TimeReport   0.000005     0.000005     0.000005  zToMuMuLooseIsol
+TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsLooseIsol
+TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsMMMMLooseIsol
+TimeReport   0.000004     0.000004     0.000004  hTozzTo4leptonsEEEELooseIsol
+TimeReport   8.119006     8.119006     8.119006  hTozzTo4leptonsIpToVtxProducer
+TimeReport   0.000077     0.000077     0.000077  hTozzTo4leptonsIpToVtxProducerKF
+TimeReport   0.000504     0.000504     0.000504  hTozzTo4leptonsTipLipToVtxProducer
+TimeReport   0.000627     0.000627     0.000627  hTozzTo4leptonsPFJetSelector
+TimeReport   0.000220     0.000220     0.000220  myMuons
+TimeReport   0.000676     0.000676     0.000676  goodMuonMCMatch
+TimeReport   0.000007     0.000007     0.000007  myElectrons
+TimeReport   0.000021     0.000021     0.000021  goodElectronMCMatch
+TimeReport   0.000022     0.000022     0.000022  myGammas
+TimeReport   0.000072     0.000072     0.000072  goodGammaMCMatch
+TimeReport   0.000022     0.000022     0.000022  goodZtoMuMuMCMatch
+TimeReport   0.000021     0.000021     0.000021  goodZtoEEMCMatch
+TimeReport   0.000020     0.000020     0.000020  goodHiggsTozzToEEMMMCMatch
+TimeReport   0.000021     0.000021     0.000021  goodHiggsTozzToMMMMMCMatch
+TimeReport   0.000020     0.000020     0.000020  goodHiggsTozzToEEEEMCMatch
+TimeReport   0.003157     0.003157     0.003157  hTozzTo4leptonsCommonRootTreePresel
+TimeReport  per event     per exec    per visit  Name
+
+T---Report end!
+
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 Fatal Exception      -s PostProcessPath                        1        1
+    2 fileAction           -s file_close                             1        1
+    3 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 Fatal Exception      1/74596                           
+    2 fileAction           PostEndRun                        
+    3 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  4                   4
+Number of events analysed for the ROOT tree= 1
