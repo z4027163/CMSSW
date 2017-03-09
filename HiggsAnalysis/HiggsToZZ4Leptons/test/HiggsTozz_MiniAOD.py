@@ -120,7 +120,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(20) )
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
 readFiles = cms.untracked.vstring(
-'file:/afs/cern.ch/work/w/wangz/public/WW_mini.root'
+'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DY_mini.root'
 #'root://cmsxrootd-site.fnal.gov//store/mc/RunIIFall15MiniAODv2/WW_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/60000/0EE6E0B8-FFB7-E511-B0C6-0025904CDDFA.root'
 #'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_Spring15_test3.root'
 #'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_DY_2.root'
@@ -129,9 +129,7 @@ readFiles = cms.untracked.vstring(
 #'root://cms-xrd-global.cern.ch//store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8-tauola_v2/MINIAODSIM/AVE30BX50_tsg_PHYS14_ST_V1-v1/30000/0080FDC4-5A8B-E411-AA4A-00259073E4F0.root',
   )
 
-print("hoho\n")
 process.source = cms.Source ("PoolSource",fileNames = readFiles, secondaryFileNames = secFiles)
-print("haha\n")
 
 ## # Endpath
 # process.o = cms.EndPath ( process.hTozzTo4leptonsSelectionOutputModuleNew )
