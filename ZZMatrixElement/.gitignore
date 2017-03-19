@@ -1,0 +1,4 @@
+*~
+*.pyc
+__init__.py
+MELA/data/slc5_amd64_gcc462/libmcfm.so

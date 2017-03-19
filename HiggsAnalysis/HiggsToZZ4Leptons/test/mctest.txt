@@ -1,0 +1,20 @@
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+hahahahha
+
+test
+
+hoho
+
+haha
+
+Warning in <TInterpreter::ReadRootmapFile>: class  edm::ValueMap<float> found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  edm::Wrapper<edm::ValueMap<float> > found in libDataFormatsCommon.so  is already in libHiggsAnalysisHiggsToZZ4Leptons.so 
+31-Dec-2016 02:41:47 CET  Initiating request to open file file:/afs/cern.ch/work/w/wangz/public/WW_mini.root
+31-Dec-2016 02:41:48 CET  Successfully opened file file:/afs/cern.ch/work/w/wangz/public/WW_mini.root
+31-Dec-2016 02:41:49 CET  Closed file file:/afs/cern.ch/work/w/wangz/public/WW_mini.root
+----- Begin Fatal Exception 31-Dec-2016 02:41:49 CET-----------------------
+An exception of category 'PluginNotFound' occurred while
+   [0] Constructing the EventProcessor
+Exception Message:
+Unable to find plugin 'BunchSpacingProducerMiniAOD' in category 'CMS EDM Framework Module'. Please check spelling of name.
+----- End Fatal Exception -------------------------------------------------
