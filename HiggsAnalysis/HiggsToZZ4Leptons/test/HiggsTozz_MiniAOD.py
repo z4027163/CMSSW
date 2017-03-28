@@ -92,7 +92,7 @@ process.hTozzTo4leptonsSelectionPath = cms.Path(
   process.goodOfflinePrimaryVertices     *
   process.genanalysis *
   process.hTozzTo4leptonsSelectionSequenceData *
-  process.hTozzTo4leptonsMatchingSequence *
+#  process.hTozzTo4leptonsMatchingSequence *
   process.hTozzTo4leptonsCommonRootTreePresel
   )
 

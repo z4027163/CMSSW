@@ -200,7 +200,7 @@ void HZZ4LeptonsCommonRootTree::analyze(const edm::Event& iEvent, const edm::Eve
   // Get the MC Truth particles, H, ZZ and 4 leptons
   if ( fillMCTruth) {
     cout << "Filling MCtruth variables" << endl;
-    fillgenparticles(iEvent,iSetup);
+//    fillgenparticles(iEvent,iSetup);
     fillmc(iEvent);
   }
 
@@ -245,10 +245,10 @@ void HZZ4LeptonsCommonRootTree::analyze(const edm::Event& iEvent, const edm::Eve
   filljets(iEvent);
   cout << "fill jet test end" << endl;
 
-  if (useAdditionalRECO==true) {
-    fillAdditionalRECO(iEvent);
-  cout << "RECOcollNameZ size " << RECOcollNameZ.size() << endl;
-  }
+//  if (useAdditionalRECO==true) {
+//    fillAdditionalRECO(iEvent);
+//  cout << "RECOcollNameZ size " << RECOcollNameZ.size() << endl;
+//  }
 
 
   // Filling electron and muons vectors
@@ -281,8 +281,10 @@ void HZZ4LeptonsCommonRootTree::analyze(const edm::Event& iEvent, const edm::Eve
   cout << "fill track test" << endl;
   fillTracks(iEvent); 
 
-  
-  
+ //GENJets
+  if (fillMCTruth) fillgenjets(iEvent);
+
+    
   cout << "GENMET test" << endl;
 
   //GENMET

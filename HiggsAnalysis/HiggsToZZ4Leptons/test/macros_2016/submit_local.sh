@@ -17,9 +17,9 @@ echo "Working dir is $workdir"
 echo "Saving dir is $savedir"
 
 
-./RunReferenceqier 1 2016 Fall2015 >& ${workdir}/HZZ4LeptonsAnalysis_log
+./RunReference4mu_dustin FNAL Spring2016 mc >& ${workdir}/HZZ4LeptonsAnalysis_log
 
-#mv ${workdir}/HZZ4LeptonsAnalysis_log ${savedir}/.
+mv ${workdir}/HZZ4LeptonsAnalysis_log ${savedir}/.
 mv ${workdir}/output*.root    ${savedir}/.
 mv ${workdir}/output_bnn.txt ${savedir}/.
 mv ${workdir}/output_bnn.root ${savedir}/.

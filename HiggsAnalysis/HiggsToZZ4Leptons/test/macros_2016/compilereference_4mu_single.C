@@ -34,7 +34,7 @@ int main(int argc, char ** argv){
     sprintf(nome,"/castor/cern.ch/user/n/ndefilip/DAS2013/bkg/roottree_leptons_ZZTo2e2mu_8TeV-powheg-pythia6.root"); 
   }
   else if (site.find("FNAL")<5){
-    sprintf(nome,"dcap://cmsgridftp.fnal.gov:24125/pnfs/fnal.gov/usr/cms/WAX/11/store/user/cmsdas/2013/HZZ4lExercise/sig/roottree_leptons_GluGluToHToZZTo4L_M-1000_8TeV-powheg-pythia6.root");
+    sprintf(nome,"/eos/uscms/store/user/wangz/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_v1/170227_205736/DYToLL_merge1.root");
   }
   else {
     sprintf(nome,"/localdata/Syncr13TeV/roottree_leptons_sync_Fall15_HiggsToZZ_76x.root");
@@ -57,7 +57,7 @@ int main(int argc, char ** argv){
   HZZ4LeptonsAnalysis make3(tree3,1.,dataconf,mcconf);
   //HZZ4LeptonsAnalysis make3(tree3);
 
-  sprintf(nome,"output_Fall15_Higgs.root");
+  sprintf(nome,"output_DYJetsToLL.root");
   make3.Loop(nome);
 
   cout << "Create file with name: " << nome << endl;

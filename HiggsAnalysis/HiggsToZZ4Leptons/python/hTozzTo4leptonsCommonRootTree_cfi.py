@@ -263,6 +263,8 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
     RhoJetsLabel       = cms.InputTag("fixedGridRhoFastjetAll"),
     VerticesLabel      = cms.InputTag("offlineSlimmedPrimaryVertices"),
 
+    # GenJet
+    GenJetLabel        = cms.InputTag("slimmedGenJets"),
     # Gen MET
 #    GenMETLabel        = cms.InputTag("genMetTrue"),
     # Tracker MET                                           
