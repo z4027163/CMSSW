@@ -3077,14 +3077,12 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
 
 
-    cout << "test 1" << endl;
     //Electron ID MVA Trig and Non Trig
-    edm::Handle<edm::ValueMap<float> >  mvaTrigV0map;
-    iEvent.getByToken(mvaTrigV0MapTag_, mvaTrigV0map);
+//    edm::Handle<edm::ValueMap<float> >  mvaTrigV0map;
+//    iEvent.getByToken(mvaTrigV0MapTag_, mvaTrigV0map);
     edm::Handle<edm::ValueMap<float> >  mvaNonTrigV0map;
     iEvent.getByToken(mvaNonTrigV0MapTag_, mvaNonTrigV0map);
     
-    cout << "test 2" << endl;
     // Particle Flow Isolation
 /*
     edm::Handle<edm::ValueMap<double> > isoPFChargedAllelemap;
@@ -3429,6 +3427,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       // RECOELE_regEnergy[index]=(*eleRegressionEnergymap)[eletrackrefv];
       // RECOELE_regEnergyError[index]=(*eleRegressionEnergyErrormap)[eletrackrefv];
 
+/*qier
       if (!cand->parentSuperCluster().isNull()){
         RECOELE_TLE_ParentSC_X[index]=cand->parentSuperCluster()->x();
         RECOELE_TLE_ParentSC_Y[index]=cand->parentSuperCluster()->y();
@@ -3436,7 +3435,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       }
 
       cout << "Parent SC x,y,x= " <<RECOELE_TLE_ParentSC_X[index] << " " << RECOELE_TLE_ParentSC_Y[index] << " " << RECOELE_TLE_ParentSC_Z[index] << endl;
-
+*/
       // Vertexing DA
       RECOELE_SIP[index]=(*vertexelemap)[eletrackrefv];
       RECOELE_IP[index]=(*vertexelemapvalue)[eletrackrefv];
@@ -3617,7 +3616,6 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 	if(fabs(MyS->dPhi1()) < 100.) ele_seedDphi1[index] = double(MyS->dPhi1());
 	if(fabs(MyS->dRz1()) < 100.)  ele_seedDrz1[index]  = double(MyS->dRz1());
       }
- 
       //
       edm::Handle<edm::View<pat::Electron> > elecoll;
       iEvent.getByToken(mvaElectronTag_, elecoll);
@@ -3629,12 +3627,13 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
 	if ( RECOELE_sigmaEtaEta[index]==candid->sigmaEtaEta() && RECOELE_sigmaIetaIeta[index]==candid->sigmaIetaIeta() ){
 	  //cout << "Trovato electtrone= " << RECOELE_PT[index] << " " << candid->p4().pt() << endl;
-
-	   RECOELE_mvaTrigV0[index]=(*mvaTrigV0map)[eletrackrefa];
+          //qier test 
+           cout << "test11" << endl;
+//	   RECOELE_mvaTrigV0[index]=(*mvaTrigV0map)[eletrackrefa];
 	   RECOELE_mvaNonTrigV0[index]=(*mvaNonTrigV0map)[eletrackrefa];
 	   
 	   std::cout << "BDT MVA eleID flag = "
-		     << RECOELE_mvaTrigV0[index] << " "
+		   //  << RECOELE_mvaTrigV0[index] << " "
 		     << RECOELE_mvaNonTrigV0[index] << " "
 		     << std::endl;
 	   
@@ -3731,33 +3730,33 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
     // 3D w.r.t primary vertex KF
     edm::Handle<edm::ValueMap<float> > vertexmumapKF;
-    iEvent.getByToken(muonMapTag_VertKF, vertexmumapKF);
+//    iEvent.getByToken(muonMapTag_VertKF, vertexmumapKF);
     
     edm::Handle<edm::ValueMap<float> > vertexmumapvalueKF;
-    iEvent.getByToken(muonMapTag_VertValueKF, vertexmumapvalueKF);
+//    iEvent.getByToken(muonMapTag_VertValueKF, vertexmumapvalueKF);
     
     edm::Handle<edm::ValueMap<float> > vertexmumaperrorKF;
-    iEvent.getByToken(muonMapTag_VertErrorKF, vertexmumaperrorKF);
+//    iEvent.getByToken(muonMapTag_VertErrorKF, vertexmumaperrorKF);
 
 
     // STIP SLIP
     edm::Handle<edm::ValueMap<float> > stipmumap;
-    iEvent.getByToken(muonSTIPMapTag_Vert, stipmumap);
+//    iEvent.getByToken(muonSTIPMapTag_Vert, stipmumap);
     
     edm::Handle<edm::ValueMap<float> > slipmumap;
-    iEvent.getByToken(muonSLIPMapTag_Vert, slipmumap);
+//    iEvent.getByToken(muonSLIPMapTag_Vert, slipmumap);
     
     edm::Handle<edm::ValueMap<float> > stipmumapvalue;
-    iEvent.getByToken(muonSTIPMapTag_VertValue, stipmumapvalue);
+//    iEvent.getByToken(muonSTIPMapTag_VertValue, stipmumapvalue);
     
     edm::Handle<edm::ValueMap<float> > slipmumapvalue;
-    iEvent.getByToken(muonSLIPMapTag_VertValue, slipmumapvalue);
+//    iEvent.getByToken(muonSLIPMapTag_VertValue, slipmumapvalue);
     
     edm::Handle<edm::ValueMap<float> > stipmumaperror;
-    iEvent.getByToken(muonSTIPMapTag_VertError, stipmumaperror);
+//    iEvent.getByToken(muonSTIPMapTag_VertError, stipmumaperror);
     
     edm::Handle<edm::ValueMap<float> > slipmumaperror;
-    iEvent.getByToken(muonSLIPMapTag_VertError, slipmumaperror);
+//    iEvent.getByToken(muonSLIPMapTag_VertError, slipmumaperror);
         
     // primary vertex
  
@@ -3928,11 +3927,11 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       RECOMU_SIP[indexbis]=(*vertexmumap)[mutrackrefv];
       RECOMU_IP[indexbis]=(*vertexmumapvalue)[mutrackrefv];
       RECOMU_IPERROR[indexbis]=(*vertexmumaperror)[mutrackrefv];
-
+/*
       RECOMU_SIP_KF[indexbis]=(*vertexmumapKF)[mutrackrefv];
       RECOMU_IP_KF[indexbis]=(*vertexmumapvalueKF)[mutrackrefv];
       RECOMU_IPERROR_KF[indexbis]=(*vertexmumaperrorKF)[mutrackrefv];
-      
+*/      
 
       //RECOMU_SIP_GD[indexbis]=(*vertexmumapGD)[mutrackrefv];
       //if (decaychannel=="4mu" || decaychannel=="2e2mu" ) RECOMU_SIP_GDMMMM[indexbis]=(*vertexmumapGDMMMM)[mutrackrefv];
@@ -3941,14 +3940,14 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       //RECOMU_SIP_Kin[indexbis]=(*vertexmumapKin)[mutrackrefv];
       //if (decaychannel=="4mu" || decaychannel=="2e2mu" ) RECOMU_SIP_KinMMMM[indexbis]=(*vertexmumapKinMMMM)[mutrackrefv];
 
-
+/*
       RECOMU_STIP[indexbis]=(*stipmumap)[mutrackrefv];
       RECOMU_SLIP[indexbis]=(*slipmumap)[mutrackrefv];
       RECOMU_TIP[indexbis]=(*stipmumapvalue)[mutrackrefv];
       RECOMU_LIP[indexbis]=(*slipmumapvalue)[mutrackrefv];
       RECOMU_TIPERROR[indexbis]=(*stipmumaperror)[mutrackrefv];
       RECOMU_LIPERROR[indexbis]=(*slipmumaperror)[mutrackrefv];
-      
+*/      
 
       std::cout << "--vertexing: muon"
 		<< "  Sign3DIP=" << RECOMU_SIP[indexbis]
@@ -4146,6 +4145,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       RECOPHOT_ETA[iphot]=cand->eta();
       RECOPHOT_PHI[iphot]=cand->phi();
       RECOPHOT_THETA[iphot]=cand->theta();
+/*
       if (!cand->parentSuperCluster().isNull()){
         RECOPHOT_TLE_ParentSC_X[iphot]=cand->parentSuperCluster()->x();
         RECOPHOT_TLE_ParentSC_Y[iphot]=cand->parentSuperCluster()->y();
@@ -4153,7 +4153,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       }
 
       cout << "Parent SC x,y,x= " <<RECOPHOT_TLE_ParentSC_X[iphot] << " " << RECOPHOT_TLE_ParentSC_Y[iphot] << " " << RECOPHOT_TLE_ParentSC_Z[iphot] << endl;
-
+*/
 
       cout << "Reco Photon with pT= " << RECOPHOT_PT[iphot] << " eta= " << RECOPHOT_ETA[iphot] << " phi= " << RECOPHOT_PHI[iphot] << endl;
 /*

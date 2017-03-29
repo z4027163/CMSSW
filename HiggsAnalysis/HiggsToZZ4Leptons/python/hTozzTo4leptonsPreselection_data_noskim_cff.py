@@ -187,42 +187,42 @@ print("test\n")
 #*******************
 
 # zToEE
-from HiggsAnalysis.HiggsToZZ4Leptons.zToEE_cfi import *
-zToEE.decay = cms.string('hTozzTo4leptonsElectronSelector@+ hTozzTo4leptonsElectronSelector@-')
-zToEE.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.zToEE_cfi import *
+#zToEE.decay = cms.string('hTozzTo4leptonsElectronSelector@+ hTozzTo4leptonsElectronSelector@-')
+#zToEE.cut = cms.string('mass > 0')
 
 # zToMuMu
-from HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi import *                       
-zToMuMu.decay=cms.string('hTozzTo4leptonsMuonSelector@+ hTozzTo4leptonsMuonSelector@-')
-zToMuMu.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi import *                       
+#zToMuMu.decay=cms.string('hTozzTo4leptonsMuonSelector@+ hTozzTo4leptonsMuonSelector@-')
+#zToMuMu.cut = cms.string('mass > 0')
 
 
 # zToMuMu_SS, zToEE_SS and zToCrossLeptons
-from HiggsAnalysis.HiggsToZZ4Leptons.zToMuMuss_cfi import *
-zToMuMussplus.decay = cms.string('hTozzTo4leptonsMuonSelector@+ hTozzTo4leptonsMuonSelector@+')
-zToMuMussplus.cut = cms.string('mass > 0 && (daughter(0).charge>0 && daughter(1).charge>0)')
-zToMuMussminus.decay = cms.string('hTozzTo4leptonsMuonSelector@- hTozzTo4leptonsMuonSelector@-')
-zToMuMussminus.cut = cms.string('mass > 0 && (daughter(0).charge<0 && daughter(1).charge<0)')
-zToMuMussmerge.src = cms.VInputTag( "zToMuMussplus", "zToMuMussminus")
-zToMuMuss=cms.Sequence(zToMuMussplus+zToMuMussminus+zToMuMussmerge)
+#from HiggsAnalysis.HiggsToZZ4Leptons.zToMuMuss_cfi import *
+#zToMuMussplus.decay = cms.string('hTozzTo4leptonsMuonSelector@+ hTozzTo4leptonsMuonSelector@+')
+#zToMuMussplus.cut = cms.string('mass > 0 && (daughter(0).charge>0 && daughter(1).charge>0)')
+#zToMuMussminus.decay = cms.string('hTozzTo4leptonsMuonSelector@- hTozzTo4leptonsMuonSelector@-')
+#zToMuMussminus.cut = cms.string('mass > 0 && (daughter(0).charge<0 && daughter(1).charge<0)')
+#zToMuMussmerge.src = cms.VInputTag( "zToMuMussplus", "zToMuMussminus")
+#zToMuMuss=cms.Sequence(zToMuMussplus+zToMuMussminus+zToMuMussmerge)
 
-from HiggsAnalysis.HiggsToZZ4Leptons.zToEEss_cfi import *
-zToEEssplus.decay = cms.string('hTozzTo4leptonsElectronSelector@+ hTozzTo4leptonsElectronSelector@+')
-zToEEssplus.cut = cms.string('mass > 0 && (daughter(0).charge>0 && daughter(1).charge>0)')
-zToEEssminus.decay = cms.string('hTozzTo4leptonsElectronSelector@- hTozzTo4leptonsElectronSelector@-')
-zToEEssminus.cut = cms.string('mass > 0 && (daughter(0).charge<0 && daughter(1).charge<0)')
-zToEEssmerge.src = cms.VInputTag( "zToEEssplus", "zToEEssminus")
-zToEEss=cms.Sequence(zToEEssplus+zToEEssminus+zToEEssmerge)
+#from HiggsAnalysis.HiggsToZZ4Leptons.zToEEss_cfi import *
+#zToEEssplus.decay = cms.string('hTozzTo4leptonsElectronSelector@+ hTozzTo4leptonsElectronSelector@+')
+#zToEEssplus.cut = cms.string('mass > 0 && (daughter(0).charge>0 && daughter(1).charge>0)')
+#zToEEssminus.decay = cms.string('hTozzTo4leptonsElectronSelector@- hTozzTo4leptonsElectronSelector@-')
+#zToEEssminus.cut = cms.string('mass > 0 && (daughter(0).charge<0 && daughter(1).charge<0)')
+#zToEEssmerge.src = cms.VInputTag( "zToEEssplus", "zToEEssminus")
+#zToEEss=cms.Sequence(zToEEssplus+zToEEssminus+zToEEssmerge)
 
 
-from HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi import *  
-zToCrossLeptons.decay = cms.string("hTozzTo4leptonsMuonSelector hTozzTo4leptonsElectronSelector")
-zToCrossLeptons.checkCharge = cms.bool(False)
-zToCrossLeptons.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi import *  
+#zToCrossLeptons.decay = cms.string("hTozzTo4leptonsMuonSelector hTozzTo4leptonsElectronSelector")
+#zToCrossLeptons.checkCharge = cms.bool(False)
+#zToCrossLeptons.cut = cms.string('mass > 0')
 
-dileptons = cms.EDProducer("CandViewMerger",
-       src = cms.VInputTag( "zToEE", "zToMuMu","zToEEssmerge","zToMuMussmerge","zToCrossLeptons")
-)
+#dileptons = cms.EDProducer("CandViewMerger",
+#       src = cms.VInputTag( "zToEE", "zToMuMu","zToEEssmerge","zToMuMussmerge","zToCrossLeptons")
+#)
 
 #*******************
 #4 Leptons No Presel 
@@ -230,81 +230,81 @@ dileptons = cms.EDProducer("CandViewMerger",
 
 
 # hTozzToEEMuMu
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
-hTozzTo4leptons=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
-hTozzTo4leptons.decay = cms.string('zToEE zToMuMu')
-hTozzTo4leptons.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
+#hTozzTo4leptons=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
+#hTozzTo4leptons.decay = cms.string('zToEE zToMuMu')
+#hTozzTo4leptons.cut = cms.string('mass > 0')
 
 # hTozzToMuMuMuMu
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
-hTozzTo4leptonsMMMM=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
-hTozzTo4leptonsMMMM.decay = cms.string('zToMuMu zToMuMu')
-hTozzTo4leptonsMMMM.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
+#hTozzTo4leptonsMMMM=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
+#hTozzTo4leptonsMMMM.decay = cms.string('zToMuMu zToMuMu')
+#hTozzTo4leptonsMMMM.cut = cms.string('mass > 0')
 
 # hTozzToEEEE
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
-hTozzTo4leptonsEEEE=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
-hTozzTo4leptonsEEEE.decay = cms.string('zToEE zToEE')
-hTozzTo4leptonsEEEE.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
+#hTozzTo4leptonsEEEE=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
+#hTozzTo4leptonsEEEE.decay = cms.string('zToEE zToEE')
+#hTozzTo4leptonsEEEE.cut = cms.string('mass > 0')
 
 
 # other 4 leptons combinations with SS Z and Opposite Flavour Z
-quadLeptons4Mu=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-quadLeptons4Mu.decay = cms.string('zToMuMussmerge zToMuMussmerge')
-quadLeptons4Mu.cut = cms.string('mass > 0') 
+#quadLeptons4Mu=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#quadLeptons4Mu.decay = cms.string('zToMuMussmerge zToMuMussmerge')
+#quadLeptons4Mu.cut = cms.string('mass > 0') 
 
-quadLeptons2Mu2E=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-quadLeptons2Mu2E.decay = cms.string('zToMuMussmerge zToEEssmerge')
-quadLeptons2Mu2E.cut = cms.string('mass > 0') 
+#quadLeptons2Mu2E=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#quadLeptons2Mu2E.decay = cms.string('zToMuMussmerge zToEEssmerge')
+#quadLeptons2Mu2E.cut = cms.string('mass > 0') 
 
-quadLeptons4E=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-quadLeptons4E.decay = cms.string('zToEEssmerge zToEEssmerge')
-quadLeptons4E.cut = cms.string('mass > 0') 
+#quadLeptons4E=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#quadLeptons4E.decay = cms.string('zToEEssmerge zToEEssmerge')
+#quadLeptons4E.cut = cms.string('mass > 0') 
 
 #one Z SS and on Z OS
-quadLeptonsSSOSele=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-quadLeptonsSSOSele.decay = cms.string('zToEE zToEEssmerge')
-quadLeptonsSSOSele.cut = cms.string('mass > 0') 
+#quadLeptonsSSOSele=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#quadLeptonsSSOSele.decay = cms.string('zToEE zToEEssmerge')
+#quadLeptonsSSOSele.cut = cms.string('mass > 0') 
 
-quadLeptonsSSOSmu=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-quadLeptonsSSOSmu.decay = cms.string('zToMuMu zToMuMussmerge')
-quadLeptonsSSOSmu.cut = cms.string('mass > 0') 
+#quadLeptonsSSOSmu=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#quadLeptonsSSOSmu.decay = cms.string('zToMuMu zToMuMussmerge')
+#quadLeptonsSSOSmu.cut = cms.string('mass > 0') 
 
-quadLeptonsSSOSmuele=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-quadLeptonsSSOSmuele.decay = cms.string('zToMuMu zToEEssmerge')
-quadLeptonsSSOSmuele.cut = cms.string('mass > 0') 
+#quadLeptonsSSOSmuele=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#quadLeptonsSSOSmuele.decay = cms.string('zToMuMu zToEEssmerge')
+#quadLeptonsSSOSmuele.cut = cms.string('mass > 0') 
 
-quadLeptonsSSOSelemu=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-quadLeptonsSSOSelemu.decay = cms.string('zToEE zToMuMussmerge')
-quadLeptonsSSOSelemu.cut = cms.string('mass > 0')
+#quadLeptonsSSOSelemu=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#quadLeptonsSSOSelemu.decay = cms.string('zToEE zToMuMussmerge')
+#quadLeptonsSSOSelemu.cut = cms.string('mass > 0')
 
 
 #3Mu+1E, 3E+1Mu
-quadLeptons3Mu1E1Z =HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
-quadLeptons3Mu1E1Z.decay = cms.string('zToMuMu zToCrossLeptons')
-quadLeptons3Mu1E1Z.checkCharge = cms.bool(False)
-quadLeptons3Mu1E1Z.cut = cms.string('mass > 0')
+#quadLeptons3Mu1E1Z =HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
+#quadLeptons3Mu1E1Z.decay = cms.string('zToMuMu zToCrossLeptons')
+#quadLeptons3Mu1E1Z.checkCharge = cms.bool(False)
+#quadLeptons3Mu1E1Z.cut = cms.string('mass > 0')
 
-quadLeptons3Mu1E0Z =HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
-quadLeptons3Mu1E0Z.decay = cms.string('zToMuMussmerge zToCrossLeptons')
-quadLeptons3Mu1E0Z.checkCharge = cms.bool(False)
-quadLeptons3Mu1E0Z.cut = cms.string('mass > 0')
+#quadLeptons3Mu1E0Z =HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
+#quadLeptons3Mu1E0Z.decay = cms.string('zToMuMussmerge zToCrossLeptons')
+#quadLeptons3Mu1E0Z.checkCharge = cms.bool(False)
+#quadLeptons3Mu1E0Z.cut = cms.string('mass > 0')
 
-quadLeptons3E1Mu1Z =HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
-quadLeptons3E1Mu1Z.decay = cms.string('zToEE zToCrossLeptons')
-quadLeptons3E1Mu1Z.checkCharge = cms.bool(False)
-quadLeptons3E1Mu1Z.cut = cms.string('mass > 0')
+#quadLeptons3E1Mu1Z =HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
+#quadLeptons3E1Mu1Z.decay = cms.string('zToEE zToCrossLeptons')
+#quadLeptons3E1Mu1Z.checkCharge = cms.bool(False)
+#quadLeptons3E1Mu1Z.cut = cms.string('mass > 0')
 
-quadLeptons3E1Mu0Z =HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
-quadLeptons3E1Mu0Z.decay = cms.string('zToEEssmerge zToCrossLeptons')
-quadLeptons3E1Mu0Z.checkCharge = cms.bool(False)
-quadLeptons3E1Mu0Z.cut = cms.string('mass > 0')
+#quadLeptons3E1Mu0Z =HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
+#quadLeptons3E1Mu0Z.decay = cms.string('zToEEssmerge zToCrossLeptons')
+#quadLeptons3E1Mu0Z.checkCharge = cms.bool(False)
+#quadLeptons3E1Mu0Z.cut = cms.string('mass > 0')
 
 #ME + ME
-quadLeptonsCrossZ=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
-quadLeptonsCrossZ.decay = cms.string('zToCrossLeptons zToCrossLeptons')
-quadLeptonsCrossZ.checkCharge = cms.bool(False)
-quadLeptonsCrossZ.cut = cms.string('mass > 0')
+#quadLeptonsCrossZ=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
+#quadLeptonsCrossZ.decay = cms.string('zToCrossLeptons zToCrossLeptons')
+#quadLeptonsCrossZ.checkCharge = cms.bool(False)
+#quadLeptonsCrossZ.cut = cms.string('mass > 0')
 
 
 
@@ -312,21 +312,21 @@ quadLeptonsCrossZ.cut = cms.string('mass > 0')
 #3 Leptons No Presel 
 #*******************
 
-triLeptonsMuMuMu=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-triLeptonsMuMuMu.decay = cms.string('hTozzTo4leptonsMuonSelector hTozzTo4leptonsMuonSelector hTozzTo4leptonsMuonSelector')
-triLeptonsMuMuMu.cut = cms.string("mass > 0");
+#triLeptonsMuMuMu=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#triLeptonsMuMuMu.decay = cms.string('hTozzTo4leptonsMuonSelector hTozzTo4leptonsMuonSelector hTozzTo4leptonsMuonSelector')
+#triLeptonsMuMuMu.cut = cms.string("mass > 0");
 
-triLeptonsMuMuE=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-triLeptonsMuMuE.decay = cms.string('hTozzTo4leptonsMuonSelector hTozzTo4leptonsMuonSelector hTozzTo4leptonsElectronSelector')
-triLeptonsMuMuE.cut = cms.string("mass > 0");
+#triLeptonsMuMuE=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#triLeptonsMuMuE.decay = cms.string('hTozzTo4leptonsMuonSelector hTozzTo4leptonsMuonSelector hTozzTo4leptonsElectronSelector')
+#triLeptonsMuMuE.cut = cms.string("mass > 0");
 
-triLeptonsMuEE=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-triLeptonsMuEE.decay = cms.string('hTozzTo4leptonsMuonSelector hTozzTo4leptonsElectronSelector hTozzTo4leptonsElectronSelector')
-triLeptonsMuEE.cut = cms.string("mass > 0");
+#triLeptonsMuEE=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#triLeptonsMuEE.decay = cms.string('hTozzTo4leptonsMuonSelector hTozzTo4leptonsElectronSelector hTozzTo4leptonsElectronSelector')
+#triLeptonsMuEE.cut = cms.string("mass > 0");
 
-triLeptonsEEE=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
-triLeptonsEEE.decay = cms.string('hTozzTo4leptonsElectronSelector hTozzTo4leptonsElectronSelector hTozzTo4leptonsElectronSelector')
-triLeptonsEEE.cut = cms.string("mass > 0");
+#triLeptonsEEE=HiggsAnalysis.HiggsToZZ4Leptons.zToCrossLeptons_cfi.zToCrossLeptons.clone()
+#triLeptonsEEE.decay = cms.string('hTozzTo4leptonsElectronSelector hTozzTo4leptonsElectronSelector hTozzTo4leptonsElectronSelector')
+#triLeptonsEEE.cut = cms.string("mass > 0");
 
 
 #*************************
@@ -334,9 +334,9 @@ triLeptonsEEE.cut = cms.string("mass > 0");
 #*************************
 
 
-allLLLL = cms.EDProducer("CandViewMerger",
-       src = cms.VInputTag("quadLeptons4Mu","quadLeptons2Mu2E","quadLeptons4E","quadLeptonsSSOSele", "quadLeptonsSSOSmu", "quadLeptonsSSOSmuele", "quadLeptonsSSOSelemu", "quadLeptons3Mu1E1Z","quadLeptons3Mu1E0Z","quadLeptons3E1Mu1Z","quadLeptons3E1Mu0Z", "hTozzTo4leptonsEEEE", "hTozzTo4leptonsMMMM", "hTozzTo4leptons", "quadLeptonsCrossZ" )
-) 
+#allLLLL = cms.EDProducer("CandViewMerger",
+#       src = cms.VInputTag("quadLeptons4Mu","quadLeptons2Mu2E","quadLeptons4E","quadLeptonsSSOSele", "quadLeptonsSSOSmu", "quadLeptonsSSOSmuele", "quadLeptonsSSOSelemu", "quadLeptons3Mu1E1Z","quadLeptons3Mu1E0Z","quadLeptons3E1Mu1Z","quadLeptons3E1Mu0Z", "hTozzTo4leptonsEEEE", "hTozzTo4leptonsMMMM", "hTozzTo4leptons", "quadLeptonsCrossZ" )
+#) 
 
 
 # Veto electrons and muons for isolation
@@ -359,6 +359,7 @@ electronMVAValueMapProducer.src = cms.InputTag("hTozzTo4leptonsElectronOrdering"
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 from RecoEgamma.ElectronIdentification.egmGsfElectronIDs_cff import *
 from RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_V1_cff import *
+
 
 # MVA Photon ID 80X
 from RecoEgamma.PhotonIdentification.Identification.mvaTLEID_Fall15_V1_cff import *
@@ -433,79 +434,79 @@ phPFIsoValuePU03PFIdPFBRECO.deposits[0].deltaR = cms.double(0.3)
 
 
 # zToEE loose isolated
-from HiggsAnalysis.HiggsToZZ4Leptons.zToEE_cfi import *
-import HiggsAnalysis.HiggsToZZ4Leptons.zToEE_cfi
-zToEELooseIsol = HiggsAnalysis.HiggsToZZ4Leptons.zToEE_cfi.zToEE.clone()
-zToEELooseIsol.decay = ('hTozzTo4leptonsElectronSelector@+ hTozzTo4leptonsElectronSelector@-')
-zToEELooseIsol.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.zToEE_cfi import *
+#import HiggsAnalysis.HiggsToZZ4Leptons.zToEE_cfi
+#zToEELooseIsol = HiggsAnalysis.HiggsToZZ4Leptons.zToEE_cfi.zToEE.clone()
+#zToEELooseIsol.decay = ('hTozzTo4leptonsElectronSelector@+ hTozzTo4leptonsElectronSelector@-')
+#zToEELooseIsol.cut = cms.string('mass > 0')
 
 
 # zToMuMu loose isolated
-from HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi import *
-import HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi
-zToMuMuLooseIsol = HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
-zToMuMuLooseIsol.decay = ('hTozzTo4leptonsMuonSelector@+ hTozzTo4leptonsMuonSelector@-')
-zToMuMuLooseIsol.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi import *
+#import HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi
+#zToMuMuLooseIsol = HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
+#zToMuMuLooseIsol.decay = ('hTozzTo4leptonsMuonSelector@+ hTozzTo4leptonsMuonSelector@-')
+#zToMuMuLooseIsol.cut = cms.string('mass > 0')
 
 # hTozzToEEMuMu loose isolated
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
-import HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi
-hTozzTo4leptonsLooseIsol=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
-hTozzTo4leptonsLooseIsol.decay = ('zToEELooseIsol zToMuMuLooseIsol')
-hTozzTo4leptonsLooseIsol.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
+#import HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi
+#hTozzTo4leptonsLooseIsol=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi.hTozzTo4leptons.clone()
+#hTozzTo4leptonsLooseIsol.decay = ('zToEELooseIsol zToMuMuLooseIsol')
+#hTozzTo4leptonsLooseIsol.cut = cms.string('mass > 0')
 
 
 # hTozzToMuMuMuMu loose isolated
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
-hTozzTo4leptonsMMMMLooseIsol=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
-hTozzTo4leptonsMMMMLooseIsol.decay = cms.string('zToMuMuLooseIsol zToMuMuLooseIsol')
-hTozzTo4leptonsMMMMLooseIsol.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
+#hTozzTo4leptonsMMMMLooseIsol=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
+#hTozzTo4leptonsMMMMLooseIsol.decay = cms.string('zToMuMuLooseIsol zToMuMuLooseIsol')
+#hTozzTo4leptonsMMMMLooseIsol.cut = cms.string('mass > 0')
 
 # hTozzToEEEE loose isolated
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
-hTozzTo4leptonsEEEELooseIsol=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
-hTozzTo4leptonsEEEELooseIsol.decay = cms.string('zToEELooseIsol zToEELooseIsol')
-hTozzTo4leptonsEEEELooseIsol.cut = cms.string('mass > 0')
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptons_cfi import *
+#hTozzTo4leptonsEEEELooseIsol=HiggsAnalysis.HiggsToZZ4Leptons.zToMuMu_cfi.zToMuMu.clone()
+#hTozzTo4leptonsEEEELooseIsol.decay = cms.string('zToEELooseIsol zToEELooseIsol')
+#hTozzTo4leptonsEEEELooseIsol.cut = cms.string('mass > 0')
 
 
 # 2e2mu best candidate producer
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi import *
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi import *
 
 # 4mu best candidate producer
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi import *
-hTozzTo4leptonsBestCandidateProducerMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi.hTozzTo4leptonsBestCandidateProducer.clone()
-hTozzTo4leptonsBestCandidateProducerMMMM.decaychannel = cms.string('4mu')
-hTozzTo4leptonsBestCandidateProducerMMMM.RECOcollName = cms.VInputTag(cms.InputTag("hTozzTo4leptonsMMMMLooseIsol"))
-hTozzTo4leptonsBestCandidateProducerMMMM.decayChain = cms.string('hToZZTo4LeptonsBestCandidate')
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi import *
+#hTozzTo4leptonsBestCandidateProducerMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi.hTozzTo4leptonsBestCandidateProducer.clone()
+#hTozzTo4leptonsBestCandidateProducerMMMM.decaychannel = cms.string('4mu')
+#hTozzTo4leptonsBestCandidateProducerMMMM.RECOcollName = cms.VInputTag(cms.InputTag("hTozzTo4leptonsMMMMLooseIsol"))
+#hTozzTo4leptonsBestCandidateProducerMMMM.decayChain = cms.string('hToZZTo4LeptonsBestCandidate')
 
 # 4e best candidate producer
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi import *
-hTozzTo4leptonsBestCandidateProducerEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi.hTozzTo4leptonsBestCandidateProducer.clone()
-hTozzTo4leptonsBestCandidateProducerEEEE.decaychannel = cms.string('4e')
-hTozzTo4leptonsBestCandidateProducerEEEE.RECOcollName = cms.VInputTag(cms.InputTag("hTozzTo4leptonsEEEELooseIsol"))
-hTozzTo4leptonsBestCandidateProducerEEEE.decayChain = cms.string('hToZZTo4LeptonsBestCandidate')
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi import *
+#hTozzTo4leptonsBestCandidateProducerEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsBestCandidateProducer_cfi.hTozzTo4leptonsBestCandidateProducer.clone()
+#hTozzTo4leptonsBestCandidateProducerEEEE.decaychannel = cms.string('4e')
+#hTozzTo4leptonsBestCandidateProducerEEEE.RECOcollName = cms.VInputTag(cms.InputTag("hTozzTo4leptonsEEEELooseIsol"))
+#hTozzTo4leptonsBestCandidateProducerEEEE.decayChain = cms.string('hToZZTo4LeptonsBestCandidate')
 
 
 
 # CP producer 2e2mu, 4mu, 4e
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi import *
-hTozzTo4leptonsCP.RECOcollName = cms.InputTag("hTozzTo4leptonsLooseIsol")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi import *
+#hTozzTo4leptonsCP.RECOcollName = cms.InputTag("hTozzTo4leptonsLooseIsol")
 
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi import *
-hTozzTo4leptonsCPMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi.hTozzTo4leptonsCP.clone()
-hTozzTo4leptonsCPMMMM.RECOcollName= cms.InputTag("hTozzTo4leptonsMMMMLooseIsol")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi import *
+#hTozzTo4leptonsCPMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi.hTozzTo4leptonsCP.clone()
+#hTozzTo4leptonsCPMMMM.RECOcollName= cms.InputTag("hTozzTo4leptonsMMMMLooseIsol")
 
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi import *
-hTozzTo4leptonsCPEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi.hTozzTo4leptonsCP.clone()
-hTozzTo4leptonsCPEEEE.RECOcollName = cms.InputTag("hTozzTo4leptonsEEEELooseIsol")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi import *
+#hTozzTo4leptonsCPEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsCP_cfi.hTozzTo4leptonsCP.clone()
+#hTozzTo4leptonsCPEEEE.RECOcollName = cms.InputTag("hTozzTo4leptonsEEEELooseIsol")
 
 # 3D IP KF
 
 
 
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
-hTozzTo4leptonsIpToVtxProducerKF=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
-hTozzTo4leptonsIpToVtxProducerKF.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
+#hTozzTo4leptonsIpToVtxProducerKF=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
+#hTozzTo4leptonsIpToVtxProducerKF.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
 
 # Deterministic annealing - default now
 # from RecoVertex.PrimaryVertexProducer.OfflinePrimaryVerticesDA_cfi import *
@@ -516,8 +517,8 @@ from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
 hTozzTo4leptonsIpToVtxProducer.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
 
 # 2D IP DA
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsTipLipToVtxProducer_cfi import *
-hTozzTo4leptonsTipLipToVtxProducer.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsTipLipToVtxProducer_cfi import *
+#hTozzTo4leptonsTipLipToVtxProducer.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
 
 # Geometrical Discriminator
 ## from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsGeomDiscrimProducer_cfi import *
@@ -528,17 +529,17 @@ hTozzTo4leptonsTipLipToVtxProducer.VertexLabel = cms.InputTag("offlineSlimmedPri
 ## hTozzTo4leptonsGeomDiscrimProducerEEEE.RECOcollName=cms.InputTag("hTozzTo4leptonsEEEELooseIsol")
 
 # Constrained fit: input 4l:2e2mu
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsConstraintFitProducer_cfi import *
-hTozzTo4leptonsConstraintFitProducer.RECOcollName = cms.InputTag("hTozzTo4leptonsLooseIsol")
-hTozzTo4leptonsConstraintFitProducer.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsConstraintFitProducer_cfi import *
+#hTozzTo4leptonsConstraintFitProducer.RECOcollName = cms.InputTag("hTozzTo4leptonsLooseIsol")
+#hTozzTo4leptonsConstraintFitProducer.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
 # 4mu
-hTozzTo4leptonsConstraintFitProducerMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsConstraintFitProducer_cfi.hTozzTo4leptonsConstraintFitProducer.clone()
-hTozzTo4leptonsConstraintFitProducerMMMM.RECOcollName =cms.InputTag("hTozzTo4leptonsMMMMLooseIsol")
-hTozzTo4leptonsConstraintFitProducerMMMM.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
+#hTozzTo4leptonsConstraintFitProducerMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsConstraintFitProducer_cfi.hTozzTo4leptonsConstraintFitProducer.clone()
+#hTozzTo4leptonsConstraintFitProducerMMMM.RECOcollName =cms.InputTag("hTozzTo4leptonsMMMMLooseIsol")
+#hTozzTo4leptonsConstraintFitProducerMMMM.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
 # 4e
-hTozzTo4leptonsConstraintFitProducerEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsConstraintFitProducer_cfi.hTozzTo4leptonsConstraintFitProducer.clone()
-hTozzTo4leptonsConstraintFitProducerEEEE.RECOcollName =cms.InputTag("hTozzTo4leptonsEEEELooseIsol")
-hTozzTo4leptonsConstraintFitProducerEEEE.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
+#hTozzTo4leptonsConstraintFitProducerEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsConstraintFitProducer_cfi.hTozzTo4leptonsConstraintFitProducer.clone()
+#hTozzTo4leptonsConstraintFitProducerEEEE.RECOcollName =cms.InputTag("hTozzTo4leptonsEEEELooseIsol")
+#hTozzTo4leptonsConstraintFitProducerEEEE.VertexLabel = cms.InputTag("offlineSlimmedPrimaryVertices")
 
 # 3D IP with GDvertexFitter
 ## from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
@@ -554,33 +555,33 @@ hTozzTo4leptonsConstraintFitProducerEEEE.VertexLabel = cms.InputTag("offlineSlim
 ## hTozzTo4leptonsIpToVtxProducerGDEEEE.VertexLabel = cms.InputTag("hTozzTo4leptonsGeomDiscrimProducerEEEE:GDFitVertex")
 
 # 3D IP with Standard vertexFitter
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
-hTozzTo4leptonsIpToVtxProducerStd=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
-hTozzTo4leptonsIpToVtxProducerStd.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducer:StandardFitVertex")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
+#hTozzTo4leptonsIpToVtxProducerStd=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
+#hTozzTo4leptonsIpToVtxProducerStd.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducer:StandardFitVertex")
 
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
-hTozzTo4leptonsIpToVtxProducerStdMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
-hTozzTo4leptonsIpToVtxProducerStdMMMM.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducerMMMM:StandardFitVertex")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
+#hTozzTo4leptonsIpToVtxProducerStdMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
+#hTozzTo4leptonsIpToVtxProducerStdMMMM.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducerMMMM:StandardFitVertex")
 
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
-hTozzTo4leptonsIpToVtxProducerStdEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
-hTozzTo4leptonsIpToVtxProducerStdEEEE.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducerEEEE:StandardFitVertex")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
+#hTozzTo4leptonsIpToVtxProducerStdEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
+#hTozzTo4leptonsIpToVtxProducerStdEEEE.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducerEEEE:StandardFitVertex")
 
 # 3D IP with Kinematic vertexFitter
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
-hTozzTo4leptonsIpToVtxProducerKin=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
-hTozzTo4leptonsIpToVtxProducerKin.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducer:KinematicFitVertex")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
+#hTozzTo4leptonsIpToVtxProducerKin=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
+#hTozzTo4leptonsIpToVtxProducerKin.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducer:KinematicFitVertex")
 
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
-hTozzTo4leptonsIpToVtxProducerKinMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
-hTozzTo4leptonsIpToVtxProducerKinMMMM.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducerMMMM:KinematicFitVertex")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
+#hTozzTo4leptonsIpToVtxProducerKinMMMM=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
+#hTozzTo4leptonsIpToVtxProducerKinMMMM.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducerMMMM:KinematicFitVertex")
 
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
-hTozzTo4leptonsIpToVtxProducerKinEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
-hTozzTo4leptonsIpToVtxProducerKinEEEE.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducerEEEE:KinematicFitVertex")
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi import *
+#hTozzTo4leptonsIpToVtxProducerKinEEEE=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsIpToVtxProducer_cfi.hTozzTo4leptonsIpToVtxProducer.clone()
+#hTozzTo4leptonsIpToVtxProducerKinEEEE.VertexLabel = cms.InputTag("hTozzTo4leptonsConstraintFitProducerEEEE:KinematicFitVertex")
 
 # Matching sequence
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsMatchingSequence_cff  import *
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsMatchingSequence_cff  import *
 
 
 # COMMON ROOT TREE

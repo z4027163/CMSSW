@@ -189,9 +189,11 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
     eleRegressionEnergyLabel       = cms.InputTag("eleRegressionEnergy:eneRegForGsfEle"),          
 
     # MVA ele ID BDT
-    mvaElectronTag            = cms.InputTag("slimmedElectrons"),
+#    mvaElectronTag            = cms.InputTag("slimmedElectrons"),
+    mvaElectronTag            = cms.InputTag("hTozzTo4leptonsElectronOrdering"),
     mvaTrigV0MapTag           = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Values"),
-    mvaNonTrigV0MapTag        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
+#    mvaNonTrigV0MapTag        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
+    mvaNonTrigV0MapTag        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16V1Values"),
                                         
     # GD                                          
     ftsigmaVert               = cms.InputTag("hTozzTo4leptonsGeomDiscrimProducer:ftsigma"),
