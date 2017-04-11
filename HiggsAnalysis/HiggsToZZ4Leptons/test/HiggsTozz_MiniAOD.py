@@ -80,6 +80,7 @@ process.hTozzTo4leptonsCommonRootTreePresel.triggerEleFilter = cms.string('hltL3
 process.hTozzTo4leptonsCommonRootTreePresel.fillMCTruth  = cms.untracked.bool(False)    
 process.hTozzTo4leptonsCommonRootTreePresel.isVBF  = cms.bool(False)
 
+
 process.genanalysis= cms.Sequence(
   process.hTozzTo4leptonsGenSequence                  *
   #       process.hTozzTo4leptonsMCGenFilter2e2mu             *
@@ -115,12 +116,12 @@ process.schedule = cms.Schedule( process.Path_BunchSpacingproducer,
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(20) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
 readFiles = cms.untracked.vstring(
-'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DY_mini.root'
-#'root://cmsxrootd-site.fnal.gov//store/mc/RunIIFall15MiniAODv2/WW_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/60000/0EE6E0B8-FFB7-E511-B0C6-0025904CDDFA.root'
+#'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DY_mini.root'
+'file:/eos/uscms/store/user/wangz/data/mc/RunIISpring16MiniAODv1/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/DY_mini.root'
 #'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_Spring15_test3.root'
 #'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/MINIAOD_DY_2.root'
 #'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv1/TTTo2L2Nu_13TeV-powheg/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/30000/00445FD9-BC9D-E511-A14D-003048D4DF6C.root'
