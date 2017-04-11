@@ -31,7 +31,7 @@ process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService
 
 
 process.load('HiggsAnalysis.HiggsToZZ4Leptons.bunchSpacingProducer_cfi')
-process.load('RecoMET.METFilters.metFiltersMiniAOD_cff')
+process.load('HiggsAnalysis.HiggsToZZ4Leptons.metFiltersMiniAOD_cff')
 process.Path_BunchSpacingproducer=cms.Path(process.bunchSpacingProducer)
 process.Flag_HBHENoiseFilter = cms.Path(process.HBHENoiseFilterResultProducer * process.HBHENoiseFilter)
 process.Flag_HBHENoiseIsoFilter = cms.Path(process.HBHENoiseFilterResultProducer * process.HBHENoiseIsoFilter)
@@ -109,7 +109,7 @@ process.schedule = cms.Schedule( process.Path_BunchSpacingproducer,
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(200) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(20) )
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
 readFiles = cms.untracked.vstring(

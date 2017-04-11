@@ -12,7 +12,7 @@
 #include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "DataFormats/ParticleFlowCandidate/interface/PFCandidateFwd.h"
 #include "DataFormats/ParticleFlowCandidate/interface/PFCandidate.h"
-#include "CommonTools/ParticleFlow/interface/PackedCandidateSelectorDefinition.h"
+#include "PackedCandidateSelectorDefinition.h"
 #include "CommonTools/Utils/interface/StringCutObjectSelector.h"
 
 namespace pf2pat {

@@ -30,7 +30,7 @@ process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService
 )
 
 process.load('HiggsAnalysis.HiggsToZZ4Leptons.bunchSpacingProducer_cfi')
-process.load('RecoMET.METFilters.metFiltersMiniAOD_cff')
+process.load('HiggsAnalysis.HiggsToZZ4Leptons.metFiltersMiniAOD_cff')
 process.Path_BunchSpacingproducer=cms.Path(process.bunchSpacingProducer)
 process.Flag_HBHENoiseFilter = cms.Path(process.HBHENoiseFilterResultProducer * process.HBHENoiseFilter)
 process.Flag_HBHENoiseIsoFilter = cms.Path(process.HBHENoiseFilterResultProducer * process.HBHENoiseIsoFilter)
@@ -60,7 +60,6 @@ process.goodOfflinePrimaryVertices = cms.EDFilter("VertexSelector",
                                         )
         
 
-print("hahahahha\n")
 
 process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsMuonCalibrator_cfi')
 process.hTozzTo4leptonsMuonCalibrator.isData = cms.bool(False) 

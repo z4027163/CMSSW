@@ -26,7 +26,7 @@ from RecoMET.METFilters.EcalDeadCellTriggerPrimitiveFilter_cfi import *
 from RecoMET.METFilters.EcalDeadCellBoundaryEnergyFilter_cfi import *
 
 ## The EE bad SuperCrystal filter ____________________________________________||
-from RecoMET.METFilters.eeBadScFilterMiniAOD_cfi import *
+from HiggsAnalysis.HiggsToZZ4Leptons.eeBadScFilterMiniAOD_cfi import *
 
 ## The ECAL laser correction filter
 from RecoMET.METFilters.ecalLaserCorrFilter_cfi import *
@@ -46,7 +46,7 @@ from RecoMET.METFilters.trackingFailureFilter_cfi import *
 from RecoMET.METFilters.scrapingFilter_cfi import *
 
 ## The primary vertex filter__ _______________________________________________||
-from RecoMET.METFilters.slimmedprimaryVertexFilter_cfi import *
+from HiggsAnalysis.HiggsToZZ4Leptons.slimmedprimaryVertexFilter_cfi import *
 
 ## The tracking POG filters __________________________________________________||
 from RecoMET.METFilters.trackingPOGFilters_cff import *

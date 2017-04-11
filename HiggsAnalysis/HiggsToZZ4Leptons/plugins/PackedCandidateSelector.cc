@@ -5,7 +5,7 @@
 //#include "DataFormats/ParticleFlowCandidate/interface/PFCandidateFwd.h"
 
 #include "CommonTools/UtilAlgos/interface/ObjectSelector.h"
-#include "CommonTools/ParticleFlow/interface/GenericPackedCandidateSelectorDefinition.h"
+#include "GenericPackedCandidateSelectorDefinition.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 
 typedef ObjectSelector<pf2pat::GenericPackedCandidateSelectorDefinition> GenericPackedCandidateSelector;
