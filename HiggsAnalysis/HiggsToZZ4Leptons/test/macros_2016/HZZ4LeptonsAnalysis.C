@@ -64,7 +64,17 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    _filePU= TFile::Open("pileup_MC_80x_271036-276811_69200.root");
    TH1D *puweight = (TH1D*)_filePU->Get("puweight");
 
-   /////////////Lepton Efficiency Scale Factrons/////////////
+   TFile *mu_scale_factors = new TFile("final_HZZSF_pt0_200.root");
+   TH2F *mu_scale_2016 = (TH2F*)gDirectory->Get("FINAL");
+
+   TFile *ele_scale_factors_v3 = new TFile("ele_scale_factors_v3.root");
+   TH2F *ele_scale_factors2016 = (TH2F*)gDirectory->Get("ele_scale_factors");
+   TH2F *ele_scale_factors_gap2016 = (TH2F*)gDirectory->Get("ele_scale_factors_gap");
+   TFile *RSE_scale_factors_v1 = new TFile("RSE_scale_factors_v1.root");
+
+   //
+
+///////////Lepton Efficiency Scale Factrons/////////////
    // Load histograms
    //
 
@@ -555,7 +565,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       hPUvertices->Fill(num_PU_vertices,weight);
 
       double pu_weight=1.;
-      if (MC_type == "Fall15"){
+      if (MC_type == "Spring16"){
 	Int_t binx = puweight->GetXaxis()->FindBin(num_PU_vertices);
 	cout << " bin x= " << binx << " " << puweight->GetBinContent(binx) << endl;	
 	pu_weight=double(puweight->GetBinContent(binx));
@@ -1165,6 +1175,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
  
       if( N_good + Ne_good < 2 ) continue ; 	
 
+      ++N_2;
+      N_2_w = N_2_w+newweight;
       int Zxx_tag = 0;    // 1: Zmumu  ,  2: Zee
 
       int i1 = -1; //index of the first lepton (from Z1)
@@ -2054,8 +2066,35 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       
 
       // // Execute Efficiency Reweighting
+      int z1lept[2]={indexlep1Z1,indexlep2Z1};
+
       Double_t eff_weight = 1.;
-      
+  
+      if (Z1tag==1){
+        for(int i = 0; i < 2; ++i){
+          Double_t Pt = RECOMU_PT[ z1lept[i] ];
+          Double_t Eta = RECOMU_ETA[ z1lept[i] ];
+
+          if( MC_type == "Spring16" && DATA_type == "NO"){
+            Int_t biny = mu_scale_2016->GetYaxis()->FindBin(Pt);
+            Int_t binx = mu_scale_2016->GetXaxis()->FindBin(Eta);
+            cout << "xbin= " << binx <<" ybin="<<  biny << endl;
+            cout << "eff_weight test = " <<mu_scale_2016->GetBinContent(binx,biny)<< endl;
+            if (mu_scale_2016->GetBinContent(binx,biny)>0.) eff_weight*=mu_scale_2016->GetBinContent(binx,biny);
+          }
+        }
+      }
+
+      cout << "eff_weight" << eff_weight << endl;
+
+      if (DATA_type == "2016") eff_weight=1.;
+
+      if (eff_weight>0.) newweight=weight*pu_weight*eff_weight;
+      else newweight=weight*pu_weight;
+
+      cout << "Starting weight + pileup + efficiency= " << newweight << endl;
+      if(debug) cout << "Efficiency Weight for the 4l: " << eff_weight << " Final weight= " << newweight << endl;
+ 
  
       TLorentzVector hP4,Z1P4,Z2P4;
       Z1P4.SetPxPyPzE(pxZ1,pyZ1,pzZ1,EZ1);
@@ -2066,8 +2105,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
 //      hM4l_5->Fill( mass4l,newweight );
   
-//only fill double electron,remember to change it back----- qier
-      if(Z1tag==2){ 
+//only fill double Muon,remember to change it back----- qier
+      if(Z1tag==1){ 
       hMZ1_5->Fill( massZ1,newweight );
       hPtZ1_5->Fill( ptZ1,newweight );
       hYZ1_5->Fill( Y_Z1,newweight );
@@ -2792,7 +2831,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    output_txt.close();
    
 
-/*
+
    cout << "N_0 "  << N_0  << " \n" 
 	      << "N_01 " << N_01 << " \n"	
 	      << "N_02 " << N_02 << " \n"	
@@ -2804,21 +2843,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	      << "N_4a " << N_4a << " \n"	
 	      << "N_4b " << N_4b << " \n"	
 	      << "N_4c " << N_4c << " \n"	
-	      << "N_4d " << N_4d << " \n"	
-	      << "N_5 "  << N_5  << " \n"	
-	      << "N_6 "  << N_6  << " \n"	
-	      << "N_7 "  << N_7  << " \n"	
-	      << "N_8 "  << N_8  << " \n"
-	      << "N_8_a "<< N_8_a<< " \n"
-      	      << "N_9 "  << N_9  << " \n"
-      	      << "N_9_1FSR "  << N_9_1FSR  << " \n" 
-	      << "N_9_2FSR "  << N_9_2FSR  << " \n" 
-	      << "N_9PS "     << N_9PS << " \n"
-	      << "N_9GRAV"    << N_9GRAV << "\n"
-	      << "N_9a_VBF "  << N_9a_VBF << " \n"
-              << "N_9b_VBF "  << N_9b_VBF << "\n"
-	      << "N_VBF "     << N_VBF << " \n";
-*/
+	      << "N_4d " << N_4d << " \n";	
+
 /*
    nEvent_4l->GetXaxis()->SetBinLabel(1,"Init.");
    nEvent_4l->GetXaxis()->SetBinLabel(2,"MCTruth: 4mu");

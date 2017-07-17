@@ -56,18 +56,18 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
   bool debug=true;
   cout << "Filename is= " << out.Data() << endl;
 
-  if( out.Contains("2016") && out.Contains("data") && !out.Contains("Spring16")){
+  if( out.Contains("2016") && out.Contains("data")&& !out.Contains("Summer16") && !out.Contains("Spring16")){
       
     if( out.Contains("DoubleEG")){
       
-      if( debug ){ cout << "\n ** Step 2 (Trigger): 2015 DoubleElectron"<< endl ;
+      if( debug ){ cout << "\n ** Step 2 (Trigger): 2016 DoubleElectron"<< endl ;
 	
 	cout << "This is HLT in data" << endl;
 	cout<<" HLTPathsFired... "<<hlt<<endl;
       }
       
       if(
-	 !hlt.Contains("HLT_Ele25_eta2p1_WPTight_Gsf_v") &&    // single-ele
+/*	 !hlt.Contains("HLT_Ele25_eta2p1_WPTight_Gsf_v") &&    // single-ele
 	 !hlt.Contains("HLT_Ele27_WPTight_Gsf_v") && // single-ele
 	 !hlt.Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v") &&     // single-ele
 	 !hlt.Contains("HLT_IsoMu20_v") &&   // single-muon
@@ -87,13 +87,31 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	 !hlt.Contains("HLT_TripleMu_12_10_5_v") && //Tri-Muon
 	 !hlt.Contains("HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v") && // Tri-Ele
 	 !hlt.Contains("HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v") && //Di-Muon Ele
-	 !hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v") //Muon-DiEle
+	 !hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v") //Muon-DiEle*/
+       !hlt.Contains("HLT_IsoMu24_v")
+     &&!hlt.Contains("HLT_IsoTkMu24_v")
+     &&!hlt.Contains("HLT_Ele25_eta2p1_WPTight_Gsf_v")    // single-ele
+     &&!hlt.Contains("HLT_Ele27_WPTight_Gsf_v")  // single-ele
+     &&!hlt.Contains("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v")
+     &&!hlt.Contains("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v")
+     &&!hlt.Contains("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v")
+     &&!hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v")
+     &&!hlt.Contains("HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v")
+     &&!hlt.Contains("HLT_TripleMu_12_10_5_v")
 	 ) {
 	if( debug )cout << "Event not passing the HLT trigger paths" << endl;
 	return false;
       }
-      
-      if(
+     else return true; 
+/*      if(
 	 hlt.Contains("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v") ||  // Di-Ele
 	 hlt.Contains("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v") || // Di-Ele
 	 hlt.Contains("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v") || // Double-Ele
@@ -101,18 +119,18 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	 ) {
 	if( debug )cout << "Event passing the HLT trigger vetos for DoubleEG PD" << endl;
 	return true;
-      }
+      }*/
     }
     else if( out.Contains("DoubleMuon") ){
       
-      if( debug ){ cout << "\n ** Step 2 (Trigger): 2015 DiMuon"<< endl ;
+      if( debug ){ cout << "\n ** Step 2 (Trigger): 2016 DiMuon"<< endl ;
 	
 	cout << "This is HLT in data" << endl;
 	cout<<" HLTPathsFired... "<<hlt<<endl;
       }
       
       if(	
-	 !hlt.Contains("HLT_Ele25_eta2p1_WPTight_Gsf_v") &&    // single-ele
+/*	 !hlt.Contains("HLT_Ele25_eta2p1_WPTight_Gsf_v") &&    // single-ele
 	 !hlt.Contains("HLT_Ele27_WPTight_Gsf_v") && // single-ele
 	 !hlt.Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v") &&     // single-ele
 	 !hlt.Contains("HLT_IsoMu20_v") &&   // single-muon
@@ -132,13 +150,31 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	 !hlt.Contains("HLT_TripleMu_12_10_5_v") && //Tri-Muon
 	 !hlt.Contains("HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v") && // Tri-Ele
 	 !hlt.Contains("HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v") && //Di-Muon Ele
-	 !hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v") //Muon-DiEle
+	 !hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v") //Muon-DiEle*/
+       !hlt.Contains("HLT_IsoMu24_v")
+     &&!hlt.Contains("HLT_IsoTkMu24_v")
+     &&!hlt.Contains("HLT_Ele25_eta2p1_WPTight_Gsf_v")    // single-ele
+     &&!hlt.Contains("HLT_Ele27_WPTight_Gsf_v")  // single-ele
+     &&!hlt.Contains("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v")
+     &&!hlt.Contains("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v")
+     &&!hlt.Contains("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v")
+     &&!hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v")
+     &&!hlt.Contains("HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v")
+     &&!hlt.Contains("HLT_TripleMu_12_10_5_v")
 		) {
 	if( debug )cout << "Event not passing the HLT trigger paths" << endl;
 	return false;
       }
-      
-      if(
+      else return true;
+/*      if(
 	 (
 	  hlt.Contains("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v") ||  //Di-Muon
 	  hlt.Contains("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v") || // Di-Muon
@@ -153,7 +189,7 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	 ) {
 	if( debug )cout << "Event passing the HLT trigger vetos for DoubleMuon PD" << endl;
 	return true;
-      }
+      }*/
     }  
     else if( out.Contains("MuonEG") ){
       if( debug ){ cout << "\n ** Step 2 (Trigger): 2015 MuEle"<< endl ;
@@ -396,7 +432,7 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
     else return true;
 
   }
-  else if( out.Contains("Spring16")){
+  else if( out.Contains("Spring16")|| out.Contains("Summer16")){
     if( debug ){ cout << "\n ** Step 2 (Trigger): "<< endl ;
       
       cout << "This is HLT in MC" << endl;
@@ -404,7 +440,7 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
     }
 
     if(
-       !hlt.Contains("HLT_Ele25_eta2p1_WPTight_Gsf_v") &&    // single-ele
+/*       !hlt.Contains("HLT_Ele25_eta2p1_WPTight_Gsf_v") &&    // single-ele
        !hlt.Contains("HLT_Ele27_WPTight_Gsf_v") && // single-ele
        !hlt.Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v") &&     // single-ele
        !hlt.Contains("HLT_IsoMu20_v") &&   // single-muon
@@ -424,7 +460,25 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
        !hlt.Contains("HLT_TripleMu_12_10_5_v") && //Tri-Muon
        !hlt.Contains("HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v") && // Tri-Ele
        !hlt.Contains("HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v") && //Di-Muon Ele
-       !hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v") //Muon-DiEle
+       !hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v") //Muon-DiEle */
+       !hlt.Contains("HLT_IsoMu24_v")
+     &&!hlt.Contains("HLT_IsoTkMu24_v")
+     &&!hlt.Contains("HLT_Ele27_WPTight_Gsf_v") && // single-ele
+       !hlt.Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v") 
+     &&!hlt.Contains("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v")
+     &&!hlt.Contains("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v")
+     &&!hlt.Contains("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")
+     &&!hlt.Contains("HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v")
+     &&!hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v")
+     &&!hlt.Contains("HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v")
+     &&!hlt.Contains("HLT_TripleMu_12_10_5_v")
        ) {
       if( debug )cout << "Event not passing the HLT trigger paths" << endl;
       return false;

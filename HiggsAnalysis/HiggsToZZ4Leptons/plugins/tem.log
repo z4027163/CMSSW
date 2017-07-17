@@ -1,103 +1,64 @@
 Reading cached build data
 >> Local Products Rules ..... started
 >> Local Products Rules ..... done
-****WARNING: Invalid tool MiniAOD/MiniAOD. Please fix src/MiniAOD/MiniAOD/plugins/BuildFile.xml file.
 >> Creating project symlinks
 >> Entering Package HiggsAnalysis/HiggsToZZ4Leptons
->> Entering Package Alignment/CommonAlignment
-  src/Alignment/APEEstimation/python -> python/Alignment/APEEstimation
->> Entering Package CommonTools/CandUtils
->> Entering Package CommonTools/RecoAlgos
->> Entering Package DataFormats/ParticleFlowCandidate
->> Entering Package CommonTools/Statistics
->> Entering Package CommonTools/UtilAlgos
-  src/Alignment/CommonAlignment/python -> python/Alignment/CommonAlignment
->> Entering Package CommonTools/Utils
->> Entering Package CondCore/CondDB
->> Entering Package CondFormats/L1TObjects
 >> Entering Package EgammaAnalysis/ElectronTools
->> Entering Package RecoEgamma/EgammaTools
+  src/CommonTools/ParticleFlow/python -> python/CommonTools/ParticleFlow
 >> Entering Package KaMuCa/Calibration
-  src/Alignment/CommonAlignmentAlgorithm/python -> python/Alignment/CommonAlignmentAlgorithm
->> Entering Package RecoParticleFlow/PFProducer
-  src/Alignment/MillePedeAlignmentAlgorithm/python -> python/Alignment/MillePedeAlignmentAlgorithm
-  src/Alignment/OfflineValidation/python -> python/Alignment/OfflineValidation
-  src/Alignment/TrackerAlignment/python -> python/Alignment/TrackerAlignment
-  src/CommonTools/PileupAlgos/python -> python/CommonTools/PileupAlgos
-  src/CommonTools/RecoAlgos/python -> python/CommonTools/RecoAlgos
-  src/CommonTools/UtilAlgos/python -> python/CommonTools/UtilAlgos
-  src/CommonTools/ParticleFlow/python -> python/CommonTools/ParticleFlow
-  src/CommonTools/CandAlgos/python -> python/CommonTools/CandAlgos
-  src/CommonTools/RecoUtils/python -> python/CommonTools/RecoUtils
-  src/CommonTools/TrackerMap/python -> python/CommonTools/TrackerMap
-  src/CondCore/CondDB/python -> python/CondCore/CondDB
-  src/Configuration/AlCa/python -> python/Configuration/AlCa
+>> Entering Package RecoEgamma/ElectronIdentification
   src/EgammaAnalysis/ElectronTools/python -> python/EgammaAnalysis/ElectronTools
-  src/EventFilter/L1TRawToDigi/python -> python/EventFilter/L1TRawToDigi
-  src/HLTrigger/HLTanalyzers/python -> python/HLTrigger/HLTanalyzers
-  src/HLTrigger/JetMET/python -> python/HLTrigger/JetMET
-  src/JetMETCorrections/Modules/python -> python/JetMETCorrections/Modules
-  src/L1Trigger/L1TCalorimeter/python -> python/L1Trigger/L1TCalorimeter
-  src/PhysicsTools/Heppy/python -> python/PhysicsTools/Heppy
-  src/PhysicsTools/HeppyCore/python -> python/PhysicsTools/HeppyCore
-  src/RecoEgamma/EgammaTools/python -> python/RecoEgamma/EgammaTools
+  src/RecoEgamma/ElectronIdentification/python -> python/RecoEgamma/ElectronIdentification
   src/RecoEgamma/PhotonIdentification/python -> python/RecoEgamma/PhotonIdentification
-  src/RecoMuon/MuonIsolationProducers/python -> python/RecoMuon/MuonIsolationProducers
-  src/RecoParticleFlow/PFProducer/python -> python/RecoParticleFlow/PFProducer
-  src/RecoParticleFlow/PFTracking/python -> python/RecoParticleFlow/PFTracking
-  src/HiggsAnalysis/HiggsToZZ4Leptons/python -> python/HiggsAnalysis/HiggsToZZ4Leptons
-  src/HiggsAnalysis/CombinedLimit/python -> python/HiggsAnalysis/CombinedLimit
-  src/RecoLuminosity/LumiProducer/python -> python/RecoLuminosity/LumiProducer
   src/RecoMET/METFilters/python -> python/RecoMET/METFilters
-  src/MiniAOD/MiniAOD/python -> python/MiniAOD/MiniAOD
->> Compiling edm plugin /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.cc 
->> Compiling edm plugin /uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/SealModule.cc 
->> Building edm plugin tmp/slc6_amd64_gcc493/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HiggsAnalysisHiggsToZZ4LeptonsPlugins/libHiggsAnalysisHiggsToZZ4LeptonsPlugins.so
-Leaving library rule at src/HiggsAnalysis/HiggsToZZ4Leptons/plugins
-@@@@ Running edmWriteConfigs for HiggsAnalysisHiggsToZZ4LeptonsPlugins
---- Registered EDM Plugin: HiggsAnalysisHiggsToZZ4LeptonsPlugins
->> Local Products Rules ..... started
->> Local Products Rules ..... done
-****WARNING: Invalid tool MiniAOD/MiniAOD. Please fix src/MiniAOD/MiniAOD/plugins/BuildFile.xml file.
-gmake[1]: Entering directory `/uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3'
-@@@@ Refreshing Plugins:edmPluginRefresh
->> Done generating edm plugin poisoned information
->> Creating project symlinks
-  src/Alignment/APEEstimation/python -> python/Alignment/APEEstimation
-  src/Alignment/CommonAlignment/python -> python/Alignment/CommonAlignment
-  src/Alignment/CommonAlignmentAlgorithm/python -> python/Alignment/CommonAlignmentAlgorithm
-  src/Alignment/MillePedeAlignmentAlgorithm/python -> python/Alignment/MillePedeAlignmentAlgorithm
-  src/Alignment/OfflineValidation/python -> python/Alignment/OfflineValidation
-  src/Alignment/TrackerAlignment/python -> python/Alignment/TrackerAlignment
-  src/CommonTools/PileupAlgos/python -> python/CommonTools/PileupAlgos
-  src/CommonTools/RecoAlgos/python -> python/CommonTools/RecoAlgos
-  src/CommonTools/UtilAlgos/python -> python/CommonTools/UtilAlgos
-  src/CommonTools/ParticleFlow/python -> python/CommonTools/ParticleFlow
-  src/CommonTools/CandAlgos/python -> python/CommonTools/CandAlgos
-  src/CommonTools/RecoUtils/python -> python/CommonTools/RecoUtils
-  src/CommonTools/TrackerMap/python -> python/CommonTools/TrackerMap
-  src/CondCore/CondDB/python -> python/CondCore/CondDB
-  src/Configuration/AlCa/python -> python/Configuration/AlCa
-  src/EgammaAnalysis/ElectronTools/python -> python/EgammaAnalysis/ElectronTools
-  src/EventFilter/L1TRawToDigi/python -> python/EventFilter/L1TRawToDigi
-  src/HLTrigger/HLTanalyzers/python -> python/HLTrigger/HLTanalyzers
-  src/HLTrigger/JetMET/python -> python/HLTrigger/JetMET
-  src/JetMETCorrections/Modules/python -> python/JetMETCorrections/Modules
-  src/L1Trigger/L1TCalorimeter/python -> python/L1Trigger/L1TCalorimeter
-  src/PhysicsTools/Heppy/python -> python/PhysicsTools/Heppy
-  src/PhysicsTools/HeppyCore/python -> python/PhysicsTools/HeppyCore
-  src/RecoEgamma/EgammaTools/python -> python/RecoEgamma/EgammaTools
-  src/RecoEgamma/PhotonIdentification/python -> python/RecoEgamma/PhotonIdentification
-  src/RecoMuon/MuonIsolationProducers/python -> python/RecoMuon/MuonIsolationProducers
-  src/RecoParticleFlow/PFProducer/python -> python/RecoParticleFlow/PFProducer
-  src/RecoParticleFlow/PFTracking/python -> python/RecoParticleFlow/PFTracking
   src/HiggsAnalysis/HiggsToZZ4Leptons/python -> python/HiggsAnalysis/HiggsToZZ4Leptons
-  src/HiggsAnalysis/CombinedLimit/python -> python/HiggsAnalysis/CombinedLimit
-  src/RecoLuminosity/LumiProducer/python -> python/RecoLuminosity/LumiProducer
-  src/RecoMET/METFilters/python -> python/RecoMET/METFilters
-  src/MiniAOD/MiniAOD/python -> python/MiniAOD/MiniAOD
->> Done python_symlink
->> Compiling python modules python
->> All python modules compiled
->> Pluging of all type refreshed.
-gmake[1]: Leaving directory `/uscms_data/d3/zwang4/WORKSPCACE/tem/CMSSW_7_6_3'
+>> Compiling edm plugin /uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.cc 
+>> Compiling edm plugin /uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/SealModule.cc 
+In file included from /uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.cc:34:0:
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h: In member function 'void HZZ4LeptonsCommonRootTree::fillElectrons(const edm::Event&, const edm::EventSetup&)':
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:3715:17: error: 'edm::View<pat::Electron>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Electron* const*, std::vector<const pat::Electron*, std::allocator<const pat::Electron*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genLepton'
+      if (!(cand.genLepton()).isNull()){
+                 ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:3718:38: error: 'edm::View<pat::Electron>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Electron* const*, std::vector<const pat::Electron*, std::allocator<const pat::Electron*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+        RECOELE_MatchingMCpT[i]= cand.genParticle()->p4().pt();
+                                      ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:3719:39: error: 'edm::View<pat::Electron>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Electron* const*, std::vector<const pat::Electron*, std::allocator<const pat::Electron*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+        RECOELE_MatchingMCEta[i]= cand.genParticle()->p4().eta();
+                                       ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:3720:39: error: 'edm::View<pat::Electron>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Electron* const*, std::vector<const pat::Electron*, std::allocator<const pat::Electron*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+        RECOELE_MatchingMCPhi[i]= cand.genParticle()->p4().phi();
+                                       ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h: In member function 'void HZZ4LeptonsCommonRootTree::fillMuons(const edm::Event&, const edm::EventSetup&)':
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:4160:23: error: 'edm::View<pat::Muon>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Muon* const*, std::vector<const pat::Muon*, std::allocator<const pat::Muon*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+             if (!cand.genParticle().isNull()){
+                       ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:4161:22: error: 'edm::View<pat::Muon>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Muon* const*, std::vector<const pat::Muon*, std::allocator<const pat::Muon*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+              if(cand.genParticle()->isPromptFinalState()){
+                      ^
+In file included from /uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/SealModule.cc:34:0:
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h: In member function 'void HZZ4LeptonsCommonRootTree::fillElectrons(const edm::Event&, const edm::EventSetup&)':
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:3715:17: error: 'edm::View<pat::Electron>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Electron* const*, std::vector<const pat::Electron*, std::allocator<const pat::Electron*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genLepton'
+      if (!(cand.genLepton()).isNull()){
+                 ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:3718:38: error: 'edm::View<pat::Electron>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Electron* const*, std::vector<const pat::Electron*, std::allocator<const pat::Electron*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+        RECOELE_MatchingMCpT[i]= cand.genParticle()->p4().pt();
+                                      ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:3719:39: error: 'edm::View<pat::Electron>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Electron* const*, std::vector<const pat::Electron*, std::allocator<const pat::Electron*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+        RECOELE_MatchingMCEta[i]= cand.genParticle()->p4().eta();
+                                       ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:3720:39: error: 'edm::View<pat::Electron>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Electron* const*, std::vector<const pat::Electron*, std::allocator<const pat::Electron*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+        RECOELE_MatchingMCPhi[i]= cand.genParticle()->p4().phi();
+                                       ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h: In member function 'void HZZ4LeptonsCommonRootTree::fillMuons(const edm::Event&, const edm::EventSetup&)':
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:4160:23: error: 'edm::View<pat::Muon>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Muon* const*, std::vector<const pat::Muon*, std::allocator<const pat::Muon*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+             if (!cand.genParticle().isNull()){
+                       ^
+/uscms_data/d3/zwang4/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HZZ4LeptonsCommonRootTree.h:4161:22: error: 'edm::View<pat::Muon>::const_iterator {aka class boost::iterators::indirect_iterator<__gnu_cxx::__normal_iterator<const pat::Muon* const*, std::vector<const pat::Muon*, std::allocator<const pat::Muon*> > >, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default, boost::iterators::use_default>}' has no member named 'genParticle'
+              if(cand.genParticle()->isPromptFinalState()){
+                      ^
+config/SCRAM/GMake/Makefile.rules:1937: recipe for target 'tmp/slc6_amd64_gcc530/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HiggsAnalysisHiggsToZZ4LeptonsPlugins/HZZ4LeptonsCommonRootTree.o' failed
+gmake: *** [tmp/slc6_amd64_gcc530/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HiggsAnalysisHiggsToZZ4LeptonsPlugins/HZZ4LeptonsCommonRootTree.o] Error 1
+gmake: *** Waiting for unfinished jobs....
+config/SCRAM/GMake/Makefile.rules:1937: recipe for target 'tmp/slc6_amd64_gcc530/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HiggsAnalysisHiggsToZZ4LeptonsPlugins/SealModule.o' failed
+gmake: *** [tmp/slc6_amd64_gcc530/src/HiggsAnalysis/HiggsToZZ4Leptons/plugins/HiggsAnalysisHiggsToZZ4LeptonsPlugins/SealModule.o] Error 1
+gmake: *** [There are compilation/build errors. Please see the detail log above.] Error 2

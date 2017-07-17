@@ -1,0 +1,3 @@
+/eos/uscms/store/user/wangz/ntuple/llbb/2e2b/output_DoubleEG.root
+/eos/uscms/store/user/wangz/ntuple/llbb/2e2b/output_DYJetsToLL_amcatnloFXFX.root
+

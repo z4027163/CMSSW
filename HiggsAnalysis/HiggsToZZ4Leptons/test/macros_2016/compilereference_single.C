@@ -28,14 +28,18 @@ int main(int argc, char ** argv){
   
   Char_t nome[300];
 
-  sprintf(nome,"/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon_merge.root");
+//  sprintf(nome,"/eos/uscms/store/user/wangz/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_v2/170508_174010/DYJetsToLL_merge.root");
+//  sprintf(nome, "/eos/uscms/store/user/wangz/TT_TuneCUETP8M1_13TeV-powheg-pythia8-evtgen/TT_TuneCUETP8M1_13TeV-powheg-pythia8-evtgen_v2_part1/170508_173643/TT_TuneCUETP8M1_merge.root");
+  sprintf(nome,"/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon_Run2016D-23Sep2016-v2_part1/170512_000801/DoubleMuon.root");
     
 
-
+  cout << "test01" << endl;
   TFile *file3;
   file3 = TFile::Open(nome);
   
+  cout << "test02" << endl;
   TTree *tree3 = (TTree*)file3->Get("HZZ4LeptonsAnalysis");
+  cout << "test03" << endl;
   HZZ4LeptonsAnalysis make3(tree3,1.,dataconf,mcconf);
   //HZZ4LeptonsAnalysis make3(tree3);
 

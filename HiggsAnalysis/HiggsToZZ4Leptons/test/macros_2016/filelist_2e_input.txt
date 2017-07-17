@@ -1,0 +1,4 @@
+/eos/uscms/store/user/wangz/ntuple/histos2e_2016/output_DoubleEG.root
+/eos/uscms/store/user/wangz/ntuple/histos2e_2016/output_DYJetsToLL.root
+/eos/uscms/store/user/wangz/ntuple/histos2e_2016/output_TT_TuneCUETP8M1.root
+

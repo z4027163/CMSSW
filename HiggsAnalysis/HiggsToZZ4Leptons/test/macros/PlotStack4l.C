@@ -112,7 +112,7 @@ PlotStack4l::PlotStack4l(){
 
   // ****** After cuts on ,Z1, mZ2 and pT >20/10: step 5 ******
 
-  //std::string histolabel = "hMZ1_5";    // Z1 mass   
+  std::string histolabel = "hMZ1_5";    // Z1 mass   
   //std::string histolabel = "hMZ2_5";    // Z2 mass 
   //std::string histolabel = "hM4l_5";    // 4l mass 
 
@@ -122,7 +122,7 @@ PlotStack4l::PlotStack4l(){
 
 
   // After full selection
-  std::string histolabel = "hM4l_7"; // 4l mass after full selection but m4l > 70
+  //std::string histolabel = "hM4l_7"; // 4l mass after full selection but m4l > 70
 
   //std::string histolabel = "hM4l_8"; // 4l mass after full selection
   //std::string histolabel = "hM4l_9"; // 4l mass after full selection

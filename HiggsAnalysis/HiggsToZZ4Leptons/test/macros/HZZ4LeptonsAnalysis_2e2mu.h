@@ -65,6 +65,9 @@ public :
    Float_t         MC_ZZ_PHI[4][7];
    Float_t         MC_ZZ_THETA[4][7];
    Float_t         MC_ZZ_PDGID[4][7];
+   Float_t         MC_GENJET_PT[4];
+   Float_t         MC_GENJET_ETA[4];
+   Float_t         MC_GENJET_PHI[4];
    Float_t         MC_GENMET;
    Double_t        RECORF_2e2mu_cosTheta1_spin[100];
    Double_t        RECORF_2e2mu_cosTheta2_spin[100];
@@ -197,6 +200,7 @@ public :
    Int_t           RECOELE_isEBphiGap[100];
    Int_t           RECOELE_isEEdeeGap[100];
    Int_t           RECOELE_isEEringGap[100];
+   Int_t           RECOELE_isGap[100];
    Float_t         RECOELE_sigmaIetaIeta[100];
    Float_t         RECOELE_sigmaEtaEta[100];
    Float_t         RECOELE_e15[100];
@@ -221,6 +225,7 @@ public :
    Double_t        RECOELE_PFPUchAllPart[100];
    Double_t        RECOELE_PFX_dB[100];
    Double_t        RECOELE_PFX_rho[100];
+   Double_t        RECOELE_PFX_rho_new[100];
    Double_t        RECOELE_regEnergy[100];
    Double_t        RECOELE_regEnergyError[100];
    Float_t         RECOELE_SIP[100];
@@ -267,6 +272,7 @@ public :
    UChar_t         RECOMU_isStandAloneMu[100];
    UChar_t         RECOMU_isTrackerMu[100];
    UChar_t         RECOMU_isCaloMu[100];
+   UChar_t         RECOMU_isTrackerHighPtMu[100];
    Float_t         RECOMU_E[100];
    Float_t         RECOMU_PT[100];
    Float_t         RECOMU_P[100];
@@ -286,6 +292,7 @@ public :
    Double_t        RECOMU_PFphoton[100];
    Double_t        RECOMU_PFPUchAllPart[100];
    Double_t        RECOMU_PFX_dB[100];
+   Double_t        RECOMU_PFX_dB_new[100];
    Double_t        RECOMU_PFX_rho[100];
    Double_t        RECOPFPHOT_PFchHad[20];
    Double_t        RECOPFPHOT_PFneuHad[20];
@@ -588,6 +595,9 @@ public :
    TBranch        *b_MC_ZZ_PHI;   //!
    TBranch        *b_MC_ZZ_THETA;   //!
    TBranch        *b_MC_ZZ_PDGID;   //!
+   TBranch        *b_MC_GENJET_PT;  //!
+   TBranch        *b_MC_GENJET_ETA; //!
+   TBranch        *b_MC_GENJET_PHI;  //!
    TBranch        *b_MC_GENMET;   //!
    TBranch        *b_RECORF_2e2mu_cosTheta1_spin;   //!
    TBranch        *b_RECORF_2e2mu_cosTheta2_spin;   //!
@@ -720,6 +730,7 @@ public :
    TBranch        *b_RECOELE_isEBphiGap;   //!
    TBranch        *b_RECOELE_isEEdeeGap;   //!
    TBranch        *b_RECOELE_isEEringGap;   //!
+   TBranch        *b_RECOELE_isGap;   //!
    TBranch        *b_RECOELE_sigmaIetaIeta;   //!
    TBranch        *b_RECOELE_sigmaEtaEta;   //!
    TBranch        *b_RECOELE_e15;   //!
@@ -790,6 +801,7 @@ public :
    TBranch        *b_RECOMU_isStandAloneMu;   //!
    TBranch        *b_RECOMU_isTrackerMu;   //!
    TBranch        *b_RECOMU_isCaloMu;   //!
+   TBranch        *b_RECOMU_isTrackerHighPtMu;   //!
    TBranch        *b_RECOMU_E;   //!
    TBranch        *b_RECOMU_PT;   //!
    TBranch        *b_RECOMU_P;   //!
@@ -1090,7 +1102,10 @@ public :
    double masserror( std::vector<TLorentzVector> Lep, std::vector<double> pterr );
    void printelebnn(int i);
    void printmubnn(int i);
-   float RECOMU_PFX_dB_new[100],RECOELE_PFX_rho_new[100];
+   float kfactor_qqZZ_qcd_dPhi(float GENdPhiZZ, int finalState);
+   float kfactor_qqZZ_qcd_M(float GENmassZZ, int finalState);
+   float kfactor_qqZZ_qcd_Pt(float GENpTZZ, int finalState);
+   float kfactor_ggZZ(float GENmassZZ, int finalState);
 };
 
 #endif
@@ -1194,6 +1209,9 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("MC_ZZ_PHI", MC_ZZ_PHI, &b_MC_ZZ_PHI);
    fChain->SetBranchAddress("MC_ZZ_THETA", MC_ZZ_THETA, &b_MC_ZZ_THETA);
    fChain->SetBranchAddress("MC_ZZ_PDGID", MC_ZZ_PDGID, &b_MC_ZZ_PDGID);
+   fChain->SetBranchAddress("MC_GENJET_PT", MC_GENJET_PT, &b_MC_GENJET_PT);
+   fChain->SetBranchAddress("MC_GENJET_ETA", MC_GENJET_ETA, &b_MC_GENJET_ETA);
+   fChain->SetBranchAddress("MC_GENJET_PHI", MC_GENJET_PHI, &b_MC_GENJET_PHI);
    fChain->SetBranchAddress("MC_GENMET", &MC_GENMET, &b_MC_GENMET);
    fChain->SetBranchAddress("RECORF_2e2mu_cosTheta1_spin", RECORF_2e2mu_cosTheta1_spin, &b_RECORF_2e2mu_cosTheta1_spin);
    fChain->SetBranchAddress("RECORF_2e2mu_cosTheta2_spin", RECORF_2e2mu_cosTheta2_spin, &b_RECORF_2e2mu_cosTheta2_spin);
@@ -1326,6 +1344,7 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOELE_isEBphiGap", RECOELE_isEBphiGap, &b_RECOELE_isEBphiGap);
    fChain->SetBranchAddress("RECOELE_isEEdeeGap", RECOELE_isEEdeeGap, &b_RECOELE_isEEdeeGap);
    fChain->SetBranchAddress("RECOELE_isEEringGap", RECOELE_isEEringGap, &b_RECOELE_isEEringGap);
+   fChain->SetBranchAddress("RECOELE_isGap", RECOELE_isGap, &b_RECOELE_isGap);
    fChain->SetBranchAddress("RECOELE_sigmaIetaIeta", RECOELE_sigmaIetaIeta, &b_RECOELE_sigmaIetaIeta);
    fChain->SetBranchAddress("RECOELE_sigmaEtaEta", RECOELE_sigmaEtaEta, &b_RECOELE_sigmaEtaEta);
    fChain->SetBranchAddress("RECOELE_e15", RECOELE_e15, &b_RECOELE_e15);
@@ -1396,6 +1415,7 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOMU_isStandAloneMu", RECOMU_isStandAloneMu, &b_RECOMU_isStandAloneMu);
    fChain->SetBranchAddress("RECOMU_isTrackerMu", RECOMU_isTrackerMu, &b_RECOMU_isTrackerMu);
    fChain->SetBranchAddress("RECOMU_isCaloMu", RECOMU_isCaloMu, &b_RECOMU_isCaloMu);
+   fChain->SetBranchAddress("RECOMU_isTrackerHighPtMu", RECOMU_isTrackerHighPtMu, &b_RECOMU_isTrackerHighPtMu);
    fChain->SetBranchAddress("RECOMU_E", RECOMU_E, &b_RECOMU_E);
    fChain->SetBranchAddress("RECOMU_PT", RECOMU_PT, &b_RECOMU_PT);
    fChain->SetBranchAddress("RECOMU_P", RECOMU_P, &b_RECOMU_P);
@@ -1714,7 +1734,7 @@ void HZZ4LeptonsAnalysis::printelebnn(int i){
                 << RECOELE_ETA[i] << " "  
                 << RECOELE_PHI[i] << " "  
                 << RECOELE_CHARGE[i] << " "
-                << RECOELE_PFX_rho_new[i] << " "
+                << RECOELE_PFX_rho[i] << " "
                 << RECOELE_SIP[i] << " ";
 }
 
@@ -1725,7 +1745,7 @@ void HZZ4LeptonsAnalysis::printmubnn(int i){
                 << RECOMU_ETA[i] << " "  
                 << RECOMU_PHI[i] << " "  
                 << RECOMU_CHARGE[i] << " "
-                << RECOMU_PFX_dB_new[i] << " "
+                << RECOMU_PFX_dB[i] << " "
                 << RECOMU_SIP[i] << " ";
 }
 

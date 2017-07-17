@@ -132,23 +132,31 @@ if useSkimEarlyData == 'true':
                                      )    
 else:
 
+    # Electron Regression
+    from EgammaAnalysis.ElectronTools.regressionApplication_cff import *
     # Electron Preselector
-    from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsElectronSequences_cff import *
-    hTozzTo4leptonsElectronPreSelector=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsElectronSelector_cfi.hTozzTo4leptonsElectronSelector.clone()
-    hTozzTo4leptonsElectronPreSelector.electronCollection=cms.InputTag("slimmedElectrons")
-    hTozzTo4leptonsElectronPreSelector.electronEtaMax=cms.double(2.5)
-    hTozzTo4leptonsElectronPreSelector.electronPtMin=cms.double(5.)
-    hTozzTo4leptonsElectronPreSelector.useEleID=cms.bool(False)
+#   from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsElectronSequences_cff import *
+#    hTozzTo4leptonsElectronPreSelector=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsElectronSelector_cfi.hTozzTo4leptonsElectronSelector.clone()
+#    hTozzTo4leptonsElectronPreSelector.electronCollection=cms.InputTag("slimmedElectrons")
+#    hTozzTo4leptonsElectronPreSelector.electronEtaMax=cms.double(2.5)
+#    hTozzTo4leptonsElectronPreSelector.electronPtMin=cms.double(5.)
+#    hTozzTo4leptonsElectronPreSelector.useEleID=cms.bool(False)
 
     # Electron ordering in pT
-    hTozzTo4leptonsElectronOrdering = cms.EDProducer("HZZ4LeptonsElectronOrdering",
-     electronCollection = cms.InputTag("hTozzTo4leptonsElectronPreSelector"),
-    )
+#    hTozzTo4leptonsElectronOrdering = cms.EDProducer("HZZ4LeptonsElectronOrdering",
+#     electronCollection = cms.InputTag("hTozzTo4leptonsElectronPreSelector"),
+#    )
 
     # Electron scale calibration
-    from EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi import *
-    calibratedPatElectrons.electrons = cms.InputTag('hTozzTo4leptonsElectronOrdering')
-    calibratedPatElectrons.correctionFile = cms.string(files["80Xapproval"])
+#    from EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi import *
+#    calibratedPatElectrons.electrons = cms.InputTag('hTozzTo4leptonsElectronOrdering')
+#    calibratedPatElectrons.correctionFile = cms.string(files["80Xapproval"])
+#    calibratedPatElectrons.isMC = cms.bool(True)
+
+    from EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi import *
+#    calibratedPatElectrons.electrons = cms.InputTag('hTozzTo4leptonsElectronOrdering')
+    calibratedPatElectrons.electrons = cms.InputTag('slimmedElectrons')
+#    calibratedPatElectrons.correctionFile = cms.string(files["Moriond17_23Jan"])
     calibratedPatElectrons.isMC = cms.bool(True)
 
     # Electron relaxed selection
@@ -160,7 +168,11 @@ else:
     hTozzTo4leptonsElectronSelector.useEleID=cms.bool(False)
     #hTozzTo4leptonsElectronSequence=cms.Sequence(hTozzTo4leptonsElectronIdSequence + hTozzTo4leptonsElectronSelector)
     hTozzTo4leptonsElectronSequence=cms.Sequence(hTozzTo4leptonsElectronSelector)
+ 
+    #photon Calibration
+    from EgammaAnalysis.ElectronTools.calibratedPatPhotonsRun2_cfi import *
     
+ 
     # Muon Calibration
     from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsMuonCalibrator_cfi import *
     
@@ -353,12 +365,13 @@ vetoElectrons =  cms.EDFilter("GsfElectronRefSelector",
 
 # New MVA Electron ID
 from RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi import *
-electronMVAValueMapProducer.src = cms.InputTag("hTozzTo4leptonsElectronOrdering")
+#electronMVAValueMapProducer.src = cms.InputTag("hTozzTo4leptonsElectronOrdering")
+electronMVAValueMapProducer.srcMiniAOD = cms.InputTag("hTozzTo4leptonsElectronSelector")
 
 # MVA Electron ID 80X
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 from RecoEgamma.ElectronIdentification.egmGsfElectronIDs_cff import *
-from RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_V1_cff import *
+from RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_HZZ_V1_cff import *
 
 
 # MVA Photon ID 80X
@@ -807,14 +820,16 @@ hTozzTo4leptonsSelectionSequenceData = cms.Sequence(
 #        hTozzTo4leptonsMCDumper                     +
 #        hTozzTo4leptonsMCCP                         +
 ##test        hTozzTo4leptonsPFtoRECOMuon                 +
-        hTozzTo4leptonsPFfsrPhoton                  +
+##        hTozzTo4leptonsPFfsrPhoton                  +
 #        higgsToZZ4LeptonsSequenceData               +
 #        hTozzTo4leptonsHLTAnalysisData              +
         hTozzTo4leptonsHLTInfo                      +
         hTozzTo4leptonsHLTAnalysisFilter            +
-        hTozzTo4leptonsElectronPreSelector          +
-        hTozzTo4leptonsElectronOrdering             +
+        regressionApplication                       +
+#        hTozzTo4leptonsElectronPreSelector          +
+#        hTozzTo4leptonsElectronOrdering             +
         calibratedPatElectrons                      +
+        calibratedPatPhotons                        +
         hTozzTo4leptonsElectronSelector             +
         electronMVAValueMapProducer                 +                             hTozzTo4leptonsMuonCalibrator               +
         cleanPatMuonsBySegments                     +

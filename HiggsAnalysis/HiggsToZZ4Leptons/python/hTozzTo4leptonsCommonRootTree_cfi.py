@@ -190,10 +190,10 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
 
     # MVA ele ID BDT
 #    mvaElectronTag            = cms.InputTag("slimmedElectrons"),
-    mvaElectronTag            = cms.InputTag("hTozzTo4leptonsElectronOrdering"),
+     mvaElectronTag            = cms.InputTag("hTozzTo4leptonsElectronSelector"),
     mvaTrigV0MapTag           = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Values"),
-#    mvaNonTrigV0MapTag        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
-    mvaNonTrigV0MapTag        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16V1Values"),
+    mvaNonTrigV0MapTag        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16HZZV1Values"),
+#    mvaNonTrigV0MapTag        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16V1Values"),
                                         
     # GD                                          
     ftsigmaVert               = cms.InputTag("hTozzTo4leptonsGeomDiscrimProducer:ftsigma"),
@@ -340,4 +340,7 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
     offlineBeamSpot       = cms.InputTag("offlineBeamSpot"),
 
     pfCands = cms.InputTag("packedPFCandidates"),
+
+    pruned = cms.InputTag("prunedGenParticles"),
+    packed = cms.InputTag("packedGenParticles"),
 )

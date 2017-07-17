@@ -469,6 +469,11 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     myGammas_             = consumes<reco::CandidateCollection>(pset.getParameter<edm::InputTag>("myGammas"));
 */
 
+   //mc 
+
+   prunedGenToken_  =consumes<edm::View<reco::GenParticle> >(pset.getParameter<edm::InputTag>("pruned"));
+   packedGenToken_  =consumes<edm::View<pat::PackedGenParticle> >(pset.getParameter<edm::InputTag>("packed"));
+
    goodZtoMuMuMCMatch_    = consumes<edm::Association<std::vector<reco::GenParticle> > >(pset.getParameter<edm::InputTag>("goodZtoMuMuMCMatch"));
  
    goodZtoEEMCMatch_    = consumes<edm::Association<std::vector<reco::GenParticle> > >(pset.getParameter<edm::InputTag>("goodZtoEEMCMatch"));
@@ -1152,6 +1157,13 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch( "RECO_PFJET_PHI", RECO_PFJET_PHI, "RECO_PFJET_PHI[200]/F");
     Tree_->Branch( "RECO_PFJET_PUID", RECO_PFJET_PUID, "RECO_PFJET_PUID[200]/I");
     Tree_->Branch( "RECO_PFJET_PUID_MVA", RECO_PFJET_PUID_MVA, "RECO_PFJET_PUID_MVA[200]/F");
+    //jet ID
+    Tree_->Branch( "RECO_PFJET_nconstituents",  RECO_PFJET_nconstituents,  "RECO_PFJET_nconstituents[200]/I");
+    Tree_->Branch( "RECO_PFJET_NCH",  RECO_PFJET_NCH,  "RECO_PFJET_NCH[200]/I");
+    Tree_->Branch( "RECO_PFJET_NHF",  RECO_PFJET_NHF,  "RECO_PFJET_NHF[200]/F");
+    Tree_->Branch( "RECO_PFJET_NEF",  RECO_PFJET_NEF,  "RECO_PFJET_NEF[200]/F");
+    Tree_->Branch( "RECO_PFJET_CHF", RECO_PFJET_CHF, "RECO_PFJET_CHF[200]/F");
+    Tree_->Branch( "RECO_PFJET_CEF", RECO_PFJET_CEF, "RECO_PFJET_CEF[200]/F");
     Tree_->Branch( "RHO_ele", &RHO_ele, "RHO_ele/D");
     Tree_->Branch( "RHO_mu", &RHO_mu, "RHO_mu/D");
     
@@ -1395,6 +1407,13 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       RECO_PFJET_PHI[ijets] = -999.;
       RECO_PFJET_PUID[ijets] = -999;
       RECO_PFJET_PUID_MVA[ijets] = -999.;
+      RECO_PFJET_NHF[ijets] = -999.;
+      RECO_PFJET_NEF[ijets]     = -999.;
+      RECO_PFJET_CHF[ijets]     = -999.;
+      RECO_PFJET_CEF[ijets]    = -999.;
+      RECO_PFJET_nconstituents[ijets]    = -999;
+      RECO_PFJET_NCH[ijets] = -999;
+
     }
     
 /*     calomet=-999.; */
@@ -2465,6 +2484,42 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
   // MC Higgs 
   void fillmc(const edm::Event& iEvent){
+
+
+        // Pruned particles are the one containing "important" stuff
+        edm::Handle<edm::View<reco::GenParticle> > pruned;
+        iEvent.getByToken(prunedGenToken_,pruned);
+
+        // Packed particles are all the status 1, so usable to remake jets
+        // The navigation from status 1 to pruned is possible (the other direction should be made by hand)
+        edm::Handle<edm::View<pat::PackedGenParticle> > packed;
+        iEvent.getByToken(packedGenToken_,packed);
+
+        int index=0;
+        for(size_t i=0; i<pruned->size();i++){
+           if(abs((*pruned)[i].pdgId()) == 24){
+               const Candidate * WBoson = &(*pruned)[i];
+               std::cout << "PdgID: " << WBoson->pdgId() << " pt " << WBoson->pt() << " eta: " << WBoson->eta() << " phi: " << WBoson->phi() << std::endl;
+               std::cout << "  found daugthers: " << std::endl;
+               for(size_t j=0; j<packed->size();j++){
+//get the pointer to the first survied ancestor of a given packed GenParticle in the prunedCollection
+                 if(abs((*packed)[j].pdgId()) == 11 || abs((*packed)[j].pdgId()) == 13){
+                 const Candidate * motherInPrunedCollection = (*packed)[j].mother(0) ;
+                 if(motherInPrunedCollection != nullptr && WBoson == motherInPrunedCollection ){
+//if we did not return yet, then particle and ancestor are not relatives
+                 std::cout << "  PdgID: " << (*packed)[j].pdgId() << " pt " << (*packed)[j].pt() << " eta: " << (*packed)[j].eta() << " phi: " << (*packed)[j].phi() << std::endl;
+                 MC_LEPT_PT[i]=(*packed)[j].pt();
+                 MC_LEPT_ETA[i]=(*packed)[j].eta();
+                 MC_LEPT_PHI[i]=(*packed)[j].phi();
+                 MC_LEPT_PDGID[i]=(*packed)[j].pdgId();
+                 index++;
+                  }}
+               }
+           }
+        }
+
+
+/*
     edm::Handle<edm::View<Candidate> > Candidates;
     iEvent.getByToken(MCcollName, Candidates);
     cout << "running fillmc" << endl;
@@ -2491,7 +2546,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 	}
       }
     }    
-    //fillMCCP(iEvent);
+    //fillMCCP(iEvent);*/
   }
 
   
@@ -3652,30 +3707,49 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 		<< ConvMapDcot[index] << " " 
 		<< std::endl;
 */
-/*     
+     
       // Matching
       if (fillMCTruth==true){
-	int i=0;
-	for ( reco::CandidateCollection::const_iterator hIter=CollEle->begin(); hIter!= CollEle->end(); ++hIter ){
+	int k=-1;
 	  //cout << "Reco Electron with pT= " << hIter->pt() << " " << RECOELE_PT[index] << " " << fabs(hIter->pt()-RECOELE_PT[index]) << " and mass="<< hIter->mass()<< endl;
-	  if (fabs(hIter->pt()-RECOELE_PT[index])<0.01){
-	    i=hIter-(CollEle->begin());
-	    CandidateRef Ref( CollEle, i );
-	    edm::Ref<std::vector<reco::GenParticle> > genrefEle = (*GenParticlesMatchEle)[Ref];
-	    if (!genrefEle.isNull()){
-	      cout << "GenElectron with pT= " << genrefEle->p4().pt() << " and mass="<< genrefEle->p4().mass()<< endl;
+	/*    if (!(cand.genLepton()).isNull()){
+             if(cand->genLepton()->isPromptFinalState()){
 	      RECOELE_MatchingMCTruth[i]= true;
-	      RECOELE_MatchingMCpT[i]= genrefEle->p4().pt();
-	      RECOELE_MatchingMCEta[i]= genrefEle->p4().eta();
-	      RECOELE_MatchingMCPhi[i]= genrefEle->p4().phi();	    
+	      RECOELE_MatchingMCpT[i]= cand.genParticle()->p4().pt();
+	      RECOELE_MatchingMCEta[i]= cand.genParticle()->p4().eta();
+	      RECOELE_MatchingMCPhi[i]= cand.genParticle()->p4().phi();
+             }	    
 	    } 
 	    else {
 	      cout << "There is no a reference to a genElectron" << endl;
-	    }
-	  }   
-	}    
-      }
-*/
+	    }*/
+        edm::Handle<edm::View<reco::GenParticle> > pruned;
+        iEvent.getByToken(prunedGenToken_,pruned);
+
+        double dRmin=10;
+        for(size_t j=0; j<pruned->size();j++){
+           if(abs((*pruned)[j].pdgId()) == 11&&(*pruned)[j].isPromptFinalState()){
+             const Candidate * genele = &(*pruned)[j];
+             double phi1 = genele->p4().phi();
+             double phi2 = cand->p4().phi();
+             double eta1 = genele->p4().eta();
+             double eta2 = cand->p4().eta();
+         //    double pt1 = genele->p4().pt();
+         //    double pt2 = cand->p4().pt();
+             double DELTAPHI;
+             if(abs(phi1-phi2)<3.14159) DELTAPHI=abs(phi1-phi2);
+             else DELTAPHI=abs(phi1-phi2)-2*3.14159;
+             double deltaR = sqrt( pow( DELTAPHI,2) + pow(eta1-eta2,2) );
+             if(deltaR<dRmin) {k=j;dRmin=deltaR;}
+           }
+         }
+        if(k>=0&&dRmin<0.15){
+              RECOELE_MatchingMCTruth[index]= true;
+              RECOELE_MatchingMCpT[index]= (*pruned)[k].p4().pt();
+              RECOELE_MatchingMCEta[index]= (*pruned)[k].p4().eta();
+              RECOELE_MatchingMCPhi[index]= (*pruned)[k].p4().phi();
+        }
+       }   
       index ++;
     }    
   }
@@ -4096,30 +4170,37 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 		  << std::endl;
       }
   
-/*    
-      // Matching
       if (fillMCTruth==true){
-	int i=0;
-	for ( reco::CandidateCollection::const_iterator hIter=CollMu->begin(); hIter!= CollMu->end(); ++hIter ){
-	  //cout << "Reco Muon with pT= " << hIter->pt() << " and mass="<< hIter->mass()<< endl;
-	  if (fabs(hIter->pt()-RECOMU_PT[indexbis])<0.01){
-	    i=hIter-(CollMu->begin());
-	    CandidateRef Ref( CollMu, i );
-	    edm::Ref<std::vector<reco::GenParticle> > genrefMu = (*GenParticlesMatchMu)[Ref];
-	    if (!genrefMu.isNull()){
-	      cout << "GenMuon with pT= " << genrefMu->p4().pt() << " and mass="<< genrefMu->p4().mass()<< endl;
-	      RECOMU_MatchingMCTruth[i]= true;
-	      RECOMU_MatchingMCpT[i]= genrefMu->p4().pt();
-	      RECOMU_MatchingMCEta[i]= genrefMu->p4().eta();
-	      RECOMU_MatchingMCPhi[i]= genrefMu->p4().phi();	    
-	    } 
-	    else {
-	      cout << "There is no reference to a genMuon" << endl;
-	    }
-	  }   
-	}   
-      }  
-*/ 
+        int k=-1;
+          //cout << "Reco Electron with pT= " << hIter->pt() << " " << RECOELE_PT[index] << " " << fabs(hIter->pt()-RECOELE_PT[index]) << " and mass="<< hIter->mass()<< endl;
+        edm::Handle<edm::View<reco::GenParticle> > pruned;
+        iEvent.getByToken(prunedGenToken_,pruned);
+             
+        double dRmin=10;
+        for(size_t j=0; j<pruned->size();j++){
+           if(abs((*pruned)[j].pdgId()) == 13&&(*pruned)[j].isPromptFinalState()){
+             const Candidate * genmu = &(*pruned)[j];
+             double phi1 = genmu->p4().phi();
+             double phi2 = cand->p4().phi();
+             double eta1 = genmu->p4().eta();
+             double eta2 = cand->p4().eta();
+   //          double pt1 = genmu->p4().pt();
+   //          double pt2 = cand->p4().pt();
+             double DELTAPHI;
+             if(abs(phi1-phi2)<3.14159) DELTAPHI=abs(phi1-phi2);
+             else DELTAPHI=abs(phi1-phi2)-2*3.14159;
+             double deltaR = sqrt( pow( DELTAPHI,2) + pow(eta1-eta2,2) );
+             if(deltaR<dRmin) {k=j;dRmin=deltaR;}
+           }
+         }
+        if(k>=0&&dRmin<0.15){
+              RECOMU_MatchingMCTruth[indexbis]= true;
+              RECOMU_MatchingMCpT[indexbis]= (*pruned)[k].p4().pt();
+              RECOMU_MatchingMCEta[indexbis]= (*pruned)[k].p4().eta();
+              RECOMU_MatchingMCPhi[indexbis]= (*pruned)[k].p4().phi();
+        }
+      }
+ 
       indexbis++;
     }
   }
@@ -4257,6 +4338,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
     
   }
 
+
 void fillTracks(const edm::Event& iEvent){
     // Tracks
   using namespace edm; using namespace std; using namespace reco;
@@ -4266,7 +4348,6 @@ void fillTracks(const edm::Event& iEvent){
   int countk=0;
   RECO_NTRACK=0;
   
-//  for(edm::View<pat::PackedCandidate>::const_iterator i=cands->begin(); i!=cands->end(); i++){
   for(unsigned int i=0;i<cands->size();i++){
      if (countk>199) break;
      const pat::PackedCandidate & c = (*cands)[i];
@@ -4965,7 +5046,21 @@ void fillTracks(const edm::Event& iEvent){
 	}else if(mva<=-0.95) pupass=0;
       }
         
-      
+      // Apply jet ID 
+      double nhf = i->neutralHadronEnergyFraction();
+      double nef = i->neutralEmEnergyFraction();
+      double chf = i->chargedHadronEnergyFraction();
+      double cef = i->chargedEmEnergyFraction();
+      int nconstituents = i->numberOfDaughters();
+      int nch = i->chargedMultiplicity();
+
+      RECO_PFJET_NHF[index_jets] = nhf;
+      RECO_PFJET_NEF[index_jets]     = nef;
+      RECO_PFJET_CHF[index_jets]     = chf;
+      RECO_PFJET_CEF[index_jets]    = cef;
+      RECO_PFJET_nconstituents[index_jets] = nconstituents;
+      RECO_PFJET_NCH[index_jets] = nch;     
+
       RECO_PFJET_CHARGE[index_jets] = i->charge();
       RECO_PFJET_ET[index_jets]     = i->et();
       RECO_PFJET_PT[index_jets]     = i->pt();
@@ -5135,6 +5230,8 @@ void fillTracks(const edm::Event& iEvent){
   edm::EDGetTokenT<edm::View<reco::Candidate> > fourgenleptons_;
   edm::EDGetTokenT<edm::View<reco::Candidate> > digenZ_;
 
+  edm::EDGetTokenT<edm::View<reco::GenParticle> > prunedGenToken_;
+  edm::EDGetTokenT<edm::View<pat::PackedGenParticle> > packedGenToken_;
 	
   // RECO
   bool useAdditionalRECO;
@@ -5634,7 +5731,9 @@ void fillTracks(const edm::Event& iEvent){
   
   // RECO JETS
   int RECO_PFJET_N, RECO_PFJET_CHARGE[200],RECO_PFJET_PUID[200];
+  int RECO_PFJET_nconstituents[200],RECO_PFJET_NCH[200];
   float RECO_PFJET_ET[200], RECO_PFJET_PT[200], RECO_PFJET_ETA[200], RECO_PFJET_PHI[200],RECO_PFJET_PUID_MVA[200];
+  float RECO_PFJET_NHF[200],RECO_PFJET_NEF[200],RECO_PFJET_CHF[200],RECO_PFJET_CEF[200];
   double RHO,RHO_ele,RHO_mu;
 
   // GenJET

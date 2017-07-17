@@ -4,7 +4,7 @@ cleanMuonsBySegments = cms.EDProducer("MuonCleanerBySegments",
     # Collection of input muons
     src = cms.InputTag("muons"),
     # Preselection criteria: muons failing this are ignored completely
-    preselection = cms.string("pt > 5 && track.isNonnull"),
+    preselection = cms.string("track.isNonnull"),
     # Pass-through definition: muons passing this are kept even if otherwise flagged as ghosts
     passthrough = cms.string("isGlobalMuon && numberOfMatches >= 2"),
     # Fraction of shared segments required for the muons to be considered overlapping
@@ -35,7 +35,7 @@ cleanMuonsBySegments = cms.EDProducer("MuonCleanerBySegments",
 cleanPatMuonsBySegments = cms.EDProducer("PATMuonCleanerBySegments", 
 #   src = cms.InputTag("slimmedMuons"),
     src = cms.InputTag("cleanPatMuons"),
-    preselection = cms.string("pt > 5 && track.isNonnull"),
+    preselection = cms.string("track.isNonnull"),
     passthrough = cms.string("isGlobalMuon && numberOfMatches >= 2"),
     fractionOfSharedSegments = cms.double(0.499)
 )

@@ -18,6 +18,7 @@
 #include "TSystem.h"
 #include <libgen.h>
 
+#define nnn 1.0
 using namespace std;
 
 // Usage:
@@ -128,7 +129,12 @@ PlotStackZ::PlotStackZ(){
   //std::string histolabel = "hSip_5";  // worst sip 
   //std::string histolabel = "hIp_5";   // worst IP
 
+//   std::string histolabel = "Mbb_6";
+//  std::string histolabel = "bdiscr_5_lead";
+//  std::string histolabel = "bdiscr_5_sub";
+//    std::string histolabel = "Mjj_6";
 
+//  std::string histolabel = "hMZ1_7";
   // After full selection
   //std::string histolabel = "hM4l_7"; // 4l mass after full selection but m4l > 70
 
@@ -140,34 +146,52 @@ PlotStackZ::PlotStackZ(){
   //std::string histolabel = "hMZ2_8"; // Z2 mass after full selection
   //std::string histolabel = "hMZ1_noFSR_8"; // Z1 mass after full selection without FSR recovery
   //std::string histolabel = "hMZ2_noFSR_8"; // Z2 mass after full selection without FSR recovery
-  //std::string histolabel = "hPtZ1_8"; // Z1 pt after full selection
+//  std::string histolabel = "hPtZ1_5"; // Z1 pt after full selection
+//   std::string histolabel = "hPtLep1_7";
+//   std::string histolabel = "hPtLep2_7"; 
+// std::string histolabel = "hPtLep1_8";
+//   std::string histolabel = "hPtLep2_8"; 
+
+//   std::string histolabel = "hEtaLep1_7";
+//   std::string histolabel = "hEtaLep2_7";
+//   std::string histolabel = "hIsoLep1_7";
+//   std::string histolabel = "hIsoLep2_7";
+ //   std::string histolabel = "hYZ1_5";
   //std::string histolabel = "hPtZ2_8"; // Z2 pt after full selection
   //std::string histolabel = "hYZ1_8"; // Z1 rapidity after full selection
   //std::string histolabel = "hYZ2_8"; // Z2 rapidity after full selection
   //std::string histolabel = "hIso_8"; // worst isolated lepton: isolation value after full selection
   //std::string histolabel = "hSip_8"; // worst sip lepton: sip value after full selection
   //std::string histolabel = "hMELA_8"; // MELA discriminant after full selection 
-  //std::string histolabel = "hPFMET_8"; // PFMET
+ //  std::string histolabel = "hPFMET_8"; // PFMET
   //std::string histolabel = "hM4l_T_8"; // Transverse mass
   //std::string histolabel = "DPHI_8"; // DeltaPhi - 4l + MET
-
+//   std::string histolabel = "hPtJet_7"; 
+//   std::string histolabel = "hPtJet_8";
+//   std::string histolabel = "hEtaJet_7";
+//   std::string histolabel = "hEtaJet_8";
+ // std::string histolabel = "hNjets_8";
   //std::string histolabel = "hDjj_8"; // delta eta between jets for VBF analysis
-  //std::string histolabel = "hMjj_8"; // dimass between jets for VBF analysis
+ // std::string histolabel = "hMjj_8"; // dimass between jets for VBF analysis
+//  std::string histolabel = "hN_loose_e";
+//  std::string histolabel = "hN_loose_mu"; 
+//   std::string histolabel = "hN_good_ele";
+//   std::string histolabel = "hN_good_mu";
 
-  useLogY = true;
+  useLogY = false;
   useLogX = false;
 
   useDYJets=true;
   useDYJetsFromData=false;
   
-  nRebin=5;
+  nRebin=2;
   std::cout << "Histogram label is= " << histolabel << std::endl;
   
   // Final yields
   system("mkdir plots");
 
   Char_t yieldsOUT[500];
-  sprintf(yieldsOUT,"plots/yields_%s_%s.txt",whichchannel.c_str(),whichenergy.c_str());
+  sprintf(yieldsOUT,"plots/amcatnlo/yields_%s_%s.txt",whichchannel.c_str(),whichenergy.c_str());
   if (histolabel.find("hM4l_9")<10 ) {
     cout << "Opening a file for final numbers= " << yieldsOUT << endl;
     outputyields.open(yieldsOUT);
@@ -295,7 +319,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
     ff = TFile::Open(Vdatasetnamebkg.at(0).c_str());  
   else if(Vdatasetnamesig.size()>0)  
     ff = TFile::Open(Vdatasetnamesig.at(0).c_str());  
- 
+
   
   TH1F *hfourlepbestmass_4l_afterSel_new = (TH1F*)ff->Get(histlabel.c_str() /*"hfourlepbestmass_4l_afterSel_new"*/);
 
@@ -355,9 +379,9 @@ void PlotStackZ::plotmZ(std::string histlabel){
   //hframe= new TH2F("hframe","hframe",80,60.,120.,500,0.4,2600000.);// mZ1 ee/mumu
   //hframe2= new TH2F("hframe2","hframe2",6000, 60., 120., 1000, 0.5, 2.);// mZ1 ee/mumu
   
-  if (histlabel.find("hMZ_3")<10 && whichchannel.find("4#mu")<20){
-    hframe= new TH2F("hframe","hframe",80,60.,120.,500,0.01,1700000000.);// mZ1 mumu
-    hframe2= new TH2F("hframe2","hframe2",6000, 60., 120., 1000, 0.5, 2.);// mZ1 mumu
+  if (histlabel.find("hMZ_3")<10 ){
+    hframe= new TH2F("hframe","hframe",100,20.,120.,500,0.01,1700000000.);// mZ1 mumu
+    hframe2= new TH2F("hframe2","hframe2",6000, 20., 120., 1000, 0.5, 2.);// mZ1 mumu
   }
   //hframe= new TH2F("hframe","hframe",80,60.,120.,500,0.4,400000.);// mZ1 mumu  7TeV
   //hframe2= new TH2F("hframe2","hframe2",6000, 60., 120., 1000, 0.5, 2.);// mZ1 mumu 7TeV
@@ -439,18 +463,139 @@ void PlotStackZ::plotmZ(std::string histlabel){
   
 
   if (histlabel.find("hMZ1_5")<10){
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,200000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 1000, 0.7, 1.3);// mZ1 
+  }
+
+  if (histlabel.find("hPtZ1_5")<10){
+    hframe= new TH2F("hframe","hframe",100,0.,200.,500,1.0,60000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, 0., 200., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hPtLep1_7")<10){
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,200000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",200, 0., 200., 500, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hPtLep2_7")<10){
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,200000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",200, 0., 200., 500, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hPtLep1_8")<10){
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",6000, 0., 200., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("hPtLep2_8")<10){
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",6000, 0., 200., 1000, 0.5, 2.);// mZ1 
+  }
+
+  if (histlabel.find("hYZ1_5")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,30000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("hEtaLep1_7")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,50000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hEtaLep2_7")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,50000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hIsoLep1_7")<10){
+    hframe= new TH2F("hframe","hframe",100,0.,1.,500,1.0,500000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, 0., 1., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hIsoLep2_7")<10){
+    hframe= new TH2F("hframe","hframe",100,0.,1.,500,1.0,500000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, 0., 1., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hMZ1_7")<10){
     hframe= new TH2F("hframe","hframe",80,40.,200.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 2.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("Mbb_6")<10){
+    hframe= new TH2F("hframe","hframe",80,20.,400.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",80, 20., 400., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("Mjj_6")<10){
+    hframe= new TH2F("hframe","hframe",80,20.,400.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",80, 20., 400., 1000, 0.5, 1.5);// mZ1 
+  }
+
+
+  if (histlabel.find("bdiscr_5_lead")<10){
+    hframe= new TH2F("hframe","hframe",20,0.,1.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",20, 0., 1., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("bdiscr_5_sub")<10){
+    hframe= new TH2F("hframe","hframe",20,0.,1.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",20, 0., 1., 1000, 0.5, 1.5);// mZ1 
   }
 
   if (histlabel.find("hMZ2_5")<10 && whichchannel.find("4#mu")<20){
     hframe= new TH2F("hframe","hframe",80,40.,200.,500,0.0000000001,1000000.);// mZ2 
     hframe2= new TH2F("hframe2","hframe2",6000, 40., 200., 1000, 0.5, 2.);// mZ2 
   }
-  
+
+  if (histlabel.find("hPtJet_7")<10){
+    hframe= new TH2F("hframe","hframe",200,0.,400.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",1000, 0., 400., 1000, 0.5, 1.5);// mZ1 
+  }
+ 
+  if (histlabel.find("hPtJet_8")<10){
+    hframe= new TH2F("hframe","hframe",200,0.,400.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",1000, 0., 400., 1000, 0.5, 1.5);// mZ1 
+  }
+ 
+  if (histlabel.find("hEtaJet_7")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("hEtaJet_8")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("hNjets_8")<10){
+    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("hN_loose_e")<10){
+    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("hN_loose_mu")<10){
+    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("hN_good_ele")<10){
+    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,2000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.5, 1.5);// mZ1 
+  }
+
+  if (histlabel.find("hN_good_mu")<10){
+    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,10000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.5, 1.5);// mZ1 
+  }
+
   if (histlabel.find("hMZ1_8")<10 && whichchannel.find("4#mu")<20){
     hframe= new TH2F("hframe","hframe",80,40.,200.,500,0.0001,100000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 2.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 1.5);// mZ1 
   }
   
   if (histlabel.find("hMZ2_8")<10 && whichchannel.find("4#mu")<20){
@@ -475,19 +620,19 @@ void PlotStackZ::plotmZ(std::string histlabel){
 
   if (histlabel.find("hPFMET_8")<10){
     //hframe= new TH2F("hframe","hframe",1000, 0., 1000., 1000, 0.0000004, 50000.);// PFMET
-    hframe= new TH2F("hframe","hframe",1000, 0., 1000., 1000, 0.000001, 100000.);// PFMET
-    hframe2= new TH2F("hframe2","hframe2",1000, 0.,1000., 1000, 0.5, 2.);// PFMET
+    hframe= new TH2F("hframe","hframe",300, 0., 300., 1000, 0.000001, 100000.);// PFMET
+    hframe2= new TH2F("hframe2","hframe2",300, 0.,300., 1000, 0.5, 1.5);// PFMET
   }
 
   if (histlabel.find("hPFMET_9")<10){
     //hframe= new TH2F("hframe","hframe",1000, 0., 1000., 1000, 0.0000004, 50000.);// PFMET
     hframe= new TH2F("hframe","hframe",1000, 0., 1000., 1000, 0.000001, 100.);// PFMET
-    hframe2= new TH2F("hframe2","hframe2",1000, 0.,1000., 1000, 0.5, 2.);// PFMET
+    hframe2= new TH2F("hframe2","hframe2",1000, 0.,1000., 1000, 0.5, 1.5);// PFMET
   }
 
   if (histlabel.find("hMjj_8")<10){
     hframe= new TH2F("hframe","hframe",600,20.,500.,600,0.000004,10E4);//mass jet jet
-    hframe2= new TH2F("hframe2","hframe2",6000, 20., 500., 1000, 0.5, 2.);// mass jet jet
+    hframe2= new TH2F("hframe2","hframe2",6000, 20., 500., 1000, 0.5, 1.5);// mass jet jet
   }
 
   if (histlabel.find("hDjj_8")<10){
@@ -593,6 +738,25 @@ void PlotStackZ::plotmZ(std::string histlabel){
     // hfourlepbestmass_4l_afterSel_new_new->Draw("EPsame");
 
     //leg0->AddEntry(hfourlepbestmass_4l_afterSel_new_new,Vlabeldata.at(datasetIdData).c_str(), "P");  
+    //this part for efficiency of tight lepton calculation(qier)
+    TH1F *loose_e = (TH1F*)f1->Get("hN_loose_e");
+    TH1F *loose_mu = (TH1F*)f1->Get("hN_loose_mu");
+    TH1F *good_e = (TH1F*)f1->Get("hN_good_ele");
+    TH1F *good_mu = (TH1F*)f1->Get("hN_good_mu");
+    double deno1=0;
+    double deno2=0;
+    double nume1=0;
+    double nume2=0;
+    for (int nbins=2;nbins<=10; nbins++){
+       deno1=deno1+(nbins-1)*loose_e->GetBinContent(nbins);
+       deno2=deno2+(nbins-1)*loose_mu->GetBinContent(nbins);
+       nume1=nume1+(nbins-1)*good_e->GetBinContent(nbins);
+       nume2=nume2+(nbins-1)*good_mu->GetBinContent(nbins);
+    }
+    double eff_e = nume1/deno1;
+    double eff_mu = nume2/deno2;
+    cout << "eff_e = " << eff_e << "\neff_mu = " << eff_mu << endl;
+
 
     //cout << "Nbins=" << hfourlepbestmass_4l_afterSel_new_new->GetNbinsX() << endl;
     //cout << "htotaldata nBins = " << htotaldata->GetNbinsX() << ", hfourlepbestmass_4l_afterSel_new_new nBins = " << hfourlepbestmass_4l_afterSel_new_new->GetNbinsX() << endl;
@@ -741,7 +905,13 @@ void PlotStackZ::plotmZ(std::string histlabel){
   TH1F *hfourlepbestmass_4l_afterSel_new_TT    = new TH1F("hfourlepbestmass_4l_afterSel_new_TT", "hfourlepbestmass_4l_afterSel_new_TT",Nbins, Xmin, Xmax); 
   TH1F *hfourlepbestmass_4l_afterSel_new_Wj    = new TH1F("hfourlepbestmass_4l_afterSel_new_Wj", "hfourlepbestmass_4l_afterSel_new_Wj",Nbins, Xmin, Xmax);
 
-
+/*
+  TFile * PU= new TFile("pileup_MC_80x_271036-276811_69200.root");
+  TH1F * HistoPUData= (TH1F *) PU->Get("pileup");
+  TH1F * HistoPUMC= (TH1F *) PU->Get("pileup_mc");
+  double nnn = HistoPUData->Integral()/HistoPUMC->Integral();
+  cout << "nnn = " << nnn << endl;
+*/
 
   for ( int datasetId=Vdatasetnamebkg.size()-1; datasetId >=0; datasetId--){  
 
@@ -757,6 +927,31 @@ void PlotStackZ::plotmZ(std::string histlabel){
     hfourlepbestmass_4l_afterSel_new = (TH1F*)f2->Get(histlabel.c_str() /*"hfourlepbestmass_4l_afterSel_new"*/);
     TH1 *hfourlepbestmass_4l_afterSel_new_new;
 
+    //this part for tight lepton efficiency calculation (qier)
+    TH1F *loose_e = (TH1F*)f2->Get("hN_loose_e");
+    TH1F *loose_mu = (TH1F*)f2->Get("hN_loose_mu");
+    TH1F *good_e = (TH1F*)f2->Get("hN_good_ele");
+    TH1F *good_mu = (TH1F*)f2->Get("hN_good_mu");
+    double deno1=0;
+    double deno2=0;
+    double nume1=0;
+    double nume2=0;
+
+    for (int nbins=2;nbins<=10; nbins++){
+       deno1=deno1+(nbins-1)*loose_e->GetBinContent(nbins);
+       deno2=deno2+(nbins-1)*loose_mu->GetBinContent(nbins);
+       nume1=nume1+(nbins-1)*good_e->GetBinContent(nbins);
+       nume2=nume2+(nbins-1)*good_mu->GetBinContent(nbins);
+    }
+    double eff_e = nume1/deno1;
+    double eff_mu = nume2/deno2;
+    cout << "eff_e = " << eff_e << "\neff_mu = " << eff_mu << endl;
+
+
+
+    TH1 *nevent = (TH1F*)f2->Get("nEvent_4l");
+    TH1 *nevent_w = (TH1F*)f2->Get("nEvent_4l_w");
+    
     if(datasetnamebkg.find("WZ")   < 200 ||
        datasetnamebkg.find("DYJetsToLL") < 200 ||
        datasetnamebkg.find("TT_TuneCUETP8M1") < 200 ||
@@ -779,13 +974,13 @@ void PlotStackZ::plotmZ(std::string histlabel){
       // Higgs as background
       // DYJetsToLL check normalization
       if(datasetnamebkg.find("DYJetsToLL") <200 && hfourlepbestmass_4l_afterSel_new_new->GetEntries()>0 ){
-	//hfourlepbestmass_4l_afterSel_new_new->Scale(double(6532812.*9153492../36277961.)*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/12145114./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
-	//hfourlepbestmass_4l_afterSel_new_new->Scale(double(4710.*3048.*11974371./80767910.)*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/11974371./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
-	 hfourlepbestmass_4l_afterSel_new_new->Scale(double(6025.2*1031./860754.));//*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/12138430./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
+         cout << "test1" << endl;
+	 hfourlepbestmass_4l_afterSel_new_new->Scale(double(5765.4*1152.*nnn/(3416613*0.6643)));//*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/12138430./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
 	hfourlepbestmass_4l_afterSel_new_DY->Add(hfourlepbestmass_4l_afterSel_new_new);
 	hfourlepbestmass_4l_afterSel_new_DY->SetMarkerColor(kAzure+2);
 	hfourlepbestmass_4l_afterSel_new_DY->SetFillColor(kAzure+2);                                                        
-               
+        cout << "fill DY histograms" << endl;        
+
 	char temp[328];
 	sprintf(temp,"%s",histosdir.c_str());
 	if(datasetnamebkg.find(temp) <200 && (datasetnamebkg.find(whichenergy) < 200 || datasetnamebkg.find(whichsample) < 200) && (datasetnamebkg.find("DYJetsToLL_M-50_TuneZ2Star")<200 || datasetnamebkg.find("DYJetsToLL")<200)) {
@@ -871,7 +1066,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
 	
 	// TTT
 	if(datasetnamebkg.find("TT_TuneCUETP8M1") < 200){
-          hfourlepbestmass_4l_afterSel_new_new->Scale(double(831.76*1031./14725200.)); 
+          hfourlepbestmass_4l_afterSel_new_new->Scale(double(831.76*381.*nnn/5800000.)); 
 	  hfourlepbestmass_4l_afterSel_new_TT->Add(hfourlepbestmass_4l_afterSel_new_new);     
 	  hfourlepbestmass_4l_afterSel_new_TT->SetMarkerColor(kTeal-6); 
 	  hfourlepbestmass_4l_afterSel_new_TT->SetFillColor(kTeal-6);                     
@@ -1145,7 +1340,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
  
 
   htotal->Draw("hist same");
-  //htotaldata->Draw("EPsame");
+//  htotaldata->Draw("EPsame");
   gr->Draw("EPsame");
   
 
@@ -1257,8 +1452,8 @@ void PlotStackZ::setSamplesNamesZ()
   
   cout << "Doing plot for " << whichenergy.c_str() << "  and " << whichsample.c_str() << endl;
 
-  whichchannel="2mu";
-  histosdir="histos2mu_2016";
+  whichchannel="2mu2b";
+  histosdir="llbb";
 
   Vdatasetnamedata.clear();
   Vdatasetnamebkg.clear();
