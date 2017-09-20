@@ -35,28 +35,35 @@ process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService
 
 
 process.load('HiggsAnalysis.HiggsToZZ4Leptons.bunchSpacingProducer_cfi')
-process.load('HiggsAnalysis.HiggsToZZ4Leptons.metFiltersMiniAOD_cff')
 process.Path_BunchSpacingproducer=cms.Path(process.bunchSpacingProducer)
-process.Flag_HBHENoiseFilter = cms.Path(process.HBHENoiseFilterResultProducer * process.HBHENoiseFilter)
-process.Flag_HBHENoiseIsoFilter = cms.Path(process.HBHENoiseFilterResultProducer * process.HBHENoiseIsoFilter)
-## process.Flag_CSCTightHaloFilter = cms.Path(process.CSCTightHaloFilter)                                                                                                             
-## process.Flag_CSCTightHaloTrkMuUnvetoFilter = cms.Path(process.CSCTightHaloTrkMuUnvetoFilter)                                                                                       
-process.Flag_CSCTightHalo2015Filter = cms.Path(process.CSCTightHalo2015Filter)
-## process.Flag_HcalStripHaloFilter = cms.Path(process.HcalStripHaloFilter)   
-## process.Flag_hcalLaserEventFilter = cms.Path(process.hcalLaserEventFilter)                                                                                                         
-process.Flag_EcalDeadCellTriggerPrimitiveFilter = cms.Path(process.EcalDeadCellTriggerPrimitiveFilter)
-## process.Flag_EcalDeadCellBoundaryEnergyFilter = cms.Path(process.EcalDeadCellBoundaryEnergyFilter) 
-process.Flag_goodVertices = cms.Path(process.primaryVertexFilter)
-## process.Flag_trackingFailureFilter = cms.Path(process.goodVertices + process.trackingFailureFilter)                                                                                
-process.Flag_eeBadScFilter = cms.Path(process.eeBadScFilter)
-## process.Flag_ecalLaserCorrFilter = cms.Path(process.ecalLaserCorrFilter)                                                                                                           
-## process.Flag_trkPOGFilters = cms.Path(process.trkPOGFilters)                                                                                                                       
-## process.Flag_chargedHadronTrackResolutionFilter = cms.Path(process.chargedHadronTrackResolutionFilter)                                                                             
-## proces..Flag_muonBadTrackFilter = cms.Path(process.muonBadTrackFilter)                                                                                                             
-## and the sub-filters                                                                                                                                                                
-# process.Flag_trkPOG_manystripclus53X = cms.Path(~manystripclus53X)                                                                                                                  
-# process.Flag_trkPOG_toomanystripclus53X = cms.Path(~toomanystripclus53X)                                                                                                            
-# process.Flag_trkPOG_logErrorTooManyClusters = cms.Path(~logErrorTooManyClusters)                     
+
+# filters
+filters = []
+# met filters
+#if options.runMetFilter:
+# run all the time and store result
+print 'Preparing MET filters'
+from HLTrigger.HLTfilters.hltHighLevel_cfi import hltHighLevel
+hltFilter = hltHighLevel.clone()
+# PAT if miniaod by itself (MC) and RECO if at the same time as reco (data)
+hltFilter.TriggerResultsTag = cms.InputTag('TriggerResults', '', 'PAT')
+hltFilter.throw = cms.bool(True)
+# ICHEP recommendation
+# https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2#MiniAOD_8011_ICHEP_dataset
+for flag in ['HBHENoiseFilter','HBHENoiseIsoFilter','EcalDeadCellTriggerPrimitiveFilter','goodVertices','eeBadScFilter','globalTightHalo2016Filter']:
+    mod = hltFilter.clone(HLTPaths=cms.vstring('Flag_{0}'.format(flag)))
+    modName = 'filter{0}'.format(flag)
+    setattr(process,modName,mod)
+    filters += [getattr(process,modName)]
+process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+filters += [process.BadChargedCandidateFilter]
+
+process.metFilter = cms.Sequence()
+
+for f in filters:
+    process.metFilter += f
 
 process.goodOfflinePrimaryVertices = cms.EDFilter("VertexSelector",
                                             src = cms.InputTag('offlineSlimmedPrimaryVertices'),
@@ -65,15 +72,11 @@ process.goodOfflinePrimaryVertices = cms.EDFilter("VertexSelector",
                                         )
         
 
-process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsMuonCalibrator_cfi')
-process.hTozzTo4leptonsMuonCalibrator.isData = cms.bool(True) 
-
-process.load('EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi')
-process.calibratedPatElectrons.isMC = cms.bool(False)
-process.load('EgammaAnalysis.ElectronTools.calibratedPatPhotonsRun2_cfi')
-process.calibratedPatPhotons.isMC = cms.bool(False)
 
 process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsPreselection_data_noskim_cff') 
+
+process.calibratedPatElectrons.isMC = cms.bool(False)
+process.calibratedPatPhotons.isMC = cms.bool(False)
 
 process.hTozzTo4leptonsHLTInfo.TriggerResultsTag = cms.InputTag("TriggerResults","","HLT")
 process.hTozzTo4leptonsCommonRootTreePresel.use2011EA = cms.untracked.bool(False)
@@ -87,10 +90,29 @@ process.hTozzTo4leptonsCommonRootTreePresel.fillMCTruth  = cms.untracked.bool(Fa
 process.hTozzTo4leptonsCommonRootTreePresel.isVBF  = cms.bool(False)
 
 process.hTozzTo4leptonsPFfsrPhoton.src = cms.InputTag("packedPFCandidates","","RECO")
+process.hTozzTo4leptonsCommonRootTreePresel.PfMETLabel = cms.InputTag("slimmedMETsMuEGClean")
+
+from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
+
+jetCorr = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute','L2L3Residual']), 'None')
+
+
+updateJetCollection(
+    process,
+    jetSource = cms.InputTag("slimmedJets"),
+    jetCorrections = jetCorr,
+)
+
+process.hTozzTo4leptonsPFJetSelector.PFJetCollection = cms.InputTag("updatedPatJets")
+
+process.load('PhysicsTools/PatAlgos/producersLayer1/jetUpdater_cff')
+process.jecSequence = cms.Sequence( process.updatedPatJetCorrFactors * process.updatedPatJets)
 
 
 process.hTozzTo4leptonsSelectionPath = cms.Path(
   process.goodOfflinePrimaryVertices     *
+  process.metFilter *
+  process.jecSequence *
   process.hTozzTo4leptonsSelectionSequenceData *
   process.hTozzTo4leptonsCommonRootTreePresel
   )
@@ -102,12 +124,6 @@ process.hTozzTo4leptonsSelectionPath = cms.Path(
 #process.hTozzTo4leptonsSelectionOutputModuleNew.fileName = "hTozzToLeptons.root"
 
 process.schedule = cms.Schedule( process.Path_BunchSpacingproducer,
-                                 process.Flag_HBHENoiseFilter,
-                                 process.Flag_HBHENoiseIsoFilter,
-          ###                       process.Flag_CSCTightHalo2015Filter,
-                                 process.Flag_EcalDeadCellTriggerPrimitiveFilter,
-                                 process.Flag_goodVertices,
-                                 process.Flag_eeBadScFilter,
                                  process.hTozzTo4leptonsSelectionPath )
 
 

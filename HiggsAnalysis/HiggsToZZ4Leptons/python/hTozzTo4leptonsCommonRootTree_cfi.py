@@ -26,6 +26,7 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
 
     triggerbits = cms.InputTag("TriggerResults","","HLT"),
 
+    HLTFilter=cms.vstring("HLT_IsoMu24_v","HLT_IsoTkMu24_v"),
     triggerFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40Q'),
     triggerMatchObject   =  cms.InputTag("muonTriggerMatchHLT"),
     triggerEleFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40Q'),                                               
@@ -191,7 +192,7 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
     # MVA ele ID BDT
 #    mvaElectronTag            = cms.InputTag("slimmedElectrons"),
      mvaElectronTag            = cms.InputTag("hTozzTo4leptonsElectronSelector"),
-    mvaTrigV0MapTag           = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Values"),
+    mvaTrigV0MapTag           = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
     mvaNonTrigV0MapTag        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16HZZV1Values"),
 #    mvaNonTrigV0MapTag        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16V1Values"),
                                         
@@ -284,7 +285,7 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
 #    CaloMET_NoHFHOLabel    = cms.InputTag("metNoHFHO"),
  
     # PF MET
-    PfMETLabel             = cms.InputTag("slimmedMETs"), 
+   PfMETLabel             = cms.InputTag("slimmedMETs"), 
     # HT MET                                          
 #    HtMET_IC5Label         = cms.InputTag("htMetIC5"), 
 #    HtMET_KT4Label         = cms.InputTag("htMetKT4"),

@@ -294,6 +294,7 @@ public :
    Double_t        RECOMU_PFX_dB[100];
    Double_t        RECOMU_PFX_dB_new[100];
    Double_t        RECOMU_PFX_rho[100];
+   Bool_t          RECOMU_isMedium[100]; 
    Double_t        RECOPFPHOT_PFchHad[20];
    Double_t        RECOPFPHOT_PFneuHad[20];
    Double_t        RECOPFPHOT_PFphoton[20];
@@ -828,6 +829,7 @@ public :
    TBranch        *b_RECOMU_PFPUchAllPart;   //!
    TBranch        *b_RECOMU_PFX_dB;   //!
    TBranch        *b_RECOMU_PFX_rho;   //!
+   TBranch        *b_RECOMU_isMedium;  //!
    TBranch        *b_RECOPFPHOT_PFchHad;   //!
    TBranch        *b_RECOPFPHOT_PFneuHad;   //!
    TBranch        *b_RECOPFPHOT_PFphoton;   //!
@@ -1448,6 +1450,7 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOMU_PFPUchAllPart", RECOMU_PFPUchAllPart, &b_RECOMU_PFPUchAllPart);
    fChain->SetBranchAddress("RECOMU_PFX_dB", RECOMU_PFX_dB, &b_RECOMU_PFX_dB);
    fChain->SetBranchAddress("RECOMU_PFX_rho", RECOMU_PFX_rho, &b_RECOMU_PFX_rho);
+   fChain->SetBranchAddress("RECOMU_isMedium", RECOMU_isMedium, &b_RECOMU_isMedium);
    fChain->SetBranchAddress("RECOPFPHOT_PFchHad", RECOPFPHOT_PFchHad, &b_RECOPFPHOT_PFchHad);
    fChain->SetBranchAddress("RECOPFPHOT_PFneuHad", RECOPFPHOT_PFneuHad, &b_RECOPFPHOT_PFneuHad);
    fChain->SetBranchAddress("RECOPFPHOT_PFphoton", RECOPFPHOT_PFphoton, &b_RECOPFPHOT_PFphoton);

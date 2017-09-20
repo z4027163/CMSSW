@@ -27,6 +27,7 @@
 #include "ZZMatrixElement/MEMCalculators/interface/MEMCalculators.h"
 #include "CondFormats/JetMETObjects/interface/JetResolutionObject.h"
 #include "JetMETCorrections/Modules/interface/JetResolution.h"
+//#include "RoccoR.cc"
 
 
 using namespace std;
@@ -42,6 +43,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 {
 
    if (fChain == 0) return;
+
+//   RoccoR  rc("/uscms/home/zwang4/nobackup/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/test/macros/roccor/rcdata.2016.v3"); 
 
    // Declare MEM class
    MEMs combinedMEM(13,125,"CTEQ6L");     
@@ -1210,11 +1213,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 			 << "\nfabs( RECOMU_mubesttrkDz[i] ) " << fabs( RECOMU_mubesttrkDz[i] )
 			 << endl ;
        	
- 	if( ( RECOMU_isGlobalMu[i] || (RECOMU_isTrackerMu[i] && RECOMU_numberOfMatches[i]>0) )
-	    && RECOMU_mubesttrkType[i]!=2
-	    && RECOMU_PT[i] > 5. 
+ 	if( ( RECOMU_isGlobalMu[i] || RECOMU_isTrackerMu[i] )
+            && RECOMU_isPFMu[i]
+	    && RECOMU_PT[i] > 7. 
 	    && fabs(RECOMU_ETA[i]) < 2.4 
-	    && fabs(RECOMU_mubesttrkDxy[i]) < .5 && fabs(RECOMU_mubesttrkDz[i]) < 1.
 	    ){ 
 	  iL_loose_mu[N_loose_mu]=i;
 	  ++N_loose_mu ;
@@ -1273,13 +1275,15 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       for(int e = 0; e < RECO_NELE; ++e)
       	for(int mu = 0; mu < RECO_NMU; ++mu){
 	  
-	  if( (RECOMU_isPFMu[mu] || (RECOMU_isTrackerHighPtMu[mu] && RECOMU_PT[mu] > 200.))
+	  if( 
+(RECOMU_isPFMu[mu] || (RECOMU_isTrackerHighPtMu[mu] && RECOMU_PT[mu] > 200.))
 	      && (RECOMU_isGlobalMu[mu] || (RECOMU_isTrackerMu[mu] && RECOMU_numberOfMatches[mu]>0))
 	      && RECOMU_mubesttrkType[mu]!=2
 	      && RECOMU_PT[mu] > 5. 
 	      && fabs(RECOMU_ETA[mu]) < 2.4 
 	      && fabs(RECOMU_mubesttrkDxy[mu]) < .5 && fabs(RECOMU_mubesttrkDz[mu]) < 1. 
 	      && fabs(RECOMU_SIP[mu])<4. // TightID + SIP cut
+           //  RECOMU_isMedium[mu] && fabs(RECOMU_SIP[mu])<4. //MediumID + SIP cut 
 	      );
 	  else continue;
 	  
@@ -1312,18 +1316,21 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 			 << "\nRECOMU_PT[i] " << RECOMU_PT[i]
 			 << "\nfabs(RECOMU_ETA[i]) " << fabs(RECOMU_ETA[i])
 			 << "\nRECOMU_PFX_dB[i] " << RECOMU_PFX_dB[i]
+                         << "\nRECOMU_isMedium[i] " << RECOMU_isMedium[i]
 			 << "\nfabs( RECOMU_SIP[i] ) " << fabs( RECOMU_SIP[i] )
 			 << "\nfabs( RECOMU_mubesttrkDxy[i] ) " << fabs( RECOMU_mubesttrkDxy[i] )
 			 << "\nfabs( RECOMU_mubesttrkDz[i] ) " << fabs( RECOMU_mubesttrkDz[i] )
 			 << endl ;
 	
        	// Tight muons
- 	if( (RECOMU_isPFMu[i] || (RECOMU_isTrackerHighPtMu[i] && RECOMU_PT[i] > 200.))
+ 	if( 
+(RECOMU_isPFMu[i] || (RECOMU_isTrackerHighPtMu[i] && RECOMU_PT[i] > 200.))
 	    && ( RECOMU_isGlobalMu[i] || (RECOMU_isTrackerMu[i] && RECOMU_numberOfMatches[i]>0))
 	    && RECOMU_mubesttrkType[i]!=2	 
 	    && RECOMU_PT[i] > 5. 
 	    && fabs(RECOMU_ETA[i]) < 2.4 
 	    && fabs(RECOMU_mubesttrkDxy[i]) < .5 && fabs(RECOMU_mubesttrkDz[i]) < 1.
+     //     RECOMU_isMedium[i]
 	    ){
 	  
 	  iL[ N_good ] = i ;
@@ -1362,6 +1369,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       
       int Ne_good = 0 ;
       int iLe[8]= { -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1}; //electrons
+      int Ne_loose_4=0;
 
       for( int i = 0; i < RECO_NELE; ++i ){
 
@@ -1380,6 +1388,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  // && RECOELE_gsftrack_expected_inner_hits[i]<=1 ) /* ok */ ;
 	else continue ;
 	
+        Ne_loose_4++;
+
 	bool BDT_ok = 0; // Spring16 with CMSSW_8_0_x
 	if( RECOELE_PT[i] > 7. &&  RECOELE_PT[i] <= 10. ){
 		if( fabs(RECOELE_scl_Eta[i]) < .8 && RECOELE_mvaNonTrigV0[i] > -0.211 ) BDT_ok = 1 ;
@@ -1751,6 +1761,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       // a) pair #1: mass closest to Z1
       // b) mLL in ] 40,120 [
       if( debug ) cout  << "\nStep 3: Number of good leptons: " << N_good+Ne_good << endl;
+
+      if(Ne_loose_4+N_loose_mu < 4) continue;
+      ++N_5 ;
  
       if( N_good + Ne_good < 4) continue ; 	
       ++N_2 ;  // fill counter
@@ -2253,14 +2266,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
         leptonspTcleaned.push_back((Zcandisolmassvector.at(l)).pt1);
         leptonspTcleaned.push_back((Zcandisolmassvector.at(l)).pt2);
         std::sort(leptonspTcleaned.rbegin(),leptonspTcleaned.rend());
-
-        if (leptonspTcleaned.at(0)>20. && leptonspTcleaned.at(1)>10.) {
-          firstpTcleanedgoodZ.push_back(Zcandisolmassvector.at(l));
-        }
       }
 
       vector<candidateZ> pTcleanedgoodZ;
-      pTcleanedgoodZ=firstpTcleanedgoodZ;
+      pTcleanedgoodZ=Zcandisolmassvector;
             
 
       if (pTcleanedgoodZ.size()<2) {
@@ -2414,14 +2423,29 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
         for(int i = 0; i < 2; ++i){
 	  Double_t Pt = RECOMU_PT[ z1lept[i] ]; 
 	  Double_t Eta = RECOMU_ETA[ z1lept[i] ]; 
+          Int_t Q = int(RECOMU_CHARGE[ z1lept[i]]);
+          Double_t Phi = RECOMU_PHI[ z1lept[i]];
+          Double_t nl = RECOMU_muInnertrktrackerLayersWithMeasurement[ z1lept[i]];
 	  
 	  if( MC_type == "Spring16" && DATA_type == "NO"){
 	    Int_t biny = mu_scale_2016->GetYaxis()->FindBin(Pt);
 	    Int_t binx = mu_scale_2016->GetXaxis()->FindBin(Eta);
             cout << "xbin= " << binx <<" ybin="<<  biny << endl;
-            cout << "eff_weight test = " <<mu_scale_2016->GetBinContent(binx,biny)<< endl;
+//            cout << "eff_weight test = " <<mu_scale_2016->GetBinContent(binx,biny)<< endl;
 	    if (mu_scale_2016->GetBinContent(binx,biny)>0.) eff_weight*=mu_scale_2016->GetBinContent(binx,biny); 
+
+/*          double u1 = gRandom->Rndm();
+          double u2 = gRandom->Rndm();
+          double mcSF = rc.kScaleAndSmearMC(Q,Pt,Eta,Phi,nl,u1,u2);
+          eff_weight*=mcSF;*/
 	  }
+/*
+        if( MC_type == "NO" && DATA_type == "2016"){
+          cout << "test1" << endl;
+          double dataSF = rc.kScaleDT(Q,Pt,Eta,Phi);
+          cout << "test2" << endl;
+          eff_weight*=dataSF;
+        }*/
 	}
       }
       else if (Z1tag==2){ 
@@ -2450,14 +2474,27 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
         for(int i = 0; i < 2; ++i){
           Double_t Pt = RECOMU_PT[ z2lept[i] ];
           Double_t Eta = RECOMU_ETA[ z2lept[i] ];
-
+          Int_t Q = int(RECOMU_CHARGE[ z1lept[i]]);
+          Double_t Phi = RECOMU_PHI[ z1lept[i]];
+          Double_t nl = RECOMU_muInnertrktrackerLayersWithMeasurement[ z1lept[i]];
           if( MC_type == "Spring16" && DATA_type == "NO"){
             Int_t biny = mu_scale_2016->GetYaxis()->FindBin(Pt);
             Int_t binx = mu_scale_2016->GetXaxis()->FindBin(Eta);
             cout << "xbin= " << binx <<" ybin="<<  biny << endl;
             cout << "eff_weight test = " <<mu_scale_2016->GetBinContent(binx,biny)<< endl;
             if (mu_scale_2016->GetBinContent(binx,biny)>0.) eff_weight*=mu_scale_2016->GetBinContent(binx,biny);
-          }
+
+/*          double u1 = gRandom->Rndm();
+          double u2 = gRandom->Rndm();
+          double mcSF = rc.kScaleAndSmearMC(Q,Pt,Eta,Phi,nl,u1,u2);
+          eff_weight*=mcSF;*/
+         }
+/*        if( MC_type == "NO" && DATA_type == "2016"){
+          cout << "test1" << endl;
+          double dataSF = rc.kScaleDT(Q,Pt,Eta,Phi);
+          cout << "test2" << endl;
+          eff_weight*=dataSF;
+        }       */  
         }
       }
       else if (Z2tag==2){
@@ -2485,27 +2522,11 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
       cout << "eff_weight" << eff_weight << endl;
       
-      if (DATA_type == "2016") eff_weight=1.; 
       // // Changing the weight for pileup and efficiency
       if (eff_weight>0.) newweight=newweight*eff_weight;
       
       cout << "Starting weight + pileup + efficiency= " << newweight << endl;
       if(debug) cout << "Efficiency Weight for the 4l: " << eff_weight << " Final weight= " << newweight << endl;
-
-      //4mu selection qier
-      if(Z1tag!=1||Z2tag!=1) continue;      
-
-      TLorentzVector Z1P4;
-      Z1P4.SetPxPyPzE(pxZ1,pyZ1,pzZ1,EZ1);
-
-      hMZ1_5->Fill( massZ1,newweight );
-      hPtZ1_5->Fill( ptZ1,newweight );
-      hYZ1_5->Fill( Y_Z1,newweight );
-
-      hMZ2_5->Fill( massZ2,newweight );
-      hPtZ2_5->Fill( ptZ2,newweight );
-      hYZ2_5->Fill( Y_Z2,newweight );
-
 
       // sort index by pt (kinematics not corrected for FSR)
       int ipt[4] ;
@@ -2550,6 +2571,24 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       }
       //end sorting
      
+      //4 lepton pt selection
+      cout << "lepton Pt= "<< sortedpT[0] <<" "<< sortedpT[1] <<" " << sortedpT[2] <<" " << sortedpT[3] << endl;
+      if(!(sortedpT[0]>25 && sortedpT[1]>15 && sortedpT[2] >10 && sortedpT[3]>10)) continue;
+
+      //4mu selection qier
+      if(Z1tag!=1||Z2tag!=1) continue;
+
+      TLorentzVector Z1P4;
+      Z1P4.SetPxPyPzE(pxZ1,pyZ1,pzZ1,EZ1);
+
+      hMZ1_5->Fill( massZ1,newweight );
+      hPtZ1_5->Fill( ptZ1,newweight );
+      hYZ1_5->Fill( Y_Z1,newweight );
+
+      hMZ2_5->Fill( massZ2,newweight );
+      hPtZ2_5->Fill( ptZ2,newweight );
+      hYZ2_5->Fill( Y_Z2,newweight );
+
 
       // Format lepton syncronization                                                                                                                                      
       // {run}:{lumi}:{event}:{pdgId}:{pT:.2f}:{eta:.2f}:{phi:.2f}{SIP:.2f}:{PFChargedHadIso:.2f}:{PFNeutralHadIso:.2f}:{PFPhotonIso:.2f}:{PUCorr:.2f}:{combRelIsoPF:.3f}:{eleBDT:.3f}:{photpT:.2f}:{photDR:.2f}:{photRelIso:.2f}          

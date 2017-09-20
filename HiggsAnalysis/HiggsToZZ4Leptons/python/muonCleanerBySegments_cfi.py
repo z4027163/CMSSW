@@ -33,8 +33,7 @@ cleanMuonsBySegments = cms.EDProducer("MuonCleanerBySegments",
 )
 
 cleanPatMuonsBySegments = cms.EDProducer("PATMuonCleanerBySegments", 
-#   src = cms.InputTag("slimmedMuons"),
-    src = cms.InputTag("cleanPatMuons"),
+   src = cms.InputTag("slimmedMuons"),
     preselection = cms.string("track.isNonnull"),
     passthrough = cms.string("isGlobalMuon && numberOfMatches >= 2"),
     fractionOfSharedSegments = cms.double(0.499)

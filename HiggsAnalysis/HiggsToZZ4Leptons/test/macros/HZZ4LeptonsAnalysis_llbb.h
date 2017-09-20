@@ -96,67 +96,6 @@ public :
    Double_t        RECORF_4mu_phi1RF_spin[100];
    Double_t        RECORF_4mu_phi2RF_spin[100];
    Double_t        RECORF_4mu_MELA[100];
-   Float_t         RECO_ZMM_MASS[50];
-   Float_t         RECO_ZEE_MASS[50];
-   Float_t         RECO_DiLep_MASS[50];
-   Float_t         RECO_ZMM_PT[3][50];
-   Float_t         RECO_ZEE_PT[3][50];
-   Float_t         RECO_DiLep_PT[3][50];
-   Float_t         RECO_ZMM_ETA[3][50];
-   Float_t         RECO_ZEE_ETA[3][50];
-   Float_t         RECO_DiLep_ETA[3][50];
-   Float_t         RECO_ZMM_PHI[3][50];
-   Float_t         RECO_ZEE_PHI[3][50];
-   Float_t         RECO_DiLep_PHI[3][50];
-   Float_t         RECO_ZMMss_MASS[50];
-   Float_t         RECO_ZEEss_MASS[50];
-   Float_t         RECO_ZEM_MASS[50];
-   Float_t         RECO_ZMMss_PT[3][50];
-   Float_t         RECO_ZEEss_PT[3][50];
-   Float_t         RECO_ZEM_PT[3][50];
-   Float_t         RECO_ZMMss_ETA[3][50];
-   Float_t         RECO_ZEEss_ETA[3][50];
-   Float_t         RECO_ZEM_ETA[3][50];
-   Float_t         RECO_ZMMss_PHI[3][50];
-   Float_t         RECO_ZEEss_PHI[3][50];
-   Float_t         RECO_ZEM_PHI[3][50];
-   Float_t         RECO_MMMM_MASS[7][100];
-   Float_t         RECO_MMMM_PT[7][100];
-   Float_t         RECO_MMMM_ETA[7][100];
-   Float_t         RECO_MMMM_PHI[7][100];
-   Float_t         RECO_MMMM_MASS_REFIT[100];
-   Float_t         RECO_EEEE_MASS[7][100];
-   Float_t         RECO_EEEE_PT[7][100];
-   Float_t         RECO_EEEE_ETA[7][100];
-   Float_t         RECO_EEEE_PHI[7][100];
-   Float_t         RECO_EEEE_MASS_REFIT[100];
-   Float_t         RECO_EEMM_MASS[7][100];
-   Float_t         RECO_EEMM_PT[7][100];
-   Float_t         RECO_EEMM_ETA[7][100];
-   Float_t         RECO_EEMM_PHI[7][100];
-   Float_t         RECO_EEMM_MASS_REFIT[100];
-   Float_t         RECO_LLL0_MASS[50];
-   Float_t         RECO_LLL1_MASS[50];
-   Float_t         RECO_LLL2_MASS[50];
-   Float_t         RECO_LLL3_MASS[50];
-   Float_t         RECO_LLL0_PT[4][50];
-   Float_t         RECO_LLL1_PT[4][50];
-   Float_t         RECO_LLL2_PT[4][50];
-   Float_t         RECO_LLL3_PT[4][50];
-   Float_t         RECO_LLLl0_MASS[20];
-   Float_t         RECO_LLLl1_MASS[20];
-   Float_t         RECO_LLLl0_PT[5][20];
-   Float_t         RECO_LLLl1_PT[5][20];
-   Float_t         RECO_LLLL0ss_MASS[20];
-   Float_t         RECO_LLLL0ss_PT[5][20];
-   Float_t         RECO_LLLL1ss_MASS[20];
-   Float_t         RECO_LLLL1ss_PT[5][20];
-   Float_t         RECO_LLLL2ss_MASS[20];
-   Float_t         RECO_LLLL2ss_PT[5][20];
-   Float_t         RECO_LLLL_MASS[7][100];
-   Float_t         RECO_LLLL_PT[7][100];
-   Float_t         RECO_LLLL_ETA[7][100];
-   Float_t         RECO_LLLL_PHI[7][100];
    Float_t         RECOELE_E[100];
    Float_t         RECOELE_PT[100];
    Float_t         RECOELE_PTError[100];
@@ -268,6 +207,8 @@ public :
    Double_t        RECOELE_mvaNonTrigV0[100];
    Double_t        RECOELE_COV[100][3][3];
    UChar_t         RECOMU_isPFMu[100];
+   UChar_t         RECOMU_isMedium[100];
+   Float_t         RECOMU_muInnertrkvalidFraction[100];
    UChar_t         RECOMU_isGlobalMu[100];
    UChar_t         RECOMU_isStandAloneMu[100];
    UChar_t         RECOMU_isTrackerMu[100];
@@ -370,84 +311,6 @@ public :
    Float_t         RECOMU_mubesttrkDz[100];
    Float_t         RECOMU_mubesttrkDzError[100];
    Double_t        ftsigma[100];
-   Double_t        gdX[100];
-   Double_t        gdY[100];
-   Double_t        gdZ[100];
-   Double_t        ftsigmalag[100];
-   Double_t        gdlagX[100];
-   Double_t        gdlagY[100];
-   Double_t        gdlagZ[100];
-   Double_t        gdlagProb[100];
-   Double_t        gdlagNdof[100];
-   Double_t        ftsigmaMMMM[100];
-   Double_t        gdXMMMM[100];
-   Double_t        gdYMMMM[100];
-   Double_t        gdZMMMM[100];
-   Double_t        ftsigmalagMMMM[100];
-   Double_t        gdlagXMMMM[100];
-   Double_t        gdlagYMMMM[100];
-   Double_t        gdlagZMMMM[100];
-   Double_t        gdlagProbMMMM[100];
-   Double_t        gdlagNdofMMMM[100];
-   Double_t        ftsigmaEEEE[100];
-   Double_t        gdXEEEE[100];
-   Double_t        gdYEEEE[100];
-   Double_t        gdZEEEE[100];
-   Double_t        ftsigmalagEEEE[100];
-   Double_t        gdlagXEEEE[100];
-   Double_t        gdlagYEEEE[100];
-   Double_t        gdlagZEEEE[100];
-   Double_t        gdlagProbEEEE[100];
-   Double_t        gdlagNdofEEEE[100];
-   Double_t        StdFitVertexX[100];
-   Double_t        StdFitVertexY[100];
-   Double_t        StdFitVertexZ[100];
-   Double_t        StdFitVertexChi2r[100];
-   Double_t        StdFitVertexProb[100];
-   Float_t         StdFitVertexTrack_PT[4][100];
-   Float_t         StdFitVertexTrack_ETA[4][100];
-   Float_t         StdFitVertexTrack_PHI[4][100];
-   Double_t        KinFitVertexX[100];
-   Double_t        KinFitVertexY[100];
-   Double_t        KinFitVertexZ[100];
-   Double_t        KinFitVertexChi2r[100];
-   Double_t        KinFitVertexProb[100];
-   Double_t        StdFitVertexXMMMM[100];
-   Double_t        StdFitVertexYMMMM[100];
-   Double_t        StdFitVertexZMMMM[100];
-   Double_t        StdFitVertexChi2rMMMM[100];
-   Double_t        StdFitVertexProbMMMM[100];
-   Float_t         StdFitVertexTrackMMMM_PT[4][100];
-   Float_t         StdFitVertexTrackMMMM_ETA[4][100];
-   Float_t         StdFitVertexTrackMMMM_PHI[4][100];
-   Double_t        KinFitVertexXMMMM[100];
-   Double_t        KinFitVertexYMMMM[100];
-   Double_t        KinFitVertexZMMMM[100];
-   Double_t        KinFitVertexChi2rMMMM[100];
-   Double_t        KinFitVertexProbMMMM[100];
-   Double_t        StdFitVertexXEEEE[100];
-   Double_t        StdFitVertexYEEEE[100];
-   Double_t        StdFitVertexZEEEE[100];
-   Double_t        StdFitVertexChi2rEEEE[100];
-   Double_t        StdFitVertexProbEEEE[100];
-   Float_t         StdFitVertexTrackEEEE_PT[4][100];
-   Float_t         StdFitVertexTrackEEEE_ETA[4][100];
-   Float_t         StdFitVertexTrackEEEE_PHI[4][100];
-   Double_t        KinFitVertexXEEEE[100];
-   Double_t        KinFitVertexYEEEE[100];
-   Double_t        KinFitVertexZEEEE[100];
-   Double_t        KinFitVertexChi2rEEEE[100];
-   Double_t        KinFitVertexProbEEEE[100];
-   Double_t        StdFitVertexChi2rMMM[50];
-   Double_t        StdFitVertexProbMMM[50];
-   Double_t        StdFitVertexChi2rMME[50];
-   Double_t        StdFitVertexProbMME[50];
-   Double_t        StdFitVertexChi2rEEE[50];
-   Double_t        StdFitVertexProbEEE[50];
-   Double_t        StdFitVertexChi2rMEE[50];
-   Double_t        StdFitVertexProbMEE[50];
-   Double_t        StdFitVertexChi2rDiLep[40];
-   Double_t        StdFitVertexProbDiLep[40];
    Float_t         ConvMapDist[100];
    Float_t         ConvMapDcot[100];
    UChar_t         RECOMU_MatchingMCTruth[100];
@@ -462,31 +325,6 @@ public :
    Float_t         RECOPHOT_MatchingMCpT[50];
    Float_t         RECOPHOT_MatchingMCEta[50];
    Float_t         RECOPHOT_MatchingMCPhi[50];
-   UChar_t         RECOzMuMu_MatchingMCTruth[50];
-   Float_t         RECOzMuMu_MatchingMCpT[50];
-   Float_t         RECOzMuMu_MatchingMCmass[50];
-   Float_t         RECOzMuMu_MatchingMCEta[50];
-   Float_t         RECOzMuMu_MatchingMCPhi[50];
-   UChar_t         RECOzEE_MatchingMCTruth[50];
-   Float_t         RECOzEE_MatchingMCpT[50];
-   Float_t         RECOzEE_MatchingMCmass[50];
-   Float_t         RECOzEE_MatchingMCEta[50];
-   Float_t         RECOzEE_MatchingMCPhi[50];
-   UChar_t         RECOHzzEEEE_MatchingMCTruth[100];
-   Float_t         RECOHzzEEEE_MatchingMCpT[100];
-   Float_t         RECOHzzEEEE_MatchingMCmass[100];
-   Float_t         RECOHzzEEEE_MatchingMCEta[100];
-   Float_t         RECOHzzEEEE_MatchingMCPhi[100];
-   UChar_t         RECOHzzEEMM_MatchingMCTruth[100];
-   Float_t         RECOHzzEEMM_MatchingMCpT[100];
-   Float_t         RECOHzzEEMM_MatchingMCmass[100];
-   Float_t         RECOHzzEEMM_MatchingMCEta[100];
-   Float_t         RECOHzzEEMM_MatchingMCPhi[100];
-   UChar_t         RECOHzzMMMM_MatchingMCTruth[100];
-   Float_t         RECOHzzMMMM_MatchingMCpT[100];
-   Float_t         RECOHzzMMMM_MatchingMCmass[100];
-   Float_t         RECOHzzMMMM_MatchingMCEta[100];
-   Float_t         RECOHzzMMMM_MatchingMCPhi[100];
    Int_t           RECO_NMU;
    Int_t           RECO_NELE;
    Int_t           RECO_NTRACK;
@@ -632,67 +470,6 @@ public :
    TBranch        *b_RECORF_4mu_phi1RF_spin;   //!
    TBranch        *b_RECORF_4mu_phi2RF_spin;   //!
    TBranch        *b_RECORF_4mu_MELA;   //!
-   TBranch        *b_RECO_ZMM_MASS;   //!
-   TBranch        *b_RECO_ZEE_MASS;   //!
-   TBranch        *b_RECO_DiLep_MASS;   //!
-   TBranch        *b_RECO_ZMM_PT;   //!
-   TBranch        *b_RECO_ZEE_PT;   //!
-   TBranch        *b_RECO_DiLep_PT;   //!
-   TBranch        *b_RECO_ZMM_ETA;   //!
-   TBranch        *b_RECO_ZEE_ETA;   //!
-   TBranch        *b_RECO_DiLep_ETA;   //!
-   TBranch        *b_RECO_ZMM_PHI;   //!
-   TBranch        *b_RECO_ZEE_PHI;   //!
-   TBranch        *b_RECO_DiLep_PHI;   //!
-   TBranch        *b_RECO_ZMMss_MASS;   //!
-   TBranch        *b_RECO_ZEEss_MASS;   //!
-   TBranch        *b_RECO_ZEM_MASS;   //!
-   TBranch        *b_RECO_ZMMss_PT;   //!
-   TBranch        *b_RECO_ZEEss_PT;   //!
-   TBranch        *b_RECO_ZEM_PT;   //!
-   TBranch        *b_RECO_ZMMss_ETA;   //!
-   TBranch        *b_RECO_ZEEss_ETA;   //!
-   TBranch        *b_RECO_ZEM_ETA;   //!
-   TBranch        *b_RECO_ZMMss_PHI;   //!
-   TBranch        *b_RECO_ZEEss_PHI;   //!
-   TBranch        *b_RECO_ZEM_PHI;   //!
-   TBranch        *b_RECO_MMMM_MASS;   //!
-   TBranch        *b_RECO_MMMM_PT;   //!
-   TBranch        *b_RECO_MMMM_ETA;   //!
-   TBranch        *b_RECO_MMMM_PHI;   //!
-   TBranch        *b_RECO_MMMM_MASS_REFIT;   //!
-   TBranch        *b_RECO_EEEE_MASS;   //!
-   TBranch        *b_RECO_EEEE_PT;   //!
-   TBranch        *b_RECO_EEEE_ETA;   //!
-   TBranch        *b_RECO_EEEE_PHI;   //!
-   TBranch        *b_RECO_EEEE_MASS_REFIT;   //!
-   TBranch        *b_RECO_EEMM_MASS;   //!
-   TBranch        *b_RECO_EEMM_PT;   //!
-   TBranch        *b_RECO_EEMM_ETA;   //!
-   TBranch        *b_RECO_EEMM_PHI;   //!
-   TBranch        *b_RECO_EEMM_MASS_REFIT;   //!
-   TBranch        *b_RECO_LLL0_MASS;   //!
-   TBranch        *b_RECO_LLL1_MASS;   //!
-   TBranch        *b_RECO_LLL2_MASS;   //!
-   TBranch        *b_RECO_LLL3_MASS;   //!
-   TBranch        *b_RECO_LLL0_PT;   //!
-   TBranch        *b_RECO_LLL1_PT;   //!
-   TBranch        *b_RECO_LLL2_PT;   //!
-   TBranch        *b_RECO_LLL3_PT;   //!
-   TBranch        *b_RECO_LLLl0_MASS;   //!
-   TBranch        *b_RECO_LLLl1_MASS;   //!
-   TBranch        *b_RECO_LLLl0_PT;   //!
-   TBranch        *b_RECO_LLLl1_PT;   //!
-   TBranch        *b_RECO_LLLL0ss_MASS;   //!
-   TBranch        *b_RECO_LLLL0ss_PT;   //!
-   TBranch        *b_RECO_LLLL1ss_MASS;   //!
-   TBranch        *b_RECO_LLLL1ss_PT;   //!
-   TBranch        *b_RECO_LLLL2ss_MASS;   //!
-   TBranch        *b_RECO_LLLL2ss_PT;   //!
-   TBranch        *b_RECO_LLLL_MASS;   //!
-   TBranch        *b_RECO_LLLL_PT;   //!
-   TBranch        *b_RECO_LLLL_ETA;   //!
-   TBranch        *b_RECO_LLLL_PHI;   //!
    TBranch        *b_RECOELE_E;   //!
    TBranch        *b_RECOELE_PT;   //!
    TBranch        *b_RECOELE_PTError;   //!
@@ -803,6 +580,8 @@ public :
    TBranch        *b_RECOELE_mvaNonTrigV0;   //!
    TBranch        *b_RECOELE_COV;   //!
    TBranch        *b_RECOMU_isPFMu;   //!
+   TBranch        *b_RECOMU_isMedium; //!
+   TBranch        *b_RECOMU_muInnertrkvalidFraction; //!
    TBranch        *b_RECOMU_isGlobalMu;   //!
    TBranch        *b_RECOMU_isStandAloneMu;   //!
    TBranch        *b_RECOMU_isTrackerMu;   //!
@@ -904,84 +683,6 @@ public :
    TBranch        *b_RECOMU_mubesttrkDz;   //!
    TBranch        *b_RECOMU_mubesttrkDzError;   //!
    TBranch        *b_ftsigma;   //!
-   TBranch        *b_gdX;   //!
-   TBranch        *b_gdY;   //!
-   TBranch        *b_gdZ;   //!
-   TBranch        *b_ftsigmalag;   //!
-   TBranch        *b_gdlagX;   //!
-   TBranch        *b_gdlagY;   //!
-   TBranch        *b_gdlagZ;   //!
-   TBranch        *b_gdlagProb;   //!
-   TBranch        *b_gdlagNdof;   //!
-   TBranch        *b_ftsigmaMMMM;   //!
-   TBranch        *b_gdXMMMM;   //!
-   TBranch        *b_gdYMMMM;   //!
-   TBranch        *b_gdZMMMM;   //!
-   TBranch        *b_ftsigmalagMMMM;   //!
-   TBranch        *b_gdlagXMMMM;   //!
-   TBranch        *b_gdlagYMMMM;   //!
-   TBranch        *b_gdlagZMMMM;   //!
-   TBranch        *b_gdlagProbMMMM;   //!
-   TBranch        *b_gdlagNdofMMMM;   //!
-   TBranch        *b_ftsigmaEEEE;   //!
-   TBranch        *b_gdXEEEE;   //!
-   TBranch        *b_gdYEEEE;   //!
-   TBranch        *b_gdZEEEE;   //!
-   TBranch        *b_ftsigmalagEEEE;   //!
-   TBranch        *b_gdlagXEEEE;   //!
-   TBranch        *b_gdlagYEEEE;   //!
-   TBranch        *b_gdlagZEEEE;   //!
-   TBranch        *b_gdlagProbEEEE;   //!
-   TBranch        *b_gdlagNdofEEEE;   //!
-   TBranch        *b_StdFitVertexX;   //!
-   TBranch        *b_StdFitVertexY;   //!
-   TBranch        *b_StdFitVertexZ;   //!
-   TBranch        *b_StdFitVertexChi2r;   //!
-   TBranch        *b_StdFitVertexProb;   //!
-   TBranch        *b_StdFitVertexTrack_PT;   //!
-   TBranch        *b_StdFitVertexTrack_ETA;   //!
-   TBranch        *b_StdFitVertexTrack_PHI;   //!
-   TBranch        *b_KinFitVertexX;   //!
-   TBranch        *b_KinFitVertexY;   //!
-   TBranch        *b_KinFitVertexZ;   //!
-   TBranch        *b_KinFitVertexChi2r;   //!
-   TBranch        *b_KinFitVertexProb;   //!
-   TBranch        *b_StdFitVertexXMMMM;   //!
-   TBranch        *b_StdFitVertexYMMMM;   //!
-   TBranch        *b_StdFitVertexZMMMM;   //!
-   TBranch        *b_StdFitVertexChi2rMMMM;   //!
-   TBranch        *b_StdFitVertexProbMMMM;   //!
-   TBranch        *b_StdFitVertexTrackMMMM_PT;   //!
-   TBranch        *b_StdFitVertexTrackMMMM_ETA;   //!
-   TBranch        *b_StdFitVertexTrackMMMM_PHI;   //!
-   TBranch        *b_KinFitVertexXMMMM;   //!
-   TBranch        *b_KinFitVertexYMMMM;   //!
-   TBranch        *b_KinFitVertexZMMMM;   //!
-   TBranch        *b_KinFitVertexChi2rMMMM;   //!
-   TBranch        *b_KinFitVertexProbMMMM;   //!
-   TBranch        *b_StdFitVertexXEEEE;   //!
-   TBranch        *b_StdFitVertexYEEEE;   //!
-   TBranch        *b_StdFitVertexZEEEE;   //!
-   TBranch        *b_StdFitVertexChi2rEEEE;   //!
-   TBranch        *b_StdFitVertexProbEEEE;   //!
-   TBranch        *b_StdFitVertexTrackEEEE_PT;   //!
-   TBranch        *b_StdFitVertexTrackEEEE_ETA;   //!
-   TBranch        *b_StdFitVertexTrackEEEE_PHI;   //!
-   TBranch        *b_KinFitVertexXEEEE;   //!
-   TBranch        *b_KinFitVertexYEEEE;   //!
-   TBranch        *b_KinFitVertexZEEEE;   //!
-   TBranch        *b_KinFitVertexChi2rEEEE;   //!
-   TBranch        *b_KinFitVertexProbEEEE;   //!
-   TBranch        *b_StdFitVertexChi2rMMM;   //!
-   TBranch        *b_StdFitVertexProbMMM;   //!
-   TBranch        *b_StdFitVertexChi2rMME;   //!
-   TBranch        *b_StdFitVertexProbMME;   //!
-   TBranch        *b_StdFitVertexChi2rEEE;   //!
-   TBranch        *b_StdFitVertexProbEEE;   //!
-   TBranch        *b_StdFitVertexChi2rMEE;   //!
-   TBranch        *b_StdFitVertexProbMEE;   //!
-   TBranch        *b_StdFitVertexChi2rDiLep;   //!
-   TBranch        *b_StdFitVertexProbDiLep;   //!
    TBranch        *b_ConvMapDist;   //!
    TBranch        *b_ConvMapDcot;   //!
    TBranch        *b_RECOMU_MatchingMCTruth;   //!
@@ -996,31 +697,6 @@ public :
    TBranch        *b_RECOPHOT_MatchingMCpT;   //!
    TBranch        *b_RECOPHOT_MatchingMCEta;   //!
    TBranch        *b_RECOPHOT_MatchingMCPhi;   //!
-   TBranch        *b_RECOzMuMu_MatchingMCTruth;   //!
-   TBranch        *b_RECOzMuMu_MatchingMCpT;   //!
-   TBranch        *b_RECOzMuMu_MatchingMCmass;   //!
-   TBranch        *b_RECOzMuMu_MatchingMCEta;   //!
-   TBranch        *b_RECOzMuMu_MatchingMCPhi;   //!
-   TBranch        *b_RECOzEE_MatchingMCTruth;   //!
-   TBranch        *b_RECOzEE_MatchingMCpT;   //!
-   TBranch        *b_RECOzEE_MatchingMCmass;   //!
-   TBranch        *b_RECOzEE_MatchingMCEta;   //!
-   TBranch        *b_RECOzEE_MatchingMCPhi;   //!
-   TBranch        *b_RECOHzzEEEE_MatchingMCTruth;   //!
-   TBranch        *b_RECOHzzEEEE_MatchingMCpT;   //!
-   TBranch        *b_RECOHzzEEEE_MatchingMCmass;   //!
-   TBranch        *b_RECOHzzEEEE_MatchingMCEta;   //!
-   TBranch        *b_RECOHzzEEEE_MatchingMCPhi;   //!
-   TBranch        *b_RECOHzzEEMM_MatchingMCTruth;   //!
-   TBranch        *b_RECOHzzEEMM_MatchingMCpT;   //!
-   TBranch        *b_RECOHzzEEMM_MatchingMCmass;   //!
-   TBranch        *b_RECOHzzEEMM_MatchingMCEta;   //!
-   TBranch        *b_RECOHzzEEMM_MatchingMCPhi;   //!
-   TBranch        *b_RECOHzzMMMM_MatchingMCTruth;   //!
-   TBranch        *b_RECOHzzMMMM_MatchingMCpT;   //!
-   TBranch        *b_RECOHzzMMMM_MatchingMCmass;   //!
-   TBranch        *b_RECOHzzMMMM_MatchingMCEta;   //!
-   TBranch        *b_RECOHzzMMMM_MatchingMCPhi;   //!
    TBranch        *b_RECO_NMU;   //!
    TBranch        *b_RECO_NELE;   //!
    TBranch        *b_RECO_NTRACK;   //!
@@ -1252,67 +928,6 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECORF_4mu_phi1RF_spin", RECORF_4mu_phi1RF_spin, &b_RECORF_4mu_phi1RF_spin);
    fChain->SetBranchAddress("RECORF_4mu_phi2RF_spin", RECORF_4mu_phi2RF_spin, &b_RECORF_4mu_phi2RF_spin);
    fChain->SetBranchAddress("RECORF_4mu_MELA", RECORF_4mu_MELA, &b_RECORF_4mu_MELA);
-   fChain->SetBranchAddress("RECO_ZMM_MASS", RECO_ZMM_MASS, &b_RECO_ZMM_MASS);
-   fChain->SetBranchAddress("RECO_ZEE_MASS", RECO_ZEE_MASS, &b_RECO_ZEE_MASS);
-   fChain->SetBranchAddress("RECO_DiLep_MASS", RECO_DiLep_MASS, &b_RECO_DiLep_MASS);
-   fChain->SetBranchAddress("RECO_ZMM_PT", RECO_ZMM_PT, &b_RECO_ZMM_PT);
-   fChain->SetBranchAddress("RECO_ZEE_PT", RECO_ZEE_PT, &b_RECO_ZEE_PT);
-   fChain->SetBranchAddress("RECO_DiLep_PT", RECO_DiLep_PT, &b_RECO_DiLep_PT);
-   fChain->SetBranchAddress("RECO_ZMM_ETA", RECO_ZMM_ETA, &b_RECO_ZMM_ETA);
-   fChain->SetBranchAddress("RECO_ZEE_ETA", RECO_ZEE_ETA, &b_RECO_ZEE_ETA);
-   fChain->SetBranchAddress("RECO_DiLep_ETA", RECO_DiLep_ETA, &b_RECO_DiLep_ETA);
-   fChain->SetBranchAddress("RECO_ZMM_PHI", RECO_ZMM_PHI, &b_RECO_ZMM_PHI);
-   fChain->SetBranchAddress("RECO_ZEE_PHI", RECO_ZEE_PHI, &b_RECO_ZEE_PHI);
-   fChain->SetBranchAddress("RECO_DiLep_PHI", RECO_DiLep_PHI, &b_RECO_DiLep_PHI);
-   fChain->SetBranchAddress("RECO_ZMMss_MASS", RECO_ZMMss_MASS, &b_RECO_ZMMss_MASS);
-   fChain->SetBranchAddress("RECO_ZEEss_MASS", RECO_ZEEss_MASS, &b_RECO_ZEEss_MASS);
-   fChain->SetBranchAddress("RECO_ZEM_MASS", RECO_ZEM_MASS, &b_RECO_ZEM_MASS);
-   fChain->SetBranchAddress("RECO_ZMMss_PT", RECO_ZMMss_PT, &b_RECO_ZMMss_PT);
-   fChain->SetBranchAddress("RECO_ZEEss_PT", RECO_ZEEss_PT, &b_RECO_ZEEss_PT);
-   fChain->SetBranchAddress("RECO_ZEM_PT", RECO_ZEM_PT, &b_RECO_ZEM_PT);
-   fChain->SetBranchAddress("RECO_ZMMss_ETA", RECO_ZMMss_ETA, &b_RECO_ZMMss_ETA);
-   fChain->SetBranchAddress("RECO_ZEEss_ETA", RECO_ZEEss_ETA, &b_RECO_ZEEss_ETA);
-   fChain->SetBranchAddress("RECO_ZEM_ETA", RECO_ZEM_ETA, &b_RECO_ZEM_ETA);
-   fChain->SetBranchAddress("RECO_ZMMss_PHI", RECO_ZMMss_PHI, &b_RECO_ZMMss_PHI);
-   fChain->SetBranchAddress("RECO_ZEEss_PHI", RECO_ZEEss_PHI, &b_RECO_ZEEss_PHI);
-   fChain->SetBranchAddress("RECO_ZEM_PHI", RECO_ZEM_PHI, &b_RECO_ZEM_PHI);
-   fChain->SetBranchAddress("RECO_MMMM_MASS", RECO_MMMM_MASS, &b_RECO_MMMM_MASS);
-   fChain->SetBranchAddress("RECO_MMMM_PT", RECO_MMMM_PT, &b_RECO_MMMM_PT);
-   fChain->SetBranchAddress("RECO_MMMM_ETA", RECO_MMMM_ETA, &b_RECO_MMMM_ETA);
-   fChain->SetBranchAddress("RECO_MMMM_PHI", RECO_MMMM_PHI, &b_RECO_MMMM_PHI);
-   fChain->SetBranchAddress("RECO_MMMM_MASS_REFIT", RECO_MMMM_MASS_REFIT, &b_RECO_MMMM_MASS_REFIT);
-   fChain->SetBranchAddress("RECO_EEEE_MASS", RECO_EEEE_MASS, &b_RECO_EEEE_MASS);
-   fChain->SetBranchAddress("RECO_EEEE_PT", RECO_EEEE_PT, &b_RECO_EEEE_PT);
-   fChain->SetBranchAddress("RECO_EEEE_ETA", RECO_EEEE_ETA, &b_RECO_EEEE_ETA);
-   fChain->SetBranchAddress("RECO_EEEE_PHI", RECO_EEEE_PHI, &b_RECO_EEEE_PHI);
-   fChain->SetBranchAddress("RECO_EEEE_MASS_REFIT", RECO_EEEE_MASS_REFIT, &b_RECO_EEEE_MASS_REFIT);
-   fChain->SetBranchAddress("RECO_EEMM_MASS", RECO_EEMM_MASS, &b_RECO_EEMM_MASS);
-   fChain->SetBranchAddress("RECO_EEMM_PT", RECO_EEMM_PT, &b_RECO_EEMM_PT);
-   fChain->SetBranchAddress("RECO_EEMM_ETA", RECO_EEMM_ETA, &b_RECO_EEMM_ETA);
-   fChain->SetBranchAddress("RECO_EEMM_PHI", RECO_EEMM_PHI, &b_RECO_EEMM_PHI);
-   fChain->SetBranchAddress("RECO_EEMM_MASS_REFIT", RECO_EEMM_MASS_REFIT, &b_RECO_EEMM_MASS_REFIT);
-   fChain->SetBranchAddress("RECO_LLL0_MASS", RECO_LLL0_MASS, &b_RECO_LLL0_MASS);
-   fChain->SetBranchAddress("RECO_LLL1_MASS", RECO_LLL1_MASS, &b_RECO_LLL1_MASS);
-   fChain->SetBranchAddress("RECO_LLL2_MASS", RECO_LLL2_MASS, &b_RECO_LLL2_MASS);
-   fChain->SetBranchAddress("RECO_LLL3_MASS", RECO_LLL3_MASS, &b_RECO_LLL3_MASS);
-   fChain->SetBranchAddress("RECO_LLL0_PT", RECO_LLL0_PT, &b_RECO_LLL0_PT);
-   fChain->SetBranchAddress("RECO_LLL1_PT", RECO_LLL1_PT, &b_RECO_LLL1_PT);
-   fChain->SetBranchAddress("RECO_LLL2_PT", RECO_LLL2_PT, &b_RECO_LLL2_PT);
-   fChain->SetBranchAddress("RECO_LLL3_PT", RECO_LLL3_PT, &b_RECO_LLL3_PT);
-   fChain->SetBranchAddress("RECO_LLLl0_MASS", RECO_LLLl0_MASS, &b_RECO_LLLl0_MASS);
-   fChain->SetBranchAddress("RECO_LLLl1_MASS", RECO_LLLl1_MASS, &b_RECO_LLLl1_MASS);
-   fChain->SetBranchAddress("RECO_LLLl0_PT", RECO_LLLl0_PT, &b_RECO_LLLl0_PT);
-   fChain->SetBranchAddress("RECO_LLLl1_PT", RECO_LLLl1_PT, &b_RECO_LLLl1_PT);
-   fChain->SetBranchAddress("RECO_LLLL0ss_MASS", RECO_LLLL0ss_MASS, &b_RECO_LLLL0ss_MASS);
-   fChain->SetBranchAddress("RECO_LLLL0ss_PT", RECO_LLLL0ss_PT, &b_RECO_LLLL0ss_PT);
-   fChain->SetBranchAddress("RECO_LLLL1ss_MASS", RECO_LLLL1ss_MASS, &b_RECO_LLLL1ss_MASS);
-   fChain->SetBranchAddress("RECO_LLLL1ss_PT", RECO_LLLL1ss_PT, &b_RECO_LLLL1ss_PT);
-   fChain->SetBranchAddress("RECO_LLLL2ss_MASS", RECO_LLLL2ss_MASS, &b_RECO_LLLL2ss_MASS);
-   fChain->SetBranchAddress("RECO_LLLL2ss_PT", RECO_LLLL2ss_PT, &b_RECO_LLLL2ss_PT);
-   fChain->SetBranchAddress("RECO_LLLL_MASS", RECO_LLLL_MASS, &b_RECO_LLLL_MASS);
-   fChain->SetBranchAddress("RECO_LLLL_PT", RECO_LLLL_PT, &b_RECO_LLLL_PT);
-   fChain->SetBranchAddress("RECO_LLLL_ETA", RECO_LLLL_ETA, &b_RECO_LLLL_ETA);
-   fChain->SetBranchAddress("RECO_LLLL_PHI", RECO_LLLL_PHI, &b_RECO_LLLL_PHI);
    fChain->SetBranchAddress("RECOELE_E", RECOELE_E, &b_RECOELE_E);
    fChain->SetBranchAddress("RECOELE_PT", RECOELE_PT, &b_RECOELE_PT);
    fChain->SetBranchAddress("RECOELE_PTError", RECOELE_PTError, &b_RECOELE_PTError);
@@ -1423,6 +1038,8 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOELE_mvaNonTrigV0", RECOELE_mvaNonTrigV0, &b_RECOELE_mvaNonTrigV0);
    fChain->SetBranchAddress("RECOELE_COV", RECOELE_COV, &b_RECOELE_COV);
    fChain->SetBranchAddress("RECOMU_isPFMu", RECOMU_isPFMu, &b_RECOMU_isPFMu);
+   fChain->SetBranchAddress("RECOMU_isMedium", RECOMU_isMedium, &b_RECOMU_isMedium);
+   fChain->SetBranchAddress("RECOMU_muInnertrkvalidFraction", RECOMU_muInnertrkvalidFraction, &b_RECOMU_muInnertrkvalidFraction);
    fChain->SetBranchAddress("RECOMU_isGlobalMu", RECOMU_isGlobalMu, &b_RECOMU_isGlobalMu);
    fChain->SetBranchAddress("RECOMU_isStandAloneMu", RECOMU_isStandAloneMu, &b_RECOMU_isStandAloneMu);
    fChain->SetBranchAddress("RECOMU_isTrackerMu", RECOMU_isTrackerMu, &b_RECOMU_isTrackerMu);
@@ -1524,84 +1141,6 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOMU_mubesttrkDz", RECOMU_mubesttrkDz, &b_RECOMU_mubesttrkDz);
    fChain->SetBranchAddress("RECOMU_mubesttrkDzError", RECOMU_mubesttrkDzError, &b_RECOMU_mubesttrkDzError);
    fChain->SetBranchAddress("ftsigma", ftsigma, &b_ftsigma);
-   fChain->SetBranchAddress("gdX", gdX, &b_gdX);
-   fChain->SetBranchAddress("gdY", gdY, &b_gdY);
-   fChain->SetBranchAddress("gdZ", gdZ, &b_gdZ);
-   fChain->SetBranchAddress("ftsigmalag", ftsigmalag, &b_ftsigmalag);
-   fChain->SetBranchAddress("gdlagX", gdlagX, &b_gdlagX);
-   fChain->SetBranchAddress("gdlagY", gdlagY, &b_gdlagY);
-   fChain->SetBranchAddress("gdlagZ", gdlagZ, &b_gdlagZ);
-   fChain->SetBranchAddress("gdlagProb", gdlagProb, &b_gdlagProb);
-   fChain->SetBranchAddress("gdlagNdof", gdlagNdof, &b_gdlagNdof);
-   fChain->SetBranchAddress("ftsigmaMMMM", ftsigmaMMMM, &b_ftsigmaMMMM);
-   fChain->SetBranchAddress("gdXMMMM", gdXMMMM, &b_gdXMMMM);
-   fChain->SetBranchAddress("gdYMMMM", gdYMMMM, &b_gdYMMMM);
-   fChain->SetBranchAddress("gdZMMMM", gdZMMMM, &b_gdZMMMM);
-   fChain->SetBranchAddress("ftsigmalagMMMM", ftsigmalagMMMM, &b_ftsigmalagMMMM);
-   fChain->SetBranchAddress("gdlagXMMMM", gdlagXMMMM, &b_gdlagXMMMM);
-   fChain->SetBranchAddress("gdlagYMMMM", gdlagYMMMM, &b_gdlagYMMMM);
-   fChain->SetBranchAddress("gdlagZMMMM", gdlagZMMMM, &b_gdlagZMMMM);
-   fChain->SetBranchAddress("gdlagProbMMMM", gdlagProbMMMM, &b_gdlagProbMMMM);
-   fChain->SetBranchAddress("gdlagNdofMMMM", gdlagNdofMMMM, &b_gdlagNdofMMMM);
-   fChain->SetBranchAddress("ftsigmaEEEE", ftsigmaEEEE, &b_ftsigmaEEEE);
-   fChain->SetBranchAddress("gdXEEEE", gdXEEEE, &b_gdXEEEE);
-   fChain->SetBranchAddress("gdYEEEE", gdYEEEE, &b_gdYEEEE);
-   fChain->SetBranchAddress("gdZEEEE", gdZEEEE, &b_gdZEEEE);
-   fChain->SetBranchAddress("ftsigmalagEEEE", ftsigmalagEEEE, &b_ftsigmalagEEEE);
-   fChain->SetBranchAddress("gdlagXEEEE", gdlagXEEEE, &b_gdlagXEEEE);
-   fChain->SetBranchAddress("gdlagYEEEE", gdlagYEEEE, &b_gdlagYEEEE);
-   fChain->SetBranchAddress("gdlagZEEEE", gdlagZEEEE, &b_gdlagZEEEE);
-   fChain->SetBranchAddress("gdlagProbEEEE", gdlagProbEEEE, &b_gdlagProbEEEE);
-   fChain->SetBranchAddress("gdlagNdofEEEE", gdlagNdofEEEE, &b_gdlagNdofEEEE);
-   fChain->SetBranchAddress("StdFitVertexX", StdFitVertexX, &b_StdFitVertexX);
-   fChain->SetBranchAddress("StdFitVertexY", StdFitVertexY, &b_StdFitVertexY);
-   fChain->SetBranchAddress("StdFitVertexZ", StdFitVertexZ, &b_StdFitVertexZ);
-   fChain->SetBranchAddress("StdFitVertexChi2r", StdFitVertexChi2r, &b_StdFitVertexChi2r);
-   fChain->SetBranchAddress("StdFitVertexProb", StdFitVertexProb, &b_StdFitVertexProb);
-   fChain->SetBranchAddress("StdFitVertexTrack_PT", StdFitVertexTrack_PT, &b_StdFitVertexTrack_PT);
-   fChain->SetBranchAddress("StdFitVertexTrack_ETA", StdFitVertexTrack_ETA, &b_StdFitVertexTrack_ETA);
-   fChain->SetBranchAddress("StdFitVertexTrack_PHI", StdFitVertexTrack_PHI, &b_StdFitVertexTrack_PHI);
-   fChain->SetBranchAddress("KinFitVertexX", KinFitVertexX, &b_KinFitVertexX);
-   fChain->SetBranchAddress("KinFitVertexY", KinFitVertexY, &b_KinFitVertexY);
-   fChain->SetBranchAddress("KinFitVertexZ", KinFitVertexZ, &b_KinFitVertexZ);
-   fChain->SetBranchAddress("KinFitVertexChi2r", KinFitVertexChi2r, &b_KinFitVertexChi2r);
-   fChain->SetBranchAddress("KinFitVertexProb", KinFitVertexProb, &b_KinFitVertexProb);
-   fChain->SetBranchAddress("StdFitVertexXMMMM", StdFitVertexXMMMM, &b_StdFitVertexXMMMM);
-   fChain->SetBranchAddress("StdFitVertexYMMMM", StdFitVertexYMMMM, &b_StdFitVertexYMMMM);
-   fChain->SetBranchAddress("StdFitVertexZMMMM", StdFitVertexZMMMM, &b_StdFitVertexZMMMM);
-   fChain->SetBranchAddress("StdFitVertexChi2rMMMM", StdFitVertexChi2rMMMM, &b_StdFitVertexChi2rMMMM);
-   fChain->SetBranchAddress("StdFitVertexProbMMMM", StdFitVertexProbMMMM, &b_StdFitVertexProbMMMM);
-   fChain->SetBranchAddress("StdFitVertexTrackMMMM_PT", StdFitVertexTrackMMMM_PT, &b_StdFitVertexTrackMMMM_PT);
-   fChain->SetBranchAddress("StdFitVertexTrackMMMM_ETA", StdFitVertexTrackMMMM_ETA, &b_StdFitVertexTrackMMMM_ETA);
-   fChain->SetBranchAddress("StdFitVertexTrackMMMM_PHI", StdFitVertexTrackMMMM_PHI, &b_StdFitVertexTrackMMMM_PHI);
-   fChain->SetBranchAddress("KinFitVertexXMMMM", KinFitVertexXMMMM, &b_KinFitVertexXMMMM);
-   fChain->SetBranchAddress("KinFitVertexYMMMM", KinFitVertexYMMMM, &b_KinFitVertexYMMMM);
-   fChain->SetBranchAddress("KinFitVertexZMMMM", KinFitVertexZMMMM, &b_KinFitVertexZMMMM);
-   fChain->SetBranchAddress("KinFitVertexChi2rMMMM", KinFitVertexChi2rMMMM, &b_KinFitVertexChi2rMMMM);
-   fChain->SetBranchAddress("KinFitVertexProbMMMM", KinFitVertexProbMMMM, &b_KinFitVertexProbMMMM);
-   fChain->SetBranchAddress("StdFitVertexXEEEE", StdFitVertexXEEEE, &b_StdFitVertexXEEEE);
-   fChain->SetBranchAddress("StdFitVertexYEEEE", StdFitVertexYEEEE, &b_StdFitVertexYEEEE);
-   fChain->SetBranchAddress("StdFitVertexZEEEE", StdFitVertexZEEEE, &b_StdFitVertexZEEEE);
-   fChain->SetBranchAddress("StdFitVertexChi2rEEEE", StdFitVertexChi2rEEEE, &b_StdFitVertexChi2rEEEE);
-   fChain->SetBranchAddress("StdFitVertexProbEEEE", StdFitVertexProbEEEE, &b_StdFitVertexProbEEEE);
-   fChain->SetBranchAddress("StdFitVertexTrackEEEE_PT", StdFitVertexTrackEEEE_PT, &b_StdFitVertexTrackEEEE_PT);
-   fChain->SetBranchAddress("StdFitVertexTrackEEEE_ETA", StdFitVertexTrackEEEE_ETA, &b_StdFitVertexTrackEEEE_ETA);
-   fChain->SetBranchAddress("StdFitVertexTrackEEEE_PHI", StdFitVertexTrackEEEE_PHI, &b_StdFitVertexTrackEEEE_PHI);
-   fChain->SetBranchAddress("KinFitVertexXEEEE", KinFitVertexXEEEE, &b_KinFitVertexXEEEE);
-   fChain->SetBranchAddress("KinFitVertexYEEEE", KinFitVertexYEEEE, &b_KinFitVertexYEEEE);
-   fChain->SetBranchAddress("KinFitVertexZEEEE", KinFitVertexZEEEE, &b_KinFitVertexZEEEE);
-   fChain->SetBranchAddress("KinFitVertexChi2rEEEE", KinFitVertexChi2rEEEE, &b_KinFitVertexChi2rEEEE);
-   fChain->SetBranchAddress("KinFitVertexProbEEEE", KinFitVertexProbEEEE, &b_KinFitVertexProbEEEE);
-   fChain->SetBranchAddress("StdFitVertexChi2rMMM", StdFitVertexChi2rMMM, &b_StdFitVertexChi2rMMM);
-   fChain->SetBranchAddress("StdFitVertexProbMMM", StdFitVertexProbMMM, &b_StdFitVertexProbMMM);
-   fChain->SetBranchAddress("StdFitVertexChi2rMME", StdFitVertexChi2rMME, &b_StdFitVertexChi2rMME);
-   fChain->SetBranchAddress("StdFitVertexProbMME", StdFitVertexProbMME, &b_StdFitVertexProbMME);
-   fChain->SetBranchAddress("StdFitVertexChi2rEEE", StdFitVertexChi2rEEE, &b_StdFitVertexChi2rEEE);
-   fChain->SetBranchAddress("StdFitVertexProbEEE", StdFitVertexProbEEE, &b_StdFitVertexProbEEE);
-   fChain->SetBranchAddress("StdFitVertexChi2rMEE", StdFitVertexChi2rMEE, &b_StdFitVertexChi2rMEE);
-   fChain->SetBranchAddress("StdFitVertexProbMEE", StdFitVertexProbMEE, &b_StdFitVertexProbMEE);
-   fChain->SetBranchAddress("StdFitVertexChi2rDiLep", StdFitVertexChi2rDiLep, &b_StdFitVertexChi2rDiLep);
-   fChain->SetBranchAddress("StdFitVertexProbDiLep", StdFitVertexProbDiLep, &b_StdFitVertexProbDiLep);
    fChain->SetBranchAddress("ConvMapDist", ConvMapDist, &b_ConvMapDist);
    fChain->SetBranchAddress("ConvMapDcot", ConvMapDcot, &b_ConvMapDcot);
    fChain->SetBranchAddress("RECOMU_MatchingMCTruth", RECOMU_MatchingMCTruth, &b_RECOMU_MatchingMCTruth);
@@ -1616,31 +1155,6 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOPHOT_MatchingMCpT", RECOPHOT_MatchingMCpT, &b_RECOPHOT_MatchingMCpT);
    fChain->SetBranchAddress("RECOPHOT_MatchingMCEta", RECOPHOT_MatchingMCEta, &b_RECOPHOT_MatchingMCEta);
    fChain->SetBranchAddress("RECOPHOT_MatchingMCPhi", RECOPHOT_MatchingMCPhi, &b_RECOPHOT_MatchingMCPhi);
-   fChain->SetBranchAddress("RECOzMuMu_MatchingMCTruth", RECOzMuMu_MatchingMCTruth, &b_RECOzMuMu_MatchingMCTruth);
-   fChain->SetBranchAddress("RECOzMuMu_MatchingMCpT", RECOzMuMu_MatchingMCpT, &b_RECOzMuMu_MatchingMCpT);
-   fChain->SetBranchAddress("RECOzMuMu_MatchingMCmass", RECOzMuMu_MatchingMCmass, &b_RECOzMuMu_MatchingMCmass);
-   fChain->SetBranchAddress("RECOzMuMu_MatchingMCEta", RECOzMuMu_MatchingMCEta, &b_RECOzMuMu_MatchingMCEta);
-   fChain->SetBranchAddress("RECOzMuMu_MatchingMCPhi", RECOzMuMu_MatchingMCPhi, &b_RECOzMuMu_MatchingMCPhi);
-   fChain->SetBranchAddress("RECOzEE_MatchingMCTruth", RECOzEE_MatchingMCTruth, &b_RECOzEE_MatchingMCTruth);
-   fChain->SetBranchAddress("RECOzEE_MatchingMCpT", RECOzEE_MatchingMCpT, &b_RECOzEE_MatchingMCpT);
-   fChain->SetBranchAddress("RECOzEE_MatchingMCmass", RECOzEE_MatchingMCmass, &b_RECOzEE_MatchingMCmass);
-   fChain->SetBranchAddress("RECOzEE_MatchingMCEta", RECOzEE_MatchingMCEta, &b_RECOzEE_MatchingMCEta);
-   fChain->SetBranchAddress("RECOzEE_MatchingMCPhi", RECOzEE_MatchingMCPhi, &b_RECOzEE_MatchingMCPhi);
-   fChain->SetBranchAddress("RECOHzzEEEE_MatchingMCTruth", RECOHzzEEEE_MatchingMCTruth, &b_RECOHzzEEEE_MatchingMCTruth);
-   fChain->SetBranchAddress("RECOHzzEEEE_MatchingMCpT", RECOHzzEEEE_MatchingMCpT, &b_RECOHzzEEEE_MatchingMCpT);
-   fChain->SetBranchAddress("RECOHzzEEEE_MatchingMCmass", RECOHzzEEEE_MatchingMCmass, &b_RECOHzzEEEE_MatchingMCmass);
-   fChain->SetBranchAddress("RECOHzzEEEE_MatchingMCEta", RECOHzzEEEE_MatchingMCEta, &b_RECOHzzEEEE_MatchingMCEta);
-   fChain->SetBranchAddress("RECOHzzEEEE_MatchingMCPhi", RECOHzzEEEE_MatchingMCPhi, &b_RECOHzzEEEE_MatchingMCPhi);
-   fChain->SetBranchAddress("RECOHzzEEMM_MatchingMCTruth", RECOHzzEEMM_MatchingMCTruth, &b_RECOHzzEEMM_MatchingMCTruth);
-   fChain->SetBranchAddress("RECOHzzEEMM_MatchingMCpT", RECOHzzEEMM_MatchingMCpT, &b_RECOHzzEEMM_MatchingMCpT);
-   fChain->SetBranchAddress("RECOHzzEEMM_MatchingMCmass", RECOHzzEEMM_MatchingMCmass, &b_RECOHzzEEMM_MatchingMCmass);
-   fChain->SetBranchAddress("RECOHzzEEMM_MatchingMCEta", RECOHzzEEMM_MatchingMCEta, &b_RECOHzzEEMM_MatchingMCEta);
-   fChain->SetBranchAddress("RECOHzzEEMM_MatchingMCPhi", RECOHzzEEMM_MatchingMCPhi, &b_RECOHzzEEMM_MatchingMCPhi);
-   fChain->SetBranchAddress("RECOHzzMMMM_MatchingMCTruth", RECOHzzMMMM_MatchingMCTruth, &b_RECOHzzMMMM_MatchingMCTruth);
-   fChain->SetBranchAddress("RECOHzzMMMM_MatchingMCpT", RECOHzzMMMM_MatchingMCpT, &b_RECOHzzMMMM_MatchingMCpT);
-   fChain->SetBranchAddress("RECOHzzMMMM_MatchingMCmass", RECOHzzMMMM_MatchingMCmass, &b_RECOHzzMMMM_MatchingMCmass);
-   fChain->SetBranchAddress("RECOHzzMMMM_MatchingMCEta", RECOHzzMMMM_MatchingMCEta, &b_RECOHzzMMMM_MatchingMCEta);
-   fChain->SetBranchAddress("RECOHzzMMMM_MatchingMCPhi", RECOHzzMMMM_MatchingMCPhi, &b_RECOHzzMMMM_MatchingMCPhi);
    fChain->SetBranchAddress("RECO_NMU", &RECO_NMU, &b_RECO_NMU);
    fChain->SetBranchAddress("RECO_NELE", &RECO_NELE, &b_RECO_NELE);
    fChain->SetBranchAddress("RECO_NTRACK", &RECO_NTRACK, &b_RECO_NTRACK);

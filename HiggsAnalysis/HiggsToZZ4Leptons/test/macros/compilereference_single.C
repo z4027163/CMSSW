@@ -28,12 +28,11 @@ int main(int argc, char ** argv){
   
   Char_t nome[300];
 
-//    sprintf(nome,"/eos/uscms/store/user/wangz/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_regression_v7/170712_071915/DYJetsToLL.root");
-  sprintf(nome,"/eos/uscms/store/user/wangz/DoubleEG/DoubleEG_Run2016E-03Feb2017-v2_part2/170714_174048/DoubleEG_E_part2.root");
-//    sprintf(nome,"/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon_Run2016E-03Feb2017-v2/170714_163811/DoubleMuon_E_par2.root");
-//    sprintf(nome,"/eos/uscms/store/user/wangz/DoubleEG/DoubleEG_Run2016D-03Feb2017-v2/170710_194246/DoubleEG.root");
-//  sprintf(nome,"/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon_Run2016D-03Feb2017-v1/170712_072212/DoubleMuon.root");  
-//  sprintf(nome,"/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon_Run2016C-03Feb2017-v5/170712_211425/678.root");
+//    sprintf(nome,"/eos/uscms/store/user/wangz/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-noMuScale-v1/170718_172042/DYJetsToLL.root");
+//  sprintf(nome,"/eos/uscms/store/user/wangz/DoubleEG/DoubleEG_Run2016H-03Feb2017-v1_part1/170717_204041/DoubleEG_H.root");
+//    sprintf(nome,"/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon_Run2016G-03Feb2017-MuCal-v1_part1/170720_230940/DoubleMuon_G_part1.root");
+    sprintf(nome,"/eos/uscms/store/user/wangz/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v1/170725_230003/TT_TuneCUETP8M1.root");
+//  sprintf(nome,"/eos/uscms/store/user/wangz/DYBBJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/DYBBJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-MuCal-v1/170802_212239/DYBB.root");  
 
   cout << "test01" << endl;
   TFile *file3;
@@ -45,7 +44,7 @@ int main(int argc, char ** argv){
   HZZ4LeptonsAnalysis make3(tree3,1.,dataconf,mcconf);
   //HZZ4LeptonsAnalysis make3(tree3);
 
-  sprintf(nome,"output_DoubleEG_E_part2.root");
+  sprintf(nome,"output_TT_TuneCUETP8M1.root");
 
   make3.Loop(nome);
 

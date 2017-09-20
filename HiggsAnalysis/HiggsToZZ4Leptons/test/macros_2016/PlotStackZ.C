@@ -72,7 +72,7 @@ PlotStackZ::PlotStackZ(){
   //LoadLib.Load("/cmshome/nicola/slc6/MonoHiggs/Analysis13TeV/CMSSW_7_2_0/lib/slc6_amd64_gcc481/libHiggsHiggs_CS_and_Width.so");
   //getMassWindow(500.);
     
-  inputfile="filelist_input.txt";
+  inputfile="filelist_2e2b_input.txt";
 
   setSamplesNamesZ(); 
   cout << "\t Analysing samples for " << whichchannel << " analysis" << endl; 
@@ -121,7 +121,7 @@ PlotStackZ::PlotStackZ(){
 
   // ****** After cuts on ,Z1, mZ2 and pT >20/10: step 5 ******
 
-  std::string histolabel = "hMZ1_5";    // Z1 mass   
+//  std::string histolabel = "hMZ1_5";    // Z1 mass   
   //std::string histolabel = "hMZ2_5";    // Z2 mass 
   //std::string histolabel = "hM4l_5";    // 4l mass 
 
@@ -151,6 +151,8 @@ PlotStackZ::PlotStackZ(){
 //   std::string histolabel = "hPtLep2_7"; 
 // std::string histolabel = "hPtLep1_8";
 //   std::string histolabel = "hPtLep2_8"; 
+//   std::string histolabel = "hEtaLep1_8";
+//   std::string histolabel = "hEtaLep2_8";
 
 //   std::string histolabel = "hEtaLep1_7";
 //   std::string histolabel = "hEtaLep2_7";
@@ -163,20 +165,29 @@ PlotStackZ::PlotStackZ(){
   //std::string histolabel = "hIso_8"; // worst isolated lepton: isolation value after full selection
   //std::string histolabel = "hSip_8"; // worst sip lepton: sip value after full selection
   //std::string histolabel = "hMELA_8"; // MELA discriminant after full selection 
- //  std::string histolabel = "hPFMET_8"; // PFMET
+//   std::string histolabel = "hPFMET_8"; // PFMET
   //std::string histolabel = "hM4l_T_8"; // Transverse mass
   //std::string histolabel = "DPHI_8"; // DeltaPhi - 4l + MET
 //   std::string histolabel = "hPtJet_7"; 
 //   std::string histolabel = "hPtJet_8";
 //   std::string histolabel = "hEtaJet_7";
 //   std::string histolabel = "hEtaJet_8";
- // std::string histolabel = "hNjets_8";
+//  std::string histolabel = "hNjets_8";
   //std::string histolabel = "hDjj_8"; // delta eta between jets for VBF analysis
  // std::string histolabel = "hMjj_8"; // dimass between jets for VBF analysis
 //  std::string histolabel = "hN_loose_e";
 //  std::string histolabel = "hN_loose_mu"; 
 //   std::string histolabel = "hN_good_ele";
 //   std::string histolabel = "hN_good_mu";
+//    std::string histolabel = "hMZ1_BB_5";
+// std::string histolabel = "hPtZ1_BB_5";
+//  std::string histolabel = "hYZ1_BB_5";
+//    std::string histolabel = "hMZ1_5_EB";
+//  std::string histolabel = "hPtZ1_EB_5";
+//  std::string histolabel = "hYZ1_EB_5";
+  std::string histolabel = "hMZ1_EE_5";
+//  std::string histolabel = "hPtZ1_EE_5";
+//  std::string histolabel = "hYZ1_EE_5";
 
   useLogY = false;
   useLogX = false;
@@ -184,7 +195,7 @@ PlotStackZ::PlotStackZ(){
   useDYJets=true;
   useDYJetsFromData=false;
   
-  nRebin=2;
+  nRebin=1;
   std::cout << "Histogram label is= " << histolabel << std::endl;
   
   // Final yields
@@ -463,84 +474,95 @@ void PlotStackZ::plotmZ(std::string histlabel){
   
 
   if (histlabel.find("hMZ1_5")<10){
-    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,200000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 1000, 0.7, 1.3);// mZ1 
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,3000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hPtZ1_5")<10){
-    hframe= new TH2F("hframe","hframe",100,0.,200.,500,1.0,60000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,0.,200.,500,1.0,5000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",100, 0., 200., 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hPtLep1_7")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,200000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,5000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",200, 0., 200., 500, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hPtLep2_7")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,200000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,5000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",200, 0., 200., 500, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hPtLep1_8")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",6000, 0., 200., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,50000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",6000, 0., 200., 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hPtLep2_8")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",6000, 0., 200., 1000, 0.5, 2.);// mZ1 
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,50000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",6000, 0., 200., 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hYZ1_5")<10){
-    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,30000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,60000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.5, 1.5);// mZ1 
   }
 
   if (histlabel.find("hEtaLep1_7")<10){
-    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,50000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,1000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hEtaLep2_7")<10){
-    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,50000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,1000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
   }
 
+  if (histlabel.find("hEtaLep1_8")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,20000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hEtaLep2_8")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,20000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
+  }
+
+
   if (histlabel.find("hIsoLep1_7")<10){
-    hframe= new TH2F("hframe","hframe",100,0.,1.,500,1.0,500000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,0.,1.,500,1.0,20000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",100, 0., 1., 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hIsoLep2_7")<10){
-    hframe= new TH2F("hframe","hframe",100,0.,1.,500,1.0,500000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,0.,1.,500,1.0,20000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",100, 0., 1., 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hMZ1_7")<10){
-    hframe= new TH2F("hframe","hframe",80,40.,200.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,80000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("Mbb_6")<10){
-    hframe= new TH2F("hframe","hframe",80,20.,400.,500,1.0,10000000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",80,20.,400.,500,0,5000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",80, 20., 400., 1000, 0.5, 1.5);// mZ1 
   }
 
   if (histlabel.find("Mjj_6")<10){
-    hframe= new TH2F("hframe","hframe",80,20.,400.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",80, 20., 400., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",80,20.,400.,500,1.0,1000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",80, 20., 400., 1000, 0.8, 1.2);// mZ1 
   }
 
 
   if (histlabel.find("bdiscr_5_lead")<10){
-    hframe= new TH2F("hframe","hframe",20,0.,1.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",20, 0., 1., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",20,0.,1.,500,1.0,1000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",20, 0., 1., 1000, 0.7, 1.3);// mZ1 
   }
 
   if (histlabel.find("bdiscr_5_sub")<10){
-    hframe= new TH2F("hframe","hframe",20,0.,1.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",20, 0., 1., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",20,0.,1.,500,1.0,300000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",20, 0., 1., 1000, 0.7, 1.3);// mZ1 
   }
 
   if (histlabel.find("hMZ2_5")<10 && whichchannel.find("4#mu")<20){
@@ -549,13 +571,13 @@ void PlotStackZ::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("hPtJet_7")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,400.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",1000, 0., 400., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",200,0.,400.,500,1.0,200000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",1000, 0., 400., 1000, 0.7, 1.3);// mZ1 
   }
  
   if (histlabel.find("hPtJet_8")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,400.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",1000, 0., 400., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",200,0.,400.,500,1.0,2000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",1000, 0., 400., 1000, 0.7, 1.3);// mZ1 
   }
  
   if (histlabel.find("hEtaJet_7")<10){
@@ -564,13 +586,13 @@ void PlotStackZ::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("hEtaJet_8")<10){
-    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,400000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.7, 1.3);// mZ1 
   }
 
   if (histlabel.find("hNjets_8")<10){
-    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,100000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.7, 1.3);// mZ1 
   }
 
   if (histlabel.find("hN_loose_e")<10){
@@ -589,8 +611,8 @@ void PlotStackZ::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("hN_good_mu")<10){
-    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,100000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.7, 1.3);// mZ1 
   }
 
   if (histlabel.find("hMZ1_8")<10 && whichchannel.find("4#mu")<20){
@@ -620,8 +642,8 @@ void PlotStackZ::plotmZ(std::string histlabel){
 
   if (histlabel.find("hPFMET_8")<10){
     //hframe= new TH2F("hframe","hframe",1000, 0., 1000., 1000, 0.0000004, 50000.);// PFMET
-    hframe= new TH2F("hframe","hframe",300, 0., 300., 1000, 0.000001, 100000.);// PFMET
-    hframe2= new TH2F("hframe2","hframe2",300, 0.,300., 1000, 0.5, 1.5);// PFMET
+    hframe= new TH2F("hframe","hframe",200, 0., 200., 1000, 0.000001, 6000000.);// PFMET
+    hframe2= new TH2F("hframe2","hframe2",200, 0.,200., 1000, 0.7, 1.3);// PFMET
   }
 
   if (histlabel.find("hPFMET_9")<10){
@@ -638,6 +660,51 @@ void PlotStackZ::plotmZ(std::string histlabel){
   if (histlabel.find("hDjj_8")<10){
     hframe= new TH2F("hframe","hframe",600,0.,10.,600,0.000004,10E4);//delta eta jet jet
     hframe2= new TH2F("hframe2","hframe2",600, 0., 10., 1000, 0.5, 2.);// delta eta jet jet
+  }
+
+  if (histlabel.find("hMZ1_BB_5")<10){
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,3000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hPtZ1_BB_5")<10){
+    hframe= new TH2F("hframe","hframe",100,0.,200.,500,1.0,5000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, 0., 200., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hYZ1_BB_5")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,1500000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hMZ1_5_EB")<10){
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,1000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hPtZ1_EB_5")<10){
+    hframe= new TH2F("hframe","hframe",100,0.,200.,500,1.0,2000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, 0., 200., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hYZ1_EB_5")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,1000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hMZ1_EE_5")<10){
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,300000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hPtZ1_EE_5")<10){
+    hframe= new TH2F("hframe","hframe",100,0.,200.,500,1.0,300000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, 0., 200., 1000, 0.8, 1.2);// mZ1 
+  }
+
+  if (histlabel.find("hYZ1_EE_5")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,600000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
   }
 
   //TH2F *hframe= new TH2F("hframe","hframe",6000, 0., 200., 1000, 0.004, 700000.);// ptZ
@@ -956,6 +1023,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
        datasetnamebkg.find("DYJetsToLL") < 200 ||
        datasetnamebkg.find("TT_TuneCUETP8M1") < 200 ||
        datasetnamebkg.find("WWTo2L2Nu")< 200 ||
+       datasetnamebkg.find("DYBB") < 200 ||
        datasetnamebkg.find("WJetsToLNu") < 200  
        ){
       
@@ -975,7 +1043,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
       // DYJetsToLL check normalization
       if(datasetnamebkg.find("DYJetsToLL") <200 && hfourlepbestmass_4l_afterSel_new_new->GetEntries()>0 ){
          cout << "test1" << endl;
-	 hfourlepbestmass_4l_afterSel_new_new->Scale(double(5765.4*1152.*nnn/(3416613*0.6643)));//*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/12138430./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
+	 hfourlepbestmass_4l_afterSel_new_new->Scale(double(5765.4*35812.*nnn/(17885913*0.6643)));//*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/12138430./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
 	hfourlepbestmass_4l_afterSel_new_DY->Add(hfourlepbestmass_4l_afterSel_new_new);
 	hfourlepbestmass_4l_afterSel_new_DY->SetMarkerColor(kAzure+2);
 	hfourlepbestmass_4l_afterSel_new_DY->SetFillColor(kAzure+2);                                                        
@@ -983,10 +1051,10 @@ void PlotStackZ::plotmZ(std::string histlabel){
 
 	char temp[328];
 	sprintf(temp,"%s",histosdir.c_str());
-	if(datasetnamebkg.find(temp) <200 && (datasetnamebkg.find(whichenergy) < 200 || datasetnamebkg.find(whichsample) < 200) && (datasetnamebkg.find("DYJetsToLL_M-50_TuneZ2Star")<200 || datasetnamebkg.find("DYJetsToLL")<200)) {
+//	if(datasetnamebkg.find(temp) <200 && (datasetnamebkg.find(whichenergy) < 200 || datasetnamebkg.find(whichsample) < 200)|| datasetnamebkg.find("DYJetsToLL")<200) {
           cout << "DY= " << hfourlepbestmass_4l_afterSel_new_DY->Integral(0,-1) << endl;
 	  if (useDYJets==true) legend->AddEntry(hfourlepbestmass_4l_afterSel_new_new,Vlabelbkg.at(datasetId).c_str(), "F"); 
-	}
+//	}
 	//hfourlepbestmass_4l_afterSel_new_new->Draw("sameP");
       }
 
@@ -1009,7 +1077,8 @@ void PlotStackZ::plotmZ(std::string histlabel){
       }
       
       // DYbb
-      if(datasetnamebkg.find("DYbbJetsToLL") <200 && hfourlepbestmass_4l_afterSel_new_new->GetEntries()>0 ){
+      if(datasetnamebkg.find("DYBB") <200 && hfourlepbestmass_4l_afterSel_new_new->GetEntries()>0 ){
+        hfourlepbestmass_4l_afterSel_new_new->Scale(double(40.4*35812.*nnn/2554303));
 	hfourlepbestmass_4l_afterSel_new_DYbb->Add(hfourlepbestmass_4l_afterSel_new_new);
 	hfourlepbestmass_4l_afterSel_new_DYbb->SetMarkerColor(kAzure+2);
 	//	hfourlepbestmass_4l_afterSel_new_DYbb->SetLineColor(kAzure+2);
@@ -1018,9 +1087,9 @@ void PlotStackZ::plotmZ(std::string histlabel){
 	
 	char temp[328];
 	sprintf(temp,"%s",histosdir.c_str());
-	if(datasetnamebkg.find(temp) <200 && (datasetnamebkg.find(whichenergy) < 200 || datasetnamebkg.find(whichsample) < 200) && datasetnamebkg.find("DYbbJetsToLL_TuneZ2_M-50")<200) {
+	if((datasetnamebkg.find(temp) <200 && (datasetnamebkg.find(whichenergy) < 200 || datasetnamebkg.find(whichsample) < 200)) || datasetnamebkg.find("DYBB")<200) {
           cout << "DYbb= " << hfourlepbestmass_4l_afterSel_new_DYbb->Integral(0,-1) << endl;
-	  if (useDYJets==false) legend->AddEntry(hfourlepbestmass_4l_afterSel_new_new,Vlabelbkg.at(datasetId).c_str(), "F"); 
+	  legend->AddEntry(hfourlepbestmass_4l_afterSel_new_new,Vlabelbkg.at(datasetId).c_str(), "F"); 
         }
       }
 
@@ -1066,7 +1135,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
 	
 	// TTT
 	if(datasetnamebkg.find("TT_TuneCUETP8M1") < 200){
-          hfourlepbestmass_4l_afterSel_new_new->Scale(double(831.76*381.*nnn/5800000.)); 
+          hfourlepbestmass_4l_afterSel_new_new->Scale(double(37.807*35812.*nnn/5669539.)); 
 	  hfourlepbestmass_4l_afterSel_new_TT->Add(hfourlepbestmass_4l_afterSel_new_new);     
 	  hfourlepbestmass_4l_afterSel_new_TT->SetMarkerColor(kTeal-6); 
 	  hfourlepbestmass_4l_afterSel_new_TT->SetFillColor(kTeal-6);                     
@@ -1074,7 +1143,8 @@ void PlotStackZ::plotmZ(std::string histlabel){
 	  cout << "TT+jets= " << hfourlepbestmass_4l_afterSel_new_TT->GetEntries() << endl;
 	  char temp[328];
 	  sprintf(temp,"%s",histosdir.c_str());
-	  if(datasetnamebkg.find(temp) < 200 && (datasetnamebkg.find(whichenergy) < 200 || datasetnamebkg.find(whichsample) < 200) && hfourlepbestmass_4l_afterSel_new_TT->GetEntries()>0. ) legend->AddEntry(hfourlepbestmass_4l_afterSel_new_new,Vlabelbkg.at(datasetId).c_str(), "F");
+	 // if(datasetnamebkg.find(temp) < 200 && (datasetnamebkg.find(whichenergy) < 200 || datasetnamebkg.find(whichsample) < 200) && hfourlepbestmass_4l_afterSel_new_TT->GetEntries()>0. )
+          legend->AddEntry(hfourlepbestmass_4l_afterSel_new_new,Vlabelbkg.at(datasetId).c_str(), "F");
 	  //hfourlepbestmass_4l_afterSel_new_new->Draw("sameP");
 	}      
 	
@@ -1277,6 +1347,14 @@ void PlotStackZ::plotmZ(std::string histlabel){
 	 htotal->Add(hfourlepbestmass_4l_afterSel_new_Wj);   
 	 htotalHisto->Add(hfourlepbestmass_4l_afterSel_new_Wj);
        }
+       if(datasetnamebkg.find(temppp) < 200 && (
+                                               datasetnamebkg.find("output_DYBB") < 200 ||  
+                                               (datasetnamebkg.find("output_DYBB") < 200 && datasetnamebkg.find(whichenergy.c_str())<200)
+                                               )
+          )  {
+         htotal->Add(hfourlepbestmass_4l_afterSel_new_DYbb);
+         htotalHisto->Add(hfourlepbestmass_4l_afterSel_new_DYbb);
+       }
        
        
        //if(datasetnamebkg.find("GluGluToZZTo4mu_BackgroundOnly") < 200 ) // provided that this is the last single-top sample      
@@ -1316,6 +1394,25 @@ void PlotStackZ::plotmZ(std::string histlabel){
      
   }
 
+   TH1F *denom = (TH1F*)htotal->GetStack()->Last()->Clone(); 
+   TH1F *ratiostaterr = (TH1F*)denom->Clone(); 
+   ratiostaterr->SetStats(0); 
+   ratiostaterr->SetTitle(""); 
+ //  ratiostaterr->GetYaxis()->SetTitle("Obs / Exp");
+//    ratiostaterr->SetMaximum(1.2);
+//    ratiostaterr->SetMinimum(0.8);
+    ratiostaterr->SetMarkerSize(0);
+    ratiostaterr->SetFillColor(kGray+3);
+    ratiostaterr->SetFillStyle(3013);
+    ratiostaterr->GetXaxis()->SetLabelSize(0.19);
+    ratiostaterr->GetXaxis()->SetTitleSize(0.21);
+    ratiostaterr->GetXaxis()->SetTitleOffset(1.0);
+    ratiostaterr->GetXaxis()->SetLabelOffset(0.03);
+    ratiostaterr->GetYaxis()->SetLabelSize(0.19);
+    ratiostaterr->GetYaxis()->SetLabelOffset(0.006);
+    ratiostaterr->GetYaxis()->SetTitleSize(0.21);
+    ratiostaterr->GetYaxis()->SetTitleOffset(0.35);
+    ratiostaterr->GetYaxis()->SetNdivisions(503);
 
   // Building the ratio
   for (int nbins=1;nbins<=htotaldata->GetNbinsX(); nbins++){
@@ -1330,16 +1427,31 @@ void PlotStackZ::plotmZ(std::string histlabel){
 		 )));
 		      
     }
+   ratiostaterr->SetBinContent(nbins, 1.0);
+    if (denom->GetBinContent(nbins)>0.) {
+     double binerror = denom->GetBinError(nbins)/denom->GetBinContent(nbins);
+      ratiostaterr->SetBinError(nbins,binerror);
+    }
+    else ratiostaterr->SetBinError(nbins,999.);
   }
 
 
     
     //cout << "Nbins=" << hfourlepbestmass_4l_afterSel_new_new->GetNbinsX() << endl;
-           
 
- 
+   htotal->GetHistogram()->GetXaxis()->SetLabelOffset(999);
+   TH1F *temp = NULL;
+   temp = (TH1F*)htotal->GetStack()->Last();
+   TH1F *staterr = (TH1F*)temp->Clone("htotal");
+   staterr->SetFillColor(kGray+3);
+   staterr->SetLineColor(kGray+3);
+   staterr->SetLineWidth(0);
+   staterr->SetMarkerSize(0);
+   staterr->SetFillStyle(3013);
+   staterr->Draw("e2 same");
 
-  htotal->Draw("hist same");
+//  htotaldata->Draw();
+  htotal->Draw("histo same");
 //  htotaldata->Draw("EPsame");
   gr->Draw("EPsame");
   
@@ -1394,7 +1506,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
   htotalHistoRatio->SetMarkerSize(0.95);
   htotalHistoRatio->SetMarkerColor(kBlack);
   htotalHistoRatio->Draw("Psame");
-
+  ratiostaterr->Draw("e2 same");
 
   c1->Update();
   
@@ -1452,7 +1564,7 @@ void PlotStackZ::setSamplesNamesZ()
   
   cout << "Doing plot for " << whichenergy.c_str() << "  and " << whichsample.c_str() << endl;
 
-  whichchannel="2mu2b";
+  whichchannel="2e2b";
   histosdir="llbb";
 
   Vdatasetnamedata.clear();
@@ -1503,6 +1615,7 @@ void PlotStackZ::setSamplesNamesZ()
     else if(inputfilename.find("DYJetsToLL")<100 || 
 	    inputfilename.find("TT_TuneCUETP8M1")<100   || 
 	    inputfilename.find("WJetsToLNu")<100     ||
+            inputfilename.find("DYBB")<100 ||
 	    inputfilename.find("WWTo2L2Nu")<100){ 
       //Vdatasetnamebkg.push_back(inputfilename);
       
@@ -1512,6 +1625,13 @@ void PlotStackZ::setSamplesNamesZ()
 	Vlabelbkg.push_back("DY");
 	Vxsectionbkg.push_back(1.); //pb
 	Vcolorbkg.push_back(kAzure+2);
+      }
+
+      if(inputfilename.find("DYBB")<200){
+        Vdatasetnamebkg.push_back(inputfilename);
+        Vlabelbkg.push_back("DYBB");
+        Vxsectionbkg.push_back(1.); //pb
+        Vcolorbkg.push_back(kAzure+2);
       }
 
       if(inputfilename.find("TT_TuneCUETP8M1")<200 ){

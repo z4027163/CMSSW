@@ -180,6 +180,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     HLTInfoFired              = pset.getParameter<edm::InputTag>("HLTInfoFired");
     HLTAnalysisinst           = pset.getParameter<string>("HLTAnalysisinst");
     flagHLTnames              = pset.getParameter<vtag>("flagHLTnames");
+    HLTFilter_                 = pset.getParameter<std::vector<std::string>>("HLTFilter");
     // Get HLT matching
 //AOD    triggerEvent              = consumes<trigger::TriggerEvent >(pset.getParameter<edm::InputTag>("triggerEvent"));
     triggerObjects_              = consumes<pat::TriggerObjectStandAloneCollection>(pset.getParameter<edm::InputTag>("triggerobjects"));
@@ -338,7 +339,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     electronSLIPMapTag_VertError   = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("ElectronsSLIPMapLabelVertError"));
    
 
-    
+/*    
     // geom. discr.
     ftsigma_Vert           = pset.getParameter<edm::InputTag>("ftsigmaVert");
     ftsigmalag_Vert        = pset.getParameter<edm::InputTag>("ftsigmalagVert");
@@ -392,7 +393,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
     // ConstraintVertex Dileptons
     StandardFitVertexDiLep   = pset.getParameter<edm::InputTag>("StandardFitVertexDiLep");
-
+*/
     //electronID
     eleIDTag_                 = pset.getParameter<vtag>("eleIDLabel");
 
@@ -563,118 +564,6 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("MC_GENMET", &genmet, "MC_GENMET/F");
     
   
-     // RECORF block 2e2mu
-    
-    Tree_->Branch("RECORF_2e2mu_cosTheta1_spin",RECORF_2e2mu_cosTheta1_spin,"RECORF_2e2mu_cosTheta1_spin[100]/D");
-    Tree_->Branch("RECORF_2e2mu_cosTheta2_spin",RECORF_2e2mu_cosTheta2_spin,"RECORF_2e2mu_cosTheta2_spin[100]/D");
-    Tree_->Branch("RECORF_2e2mu_cosThetaStar_spin",RECORF_2e2mu_cosThetaStar_spin,"RECORF_2e2mu_cosThetaStar_spin[100]/D");
-    Tree_->Branch("RECORF_2e2mu_Phi_spin",RECORF_2e2mu_Phi_spin,"RECORF_2e2mu_Phi_spin[100]/D");
-    Tree_->Branch("RECORF_2e2mu_Phi1_spin",RECORF_2e2mu_Phi1_spin,"RECORF_2e2mu_Phi1_spin[100]/D");
-    Tree_->Branch("RECORF_2e2mu_Phi2_spin",RECORF_2e2mu_Phi2_spin,"RECORF_2e2mu_Phi2_spin[100]/D");
-    Tree_->Branch("RECORF_2e2mu_phi1RF_spin",RECORF_2e2mu_phi1RF_spin,"RECORF_2e2mu_phi1RF_spin[100]/D");
-    Tree_->Branch("RECORF_2e2mu_phi2RF_spin",RECORF_2e2mu_phi2RF_spin,"RECORF_2e2mu_phi2RF_spin[100]/D");
-    Tree_->Branch("RECORF_2e2mu_MELA",RECORF_2e2mu_MELA,"RECORF_2e2mu_MELA[100]/D");
-
-   
-    Tree_->Branch("RECORF_4e_cosTheta1_spin", RECORF_4e_cosTheta1_spin,"RECORF_4e_cosTheta1_spin[100]/D");
-    Tree_->Branch("RECORF_4e_cosTheta2_spin", RECORF_4e_cosTheta2_spin,"RECORF_4e_cosTheta2_spin[100]/D");
-    Tree_->Branch("RECORF_4e_cosThetaStar_spin",RECORF_4e_cosThetaStar_spin,"RECORF_4e_cosThetaStar_spin[100]/D");
-    Tree_->Branch("RECORF_4e_Phi_spin", RECORF_4e_Phi_spin,"RECORF_4e_Phi_spin[100]/D");
-    Tree_->Branch("RECORF_4e_Phi1_spin", RECORF_4e_Phi1_spin,"RECORF_4e_Phi1_spin[100]/D");
-    Tree_->Branch("RECORF_4e_Phi2_spin", RECORF_4e_Phi2_spin,"RECORF_4e_Phi2_spin[100]/D");
-    Tree_->Branch("RECORF_4e_phi1RF_spin", RECORF_4e_phi1RF_spin,"RECORF_4e_phi1RF_spin[100]/D");
-    Tree_->Branch("RECORF_4e_phi2RF_spin", RECORF_4e_phi2RF_spin,"RECORF_4e_phi2RF_spin[100]/D");
-    Tree_->Branch("RECORF_4e_MELA", RECORF_4e_MELA,"RECORF_4e_MELA[100]/D");
-      
-    Tree_->Branch("RECORF_4mu_cosTheta1_spin", RECORF_4mu_cosTheta1_spin,"RECORF_4mu_cosTheta1_spin[100]/D");
-    Tree_->Branch("RECORF_4mu_cosTheta2_spin", RECORF_4mu_cosTheta2_spin,"RECORF_4mu_cosTheta2_spin[100]/D");
-    Tree_->Branch("RECORF_4mu_cosThetaStar_spin", RECORF_4mu_cosThetaStar_spin,"RECORF_4mu_cosThetaStar_spin[100]/D");
-    Tree_->Branch("RECORF_4mu_Phi_spin", RECORF_4mu_Phi_spin,"RECORF_4mu_Phi_spin[100]/D");
-    Tree_->Branch("RECORF_4mu_Phi1_spin", RECORF_4mu_Phi1_spin,"RECORF_4mu_Phi1_spin[100]/D");
-    Tree_->Branch("RECORF_4mu_Phi2_spin", RECORF_4mu_Phi2_spin,"RECORF_4mu_Phi2_spin[100]/D");
-    Tree_->Branch("RECORF_4mu_phi1RF_spin", RECORF_4mu_phi1RF_spin,"RECORF_4mu_phi1RF_spin[100]/D");
-    Tree_->Branch("RECORF_4mu_phi2RF_spin", RECORF_4mu_phi2RF_spin,"RECORF_4mu_phi2RF_spin[100]/D");
-    Tree_->Branch("RECORF_4mu_MELA", RECORF_4mu_MELA,"RECORF_4mu_MELA[100]/D");
-
-
-
-    // RECO additional block for reconstructed higgs, Z and their daughters
-    Tree_->Branch("RECO_ZMM_MASS", RECO_ZMM_MASS, "RECO_ZMM_MASS[50]/F");
-    Tree_->Branch("RECO_ZEE_MASS", RECO_ZEE_MASS, "RECO_ZEE_MASS[50]/F");
-    Tree_->Branch("RECO_DiLep_MASS", RECO_DiLep_MASS, "RECO_DiLep_MASS[50]/F");
-    Tree_->Branch("RECO_ZMM_PT", RECO_ZMM_PT, "RECO_ZMM_PT[3][50]/F");
-    Tree_->Branch("RECO_ZEE_PT", RECO_ZEE_PT, "RECO_ZEE_PT[3][50]/F");  
-    Tree_->Branch("RECO_DiLep_PT", RECO_DiLep_PT, "RECO_DiLep_PT[3][50]/F");  
-    Tree_->Branch("RECO_ZMM_ETA", RECO_ZMM_ETA, "RECO_ZMM_ETA[3][50]/F");
-    Tree_->Branch("RECO_ZEE_ETA", RECO_ZEE_ETA, "RECO_ZEE_ETA[3][50]/F");
-    Tree_->Branch("RECO_DiLep_ETA", RECO_DiLep_ETA, "RECO_DiLep_ETA[3][50]/F");  
-    Tree_->Branch("RECO_ZMM_PHI", RECO_ZMM_PHI, "RECO_ZMM_PHI[3][50]/F");
-    Tree_->Branch("RECO_ZEE_PHI", RECO_ZEE_PHI, "RECO_ZEE_PHI[3][50]/F");
-    Tree_->Branch("RECO_DiLep_PHI", RECO_DiLep_PHI, "RECO_DiLep_PHI[3][50]/F");  
-                              
-    Tree_->Branch("RECO_ZMMss_MASS", RECO_ZMMss_MASS, "RECO_ZMMss_MASS[50]/F");
-    Tree_->Branch("RECO_ZEEss_MASS", RECO_ZEEss_MASS, "RECO_ZEEss_MASS[50]/F");
-    Tree_->Branch("RECO_ZEM_MASS", RECO_ZEM_MASS, "RECO_ZEM_MASS[50]/F");
-    Tree_->Branch("RECO_ZMMss_PT", RECO_ZMMss_PT, "RECO_ZMMss_PT[3][50]/F");
-    Tree_->Branch("RECO_ZEEss_PT", RECO_ZEEss_PT, "RECO_ZEEss_PT[3][50]/F");
-    Tree_->Branch("RECO_ZEM_PT", RECO_ZEM_PT, "RECO_ZEM_PT[3][50]/F");
-    Tree_->Branch("RECO_ZMMss_ETA", RECO_ZMMss_ETA, "RECO_ZMMss_ETA[3][50]/F");
-    Tree_->Branch("RECO_ZEEss_ETA", RECO_ZEEss_ETA, "RECO_ZEEss_ETA[3][50]/F");
-    Tree_->Branch("RECO_ZEM_ETA", RECO_ZEM_ETA, "RECO_ZEM_ETA[3][50]/F");
-    Tree_->Branch("RECO_ZMMss_PHI", RECO_ZMMss_PHI, "RECO_ZMMss_PHI[3][50]/F");
-    Tree_->Branch("RECO_ZEEss_PHI", RECO_ZEEss_PHI, "RECO_ZEEss_PHI[3][50]/F");
-    Tree_->Branch("RECO_ZEM_PHI", RECO_ZEM_PHI, "RECO_ZEM_PHI[3][50]/F");
-
-    
-    Tree_->Branch("RECO_MMMM_MASS", RECO_MMMM_MASS, "RECO_MMMM_MASS[7][100]/F");
-    Tree_->Branch("RECO_MMMM_PT", RECO_MMMM_PT, "RECO_MMMM_PT[7][100]/F");
-    Tree_->Branch("RECO_MMMM_ETA", RECO_MMMM_ETA, "RECO_MMMM_ETA[7][100]/F");
-    Tree_->Branch("RECO_MMMM_PHI", RECO_MMMM_PHI, "RECO_MMMM_PHI[7][100]/F");
-    Tree_->Branch("RECO_MMMM_MASS_REFIT", RECO_MMMM_MASS_REFIT, "RECO_MMMM_MASS_REFIT[100]/F");
-
-    Tree_->Branch("RECO_EEEE_MASS", RECO_EEEE_MASS, "RECO_EEEE_MASS[7][100]/F");
-    Tree_->Branch("RECO_EEEE_PT", RECO_EEEE_PT, "RECO_EEEE_PT[7][100]/F"); 
-    Tree_->Branch("RECO_EEEE_ETA", RECO_EEEE_ETA, "RECO_EEEE_ETA[7][100]/F");
-    Tree_->Branch("RECO_EEEE_PHI", RECO_EEEE_PHI, "RECO_EEEE_PHI[7][100]/F");
-    Tree_->Branch("RECO_EEEE_MASS_REFIT", RECO_EEEE_MASS_REFIT, "RECO_EEEE_MASS_REFIT[100]/F");
-
-    Tree_->Branch("RECO_EEMM_MASS", RECO_EEMM_MASS, "RECO_EEMM_MASS[7][100]/F");
-    Tree_->Branch("RECO_EEMM_PT", RECO_EEMM_PT, "RECO_EEMM_PT[7][100]/F");
-    Tree_->Branch("RECO_EEMM_ETA", RECO_EEMM_ETA, "RECO_EEMM_ETA[7][100]/F");
-    Tree_->Branch("RECO_EEMM_PHI", RECO_EEMM_PHI, "RECO_EEMM_PHI[7][100]/F");
-    Tree_->Branch("RECO_EEMM_MASS_REFIT", RECO_EEMM_MASS_REFIT, "RECO_EEMM_MASS_REFIT[100]/F");
-
-    Tree_->Branch("RECO_LLL0_MASS", RECO_LLL0_MASS, "RECO_LLL0_MASS[50]/F"); 
-    Tree_->Branch("RECO_LLL1_MASS", RECO_LLL1_MASS, "RECO_LLL1_MASS[50]/F"); 
-    Tree_->Branch("RECO_LLL2_MASS", RECO_LLL2_MASS, "RECO_LLL2_MASS[50]/F"); 
-    Tree_->Branch("RECO_LLL3_MASS", RECO_LLL3_MASS, "RECO_LLL3_MASS[50]/F"); 
-    Tree_->Branch("RECO_LLL0_PT", RECO_LLL0_PT, "RECO_LLL0_PT[4][50]/F"); 
-    Tree_->Branch("RECO_LLL1_PT", RECO_LLL1_PT, "RECO_LLL1_PT[4][50]/F"); 
-    Tree_->Branch("RECO_LLL2_PT", RECO_LLL2_PT, "RECO_LLL2_PT[4][50]/F"); 
-    Tree_->Branch("RECO_LLL3_PT", RECO_LLL3_PT, "RECO_LLL3_PT[4][50]/F"); 
-
-    Tree_->Branch("RECO_LLLl0_MASS", RECO_LLLl0_MASS, "RECO_LLLl0_MASS[20]/F"); 
-    Tree_->Branch("RECO_LLLl1_MASS", RECO_LLLl1_MASS, "RECO_LLLl1_MASS[20]/F"); 
-    Tree_->Branch("RECO_LLLl0_PT", RECO_LLLl0_PT, "RECO_LLLl0_PT[5][20]/F"); 
-    Tree_->Branch("RECO_LLLl1_PT", RECO_LLLl1_PT, "RECO_LLLl1_PT[5][20]/F"); 
-
-    Tree_->Branch("RECO_LLLL0ss_MASS", RECO_LLLL0ss_MASS, "RECO_LLLL0ss_MASS[20]/F"); 
-    Tree_->Branch("RECO_LLLL0ss_PT", RECO_LLLL0ss_PT, "RECO_LLLL0ss_PT[5][20]/F"); 
-    Tree_->Branch("RECO_LLLL1ss_MASS", RECO_LLLL1ss_MASS, "RECO_LLLL1ss_MASS[20]/F"); 
-    Tree_->Branch("RECO_LLLL1ss_PT", RECO_LLLL1ss_PT, "RECO_LLLL1ss_PT[5][20]/F"); 
-    Tree_->Branch("RECO_LLLL2ss_MASS", RECO_LLLL2ss_MASS, "RECO_LLLL2ss_MASS[20]/F"); 
-    Tree_->Branch("RECO_LLLL2ss_PT", RECO_LLLL2ss_PT, "RECO_LLLL2ss_PT[5][20]/F"); 
-       
-    //Tree_->Branch("RECOcollNameLLLLssos_MASS",RECOcollNameLLLLssos_MASS,"RECOcollNameLLLLssos_MASS[20]/F");
-    //Tree_->Branch("RECOcollNameLLLLssos_PT",RECOcollNameLLLLssos_PT,"RECOcollNameLLLLssos_PT[5][20]/F");
-
-    Tree_->Branch("RECO_LLLL_MASS", RECO_LLLL_MASS, "RECO_LLLL_MASS[7][50]/F");
-    Tree_->Branch("RECO_LLLL_PT", RECO_LLLL_PT, "RECO_LLLL_PT[7][50]/F");
-    Tree_->Branch("RECO_LLLL_ETA", RECO_LLLL_ETA, "RECO_LLLL_ETA[7][50]/F");
-    Tree_->Branch("RECO_LLLL_PHI", RECO_LLLL_PHI, "RECO_LLLL_PHI[7][50]/F");
- 
-   
-
     // Electron block
     Tree_->Branch("RECOELE_E", RECOELE_E, "RECOELE_E[100]/F"); 
     Tree_->Branch("RECOELE_PT",RECOELE_PT,"RECOELE_PT[100]/F");
@@ -889,6 +778,9 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOMU_numberOfMatches",RECOMU_numberOfMatches,"RECOMU_numberOfMatches[100]/i");
     Tree_->Branch("RECOMU_numberOfMatchedStations",RECOMU_numberOfMatchedStations,"RECOMU_numberOfMatchedStations[100]/i");
     Tree_->Branch("RECOMU_glbmuPromptTight",RECOMU_glbmuPromptTight,"RECOMU_glbmuPromptTight[100]/b");
+    Tree_->Branch("RECOMU_chi2LocalPosition",RECOMU_chi2LocalPosition,"RECOMU_chi2LocalPosition[100]/F");
+    Tree_->Branch("RECOMU_trkKink",RECOMU_trkKink,"RECOMU_trkKink[100]/F");
+    Tree_->Branch("RECOMU_isMedium",RECOMU_isMedium,"RECOMU_isMedium[100]/b");
  
     // track variables from muons:
     Tree_->Branch( "RECOMU_trkmuArbitration", RECOMU_trkmuArbitration, "RECOMU_trkmuArbitration[100]/b");
@@ -935,6 +827,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch( "RECOMU_muInnertrkNHits", RECOMU_muInnertrkNHits, "RECOMU_muInnertrkNHits[100]/F");
     Tree_->Branch( "RECOMU_muInnertrkNStripHits", RECOMU_muInnertrkNStripHits, "RECOMU_muInnertrkNStripHits[100]/F");
     Tree_->Branch( "RECOMU_muInnertrkNPixHits", RECOMU_muInnertrkNPixHits, "RECOMU_muInnertrkNPixHits[100]/F");
+    Tree_->Branch( "RECOMU_muInnertrkvalidFraction", RECOMU_muInnertrkvalidFraction, "RECOMU_muInnertrkvalidFraction[100]/F");
     // best tracks for 13 TeV analysis
     Tree_->Branch( "RECOMU_mubesttrkType", RECOMU_mubesttrkType, "RECOMU_mubesttrkType[100]/I");
     Tree_->Branch( "RECOMU_mubesttrkDxy", RECOMU_mubesttrkDxy, "RECOMU_mubesttrkDxy[100]/F");
@@ -943,6 +836,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch( "RECOMU_mubesttrkDzError", RECOMU_mubesttrkDzError, "RECOMU_mubesttrkDzError[100]/F");
     Tree_->Branch( "RECOMU_mubesttrkPTError", RECOMU_mubesttrkPTError, "RECOMU_mubesttrkPTError[100]/F");
 
+/*
     // Geom. Discri.
     Tree_->Branch("ftsigma",        &ftsigma,        "ftsigma[100]/D");
     Tree_->Branch("gdX",            &gdX,            "gdX[100]/D");
@@ -1037,7 +931,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     // Conversions
     Tree_->Branch("ConvMapDist",              ConvMapDist,              "ConvMapDist[100]/F");
     Tree_->Branch("ConvMapDcot",              ConvMapDcot,              "ConvMapDcot[100]/F");
-
+*/
 
 
     //MatchingMC:
@@ -1053,12 +947,19 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOELE_MatchingMCEta", RECOELE_MatchingMCEta, "RECOELE_MatchingMCEta[100]/F");
     Tree_->Branch("RECOELE_MatchingMCPhi", RECOELE_MatchingMCPhi, "RECOELE_MatchingMCPhi[100]/F");
 
+    //Bottom
+    Tree_->Branch("RECOBOT_MatchingMCTruth", RECOBOT_MatchingMCTruth, "RECOBOT_MatchingMCTruth[100]/b");
+    Tree_->Branch("RECOBOT_MatchingMCpT", RECOBOT_MatchingMCpT, "RECOBOT_MatchingMCpT[100]/F");
+    Tree_->Branch("RECOBOT_MatchingMCEta", RECOBOT_MatchingMCEta, "RECOBOT_MatchingMCEta[100]/F");
+    Tree_->Branch("RECOBOT_MatchingMCPhi", RECOBOT_MatchingMCPhi, "RECOBOT_MatchingMCPhi[100]/F");
+
     //Gamma:
     Tree_->Branch("RECOPHOT_MatchingMCTruth", RECOPHOT_MatchingMCTruth, "RECOPHOT_MatchingMCTruth[50]/b");
     Tree_->Branch("RECOPHOT_MatchingMCpT", RECOPHOT_MatchingMCpT, "RECOPHOT_MatchingMCpT[50]/F");
     Tree_->Branch("RECOPHOT_MatchingMCEta", RECOPHOT_MatchingMCEta, "RECOPHOT_MatchingMCEta[50]/F");
     Tree_->Branch("RECOPHOT_MatchingMCPhi", RECOPHOT_MatchingMCPhi, "RECOPHOT_MatchingMCPhi[50]/F");
 
+/*
     //ZtoMuMu:
     Tree_->Branch("RECOzMuMu_MatchingMCTruth", RECOzMuMu_MatchingMCTruth, "RECOzMuMu_MatchingMCTruth[50]/b");
     Tree_->Branch("RECOzMuMu_MatchingMCpT", RECOzMuMu_MatchingMCpT, "RECOzMuMu_MatchingMCpT[50]/F");
@@ -1093,7 +994,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOHzzMMMM_MatchingMCmass", RECOHzzMMMM_MatchingMCmass, "RECOHzzMMMM_MatchingMCmass[100]/F");
     Tree_->Branch("RECOHzzMMMM_MatchingMCEta", RECOHzzMMMM_MatchingMCEta, "RECOHzzMMMM_MatchingMCEta[100]/F");
     Tree_->Branch("RECOHzzMMMM_MatchingMCPhi", RECOHzzMMMM_MatchingMCPhi, "RECOHzzMMMM_MatchingMCPhi[100]/F");
-
+*/
 
 
     //Global Event 
@@ -1224,7 +1125,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     //for (int ii=0;ii<200;ii++){
     //  HLTPathsFired[ii]="";
     //}
-
+/*
     leptonscands2e2mu_= new (CandidateCollection);
     leptonscands2e2murf_= new (CandidateCollection);
     leptonscands4mu_= new (CandidateCollection);
@@ -1251,7 +1152,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     leptonscands_LLLl0= new (CandidateCollection);
     leptonscands_LLLl1= new (CandidateCollection);
     leptonscands_LLLL= new (CandidateCollection);
-
+*/
     for  (int i=0; i<4;i++){ 
       MC_LEPT_PT[i]=-999.;
       MC_LEPT_ETA[i]=-999.;
@@ -1302,53 +1203,6 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
   
 
-    }
-
-   
-    for (int i=0; i<100;i++){
-      RECORF_2e2mu_cosTheta1_spin[i]=-999.;
-      RECORF_2e2mu_cosTheta2_spin[i]=-999.;
-      RECORF_2e2mu_cosThetaStar_spin[i]=-999.;
-      RECORF_2e2mu_Phi_spin[i]=-999.;
-      RECORF_2e2mu_Phi1_spin[i]=-999.;
-      RECORF_2e2mu_Phi2_spin[i]=-999.;
-      RECORF_2e2mu_phi1RF_spin[i]=-999.;
-      RECORF_2e2mu_phi2RF_spin[i]=-999.;
-      RECORF_2e2mu_MELA[i]=-999.;
-      
-      RECORF_4mu_cosTheta1_spin[i]=-999.;
-      RECORF_4mu_cosTheta2_spin[i]=-999.;
-      RECORF_4mu_cosThetaStar_spin[i]=-999.;
-      RECORF_4mu_Phi_spin[i]=-999.;
-      RECORF_4mu_Phi1_spin[i]=-999.;
-      RECORF_4mu_Phi2_spin[i]=-999.;
-      RECORF_4mu_phi1RF_spin[i]=-999.;
-      RECORF_4mu_phi2RF_spin[i]=-999.;
-      RECORF_4mu_MELA[i]=-999.;
-
-      RECORF_4e_cosTheta1_spin[i]=-999.;
-      RECORF_4e_cosTheta2_spin[i]=-999.;
-      RECORF_4e_cosThetaStar_spin[i]=-999.;
-      RECORF_4e_Phi_spin[i]=-999.;
-      RECORF_4e_Phi1_spin[i]=-999.;
-      RECORF_4e_Phi2_spin[i]=-999.;
-      RECORF_4e_phi1RF_spin[i]=-999.;
-      RECORF_4e_phi2RF_spin[i]=-999.;
-      RECORF_4e_MELA[i]=-999.;
-   
-    }
-
-    for (int i=0; i<10;i++){
-      MCRF_cosTheta1_spin[i]=-999.;
-      MCRF_cosTheta2_spin[i]=-999.;
-      MCRF_cosThetaStar_spin[i]=-999.;
-      MCRF_Phi_spin[i]=-999.;
-      MCRF_Phi1_spin[i]=-999.;
-      MCRF_Phi2_spin[i]=-999.;
-      MCRF_phi1RF_spin[i]=-999.;
-      MCRF_phi2RF_spin[i]=-999.;          	       
-      MCRF_MELA[i]=-999.; 
-   
     }
 
     genmet=-999.,calomet=-999.;  
@@ -1441,7 +1295,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       MC_GENJET_PT[i]=-999;
       MC_GENJET_ETA[i]=-999;
       MC_GENJET_PHI[i]=-999;
-
+/*
       ftsigma[i]=-999.;
       ftsigmalag[i]=-999.;
       gdX[i]=-999.;
@@ -1532,13 +1386,15 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 	StdFitVertexTrackEEEE_ETA[k][i]=-999.;
 	StdFitVertexTrackEEEE_PHI[k][i]=-999.;
       }
+*/
     }
     
-
+/*
     for (int i=0; i<40;i++){
       StdFitVertexChi2rDiLep[i]=-999.;
       StdFitVertexProbDiLep[i]=-999.;
     }
+
     
     for (int j=0; j<7;j++){
       for (int i=0; i<100;i++){
@@ -1558,7 +1414,8 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
       }
     }
-
+*/
+/*
     for (int i=0; i<50;i++){
 
       RECO_ZMM_MASS[i]=-999.;
@@ -1668,6 +1525,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 	RECO_LLLL_PHI[j][i]=-999.;
       }
     }
+*/
 
     for (int i=0; i<100;i++){
       RECOELE_E[i]     = -999.;
@@ -1902,7 +1760,8 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       RECOMU_muInnertrkNStripHits[i]=-999.;
       RECOMU_muInnertrkPT[i]=-999.;
       RECOMU_muInnertrkPTError[i]=-999.;
-      
+      RECOMU_muInnertrkvalidFraction[i]=-999; 
+     
       RECOMU_mubesttrkType[i]=-999;
       RECOMU_mubesttrkDxy[i]=-999.;
       RECOMU_mubesttrkDxyB[i]=-999.;
@@ -1948,7 +1807,12 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       RECOELE_MatchingMCpT[i]=-999.;
       RECOELE_MatchingMCEta[i]=-999.;
       RECOELE_MatchingMCPhi[i]=-999.;
-
+    
+      // Bottoms
+      RECOBOT_MatchingMCTruth[i]=false;
+      RECOBOT_MatchingMCpT[i]=-999.;
+      RECOBOT_MatchingMCEta[i]=-999.;
+      RECOBOT_MatchingMCPhi[i]=-999.;
 
       //Gamma:
       RECOPHOT_MatchingMCTruth[i]=false;
@@ -1956,7 +1820,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       RECOPHOT_MatchingMCEta[i]=-999.;
       RECOPHOT_MatchingMCPhi[i]=-999.;
 
-      
+/*      
       //zToMuMu:
       RECOzMuMu_MatchingMCTruth[i]=false;
       RECOzMuMu_MatchingMCpT[i]=-999.;
@@ -1967,9 +1831,9 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       //zToEE:
       RECOzEE_MatchingMCTruth[i]=false;
       RECOzEE_MatchingMCpT[i]=-999.;
-      RECOzEE_MatchingMCmass[i]=-999.;
+      RECOzEE_MatchingMCmass[i]=-999.;*/
     }
-
+/*
      for (int i=0; i<100;i++){
       //HTozzToMMMM:
       RECOHzzMMMM_MatchingMCTruth[i]=false;
@@ -1987,7 +1851,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       RECOHzzEEEE_MatchingMCmass[i]=-999.;
       RECOHzzEEEE_MatchingMCEta[i]=-999.;
     }
-
+*/
 
     for (int i=0; i<200;i++){
       RECO_TRACK_PT[i]=-999.;
@@ -2082,11 +1946,12 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     edm::Handle<edm::TriggerResults> triggerBits;
     edm::Handle<pat::TriggerObjectStandAloneCollection> triggerObjects;
     iEvent.getByToken(triggerObjects_, triggerObjects );
+    iEvent.getByToken(triggerBits_, triggerBits);
 //    const trigger::TriggerObjectCollection & toc(handleTriggerEvent->getObjects());
     size_t nMuHLT =0, nEleHLT=0;
 
 
-    //const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);    
+    const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);    
 
 
     std::vector<pat::TriggerObjectStandAlone>  HLTMuMatched,HLTEleMatched;
@@ -2094,7 +1959,8 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
    
 //MiniAOD
     for (pat::TriggerObjectStandAlone obj : *triggerObjects) {
-      // obj.unpackPathNames(names);
+       obj.unpackPathNames(names);
+
        for (unsigned h = 0; h < obj.filterLabels().size(); ++h){
            std::string fullname = obj.filterLabels()[h];
            std::string name;
@@ -2105,21 +1971,38 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       else {
         name = fullname;
       } 
-     
-
+     /*
           if (name == triggerFilter.c_str()) {
             HLTMuMatched.push_back(obj);
             HLTMuMatchedNames.push_back(name);
             cout << "Matching " << triggerFilter.c_str()  << endl;
             nMuHLT++;
           }
+      */
           if (name == triggerEleFilter.c_str()) {
             HLTEleMatched.push_back(obj);
             HLTEleMatchedNames.push_back(name);
             cout << "Matching " << triggerEleFilter.c_str()  << endl;
             nEleHLT++;
           }
+
         }
+
+        std::vector<string> pathNamesAll = obj.pathNames(false);
+        std::vector<string> pathNamesLast = obj.pathNames(true);
+//        std::cout << "\t   Paths (" << pathNamesAll.size()<<"/"<<pathNamesLast.size()<<"):    ";
+        bool hlt_pass = false;
+        for(unsigned h = 0; h < pathNamesLast.size(); h++)
+         for(unsigned h2 = 0; h2 < HLTFilter_.size(); h2++){
+           TString hlt = pathNamesLast[h].c_str();
+           if(hlt.Contains(HLTFilter_[h2].c_str())){ 
+            hlt_pass=true;
+            cout << "Matching " << HLTFilter_[h2].c_str()  << endl;
+           }
+           }
+
+       if(hlt_pass)  {HLTMuMatched.push_back(obj); HLTMuMatchedNames.push_back("IsoMu24");nMuHLT++;}
+
       }
     
 
@@ -2129,8 +2012,14 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     float maxDeltaR_=0.2;
     float maxDPtRel_=1.0;
     int nMuHLTMatch=0;
+    float minDR=0.5;
+    int Ni=-1;
     for (edm::View<pat::Muon>::const_iterator iCand = MuCandidates->begin(); iCand != MuCandidates->end(); ++iCand){
       unsigned int i=iCand-MuCandidates->begin();
+
+      for(size_t k=0; k < HLTMuMatched.size(); k++)
+            if(deltaR(HLTMuMatched[k],*iCand)<minDR){minDR=deltaR(HLTMuMatched[k],*iCand); Ni=i;}
+
       cout << "Muon with pt= " << iCand->pt() << ": check trigger matching" << endl;
       if (IsMuMatchedToHLTMu(*iCand,  HLTMuMatched , HLTMuMatchedNames, maxDeltaR_, maxDPtRel_)==true){
 	nMuHLTMatch++;
@@ -2140,8 +2029,13 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 	RECOMU_PHI_MuHLTMatch[i]=iCand->phi();
       }
     }
+    cout << "DR = " << minDR << " index= " << Ni << endl;
+    for(int i=0; i < 100; i++)
+      if(i!=Ni) {RECOMU_PT_MuHLTMatch[i] = -999;
+                 RECOMU_ETA_MuHLTMatch[i]= -999;
+                 RECOMU_PHI_MuHLTMatch[i]= -999;}
 
-    cout << "N. Muons HLT Matched= " << nMuHLTMatch << " FiredString:" << HLTPathsFired << endl;
+    cout << "N. Muons HLT Matched= " << nMuHLTMatch << endl;
     RECO_nMuHLTMatch    = nMuHLTMatch;
 
 
@@ -2558,7 +2452,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
   };
   
 
-  
+ /* 
   void fillAdditionalRECO(const edm::Event& iEvent){
    
     //Matching ZtoMuMu:
@@ -2899,7 +2793,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       kk++;
     }
     
-/*   
+   
     // tri-leptons
     leptonscands_LLL0->clear();
     leptonscands_LLL1->clear();
@@ -2945,8 +2839,8 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 	k++;
       }
     }
-*/    
-/*
+    
+
     // 4-leptons SS
     leptonscands_LLLLss0->clear();
     leptonscands_LLLLss1->clear();
@@ -2989,8 +2883,8 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 	kk++;
       }      
     }
-*/
-/*
+
+
     // 4-leptons 3l+l
     leptonscands_LLLl0->clear();
     leptonscands_LLLl1->clear(); 
@@ -3072,9 +2966,9 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       }
       kk++;
     }
-*/    
+    
   }
-
+*/
 
   void SetMCValues(const reco::Candidate& cand, int nMC){
     MC_E[nMC]     = cand.p4().energy();
@@ -3133,8 +3027,8 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
 
     //Electron ID MVA Trig and Non Trig
-//    edm::Handle<edm::ValueMap<float> >  mvaTrigV0map;
-//    iEvent.getByToken(mvaTrigV0MapTag_, mvaTrigV0map);
+    edm::Handle<edm::ValueMap<float> >  mvaTrigV0map;
+    iEvent.getByToken(mvaTrigV0MapTag_, mvaTrigV0map);
     edm::Handle<edm::ValueMap<float> >  mvaNonTrigV0map;
     iEvent.getByToken(mvaNonTrigV0MapTag_, mvaNonTrigV0map);
     
@@ -3683,12 +3577,11 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 	if ( RECOELE_sigmaEtaEta[index]==candid->sigmaEtaEta() && RECOELE_sigmaIetaIeta[index]==candid->sigmaIetaIeta() ){
 	  //cout << "Trovato electtrone= " << RECOELE_PT[index] << " " << candid->p4().pt() << endl;
           //qier test 
-           cout << "test11" << endl;
-//	   RECOELE_mvaTrigV0[index]=(*mvaTrigV0map)[eletrackrefa];
+	   RECOELE_mvaTrigV0[index]=(*mvaTrigV0map)[eletrackrefa];
 	   RECOELE_mvaNonTrigV0[index]=(*mvaNonTrigV0map)[eletrackrefa];
 	   
 	   std::cout << "BDT MVA eleID flag = "
-		   //  << RECOELE_mvaTrigV0[index] << " "
+		     << RECOELE_mvaTrigV0[index] << " "
 		     << RECOELE_mvaNonTrigV0[index] << " "
 		     << std::endl;
 	   
@@ -3877,14 +3770,14 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       
       edm::Ref<edm::View<pat::Muon> > mutrackref(MuCandidates,indexbis); 
       edm::Ref<edm::View<pat::Muon> > mutrackrefv(VertMuCandidates,indexbis); 
-     
       RECOMU_isPFMu[indexbis]=cand->isPFMuon();
 
       RECOMU_isGlobalMu[indexbis]=cand->isGlobalMuon();
       RECOMU_isStandAloneMu[indexbis]=cand->isStandAloneMuon();
       RECOMU_isTrackerMu[indexbis]=cand->isTrackerMuon();
       RECOMU_isCaloMu[indexbis]=cand->isCaloMuon();
-      RECOMU_isTrackerHighPtMu[indexbis]=isTrackerHighPtMu(*cand,pVertex);   
+      
+     if(cand->globalTrack().isAvailable()) RECOMU_isTrackerHighPtMu[indexbis]=isTrackerHighPtMu(*cand,pVertex);   
 
       std::cout << "\n Muon in the event: "
 	        <<   "  isPF=" << RECOMU_isPFMu[indexbis]
@@ -4041,13 +3934,18 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       RECOMU_caloCompatibility[indexbis]=cand->caloCompatibility();
       RECOMU_segmentCompatibility[indexbis]=(muon::segmentCompatibility( (*cand)));
       RECOMU_glbmuPromptTight[indexbis]=(muon::isGoodMuon( (*cand),muon::GlobalMuonPromptTight));
-
+//      RECOMU_chi2LocalPosition[indexbis]=cand.combinedQuality().chi2LocalPosition;
+//      RECOMU_trkKink[indexbis]=cand->combinedQuality()->trkKink;
+      RECOMU_isMedium[indexbis] = muon::isMediumMuon(*cand);
 
       std::cout	<< "--other properties:"
 		<< "  n.matches="   << RECOMU_numberOfMatches[indexbis]
 		<< "  caloComp="    << RECOMU_caloCompatibility[indexbis]
 		<< "  segmentComp=" << RECOMU_segmentCompatibility[indexbis]
 	        << "  glbmuPromptTight=" << RECOMU_glbmuPromptTight[indexbis]
+                << "  isMediumMuon= " << RECOMU_isMedium[indexbis]
+//                << "  chi2LocalPosition=" << RECOMU_chi2LocalPosition[indexbis]
+//                << "  trkKink=" << RECOMU_trkKink[indexbis]
 		<< std::endl;
 
   
@@ -4097,7 +3995,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
  	RECOMU_muInnertrkNHits[indexbis]=cand->innerTrack()->numberOfValidHits(); 
 	RECOMU_muInnertrkNPixHits[indexbis]=cand->innerTrack()->hitPattern().numberOfValidPixelHits();
         RECOMU_muInnertrkNStripHits[indexbis]=cand->innerTrack()->hitPattern().numberOfValidStripHits();
-
+        RECOMU_muInnertrkvalidFraction[indexbis]=cand->innerTrack()->validFraction();
       }
       else if(cand->innerTrack().isAvailable()){
 	RECOMU_muInnertrkDxy[indexbis]=cand->innerTrack()->dxy(pVertex);
@@ -4115,6 +4013,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
  	RECOMU_muInnertrkNHits[indexbis]=cand->innerTrack()->numberOfValidHits(); 
 	RECOMU_muInnertrkNPixHits[indexbis]=cand->innerTrack()->hitPattern().numberOfValidPixelHits();
         RECOMU_muInnertrkNStripHits[indexbis]=cand->innerTrack()->hitPattern().numberOfValidStripHits();
+        RECOMU_muInnertrkvalidFraction[indexbis]=cand->innerTrack()->validFraction();
       }
 
       if(cand->globalTrack().isAvailable() || cand->innerTrack().isAvailable() ){
@@ -4440,7 +4339,7 @@ void fillTracks(const edm::Event& iEvent){
 	      << std::endl;
     
   }
-
+/*
   void fillGD2e2mu(const edm::Event& iEvent){
     edm::Handle<vector<double> > GeomD;
     iEvent.getByLabel(ftsigma_Vert, GeomD);
@@ -4979,7 +4878,7 @@ void fillTracks(const edm::Event& iEvent){
 
     
   }
-
+*/
   
   		      
   void filljets(const edm::Event& iEvent){
@@ -5149,6 +5048,37 @@ void fillTracks(const edm::Event& iEvent){
 	cSV_BTagJet_ET[l]=btagIter->et();
 	cSV_BTagJet_DISCR[l]=discrCSV3;
       l++;
+
+      if (fillMCTruth==true){
+        int k=-1;
+        edm::Handle<edm::View<reco::GenParticle> > pruned;
+        iEvent.getByToken(prunedGenToken_,pruned);
+
+        double dRmin=10;
+        for(size_t j=0; j<pruned->size();j++){
+           if(abs((*pruned)[j].pdgId()) == 5&&(*pruned)[j].isPromptFinalState()){
+             const Candidate * genbot = &(*pruned)[j];
+             double phi1 = genbot->p4().phi();
+             double phi2 = btagIter->p4().phi();
+             double eta1 = genbot->p4().eta();
+             double eta2 = btagIter->p4().eta();
+         //    double pt1 = genbot->p4().pt();
+             double pt2 = btagIter->p4().pt();
+             double DELTAPHI;
+             if(abs(phi1-phi2)<3.14159) DELTAPHI=abs(phi1-phi2);
+             else DELTAPHI=abs(phi1-phi2)-2*3.14159;
+             double deltaR = sqrt( pow( DELTAPHI,2) + pow(eta1-eta2,2) );
+             if(deltaR<dRmin && pt2>15) {k=j;dRmin=deltaR;}
+           }
+         }
+        if(k>=0&&dRmin<0.15){
+              RECOBOT_MatchingMCTruth[l]= true;
+              RECOBOT_MatchingMCpT[l]= (*pruned)[k].p4().pt();
+              RECOBOT_MatchingMCEta[l]= (*pruned)[k].p4().eta();
+              RECOBOT_MatchingMCPhi[l]= (*pruned)[k].p4().phi();
+        }
+       }
+
     }
 
   }
@@ -5206,6 +5136,7 @@ void fillTracks(const edm::Event& iEvent){
   edm::InputTag HLTInfoFired;
   std::string HLTAnalysisinst;
   std::vector<edm::InputTag> flagHLTnames; 
+  std::vector<std::string> HLTFilter_;
 
   edm::EDGetTokenT<trigger::TriggerEvent> triggerEvent;     
 
@@ -5423,34 +5354,6 @@ void fillTracks(const edm::Event& iEvent){
   char HLTPathsFired[20000];
 
  
-  // tmp candidate collections
-  reco::CandidateCollection *leptonscands2e2mu_;
-  reco::CandidateCollection *leptonscands2e2murf_;
-  reco::CandidateCollection *leptonscands4mu_;
-  reco::CandidateCollection *leptonscands4murf_;
-  reco::CandidateCollection *leptonscands4e_;
-  reco::CandidateCollection *leptonscands4erf_;
-  
-  reco::CandidateCollection *leptonscands_Z0;
-  reco::CandidateCollection *leptonscands_Z1;
-  reco::CandidateCollection *leptonscands_Zss0;
-  reco::CandidateCollection *leptonscands_Zss1;
-  reco::CandidateCollection *leptonscands_Zcross;
-  reco::CandidateCollection *leptonscands_DiLep;
-  reco::CandidateCollection *leptonscands_MMMM;
-  reco::CandidateCollection *leptonscands_EEEE;
-  reco::CandidateCollection *leptonscands_EEMM;
-  reco::CandidateCollection *leptonscands_LLL0;
-  reco::CandidateCollection *leptonscands_LLL1;
-  reco::CandidateCollection *leptonscands_LLL2;
-  reco::CandidateCollection *leptonscands_LLL3;
-  reco::CandidateCollection *leptonscands_LLLLss0;
-  reco::CandidateCollection *leptonscands_LLLLss1;
-  reco::CandidateCollection *leptonscands_LLLLss2;
-  reco::CandidateCollection *leptonscands_LLLl0;
-  reco::CandidateCollection *leptonscands_LLLl1;
-  reco::CandidateCollection *leptonscands_LLLL;
-
 
   // MC info
   edm::ESHandle<ParticleDataTable>  pdt_;
@@ -5458,9 +5361,6 @@ void fillTracks(const edm::Event& iEvent){
   // MC truth
   float MC_E[7],MC_PT[7],MC_ETA[7],MC_THETA[7],MC_PHI[7],MC_MASS[7],MC_PDGID[7];
 
-  double MCRF_cosTheta1_spin[10], MCRF_cosTheta2_spin[10], MCRF_cosThetaStar_spin[10], MCRF_Phi_spin[10], 
-    MCRF_Phi1_spin[10], MCRF_Phi2_spin[10], MCRF_phi1RF_spin[10], MCRF_phi2RF_spin[10], MCRF_MELA[10];
-  
   float MC_LEPT_PT[4],MC_LEPT_ETA[4],MC_LEPT_PHI[4],MC_LEPT_THETA[4],MC_LEPT_PDGID[4];
   float MC_Z_MASS[2][5],MC_Z_PT[2][5],MC_Z_ETA[2][5],MC_Z_PHI[2][5],MC_Z_THETA[2][5],MC_Z_PDGID[2][5];
 
@@ -5470,51 +5370,9 @@ void fillTracks(const edm::Event& iEvent){
   // RECO collection
  
   
-  // RECORF
-    
-  double RECORF_2e2mu_cosTheta1_spin[100], RECORF_2e2mu_cosTheta2_spin[100], RECORF_2e2mu_cosThetaStar_spin[100], RECORF_2e2mu_Phi_spin[100], 
-    RECORF_2e2mu_Phi1_spin[100], RECORF_2e2mu_Phi2_spin[100], RECORF_2e2mu_phi1RF_spin[100], RECORF_2e2mu_phi2RF_spin[100],RECORF_2e2mu_MELA[100];
-  
-    
-  double RECORF_4e_cosTheta1_spin[100], RECORF_4e_cosTheta2_spin[100], RECORF_4e_cosThetaStar_spin[100], RECORF_4e_Phi_spin[100],RECORF_4e_MELA[100], 
-    RECORF_4e_Phi1_spin[100], RECORF_4e_Phi2_spin[100], RECORF_4e_phi1RF_spin[100], RECORF_4e_phi2RF_spin[100],RECORF_4mu_MELA[100];
-  
-    
-  double RECORF_4mu_cosTheta1_spin[100], RECORF_4mu_cosTheta2_spin[100], RECORF_4mu_cosThetaStar_spin[100], RECORF_4mu_Phi_spin[100], 
-    RECORF_4mu_Phi1_spin[100], RECORF_4mu_Phi2_spin[100], RECORF_4mu_phi1RF_spin[100], RECORF_4mu_phi2RF_spin[100];
-  
 
   int leptonflavor;
 
-  // RECO additional
-  float 
-    RECO_ZMM_MASS[50],RECO_ZMM_PT[3][50],RECO_ZMM_ETA[3][50],RECO_ZMM_PHI[3][50],
-    RECO_ZEE_MASS[50],RECO_ZEE_PT[3][50],RECO_ZEE_ETA[3][50],RECO_ZEE_PHI[3][50],
-    RECO_ZMMss_MASS[50],RECO_ZMMss_PT[3][50],RECO_ZMMss_ETA[3][50],RECO_ZMMss_PHI[3][50],
-    RECO_ZEEss_MASS[50],RECO_ZEEss_PT[3][50],RECO_ZEEss_ETA[3][50],RECO_ZEEss_PHI[3][50],
-    RECO_ZEM_MASS[50],RECO_ZEM_PT[3][50],RECO_ZEM_ETA[3][50],RECO_ZEM_PHI[3][50],
-    RECO_DiLep_MASS[50],RECO_DiLep_PT[3][50],RECO_DiLep_ETA[3][50],RECO_DiLep_PHI[3][50];
-  
-
-  float 
-    RECO_EEMM_MASS[7][100],RECO_MMMM_MASS[7][100],RECO_EEEE_MASS[7][100],
-    RECO_EEMM_PT[7][100],  RECO_MMMM_PT[7][100],  RECO_EEEE_PT[7][100],
-    RECO_EEMM_ETA[7][100],RECO_MMMM_ETA[7][100],RECO_EEEE_ETA[7][100],
-    RECO_EEMM_PHI[7][100],  RECO_MMMM_PHI[7][100],  RECO_EEEE_PHI[7][100],
-    RECO_MMMM_MASS_REFIT[100],RECO_EEMM_MASS_REFIT[100],RECO_EEEE_MASS_REFIT[100],
-    RECO_LLLL_MASS[7][50],RECO_LLLL_PT[7][50],RECO_LLLL_ETA[7][50],RECO_LLLL_PHI[7][50];
-
-  float	RECO_LLL0_MASS[50],RECO_LLL1_MASS[50],RECO_LLL2_MASS[50],RECO_LLL3_MASS[50];
-  float	RECO_LLL0_PT[4][50],RECO_LLL1_PT[4][50],RECO_LLL2_PT[4][50],RECO_LLL3_PT[4][50];
-
-  float	RECO_LLLl0_MASS[20],RECO_LLLl1_MASS[20];
-  float	RECO_LLLl0_PT[5][20],RECO_LLLl1_PT[5][20];
-
-  float 
-    RECO_LLLL0ss_MASS[20],RECO_LLLL0ss_PT[5][20],
-    RECO_LLLL1ss_MASS[20],RECO_LLLL1ss_PT[5][20],
-    RECO_LLLL2ss_MASS[20],RECO_LLLL2ss_PT[5][20];
-  
   // RECO electrons
   edm::ESHandle<CaloGeometry> theCaloGeom_;  
   float RECOELE_E[100],RECOELE_PT[100],RECOELE_PTError[100],RECOELE_P[100],RECOELE_ETA[100],RECOELE_THETA[100],RECOELE_PHI[100],RECOELE_MASS[100];
@@ -5594,7 +5452,8 @@ void fillTracks(const edm::Event& iEvent){
 
   float
     RECOMU_caloCompatibility[100],RECOMU_segmentCompatibility[100];
-  bool RECOMU_glbmuPromptTight[100];
+  bool RECOMU_glbmuPromptTight[100],RECOMU_isMedium[100];
+  float RECOMU_chi2LocalPosition[100], RECOMU_trkKink[100];
  
   int RECOMU_MMMM_MATCHED[100],RECOMU_EEMM_MATCHED[100],
       RECOMU_ZMM_MATCHED[100],RECOMU_ZssMM_MATCHED[100],RECOMU_ZEM_MATCHED[100],
@@ -5617,7 +5476,7 @@ void fillTracks(const edm::Event& iEvent){
     RECOMU_mubesttrkPTError[100],
     RECOMU_muInnertrkChi2PerNdof[100],
     RECOMU_muInnertrktrackerLayersWithMeasurement[100],RECOMU_muInnertrkPT[100],RECOMU_muInnertrkPTError[100],
-    RECOMU_muInnertrkCharge[100],RECOMU_muInnertrkNHits[100],RECOMU_muInnertrkNPixHits[100],RECOMU_muInnertrkNStripHits[100],
+    RECOMU_muInnertrkCharge[100],RECOMU_muInnertrkNHits[100],RECOMU_muInnertrkNPixHits[100],RECOMU_muInnertrkNStripHits[100],RECOMU_muInnertrkvalidFraction[100],
     RECOMU_mutrkCharge[100],RECOMU_mutrkNHits[100],RECOMU_mutrkNPixHits[100],RECOMU_mutrkNStripHits[100],RECOMU_mutrkNMuonHits[100];
   bool RECOMU_trkmuArbitration[100],RECOMU_trkmu2DCompatibilityLoose[100],RECOMU_trkmu2DCompatibilityTight[100];
   bool RECOMU_trkmuOneStationLoose[100],RECOMU_trkmuOneStationTight[100];
@@ -5632,7 +5491,7 @@ void fillTracks(const edm::Event& iEvent){
   double RECOPFPHOT_PFchAllPart[20],RECOPFPHOT_PFchHad[20],RECOPFPHOT_PFneuHad[20],RECOPFPHOT_PFphoton[20],
     RECOPFPHOT_PFPUchAllPart[20],RECOPFPHOT_PFX_rho[20];
   
-
+/*
   // Vertexing
   double ftsigma[100],ftsigmalag[100],ftsigmaMMMM[100],ftsigmalagMMMM[100],ftsigmaEEEE[100],ftsigmalagEEEE[100];
   double gdX[100],gdY[100],gdZ[100],gdXMMMM[100],gdYMMMM[100],gdZMMMM[100],gdXEEEE[100],gdYEEEE[100],gdZEEEE[100];
@@ -5660,13 +5519,19 @@ void fillTracks(const edm::Event& iEvent){
   double  StdFitVertexChi2rMME[100], StdFitVertexProbMME[100];
   double  StdFitVertexChi2rEEE[100], StdFitVertexProbEEE[100];
   double  StdFitVertexChi2rMEE[100], StdFitVertexProbMEE[100];
-   
+*/   
   
   //Muons Matching
   bool RECOMU_MatchingMCTruth[100];
   float RECOMU_MatchingMCpT[100];
   float RECOMU_MatchingMCEta[100];
   float RECOMU_MatchingMCPhi[100];
+
+  //Bottom Matching
+  bool RECOBOT_MatchingMCTruth[100];
+  float RECOBOT_MatchingMCpT[100];
+  float RECOBOT_MatchingMCEta[100];
+  float RECOBOT_MatchingMCPhi[100];
   
   //Electrons:
   bool RECOELE_MatchingMCTruth[100];
@@ -5679,6 +5544,7 @@ void fillTracks(const edm::Event& iEvent){
   float RECOPHOT_MatchingMCEta[50];
   float RECOPHOT_MatchingMCPhi[50];
 
+/*
   //zToMuMu:
   bool RECOzMuMu_MatchingMCTruth[50];
   float RECOzMuMu_MatchingMCpT[50];
@@ -5713,7 +5579,7 @@ void fillTracks(const edm::Event& iEvent){
   float RECOHzzEEMM_MatchingMCmass[100];
   float RECOHzzEEMM_MatchingMCEta[100];
   float RECOHzzEEMM_MatchingMCPhi[100];
-  
+*/  
  
 
   // RECO counters

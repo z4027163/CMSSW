@@ -121,15 +121,15 @@ PlotStack4l2b::PlotStack4l2b(){
 
   // ****** After cuts on ,Z1, mZ2 and pT >20/10: step 5 ******
 
-  //std::string histolabel = "hMZ1_5";    // Z1 mass   
-  //std::string histolabel = "hMZ2_5";    // Z2 mass 
+//  std::string histolabel = "hMZ1_5";    // Z1 mass   
+//  std::string histolabel = "hMZ2_5";    // Z2 mass 
   //std::string histolabel = "hM4l_5";    // 4l mass 
 
   //std::string histolabel = "hIso_5";    // worst isolation 
   //std::string histolabel = "hSip_5";  // worst sip 
   //std::string histolabel = "hIp_5";   // worst IP
 
-//   std::string histolabel = "Mbb_6";
+   std::string histolabel = "Mbb_6";
 //  std::string histolabel = "bdiscr_5_lead";
 //  std::string histolabel = "bdiscr_5_sub";
 //    std::string histolabel = "Mjj_6";
@@ -155,7 +155,7 @@ PlotStack4l2b::PlotStack4l2b(){
 //   std::string histolabel = "hEtaLep1_7";
 //   std::string histolabel = "hEtaLep2_7";
 //   std::string histolabel = "hIsoLep1_7";
-   std::string histolabel = "hIsoLep2_7";
+//   std::string histolabel = "hIsoLep2_7";
  //   std::string histolabel = "hYZ1_5";
   //std::string histolabel = "hPtZ2_8"; // Z2 pt after full selection
   //std::string histolabel = "hYZ1_8"; // Z1 rapidity after full selection
@@ -178,7 +178,7 @@ PlotStack4l2b::PlotStack4l2b(){
 //   std::string histolabel = "hN_good_ele";
 //   std::string histolabel = "hN_good_mu";
 
-  useLogY = true;
+  useLogY = false;
   useLogX = false;
 
   useDYJets=true;
@@ -463,22 +463,22 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
   
 
   if (histlabel.find("hMZ1_5")<10){
-    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,50000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,200.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",600, 60., 120., 1000, 0.7, 1.3);// mZ1 
   }
 
   if (histlabel.find("hPtZ1_5")<10){
-    hframe= new TH2F("hframe","hframe",100,0.,200.,500,1.0,30000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,0.,200.,500,1.0,200.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",6000, 0., 200., 1000, 0.5, 1.5);// mZ1 
   }
 
   if (histlabel.find("hPtLep1_7")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,30000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,200.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",6000, 0., 200., 1000, 0.5, 1.5);// mZ1 
   }
 
   if (histlabel.find("hPtLep2_7")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,30000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,200.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",6000, 0., 200., 1000, 0.5, 1.5);// mZ1 
   }
 
@@ -498,12 +498,12 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("hEtaLep1_7")<10){
-    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,10000000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,200.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.5, 1.5);// mZ1 
   }
 
   if (histlabel.find("hEtaLep2_7")<10){
-    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,10000000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,200.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.5, 1.5);// mZ1 
   }
 
@@ -523,8 +523,8 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("Mbb_6")<10){
-    hframe= new TH2F("hframe","hframe",80,20.,400.,500,1.0,10000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",80, 20., 400., 1000, 0.5, 1.5);// mZ1 
+    hframe= new TH2F("hframe","hframe",90,20.,200.,500,0.0,2.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",90, 20., 200., 1000, 0.5, 1.5);// mZ1 
   }
 
   if (histlabel.find("Mjj_6")<10){
@@ -543,9 +543,9 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
     hframe2= new TH2F("hframe2","hframe2",20, 0., 1., 1000, 0.5, 1.5);// mZ1 
   }
 
-  if (histlabel.find("hMZ2_5")<10 && whichchannel.find("4#mu")<20){
-    hframe= new TH2F("hframe","hframe",80,40.,200.,500,0.0000000001,1000000.);// mZ2 
-    hframe2= new TH2F("hframe2","hframe2",6000, 40., 200., 1000, 0.5, 2.);// mZ2 
+  if (histlabel.find("hMZ2_5")<10){
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,0.1,200.);// mZ2 
+    hframe2= new TH2F("hframe2","hframe2",600, 60., 120., 1000, 0.7, 1.3);// mZ2 
   }
 
   if (histlabel.find("hPtJet_7")<10){
@@ -892,7 +892,8 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
   TH1F *hfourlepbestmass_4l_afterSel_new_qcd     = new TH1F("hfourlepbestmass_4l_afterSel_new_qcd", "hfourlepbestmass_4l_afterSel_new_qcd", Nbins, Xmin, Xmax);
   TH1F *hfourlepbestmass_4l_afterSel_new_singlet = new TH1F("hfourlepbestmass_4l_afterSel_new_singlet", "hfourlepbestmass_4l_afterSel_new_singlet", Nbins, Xmin, Xmax);
 
-  TH1F *hfourlepbestmass_4l_afterSel_new_DY      = new TH1F("hfourlepbestmass_4l_afterSel_new_DY", "hfourlepbestmass_4l_afterSel_new_DY",Nbins, Xmin, Xmax);    
+  TH1F *hfourlepbestmass_4l_afterSel_new_DY      = new TH1F("hfourlepbestmass_4l_afterSel_new_DY", "hfourlepbestmass_4l_afterSel_new_DY",Nbins, Xmin, Xmax);   
+  TH1F *hfourlepbestmass_4l_afterSel_new_ZZ      = new TH1F("hfourlepbestmass_4l_afterSel_new_ZZ", "hfourlepbestmass_4l_afterSel_new_ZZ",Nbins, Xmin, Xmax); 
   TH1F *hfourlepbestmass_4l_afterSel_new_DYlight = new TH1F("hfourlepbestmass_4l_afterSel_new_DYlight", "hfourlepbestmass_4l_afterSel_new_DYlight",Nbins, Xmin, Xmax);
         
   TH1F *hfourlepbestmass_4l_afterSel_new_DYbb    = new TH1F("hfourlepbestmass_4l_afterSel_new_DYbb", "hfourlepbestmass_4l_afterSel_new_DYbb",Nbins, Xmin, Xmax);        
@@ -1097,16 +1098,16 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
       
       if(datasetnamebkg.find("ZZTo4L") <200 && hfourlepbestmass_4l_afterSel_new_new->GetEntries()>0 ){
          cout << "test1" << endl;
-         hfourlepbestmass_4l_afterSel_new_new->Scale(double(1.212*381.*nnn/5596076));//*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/12138430./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
-        hfourlepbestmass_4l_afterSel_new_DY->Add(hfourlepbestmass_4l_afterSel_new_new);
-        hfourlepbestmass_4l_afterSel_new_DY->SetMarkerColor(kAzure+2);
-        hfourlepbestmass_4l_afterSel_new_DY->SetFillColor(kAzure+2);
+         hfourlepbestmass_4l_afterSel_new_new->Scale(double(1.212*32716.*nnn/(6940259*0.67)));//*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/12138430./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
+        hfourlepbestmass_4l_afterSel_new_ZZ->Add(hfourlepbestmass_4l_afterSel_new_new);
+        hfourlepbestmass_4l_afterSel_new_ZZ->SetMarkerColor(kAzure+2);
+        hfourlepbestmass_4l_afterSel_new_ZZ->SetFillColor(kAzure+2);
         cout << "fill DY histograms" << endl;
 
         char temp[328];
         sprintf(temp,"%s",histosdir.c_str());
-        if(datasetnamebkg.find(temp) <200 && (datasetnamebkg.find(whichenergy) < 200 || datasetnamebkg.find(whichsample) < 200) && (datasetnamebkg.find("DYJetsToLL_M-50_TuneZ2Star")<200 || datasetnamebkg.find("DYJetsToLL")<200)) {
-          cout << "ZZ= " << hfourlepbestmass_4l_afterSel_new_DY->Integral(0,-1) << endl;
+        if(datasetnamebkg.find(temp) <200 && (datasetnamebkg.find(whichenergy) < 200 || datasetnamebkg.find(whichsample) < 200) && (datasetnamebkg.find("ZZTo4L")<200 || datasetnamebkg.find("ZZTo4L")<200)) {
+          cout << "ZZ= " << hfourlepbestmass_4l_afterSel_new_ZZ->Integral(0,-1) << endl;
           legend->AddEntry(hfourlepbestmass_4l_afterSel_new_new,Vlabelbkg.at(datasetId).c_str(), "F");
         }
         //hfourlepbestmass_4l_afterSel_new_new->Draw("sameP");
@@ -1269,6 +1270,15 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
 	 htotal->Add(hfourlepbestmass_4l_afterSel_new_WW); 
 	 htotalHisto->Add(hfourlepbestmass_4l_afterSel_new_WW); 
        }
+       if(datasetnamebkg.find(temppp) < 200 && (
+          datasetnamebkg.find("output_ZZ") < 200 ||
+          (datasetnamebkg.find("output_ZZ") < 200 && datasetnamebkg.find(whichenergy.c_str())<200)
+          )
+          )  {
+         htotal->Add(hfourlepbestmass_4l_afterSel_new_ZZ);
+         htotalHisto->Add(hfourlepbestmass_4l_afterSel_new_ZZ);
+       }
+
        if(datasetnamebkg.find(temppp) < 200 && (
 					       datasetnamebkg.find("output_WZ") < 200 ||
 					       (datasetnamebkg.find("output_WZ") < 200 && datasetnamebkg.find(whichenergy.c_str())<200)
@@ -1555,7 +1565,7 @@ void PlotStack4l2b::setSamplesNamesZ()
         //cout << "VH" << endl;
       }
 
-      if(inputfilename.find("ZZToLL")<200){
+      if(inputfilename.find("ZZTo4L")<200){
         Vdatasetnamebkg.push_back(inputfilename);
         Vlabelbkg.push_back("ZZ");
         Vxsectionbkg.push_back(1.); //pb
