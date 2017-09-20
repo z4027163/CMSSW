@@ -225,6 +225,18 @@ std::vector<float> ElectronEnergyCalibratorRun2::calibrate(reco::GsfElectron &el
   electron.correctMomentum(newFourMomentum, electron.trackMomentumError(), combinedMomentum.second);  
   return uncertainties;
   
+  double newEcalEnergy, newEcalEnergyError;
+  if (isMC_) {
+    double corr = 1.0 + smear * gauss(id);
+    newEcalEnergy      = electron.getNewEnergy() * corr;
+    newEcalEnergyError = std::hypot(electron.getNewEnergyError() * corr, smear * newEcalEnergy);
+  } else {
+    newEcalEnergy      = electron.getNewEnergy() * scale;
+    newEcalEnergyError = std::hypot(electron.getNewEnergyError() * scale, smear * newEcalEnergy);
+  }
+  electron.setNewEnergy(newEcalEnergy); 
+  electron.setNewEnergyError(newEcalEnergyError);
+  epCombinationTool_->combine(electron);
 }
 
 double ElectronEnergyCalibratorRun2::gauss(edm::StreamID const& id) const

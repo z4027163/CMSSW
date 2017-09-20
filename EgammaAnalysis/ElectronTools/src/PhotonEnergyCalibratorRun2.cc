@@ -9,14 +9,14 @@ PhotonEnergyCalibratorRun2::PhotonEnergyCalibratorRun2(bool isMC, bool synchroni
 						       ) :
   isMC_(isMC), synchronization_(synchronization),
   rng_(0),
-  correctionRetriever_(correctionFile) // here is opening the files and reading thecorrections
+  _correctionRetriever(correctionFile) // here is opening the files and reading thecorrections
 {
   if(isMC_) {
-    correctionRetriever_.doScale = false;
-    correctionRetriever_.doSmearings = true;
+    _correctionRetriever.doScale = false; 
+    _correctionRetriever.doSmearings = true;
   } else {
-    correctionRetriever_.doScale = true;
-    correctionRetriever_.doSmearings = false;
+    _correctionRetriever.doScale = true; 
+    _correctionRetriever.doSmearings = false;
   }
 }
 

@@ -11,6 +11,7 @@
 #include <cassert>
 #include <stdlib.h>
 #include <float.h> 
+// for setw
 #include <iomanip>
 #include <sstream>
 
@@ -31,7 +32,8 @@ EnergyScaleCorrection_class::EnergyScaleCorrection_class(std::string correctionF
     std::string filename = correctionFileName+"_smearings.dat";
     ReadSmearingFromFile(filename);
     if(smearings.empty()) {
-      throw cms::Exception("EnergyScaleCorrection_class") << "[ERROR] smearing correction map empty";
+      std::cerr << "[ERROR] smearing correction map empty" << std::endl;
+      exit(1);
     }
   }
   
@@ -97,10 +99,13 @@ correctionValue_class EnergyScaleCorrection_class::getScaleCorrection(unsigned i
     // 	scales_not_defined[category] = corr;
     // }
     // corr_itr = scales_not_defined.find(category);
-
-    LOGWARN("EnergyScaleCorrection_class") << "[ERROR] Scale category not found: " << category << " Returning uncorrected value.";
+    /// \todo this can be switched to an exeption 
+    std::cout << "[ERROR] Scale category not found: " << std::endl;
+    std::cout << category << std::endl;
+    std::cout << "Returning uncorrected value." << std::endl;
+    //     exit(1);
     correctionValue_class nocorr;
-    LOGWARN("EnergyScaleCorrection_class") << nocorr;
+    std::cout << nocorr << std::endl;
     return nocorr;
   }
   
@@ -110,6 +115,38 @@ correctionValue_class EnergyScaleCorrection_class::getScaleCorrection(unsigned i
   return corr_itr->second;
 }
 
+float EnergyScaleCorrection_class::getScaleOffset(unsigned int runNumber, bool isEBEle, double R9Ele, double etaSCEle, double EtEle) const
+{
+  // buld the category based on the values of the object
+  correctionCategory_class category(runNumber, etaSCEle, R9Ele, EtEle);
+  correction_map_t::const_iterator corr_itr = scales.find(category); // find the correction value in the map that associates the category to the correction
+  
+  if(corr_itr == scales.end()) { // if not in the standard classes, add it in the list of not defined classes
+    
+    // this part is commented because it makes the method not constant
+    // if(scales_not_defined.count(category) == 0) {
+    // 	correctionValue_class corr;
+    // 	scales_not_defined[category] = corr;
+    // }
+    // corr_itr = scales_not_defined.find(category);
+    /// \todo this can be switched to an exeption 
+    std::cout << "[ERROR] Scale offset category not found: " << std::endl;
+    std::cout << category << std::endl;
+    std::cout << "Returning uncorrected value." << std::endl;
+    //     exit(1);
+    correctionValue_class nocorr;
+    return nocorr.scale;
+  }
+  
+#ifdef DEBUG
+  std::cout << "[DEBUG] Checking scale offset correction for category: " << category << std::endl;
+  std::cout << "[DEBUG] Correction is: " << corr_itr->second
+	    << std::endl
+	    << "        given for category " <<  corr_itr->first << std::endl;;
+#endif
+  
+  return corr_itr->second.scale;
+}
 
 
 /**
