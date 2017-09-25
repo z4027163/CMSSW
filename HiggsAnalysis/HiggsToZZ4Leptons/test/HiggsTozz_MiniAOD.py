@@ -112,11 +112,23 @@ process.genanalysis= cms.Sequence(
 process.load('PhysicsTools/PatAlgos/producersLayer1/jetUpdater_cff')
 process.jecSequence = cms.Sequence( process.updatedPatJetCorrFactors * process.updatedPatJets)
 
+## Following lines are for default MET for Type1 corrections.
+from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+
+# If you only want to re-correct for JEC and get the proper uncertainties for the default MET
+runMetCorAndUncFromMiniAOD(process,
+                          isData=False,
+                         )
+
+process.hTozzTo4leptonsCommonRootTreePresel.PfMETLabel = cms.InputTag("slimmedMETs","","MonoHiggs")
+
+
 process.hTozzTo4leptonsSelectionPath = cms.Path(
   process.goodOfflinePrimaryVertices     *
   process.genanalysis *
   process.metFilter *
   process.jecSequence *
+  process.fullPatMetSequence * # If you are re-correctign the default MET
   process.hTozzTo4leptonsSelectionSequenceData *
 #  process.hTozzTo4leptonsMatchingSequence *
   process.hTozzTo4leptonsCommonRootTreePresel

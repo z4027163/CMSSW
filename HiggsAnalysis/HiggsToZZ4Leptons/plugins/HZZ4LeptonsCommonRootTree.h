@@ -4322,6 +4322,7 @@ void fillTracks(const edm::Event& iEvent){
       pfmet_y     = i->uncorPy();
       pfmet_phi   = i->uncorPhi();
       pfmet_theta = i->uncorP3().theta();
+      cout << "corrmet phi=" << i->phi() << "  met phi=" << pfmet_phi << endl;
     }
 
     std::cout << "MET:"
