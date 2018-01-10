@@ -201,7 +201,7 @@ void HZZ4LeptonsCommonRootTree::analyze(const edm::Event& iEvent, const edm::Eve
   if ( fillMCTruth) {
     cout << "Filling MCtruth variables" << endl;
 //    fillgenparticles(iEvent,iSetup);
-    fillmc(iEvent);
+//    fillmc(iEvent);
   }
 
   //Vertices

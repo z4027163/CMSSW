@@ -1,3 +1,0 @@
-/eos/uscms/store/user/wangz/ntuple/4l2b/output_DoubleMuon_all.root
-/eos/uscms/store/user/wangz/ntuple/4l2b/output_ZZTo4L_amcatnloFXFX.root
-

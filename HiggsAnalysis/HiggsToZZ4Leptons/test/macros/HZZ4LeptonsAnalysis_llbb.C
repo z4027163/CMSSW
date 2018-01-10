@@ -30,6 +30,8 @@
 
 #include "RoccoR.cc"
 
+#include "CondFormats/BTauObjects/interface/BTagCalibration.h"
+#include "CondTools/BTau/interface/BTagCalibrationReader.h"
 using namespace std;
 // using namespace RooFit;
 // using namespace meMCFM;
@@ -46,6 +48,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
    RoccoR  rc("/uscms/home/zwang4/nobackup/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/test/macros/roccor/rcdata.2016.v3"); //directory path as input for now; initialize only once, contains all variations
 
+// setup calibration + reader
+   BTagCalibration calib("CSVv2", "btag/CSVv2_Moriond17_B_F.csv");
+   BTagCalibrationReader reader(BTagEntry::OP_MEDIUM,"central",{"up","down"});      // other sys types
+   reader.load(calib,BTagEntry::FLAV_B,"comb");               // measurement type
 
    // Declare MEM class
    MEMs combinedMEM(13,125,"CTEQ6L");     
@@ -273,8 +279,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    // Pileup reweighting in 80x
 
    TFile *_filePU;
-   _filePU= TFile::Open("pileup.root");     
-   TH1D *puweight = (TH1D*)_filePU->Get("pileup_scale"); 
+   _filePU= TFile::Open("pileup/pileup_BCDEF.root");     
+   TH1D *puweight = (TH1D*)_filePU->Get("pileup_scale_BCDEF"); 
 
    /////////////Lepton Efficiency Scale Factrons/////////////
    // Load histograms
@@ -291,22 +297,44 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TFile *ele_scale_factors_v4 = new TFile("SF_ELE/egammaEffi_WP90_EGM2D.root");
    TH2F *ele_scale_factors_wp90 = (TH2F*)gDirectory->Get("EGamma_SF2D");
 
+   TFile *ele_scale_factors_v1 = new TFile("SF_ELE/Leg1_BF_EGM2D.root");
+   TH2F *ele_scale_factors_leg1 = (TH2F*)gDirectory->Get("EGamma_SF2D");
 
-   TFile *mu_scale_factors = new TFile("final_HZZSF_pt0_200.root");
-   TH2F *mu_scale_2016 = (TH2F*)gDirectory->Get("FINAL"); 
-  TFile *mu_scale_factors1 = new TFile("SF_GH/IDSF_GH.root");
-  TH2F *mu_scale_factors_id = (TH2F*)gDirectory->Get("MC_NUM_LooseID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio");
+   TFile *ele_scale_factors_v2 = new TFile("SF_ELE/Leg2_BF_EGM2D.root");
+   TH2F *ele_scale_factors_leg2 = (TH2F*)gDirectory->Get("EGamma_SF2D");
 
-  TFile *mu_scale_factors2 = new TFile("SF_GH/ISOSF_GH.root");
-  TH2F *mu_scale_factors_iso = (TH2F*)gDirectory->Get("LooseISO_LooseID_pt_eta/abseta_pt_ratio");
 
-  TFile *mu_scale_factors3 = new TFile("SF_GH/SingleMuonSF_GH.root");
-  TH2F *mu_scale_factors_hlt = (TH2F*)gDirectory->Get("IsoMu24_OR_IsoTkMu24_PtEtaBins/abseta_pt_ratio");
+  TFile *mu_scale_factors1_p2 = new TFile("SF_GH/IDSF_GH.root");
+  TH2F *mu_scale_factors_id_p2 = (TH2F*)gDirectory->Get("MC_NUM_LooseID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio");
 
-  TFile *mu_scale_factors4 = new TFile("SF_GH/track_GH.root");
+//  TFile *mu_scale_factors1_p2 = new TFile("SF_GH/IDSF_GH.root");
+//  TH2F *mu_scale_factors_id_p2 = (TH2F*)gDirectory->Get("MC_NUM_MediumID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio");
+
+  TFile *mu_scale_factors2_p2 = new TFile("SF_GH/ISOSF_GH.root");
+  TH2F *mu_scale_factors_iso_p2 = (TH2F*)gDirectory->Get("LooseISO_LooseID_pt_eta/abseta_pt_ratio");
+
+//  TFile *mu_scale_factors2_p2 = new TFile("SF_GH/ISOSF_GH.root");
+//  TH2F *mu_scale_factors_iso_p2 = (TH2F*)gDirectory->Get("LooseISO_MediumID_pt_eta/abseta_pt_ratio");
+
+  TFile *mu_scale_factors3_p2 = new TFile("SF_GH/Mu8Leg_SF_BCDEF.root");
+  TH2F *mu_scale_factors_hlt_p2 = (TH2F*)gDirectory->Get("abseta_pt_PLOT");
+
+  TFile *mu_scale_factors1_p1 = new TFile("SF_GH/IDSF_BCDEF.root");
+  TH2F *mu_scale_factors_id_p1 = (TH2F*)gDirectory->Get("MC_NUM_LooseID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio");
+
+//  TFile *mu_scale_factors1_p1 = new TFile("SF_GH/IDSF_BCDEF.root");
+//  TH2F *mu_scale_factors_id_p1 = (TH2F*)gDirectory->Get("MC_NUM_MediumID2016_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio");
+
+  TFile *mu_scale_factors2_p1 = new TFile("SF_GH/ISOSF_BCDEF.root");
+  TH2F *mu_scale_factors_iso_p1 = (TH2F*)gDirectory->Get("LooseISO_LooseID_pt_eta/abseta_pt_ratio");
+
+  TFile *mu_scale_factors3_p1 = new TFile("SF_GH/Mu17Leg_SF_BCDEF.root");
+  TH2F *mu_scale_factors_hlt_p1 = (TH2F*)gDirectory->Get("abseta_pt_PLOT");
+
+  TFile *mu_scale_factors4 = new TFile("SF_GH/track_BCDEF.root"); //just for GH
   TGraph *mu_scale_factors_tk = (TGraph*)gDirectory->Get("ratio_eff_vtx_dr030e030_corr");
 
-   // correction to the error
+/*   // correction to the error
    TFile *ebe_corr2012= new TFile("ebeOverallCorrections.Legacy2013.v0.root");
    TH2F *ebe_mu_reco53x= (TH2F*)gDirectory->Get("mu_reco53x");
    TH2F *ebe_mu_mc53x= (TH2F*)gDirectory->Get("mu_mc53x");
@@ -314,7 +342,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TFile *ebe_corr2011= new TFile("ebeOverallCorrections.LegacyPaper.42x.root");
    TH2F *ebe_mu_reco42x= (TH2F*)gDirectory->Get("mu_reco42x");
    TH2F *ebe_mu_mc42x= (TH2F*)gDirectory->Get("mu_mc42x");
-   
+*/   
    // kfactor_ggZZ(float GENmassZZ, int finalState)     
    TString strSystTitle[9] ={
      "Nominal",
@@ -738,6 +766,11 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1F * hPFMET_7 = new TH1F("hPFMET_7", "PF MET after selection step 7", 1000 , 0., 1000.);
    hPFMET_7->SetXTitle("PF MET (GeV)"); 
 
+   TH1F * hPFMET_u1_5 = new TH1F("hPFMET_u1_5", "PF MET u1 after selection step 5", 1000 , 0., 1000.);
+   hPFMET_u1_5->SetXTitle("u1 (GeV)");
+   TH1F * hPFMET_u2_5 = new TH1F("hPFMET_u2_7", "PF MET u2 after selection step 5", 1000 , 0., 1000.);
+   hPFMET_u2_5->SetXTitle("u2 (GeV)");
+
    TH1F * hDPHI_7 = new TH1F("DPHI_7", "polar angle between 4l and E_{T,miss}", 1000, 0., 5. );
    hDPHI_7->SetXTitle("#DELTA#phi(4l,E_{T,miss})");
 
@@ -1063,6 +1096,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    // end book histo ***
       
    TTree *newtree = new TTree("HZZ4LeptonsAnalysisReduced", "reduced ttree");
+   TTree *mettree = new TTree("METRecoil","reduced met tree");
   
    // Add branches to output rootuple 
    Float_t f_weight, f_int_weight, f_pu_weight, f_eff_weight, f_lept1_pt, f_lept1_eta, f_lept1_phi, f_lept1_charge, f_lept1_pfx, f_lept1_sip, f_lept1_mvaid, f_lept2_pt, f_lept2_eta, f_lept2_phi, f_lept2_charge, f_lept2_pfx, f_lept2_sip, f_lept2_mvaid, f_lept3_pt, f_lept3_eta, f_lept3_phi, f_lept3_charge, f_lept3_pfx, f_lept3_sip, f_lept3_mvaid, f_lept4_pt, f_lept4_eta, f_lept4_phi, f_lept4_charge, f_lept4_pfx, f_lept4_sip, f_lept4_mvaid, f_iso_max, f_sip_max, f_Z1mass, f_Z2mass, f_angle_costhetastar, f_angle_costheta1, f_angle_costheta2, f_angle_phi, f_angle_phistar1, f_eta4l, f_pt4l, f_mass4l, f_mass4lErr, f_njets_pass, f_deltajj, f_massjj, f_D_jet, f_jet1_pt, f_jet1_eta, f_jet1_phi, f_jet1_e, f_jet2_pt, f_jet2_eta, f_jet2_phi, f_jet2_e;
@@ -1071,6 +1105,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    Int_t f_lept1_pdgid,f_lept2_pdgid,f_lept3_pdgid,f_lept4_pdgid;
    Int_t f_category,f_Ngood,f_Nbjets,f_Njets,f_NVBFjets,f_NMatchbjets,f_NVHjets;
    Int_t f_run, f_lumi, f_event;
+   Float_t f_u1,f_u2,f_z1_pt,ff_weight;
    
    TBranch *b_run= newtree->Branch("f_run", &f_run,"f_run/I");
    TBranch *b_lumi= newtree->Branch("f_lumi", &f_lumi,"f_lumi/I");    
@@ -1152,6 +1187,12 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TBranch *b_f_min_dphi_jet_met= newtree->Branch("f_min_dphi_jet_met", &f_min_dphi_jet_met,"f_min_dphi_jet_met/F");
    TBranch *b_f_max_dphi_jet_met= newtree->Branch("f_max_dphi_jet_met", &f_max_dphi_jet_met,"f_max_dphi_jet_met/F");
 
+   TBranch *b_f_u1 = mettree->Branch("f_u1",&f_u1,"f_u1/F");
+   TBranch *b_f_u2 = mettree->Branch("f_u2",&f_u2,"f_u2/F");
+   TBranch *b_z1_pt = mettree->Branch("f_z1_pt",&f_z1_pt,"f_z1_pt/F");
+   TBranch *b_ff_Njets = mettree->Branch("f_Njets",&f_Njets,"f_Njets/I");
+   TBranch *b_ff_weight= mettree->Branch("f_weight", &ff_weight,"f_weight/F");
+
    float newweight=1.;
    
    // New tree with clone of events passing the final selection
@@ -1174,7 +1215,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
  // Initialize reduced tree variables
       f_weight=1., f_int_weight=1., f_pu_weight=1., f_eff_weight=1., f_lept1_pt=-999., f_lept1_eta=-999., f_lept1_phi=-999., f_lept1_charge=-999., f_lept1_pfx=-999., f_lept1_sip=-999., f_lept1_mvaid=-999., f_lept2_pt=-999., f_lept2_eta=-999., f_lept2_phi=-999., f_lept2_charge=-999., f_lept2_pfx=-999., f_lept2_sip=-999., f_lept2_mvaid=-999., f_lept3_pt=-999., f_lept3_eta=-999., f_lept3_phi=-999., f_lept3_charge=-999., f_lept3_pfx=-999., f_lept3_sip=-999., f_lept3_mvaid=-999., f_lept4_pt=-999., f_lept4_eta=-999., f_lept4_phi=-999., f_lept4_charge=-999., f_lept4_pfx=-999., f_lept4_sip=-999., f_lept4_mvaid=-999., f_iso_max=-999., f_sip_max=-999., f_Z1mass=-999., f_Z2mass=-999., f_angle_costhetastar=-999., f_angle_costheta1=-999., f_angle_costheta2=-999., f_angle_phi=-999., f_angle_phistar1=-999., f_eta4l=-999., f_pt4l=-999., f_mass4l=-999., f_mass4lErr=-999., f_njets_pass=-999., f_deltajj=-999., f_massjj=-999., f_D_jet=-999., f_jet1_pt=-999., f_jet1_eta=-999., f_jet1_phi=-999., f_jet1_e=-999., f_jet2_pt=-999., f_jet2_eta=-999., f_jet2_phi=-999., f_jet2_e=-999.,f_D_bkg_kin=-999.,f_D_bkg=-999.,f_D_gg=-999.,f_D_g4=-999.,f_Djet_VAJHU=-999.,f_genmet=-999.,f_pfmet=-999.,f_mT=-999.,f_dphi=-999.,f_lept1_pdgid=-999,f_lept2_pdgid=-999,f_lept3_pdgid=-999,f_lept4_pdgid=-999,f_run=-999, f_lumi=-999, f_event=-999, f_category=-999, f_Ngood=-999, f_Nbjets=-999, f_NVBFjets=-999,f_NMatchbjets=-999,f_NVHjets=-999,f_dphi_jet_met=-999., f_min_dphi_jet_met=-999., f_max_dphi_jet_met=-999.; 
-
+      f_Njets=-999; 
+      f_u1=-999, f_u2=-999;
       //if (!(Run==1 && LumiSection==2536 && Event==486622)) continue;
 
       if(jentry%1 == 5000) cout << "Analyzing entry: " << jentry << endl;
@@ -1184,26 +1226,28 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       if( RECO_NELE > 100 ) RECO_NELE = 100;
       if( RECO_NPFPHOT > 20 ) RECO_NPFPHOT = 20;
       
-      bool debug=true;  //debug flag  -- default false
-
+      bool debug=false;  //debug flag  -- default false
+   
+      bool zptweight=false;
       newweight=weight;
       cout << "Starting weight= " << newweight << endl;
-
+  
       // pileup reweighting 2012 and 2011
       if (DATA_type=="NO" && num_PU_vertices < 0) continue;                                                                                                                                              
       // pileup reweighting 2015
       hPUvertices->Fill(num_PU_vertices,weight);
-
+   
+      cout << "test" << endl;
       double pu_weight=1.;
       if (MC_type == "Spring16"||MC_type == "Summer16"){
 	Int_t binx = puweight->GetXaxis()->FindBin(num_PU_vertices);
-	cout << " bin x= " << binx << " " << puweight->GetBinContent(binx) << endl;	
+	if(debug) cout << " bin x= " << binx << " " << puweight->GetBinContent(binx) << endl;	
 	pu_weight=double(puweight->GetBinContent(binx));
 	
       }      
        
       hPUvertices_ReWeighted->Fill(num_PU_vertices,weight*pu_weight);
-      cout << "Pileup interations and weight is= " << num_PU_vertices << " " << " and weight= " << pu_weight << endl;  
+      if(debug) cout << "Pileup interations and weight is= " << num_PU_vertices << " " << " and weight= " << pu_weight << endl;  
       
       //if (num_PU_vertices < 0) continue;
 
@@ -1230,7 +1274,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       
       // ** Step 0.1:
       // number of 4L (4mu)...
-      
+      //trigger requirements (qier)
+     if(!de_trig) continue;
      
       bool is2e2mu=false;
 
@@ -1377,6 +1422,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       for( int i = 0; i < RECO_NMU; ++i ){
 	iL_loose_mu[i]=-999.;
       }
+
+     //trigger requirement (qier)
  
       for( int i = 0; i < RECO_NMU; ++i ){
 
@@ -1509,9 +1556,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	      && fabs(RECOMU_ETA[mu]) < 2.4 
 	      && fabs(RECOMU_mubesttrkDxy[mu]) < .5 && fabs(RECOMU_mubesttrkDz[mu]) < 1. 
 	      && fabs(RECOMU_SIP[mu])<4. // TightID + SIP cut*/
-            /*  ( RECOMU_isGlobalMu[mu] || RECOMU_isTrackerMu[mu] ) && RECOMU_isPFMu[mu]
-              && RECOMU_muInnertrkvalidFraction[mu]>0.8 
-              && RECOMU_isMedium[mu] //mediumID(qier) */
+ //              RECOMU_isMedium[mu] &&//mediumID(qier) 
               ( RECOMU_isGlobalMu[mu] || RECOMU_isTrackerMu[mu] ) && RECOMU_isPFMu[mu] 
               && RECOMU_PT[mu] > 5. 
               && fabs(RECOMU_ETA[mu]) < 2.4 
@@ -1560,16 +1605,34 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	    && RECOMU_PT[i] > 5. 
 	    && fabs(RECOMU_ETA[i]) < 2.4 
 	    && fabs(RECOMU_mubesttrkDxy[i]) < .5 && fabs(RECOMU_mubesttrkDz[i]) < 1.//tight muon */
-/*            ( RECOMU_isGlobalMu[i] || RECOMU_isTrackerMu[i] ) && RECOMU_isPFMu[i]
-            && RECOMU_muInnertrkvalidFraction[i]>0.8
-            && RECOMU_isMedium[i] //mediumID(qier)*/
+ //             RECOMU_isMedium[i] &&//mediumID(qier)
               ( RECOMU_isGlobalMu[i] || RECOMU_isTrackerMu[i] ) && RECOMU_isPFMu[i]
               && RECOMU_PT[i] > 5.
               && fabs(RECOMU_ETA[i]) < 2.4
               && fabs(RECOMU_mubesttrkDxy[i]) < .5 && fabs(RECOMU_mubesttrkDz[i]) < 1. //loose muon (qier)
         
 	    ){
-	  
+
+          Double_t Pt = RECOMU_PT[i];
+          Double_t Eta = RECOMU_ETA[i];
+          Int_t Q = int(RECOMU_CHARGE[i]);
+          Double_t Phi = RECOMU_PHI[i];
+          Double_t nl = RECOMU_mutrktrackerLayersWithMeasurement[i];
+          if(debug) cout << "Q=" << Q << " Pt=" << Pt << " Eta=" << Eta << " Phi=" << Phi << " nl=" << nl << endl;
+          if( MC_type == "Spring16" && DATA_type == "NO"){	 
+          double u1 = gRandom->Rndm();
+          double u2 = gRandom->Rndm();
+          double mcSF = rc.kScaleAndSmearMC(Q,Pt,Eta,Phi,nl,u1,u2);          
+          if(debug) cout << "calibration weight = " << mcSF << endl;
+          RECOMU_PT[i]=RECOMU_PT[i]*mcSF;
+          }
+        if( MC_type == "NO" && DATA_type == "2016"){
+          double dataSF = rc.kScaleDT(Q,Pt,Eta,Phi);
+          RECOMU_PT[i]=RECOMU_PT[i]*dataSF;
+          if(debug) cout << "calibration weight = " << dataSF << endl;
+        }
+
+ 
 	  iL[ N_good ] = i ;
 	  ++N_good ;	  
 	}
@@ -1925,7 +1988,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
        // Exclude that photon from the isolation cone all leptons in the event passing loose ID + SIP cut if it was in the isolation cone and outside the isolation veto (ΔR>0.01 for muons and (ele->supercluster()->eta() < 1.479 || dR > 0.08) for electrons
       
-      cout << "Rho for electron pileup isolation correction is= " << RHO_ele << endl;
+      if(debug) cout << "Rho for electron pileup isolation correction is= " << RHO_ele << endl;
       double EffectiveArea=-9999.;
 
 	    
@@ -2615,10 +2678,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
         for(int i = 0; i < 2; ++i){
 	  Double_t Pt = RECOMU_PT[ z1lept[i] ]; 
 	  Double_t Eta = RECOMU_ETA[ z1lept[i] ]; 
-          Int_t Q = int(RECOMU_CHARGE[ z1lept[i]]);
-          Double_t Phi = RECOMU_PHI[ z1lept[i]];
-          Double_t nl = RECOMU_muInnertrktrackerLayersWithMeasurement[ z1lept[i]];
-          cout << "Q=" << Q << " Pt=" << Pt << " Eta=" << Eta << " Phi=" << Phi << " nl=" << nl << endl;   	  
 	  if( MC_type == "Spring16" && DATA_type == "NO"){
 /*	    Int_t biny = mu_scale_2016->GetYaxis()->FindBin(Pt);
 	    Int_t binx = mu_scale_2016->GetXaxis()->FindBin(Eta);
@@ -2626,38 +2685,74 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
             cout << "eff_weight test = " <<mu_scale_2016->GetBinContent(binx,biny)<< endl;
 	    if (mu_scale_2016->GetBinContent(binx,biny)>0.) eff_weight*=mu_scale_2016->GetBinContent(binx,biny); 
 */
-          int biny1 = mu_scale_factors_id->GetYaxis()->FindBin(Pt);
-          int binx1 = mu_scale_factors_id->GetXaxis()->FindBin(abs(Eta));
-          if (mu_scale_factors_id->GetBinContent(binx1,biny1)>0.) eff_weight*=mu_scale_factors_id->GetBinContent(binx1,biny1);    
-  
-          int biny2 = mu_scale_factors_iso->GetYaxis()->FindBin(Pt);
-          int binx2 = mu_scale_factors_iso->GetXaxis()->FindBin(abs(Eta));
 
-          if (mu_scale_factors_iso->GetBinContent(binx2,biny2)>0.) eff_weight*=mu_scale_factors_iso->GetBinContent(binx2,biny2); 
+          int biny1 = mu_scale_factors_id_p1->GetYaxis()->FindBin(Pt);
+          int binx1 = mu_scale_factors_id_p1->GetXaxis()->FindBin(abs(Eta));
+
+          int biny12 = mu_scale_factors_id_p2->GetYaxis()->FindBin(Pt);
+          int binx12 = mu_scale_factors_id_p2->GetXaxis()->FindBin(abs(Eta));
+ //         double sf_id=mu_scale_factors_id_p1->GetBinContent(binx1,biny1)*19.666/35.812+mu_scale_factors_id_p2->GetBinContent(binx12,biny12)*16.146/35.812;
+          double sf_id=mu_scale_factors_id_p1->GetBinContent(binx1,biny1); //just for GH
+         if (sf_id>0.) eff_weight*=sf_id; 
+  
+          int biny2 = mu_scale_factors_iso_p1->GetYaxis()->FindBin(Pt);
+          int binx2 = mu_scale_factors_iso_p1->GetXaxis()->FindBin(abs(Eta)); 
+
+          int biny22 = mu_scale_factors_iso_p2->GetYaxis()->FindBin(Pt);
+          int binx22 = mu_scale_factors_iso_p2->GetXaxis()->FindBin(abs(Eta));
+
+//          double sf_iso = mu_scale_factors_iso_p1->GetBinContent(binx2,biny2)*19.666/35.812+mu_scale_factors_iso_p2->GetBinContent(binx22,biny22)*16.146/35.812;
+          double sf_iso = mu_scale_factors_iso_p1->GetBinContent(binx2,biny2);  //just for GH
+          if (sf_iso>0.)  eff_weight*=sf_iso; 
  
-          double tk_sf = mu_scale_factors_tk->Eval(double(num_PU_vertices));
+          double tk_sf = mu_scale_factors_tk->Eval(double(num_PU_vertices));    
           if(mu_scale_factors_tk->Eval(double(num_PU_vertices))>0) eff_weight*=tk_sf;
 
-          cout << " id weight = " << mu_scale_factors_id->GetBinContent(binx1,biny1) << "\n iso weight = " << mu_scale_factors_iso->GetBinContent(binx2,biny2) 
+          cout << " id weight = " << sf_id << "\n iso weight = " << sf_iso << "\n tk weight = " << tk_sf << endl;
+
+          if(RECOMU_dm_MuHLTMatch[ z1lept[i] ]== 2){
+            int biny3 = mu_scale_factors_hlt_p1->GetYaxis()->FindBin(Pt);
+            int binx3 = mu_scale_factors_hlt_p1->GetXaxis()->FindBin(abs(Eta));
+
+//            int biny32 = mu_scale_factors_hlt_p2->GetYaxis()->FindBin(Pt);
+//            int binx32 = mu_scale_factors_hlt_p2->GetXaxis()->FindBin(abs(Eta));
+//            double sf_hlt = mu_scale_factors_hlt_p1->GetBinContent(binx3,biny3)*19.666/35.812+mu_scale_factors_hlt_p2->GetBinContent(binx32,biny32)*16.146/35.812;
+            double sf_hlt = mu_scale_factors_hlt_p1->GetBinContent(binx3,biny3);
+            if (sf_hlt>0.) eff_weight*=sf_hlt;
+            cout << "l1trigger matching mu17 leg weight = " << sf_hlt << endl;
+           }
+         else{
+            int biny32 = mu_scale_factors_hlt_p2->GetYaxis()->FindBin(Pt);
+            int binx32 = mu_scale_factors_hlt_p2->GetXaxis()->FindBin(abs(Eta));
+
+            double sf_hlt = mu_scale_factors_hlt_p2->GetBinContent(binx32,biny32);
+            if (sf_hlt>0.) eff_weight*=sf_hlt;
+            cout << "l1trigger matching mu8 leg weight = " << sf_hlt << endl;
+          }
+/*
+          int biny1 = mu_scale_factors_id_p2->GetYaxis()->FindBin(Pt);
+          int binx1 = mu_scale_factors_id_p2->GetXaxis()->FindBin(abs(Eta));
+          if (mu_scale_factors_id_p2->GetBinContent(binx1,biny1)>0.) eff_weight*=mu_scale_factors_id_p2->GetBinContent(binx1,biny1);
+
+          int biny2 = mu_scale_factors_iso_p2->GetYaxis()->FindBin(Pt);
+          int binx2 = mu_scale_factors_iso_p2->GetXaxis()->FindBin(abs(Eta));
+
+          if (mu_scale_factors_iso_p2->GetBinContent(binx2,biny2)>0.) eff_weight*=mu_scale_factors_iso_p2->GetBinContent(binx2,biny2);
+
+          double tk_sf = mu_scale_factors_tk_p2->Eval(double(num_PU_vertices));
+          if(mu_scale_factors_tk_p2->Eval(double(num_PU_vertices))>0) eff_weight*=tk_sf;
+
+          cout << " id weight = " << mu_scale_factors_id_p2->GetBinContent(binx1,biny1) << "\n iso weight = " << mu_scale_factors_iso_p2->GetBinContent(binx2,biny2)
           << "\n tk weight = " << tk_sf << endl;
 
           if(RECOMU_PT_MuHLTMatch[ z1lept[i] ] > 0){
-            int biny3 = mu_scale_factors_hlt->GetYaxis()->FindBin(Pt);
-            int binx3 = mu_scale_factors_hlt->GetXaxis()->FindBin(abs(Eta));
-//            if (mu_scale_factors_hlt->GetBinContent(binx3,biny3)>0.) eff_weight*=mu_scale_factors_hlt->GetBinContent(binx3,biny3);
-            cout << "l1trigger matching weight = " << mu_scale_factors_hlt->GetBinContent(binx3,biny3) << endl;
-          }
-          double u1 = gRandom->Rndm();
-          double u2 = gRandom->Rndm();
-          double mcSF = rc.kScaleAndSmearMC(Q,Pt,Eta,Phi,nl,u1,u2);
-          eff_weight*=mcSF;
-          cout << "calibration weight = " << mcSF << endl;
+            int biny3 = mu_scale_factors_hlt_p2->GetYaxis()->FindBin(Pt);
+            int binx3 = mu_scale_factors_hlt_p2->GetXaxis()->FindBin(abs(Eta));
+            if (mu_scale_factors_hlt_p2->GetBinContent(binx3,biny3)>0.) eff_weight*=mu_scale_factors_hlt_p2->GetBinContent(binx3,biny3);
+            cout << "l1trigger matching weight = " << mu_scale_factors_hlt_p2->GetBinContent(binx3,biny3) << endl;
+           }          
+*/
 	  }
-        if( MC_type == "NO" && DATA_type == "2016"){
-          double dataSF = rc.kScaleDT(Q,Pt,Eta,Phi);
-          eff_weight*=dataSF;
-          cout << "calibration weight = " << dataSF << endl;
-        } 
 
 	}
       }
@@ -2694,8 +2789,27 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
             int binx5 = ele_scale_factors_wp90->GetXaxis()->FindBin(Eta);
             if (ele_scale_factors_wp90->GetBinContent(binx5,biny5)>0.) eff_weight*=ele_scale_factors_wp90->GetBinContent(binx5,biny5);
             cout << "ele wp90 sf = " << ele_scale_factors_wp90->GetBinContent(binx5,biny5) << endl;
+           
+          if(RECOELE_de_EleHLTMatch[ z1lept[i] ]== 2){
+            int biny6 = ele_scale_factors_leg1->GetYaxis()->FindBin(Pt);
+            int binx6 = ele_scale_factors_leg1->GetXaxis()->FindBin(abs(Eta));
 
+//            int biny32 = mu_scale_factors_hlt_p2->GetYaxis()->FindBin(Pt);
+//            int binx32 = mu_scale_factors_hlt_p2->GetXaxis()->FindBin(abs(Eta));
+//            double sf_hlt = mu_scale_factors_hlt_p1->GetBinContent(binx3,biny3)*19.666/35.812+mu_scale_factors_hlt_p2->GetBinContent(binx32,biny32)*16.146/35.812;
+            double sf_hlt = ele_scale_factors_leg1->GetBinContent(binx6,biny6);
+            if (sf_hlt>0.) eff_weight*=sf_hlt;
+            cout << "l1trigger matching ele leg1 weight = " << sf_hlt << endl;
+           }
+         else{
+            int biny62 = ele_scale_factors_leg2->GetYaxis()->FindBin(Pt);
+            int binx62 = ele_scale_factors_leg2->GetXaxis()->FindBin(abs(Eta));
 
+            double sf_hlt = ele_scale_factors_leg2->GetBinContent(binx62,biny62);
+            if (sf_hlt>0.) eff_weight*=sf_hlt;
+            cout << "l1trigger matching ele leg2 weight = " << sf_hlt << endl;
+          }   
+         
 	  }
 	}
       }
@@ -2704,7 +2818,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       
       // // Changing the weight for pileup and efficiency
       if (eff_weight>0.) newweight=newweight*eff_weight;
-      else newweight=weight*pu_weight;
       
       cout << "Starting weight + pileup + efficiency= " << newweight << endl;
       if(debug) cout << "Efficiency Weight for the 4l: " << eff_weight << " Final weight= " << newweight << endl;
@@ -2715,9 +2828,32 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       TLorentzVector Z1P4;
       Z1P4.SetPxPyPzE(pxZ1,pyZ1,pzZ1,EZ1);
 
+      //for met recoil correction
+      double dphi=Z1P4.Phi()-RECO_PFMET_PHI;
+      f_u1=-cos(dphi)*RECO_PFMET;
+      f_u2=-sin(dphi)*RECO_PFMET;
+      f_z1_pt = ptZ1;
+      cout << "u1= " << f_u1 << " u2=" << f_u2 << " met=" << RECO_PFMET << endl;
+
+      if(zptweight) {
+        if(ptZ1<5) newweight=newweight*1.08;
+        else if(ptZ1<10) newweight=newweight*1.10;
+        else if(ptZ1>=10&&ptZ1<15) newweight=newweight*1.04;
+        else if(ptZ1>=15&&ptZ1<20) newweight=newweight*1.0;
+        else if(ptZ1>=20&&ptZ1<25) newweight=newweight*0.95;
+        else if(ptZ1>=25&&ptZ1<30) newweight=newweight*0.92;
+        else if(ptZ1>=30&&ptZ1<40) newweight=newweight*0.93;
+        else if(ptZ1>=40&&ptZ1<50) newweight=newweight*0.96;
+        else if(ptZ1>=50&&ptZ1<60) newweight=newweight*0.97;
+      }
+
       hMZ1_5->Fill( massZ1,newweight );
       hPtZ1_5->Fill( ptZ1,newweight );
       hYZ1_5->Fill( Y_Z1,newweight );
+      hPFMET_u1_5->Fill(f_u1,newweight);
+      hPFMET_u2_5->Fill(f_u2,newweight);
+ 
+
  
       if(BB){
        hMZ1_BB_5->Fill( massZ1,newweight );
@@ -3145,7 +3281,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	 
       	 for(int ele = 0; ele < Ne_good; ++ele){
       	//   if (fabs(RECOELE_SIP[iLe[ele]])>=4.) continue;
-	   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.20) continue;
+	//   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.20) continue;
       	   double deltaR = sqrt( pow(DELTAPHI(RECO_PFJET_PHI[i],RECOELE_PHI[iLe[ele]]),2) + pow(RECO_PFJET_ETA[i] - RECOELE_ETA[iLe[ele]],2));
      	   cout << "1st lepton electron: " << " pT=" << RECOELE_PT[iLe[ele]] <<" deltaR "<< deltaR <<endl;
 	   if (deltaR<0.4){
@@ -3178,7 +3314,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
            hPtJet_8->Fill(RECO_PFJET_PT[i],newweight);
            hYJet_8->Fill(RECO_PFJET_ETA[i],newweight);
            //b-tagging
-           if(cSV_BTagJet_DISCR[i]> 0.89) nbtag_pass++;
+           if(cSV_BTagJet_DISCR[i]> 0.8484) nbtag_pass++;
 	   if (njets_pass==1){
 	     jet1=i;
 	     JET1.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
@@ -3212,13 +3348,18 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
 
      hNjets_8->Fill(njets_pass,newweight);
-
-     if(njets_pass<2 || (!lead_jet)) continue;
+     ff_weight = newweight;
+     f_Njets = int(njets_pass);
+     mettree->Fill();  
+  
+     if(njets_pass<2) continue;
      double Mjj = (JET1+JET2).M();
 
      Mjj_6->Fill(Mjj,newweight);
 
-     if(Mjj>200){
+     if(nbtag_pass<2) continue;
+
+//     if(Mjj>200){
 // Plot non-jet distribution
      for(int i = 0; i < 2; ++i){
 
@@ -3257,8 +3398,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
        }
 
      }//end fill leptons
-
-//     if(nbtag_pass!=2) continue;
+//}
 
      cout <<"GOOD BOT PT MAX is: "<< GOOD_JET_PT_MAX << endl;
      cout << "The max value of Deltaphi(jet,MET) among all jets in the event is "<<max_dphi_jet_met<< endl;
@@ -3267,16 +3407,30 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 //     hDPHI_MIN_JET_MET_8->Fill(min_dphi_jet_met, newweight); 
 //     hDPHI_MAX_JET_MET_8->Fill(max_dphi_jet_met, newweight); 
 
-//     double Mbb = (BOT1+BOT2).M();
-//     double PTbb = (BOT1+BOT2).Pt();
+     double Mbb = (BOT1+BOT2).M();
+     double PTbb = (BOT1+BOT2).Pt();
 
-//     Mbb_6->Fill(Mbb,newweight);
-//     ptbb_6->Fill(PTbb,newweight);
+     double btag_weight=1;
+     if( MC_type == "Spring16" && DATA_type == "NO"){
+       double Pt1=BOT1.Pt();
+       double Eta1=BOT1.Eta();
+       double Pt2=BOT2.Pt();
+       double Eta2=BOT2.Eta();
+       double scaleFactor1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, Eta1, Pt1);
+       double scaleFactor2 = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, Eta2, Pt2);  
+       newweight=newweight*scaleFactor1*scaleFactor2;
+       if(debug) cout << "btag weight" << scaleFactor1*scaleFactor2 << endl;
+     }
+
+
+     Mbb_6->Fill(Mbb,newweight);
+     ptbb_6->Fill(PTbb,newweight);
      hMZ1_7->Fill(massZ1,newweight);
      hPtZ1_7->Fill( ptZ1,newweight );
      hYZ1_7->Fill( Y_Z1,newweight );
-     //Number of jets and mJJ,delta eta cuts // categories
-    }
+     hPFMET_9->Fill(RECO_PFMET,newweight); 
+    //Number of jets and mJJ,delta eta cuts // categories
+    //}
      
 
      //  exactly 4 leptons + at least 2 jets with Djet>0.5 + at most 1 b-tag jet in the event  - category 2
@@ -3660,6 +3814,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    theFile->cd();
    //z1tree->Write();
    newtree->Write();
+   mettree->Write();
    theFile->Write();
    theFile->Close();
    skimfile->cd();

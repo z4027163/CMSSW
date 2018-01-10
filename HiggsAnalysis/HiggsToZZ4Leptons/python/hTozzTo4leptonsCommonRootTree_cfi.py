@@ -25,8 +25,9 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
     triggerobjects = cms.InputTag("selectedPatTrigger"),
 
     triggerbits = cms.InputTag("TriggerResults","","HLT"),
+    prescales = cms.InputTag("patTrigger"),
 
-    HLTFilter=cms.vstring("HLT_IsoMu24_v","HLT_IsoTkMu24_v"),
+    HLTFilter=cms.vstring("HLT_IsoMu24_v","HLT_IsoTkMu24_v","HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v","HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v","HLT_Ele25_eta2p1_WPTight_Gsf_v","HLT_Ele27_WPTight_Gsf_v","HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"),
     triggerFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40Q'),
     triggerMatchObject   =  cms.InputTag("muonTriggerMatchHLT"),
     triggerEleFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40Q'),                                               

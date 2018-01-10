@@ -121,6 +121,7 @@
 //chisquare
 #include "CommonTools/Statistics/interface/ChiSquaredProbability.h"
 
+#include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
 class MultiTrajectoryStateMode ;
 class EgammaTowerIsolation ;
 
@@ -186,6 +187,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     triggerObjects_              = consumes<pat::TriggerObjectStandAloneCollection>(pset.getParameter<edm::InputTag>("triggerobjects"));
 
     triggerBits_              = consumes<edm::TriggerResults>(pset.getParameter<edm::InputTag>("triggerbits"));
+    triggerPrescales_         = consumes<pat::PackedTriggerPrescales>(pset.getParameter<edm::InputTag>("prescales"));
    
     triggerFilter             = pset.getParameter<std::string>("triggerFilter");
     triggerMatchObject        = consumes<edm::Association<std::vector<pat::TriggerObjectStandAlone> > >(pset.getParameter<edm::InputTag>("triggerMatchObject"));
@@ -507,11 +509,20 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOMU_PT_MuHLTMatch",RECOMU_PT_MuHLTMatch,"RECOMU_PT_MuHLTMatch[100]/F");
     Tree_->Branch("RECOMU_ETA_MuHLTMatch",RECOMU_ETA_MuHLTMatch,"RECOMU_ETA_MuHLTMatch[100]/F");
     Tree_->Branch("RECOMU_PHI_MuHLTMatch",RECOMU_PHI_MuHLTMatch,"RECOMU_PHI_MuHLTMatch[100]/F");
+    Tree_->Branch("RECOMU_sm_MuHLTMatch",RECOMU_sm_MuHLTMatch,"RECOMU_sm_MuHLTMatch[100]/b");
+    Tree_->Branch("RECOMU_dm_MuHLTMatch",RECOMU_dm_MuHLTMatch,"RECOMU_dm_MuHLTMatch[100]/I");
+   
+    Tree_->Branch("dm_trig",&dm_trig,"dm_trig/b");
+    Tree_->Branch("sm_trig",&sm_trig,"sm_trig/b");
+    Tree_->Branch("de_trig",&de_trig,"de_trig/b");
+    Tree_->Branch("se_trig",&se_trig,"se_trig/b");
 
     Tree_->Branch("RECO_nEleHLTMatch",&RECO_nEleHLTMatch,"RECO_nEleHLTMatch/I");
     Tree_->Branch("RECOELE_PT_EleHLTMatch",RECOELE_PT_EleHLTMatch,"RECOELE_PT_EleHLTMatch[100]/F");
     Tree_->Branch("RECOELE_ETA_EleHLTMatch",RECOELE_ETA_EleHLTMatch,"RECOELE_ETA_EleHLTMatch[100]/F");
     Tree_->Branch("RECOELE_PHI_EleHLTMatch",RECOELE_PHI_EleHLTMatch,"RECOELE_PHI_EleHLTMatch[100]/F");
+    Tree_->Branch("RECOELE_se_MuHLTMatch",RECOELE_se_EleHLTMatch,"RECOELE_se_EleHLTMatch[100]/b");
+    Tree_->Branch("RECOELE_de_MuHLTMatch",RECOELE_de_EleHLTMatch,"RECOELE_de_EleHLTMatch[100]/I");
 
     Tree_->Branch("HLTPathsFired",HLTPathsFired,"HLTPathsFired/C");
 
@@ -540,20 +551,6 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("MC_Z_THETA", MC_Z_THETA, "MC_Z_THETA[2][5]/F");
     Tree_->Branch("MC_Z_MASS", MC_Z_MASS, "MC_Z_MASS[2][5]/F");
     Tree_->Branch("MC_Z_PDGID", MC_Z_PDGID, "MC_Z_PDGID[2][5]/F");
-
-    // 4l from stable particles
-    Tree_->Branch("MC_fourl_MASS",MC_fourl_MASS,"MC_fourl_MASS[50][5]/F");
-    Tree_->Branch("MC_fourl_PT",MC_fourl_PT,"MC_fourl_PT[50][5]/F");
-    Tree_->Branch("MC_fourl_PDGID",MC_fourl_PDGID,"MC_fourl_PDGID[50][5]/F");
-
-    // diZ
-    Tree_->Branch("MC_ZZ_MASS",MC_ZZ_MASS,"MC_ZZ_MASS[4][7]/F");
-    Tree_->Branch("MC_ZZ_PT",MC_ZZ_PT,"MC_ZZ_PT[4][7]/F");
-    Tree_->Branch("MC_ZZ_ETA",MC_ZZ_ETA,"MC_ZZ_ETA[4][7]/F");
-    Tree_->Branch("MC_ZZ_PHI",MC_ZZ_PHI,"MC_ZZ_PHI[4][7]/F");
-    Tree_->Branch("MC_ZZ_THETA",MC_ZZ_THETA,"MC_ZZ_THETA[4][7]/F");
-    Tree_->Branch("MC_ZZ_PDGID",MC_ZZ_PDGID,"MC_ZZ_PDGID[4][7]/F");
-
 
     // GenJet
     Tree_->Branch( "MC_GENJET_PT",  MC_GENJET_PT,  "MC_GENJET_PT[100]/F");
@@ -948,7 +945,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOELE_MatchingMCPhi", RECOELE_MatchingMCPhi, "RECOELE_MatchingMCPhi[100]/F");
 
     //Bottom
-    Tree_->Branch("RECOBOT_MatchingMCTruth", RECOBOT_MatchingMCTruth, "RECOBOT_MatchingMCTruth[100]/b");
+    Tree_->Branch("RECOBOT_MatchingMCTruth", RECOBOT_MatchingMCTruth, "RECOBOT_MatchingMCTruth[100]/I");
     Tree_->Branch("RECOBOT_MatchingMCpT", RECOBOT_MatchingMCpT, "RECOBOT_MatchingMCpT[100]/F");
     Tree_->Branch("RECOBOT_MatchingMCEta", RECOBOT_MatchingMCEta, "RECOBOT_MatchingMCEta[100]/F");
     Tree_->Branch("RECOBOT_MatchingMCPhi", RECOBOT_MatchingMCPhi, "RECOBOT_MatchingMCPhi[100]/F");
@@ -1160,16 +1157,6 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       MC_LEPT_THETA[i]=-999.;
       MC_LEPT_PDGID[i]=-999.;
     }
-    for  (int i=0; i<4;i++){ 
-      for  (int j=0; j<7;j++){ 
-	MC_ZZ_MASS[i][j]=-999.;
-	MC_ZZ_PT[i][j]=-999.;
-	MC_ZZ_ETA[i][j]=-999.;
-	MC_ZZ_PHI[i][j]=-999.;
-	MC_ZZ_THETA[i][j]=-999.;
-	MC_ZZ_PDGID[i][j]=-999.;
-      }
-    }
 
     for(int i=0; i<2; ++i) {
       for(int j=0; j<5; ++j) {
@@ -1179,14 +1166,6 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 	MC_Z_THETA[i][j]=-999;
 	MC_Z_MASS[i][j]=-999;
 	MC_Z_PDGID[i][j]=-999;
-      }
-    }
-
-    for  (int i=0; i<50;i++){ 
-      for  (int j=0; j<5;j++){ 
-	MC_fourl_MASS[i][j]=-999.;
-	MC_fourl_PT[i][j]=-999.;
-	MC_fourl_PDGID[i][j]=-999.;
       }
     }
 
@@ -1526,7 +1505,11 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       }
     }
 */
-
+    dm_trig=false;
+    sm_trig=false;
+    de_trig=false;
+    se_trig=false;
+    
     for (int i=0; i<100;i++){
       RECOELE_E[i]     = -999.;
       RECOELE_PT[i]=-999.;
@@ -1670,6 +1653,10 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       RECOELE_PT_EleHLTMatch[i]=-999.;
       RECOELE_ETA_EleHLTMatch[i]=-999.;
       RECOELE_PHI_EleHLTMatch[i]=-999.;
+      RECOMU_sm_MuHLTMatch[i]=false;
+      RECOMU_dm_MuHLTMatch[i]=-999;
+      RECOELE_se_EleHLTMatch[i]=false;
+      RECOELE_de_EleHLTMatch[i]=-999;
 
       RECOMU_isPFMu[i]=false;
       RECOMU_isGlobalMu[i]=false;
@@ -1793,7 +1780,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     }
     
 
-    for (int i=0; i<50;i++){      
+    for (int i=0; i<100;i++){      
       //Matching 
 
       // Muons
@@ -1809,11 +1796,12 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       RECOELE_MatchingMCPhi[i]=-999.;
     
       // Bottoms
-      RECOBOT_MatchingMCTruth[i]=false;
+      RECOBOT_MatchingMCTruth[i]=0;
       RECOBOT_MatchingMCpT[i]=-999.;
       RECOBOT_MatchingMCEta[i]=-999.;
       RECOBOT_MatchingMCPhi[i]=-999.;
-
+      }
+    for (int i=0; i<50;i++){
       //Gamma:
       RECOPHOT_MatchingMCTruth[i]=false;
       RECOPHOT_MatchingMCpT[i]=-999.;
@@ -1907,9 +1895,10 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     iEvent.getByToken(generator_, gen_ev_info);
     if(!gen_ev_info.isValid()) return;
     EventWeight = gen_ev_info->weight();
-    //std::cout<<"mc_weight = "<< gen_ev_info->weight() <<std::endl;
+    std::cout<<"mc_weight = "<< gen_ev_info->weight() <<std::endl;
                                                                                                                                                                         
-    float mc_weight = ( EventWeight > 0 ) ? 1 : -1;
+    float mc_weight = EventWeight;
+   // ( EventWeight > 0 ) ? 1 : -1;
     //std::cout<<"mc_weight = "<< mc_weight <<std::endl;                                                                                                                  
     MC_weighting=mc_weight;
 
@@ -1945,8 +1934,10 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 //AOD    edm::Handle<trigger::TriggerEvent> handleTriggerEvent;
     edm::Handle<edm::TriggerResults> triggerBits;
     edm::Handle<pat::TriggerObjectStandAloneCollection> triggerObjects;
+    edm::Handle<pat::PackedTriggerPrescales> triggerPrescales;
     iEvent.getByToken(triggerObjects_, triggerObjects );
     iEvent.getByToken(triggerBits_, triggerBits);
+    iEvent.getByToken(triggerPrescales_, triggerPrescales);
 //    const trigger::TriggerObjectCollection & toc(handleTriggerEvent->getObjects());
     size_t nMuHLT =0, nEleHLT=0;
 
@@ -1954,62 +1945,88 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);    
 
 
-    std::vector<pat::TriggerObjectStandAlone>  HLTMuMatched,HLTEleMatched;
-    std::vector<string> HLTMuMatchedNames,HLTEleMatchedNames;
-   
+    std::vector<pat::TriggerObjectStandAlone>  HLTMuMatched_sm, HLTMuMatched_dm,HLTEleMatched_se,HLTEleMatched_de,HLTMu17,HLTMu8,HLTEleLeg1,HLTEleLeg2;
+    std::vector<string> HLTMuMatchedNames_sm,HLTMuMatchedNames_dm,HLTEleMatchedNames_se,HLTEleMatchedNames_de;
+/*  
+    std::cout << "\n == TRIGGER PATHS= " << std::endl;
+    for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i) {
+        std::cout << "Trigger " << names.triggerName(i) <<
+                ", prescale " << triggerPrescales->getPrescaleForIndex(i) <<
+                ": " << (triggerBits->accept(i) ? "PASS" : "fail (or not run)")
+                << std::endl;
+    }
+ */
 //MiniAOD
     for (pat::TriggerObjectStandAlone obj : *triggerObjects) {
        obj.unpackPathNames(names);
 
-       for (unsigned h = 0; h < obj.filterLabels().size(); ++h){
-           std::string fullname = obj.filterLabels()[h];
-           std::string name;
-           size_t p = fullname.find_first_of(':');
-      if ( p != std::string::npos) {
-        name = fullname.substr(0, p);
-      }
-      else {
-        name = fullname;
-      } 
-     /*
-          if (name == triggerFilter.c_str()) {
-            HLTMuMatched.push_back(obj);
-            HLTMuMatchedNames.push_back(name);
-            cout << "Matching " << triggerFilter.c_str()  << endl;
-            nMuHLT++;
-          }
-      */
-          if (name == triggerEleFilter.c_str()) {
-            HLTEleMatched.push_back(obj);
-            HLTEleMatchedNames.push_back(name);
-            cout << "Matching " << triggerEleFilter.c_str()  << endl;
-            nEleHLT++;
-          }
-
+//       for (unsigned h = 0; h < obj.filterIds().size(); ++h) std::cout << " " << obj.filterIds()[h] ;
+//        std::cout << std::endl;
+        // Print associated trigger filters
+//        std::cout << "\t   Filters:    ";
+        bool mu17_pass = false;
+        bool mu8_pass = false;
+        bool ele_leg1 = false;
+        bool ele_leg2 = false;
+        for (unsigned h = 0; h < obj.filterLabels().size(); ++h){
+             TString flt = obj.filterLabels()[h].c_str();
+             if(flt=="hltL3fL1sDoubleMu114L1f0L2f10OneMuL3Filtered17"
+              ||(flt=="hltL3fL1sDoubleMu114L1f0L2f10L3Filtered17") ) mu17_pass=true;
+             if((flt=="hltDiMuonGlbFiltered17TrkFiltered8")
+              ||(flt=="hltL3pfL1sDoubleMu114ORDoubleMu125L1f0L2pf0L3PreFiltered8")) mu8_pass=true;
+             if(flt=="hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter") ele_leg1=true;
+             if(flt=="hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter") ele_leg2=true;
         }
-
+ 
         std::vector<string> pathNamesAll = obj.pathNames(false);
         std::vector<string> pathNamesLast = obj.pathNames(true);
-//        std::cout << "\t   Paths (" << pathNamesAll.size()<<"/"<<pathNamesLast.size()<<"):    ";
-        bool hlt_pass = false;
+/*        std::cout << "\t   Paths (" << pathNamesAll.size()<<"/"<<pathNamesLast.size()<<"):    ";
+        for (unsigned h = 0, n = pathNamesAll.size(); h < n; ++h) {
+            bool isBoth = obj.hasPathName( pathNamesAll[h], true, true );
+            bool isL3   = obj.hasPathName( pathNamesAll[h], false, true );
+            bool isLF   = obj.hasPathName( pathNamesAll[h], true, false );
+            bool isNone = obj.hasPathName( pathNamesAll[h], false, false );
+            std::cout << "   " << pathNamesAll[h];
+            if (isBoth) std::cout << "(L,3)";
+            if (isL3 && !isBoth) std::cout << "(*,3)";
+            if (isLF && !isBoth) std::cout << "(L,*)";
+            if (isNone && !isBoth && !isL3 && !isLF) std::cout << "(*,*)";
+        }
+*/
+        bool hlt_pass_sm = false;
+        bool hlt_pass_dm = false;
+        bool hlt_pass_se = false;
+        bool hlt_pass_de = false;
+
         for(unsigned h = 0; h < pathNamesLast.size(); h++)
          for(unsigned h2 = 0; h2 < HLTFilter_.size(); h2++){
            TString hlt = pathNamesLast[h].c_str();
            if(hlt.Contains(HLTFilter_[h2].c_str())){ 
-            hlt_pass=true;
+            if(HLTFilter_[h2]=="HLT_IsoMu24_v"||HLTFilter_[h2]=="HLT_IsoTkMu24_v") hlt_pass_sm=true;
+            if(HLTFilter_[h2]=="HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"||HLTFilter_[h2]=="HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v") hlt_pass_dm=true;
+            if(HLTFilter_[h2]=="HLT_Ele25_eta2p1_WPTight_Gsf_v"||HLTFilter_[h2]=="HLT_Ele27_WPTight_Gsf_v") hlt_pass_se=true;
+            if(HLTFilter_[h2]=="HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v") hlt_pass_de=true;
             cout << "Matching " << HLTFilter_[h2].c_str()  << endl;
            }
            }
 
-       if(hlt_pass)  {HLTMuMatched.push_back(obj); HLTMuMatchedNames.push_back("IsoMu24");nMuHLT++;}
-
+       if(hlt_pass_sm)  {HLTMuMatched_sm.push_back(obj); HLTMuMatchedNames_sm.push_back("IsoMu24");sm_trig=true;}
+       if(hlt_pass_dm)  {HLTMuMatched_dm.push_back(obj); HLTMuMatchedNames_dm.push_back("DoubleMu");dm_trig=true;}
+       if(hlt_pass_se)  {HLTEleMatched_se.push_back(obj); HLTEleMatchedNames_se.push_back("SingleEG");se_trig=true;}
+       if(hlt_pass_de)  {HLTEleMatched_de.push_back(obj); HLTEleMatchedNames_de.push_back("DoubleEG");de_trig=true;}
+       if(mu17_pass)     HLTMu17.push_back(obj);
+       if(mu8_pass)      HLTMu8.push_back(obj);
+       if(ele_leg1)      HLTEleLeg1.push_back(obj);
+       if(ele_leg2)      HLTEleLeg2.push_back(obj);
+       if(hlt_pass_sm||hlt_pass_dm) nMuHLT++;
+       if(hlt_pass_se||hlt_pass_de) nEleHLT++;
       }
     
 
 
     edm::Handle<edm::View<pat::Muon> > MuCandidates;
     iEvent.getByToken(muonTag_, MuCandidates);
-    float maxDeltaR_=0.2;
+    float maxDeltaR_=0.15;
     float maxDPtRel_=1.0;
     int nMuHLTMatch=0;
     float minDR=0.5;
@@ -2017,23 +2034,39 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     for (edm::View<pat::Muon>::const_iterator iCand = MuCandidates->begin(); iCand != MuCandidates->end(); ++iCand){
       unsigned int i=iCand-MuCandidates->begin();
 
-      for(size_t k=0; k < HLTMuMatched.size(); k++)
-            if(deltaR(HLTMuMatched[k],*iCand)<minDR){minDR=deltaR(HLTMuMatched[k],*iCand); Ni=i;}
+      for(size_t k=0; k < HLTMuMatched_sm.size(); k++)
+            if(deltaR(HLTMuMatched_sm[k],*iCand)<minDR){minDR=deltaR(HLTMuMatched_sm[k],*iCand); Ni=i;}
 
       cout << "Muon with pt= " << iCand->pt() << ": check trigger matching" << endl;
-      if (IsMuMatchedToHLTMu(*iCand,  HLTMuMatched , HLTMuMatchedNames, maxDeltaR_, maxDPtRel_)==true){
-	nMuHLTMatch++;
-	cout << "Muon HLT Matched with pT= " << iCand->pt() << endl;
-	RECOMU_PT_MuHLTMatch[i] =iCand->pt();
-	RECOMU_ETA_MuHLTMatch[i]=iCand->eta();
-	RECOMU_PHI_MuHLTMatch[i]=iCand->phi();
+      if (IsMuMatchedToHLTMu(*iCand,  HLTMuMatched_sm , maxDeltaR_, maxDPtRel_)==true){
+        RECOMU_sm_MuHLTMatch[i]=true;
+        RECOMU_PT_MuHLTMatch[i] =iCand->pt();
+        RECOMU_ETA_MuHLTMatch[i]=iCand->eta();
+        RECOMU_PHI_MuHLTMatch[i]=iCand->phi();
       }
+      if (IsMuMatchedToHLTMu(*iCand,  HLTMu8 , maxDeltaR_, maxDPtRel_)==true){
+        RECOMU_PT_MuHLTMatch[i] =iCand->pt();
+        RECOMU_ETA_MuHLTMatch[i]=iCand->eta();
+        RECOMU_PHI_MuHLTMatch[i]=iCand->phi();
+        RECOMU_dm_MuHLTMatch[i]=1;
+      }
+      if (IsMuMatchedToHLTMu(*iCand,  HLTMu17 , maxDeltaR_, maxDPtRel_)==true){
+        RECOMU_dm_MuHLTMatch[i]=2;
+        RECOMU_PT_MuHLTMatch[i] =iCand->pt();
+        RECOMU_ETA_MuHLTMatch[i]=iCand->eta();
+        RECOMU_PHI_MuHLTMatch[i]=iCand->phi();
+      }
+      
+      if(IsMuMatchedToHLTMu(*iCand,  HLTMuMatched_sm , maxDeltaR_, maxDPtRel_)==true
+       ||IsMuMatchedToHLTMu(*iCand,  HLTMuMatched_dm , maxDeltaR_, maxDPtRel_)==true){
+        nMuHLTMatch++;
+        cout << "Muon HLT Matched with pT= " << iCand->pt() << endl;
+      }
+
     }
-    cout << "DR = " << minDR << " index= " << Ni << endl;
+//    cout << "DR = " << minDR << " index= " << Ni << endl;
     for(int i=0; i < 100; i++)
-      if(i!=Ni) {RECOMU_PT_MuHLTMatch[i] = -999;
-                 RECOMU_ETA_MuHLTMatch[i]= -999;
-                 RECOMU_PHI_MuHLTMatch[i]= -999;}
+      if(i!=Ni) RECOMU_sm_MuHLTMatch[i] = false;
 
     cout << "N. Muons HLT Matched= " << nMuHLTMatch << endl;
     RECO_nMuHLTMatch    = nMuHLTMatch;
@@ -2045,48 +2078,74 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     edm::Handle<edm::View<pat::Electron> > EleCandidates;
     iEvent.getByToken(electronEgmTag_, EleCandidates);
 
+    minDR=0.5;
+    Ni=-1;
+
     for (edm::View<pat::Electron>::const_iterator iCand = EleCandidates->begin(); iCand != EleCandidates->end(); ++iCand){
 
       unsigned int i=iCand-EleCandidates->begin();
       cout << "Electron with pt= " << iCand->pt() << ": check trigger matching" << endl;
-      if (IsEleMatchedToHLTEle(*iCand,  HLTEleMatched , HLTEleMatchedNames, maxDeltaR_, maxDPtRel_)==true){
-	    cout << "Electron HLT Matched with pT= " << iCand->pt() << endl;
-	    nEleHLTMatch++;
-	    RECOELE_PT_EleHLTMatch[i]=iCand->pt();
-	    RECOELE_ETA_EleHLTMatch[i]=iCand->eta();
-	    RECOELE_PHI_EleHLTMatch[i]=iCand->phi();
+      for(size_t k=0; k < HLTEleMatched_se.size(); k++)
+            if(deltaR(HLTEleMatched_se[k],*iCand)<minDR){minDR=deltaR(HLTEleMatched_se[k],*iCand); Ni=i;}
+
+      if (IsEleMatchedToHLTEle(*iCand,  HLTEleMatched_se ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOELE_se_EleHLTMatch[i]=true;
+            RECOELE_PT_EleHLTMatch[i]=iCand->pt();
+            RECOELE_ETA_EleHLTMatch[i]=iCand->eta();
+            RECOELE_PHI_EleHLTMatch[i]=iCand->phi();
       }
+      if (IsEleMatchedToHLTEle(*iCand,  HLTEleLeg2 ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOELE_de_EleHLTMatch[i]=1;
+            RECOELE_PT_EleHLTMatch[i]=iCand->pt();
+            RECOELE_ETA_EleHLTMatch[i]=iCand->eta();
+            RECOELE_PHI_EleHLTMatch[i]=iCand->phi();
+      }
+     if (IsEleMatchedToHLTEle(*iCand,  HLTEleLeg1 ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOELE_de_EleHLTMatch[i]=2;
+            RECOELE_PT_EleHLTMatch[i]=iCand->pt();
+            RECOELE_ETA_EleHLTMatch[i]=iCand->eta();
+            RECOELE_PHI_EleHLTMatch[i]=iCand->phi();
+      }
+     if (IsEleMatchedToHLTEle(*iCand,  HLTEleMatched_se , maxDeltaR_, maxDPtRel_)==true
+       ||IsEleMatchedToHLTEle(*iCand,  HLTEleMatched_de , maxDeltaR_, maxDPtRel_)==true){
+            cout << "Electron HLT Matched with pT= " << iCand->pt() << endl;
+            nEleHLTMatch++;
+      }
+
+    cout << "DR = " << minDR << " index= " << Ni << endl;
+    for(int i=0; i < 100; i++)
+      if(i!=Ni) RECOELE_se_EleHLTMatch[i] = false;
+
     }
 
     cout << "N. Electrons HLT Matched= " << nEleHLTMatch << endl;
 
-    RECO_nEleHLTMatch = nEleHLTMatch;
-
+    RECO_nEleHLTMatch = nEleHLTMatch; 
 
   }
 
-  bool IsMuMatchedToHLTMu ( const pat::Muon &mu, std::vector<pat::TriggerObjectStandAlone> HLTMu , std::vector<string> HLTMuNames, double DR, double DPtRel ) {
+  bool IsMuMatchedToHLTMu ( const pat::Muon &mu, std::vector<pat::TriggerObjectStandAlone> HLTMu , double DR, double DPtRel ) {
     size_t dim =  HLTMu.size();
     size_t nPass=0;
     if (dim==0) return false;
     for (size_t k =0; k< dim; k++ ) {
       //cout << "HLT mu filter is= " << HLTMuNames[k].c_str() << " Delta R= " << deltaR(HLTMu[k], mu) << " Delta pT= " << fabs(HLTMu[k].pt() - mu.pt())/ HLTMu[k].pt() << endl;
       if (  (deltaR(HLTMu[k], mu) < DR)   && (fabs(HLTMu[k].pt() - mu.pt())/ HLTMu[k].pt()<DPtRel)){ 
-	cout << "HLT mu filter is= " << HLTMuNames[k].c_str() << " Delta R= " << deltaR(HLTMu[k], mu) << " Delta pT= " << fabs(HLTMu[k].pt() - mu.pt())/ HLTMu[k].pt() << endl;
+	cout << "HLT mu filter is= " << " Delta R= " << deltaR(HLTMu[k], mu) << " Delta pT= " << fabs(HLTMu[k].pt() - mu.pt())/ HLTMu[k].pt() << endl;
 	nPass++ ;
       }
     }
     return (nPass>0);
   }
 
-  bool IsEleMatchedToHLTEle ( const pat::Electron &ele, std::vector<pat::TriggerObjectStandAlone> HLTEle , std::vector<string> HLTEleNames, double DR, double DPtRel ) {
+  bool IsEleMatchedToHLTEle ( const pat::Electron &ele, std::vector<pat::TriggerObjectStandAlone> HLTEle , double DR, double DPtRel ) {
     size_t dim =  HLTEle.size();
     size_t nPass=0;
     if (dim==0) return false;
     for (size_t k =0; k< dim; k++ ) {
       //cout << "HLT ele filter is= " << HLTEleNames[k].c_str() << " Delta R= " << deltaR(HLTEle[k], ele) << " Delta pT= " << fabs(HLTEle[k].pt() - ele.pt())/ HLTEle[k].pt() << endl;
       if (  (deltaR(HLTEle[k], ele) < DR)   && (fabs(HLTEle[k].pt() - ele.pt())/ HLTEle[k].pt()<DPtRel)){ 
-	cout << "HLT ele filter is= " << HLTEleNames[k].c_str() << " Delta R= " << deltaR(HLTEle[k], ele) << " Delta pT= " << fabs(HLTEle[k].pt() - ele.pt())/ HLTEle[k].pt() << endl;
+	cout << "HLT ele filter is= " << " Delta R= " << deltaR(HLTEle[k], ele) << " Delta pT= " << fabs(HLTEle[k].pt() - ele.pt())/ HLTEle[k].pt() << endl;
 	nPass++ ;
       }
     }
@@ -2265,113 +2324,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
     std::cout<<"\n"<<std::endl;
 
 
-
-
-    // get 4l candidates
     i=0; 
-    //j=0;
-    edm::Handle<edm::View<Candidate> >  fourlCandidates;
-    iEvent.getByToken(fourgenleptons_, fourlCandidates);
-    for (edm::View<Candidate>::const_iterator mcIter=fourlCandidates->begin(); mcIter!=fourlCandidates->end(); ++mcIter ) {
-      if (i>49 ) continue;
-      cout << " MC 4l Mass= " << mcIter->mass()
-	   << " Charge= " 
-	   << mcIter->daughter(0)->daughter(0)->charge() << " " 
-	   << mcIter->daughter(0)->daughter(1)->charge() << " "
-	   << mcIter->daughter(0)->daughter(2)->charge() << " " 
-	   << mcIter->daughter(1)->charge() << " " 
-	   << endl;
-      MC_fourl_MASS[i][0]=mcIter->p4().mass();
-      MC_fourl_PT[i][0]=mcIter->p4().pt();
-      MC_fourl_PDGID[i][0]=mcIter->pdgId();
-
-      int ii=0; // l=0;
-      for (unsigned j = 0; j < mcIter->numberOfDaughters(); ++j ) {
-	//cout << "j= " << j << " " << abs(mcIter->daughter(j)->pdgId()) << endl;
-	if (j==0){
-	  for (unsigned k = 0; k < mcIter->daughter(j)->numberOfDaughters(); ++k ) {
-	    //cout << abs(mcIter->daughter(j)->daughter(k)->pdgId()) << endl;
-	    if ( abs(mcIter->daughter(j)->daughter(k)->pdgId())==13 || 
-		 abs(mcIter->daughter(j)->daughter(k)->pdgId())==15 || 
-		 abs(mcIter->daughter(j)->daughter(k)->pdgId())==11){
-	      
-	      //cout << "k+1= " << k+1 << endl;
-	      MC_fourl_MASS[i][k+1]=mcIter->daughter(j)->daughter(k)->p4().mass();
-	      MC_fourl_PT[i][k+1]=mcIter->daughter(j)->daughter(k)->p4().pt();
-	      MC_fourl_PDGID[i][k+1]=mcIter->daughter(j)->daughter(k)->pdgId();
-	      
-	    }
-	  }
-	}
-	
-	if (j==1) {
-	  //cout << "k+1= " << mcIter->daughter(0)->numberOfDaughters()+1 << endl;
-	  MC_fourl_MASS[i][mcIter->daughter(0)->numberOfDaughters()+1]=mcIter->daughter(j)->p4().mass();
-	  MC_fourl_PT[i][mcIter->daughter(0)->numberOfDaughters()+1]=mcIter->daughter(j)->p4().pt();
-	  MC_fourl_PDGID[i][mcIter->daughter(0)->numberOfDaughters()+1]=mcIter->daughter(j)->pdgId();
-	}
-
-	ii++;
-	
-      }
-
-      i++;
-    }
-    
-    // get ZZ candidates
-    i =0;
-    edm::Handle<edm::View<Candidate> >  ZZCandidates;
-    iEvent.getByToken(digenZ_, ZZCandidates);
-    
-    for (edm::View<Candidate>::const_iterator mcIterZZ=ZZCandidates->begin(); mcIterZZ!=ZZCandidates->end(); ++mcIterZZ ) {
-      if (i>3 ) continue;
-      cout << "MC ZZ Mass= " << mcIterZZ->p4().mass() 
-	   << " and pT= " << mcIterZZ->p4().pt()  
-	   << endl;
-      
-      
-      MC_ZZ_MASS[i][0]   = mcIterZZ->p4().mass();
-      MC_ZZ_PT[i][0]     = mcIterZZ->p4().pt();
-      MC_ZZ_ETA[i][0]    = mcIterZZ->p4().eta();
-      MC_ZZ_PHI[i][0]    = mcIterZZ->p4().phi();
-      MC_ZZ_THETA[i][0]  = mcIterZZ->p4().theta();
-      MC_ZZ_PDGID[i][0]  = mcIterZZ->pdgId();
-      
-      int ii=0,l=0;
-      for (unsigned j = 0; j < mcIterZZ->numberOfDaughters(); ++j ) {
-	// cout << " j= " << j << " " << abs(mcIterZZ->daughter(j)->pdgId()) << endl;
-	
-	MC_ZZ_MASS[i][j+1] = mcIterZZ->daughter(j)->p4().mass();
-	MC_ZZ_PT[i][j+1]   = mcIterZZ->daughter(j)->p4().pt();
-	MC_ZZ_ETA[i][j+1]  = mcIterZZ->daughter(j)->p4().eta();
-	MC_ZZ_PHI[i][j+1]  = mcIterZZ->daughter(j)->p4().phi();
-	MC_ZZ_THETA[i][j+1]= mcIterZZ->daughter(j)->p4().theta();
-	MC_ZZ_PDGID[i][j+1]= mcIterZZ->daughter(j)->pdgId();
-	
-	//cout << mcIterZZ->daughter(j)->numberOfDaughters()<< endl;
-	
-	int kk=0;
-	for (unsigned k = 0; k < mcIterZZ->daughter(j)->numberOfDaughters(); ++k ) {
-	  // cout << " k= " << k << abs(mcIterZZ->daughter(j)->daughter(k)->pdgId()) << endl;
-	  if ( abs(mcIterZZ->daughter(j)->daughter(k)->pdgId())==13 || 
-	       abs(mcIterZZ->daughter(j)->daughter(k)->pdgId())==15 || 
-	       abs(mcIterZZ->daughter(j)->daughter(k)->pdgId())==11){
-	    l=ii+j+kk+3; 	      
-	    
-	    //cout << " l= " << l << " " << abs(mcIterZZ->daughter(j)->daughter(k)->pdgId()) << endl;
-	    MC_ZZ_MASS[i][l] = mcIterZZ->daughter(j)->daughter(k)->p4().mass();
-	    MC_ZZ_PT[i][l]   = mcIterZZ->daughter(j)->daughter(k)->p4().pt();
-	    MC_ZZ_ETA[i][l]  = mcIterZZ->daughter(j)->daughter(k)->p4().eta();
-	    MC_ZZ_PHI[i][l]  = mcIterZZ->daughter(j)->daughter(k)->p4().phi();
-	    MC_ZZ_THETA[i][l]= mcIterZZ->daughter(j)->daughter(k)->p4().theta();
-	    MC_ZZ_PDGID[i][l]= mcIterZZ->daughter(j)->daughter(k)->pdgId();
-	    kk++;
-	  }
-	}
-	ii++;	    	  
-      }
-    }
-      
     
   }
   
@@ -4318,11 +4271,17 @@ void fillTracks(const edm::Event& iEvent){
     for ( pat::METCollection::const_iterator i=pfmetHandle->begin(); i!=pfmetHandle->end(); i++) {
       cormetmuons = i->pt();
       pfmet       = i->uncorPt();     
+/*
       pfmet_x     = i->uncorPx();
       pfmet_y     = i->uncorPy();
       pfmet_phi   = i->uncorPhi();
+*/
+      pfmet_x     = i->px();
+      pfmet_y     = i->py();
+      pfmet_phi   = i->phi();
       pfmet_theta = i->uncorP3().theta();
-      cout << "corrmet phi=" << i->phi() << "  met phi=" << pfmet_phi << endl;
+
+      cout << "corrmet px=" << pfmet_x << "  met phi=" << pfmet_phi << endl;
     }
 
     std::cout << "MET:"
@@ -5017,7 +4976,7 @@ void fillTracks(const edm::Event& iEvent){
     iEvent.getByToken(jetsTag_ ,bTagHandle);
     int l=0;
     for (pat::JetCollection::const_iterator btagIter=bTagHandle->begin(); btagIter!=bTagHandle->end();++btagIter) {
-      if(l>=49) continue;
+      if(l>=99) continue;
       double discrCSV1 = btagIter->bDiscriminator(tCHighEff_bTag_);
 	cout<<" Jet "<< l
 	    <<" has b tag discriminator trackCountingHighEffBJetTags = "<< discrCSV1 
@@ -5051,35 +5010,9 @@ void fillTracks(const edm::Event& iEvent){
       l++;
 
       if (fillMCTruth==true){
-        int k=-1;
-        edm::Handle<edm::View<reco::GenParticle> > pruned;
-        iEvent.getByToken(prunedGenToken_,pruned);
-
-        double dRmin=10;
-        for(size_t j=0; j<pruned->size();j++){
-           if(abs((*pruned)[j].pdgId()) == 5&&(*pruned)[j].isPromptFinalState()){
-             const Candidate * genbot = &(*pruned)[j];
-             double phi1 = genbot->p4().phi();
-             double phi2 = btagIter->p4().phi();
-             double eta1 = genbot->p4().eta();
-             double eta2 = btagIter->p4().eta();
-         //    double pt1 = genbot->p4().pt();
-             double pt2 = btagIter->p4().pt();
-             double DELTAPHI;
-             if(abs(phi1-phi2)<3.14159) DELTAPHI=abs(phi1-phi2);
-             else DELTAPHI=abs(phi1-phi2)-2*3.14159;
-             double deltaR = sqrt( pow( DELTAPHI,2) + pow(eta1-eta2,2) );
-             if(deltaR<dRmin && pt2>15) {k=j;dRmin=deltaR;}
-           }
-         }
-        if(k>=0&&dRmin<0.15){
-              RECOBOT_MatchingMCTruth[l]= true;
-              RECOBOT_MatchingMCpT[l]= (*pruned)[k].p4().pt();
-              RECOBOT_MatchingMCEta[l]= (*pruned)[k].p4().eta();
-              RECOBOT_MatchingMCPhi[l]= (*pruned)[k].p4().phi();
-        }
-       }
-
+             if(abs(btagIter->partonFlavour())==5) RECOBOT_MatchingMCTruth[l]= 1;
+             if(abs(btagIter->partonFlavour())==4) RECOBOT_MatchingMCTruth[l]= 2;
+     }
     }
 
   }
@@ -5143,7 +5076,7 @@ void fillTracks(const edm::Event& iEvent){
 
   edm::EDGetTokenT<edm::TriggerResults> triggerBits_;
   edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> triggerObjects_;
-
+  edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_;
 
   edm::InputTag triggerMatchObjectEle;
   edm::EDGetTokenT<edm::Association<std::vector<pat::TriggerObjectStandAlone> > > triggerMatchObject;
@@ -5351,9 +5284,10 @@ void fillTracks(const edm::Event& iEvent){
   int RECO_nMuHLTMatch,RECO_nEleHLTMatch;
   float RECOMU_PT_MuHLTMatch[100],RECOMU_ETA_MuHLTMatch[100],RECOMU_PHI_MuHLTMatch[100];
   float RECOELE_PT_EleHLTMatch[100],RECOELE_ETA_EleHLTMatch[100],RECOELE_PHI_EleHLTMatch[100];
-  
+  bool RECOMU_sm_MuHLTMatch[100],RECOELE_se_EleHLTMatch[100];
+  int RECOMU_dm_MuHLTMatch[100],RECOELE_de_EleHLTMatch[100];
   char HLTPathsFired[20000];
-
+  bool dm_trig, sm_trig, de_trig, se_trig;
  
 
   // MC info
@@ -5364,9 +5298,6 @@ void fillTracks(const edm::Event& iEvent){
 
   float MC_LEPT_PT[4],MC_LEPT_ETA[4],MC_LEPT_PHI[4],MC_LEPT_THETA[4],MC_LEPT_PDGID[4];
   float MC_Z_MASS[2][5],MC_Z_PT[2][5],MC_Z_ETA[2][5],MC_Z_PHI[2][5],MC_Z_THETA[2][5],MC_Z_PDGID[2][5];
-
-  float MC_fourl_MASS[100][5],MC_fourl_PT[100][5],MC_fourl_PDGID[100][5];
-  float MC_ZZ_MASS[4][7],MC_ZZ_PT[4][7],MC_ZZ_ETA[4][7],MC_ZZ_PHI[4][7],MC_ZZ_THETA[4][7],MC_ZZ_PDGID[4][7];
 
   // RECO collection
  
@@ -5529,7 +5460,7 @@ void fillTracks(const edm::Event& iEvent){
   float RECOMU_MatchingMCPhi[100];
 
   //Bottom Matching
-  bool RECOBOT_MatchingMCTruth[100];
+  int RECOBOT_MatchingMCTruth[100];
   float RECOBOT_MatchingMCpT[100];
   float RECOBOT_MatchingMCEta[100];
   float RECOBOT_MatchingMCPhi[100];

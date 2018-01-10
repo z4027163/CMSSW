@@ -11,7 +11,7 @@ def main(argv=None):
         argv = sys.argv[1:]
 
     histName = 'pileup'
-    fileName = 'pileup/pileup.root'
+    fileName = 'pileup/pileup_BCDEF.root'
     
     # 80X sample with startup pileup
     #from SimGeneral.MixingModule.mix_2016_25ns_SpringMC_PUScenarioV1_PoissonOOTPU_cfi import mix
@@ -30,7 +30,7 @@ def main(argv=None):
     histmc.Write()
     
     # read data
-    for datatype in ['','_up','_down']:
+    for datatype in ['_BCDEF','_up','_down']:
         dataFileName = 'pileup/PileUpData{0}.root'.format(datatype)
         datafile = ROOT.TFile(dataFileName)
         histdata = datafile.Get(histName)

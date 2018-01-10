@@ -213,12 +213,12 @@ process.schedule = cms.Schedule( process.Path_BunchSpacingproducer,
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(400) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(500) )
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
 readFiles = cms.untracked.vstring(
-'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DoubleMuon/RunII2016/MINIAOD_data.root'
-#'file:/lustre/cms/store/user/defilip/MonoHiggs/Syncr13TeV/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUgenV6_pythia8_76x/crab_pickEvents/160309_222348/0000/pickevents_9.root'
+#'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DoubleMuon/RunII2016/data_H2.root'
+'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DoubleEG/RunII2016/data_B.root'
   )
 
 process.source = cms.Source ("PoolSource",fileNames = readFiles, secondaryFileNames = secFiles)

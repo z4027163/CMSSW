@@ -3,7 +3,7 @@
 runPeriod="Collisions16"
 central=69200
 #lumimask=`python -c "from DevTools.Utilities.utilities import getJson; print getJson('$runPeriod')"`
-lumimask="/uscms/home/zwang4/data_lumi/all.json"
+lumimask="/uscms/home/zwang4/data_lumi/BCDEF.json"
 #normtag=`python -c "from DevTools.Utilities.utilities import getNormtag; print getNormtag('$runPeriod')"`
 pileupjson="/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/$runPeriod/13TeV/PileUp/pileup_latest.txt"
 mkdir -p pileup
@@ -18,7 +18,7 @@ for xsec in $central; do
     up=$(echo "$xsec*1.05" | bc)
     down=$(echo "$xsec*0.95" | bc)
     echo $xsec
-    pileupCalc.py -i $lumimask --inputLumiJSON $pileupjson --calcMode true  --minBiasXsec $xsec --maxPileupBin $maxBins --numPileupBins $maxBins pileup/PileUpData.root
+    pileupCalc.py -i $lumimask --inputLumiJSON $pileupjson --calcMode true  --minBiasXsec $xsec --maxPileupBin $maxBins --numPileupBins $maxBins pileup/PileUpData_BCDEF.root
     echo $up
     pileupCalc.py -i $lumimask --inputLumiJSON $pileupjson --calcMode true  --minBiasXsec $up --maxPileupBin $maxBins --numPileupBins $maxBins pileup/PileUpData_up.root
     echo $down

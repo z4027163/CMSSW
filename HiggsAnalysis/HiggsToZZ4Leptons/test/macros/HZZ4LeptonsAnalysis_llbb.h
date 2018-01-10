@@ -37,6 +37,17 @@ public :
    Float_t         MC_weighting;
    Int_t           RECO_nMuHLTMatch;
    Float_t         RECOMU_PT_MuHLTMatch[100];
+   Float_t         RECOMU_ETA_MuHLTMatch[100];
+   Bool_t          RECOMU_sm_MuHLTMatch[100];
+   Int_t           RECOMU_dm_MuHLTMatch[100]; 
+   Float_t         RECOELE_PT_EleHLTMatch[100];
+   Float_t         RECOELE_ETA_EleHLTMatch[100];
+   Bool_t          RECOELE_se_EleHLTMatch[100];
+   Int_t           RECOELE_de_EleHLTMatch[100];
+   Bool_t          dm_trig;
+   Bool_t          sm_trig;
+   Bool_t          de_trig;
+   Bool_t          se_trig;
    Char_t          HLTPathsFired[20000];
    Float_t         MC_E[7];
    Float_t         MC_PT[7];
@@ -56,46 +67,10 @@ public :
    Float_t         MC_Z_THETA[2][5];
    Float_t         MC_Z_MASS[2][5];
    Float_t         MC_Z_PDGID[2][5];
-   Float_t         MC_fourl_MASS[50][5];
-   Float_t         MC_fourl_PT[50][5];
-   Float_t         MC_fourl_PDGID[50][5];
-   Float_t         MC_ZZ_MASS[4][7];
-   Float_t         MC_ZZ_PT[4][7];
-   Float_t         MC_ZZ_ETA[4][7];
-   Float_t         MC_ZZ_PHI[4][7];
-   Float_t         MC_ZZ_THETA[4][7];
-   Float_t         MC_ZZ_PDGID[4][7];
    Float_t         MC_GENJET_PT[4];
    Float_t         MC_GENJET_ETA[4];
    Float_t         MC_GENJET_PHI[4];
    Float_t         MC_GENMET;
-   Double_t        RECORF_2e2mu_cosTheta1_spin[100];
-   Double_t        RECORF_2e2mu_cosTheta2_spin[100];
-   Double_t        RECORF_2e2mu_cosThetaStar_spin[100];
-   Double_t        RECORF_2e2mu_Phi_spin[100];
-   Double_t        RECORF_2e2mu_Phi1_spin[100];
-   Double_t        RECORF_2e2mu_Phi2_spin[100];
-   Double_t        RECORF_2e2mu_phi1RF_spin[100];
-   Double_t        RECORF_2e2mu_phi2RF_spin[100];
-   Double_t        RECORF_2e2mu_MELA[100];
-   Double_t        RECORF_4e_cosTheta1_spin[100];
-   Double_t        RECORF_4e_cosTheta2_spin[100];
-   Double_t        RECORF_4e_cosThetaStar_spin[100];
-   Double_t        RECORF_4e_Phi_spin[100];
-   Double_t        RECORF_4e_Phi1_spin[100];
-   Double_t        RECORF_4e_Phi2_spin[100];
-   Double_t        RECORF_4e_phi1RF_spin[100];
-   Double_t        RECORF_4e_phi2RF_spin[100];
-   Double_t        RECORF_4e_MELA[100];
-   Double_t        RECORF_4mu_cosTheta1_spin[100];
-   Double_t        RECORF_4mu_cosTheta2_spin[100];
-   Double_t        RECORF_4mu_cosThetaStar_spin[100];
-   Double_t        RECORF_4mu_Phi_spin[100];
-   Double_t        RECORF_4mu_Phi1_spin[100];
-   Double_t        RECORF_4mu_Phi2_spin[100];
-   Double_t        RECORF_4mu_phi1RF_spin[100];
-   Double_t        RECORF_4mu_phi2RF_spin[100];
-   Double_t        RECORF_4mu_MELA[100];
    Float_t         RECOELE_E[100];
    Float_t         RECOELE_PT[100];
    Float_t         RECOELE_PTError[100];
@@ -310,9 +285,6 @@ public :
    Float_t         RECOMU_mubesttrkDxyError[100];
    Float_t         RECOMU_mubesttrkDz[100];
    Float_t         RECOMU_mubesttrkDzError[100];
-   Double_t        ftsigma[100];
-   Float_t         ConvMapDist[100];
-   Float_t         ConvMapDcot[100];
    UChar_t         RECOMU_MatchingMCTruth[100];
    Float_t         RECOMU_MatchingMCpT[100];
    Float_t         RECOMU_MatchingMCEta[100];
@@ -411,6 +383,17 @@ public :
    TBranch        *b_MC_weighting;   //!
    TBranch        *b_RECO_nMuHLTMatch;   //!
    TBranch        *b_RECOMU_PT_MuHLTMatch;   //!
+   TBranch        *b_RECOMU_ETA_MuHLTMatch;  //!
+   TBranch        *b_RECOMU_sm_MuHLTMatch;   //!
+   TBranch        *b_RECOMU_dm_MuHLTMatch;   //!
+   TBranch        *b_RECOELE_PT_EleHLTMatch;   //!
+   TBranch        *b_RECOELE_ETA_EleHLTMatch;  //!
+   TBranch        *b_RECOELE_se_EleHLTMatch;   //!
+   TBranch        *b_RECOELE_de_EleHLTMatch;   //!
+   TBranch        *b_dm_trig;  //!
+   TBranch        *b_sm_trig;  //!
+   TBranch        *b_de_trig;  //!
+   TBranch        *b_se_trig;   //!
    TBranch        *b_HLTPathsFired;   //!
    TBranch        *b_MC_E;   //!
    TBranch        *b_MC_PT;   //!
@@ -430,46 +413,10 @@ public :
    TBranch        *b_MC_Z_THETA;   //!
    TBranch        *b_MC_Z_MASS;   //!
    TBranch        *b_MC_Z_PDGID;   //!
-   TBranch        *b_MC_fourl_MASS;   //!
-   TBranch        *b_MC_fourl_PT;   //!
-   TBranch        *b_MC_fourl_PDGID;   //!
-   TBranch        *b_MC_ZZ_MASS;   //!
-   TBranch        *b_MC_ZZ_PT;   //!
-   TBranch        *b_MC_ZZ_ETA;   //!
-   TBranch        *b_MC_ZZ_PHI;   //!
-   TBranch        *b_MC_ZZ_THETA;   //!
-   TBranch        *b_MC_ZZ_PDGID;   //!
    TBranch        *b_MC_GENJET_PT;  //!
    TBranch        *b_MC_GENJET_ETA; //!
    TBranch        *b_MC_GENJET_PHI;  //!
    TBranch        *b_MC_GENMET;   //!
-   TBranch        *b_RECORF_2e2mu_cosTheta1_spin;   //!
-   TBranch        *b_RECORF_2e2mu_cosTheta2_spin;   //!
-   TBranch        *b_RECORF_2e2mu_cosThetaStar_spin;   //!
-   TBranch        *b_RECORF_2e2mu_Phi_spin;   //!
-   TBranch        *b_RECORF_2e2mu_Phi1_spin;   //!
-   TBranch        *b_RECORF_2e2mu_Phi2_spin;   //!
-   TBranch        *b_RECORF_2e2mu_phi1RF_spin;   //!
-   TBranch        *b_RECORF_2e2mu_phi2RF_spin;   //!
-   TBranch        *b_RECORF_2e2mu_MELA;   //!
-   TBranch        *b_RECORF_4e_cosTheta1_spin;   //!
-   TBranch        *b_RECORF_4e_cosTheta2_spin;   //!
-   TBranch        *b_RECORF_4e_cosThetaStar_spin;   //!
-   TBranch        *b_RECORF_4e_Phi_spin;   //!
-   TBranch        *b_RECORF_4e_Phi1_spin;   //!
-   TBranch        *b_RECORF_4e_Phi2_spin;   //!
-   TBranch        *b_RECORF_4e_phi1RF_spin;   //!
-   TBranch        *b_RECORF_4e_phi2RF_spin;   //!
-   TBranch        *b_RECORF_4e_MELA;   //!
-   TBranch        *b_RECORF_4mu_cosTheta1_spin;   //!
-   TBranch        *b_RECORF_4mu_cosTheta2_spin;   //!
-   TBranch        *b_RECORF_4mu_cosThetaStar_spin;   //!
-   TBranch        *b_RECORF_4mu_Phi_spin;   //!
-   TBranch        *b_RECORF_4mu_Phi1_spin;   //!
-   TBranch        *b_RECORF_4mu_Phi2_spin;   //!
-   TBranch        *b_RECORF_4mu_phi1RF_spin;   //!
-   TBranch        *b_RECORF_4mu_phi2RF_spin;   //!
-   TBranch        *b_RECORF_4mu_MELA;   //!
    TBranch        *b_RECOELE_E;   //!
    TBranch        *b_RECOELE_PT;   //!
    TBranch        *b_RECOELE_PTError;   //!
@@ -682,9 +629,6 @@ public :
    TBranch        *b_RECOMU_mubesttrkDxyError;   //!
    TBranch        *b_RECOMU_mubesttrkDz;   //!
    TBranch        *b_RECOMU_mubesttrkDzError;   //!
-   TBranch        *b_ftsigma;   //!
-   TBranch        *b_ConvMapDist;   //!
-   TBranch        *b_ConvMapDcot;   //!
    TBranch        *b_RECOMU_MatchingMCTruth;   //!
    TBranch        *b_RECOMU_MatchingMCpT;   //!
    TBranch        *b_RECOMU_MatchingMCEta;   //!
@@ -869,6 +813,17 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("MC_weighting", &MC_weighting, &b_MC_weighting);
    fChain->SetBranchAddress("RECO_nMuHLTMatch", &RECO_nMuHLTMatch, &b_RECO_nMuHLTMatch);
    fChain->SetBranchAddress("RECOMU_PT_MuHLTMatch", RECOMU_PT_MuHLTMatch, &b_RECOMU_PT_MuHLTMatch);
+   fChain->SetBranchAddress("RECOMU_ETA_MuHLTMatch", RECOMU_ETA_MuHLTMatch, &b_RECOMU_ETA_MuHLTMatch);
+   fChain->SetBranchAddress("RECOMU_dm_MuHLTMatch", RECOMU_dm_MuHLTMatch, &b_RECOMU_dm_MuHLTMatch);
+   fChain->SetBranchAddress("RECOMU_sm_MuHLTMatch", RECOMU_sm_MuHLTMatch, &b_RECOMU_sm_MuHLTMatch);
+   fChain->SetBranchAddress("RECOELE_PT_EleHLTMatch", RECOELE_PT_EleHLTMatch, &b_RECOELE_PT_EleHLTMatch);
+   fChain->SetBranchAddress("RECOELE_ETA_EleHLTMatch", RECOELE_ETA_EleHLTMatch, &b_RECOELE_ETA_EleHLTMatch);
+   fChain->SetBranchAddress("RECOELE_de_EleHLTMatch", RECOELE_de_EleHLTMatch, &b_RECOELE_de_EleHLTMatch);
+   fChain->SetBranchAddress("RECOELE_se_EleHLTMatch", RECOELE_se_EleHLTMatch, &b_RECOELE_se_EleHLTMatch);
+   fChain->SetBranchAddress("dm_trig",&dm_trig,&b_dm_trig);
+   fChain->SetBranchAddress("sm_trig",&sm_trig,&b_sm_trig);
+   fChain->SetBranchAddress("de_trig",&de_trig,&b_de_trig);
+   fChain->SetBranchAddress("se_trig",&se_trig,&b_se_trig);
    fChain->SetBranchAddress("HLTPathsFired", HLTPathsFired, &b_HLTPathsFired);
    fChain->SetBranchAddress("MC_E", MC_E, &b_MC_E);
    fChain->SetBranchAddress("MC_PT", MC_PT, &b_MC_PT);
@@ -888,46 +843,10 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("MC_Z_THETA", MC_Z_THETA, &b_MC_Z_THETA);
    fChain->SetBranchAddress("MC_Z_MASS", MC_Z_MASS, &b_MC_Z_MASS);
    fChain->SetBranchAddress("MC_Z_PDGID", MC_Z_PDGID, &b_MC_Z_PDGID);
-   fChain->SetBranchAddress("MC_fourl_MASS", MC_fourl_MASS, &b_MC_fourl_MASS);
-   fChain->SetBranchAddress("MC_fourl_PT", MC_fourl_PT, &b_MC_fourl_PT);
-   fChain->SetBranchAddress("MC_fourl_PDGID", MC_fourl_PDGID, &b_MC_fourl_PDGID);
-   fChain->SetBranchAddress("MC_ZZ_MASS", MC_ZZ_MASS, &b_MC_ZZ_MASS);
-   fChain->SetBranchAddress("MC_ZZ_PT", MC_ZZ_PT, &b_MC_ZZ_PT);
-   fChain->SetBranchAddress("MC_ZZ_ETA", MC_ZZ_ETA, &b_MC_ZZ_ETA);
-   fChain->SetBranchAddress("MC_ZZ_PHI", MC_ZZ_PHI, &b_MC_ZZ_PHI);
-   fChain->SetBranchAddress("MC_ZZ_THETA", MC_ZZ_THETA, &b_MC_ZZ_THETA);
-   fChain->SetBranchAddress("MC_ZZ_PDGID", MC_ZZ_PDGID, &b_MC_ZZ_PDGID);
    fChain->SetBranchAddress("MC_GENJET_PT", MC_GENJET_PT, &b_MC_GENJET_PT);
    fChain->SetBranchAddress("MC_GENJET_ETA", MC_GENJET_ETA, &b_MC_GENJET_ETA);
    fChain->SetBranchAddress("MC_GENJET_PHI", MC_GENJET_PHI, &b_MC_GENJET_PHI);
    fChain->SetBranchAddress("MC_GENMET", &MC_GENMET, &b_MC_GENMET);
-   fChain->SetBranchAddress("RECORF_2e2mu_cosTheta1_spin", RECORF_2e2mu_cosTheta1_spin, &b_RECORF_2e2mu_cosTheta1_spin);
-   fChain->SetBranchAddress("RECORF_2e2mu_cosTheta2_spin", RECORF_2e2mu_cosTheta2_spin, &b_RECORF_2e2mu_cosTheta2_spin);
-   fChain->SetBranchAddress("RECORF_2e2mu_cosThetaStar_spin", RECORF_2e2mu_cosThetaStar_spin, &b_RECORF_2e2mu_cosThetaStar_spin);
-   fChain->SetBranchAddress("RECORF_2e2mu_Phi_spin", RECORF_2e2mu_Phi_spin, &b_RECORF_2e2mu_Phi_spin);
-   fChain->SetBranchAddress("RECORF_2e2mu_Phi1_spin", RECORF_2e2mu_Phi1_spin, &b_RECORF_2e2mu_Phi1_spin);
-   fChain->SetBranchAddress("RECORF_2e2mu_Phi2_spin", RECORF_2e2mu_Phi2_spin, &b_RECORF_2e2mu_Phi2_spin);
-   fChain->SetBranchAddress("RECORF_2e2mu_phi1RF_spin", RECORF_2e2mu_phi1RF_spin, &b_RECORF_2e2mu_phi1RF_spin);
-   fChain->SetBranchAddress("RECORF_2e2mu_phi2RF_spin", RECORF_2e2mu_phi2RF_spin, &b_RECORF_2e2mu_phi2RF_spin);
-   fChain->SetBranchAddress("RECORF_2e2mu_MELA", RECORF_2e2mu_MELA, &b_RECORF_2e2mu_MELA);
-   fChain->SetBranchAddress("RECORF_4e_cosTheta1_spin", RECORF_4e_cosTheta1_spin, &b_RECORF_4e_cosTheta1_spin);
-   fChain->SetBranchAddress("RECORF_4e_cosTheta2_spin", RECORF_4e_cosTheta2_spin, &b_RECORF_4e_cosTheta2_spin);
-   fChain->SetBranchAddress("RECORF_4e_cosThetaStar_spin", RECORF_4e_cosThetaStar_spin, &b_RECORF_4e_cosThetaStar_spin);
-   fChain->SetBranchAddress("RECORF_4e_Phi_spin", RECORF_4e_Phi_spin, &b_RECORF_4e_Phi_spin);
-   fChain->SetBranchAddress("RECORF_4e_Phi1_spin", RECORF_4e_Phi1_spin, &b_RECORF_4e_Phi1_spin);
-   fChain->SetBranchAddress("RECORF_4e_Phi2_spin", RECORF_4e_Phi2_spin, &b_RECORF_4e_Phi2_spin);
-   fChain->SetBranchAddress("RECORF_4e_phi1RF_spin", RECORF_4e_phi1RF_spin, &b_RECORF_4e_phi1RF_spin);
-   fChain->SetBranchAddress("RECORF_4e_phi2RF_spin", RECORF_4e_phi2RF_spin, &b_RECORF_4e_phi2RF_spin);
-   fChain->SetBranchAddress("RECORF_4e_MELA", RECORF_4e_MELA, &b_RECORF_4e_MELA);
-   fChain->SetBranchAddress("RECORF_4mu_cosTheta1_spin", RECORF_4mu_cosTheta1_spin, &b_RECORF_4mu_cosTheta1_spin);
-   fChain->SetBranchAddress("RECORF_4mu_cosTheta2_spin", RECORF_4mu_cosTheta2_spin, &b_RECORF_4mu_cosTheta2_spin);
-   fChain->SetBranchAddress("RECORF_4mu_cosThetaStar_spin", RECORF_4mu_cosThetaStar_spin, &b_RECORF_4mu_cosThetaStar_spin);
-   fChain->SetBranchAddress("RECORF_4mu_Phi_spin", RECORF_4mu_Phi_spin, &b_RECORF_4mu_Phi_spin);
-   fChain->SetBranchAddress("RECORF_4mu_Phi1_spin", RECORF_4mu_Phi1_spin, &b_RECORF_4mu_Phi1_spin);
-   fChain->SetBranchAddress("RECORF_4mu_Phi2_spin", RECORF_4mu_Phi2_spin, &b_RECORF_4mu_Phi2_spin);
-   fChain->SetBranchAddress("RECORF_4mu_phi1RF_spin", RECORF_4mu_phi1RF_spin, &b_RECORF_4mu_phi1RF_spin);
-   fChain->SetBranchAddress("RECORF_4mu_phi2RF_spin", RECORF_4mu_phi2RF_spin, &b_RECORF_4mu_phi2RF_spin);
-   fChain->SetBranchAddress("RECORF_4mu_MELA", RECORF_4mu_MELA, &b_RECORF_4mu_MELA);
    fChain->SetBranchAddress("RECOELE_E", RECOELE_E, &b_RECOELE_E);
    fChain->SetBranchAddress("RECOELE_PT", RECOELE_PT, &b_RECOELE_PT);
    fChain->SetBranchAddress("RECOELE_PTError", RECOELE_PTError, &b_RECOELE_PTError);
@@ -1140,9 +1059,6 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOMU_mubesttrkDxyError", RECOMU_mubesttrkDxyError, &b_RECOMU_mubesttrkDxyError);
    fChain->SetBranchAddress("RECOMU_mubesttrkDz", RECOMU_mubesttrkDz, &b_RECOMU_mubesttrkDz);
    fChain->SetBranchAddress("RECOMU_mubesttrkDzError", RECOMU_mubesttrkDzError, &b_RECOMU_mubesttrkDzError);
-   fChain->SetBranchAddress("ftsigma", ftsigma, &b_ftsigma);
-   fChain->SetBranchAddress("ConvMapDist", ConvMapDist, &b_ConvMapDist);
-   fChain->SetBranchAddress("ConvMapDcot", ConvMapDcot, &b_ConvMapDcot);
    fChain->SetBranchAddress("RECOMU_MatchingMCTruth", RECOMU_MatchingMCTruth, &b_RECOMU_MatchingMCTruth);
    fChain->SetBranchAddress("RECOMU_MatchingMCpT", RECOMU_MatchingMCpT, &b_RECOMU_MatchingMCpT);
    fChain->SetBranchAddress("RECOMU_MatchingMCEta", RECOMU_MatchingMCEta, &b_RECOMU_MatchingMCEta);

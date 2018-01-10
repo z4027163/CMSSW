@@ -146,7 +146,7 @@ PlotStackZ::PlotStackZ(){
   //std::string histolabel = "hMZ2_8"; // Z2 mass after full selection
   //std::string histolabel = "hMZ1_noFSR_8"; // Z1 mass after full selection without FSR recovery
   //std::string histolabel = "hMZ2_noFSR_8"; // Z2 mass after full selection without FSR recovery
-//  std::string histolabel = "hPtZ1_5"; // Z1 pt after full selection
+  std::string histolabel = "hPtZ1_5"; // Z1 pt after full selection
 //   std::string histolabel = "hPtLep1_7";
 //   std::string histolabel = "hPtLep2_7"; 
 // std::string histolabel = "hPtLep1_8";
@@ -185,7 +185,7 @@ PlotStackZ::PlotStackZ(){
 //    std::string histolabel = "hMZ1_5_EB";
 //  std::string histolabel = "hPtZ1_EB_5";
 //  std::string histolabel = "hYZ1_EB_5";
-  std::string histolabel = "hMZ1_EE_5";
+//  std::string histolabel = "hMZ1_EE_5";
 //  std::string histolabel = "hPtZ1_EE_5";
 //  std::string histolabel = "hYZ1_EE_5";
 
@@ -195,7 +195,7 @@ PlotStackZ::PlotStackZ(){
   useDYJets=true;
   useDYJetsFromData=false;
   
-  nRebin=1;
+  nRebin=5;
   std::cout << "Histogram label is= " << histolabel << std::endl;
   
   // Final yields
@@ -550,7 +550,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("Mjj_6")<10){
-    hframe= new TH2F("hframe","hframe",80,20.,400.,500,1.0,1000000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",80,20.,400.,500,1.0,200000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",80, 20., 400., 1000, 0.8, 1.2);// mZ1 
   }
 
@@ -591,7 +591,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("hNjets_8")<10){
-    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,100000000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,20000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.7, 1.3);// mZ1 
   }
 
@@ -1043,7 +1043,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
       // DYJetsToLL check normalization
       if(datasetnamebkg.find("DYJetsToLL") <200 && hfourlepbestmass_4l_afterSel_new_new->GetEntries()>0 ){
          cout << "test1" << endl;
-	 hfourlepbestmass_4l_afterSel_new_new->Scale(double(5765.4*35812.*nnn/(17885913*0.6643)));//*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/12138430./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
+	 hfourlepbestmass_4l_afterSel_new_new->Scale(double(5765.4*35812.*nnn/(7827723)));//*double(hfourlepbestmass_4l_afterSel_new_new->GetEntries()/12138430./hfourlepbestmass_4l_afterSel_new_new->GetEntries()));
 	hfourlepbestmass_4l_afterSel_new_DY->Add(hfourlepbestmass_4l_afterSel_new_new);
 	hfourlepbestmass_4l_afterSel_new_DY->SetMarkerColor(kAzure+2);
 	hfourlepbestmass_4l_afterSel_new_DY->SetFillColor(kAzure+2);                                                        
@@ -1135,7 +1135,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
 	
 	// TTT
 	if(datasetnamebkg.find("TT_TuneCUETP8M1") < 200){
-          hfourlepbestmass_4l_afterSel_new_new->Scale(double(37.807*35812.*nnn/5669539.)); 
+          hfourlepbestmass_4l_afterSel_new_new->Scale(double(88.23*35812.*nnn/5669539.)); 
 	  hfourlepbestmass_4l_afterSel_new_TT->Add(hfourlepbestmass_4l_afterSel_new_new);     
 	  hfourlepbestmass_4l_afterSel_new_TT->SetMarkerColor(kTeal-6); 
 	  hfourlepbestmass_4l_afterSel_new_TT->SetFillColor(kTeal-6);                     
