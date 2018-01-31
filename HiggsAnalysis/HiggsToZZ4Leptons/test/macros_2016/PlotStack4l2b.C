@@ -129,11 +129,13 @@ PlotStack4l2b::PlotStack4l2b(){
   //std::string histolabel = "hSip_5";  // worst sip 
   //std::string histolabel = "hIp_5";   // worst IP
 
-   std::string histolabel = "Mbb_6";
+//   std::string histolabel = "Mbb_6";
 //  std::string histolabel = "bdiscr_5_lead";
 //  std::string histolabel = "bdiscr_5_sub";
-//    std::string histolabel = "Mjj_6";
+    std::string histolabel = "Mjj_6";
 
+//  std::string histolabel = "hMZ1_6";    // Z1 mass   
+//  std::string histolabel = "hMZ2_6";    // Z2 mass 
 //  std::string histolabel = "hMZ1_7";
   //std::string histolabel = "hMZ2_7";    // Z2 mass
   // After full selection
@@ -164,14 +166,14 @@ PlotStack4l2b::PlotStack4l2b(){
   //std::string histolabel = "hIso_8"; // worst isolated lepton: isolation value after full selection
   //std::string histolabel = "hSip_8"; // worst sip lepton: sip value after full selection
   //std::string histolabel = "hMELA_8"; // MELA discriminant after full selection 
- //  std::string histolabel = "hPFMET_8"; // PFMET
+//   std::string histolabel = "hPFMET_8"; // PFMET
   //std::string histolabel = "hM4l_T_8"; // Transverse mass
   //std::string histolabel = "DPHI_8"; // DeltaPhi - 4l + MET
 //   std::string histolabel = "hPtJet_7"; 
 //   std::string histolabel = "hPtJet_8";
 //   std::string histolabel = "hEtaJet_7";
 //   std::string histolabel = "hEtaJet_8";
- // std::string histolabel = "hNjets_8";
+//  std::string histolabel = "hNjets_8";
   //std::string histolabel = "hDjj_8"; // delta eta between jets for VBF analysis
  // std::string histolabel = "hMjj_8"; // dimass between jets for VBF analysis
 //  std::string histolabel = "hN_loose_e";
@@ -517,6 +519,14 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
     hframe= new TH2F("hframe","hframe",100,0.,1.,500,1.0,10000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",100, 0., 1., 1000, 0.5, 1.5);// mZ1 
   }
+  if (histlabel.find("hMZ1_6")<10){
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,0.01,10000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 1.5);// mZ1 
+  }
+  if (histlabel.find("hMZ2_6")<10){
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,0.01,10000.);// mZ2 
+    hframe2= new TH2F("hframe2","hframe2",600, 60., 120., 1000, 0.5, 1.5);// mZ2 
+  }
 
   if (histlabel.find("hMZ1_7")<10){
     hframe= new TH2F("hframe","hframe",60,60.,120.,500,0.00001,1000.);// mZ1 
@@ -574,7 +584,7 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("hNjets_8")<10){
-    hframe= new TH2F("hframe","hframe",10,0.,10.,500,1.0,10000000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",10,0.,10.,500,0.01,10000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",50, 0., 10., 1000, 0.5, 1.5);// mZ1 
   }
 
@@ -948,7 +958,7 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
 
       if(datasetnamesig.find("sig") <200 && hfourlepbestmass_4l_afterSel_new_new->GetEntries()>0 ){
          signal = true;
-         hfourlepbestmass_4l_afterSel_new_new->Scale(double(0.00115*35600.*nnn/(99960)));
+         hfourlepbestmass_4l_afterSel_new_new->Scale(double(0.00115*35597.*nnn/(99960)));
         hfourlepbestmass_4l_afterSel_new_sig->Add(hfourlepbestmass_4l_afterSel_new_new);
         hfourlepbestmass_4l_afterSel_new_sig->SetMarkerColor(6);
         hfourlepbestmass_4l_afterSel_new_sig->SetLineColor(6);
@@ -1132,7 +1142,7 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
 	}      
 	
         if(datasetnamebkg.find("TTZToLLNuNu") < 200){
-          hfourlepbestmass_4l_afterSel_new_new->Scale(double(0.2529*19666/0.294*0.55*nnn/(5934228.*0.67)));
+          hfourlepbestmass_4l_afterSel_new_new->Scale(double(0.2529*35597*nnn/(5934228.*0.47)));
           hfourlepbestmass_4l_afterSel_new_TTZ->Add(hfourlepbestmass_4l_afterSel_new_new);
           hfourlepbestmass_4l_afterSel_new_TTZ->SetMarkerColor(kTeal-6);
           hfourlepbestmass_4l_afterSel_new_TTZ->SetFillColor(kTeal-6);
@@ -1162,7 +1172,7 @@ void PlotStack4l2b::plotmZ(std::string histlabel){
       
       if(datasetnamebkg.find("ZZTo4L") <200 && hfourlepbestmass_4l_afterSel_new_new->GetEntries()>0 ){
          cout << "test1" << endl;
-         hfourlepbestmass_4l_afterSel_new_new->Scale(double(1.191*19666/0.278*0.52*nnn/(10709784*0.67)));
+         hfourlepbestmass_4l_afterSel_new_new->Scale(double(1.212*1.15*35597*nnn/(10709784*0.65)));
         hfourlepbestmass_4l_afterSel_new_ZZ->Add(hfourlepbestmass_4l_afterSel_new_new);
         hfourlepbestmass_4l_afterSel_new_ZZ->SetMarkerColor(kAzure+2);
         hfourlepbestmass_4l_afterSel_new_ZZ->SetFillColor(kAzure+2);

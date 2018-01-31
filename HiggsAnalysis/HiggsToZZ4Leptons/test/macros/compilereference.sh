@@ -67,11 +67,11 @@ elif [ $1 == "dustin" ]; then
 
 elif [ $1 == "llbb_single" ]; then
     echo "Compiling $1 macros"
-    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_single.C HZZ4LeptonsAnalysis_llbb.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lKaMuCaCalibration  -lCondFormatsJetMETObjects  -l JetMETCorrectionsModules  -o RunReference_llbb_single
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_single.C HZZ4LeptonsAnalysis_llbb.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lCondFormatsJetMETObjects  -l JetMETCorrectionsModules  -o RunReference_llbb_single
 
 elif [ $1 == "llbb" ]; then
     echo "Compiling $1 macros" 
-    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C HZZ4LeptonsAnalysis_llbb.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lKaMuCaCalibration  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_llbb
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C HZZ4LeptonsAnalysis_llbb.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_llbb
 
 elif [ $1 == "test" ]; then
     echo "Compiling $1 macros" 
@@ -80,5 +80,5 @@ elif [ $1 == "test" ]; then
 
 elif [ $1 == "4l2b" ]; then
     echo "Compiling $1 macros"
-    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C HZZ4LeptonsAnalysis_4l2b.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lKaMuCaCalibration  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_4l2b
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C HZZ4LeptonsAnalysis_4l2b.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_4l2b
 fi

@@ -44,6 +44,7 @@ public :
    Float_t         RECOELE_ETA_EleHLTMatch[100];
    Bool_t          RECOELE_se_EleHLTMatch[100];
    Int_t           RECOELE_de_EleHLTMatch[100];
+   Int_t           RECOBOT_MatchingMCTruth[100];
    Bool_t          dm_trig;
    Bool_t          sm_trig;
    Bool_t          de_trig;
@@ -149,11 +150,8 @@ public :
    Float_t         RECOELE_IP_KF[100];
    Float_t         RECOELE_IPERROR_KF[100];
    Float_t         RECOELE_SIP_GD[100];
-   Float_t         RECOELE_SIP_GDEEEE[100];
    Float_t         RECOELE_SIP_Std[100];
-   Float_t         RECOELE_SIP_StdEEEE[100];
    Float_t         RECOELE_SIP_Kin[100];
-   Float_t         RECOELE_SIP_KinEEEE[100];
    Float_t         RECOELE_STIP[100];
    Float_t         RECOELE_SLIP[100];
    Float_t         RECOELE_TIP[100];
@@ -164,20 +162,10 @@ public :
    Double_t        RECOELE_sclX[100];
    Double_t        RECOELE_sclY[100];
    Double_t        RECOELE_sclZ[100];
-   Double_t        RECOELE_seedSubdet1[100];
-   Double_t        RECOELE_seedDphi1[100];
-   Double_t        RECOELE_seedDrz1[100];
-   Double_t        RECOELE_seedSubdet2[100];
-   Double_t        RECOELE_seedDphi2[100];
-   Double_t        RECOELE_seedDrz2[100];
    Double_t        RECOELE_eidVeryLoose[100];
    Double_t        RECOELE_eidLoose[100];
    Double_t        RECOELE_eidMedium[100];
    Double_t        RECOELE_eidTight[100];
-   Double_t        RECOELE_eidHZZVeryLoose[100];
-   Double_t        RECOELE_eidHZZLoose[100];
-   Double_t        RECOELE_eidHZZMedium[100];
-   Double_t        RECOELE_eidHZZTight[100];
    Double_t        RECOELE_mvaTrigV0[100];
    Double_t        RECOELE_mvaNonTrigV0[100];
    Double_t        RECOELE_COV[100][3][3];
@@ -390,6 +378,7 @@ public :
    TBranch        *b_RECOELE_ETA_EleHLTMatch;  //!
    TBranch        *b_RECOELE_se_EleHLTMatch;   //!
    TBranch        *b_RECOELE_de_EleHLTMatch;   //!
+   TBranch        *b_RECOBOT_MatchingMCTruth;   //!
    TBranch        *b_dm_trig;  //!
    TBranch        *b_sm_trig;  //!
    TBranch        *b_de_trig;  //!
@@ -494,11 +483,8 @@ public :
    TBranch        *b_RECOELE_IP_KF;   //!
    TBranch        *b_RECOELE_IPERROR_KF;   //!
    TBranch        *b_RECOELE_SIP_GD;   //!
-   TBranch        *b_RECOELE_SIP_GDEEEE;   //!
    TBranch        *b_RECOELE_SIP_Std;   //!
-   TBranch        *b_RECOELE_SIP_StdEEEE;   //!
    TBranch        *b_RECOELE_SIP_Kin;   //!
-   TBranch        *b_RECOELE_SIP_KinEEEE;   //!
    TBranch        *b_RECOELE_STIP;   //!
    TBranch        *b_RECOELE_SLIP;   //!
    TBranch        *b_RECOELE_TIP;   //!
@@ -509,20 +495,10 @@ public :
    TBranch        *b_RECOELE_sclX;   //!
    TBranch        *b_RECOELE_sclY;   //!
    TBranch        *b_RECOELE_sclZ;   //!
-   TBranch        *b_RECOELE_seedSubdet1;   //!
-   TBranch        *b_RECOELE_seedDphi;   //!
-   TBranch        *b_RECOELE_seedDrz1;   //!
-   TBranch        *b_RECOELE_seedSubdet2;   //!
-   TBranch        *b_RECOELE_seedDphi2;   //!
-   TBranch        *b_RECOELE_seedDrz2;   //!
    TBranch        *b_RECOELE_eidVeryLoose;   //!
    TBranch        *b_RECOELE_eidLoose;   //!
    TBranch        *b_RECOELE_eidMedium;   //!
    TBranch        *b_RECOELE_eidTight;   //!
-   TBranch        *b_RECOELE_eidHZZVeryLoose;   //!
-   TBranch        *b_RECOELE_eidHZZLoose;   //!
-   TBranch        *b_RECOELE_eidHZZMedium;   //!
-   TBranch        *b_RECOELE_eidHZZTight;   //!
    TBranch        *b_RECOELE_mvaTrigV0;   //!
    TBranch        *b_RECOELE_mvaNonTrigV0;   //!
    TBranch        *b_RECOELE_COV;   //!
@@ -818,8 +794,9 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOMU_sm_MuHLTMatch", RECOMU_sm_MuHLTMatch, &b_RECOMU_sm_MuHLTMatch);
    fChain->SetBranchAddress("RECOELE_PT_EleHLTMatch", RECOELE_PT_EleHLTMatch, &b_RECOELE_PT_EleHLTMatch);
    fChain->SetBranchAddress("RECOELE_ETA_EleHLTMatch", RECOELE_ETA_EleHLTMatch, &b_RECOELE_ETA_EleHLTMatch);
-   fChain->SetBranchAddress("RECOELE_de_EleHLTMatch", RECOELE_de_EleHLTMatch, &b_RECOELE_de_EleHLTMatch);
-   fChain->SetBranchAddress("RECOELE_se_EleHLTMatch", RECOELE_se_EleHLTMatch, &b_RECOELE_se_EleHLTMatch);
+   fChain->SetBranchAddress("RECOELE_de_MuHLTMatch", RECOELE_de_EleHLTMatch, &b_RECOELE_de_EleHLTMatch);
+   fChain->SetBranchAddress("RECOELE_se_MuHLTMatch", RECOELE_se_EleHLTMatch, &b_RECOELE_se_EleHLTMatch);
+   fChain->SetBranchAddress("RECOBOT_MatchingMCTruth",RECOBOT_MatchingMCTruth,&b_RECOBOT_MatchingMCTruth);
    fChain->SetBranchAddress("dm_trig",&dm_trig,&b_dm_trig);
    fChain->SetBranchAddress("sm_trig",&sm_trig,&b_sm_trig);
    fChain->SetBranchAddress("de_trig",&de_trig,&b_de_trig);
@@ -924,11 +901,8 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOELE_IP_KF", RECOELE_IP_KF, &b_RECOELE_IP_KF);
    fChain->SetBranchAddress("RECOELE_IPERROR_KF", RECOELE_IPERROR_KF, &b_RECOELE_IPERROR_KF);
    fChain->SetBranchAddress("RECOELE_SIP_GD", RECOELE_SIP_GD, &b_RECOELE_SIP_GD);
-   fChain->SetBranchAddress("RECOELE_SIP_GDEEEE", RECOELE_SIP_GDEEEE, &b_RECOELE_SIP_GDEEEE);
    fChain->SetBranchAddress("RECOELE_SIP_Std", RECOELE_SIP_Std, &b_RECOELE_SIP_Std);
-   fChain->SetBranchAddress("RECOELE_SIP_StdEEEE", RECOELE_SIP_StdEEEE, &b_RECOELE_SIP_StdEEEE);
    fChain->SetBranchAddress("RECOELE_SIP_Kin", RECOELE_SIP_Kin, &b_RECOELE_SIP_Kin);
-   fChain->SetBranchAddress("RECOELE_SIP_KinEEEE", RECOELE_SIP_KinEEEE, &b_RECOELE_SIP_KinEEEE);
    fChain->SetBranchAddress("RECOELE_STIP", RECOELE_STIP, &b_RECOELE_STIP);
    fChain->SetBranchAddress("RECOELE_SLIP", RECOELE_SLIP, &b_RECOELE_SLIP);
    fChain->SetBranchAddress("RECOELE_TIP", RECOELE_TIP, &b_RECOELE_TIP);
@@ -939,20 +913,10 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOELE_sclX", RECOELE_sclX, &b_RECOELE_sclX);
    fChain->SetBranchAddress("RECOELE_sclY", RECOELE_sclY, &b_RECOELE_sclY);
    fChain->SetBranchAddress("RECOELE_sclZ", RECOELE_sclZ, &b_RECOELE_sclZ);
-   fChain->SetBranchAddress("RECOELE_seedSubdet1", RECOELE_seedSubdet1, &b_RECOELE_seedSubdet1);
-   fChain->SetBranchAddress("RECOELE_seedDphi1", RECOELE_seedDphi1, &b_RECOELE_seedDphi);
-   fChain->SetBranchAddress("RECOELE_seedDrz1", RECOELE_seedDrz1, &b_RECOELE_seedDrz1);
-   fChain->SetBranchAddress("RECOELE_seedSubdet2", RECOELE_seedSubdet2, &b_RECOELE_seedSubdet2);
-   fChain->SetBranchAddress("RECOELE_seedDphi2", RECOELE_seedDphi2, &b_RECOELE_seedDphi2);
-   fChain->SetBranchAddress("RECOELE_seedDrz2", RECOELE_seedDrz2, &b_RECOELE_seedDrz2);
    fChain->SetBranchAddress("RECOELE_eidVeryLoose", RECOELE_eidVeryLoose, &b_RECOELE_eidVeryLoose);
    fChain->SetBranchAddress("RECOELE_eidLoose", RECOELE_eidLoose, &b_RECOELE_eidLoose);
    fChain->SetBranchAddress("RECOELE_eidMedium", RECOELE_eidMedium, &b_RECOELE_eidMedium);
    fChain->SetBranchAddress("RECOELE_eidTight", RECOELE_eidTight, &b_RECOELE_eidTight);
-   fChain->SetBranchAddress("RECOELE_eidHZZVeryLoose", RECOELE_eidHZZVeryLoose, &b_RECOELE_eidHZZVeryLoose);
-   fChain->SetBranchAddress("RECOELE_eidHZZLoose", RECOELE_eidHZZLoose, &b_RECOELE_eidHZZLoose);
-   fChain->SetBranchAddress("RECOELE_eidHZZMedium", RECOELE_eidHZZMedium, &b_RECOELE_eidHZZMedium);
-   fChain->SetBranchAddress("RECOELE_eidHZZTight", RECOELE_eidHZZTight, &b_RECOELE_eidHZZTight);
    fChain->SetBranchAddress("RECOELE_mvaTrigV0", RECOELE_mvaTrigV0, &b_RECOELE_mvaTrigV0);
    fChain->SetBranchAddress("RECOELE_mvaNonTrigV0", RECOELE_mvaNonTrigV0, &b_RECOELE_mvaNonTrigV0);
    fChain->SetBranchAddress("RECOELE_COV", RECOELE_COV, &b_RECOELE_COV);

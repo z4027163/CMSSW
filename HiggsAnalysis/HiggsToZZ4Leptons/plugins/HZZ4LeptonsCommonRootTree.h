@@ -2034,9 +2034,6 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     for (edm::View<pat::Muon>::const_iterator iCand = MuCandidates->begin(); iCand != MuCandidates->end(); ++iCand){
       unsigned int i=iCand-MuCandidates->begin();
 
-      for(size_t k=0; k < HLTMuMatched_sm.size(); k++)
-            if(deltaR(HLTMuMatched_sm[k],*iCand)<minDR){minDR=deltaR(HLTMuMatched_sm[k],*iCand); Ni=i;}
-
       cout << "Muon with pt= " << iCand->pt() << ": check trigger matching" << endl;
       if (IsMuMatchedToHLTMu(*iCand,  HLTMuMatched_sm , maxDeltaR_, maxDPtRel_)==true){
         RECOMU_sm_MuHLTMatch[i]=true;
@@ -2065,8 +2062,6 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
     }
 //    cout << "DR = " << minDR << " index= " << Ni << endl;
-    for(int i=0; i < 100; i++)
-      if(i!=Ni) RECOMU_sm_MuHLTMatch[i] = false;
 
     cout << "N. Muons HLT Matched= " << nMuHLTMatch << endl;
     RECO_nMuHLTMatch    = nMuHLTMatch;
@@ -2131,7 +2126,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     for (size_t k =0; k< dim; k++ ) {
       //cout << "HLT mu filter is= " << HLTMuNames[k].c_str() << " Delta R= " << deltaR(HLTMu[k], mu) << " Delta pT= " << fabs(HLTMu[k].pt() - mu.pt())/ HLTMu[k].pt() << endl;
       if (  (deltaR(HLTMu[k], mu) < DR)   && (fabs(HLTMu[k].pt() - mu.pt())/ HLTMu[k].pt()<DPtRel)){ 
-	cout << "HLT mu filter is= " << " Delta R= " << deltaR(HLTMu[k], mu) << " Delta pT= " << fabs(HLTMu[k].pt() - mu.pt())/ HLTMu[k].pt() << endl;
+	cout << "HLT mu filter pt is= " << mu.pt() << " Delta R= " << deltaR(HLTMu[k], mu) << " Delta pT= " << fabs(HLTMu[k].pt() - mu.pt())/ HLTMu[k].pt() << endl;
 	nPass++ ;
       }
     }

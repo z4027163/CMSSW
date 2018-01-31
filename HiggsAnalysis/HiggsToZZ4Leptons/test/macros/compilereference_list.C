@@ -50,7 +50,7 @@ int main(int argc, char ** argv){
     cout << "test03" << endl;
     HZZ4LeptonsAnalysis make3(tree3,1.,dataconf,mcconf);
     //HZZ4LeptonsAnalysis make3(tree3);
-
+    cout << "test04" << endl;
     sprintf(nome,out.c_str());
     make3.Loop(nome);
 

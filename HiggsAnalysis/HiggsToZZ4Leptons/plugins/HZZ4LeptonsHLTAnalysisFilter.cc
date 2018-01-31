@@ -316,12 +316,8 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	 !hlt.Contains("HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v") && // Tri-Ele
 	 !hlt.Contains("HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v") && //Di-Muon Ele
 	 !hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v") //Muon-DiEle*/
-//         !hlt.Contains("HLT_IsoMu24_v")
-//       &&!hlt.Contains("HLT_IsoTkMu24_v")
-       (hlt.Contains("HLT_IsoMu24_v")
-       ||hlt.Contains("HLT_IsoTkMu24_v"))
-       ||(!hlt.Contains("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v")
-     &&!hlt.Contains("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"))
+         !hlt.Contains("HLT_IsoMu24_v")
+       &&!hlt.Contains("HLT_IsoTkMu24_v")
 	 ) {
 	if( debug )cout << "Event not passing the HLT trigger paths" << endl;
 	return false;	      

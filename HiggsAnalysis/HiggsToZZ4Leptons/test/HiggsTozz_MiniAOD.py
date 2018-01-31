@@ -157,7 +157,8 @@ readFiles = cms.untracked.vstring(
 #'root://cmsxrootd.fnal.gov///store/user/wangz/MinBias/Higgs_hzz_13TeV_mini_Summer16_v1/171121_214250/0000/step3_1.root'
 #'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DY_mini.root'
 #'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ttz_mini.root'
-'file:/eos/uscms/store/user/wangz/mc/RunIISpring16MiniAODv1/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/TT.root'
+#'file:/eos/uscms/store/user/wangz/mc/RunIISpring16MiniAODv1/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/TT.root'
+'root://cmsxrootd.fnal.gov///store/user/wangz/MinBias/Higgs_hzz_13TeV_mini_Summer16_v1/171121_214250/0000/step3_1.root'
 #'file:/eos/uscms/store/user/wangz/data/Spring16/TT_mini1.root'
 #'root://cms-xrd-global.cern.ch//store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/110000/00E54BE4-21E5-E611-BD4D-0025905A60B6.root'
   )
