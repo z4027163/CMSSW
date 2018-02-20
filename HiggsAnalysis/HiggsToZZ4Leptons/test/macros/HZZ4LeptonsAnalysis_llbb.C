@@ -68,214 +68,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    cout << "The output file is " << output << endl;
    TString out = output;
    TString datasetName=out.ReplaceAll(".root","");
+
    sprintf(datasetChar,"%s",datasetName.Data());
    sprintf(bnnOUT,"%s_bnn.txt",datasetName.Data());
    sprintf(eventsOUT,"%s_bnn.root",datasetName.Data());
-   cout << "bnnOUT= " << bnnOUT << endl;
-   bnn_file.open(bnnOUT);
-
-   bnn_file << "weight int_weight lept1_pt lept1_eta lept1_phi lept1_charge lept1_pfx lept1_sip lept1_mvaid lept2_pt lept2_eta lept2_phi lept2_charge lept2_pfx lept2_sip lept2_mvaid lept3_pt lept3_eta lept3_phi lept3_charge lept3_pfx lept3_sip lept4_pt lept4_eta lept4_phi lept4_charge lept4_pfx lept4_sip iso_max sip_max Z1mass Z2mass angle_costhetastar angle_costheta1 angle_costheta2 angle_phi angle_phistar1 KD psKD gravKD pt4l mass4l pfmet jet1_pt jet1_eta jet1_phi jet1_et jet2_pt jet2_eta jet2_phi jet2_et deltaetajj massjj VD njets" << endl;
-     
-   // Book txt file for candidate events
-   Char_t txtOUT[500];
-   sprintf(txtOUT,"%s_txt.txt",datasetName.Data());
-   cout << "Opening a txt file with candidate events " << txtOUT << endl;
-   ofstream output_txt;
-   output_txt.open(txtOUT);
-   Char_t txtOUT_VBF[500];
-   sprintf(txtOUT_VBF,"%s_txt_vbf.txt",datasetName.Data());
-   cout << "Opening a txt file with candidate events " << txtOUT_VBF << endl;
-   ofstream output_txt_vbf;
-   output_txt_vbf.open(txtOUT_VBF);
-
-
-   // isSignal DM
-   TString signal="MZP";
-   Bool_t isSignal=false;
-   isSignal=(datasetName.Contains(signal));
-   cout << "isSignal= " << isSignal << endl;
-
-   TString ggH="GluGluToHToZZTo4L";
-   Bool_t isggH=false;
-   TString ggHnew="SMHiggsToZZTo4L";
-   isggH=(datasetName.Contains(ggH) || datasetName.Contains(ggHnew));
-   cout << "isggH " << isggH << endl;
-   
-   TString powheg15="powheg15";
-   Bool_t ispowheg15=false;
-   ispowheg15=datasetName.Contains(powheg15);
-   cout << "ispowheg15= " << int(ispowheg15) << endl;
-
-   TString vbf="VBF";
-   Bool_t isvbf=false;
-   isvbf=datasetName.Contains(vbf);
-   cout << "isvbf= " << int(isvbf) << endl;
-
-   char *basename(char *path);
-   cout << "Basename " << basename(datasetChar) << endl;
-   TString datasetBase=basename(datasetChar);
-
-   TString mhstring=datasetBase.ReplaceAll("GluGluToHToZZTo4L_M-","");
-   mhstring=mhstring.ReplaceAll("VBF_HToZZTo4L_M-","");
-   mhstring=mhstring.ReplaceAll("SMHiggsToZZTo4L_M-","");
-   mhstring=mhstring.ReplaceAll("_7TeV-powheg-pythia6","");
-   mhstring=mhstring.ReplaceAll("_8TeV-powheg-pythia6","");
-   mhstring=mhstring.ReplaceAll("_7TeV-powheg15-pythia6","");
-   mhstring=mhstring.ReplaceAll("_8TeV-powheg15-pythia6","");
-   mhstring=mhstring.ReplaceAll("_8TeV-powheg15-JHUgenV3-pythia6","");
-   mhstring=mhstring.ReplaceAll("_7TeV-powheg15-JHUgenV3-pythia6","");
-   mhstring=mhstring.ReplaceAll("output_","");
-   cout << "mhstring=" << mhstring << endl;
-  
-   float mHgen=0.;
-   mHgen=atof(mhstring.Data());
-   cout << "mHgen= " << mHgen << endl;
-   
-   /////////////Line Shape Correction//////////
-   bool useLineShape=false;
-   if (isggH) useLineShape=true;
-   cout << "useLineShape "<< useLineShape << endl;
-   
-   double LineShapeWeight=1.,LineShapeWeightP=1.,LineShapeWeightM=1.;
-   std::vector<double> bincenters_;
-   std::vector<double> weightLineShape_;
-   std::vector<double> weightLineShapeP_;
-   std::vector<double> weightLineShapeM_; 
-   bincenters_.clear();
-   weightLineShape_.clear();
-   weightLineShapeP_.clear();
-   weightLineShapeM_.clear();
-   
-   if (useLineShape){
-     
-     // Format: 
-     // m4l ; S_orig(old Powheg shape) ;  CPS shape ; CPS -> Interference shape ; CPS_plus -> Interference shape ; CPS_minus -> Interference shape ; CPS -> Interference_plus shape ; CPS -> Interference_minus shape
-     
-     if (isggH && mHgen >=400.){
-       
-       float Ratio=0.;
-       if(ispowheg15 && datasetBase.Contains("7TeV")){
-	 if(mHgen==400.) Ratio=1.00685;
-	 if(mHgen==450.) Ratio=1.00249;
-	 if(mHgen==500.) Ratio=0.991165;
-	 if(mHgen==550.) Ratio=0.975656;
-	 if(mHgen==600.) Ratio=0.989691;
-	 if(mHgen==650.) Ratio=0.963656;
-	 if(mHgen==700.) Ratio=0.935981;
-	 if(mHgen==800.) Ratio=0.862627;
-	 if(mHgen==900.) Ratio=0.797436;
-	 if(mHgen==1000.) Ratio=0.728721;
-       }
-       else if(ispowheg15 && datasetBase.Contains("8TeV")){
-	 if(mHgen==400.) Ratio=1.00907;
-	 if(mHgen==450.) Ratio=1.00611;
-	 if(mHgen==500.) Ratio=0.998143;
-	 if(mHgen==550.) Ratio=0.982971;
-	 if(mHgen==600.) Ratio=0.997586;
-	 if(mHgen==650.) Ratio=0.975372;
-	 if(mHgen==700.) Ratio=0.950402;
-	 if(mHgen==800.) Ratio=0.887968;
-	 if(mHgen==900.) Ratio=0.831853;
-	 if(mHgen==1000.) Ratio=0.771844;
-       }
-       
-       
-       double bincenter, initial, powcps, powcpsint, powpcpsint, powmcpsint, powcpsintp, powcpsintm;
-       char st1[]="LineShapeNew/mZZ_Higgs";
-       char st2[500];
-       sprintf(st2,mhstring.Data());
-       //char st3[]="_8TeV_Lineshape+Interference.txt";
-       char st3[500];
-       if (datasetBase.Contains("8TeV")) sprintf(st3,"_8TeV_Lineshape+Interference.txt");
-       if (datasetBase.Contains("7TeV")) sprintf(st3,"_7TeV_Lineshape+Interference.txt");
-       strcat(st2,st3);
-       strcat(st1,st2);
-       cout <<"Fileshape is " << st1 << endl;
-       std::ifstream ifs(st1);
-       
-       while( ifs.good() ) {
-	 ifs >> bincenter >> initial >> powcps >> powcpsint >> powpcpsint >>  powmcpsint >> powcpsintp >> powcpsintm;     
-	 bincenters_.push_back(bincenter);
-	 cout<<"bincenter===-==========-============-==============-=============-============ "<<bincenter<<endl;
-	 
-	 if (!ispowheg15 && initial > 0.) {
-	   weightLineShape_.push_back(  TMath::Max(0.,powcpsint/initial) );
-	   weightLineShapeP_.push_back(  TMath::Max(0.,powcpsintp/initial) );
-	   weightLineShapeM_.push_back(  TMath::Max(0.,powcpsintm/initial) );
-	 }
-	 else if (ispowheg15 && powcps > 0.) {
-	   weightLineShape_.push_back(  TMath::Max(0.,(powcpsint/powcps)*Ratio) );
-	   weightLineShapeP_.push_back(  TMath::Max(0.,(powcpsintp/powcps)*Ratio) );
-	   weightLineShapeM_.push_back(  TMath::Max(0.,(powcpsintm/powcps)*Ratio) );
-	 }
-	 else{//weights are not defined if initial distribution is 0 => set weight to 0
-	   weightLineShape_.push_back( 1. );
-	   weightLineShapeP_.push_back( 1. );
-	   weightLineShapeM_.push_back( 1. );
-	 }
-       }           
-     }
-     else{//weights are not defined if initial distribution is 0 => set weight to 1
-       cout << "No lineshape correction -> Setting the lineshape weights to 1" << endl;
-       weightLineShape_.push_back( 1. );
-       weightLineShapeP_.push_back( 1. );
-       weightLineShapeM_.push_back( 1. );
-     }
-   }
-   
-   ////////////////////////////////////////////////////////
-   ///////////// VBF Line Shape Correction//////////
-   bool useVBFLineShape=false;
-   if (isvbf) useVBFLineShape=true;
-   
-   double VBFLineShapeWeight=1.,VBFLineShapeWeightP=1.,VBFLineShapeWeightM=1.;
-   //std::vector<double> bincenters_;
-   //bincenters_.clear();
-   std::vector<double> weightVBFLineShape_;
-   std::vector<double> weightVBFLineShapeP_;
-   std::vector<double> weightVBFLineShapeM_; 
-   weightVBFLineShape_.clear();
-   weightVBFLineShapeP_.clear();
-   weightVBFLineShapeM_.clear();
-   
-   if (useVBFLineShape){
-     if (isvbf && mHgen >=400.){    
-       double bincenter, initial, powcps, powcpsint, powpcpsint, powmcpsint, powcpsintp, powcpsintm;
-       char st1[]="VBFLineShape/VBF_ratio";
-       char st2[500];
-       sprintf(st2,"%s.txt",mhstring.Data());
-       char st3[500];
-       if (datasetBase.Contains("8TeV")) sprintf(st3,"_8TeV_");
-       if (datasetBase.Contains("7TeV")) sprintf(st3,"_7TeV_");
-       strcat(st3,st2);
-       strcat(st1,st3);
-       cout <<"VBF Fileshape is " << st1 << endl;
-       std::ifstream ifs(st1);
-       
-       while( ifs.good() ) {
-	 ifs >> bincenter >> initial >> powcps >> powcpsint >> powpcpsint >>  powmcpsint >> powcpsintp >> powcpsintm;     
-	 cout<<"bincenter===-==========-============-==============-=============-============ "<<bincenter<<endl;
-	 bincenters_.push_back(bincenter);
-	 if(initial > 0){
-	   weightVBFLineShape_.push_back(   TMath::Max(0.,powcpsint/initial) );
-	   weightVBFLineShapeP_.push_back(  TMath::Max(0.,powcpsintp/initial) );
-	   weightVBFLineShapeM_.push_back(  TMath::Max(0.,powcpsintm/initial) );
-	 }else{//weights are not defined if initial distribution is 0 => set weight to 0
-	   weightVBFLineShape_.push_back( 1. );
-	   weightVBFLineShapeP_.push_back( 1. );
-	   weightVBFLineShapeM_.push_back( 1. );
-	 }
-       } 
-     }
-     else{//weights are not defined if initial distribution is 0 => set weight to 1
-       cout << "No VBF lineshape correction -> Setting the lineshape weights to 1" << endl;
-       weightVBFLineShape_.push_back( 1. );
-       weightVBFLineShapeP_.push_back( 1. );
-       weightVBFLineShapeM_.push_back( 1. );
-     }
-   }
-   ///////   
-
    
    // Pileup reweighting in 80x
 
@@ -298,10 +94,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TFile *ele_scale_factors_v4 = new TFile("SF_ELE/egammaEffi_WP90_EGM2D.root");
    TH2F *ele_scale_factors_wp90 = (TH2F*)gDirectory->Get("EGamma_SF2D");
 
-   TFile *ele_scale_factors_v1 = new TFile("SF_ELE/Leg1_GH_EGM2D.root");
+   TFile *ele_scale_factors_v1 = new TFile("SF_ELE/Leg1_BF_EGM2D.root");
    TH2F *ele_scale_factors_leg1 = (TH2F*)gDirectory->Get("EGamma_SF2D");
 
-   TFile *ele_scale_factors_v2 = new TFile("SF_ELE/Leg2_GH_EGM2D.root");
+   TFile *ele_scale_factors_v2 = new TFile("SF_ELE/Leg2_BF_EGM2D.root");
    TH2F *ele_scale_factors_leg2 = (TH2F*)gDirectory->Get("EGamma_SF2D");
 
 
@@ -315,7 +111,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
   TFile *mu_scale_factors3 = new TFile("SF_GH/SingleMuonSF_GH.root");
   TH2F *mu_scale_factors_hlt = (TH2F*)gDirectory->Get("IsoMu24_OR_IsoTkMu24_PtEtaBins/abseta_pt_ratio");
 
-  TFile *mu_scale_factors3_p2 = new TFile("SF_GH/Mu8Leg_SF_BCDEF.root");
+  TFile *mu_scale_factors3_p2 = new TFile("SF_GH/dm2/Mu8Leg_SF_GH.root");
   TH2F *mu_scale_factors_hlt_p2 = (TH2F*)gDirectory->Get("abseta_pt_PLOT");
 
   TFile *mu_scale_factors1_p1 = new TFile("SF_GH/IDSF_BCDEF.root");
@@ -325,10 +121,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
   TFile *mu_scale_factors2_p1 = new TFile("SF_GH/ISOSF_BCDEF.root");
   TH2F *mu_scale_factors_iso_p1 = (TH2F*)gDirectory->Get("LooseISO_LooseID_pt_eta/abseta_pt_ratio");
 
-  TFile *mu_scale_factors3_p1 = new TFile("SF_GH/Mu17Leg_SF_BCDEF.root");
+  TFile *mu_scale_factors3_p1 = new TFile("SF_GH/dm2/Mu17Leg_SF_GH.root");
   TH2F *mu_scale_factors_hlt_p1 = (TH2F*)gDirectory->Get("abseta_pt_PLOT");
 
-  TFile *mu_scale_factors4 = new TFile("SF_GH/track_BCDEF.root"); //just for GH
+  TFile *mu_scale_factors4 = new TFile("SF_GH/track_GH.root"); //just for GH
   TGraph *mu_scale_factors_tk = (TGraph*)gDirectory->Get("ratio_eff_vtx_dr030e030_corr");
 
 /*   // correction to the error
@@ -1193,7 +989,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    float newweight=1.;
    
    // New tree with clone of events passing the final selection
-   TFile *skimfile = new TFile(eventsOUT,"recreate");
    // Clone tree for final events
 //   TTree *finaltree = fChain->CloneTree(0);
 
@@ -1271,11 +1066,11 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       // ** Step 0.1:
       // number of 4L (4mu)...
       //trigger requirements (qier)
-     if(!de_trig) continue;
+     if(!dm_trig) continue;
      
       bool is2e2mu=false;
 
-      if( isSignal && debug ) cout << "\n ** Step 0.1 (MC truth): "
+/*      if( isSignal && debug ) cout << "\n ** Step 0.1 (MC truth): "
 				   << "\nMC_PDGID[0] " << MC_PDGID[0]
 				   << "\nMC_PDGID[1] " << MC_PDGID[1]	
 				   << "\nMC_PDGID[2] " << MC_PDGID[2]	
@@ -1284,7 +1079,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 				   << "\nMC_PDGID[5] " << MC_PDGID[5]	
 				   << "\nMC_PDGID[6] " << MC_PDGID[6]	
 				   << endl ;
-/*      
+*/
+/*
+      
 //teleport 1      
       //////////// (VBF) Line Shape Correction///////////
       if ( (isggH || isvbf) && mHgen >=400. && (useLineShape==true || useVBFLineShape==true) ){
@@ -1703,7 +1500,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 */
         //qier chenge to wp90
         if( fabs(RECOELE_scl_Eta[i]) < .8 && RECOELE_mvaTrigV0[i] > 0.837 ) BDT_ok = 1 ;
-        if( fabs(RECOELE_scl_Eta[i]) > .8 && RECOELE_mvaTrigV0[i] > 0.715 ) BDT_ok = 1 ;
+        if( fabs(RECOELE_scl_Eta[i]) >= .8 &&fabs(RECOELE_scl_Eta[i])<1.479 && RECOELE_mvaTrigV0[i] > 0.715 ) BDT_ok = 1 ;
+        if(fabs(RECOELE_scl_Eta[i])>=1.479 && RECOELE_mvaTrigV0[i] > 0.357) BDT_ok=1;
+        
 	if( !BDT_ok ) continue ;
 	
 	if( fabs(RECOELE_gsftrack_dxy[i]) < .5 
@@ -2082,6 +1881,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 //      if(N_good>2) N_good=2;
          // just pick highest pt muon to be pair (qier)
       for(int i = 0; i < N_good; ++i){ //1->N_good
+          if(i!=0) continue;   //qier only pick highest pt muon
         for(int j = i + 1; j < N_good; ++j){
 //	  if (fabs(RECOMU_SIP[iL[i]])>=4.) continue; // SIP cut (remove qier)
 //	  if (fabs(RECOMU_SIP[iL[j]])>=4.) continue;
@@ -2263,6 +2063,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       } // end loop on pairs
 
       for(int i = 0; i < Ne_good; ++i){
+        if(i!=0) continue;  //qier always pick highest ele
         for(int j = i + 1; j < Ne_good; ++j){
 //	  if (fabs(RECOELE_SIP[iLe[i]])>=4.) continue; // SIP cut
 //	  if (fabs(RECOELE_SIP[iLe[j]])>=4.) continue;
@@ -2478,7 +2279,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 //      if(debug) cout << "Efficiency Weight for the Z1: " << eff_weight_3 << " Final weight for Z1= " << newweight << endl;
 
 
-      hPFMET_3->Fill(RECO_PFMET,newweight);
+      hPFMET_3->Fill(RECO_CORMETMUONS,newweight);
       
       // **** Step 4:
        // a) 4 leptons
@@ -2626,7 +2427,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
           int biny12 = mu_scale_factors_id_p2->GetYaxis()->FindBin(Pt);
           int binx12 = mu_scale_factors_id_p2->GetXaxis()->FindBin(abs(Eta));
  //         double sf_id=mu_scale_factors_id_p1->GetBinContent(binx1,biny1)*19.666/35.812+mu_scale_factors_id_p2->GetBinContent(binx12,biny12)*16.146/35.812;
-          double sf_id=mu_scale_factors_id_p1->GetBinContent(binx1,biny1); //just for GH
+          double sf_id=mu_scale_factors_id_p2->GetBinContent(binx1,biny1); //just for GH
          if (sf_id>0.) eff_weight*=sf_id; 
   
           int biny2 = mu_scale_factors_iso_p1->GetYaxis()->FindBin(Pt);
@@ -2636,7 +2437,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
           int binx22 = mu_scale_factors_iso_p2->GetXaxis()->FindBin(abs(Eta));
 
 //          double sf_iso = mu_scale_factors_iso_p1->GetBinContent(binx2,biny2)*19.666/35.812+mu_scale_factors_iso_p2->GetBinContent(binx22,biny22)*16.146/35.812;
-          double sf_iso = mu_scale_factors_iso_p1->GetBinContent(binx2,biny2);  //just for GH
+          double sf_iso = mu_scale_factors_iso_p2->GetBinContent(binx2,biny2);  //just for GH
           if (sf_iso>0.)  eff_weight*=sf_iso; 
  
           double tk_sf = mu_scale_factors_tk->Eval(double(num_PU_vertices));    
@@ -2723,7 +2524,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
            
           if(RECOELE_de_EleHLTMatch[ z1lept[i] ]== 2){
             int biny6 = ele_scale_factors_leg1->GetYaxis()->FindBin(Pt);
-            int binx6 = ele_scale_factors_leg1->GetXaxis()->FindBin(abs(Eta));
+            int binx6 = ele_scale_factors_leg1->GetXaxis()->FindBin(Eta);
 
 //            int biny32 = mu_scale_factors_hlt_p2->GetYaxis()->FindBin(Pt);
 //            int binx32 = mu_scale_factors_hlt_p2->GetXaxis()->FindBin(abs(Eta));
@@ -2734,7 +2535,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
            }
          else{
             int biny62 = ele_scale_factors_leg2->GetYaxis()->FindBin(Pt);
-            int binx62 = ele_scale_factors_leg2->GetXaxis()->FindBin(abs(Eta));
+            int binx62 = ele_scale_factors_leg2->GetXaxis()->FindBin(Eta);
 
             double sf_hlt = ele_scale_factors_leg2->GetBinContent(binx62,biny62);
             if (sf_hlt>0.) eff_weight*=sf_hlt;
@@ -2757,17 +2558,17 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       if(debug) cout << "Efficiency Weight for the 4l: " << eff_weight << " Final weight= " << newweight << endl;
       
       //only keep 2mu (qier) 
-      if(Z1tag!=2) continue;
+      if(Z1tag!=1) continue;
 
       TLorentzVector Z1P4;
       Z1P4.SetPxPyPzE(pxZ1,pyZ1,pzZ1,EZ1);
 
       //for met recoil correction
       double dphi=Z1P4.Phi()-RECO_PFMET_PHI;
-      f_u1=-cos(dphi)*RECO_PFMET;
-      f_u2=-sin(dphi)*RECO_PFMET;
+      f_u1=-cos(dphi)*RECO_CORMETMUONS;
+      f_u2=-sin(dphi)*RECO_CORMETMUONS;
       f_z1_pt = ptZ1;
-      cout << "u1= " << f_u1 << " u2=" << f_u2 << " met=" << RECO_PFMET << endl;
+      cout << "u1= " << f_u1 << " u2=" << f_u2 << " met=" << RECO_CORMETMUONS << endl;
 
       if(zptweight) {
         if(ptZ1<5) newweight=newweight*1.08;
@@ -2934,7 +2735,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 		   );
 	}	  
 	  
-	output_txt  << leptformat << endl;
+//	output_txt  << leptformat << endl;
 
        
       }//end fill leptons
@@ -3080,7 +2881,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      ++N_8_PFMET;
      N_8_PFMET_w=N_8_PFMET_w+newweight;
      
-     hPFMET_8->Fill(RECO_PFMET,newweight);
+     hPFMET_8->Fill(RECO_CORMETMUONS,newweight);
      
      
      
@@ -3369,7 +3170,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      hMZ1_7->Fill(massZ1,newweight);
      hPtZ1_7->Fill( ptZ1,newweight );
      hYZ1_7->Fill( Y_Z1,newweight );
-     hPFMET_9->Fill(RECO_PFMET,newweight); 
+     hPFMET_9->Fill(RECO_CORMETMUONS,newweight); 
     //Number of jets and mJJ,delta eta cuts // categories
     //}
      
@@ -3448,7 +3249,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
    // write on output txt file:
 
-   
+/*   
    output_txt << "N_0 "  << N_0  << " \n" 
 	      << "N_01 " << N_01 << " \n"	
 	      << "N_02 " << N_02 << " \n"	
@@ -3509,7 +3310,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    output_txt_vbf.close();
    
 
-
+*/
    cout << "N_0 "  << N_0  << " \n" 
 	      << "N_01 " << N_01 << " \n"	
 	      << "N_02 " << N_02 << " \n"	
@@ -3758,10 +3559,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    mettree->Write();
    theFile->Write();
    theFile->Close();
-   skimfile->cd();
   // finaltree->Write();
-   skimfile->Write();
-   skimfile->Close();
 } // end main
 
 
