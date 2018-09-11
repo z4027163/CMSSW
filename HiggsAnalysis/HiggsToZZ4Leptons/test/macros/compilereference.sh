@@ -59,6 +59,9 @@ elif [ $1 == "llbb" ]; then
     echo "Compiling $1 macros" 
     g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C HZZ4LeptonsAnalysis_llbb.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_llbb
 
+elif [ $1 == "btag" ]; then
+    echo "Compiling $1 macros" 
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C bjet_efficiency.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_btag
 
 elif [ $1 == "4l2b" ]; then
     echo "Compiling $1 macros"
@@ -67,4 +70,35 @@ elif [ $1 == "4l2b" ]; then
 elif [ $1 == "2e2mu2b" ]; then
     echo "Compiling $1 macros"
     g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C HZZ4LeptonsAnalysis_2e2mu2b.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_2e2mu2b
+
+elif [ $1 == "fkj2e2mu2b" ]; then
+    echo "Compiling $1 macros"
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C FakeJet_2e2mu2b.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_fkj2e2mu2b
+
+elif [ $1 == "fkj4e2b" ]; then
+    echo "Compiling $1 macros"
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C FakeJet_4e.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_fkj4e2b
+
+
+elif [ $1 == "fkj" ]; then
+    echo "Compiling $1 macros" 
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C FakeJet.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_fkj
+
+elif [ $1 == "fkj2" ]; then
+    echo "Compiling $1 macros" 
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C FakeJet2.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_fkj2
+
+
+elif [ $1 == "fkjtest" ]; then
+    echo "Compiling $1 macros" 
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C FakeJetTest.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_fkjtest
+
+elif [ $1 == "fkjtest2" ]; then
+    echo "Compiling $1 macros" 
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C FakeJetTest2.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_fkjtest2
+
+elif [ $1 == "fkjtest3" ]; then
+    echo "Compiling $1 macros" 
+    g++ -I $ROOTSYS/include -I $ROOFITSYS/include -I ${melaincdir}  -I ${cmsswincdir} compilereference_list.C FakeJetTest3.C -I roccor `root-config --glibs` `root-config --libs` `root-config --cflags` -L $ROOFITSYS/lib  -lRooFit -lRooFitCore -L ${melalibdir} -L ${cmsswlibdir} -lZZMatrixElementMELA   -lZZMatrixElementMEMCalculators  -lCondFormatsJetMETObjects  -lJetMETCorrectionsModules -lCondFormatsBTauObjects -lCondToolsBTau  -o RunReference_fkjtest3
+
 fi

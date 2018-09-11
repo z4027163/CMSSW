@@ -36,12 +36,12 @@ public :
    Int_t           PU_BunchCrossing;
    Float_t         MC_weighting;
    Float_t         MC_weighting_un[9];
-   Float_t         PDF_weighting_un;
    Int_t           RECO_nMuHLTMatch;
    Float_t         RECOMU_PT_MuHLTMatch[100];
    Float_t         RECOMU_ETA_MuHLTMatch[100];
    Bool_t          RECOMU_sm_MuHLTMatch[100];
-   Int_t           RECOMU_dm_MuHLTMatch[100]; 
+   Int_t           RECOMU_dm_MuHLTMatch[100];
+   Int_t           RECOJET_JetHLTMatch[100]; 
    Float_t         RECOELE_PT_EleHLTMatch[100];
    Float_t         RECOELE_ETA_EleHLTMatch[100];
    Bool_t          RECOELE_se_EleHLTMatch[100];
@@ -51,31 +51,8 @@ public :
    Bool_t          sm_trig;
    Bool_t          de_trig;
    Bool_t          se_trig;
+   Int_t           jet_trig;
    Char_t          HLTPathsFired[20000];
-/*
-   Float_t         MC_E[7];
-   Float_t         MC_PT[7];
-   Float_t         MC_ETA[7];
-   Float_t         MC_THETA[7];
-   Float_t         MC_PHI[7];
-   Float_t         MC_MASS[7];
-   Float_t         MC_PDGID[7];
-   Float_t         MC_LEPT_PT[4];
-   Float_t         MC_LEPT_ETA[4];
-   Float_t         MC_LEPT_PHI[4];
-   Float_t         MC_LEPT_THETA[4];
-   Float_t         MC_LEPT_PDGID[4];
-   Float_t         MC_Z_PT[2][5];
-   Float_t         MC_Z_ETA[2][5];
-   Float_t         MC_Z_PHI[2][5];
-   Float_t         MC_Z_THETA[2][5];
-   Float_t         MC_Z_MASS[2][5];
-   Float_t         MC_Z_PDGID[2][5];
-*/
-   Float_t         MC_GENJET_PT[4];
-   Float_t         MC_GENJET_ETA[4];
-   Float_t         MC_GENJET_PHI[4];
-   Float_t         MC_GENMET;
    Float_t         RECOELE_E[100];
    Float_t         RECOELE_PT[100];
    Float_t         RECOELE_PTError[100];
@@ -376,7 +353,6 @@ public :
    TBranch        *b_PU_BunchCrossing;   //!
    TBranch        *b_MC_weighting;   //!
    TBranch        *b_MC_weighting_un;   //!
-   TBranch        *b_PDF_weighting_un;  //!
    TBranch        *b_RECO_nMuHLTMatch;   //!
    TBranch        *b_RECOMU_PT_MuHLTMatch;   //!
    TBranch        *b_RECOMU_ETA_MuHLTMatch;  //!
@@ -386,35 +362,14 @@ public :
    TBranch        *b_RECOELE_ETA_EleHLTMatch;  //!
    TBranch        *b_RECOELE_se_EleHLTMatch;   //!
    TBranch        *b_RECOELE_de_EleHLTMatch;   //!
+   TBranch        *b_RECOJET_JetHLTMatch;      //!
    TBranch        *b_RECOBOT_MatchingMCTruth;   //!
    TBranch        *b_dm_trig;  //!
    TBranch        *b_sm_trig;  //!
    TBranch        *b_de_trig;  //!
    TBranch        *b_se_trig;   //!
+   TBranch        *b_jet_trig;   //!
    TBranch        *b_HLTPathsFired;   //!
-/*   TBranch        *b_MC_E;   //!
-   TBranch        *b_MC_PT;   //!
-   TBranch        *b_MC_ETA;   //!
-   TBranch        *b_MC_THETA;   //!
-   TBranch        *b_MC_PHI;   //!
-   TBranch        *b_MC_MASS;   //!
-   TBranch        *b_MC_PDGID;   //!
-   TBranch        *b_MC_LEPT_PT;   //!
-   TBranch        *b_MC_LEPT_ETA;   //!
-   TBranch        *b_MC_LEPT_PHI;   //!
-   TBranch        *b_MC_LEPT_THETA;   //!
-   TBranch        *b_MC_LEPT_PDGID;   //!
-   TBranch        *b_MC_Z_PT;   //!
-   TBranch        *b_MC_Z_ETA;   //!
-   TBranch        *b_MC_Z_PHI;   //!
-   TBranch        *b_MC_Z_THETA;   //!
-   TBranch        *b_MC_Z_MASS;   //!
-   TBranch        *b_MC_Z_PDGID;   //!
-*/
-   TBranch        *b_MC_GENJET_PT;  //!
-   TBranch        *b_MC_GENJET_ETA; //!
-   TBranch        *b_MC_GENJET_PHI;  //!
-   TBranch        *b_MC_GENMET;   //!
    TBranch        *b_RECOELE_E;   //!
    TBranch        *b_RECOELE_PT;   //!
    TBranch        *b_RECOELE_PTError;   //!
@@ -740,7 +695,10 @@ HZZ4LeptonsAnalysis::HZZ4LeptonsAnalysis(TTree *tree,Double_t weight_, string DA
 
    if (tree == 0) {
       TChain* chain = new TChain("HZZ4LeptonsAnalysis","");
-      cout << "error input" << endl;
+      chain->Add("/lustre/cms/store/user/ndefilip/Summer12_52X_merged/roottree_leptons_DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball.root_a");
+      chain->Add("/lustre/cms/store/user/ndefilip/Summer12_52X_merged/roottree_leptons_DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball_1.root_b");
+
+      tree = chain;
 
    }
    Init(tree);
@@ -796,7 +754,6 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("PU_BunchCrossing", &PU_BunchCrossing, &b_PU_BunchCrossing);
    fChain->SetBranchAddress("MC_weighting", &MC_weighting, &b_MC_weighting);
    fChain->SetBranchAddress("MC_weighting_un", &MC_weighting_un, &b_MC_weighting_un);
-   fChain->SetBranchAddress("PDF_weighting_un", &PDF_weighting_un, &b_PDF_weighting_un);
    fChain->SetBranchAddress("RECO_nMuHLTMatch", &RECO_nMuHLTMatch, &b_RECO_nMuHLTMatch);
    fChain->SetBranchAddress("RECOMU_PT_MuHLTMatch", RECOMU_PT_MuHLTMatch, &b_RECOMU_PT_MuHLTMatch);
    fChain->SetBranchAddress("RECOMU_ETA_MuHLTMatch", RECOMU_ETA_MuHLTMatch, &b_RECOMU_ETA_MuHLTMatch);
@@ -806,36 +763,14 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOELE_ETA_EleHLTMatch", RECOELE_ETA_EleHLTMatch, &b_RECOELE_ETA_EleHLTMatch);
    fChain->SetBranchAddress("RECOELE_de_MuHLTMatch", RECOELE_de_EleHLTMatch, &b_RECOELE_de_EleHLTMatch);
    fChain->SetBranchAddress("RECOELE_se_MuHLTMatch", RECOELE_se_EleHLTMatch, &b_RECOELE_se_EleHLTMatch);
+   fChain->SetBranchAddress("RECOJET_JetHLTMatch",RECOJET_JetHLTMatch,&b_RECOJET_JetHLTMatch);
    fChain->SetBranchAddress("RECOBOT_MatchingMCTruth",RECOBOT_MatchingMCTruth,&b_RECOBOT_MatchingMCTruth);
    fChain->SetBranchAddress("dm_trig",&dm_trig,&b_dm_trig);
    fChain->SetBranchAddress("sm_trig",&sm_trig,&b_sm_trig);
    fChain->SetBranchAddress("de_trig",&de_trig,&b_de_trig);
    fChain->SetBranchAddress("se_trig",&se_trig,&b_se_trig);
+   fChain->SetBranchAddress("jet_trig",&jet_trig,&b_jet_trig);
    fChain->SetBranchAddress("HLTPathsFired", HLTPathsFired, &b_HLTPathsFired);
-/*
-   fChain->SetBranchAddress("MC_E", MC_E, &b_MC_E);
-   fChain->SetBranchAddress("MC_PT", MC_PT, &b_MC_PT);
-   fChain->SetBranchAddress("MC_ETA", MC_ETA, &b_MC_ETA);
-   fChain->SetBranchAddress("MC_THETA", MC_THETA, &b_MC_THETA);
-   fChain->SetBranchAddress("MC_PHI", MC_PHI, &b_MC_PHI);
-   fChain->SetBranchAddress("MC_MASS", MC_MASS, &b_MC_MASS);
-   fChain->SetBranchAddress("MC_PDGID", MC_PDGID, &b_MC_PDGID);
-   fChain->SetBranchAddress("MC_LEPT_PT", MC_LEPT_PT, &b_MC_LEPT_PT);
-   fChain->SetBranchAddress("MC_LEPT_ETA", MC_LEPT_ETA, &b_MC_LEPT_ETA);
-   fChain->SetBranchAddress("MC_LEPT_PHI", MC_LEPT_PHI, &b_MC_LEPT_PHI);
-   fChain->SetBranchAddress("MC_LEPT_THETA", MC_LEPT_THETA, &b_MC_LEPT_THETA);
-   fChain->SetBranchAddress("MC_LEPT_PDGID", MC_LEPT_PDGID, &b_MC_LEPT_PDGID);
-   fChain->SetBranchAddress("MC_Z_PT", MC_Z_PT, &b_MC_Z_PT);
-   fChain->SetBranchAddress("MC_Z_ETA", MC_Z_ETA, &b_MC_Z_ETA);
-   fChain->SetBranchAddress("MC_Z_PHI", MC_Z_PHI, &b_MC_Z_PHI);
-   fChain->SetBranchAddress("MC_Z_THETA", MC_Z_THETA, &b_MC_Z_THETA);
-   fChain->SetBranchAddress("MC_Z_MASS", MC_Z_MASS, &b_MC_Z_MASS);
-   fChain->SetBranchAddress("MC_Z_PDGID", MC_Z_PDGID, &b_MC_Z_PDGID);
-*/
-   fChain->SetBranchAddress("MC_GENJET_PT", MC_GENJET_PT, &b_MC_GENJET_PT);
-   fChain->SetBranchAddress("MC_GENJET_ETA", MC_GENJET_ETA, &b_MC_GENJET_ETA);
-   fChain->SetBranchAddress("MC_GENJET_PHI", MC_GENJET_PHI, &b_MC_GENJET_PHI);
-   fChain->SetBranchAddress("MC_GENMET", &MC_GENMET, &b_MC_GENMET);
    fChain->SetBranchAddress("RECOELE_E", RECOELE_E, &b_RECOELE_E);
    fChain->SetBranchAddress("RECOELE_PT", RECOELE_PT, &b_RECOELE_PT);
    fChain->SetBranchAddress("RECOELE_PTError", RECOELE_PTError, &b_RECOELE_PTError);

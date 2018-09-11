@@ -42,7 +42,9 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
     tmpstring=newstr;
   }
 
-  cout << "HLTFiredString= " << tmpstring.c_str() << endl;
+  bool debug=false;
+
+  if(debug) cout << "HLTFiredString= " << tmpstring.c_str() << endl;
 
   char HLTPathsFired[20000];
   sprintf(HLTPathsFired,tmpstring.c_str());
@@ -53,7 +55,6 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 
   TString out = inputfileName;
 
-  bool debug=true;
   cout << "Filename is= " << out.Data() << endl;
 
   if( out.Contains("2016") && out.Contains("data") && !out.Contains("Spring16") && !out.Contains("Summer16")){
@@ -65,7 +66,8 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
         cout << "This is HLT in data" << endl;
         cout<<" HLTPathsFired... "<<hlt<<endl;
       }
-    if(!hlt.Contains("HLT_IsoMu24_v")
+    if(
+       !hlt.Contains("HLT_IsoMu24_v")
      &&!hlt.Contains("HLT_IsoTkMu24_v")
      &&!hlt.Contains("HLT_Ele25_eta2p1_WPTight_Gsf_v")    // single-ele
      &&!hlt.Contains("HLT_Ele27_WPTight_Gsf_v")  // single-ele
@@ -354,6 +356,28 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
 	return true;
       }*/
     }    
+
+    else if( out.Contains("JetHT") ){
+      if( debug ){ cout << "\n ** Step 2 (Trigger): 2015 SingleElectron"<< endl ;
+
+        cout << "This is HLT in data" << endl;
+        cout<<" HLTPathsFired... "<<hlt<<endl;
+      }
+
+      if(
+         !hlt.Contains("HLT_PFJet40_v")
+       &&!hlt.Contains("HLT_PFJet60_v")
+       &&!hlt.Contains("HLT_PFJet80_v")
+       &&!hlt.Contains("HLT_PFJet140_v")
+       &&!hlt.Contains("HLT_PFJet200_v")
+       &&!hlt.Contains("HLT_PFJet260_v")       
+       &&!hlt.Contains("HLT_PFJet320_v")
+         ) {
+        if( debug )cout << "Event not passing the HLT trigger paths" << endl;
+        return false;
+      }
+      else return true;
+   }
   }
   else if( out.Contains("Spring15")){
     if( debug ){ cout << "\n ** Step 2 (Trigger): "<< endl ;
@@ -434,13 +458,21 @@ bool HZZ4LeptonsHLTAnalysisFilter::filter(edm::Event& iEvent, const edm::EventSe
        !hlt.Contains("HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v") && // Tri-Ele
        !hlt.Contains("HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v") && //Di-Muon Ele
        !hlt.Contains("HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v") //Muon-DiEle */
-       !hlt.Contains("HLT_IsoMu24_v")
-     &&!hlt.Contains("HLT_IsoTkMu24_v")
-     &&!hlt.Contains("HLT_Ele27_WPTight_Gsf_v")  // single-ele
-     &&!hlt.Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v") 
-     &&!hlt.Contains("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v")
+  //    !hlt.Contains("HLT_PFJet40_v")
+//       !hlt.Contains("HLT_IsoMu24_v")
+//     &&!hlt.Contains("HLT_IsoTkMu24_v")
+//     &&!hlt.Contains("HLT_Ele27_WPTight_Gsf_v")  // single-ele
+//     &&!hlt.Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v") 
+     !hlt.Contains("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v")
      &&!hlt.Contains("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v")
      &&!hlt.Contains("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")
+/*         !hlt.Contains("HLT_PFJet40_v")
+       &&!hlt.Contains("HLT_PFJet60_v")
+       &&!hlt.Contains("HLT_PFJet80_v")
+       &&!hlt.Contains("HLT_PFJet140_v")
+       &&!hlt.Contains("HLT_PFJet200_v")
+       &&!hlt.Contains("HLT_PFJet260_v")
+       &&!hlt.Contains("HLT_PFJet320_v")*/
 /*     &&!hlt.Contains("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v")
      &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v")
      &&!hlt.Contains("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v")

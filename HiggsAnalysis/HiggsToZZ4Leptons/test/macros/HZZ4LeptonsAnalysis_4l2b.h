@@ -35,6 +35,8 @@ public :
    Int_t           num_PU_vertices;
    Int_t           PU_BunchCrossing;
    Float_t         MC_weighting;
+   Float_t         MC_weighting_un[9];
+   Float_t         PDF_weighting_un;
    Int_t           RECO_nMuHLTMatch;
    Float_t         RECOMU_PT_MuHLTMatch[100];
    Float_t         RECOMU_ETA_MuHLTMatch[100];
@@ -50,6 +52,7 @@ public :
    Bool_t          de_trig;
    Bool_t          se_trig;
    Char_t          HLTPathsFired[20000];
+/*
    Float_t         MC_E[7];
    Float_t         MC_PT[7];
    Float_t         MC_ETA[7];
@@ -68,6 +71,7 @@ public :
    Float_t         MC_Z_THETA[2][5];
    Float_t         MC_Z_MASS[2][5];
    Float_t         MC_Z_PDGID[2][5];
+*/
    Float_t         MC_GENJET_PT[4];
    Float_t         MC_GENJET_ETA[4];
    Float_t         MC_GENJET_PHI[4];
@@ -327,6 +331,8 @@ public :
    Int_t           RECO_PFJET_CHARGE[100];
    Float_t         RECO_PFJET_ET[100];
    Float_t         RECO_PFJET_PT[100];
+   Float_t         RECO_PFJET_PT_UP[100];
+   Float_t         RECO_PFJET_PT_DOW[100];
    Float_t         RECO_PFJET_ETA[100];
    Float_t         RECO_PFJET_PHI[100];
    Int_t           RECO_PFJET_PUID[100];
@@ -369,6 +375,8 @@ public :
    TBranch        *b_num_PU_vertices;   //!
    TBranch        *b_PU_BunchCrossing;   //!
    TBranch        *b_MC_weighting;   //!
+   TBranch        *b_MC_weighting_un;   //!
+   TBranch        *b_PDF_weighting_un;  //!
    TBranch        *b_RECO_nMuHLTMatch;   //!
    TBranch        *b_RECOMU_PT_MuHLTMatch;   //!
    TBranch        *b_RECOMU_ETA_MuHLTMatch;  //!
@@ -384,7 +392,7 @@ public :
    TBranch        *b_de_trig;  //!
    TBranch        *b_se_trig;   //!
    TBranch        *b_HLTPathsFired;   //!
-   TBranch        *b_MC_E;   //!
+/*   TBranch        *b_MC_E;   //!
    TBranch        *b_MC_PT;   //!
    TBranch        *b_MC_ETA;   //!
    TBranch        *b_MC_THETA;   //!
@@ -402,6 +410,7 @@ public :
    TBranch        *b_MC_Z_THETA;   //!
    TBranch        *b_MC_Z_MASS;   //!
    TBranch        *b_MC_Z_PDGID;   //!
+*/
    TBranch        *b_MC_GENJET_PT;  //!
    TBranch        *b_MC_GENJET_ETA; //!
    TBranch        *b_MC_GENJET_PHI;  //!
@@ -659,6 +668,8 @@ public :
    TBranch        *b_RECO_PFJET_CHARGE;   //!
    TBranch        *b_RECO_PFJET_ET;   //!
    TBranch        *b_RECO_PFJET_PT;   //!
+   TBranch        *b_RECO_PFJET_PT_UP;   //!
+   TBranch        *b_RECO_PFJET_PT_DOW;   //!
    TBranch        *b_RECO_PFJET_ETA;   //!
    TBranch        *b_RECO_PFJET_PHI;   //!
    TBranch        *b_RECO_PFJET_PUID;   //!
@@ -787,6 +798,8 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("num_PU_vertices", &num_PU_vertices, &b_num_PU_vertices);
    fChain->SetBranchAddress("PU_BunchCrossing", &PU_BunchCrossing, &b_PU_BunchCrossing);
    fChain->SetBranchAddress("MC_weighting", &MC_weighting, &b_MC_weighting);
+   fChain->SetBranchAddress("MC_weighting_un", &MC_weighting_un, &b_MC_weighting_un);
+   fChain->SetBranchAddress("PDF_weighting_un", &PDF_weighting_un, &b_PDF_weighting_un);
    fChain->SetBranchAddress("RECO_nMuHLTMatch", &RECO_nMuHLTMatch, &b_RECO_nMuHLTMatch);
    fChain->SetBranchAddress("RECOMU_PT_MuHLTMatch", RECOMU_PT_MuHLTMatch, &b_RECOMU_PT_MuHLTMatch);
    fChain->SetBranchAddress("RECOMU_ETA_MuHLTMatch", RECOMU_ETA_MuHLTMatch, &b_RECOMU_ETA_MuHLTMatch);
@@ -802,6 +815,7 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("de_trig",&de_trig,&b_de_trig);
    fChain->SetBranchAddress("se_trig",&se_trig,&b_se_trig);
    fChain->SetBranchAddress("HLTPathsFired", HLTPathsFired, &b_HLTPathsFired);
+/*
    fChain->SetBranchAddress("MC_E", MC_E, &b_MC_E);
    fChain->SetBranchAddress("MC_PT", MC_PT, &b_MC_PT);
    fChain->SetBranchAddress("MC_ETA", MC_ETA, &b_MC_ETA);
@@ -820,6 +834,7 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("MC_Z_THETA", MC_Z_THETA, &b_MC_Z_THETA);
    fChain->SetBranchAddress("MC_Z_MASS", MC_Z_MASS, &b_MC_Z_MASS);
    fChain->SetBranchAddress("MC_Z_PDGID", MC_Z_PDGID, &b_MC_Z_PDGID);
+*/
    fChain->SetBranchAddress("MC_GENJET_PT", MC_GENJET_PT, &b_MC_GENJET_PT);
    fChain->SetBranchAddress("MC_GENJET_ETA", MC_GENJET_ETA, &b_MC_GENJET_ETA);
    fChain->SetBranchAddress("MC_GENJET_PHI", MC_GENJET_PHI, &b_MC_GENJET_PHI);
@@ -1077,6 +1092,8 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECO_PFJET_CHARGE", RECO_PFJET_CHARGE, &b_RECO_PFJET_CHARGE);
    fChain->SetBranchAddress("RECO_PFJET_ET", RECO_PFJET_ET, &b_RECO_PFJET_ET);
    fChain->SetBranchAddress("RECO_PFJET_PT", RECO_PFJET_PT, &b_RECO_PFJET_PT);
+   fChain->SetBranchAddress("RECO_PFJET_PT_UP", RECO_PFJET_PT_UP, &b_RECO_PFJET_PT_UP);
+   fChain->SetBranchAddress("RECO_PFJET_PT_DOW", RECO_PFJET_PT_DOW, &b_RECO_PFJET_PT_DOW);
    fChain->SetBranchAddress("RECO_PFJET_ETA", RECO_PFJET_ETA, &b_RECO_PFJET_ETA);
    fChain->SetBranchAddress("RECO_PFJET_PHI", RECO_PFJET_PHI, &b_RECO_PFJET_PHI);
    fChain->SetBranchAddress("RECO_PFJET_PUID", RECO_PFJET_PUID, &b_RECO_PFJET_PUID);

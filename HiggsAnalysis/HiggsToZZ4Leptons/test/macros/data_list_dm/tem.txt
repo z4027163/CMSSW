@@ -1,2 +1,2 @@
-/eos/uscms/store/user/wangz/ZZTo4L_13TeV-amcatnloFXFX-pythia8/ZZTo4L_13TeV-amcatnloFXFX-pythia8_noMuCal_v1/180111_224325/ZZTo4L.root output_ZZTo4L_amcatnloFXFX_de.root
-/eos/uscms/store/user/wangz/TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8/TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8_noMuCal_v1/180219_184923/0123.root output_TTZToLLNuNu_amcatnlo_de.root
+/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon-Run2016F-03Feb2017-noMuCal-dm-part1/171204_215043/012.root output_DoubleMuon_4l_F_012.root
+/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon-Run2016F-03Feb2017-noMuCal-dm-part1/171204_215043/3456.root output_DoubleMuon_4l_F_3456.root

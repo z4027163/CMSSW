@@ -68,6 +68,14 @@
 <use   name="pythia6"/>
 <use   name="boost"/>
 <use   name="HiggsAnalysis/HiggsToZZ4Leptons"/>
+<use   name="JetMETCorrections/Algorithms"/>
+<use   name="JetMETCorrections/Objects"/>
+<use   name="JetMETCorrections/Modules"/>
+<use   name="PhysicsTools/UtilAlgos"/>
+<use   name="CondCore/PluginSystem"/>
+<use   name="CondFormats/DataRecord"/>
+<use   name="CondFormats/JetMETObjects"/>
+<use   name="CondCore/DBOutputService"/>
 <library   file="*.cc" name="HiggsAnalysisHiggsToZZ4LeptonsPlugins">
   <flags   EDM_PLUGIN="1"/>
 </library>

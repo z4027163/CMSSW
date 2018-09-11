@@ -219,7 +219,8 @@ secFiles = cms.untracked.vstring()
 readFiles = cms.untracked.vstring(
 #'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DoubleMuon/RunII2016/data_H2.root'
 #'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DoubleEG/RunII2016/data_B.root'
-'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/SingleMuon/SingleMuon_2016_data.root'
+#'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/SingleMuon/SingleMuon_2016_data.root'
+'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/JetHT/RunII2016/c.root'
   )
 
 process.source = cms.Source ("PoolSource",fileNames = readFiles, secondaryFileNames = secFiles)

@@ -80,11 +80,11 @@ process.hTozzTo4leptonsHLTInfo.TriggerResultsTag = cms.InputTag("TriggerResults"
 process.hTozzTo4leptonsCommonRootTreePresel.use2011EA = cms.untracked.bool(False)
 process.hTozzTo4leptonsCommonRootTreePresel.triggerEvent  = cms.InputTag("hltTriggerSummaryAOD","","HLT")
 process.hTozzTo4leptonsCommonRootTreePresel.fillPUinfo = True
-process.hTozzTo4leptonsCommonRootTreePresel.fillHLTinfo = cms.untracked.bool(False)                                           
 process.hTozzTo4leptonsCommonRootTreePresel.triggerFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f10QL3Filtered20Q')
 process.hTozzTo4leptonsCommonRootTreePresel.triggerEleFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f10QL3Filtered20Q')
   #process.hTozzTo4leptonsCommonRootTreePresel.triggerFilterAsym = cms.vstring('hltDiMuonL3PreFiltered8','hltDiMuonL3p5PreFiltered8')
-process.hTozzTo4leptonsCommonRootTreePresel.fillMCTruth  = cms.untracked.bool(True)    
+process.hTozzTo4leptonsCommonRootTreePresel.fillMCTruth  = cms.untracked.bool(True)  
+process.hTozzTo4leptonsCommonRootTreePresel.fillLHEinfo  = cms.untracked.bool(True)  
 process.hTozzTo4leptonsCommonRootTreePresel.isVBF  = cms.bool(False)
 
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
@@ -111,6 +111,8 @@ process.genanalysis= cms.Sequence(
 
 process.load('PhysicsTools/PatAlgos/producersLayer1/jetUpdater_cff')
 process.jecSequence = cms.Sequence( process.updatedPatJetCorrFactors * process.updatedPatJets)
+#process.jecSequence = cms.Sequence(process.patJetCorrFactorsUpdatedJEC * process.updatedPatJetsUpdatedJEC)
+
 
 ## Following lines are for default MET for Type1 corrections.
 from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
@@ -148,7 +150,7 @@ process.schedule = cms.Schedule( process.Path_BunchSpacingproducer,
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(500) )
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
 readFiles = cms.untracked.vstring(
@@ -157,9 +159,12 @@ readFiles = cms.untracked.vstring(
 #'root://cmsxrootd.fnal.gov///store/user/wangz/MinBias/Higgs_hzz_13TeV_mini_Summer16_v1/171121_214250/0000/step3_1.root'
 #'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DY_mini.root'
 #'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ttz_mini.root'
-'file:/eos/uscms/store/user/wangz/mc/RunIISpring16MiniAODv1/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/TT.root'
+#'file:/eos/uscms/store/user/wangz/mc/RunIISpring16MiniAODv1/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/TT.root'
+'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/DY_mini.root'
+#'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/QCD_Pt_120to170_TuneCUETP8M1_13TeV_pythia8/QCD_Pt_120to170.root'
+#'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/GluGluToContinToZZTo4e_13TeV_DefaultShower_MCFM701_pythia8/GGZZ.root'
+#'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/WJets.root'
 #'root://cmsxrootd.fnal.gov///store/user/wangz/MinBias/Higgs_hzz_13TeV_mini_Summer16_v1/171121_214250/0000/step3_1.root'
-#'file:/eos/uscms/store/user/wangz/data/Spring16/TT_mini1.root'
 #'root://cms-xrd-global.cern.ch//store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/110000/00E54BE4-21E5-E611-BD4D-0025905A60B6.root'
   )
 

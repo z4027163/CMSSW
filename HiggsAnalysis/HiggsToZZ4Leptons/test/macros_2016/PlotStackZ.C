@@ -540,9 +540,15 @@ void PlotStackZ::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("hMZ1_7")<10){
-    hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,80000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",60,60.,120.,500,0.1,1000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 1000, 0.8, 1.2);// mZ1 
   }
+
+  if (histlabel.find("hYZ1_7")<10){
+    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,0.1,1000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.5, 1.5);// mZ1 
+  }
+
 
   if (histlabel.find("Mbb_6")<10){
     hframe= new TH2F("hframe","hframe",80,20.,400.,500,0,5000.);// mZ1 

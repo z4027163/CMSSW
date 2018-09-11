@@ -343,6 +343,7 @@ from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsPFJetSelector_cfi import *
 from JetMETCorrections.Configuration.CorrectedJetProducersDefault_cff import *
 from JetMETCorrections.Configuration.CorrectedJetProducers_cff import *
 from JetMETCorrections.Configuration.CorrectedJetProducersAllAlgos_cff import *
+from JetMETCorrections.Configuration.JetCorrectors_cff import *
 
 ak4PFJetsCorrection   = cms.EDProducer('CorrectedPFJetProducer',
     src         = cms.InputTag('hTozzTo4leptonsPFJetSelector'),    

@@ -1,1 +1,9 @@
-/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_dm_noMuCal_v4/180131_004310/sig.root output_sig.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_350/180808_091829/sig_350.root output_sig_350.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_450/180808_092212/sig_450.root output_sig_450.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_500/180826_171741/sig_500.root output_sig_500.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_550/180826_170900/sig_550.root output_sig_550.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_600/180826_165700/sig_600.root output_sig_600.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_650/180826_161641/sig_650.root output_sig_650.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_700/180826_161333/sig_700.root output_sig_700.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_750/180826_160825/sig_750.root output_sig_750.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_800/180826_160458/sig_800.root output_sig_800.root

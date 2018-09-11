@@ -1,0 +1,29 @@
+imax 3
+jmax *
+kmax *
+---------------
+shapes * * sig/450/BDT_4l2b.root $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC
+---------------
+bin mub  eb  emub
+observation 0 0 0
+------------------------------
+bin             mub        mub        eb       eb         emub      emub
+process         signal     background signal   background signal    background
+process         0          1          0         1         0           1
+rate            1.96112    3.84037    0.869086  1.64935   2.31045     3.69578
+#350            1.7165     3.765      0.753     1.529     2.082       3.591
+#400            1.87947    3.82909    0.757609  1.54008   2.12506     3.84957
+#400            1.87947    3.829      0.752     1.602     2.125      3.84957
+#450            1.96112    3.84037    0.869086  1.64935   2.31045     3.69578
+#500            2.0153     3.7559     0.9306    1.569     2.428       3.774
+#550            2.088      3.906      0.9593    1.787     2.560       3.677
+#600            2.109      3.653      1.011     1.656     2.603       3.631
+#650            2.061      3.786      1.016     1.726     2.655       3.482
+#700            2.080      3.897      1.018     1.565     2.705       3.386
+#750            2.129      3.939      1.036     1.610     2.645       3.731
+#800            2.075      3.842      1.040     1.576     2.645       3.654
+--------------------------------
+lumi     lnN    1.03       1.03       1.03      1.03      1.03        1.03
+alpha  shapeN2    -           1       -         1         -           1     uncertainty on background shape and normalization
+sigma  shapeN2    1         -         1         -         1           -     uncertainty on signal resolution. Assume the histogram is a 2 sigma shift, 
+#                                so divide the unit gaussian by 2 before doing the interpolation

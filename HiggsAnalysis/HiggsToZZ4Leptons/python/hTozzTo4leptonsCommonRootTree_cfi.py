@@ -13,6 +13,8 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
       
     # Generator
     Generator  = cms.InputTag("generator"),                                           
+    lheEventProduct = cms.InputTag("externalLHEProducer"),
+#    lheEventProduct = cms.InputTag("source"),
 
     # HLT
     fillHLTinfo  = cms.untracked.bool(False),
@@ -20,14 +22,18 @@ hTozzTo4leptonsCommonRootTree = cms.EDAnalyzer("HZZ4LeptonsCommonRootTree",
     HLTAnalysisinst = cms.string('hTozzTo4leptonsHLTAnalysis'),
     flagHLTnames=cms.VInputTag(cms.InputTag("flagHLTIsoMu11"), cms.InputTag("flagHLTMu15"),cms.InputTag("flagHLTDoubleMu3"),cms.InputTag("flagHLTIsoEle15L1I"),cms.InputTag("flagHLTIsoEle18L1R"),cms.InputTag("flagHLTDoubleIsoEle10L1I"), cms.InputTag("flagHLTDoubleIsoEle12L1R"), cms.InputTag("flagHLTaccept")),
 
+    fillLHEinfo  = cms.untracked.bool(False),
+    filljec  = cms.untracked.bool(True),
     # Trigger matching                                           
     triggerEvent  = cms.InputTag("hltTriggerSummaryAOD","","HLT"),
     triggerobjects = cms.InputTag("selectedPatTrigger"),
 
     triggerbits = cms.InputTag("TriggerResults","","HLT"),
     prescales = cms.InputTag("patTrigger"),
+    prescalesl1min = cms.InputTag("patTrigger","l1min"),
+    prescalesl1max = cms.InputTag("patTrigger","l1max"),
 
-    HLTFilter=cms.vstring("HLT_IsoMu24_v","HLT_IsoTkMu24_v","HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v","HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v","HLT_Ele25_eta2p1_WPTight_Gsf_v","HLT_Ele27_WPTight_Gsf_v","HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"),
+    HLTFilter=cms.vstring("HLT_IsoMu24_v","HLT_IsoTkMu24_v","HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v","HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v","HLT_Ele25_eta2p1_WPTight_Gsf_v","HLT_Ele27_WPTight_Gsf_v","HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v","HLT_PFJet40_v","HLT_PFJet60_v","HLT_PFJet80_v","HLT_PFJet140_v","HLT_PFJet200_v","HLT_PFJet260_v","HLT_PFJet320_v"),
     triggerFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40Q'),
     triggerMatchObject   =  cms.InputTag("muonTriggerMatchHLT"),
     triggerEleFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40Q'),                                               

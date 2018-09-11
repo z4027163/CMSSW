@@ -24,6 +24,7 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 #include "SimGeneral/HepPDTRecord/interface/ParticleDataTable.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 
 // Data format
 #include "DataFormats/Common/interface/Handle.h" 
@@ -41,6 +42,10 @@
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "DataFormats/BeamSpot/interface/BeamSpot.h"
 #include "DataFormats/JetReco/interface/PFJet.h"
+#include "JetMETCorrections/JetCorrector/interface/JetCorrector.h"
+#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
+#include "JetMETCorrections/Objects/interface/JetCorrectionsRecord.h"
+#include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
 #include "DataFormats/METReco/interface/CaloMETCollection.h"
 #include "DataFormats/METReco/interface/GenMET.h"
 #include "DataFormats/METReco/interface/GenMETFwd.h"
@@ -175,19 +180,24 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
     // Generator
     generator_                = consumes<GenEventInfoProduct>(pset.getParameter<edm::InputTag>("Generator"));
-
+    lheEventProductToken_     = consumes<LHEEventProduct>(pset.getParameter<edm::InputTag>("lheEventProduct"));
     // Get HLT flags
     fillHLTinfo               = pset.getUntrackedParameter<bool>("fillHLTinfo");
     HLTInfoFired              = pset.getParameter<edm::InputTag>("HLTInfoFired");
     HLTAnalysisinst           = pset.getParameter<string>("HLTAnalysisinst");
     flagHLTnames              = pset.getParameter<vtag>("flagHLTnames");
     HLTFilter_                 = pset.getParameter<std::vector<std::string>>("HLTFilter");
+    fillLHEinfo               = pset.getUntrackedParameter<bool>("fillLHEinfo");
+    filljec               = pset.getUntrackedParameter<bool>("filljec");
+
     // Get HLT matching
 //AOD    triggerEvent              = consumes<trigger::TriggerEvent >(pset.getParameter<edm::InputTag>("triggerEvent"));
     triggerObjects_              = consumes<pat::TriggerObjectStandAloneCollection>(pset.getParameter<edm::InputTag>("triggerobjects"));
 
     triggerBits_              = consumes<edm::TriggerResults>(pset.getParameter<edm::InputTag>("triggerbits"));
     triggerPrescales_         = consumes<pat::PackedTriggerPrescales>(pset.getParameter<edm::InputTag>("prescales"));
+    triggerPrescalesL1min_         = consumes<pat::PackedTriggerPrescales>(pset.getParameter<edm::InputTag>("prescalesl1min"));
+    triggerPrescalesL1max_         = consumes<pat::PackedTriggerPrescales>(pset.getParameter<edm::InputTag>("prescalesl1max"));
    
     triggerFilter             = pset.getParameter<std::string>("triggerFilter");
     triggerMatchObject        = consumes<edm::Association<std::vector<pat::TriggerObjectStandAlone> > >(pset.getParameter<edm::InputTag>("triggerMatchObject"));
@@ -503,7 +513,8 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("num_PU_vertices",&num_PU_vertices,"num_PU_vertices/I");
     Tree_->Branch("PU_BunchCrossing",&PU_BunchCrossing,"PU_BunchCrossing/I");
     Tree_->Branch("MC_weighting",&MC_weighting,"MC_weighting/F");
-
+    Tree_->Branch("MC_weighting_un",&MC_weighting_un,"MC_weighting_un[9]/F");
+    Tree_->Branch("PDF_weighting_un",&PDF_weighting_un,"PDF_weighting_un/F");    
     // HLT 
     Tree_->Branch("RECO_nMuHLTMatch",&RECO_nMuHLTMatch,"RECO_nMuHLTMatch/I");
     Tree_->Branch("RECOMU_PT_MuHLTMatch",RECOMU_PT_MuHLTMatch,"RECOMU_PT_MuHLTMatch[100]/F");
@@ -516,6 +527,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("sm_trig",&sm_trig,"sm_trig/b");
     Tree_->Branch("de_trig",&de_trig,"de_trig/b");
     Tree_->Branch("se_trig",&se_trig,"se_trig/b");
+    Tree_->Branch("jet_trig",&jet_trig,"jet_trig/I");
 
     Tree_->Branch("RECO_nEleHLTMatch",&RECO_nEleHLTMatch,"RECO_nEleHLTMatch/I");
     Tree_->Branch("RECOELE_PT_EleHLTMatch",RECOELE_PT_EleHLTMatch,"RECOELE_PT_EleHLTMatch[100]/F");
@@ -523,6 +535,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOELE_PHI_EleHLTMatch",RECOELE_PHI_EleHLTMatch,"RECOELE_PHI_EleHLTMatch[100]/F");
     Tree_->Branch("RECOELE_se_MuHLTMatch",RECOELE_se_EleHLTMatch,"RECOELE_se_EleHLTMatch[100]/b");
     Tree_->Branch("RECOELE_de_MuHLTMatch",RECOELE_de_EleHLTMatch,"RECOELE_de_EleHLTMatch[100]/I");
+    Tree_->Branch("RECOJET_JetHLTMatch",RECOJET_JetHLTMatch,"RECOJET_JetHLTMatch[100]/I");
 
     Tree_->Branch("HLTPathsFired",HLTPathsFired,"HLTPathsFired/C");
 
@@ -659,13 +672,10 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
      // GD vertex
     Tree_->Branch("RECOELE_SIP_GD",RECOELE_SIP_GD,"RECOELE_SIP_GD[100]/F"); //2e2mu
-    Tree_->Branch("RECOELE_SIP_GDEEEE",RECOELE_SIP_GDEEEE,"RECOELE_SIP_GDEEEE[100]/F");  //4e
     // Std vertex
     Tree_->Branch("RECOELE_SIP_Std",RECOELE_SIP_Std,"RECOELE_SIP_Std[100]/F"); //2e2mu
-    Tree_->Branch("RECOELE_SIP_StdEEEE",RECOELE_SIP_StdEEEE,"RECOELE_SIP_StdEEEE[100]/F");  //4e
     // Kin vertex
     Tree_->Branch("RECOELE_SIP_Kin",RECOELE_SIP_Kin,"RECOELE_SIP_Kin[100]/F"); //2e2mu
-    Tree_->Branch("RECOELE_SIP_KinEEEE",RECOELE_SIP_KinEEEE,"RECOELE_SIP_KinEEEE[100]/F");  //4e
 
 
     Tree_->Branch("RECOELE_STIP",RECOELE_STIP,"RECOELE_STIP[100]/F"); 
@@ -749,17 +759,14 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOMU_IP_KF",RECOMU_IP_KF,"RECOMU_IP_KF[100]/F"); 
     Tree_->Branch("RECOMU_IPERROR_KF",RECOMU_IPERROR_KF,"RECOMU_IPERROR_KF[100]/F"); 
 
-    // GD vertex
+/*    // GD vertex
     Tree_->Branch("RECOMU_SIP_GD",RECOMU_SIP_GD,"RECOMU_SIP_GD[100]/F"); //2e2mu
-    Tree_->Branch("RECOMU_SIP_GDMMMM",RECOMU_SIP_GDMMMM,"RECOMU_SIP_GDMMMM[100]/F");  //4mu
     // Std vertex
     Tree_->Branch("RECOMU_SIP_Std",RECOMU_SIP_Std,"RECOMU_SIP_Std[100]/F"); //2e2mu
-    Tree_->Branch("RECOMU_SIP_StdMMMM",RECOMU_SIP_StdMMMM,"RECOMU_SIP_StdMMMM[100]/F");  //4mu
     // Kin vertex
     Tree_->Branch("RECOMU_SIP_Kin",RECOMU_SIP_Kin,"RECOMU_SIP_Kin[100]/F"); //2e2mu
-    Tree_->Branch("RECOMU_SIP_KinMMMM",RECOMU_SIP_KinMMMM,"RECOMU_SIP_KinMMMM[100]/F");  //4mu
 
-
+*/
 
     Tree_->Branch("RECOMU_STIP",RECOMU_STIP,"RECOMU_STIP[100]/F"); 
     Tree_->Branch("RECOMU_SLIP",RECOMU_SLIP,"RECOMU_SLIP[100]/F"); 
@@ -1051,6 +1058,8 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch( "RECO_PFJET_CHARGE",  RECO_PFJET_CHARGE,  "RECO_PFJET_CHARGE[200]/I");
     Tree_->Branch( "RECO_PFJET_ET",  RECO_PFJET_ET,  "RECO_PFJET_ET[200]/F");
     Tree_->Branch( "RECO_PFJET_PT",  RECO_PFJET_PT,  "RECO_PFJET_PT[200]/F");
+    Tree_->Branch( "RECO_PFJET_PT_UP",  RECO_PFJET_PT_UP,  "RECO_PFJET_PT_UP[200]/F");
+    Tree_->Branch( "RECO_PFJET_PT_DOW",  RECO_PFJET_PT_DOW,  "RECO_PFJET_PT_DOW[200]/F");
     Tree_->Branch( "RECO_PFJET_ETA", RECO_PFJET_ETA, "RECO_PFJET_ETA[200]/F");
     Tree_->Branch( "RECO_PFJET_PHI", RECO_PFJET_PHI, "RECO_PFJET_PHI[200]/F");
     Tree_->Branch( "RECO_PFJET_PUID", RECO_PFJET_PUID, "RECO_PFJET_PUID[200]/I");
@@ -1235,7 +1244,9 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     for (int ijets=0;ijets<200;ijets++) {
       RECO_PFJET_CHARGE[ijets]   = -999.; 
       RECO_PFJET_ET[ijets]   = -999.; 
-      RECO_PFJET_PT[ijets]  = -999.; 
+      RECO_PFJET_PT[ijets]  = -999.;
+      RECO_PFJET_PT_UP[ijets] = -999.;
+      RECO_PFJET_PT_DOW[ijets]= -999; 
       RECO_PFJET_ETA[ijets] = -999.; 
       RECO_PFJET_PHI[ijets] = -999.;
       RECO_PFJET_PUID[ijets] = -999;
@@ -1509,7 +1520,8 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     sm_trig=false;
     de_trig=false;
     se_trig=false;
-    
+    jet_trig=0;   
+ 
     for (int i=0; i<100;i++){
       RECOELE_E[i]     = -999.;
       RECOELE_PT[i]=-999.;
@@ -1657,6 +1669,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       RECOMU_dm_MuHLTMatch[i]=-999;
       RECOELE_se_EleHLTMatch[i]=false;
       RECOELE_de_EleHLTMatch[i]=-999;
+      RECOJET_JetHLTMatch[i]=0;   
 
       RECOMU_isPFMu[i]=false;
       RECOMU_isGlobalMu[i]=false;
@@ -1890,9 +1903,16 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
     // get the weight                                                                                                                                                     
     MC_weighting=0.;
+    for(int j=0; j<9; j++) MC_weighting_un[j]=0;
+    PDF_weighting_un=0;
     float EventWeight = 1.0;
     edm::Handle<GenEventInfoProduct> gen_ev_info;
     iEvent.getByToken(generator_, gen_ev_info);
+
+
+    edm::Handle<LHEEventProduct> lheInfo;
+    iEvent.getByToken(lheEventProductToken_, lheInfo);
+
     if(!gen_ev_info.isValid()) return;
     EventWeight = gen_ev_info->weight();
     std::cout<<"mc_weight = "<< gen_ev_info->weight() <<std::endl;
@@ -1901,7 +1921,44 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
    // ( EventWeight > 0 ) ? 1 : -1;
     //std::cout<<"mc_weight = "<< mc_weight <<std::endl;                                                                                                                  
     MC_weighting=mc_weight;
+    if(fillLHEinfo){
+      double nomlheweight;
+      if (lheInfo.isValid()) nomlheweight = lheInfo->weights()[0].wgt;
+      if (lheInfo.isValid()) {
+        for (size_t i=0; i<9; ++i) {
+            MC_weighting_un[i]=lheInfo->weights()[i].wgt/nomlheweight;
+         }
 
+      //pdf weight
+
+      double NNPDF3wgtAvg = 0.0;
+
+      double NNPDF3wgtRMS = 0.0;
+      double NNPDF3wgt = 0.0;
+      double NNPDF3wgt_frac = 0.0;
+      double centralWgt=nomlheweight;
+
+      unsigned int PDFstart = 9;
+      unsigned int PDFend = 109;
+
+      for (unsigned int i_lhePDF = PDFstart; i_lhePDF < PDFend; ++i_lhePDF){
+         NNPDF3wgt = lheInfo->weights()[i_lhePDF].wgt;
+         NNPDF3wgt_frac = NNPDF3wgt/(centralWgt);
+         NNPDF3wgtAvg += NNPDF3wgt_frac;
+      }
+
+      NNPDF3wgtAvg = NNPDF3wgtAvg/(PDFend - PDFstart);
+      for (unsigned int i_lhePDF = PDFstart; i_lhePDF < PDFend; ++i_lhePDF){
+         NNPDF3wgt = lheInfo->weights()[i_lhePDF].wgt;
+         NNPDF3wgt_frac = NNPDF3wgt/(centralWgt);
+         NNPDF3wgtRMS += (NNPDF3wgt_frac - NNPDF3wgtAvg)*(NNPDF3wgt_frac - NNPDF3wgtAvg);
+      }
+
+      NNPDF3wgtRMS = sqrt(NNPDF3wgtRMS/(PDFend - PDFstart - 1));
+      PDF_weighting_un = NNPDF3wgtRMS;
+      cout << "pdf_un=" <<PDF_weighting_un << endl; 
+     } 
+    } 
   }
 
 
@@ -1934,10 +1991,12 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 //AOD    edm::Handle<trigger::TriggerEvent> handleTriggerEvent;
     edm::Handle<edm::TriggerResults> triggerBits;
     edm::Handle<pat::TriggerObjectStandAloneCollection> triggerObjects;
-    edm::Handle<pat::PackedTriggerPrescales> triggerPrescales;
+    edm::Handle<pat::PackedTriggerPrescales> triggerPrescales,triggerPrescalesl1min,triggerPrescalesl1max;
     iEvent.getByToken(triggerObjects_, triggerObjects );
     iEvent.getByToken(triggerBits_, triggerBits);
     iEvent.getByToken(triggerPrescales_, triggerPrescales);
+    iEvent.getByToken(triggerPrescalesL1min_, triggerPrescalesl1min);
+    iEvent.getByToken(triggerPrescalesL1max_, triggerPrescalesl1max);
 //    const trigger::TriggerObjectCollection & toc(handleTriggerEvent->getObjects());
     size_t nMuHLT =0, nEleHLT=0;
 
@@ -1947,16 +2006,20 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
     std::vector<pat::TriggerObjectStandAlone>  HLTMuMatched_sm, HLTMuMatched_dm,HLTEleMatched_se,HLTEleMatched_de,HLTMu17,HLTMu8,HLTEleLeg1,HLTEleLeg2;
     std::vector<string> HLTMuMatchedNames_sm,HLTMuMatchedNames_dm,HLTEleMatchedNames_se,HLTEleMatchedNames_de;
+    std::vector<pat::TriggerObjectStandAlone> HLTJetMatched_40, HLTJetMatched_60, HLTJetMatched_80, HLTJetMatched_140, HLTJetMatched_200, HLTJetMatched_260, HLTJetMatched_320;
 /*  
     std::cout << "\n == TRIGGER PATHS= " << std::endl;
     for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i) {
         std::cout << "Trigger " << names.triggerName(i) <<
                 ", prescale " << triggerPrescales->getPrescaleForIndex(i) <<
-                ": " << (triggerBits->accept(i) ? "PASS" : "fail (or not run)")
+                ": " << (triggerBits->accept(i) ? "PASS" : "fail (or not run)") << "\n" 
+                << triggerPrescalesl1min->getPrescaleForIndex(i) <<"l1min " 
+                << triggerPrescalesl1max->getPrescaleForIndex(i) <<"l1max "
                 << std::endl;
     }
- */
+*/ 
 //MiniAOD
+
     for (pat::TriggerObjectStandAlone obj : *triggerObjects) {
        obj.unpackPathNames(names);
 
@@ -1968,6 +2031,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
         bool mu8_pass = false;
         bool ele_leg1 = false;
         bool ele_leg2 = false;
+        int jet_pass =0;
         for (unsigned h = 0; h < obj.filterLabels().size(); ++h){
              TString flt = obj.filterLabels()[h].c_str();
              if(flt=="hltL3fL1sDoubleMu114L1f0L2f10OneMuL3Filtered17"
@@ -1976,6 +2040,14 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
               ||(flt=="hltL3pfL1sDoubleMu114ORDoubleMu125L1f0L2pf0L3PreFiltered8")) mu8_pass=true;
              if(flt=="hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter") ele_leg1=true;
              if(flt=="hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter") ele_leg2=true;
+             if(flt=="hltSinglePFJet40"&& jet_pass<1) {jet_pass=1;}
+             if(flt=="hltSinglePFJet60"&& jet_pass<2) {jet_pass=2;}
+             if(flt=="hltSinglePFJet80"&& jet_pass<3) {jet_pass=3;}
+             if(flt=="hltSinglePFJet140"&& jet_pass<4) {jet_pass=4;}
+             if(flt=="hltSinglePFJet200"&& jet_pass<5) {jet_pass=5;}
+             if(flt=="hltSinglePFJet260"&& jet_pass<6) {jet_pass=6;}
+             if(flt=="hltSinglePFJet320"&& jet_pass<7) {jet_pass=7;}       
+
         }
  
         std::vector<string> pathNamesAll = obj.pathNames(false);
@@ -2006,6 +2078,14 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
             if(HLTFilter_[h2]=="HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"||HLTFilter_[h2]=="HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v") hlt_pass_dm=true;
             if(HLTFilter_[h2]=="HLT_Ele25_eta2p1_WPTight_Gsf_v"||HLTFilter_[h2]=="HLT_Ele27_WPTight_Gsf_v") hlt_pass_se=true;
             if(HLTFilter_[h2]=="HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v") hlt_pass_de=true;
+            if(HLTFilter_[h2]=="HLT_PFJet40_v") jet_trig=1;
+            if(HLTFilter_[h2]=="HLT_PFJet60_v") jet_trig=2;
+            if(HLTFilter_[h2]=="HLT_PFJet80_v") jet_trig=3;
+            if(HLTFilter_[h2]=="HLT_PFJet140_v") jet_trig=4;
+            if(HLTFilter_[h2]=="HLT_PFJet200_v") jet_trig=5;
+            if(HLTFilter_[h2]=="HLT_PFJet260_v") jet_trig=6;
+            if(HLTFilter_[h2]=="HLT_PFJet320_v") jet_trig=7;
+            
             cout << "Matching " << HLTFilter_[h2].c_str()  << endl;
            }
            }
@@ -2020,6 +2100,15 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
        if(ele_leg2)      HLTEleLeg2.push_back(obj);
        if(hlt_pass_sm||hlt_pass_dm) nMuHLT++;
        if(hlt_pass_se||hlt_pass_de) nEleHLT++;
+
+       if(jet_pass==7) HLTJetMatched_320.push_back(obj);
+       if(jet_pass==6) HLTJetMatched_260.push_back(obj);
+       if(jet_pass==5) HLTJetMatched_200.push_back(obj);
+       if(jet_pass==4) HLTJetMatched_140.push_back(obj);
+       if(jet_pass==3) HLTJetMatched_80.push_back(obj);
+       if(jet_pass==2) HLTJetMatched_60.push_back(obj);
+       if(jet_pass==1) HLTJetMatched_40.push_back(obj);
+
       }
     
 
@@ -2117,6 +2206,37 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
     RECO_nEleHLTMatch = nEleHLTMatch; 
 
+    edm::Handle<pat::JetCollection> pfjets;
+    iEvent.getByToken(jetsTag_, pfjets);
+
+    for (pat::JetCollection::const_iterator iCand = pfjets->begin(); iCand != pfjets->end(); ++iCand){
+
+      unsigned int i=iCand-pfjets->begin();
+
+      if (IsJetMatchedToHLTJet(*iCand,  HLTJetMatched_320 ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOJET_JetHLTMatch[i]=7;
+      }
+      else if (IsJetMatchedToHLTJet(*iCand,  HLTJetMatched_260 ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOJET_JetHLTMatch[i]=6;
+      }
+      else if (IsJetMatchedToHLTJet(*iCand,  HLTJetMatched_200 ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOJET_JetHLTMatch[i]=5;
+      }
+      else if (IsJetMatchedToHLTJet(*iCand,  HLTJetMatched_140 ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOJET_JetHLTMatch[i]=4;
+      }
+      else if (IsJetMatchedToHLTJet(*iCand,  HLTJetMatched_80 ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOJET_JetHLTMatch[i]=3;
+      }
+      else if (IsJetMatchedToHLTJet(*iCand,  HLTJetMatched_60 ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOJET_JetHLTMatch[i]=2;
+      }
+      else if (IsJetMatchedToHLTJet(*iCand,  HLTJetMatched_40 ,  maxDeltaR_, maxDPtRel_)==true){
+            RECOJET_JetHLTMatch[i]=1;
+      }
+    }
+
+
   }
 
   bool IsMuMatchedToHLTMu ( const pat::Muon &mu, std::vector<pat::TriggerObjectStandAlone> HLTMu , double DR, double DPtRel ) {
@@ -2142,6 +2262,19 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       if (  (deltaR(HLTEle[k], ele) < DR)   && (fabs(HLTEle[k].pt() - ele.pt())/ HLTEle[k].pt()<DPtRel)){ 
 	cout << "HLT ele filter is= " << " Delta R= " << deltaR(HLTEle[k], ele) << " Delta pT= " << fabs(HLTEle[k].pt() - ele.pt())/ HLTEle[k].pt() << endl;
 	nPass++ ;
+      }
+    }
+    return (nPass>0);
+  }
+
+  bool IsJetMatchedToHLTJet ( const pat::Jet &jet, std::vector<pat::TriggerObjectStandAlone> HLTJet , double DR, double DPtRel ) {
+    size_t dim =  HLTJet.size();
+    size_t nPass=0;
+    if (dim==0) return false;
+    for (size_t k =0; k< dim; k++ ) {
+      //cout << "HLT ele filter is= " << HLTEleNames[k].c_str() << " Delta R= " << deltaR(HLTEle[k], ele) << " Delta pT= " << fabs(HLTEle[k].pt() - ele.pt())/ HLTEle[k].pt() << endl;
+      if (  (deltaR(HLTJet[k], jet) < DR)   && (fabs(HLTJet[k].pt() - jet.pt())/ HLTJet[k].pt()<DPtRel)){
+        nPass++ ;
       }
     }
     return (nPass>0);
@@ -4836,8 +4969,16 @@ void fillTracks(const edm::Event& iEvent){
 */
   
   		      
-  void filljets(const edm::Event& iEvent){
+  void filljets(const edm::Event& iEvent,const edm::EventSetup& iSetup){
     edm::Handle<pat::JetCollection> pfjets,pfjetsmva;
+
+    JetCorrectionUncertainty *jecUnc = NULL;
+    if(filljec){   
+    edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
+    iSetup.get<JetCorrectionsRecord>().get("AK4PFchs",JetCorParColl); 
+    JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
+    jecUnc = new JetCorrectionUncertainty(JetCorPar);
+    }
 
    iEvent.getByToken(jetsTag_, pfjets);
    iEvent.getByToken(jetsMVATag_, pfjetsmva);
@@ -4922,7 +5063,20 @@ void fillTracks(const edm::Event& iEvent){
       RECO_PFJET_PHI[index_jets]    = i->phi();
       RECO_PFJET_PUID[index_jets]     = pupass;
       RECO_PFJET_PUID_MVA[index_jets] = mva;
-      
+  
+      double unc=0;
+      if(filljec){     
+      jecUnc->setJetEta(i->eta());
+      jecUnc->setJetPt(i->pt());
+ 
+      unc = jecUnc->getUncertainty(true);
+      }
+      double pt_up = i->pt()*(1+unc);
+      double pt_dow = i->pt()*(1-unc);
+
+      RECO_PFJET_PT_UP[index_jets]=pt_up;
+      RECO_PFJET_PT_DOW[index_jets]=pt_dow;
+
       cout 
 	<< "PF Jet with ET= " << RECO_PFJET_ET[index_jets]   
 	<< " PT="   << RECO_PFJET_PT[index_jets]   
@@ -5007,6 +5161,9 @@ void fillTracks(const edm::Event& iEvent){
       if (fillMCTruth==true){
              if(abs(btagIter->partonFlavour())==5) RECOBOT_MatchingMCTruth[l]= 1;
              if(abs(btagIter->partonFlavour())==4) RECOBOT_MatchingMCTruth[l]= 2;
+             if(abs(btagIter->partonFlavour())==0) RECOBOT_MatchingMCTruth[l]= 3;
+//             if((abs(btagIter->partonFlavour())>=1&&abs(btagIter->partonFlavour())<=3)||abs(btagIter->partonFlavour())==21) RECOBOT_MatchingMCTruth[l] = 4;
+             if(abs(btagIter->partonFlavour())!=5&&abs(btagIter->partonFlavour())!=4&&abs(btagIter->partonFlavour())!=0) RECOBOT_MatchingMCTruth[l] = 5;
      }
     }
 
@@ -5057,8 +5214,9 @@ void fillTracks(const edm::Event& iEvent){
   edm::EDGetTokenT<std::vector<PileupSummaryInfo> > PileupSrc_;     
 
   // MC weight
-  float MC_weighting;
+  float MC_weighting,MC_weighting_un[9],PDF_weighting_un;
   edm::EDGetTokenT<GenEventInfoProduct> generator_;
+  edm::EDGetTokenT<LHEEventProduct> lheEventProductToken_;
 
   // HLT
   bool fillHLTinfo;
@@ -5067,11 +5225,13 @@ void fillTracks(const edm::Event& iEvent){
   std::vector<edm::InputTag> flagHLTnames; 
   std::vector<std::string> HLTFilter_;
 
+  bool fillLHEinfo;
+  bool filljec;
   edm::EDGetTokenT<trigger::TriggerEvent> triggerEvent;     
 
   edm::EDGetTokenT<edm::TriggerResults> triggerBits_;
   edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> triggerObjects_;
-  edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_;
+  edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_,triggerPrescalesL1min_,triggerPrescalesL1max_;
 
   edm::InputTag triggerMatchObjectEle;
   edm::EDGetTokenT<edm::Association<std::vector<pat::TriggerObjectStandAlone> > > triggerMatchObject;
@@ -5118,6 +5278,7 @@ void fillTracks(const edm::Event& iEvent){
   edm::EDGetTokenT<edm::View<pat::Muon> > muonPFTag_;
   edm::EDGetTokenT<edm::View<pat::Electron> > electronEgmTag_;
   edm::EDGetTokenT<edm::View<pat::Muon> > muonTag_;
+
 
   edm::EDGetTokenT<edm::ValueMap<float> > muonCorrPtErrorMapTag_;
     
@@ -5280,10 +5441,10 @@ void fillTracks(const edm::Event& iEvent){
   float RECOMU_PT_MuHLTMatch[100],RECOMU_ETA_MuHLTMatch[100],RECOMU_PHI_MuHLTMatch[100];
   float RECOELE_PT_EleHLTMatch[100],RECOELE_ETA_EleHLTMatch[100],RECOELE_PHI_EleHLTMatch[100];
   bool RECOMU_sm_MuHLTMatch[100],RECOELE_se_EleHLTMatch[100];
-  int RECOMU_dm_MuHLTMatch[100],RECOELE_de_EleHLTMatch[100];
+  int RECOMU_dm_MuHLTMatch[100],RECOELE_de_EleHLTMatch[100],RECOJET_JetHLTMatch[100];
   char HLTPathsFired[20000];
   bool dm_trig, sm_trig, de_trig, se_trig;
- 
+  int jet_trig; 
 
   // MC info
   edm::ESHandle<ParticleDataTable>  pdt_;
@@ -5526,6 +5687,7 @@ void fillTracks(const edm::Event& iEvent){
   int RECO_PFJET_N, RECO_PFJET_CHARGE[200],RECO_PFJET_PUID[200];
   int RECO_PFJET_nconstituents[200],RECO_PFJET_NCH[200];
   float RECO_PFJET_ET[200], RECO_PFJET_PT[200], RECO_PFJET_ETA[200], RECO_PFJET_PHI[200],RECO_PFJET_PUID_MVA[200];
+  float RECO_PFJET_PT_UP[200], RECO_PFJET_PT_DOW[200];
   float RECO_PFJET_NHF[200],RECO_PFJET_NEF[200],RECO_PFJET_CHF[200],RECO_PFJET_CEF[200];
   double RHO,RHO_ele,RHO_mu;
 

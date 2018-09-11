@@ -1,0 +1,35 @@
+# Simple counting experiment, with one signal and a few background processes 
+# Simplified version of the 35/pb H->WW analysis for mH = 160 GeV
+imax 3  number of channels
+jmax 1  number of backgrounds
+kmax 2  number of nuisance parameters (sources of systematical uncertainties)
+------------
+# we have just one channel, in which we observe 0 events
+bin bin1 bin2 bin3
+observation 3 1 1
+------------
+# now we list the expected events for signal and all backgrounds in that bin
+# the second 'process' line must have a positive number for backgrounds, and 0 for signal
+# then we list the independent sources of uncertainties, and give their effect (syst. error)
+# on each process and bin
+bin             bin1 bin1 bin2 bin2 bin3 bin3
+process         sig   ZZ  sig  ZZ  sig  ZZ
+process          0     1   0    1    0   1 
+rate            1.672 3.22 0.738 1.293 2.029 3.01 
+#450 1.932 3.22 0.857 1.293 2.271 3.01 
+#350BDT 1.545 1.88 0.678 0.765 1.872 1.80
+#400BDT 1.69 1.92 0.682 0.77 1.91 1.925
+#450BDT 1.765 1.92 0.782 0.824 2.079 1.848
+#1.932 3.22 0.857 1.293 2.271 3.01
+#sig350 1.672 3.22 0.738 1.293 2.029 3.01
+#sig400 1.85 3.22 0.752 1.293 2.10 3.01
+#sig500 1.98 3.22 0.913 1.345 2.39 3.01
+#sig550 2.05 3.22 0.945 1.345 2.52 3.01 
+#sig600 2.07 3.22 0.995 1.345 2.55 3.01
+#sig650 2.03 3.22 1.00  1.345 2.60 3.01
+#sig700 2.03 3.22 0.982 1.345 2.65 3.01
+#sig750 2.07 3.22 1.02  1.345 2.58 3.01
+#sig800 2.00 3.22 1.00  1.345 2.56 3.01
+------------
+lumi    lnN    1.03  1.03  1.03  1.03  1.03  1.03   lumi affects both signal and gg->WW (mc-driven). lnN = lognormal
+xs_ZZ   lnN      -   1.15    -   1.15    -   1.15  gg->H cross section + signal efficiency + other minor ones.

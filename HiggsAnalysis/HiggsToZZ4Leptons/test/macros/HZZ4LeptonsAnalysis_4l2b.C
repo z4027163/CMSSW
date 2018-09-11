@@ -46,13 +46,48 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
    if (fChain == 0) return;
 
+   TString pufile, puhist,ele_leg1,ele_leg2,id_sf,iso_sf,mu17_leg,mu8_leg,mu_track;
+   string btagcal;
+   string era="BF";
+   bool botsf=false;
+
+   if(era=="BF"){
+     pufile="pileup_BCDEF.root";
+     puhist="pileup_scale_BCDEF";
+     ele_leg1="Leg1_BF_EGM2D.root";
+     ele_leg2="Leg2_BF_EGM2D.root";
+     id_sf="IDSF_BCDEF.root";
+     iso_sf="ISOSF_BCDEF.root";
+     mu17_leg="Mu17Leg_SF_BF.root";
+     mu8_leg="Mu8Leg_SF_BF.root";
+     mu_track="track_BCDEF.root";
+     btagcal="CSVv2_Moriond17_B_F.csv";
+   }
+   if(era=="GH"){
+     pufile="pileup_GH.root";
+     puhist="pileup_scale";
+     ele_leg1="Leg1_GH_EGM2D.root";
+     ele_leg2="Leg2_GH_EGM2D.root";
+     id_sf="IDSF_GH.root";
+     iso_sf="ISOSF_GH.root";
+     mu17_leg="Mu17Leg_SF_GH.root";
+     mu8_leg="Mu8Leg_SF_GH.root";
+     mu_track="track_GH.root";
+     btagcal="CSVv2_Moriond17_G_H.csv";
+   }
+
+   TString puhist_up,puhist_dow;
+   puhist_up ="pileup_scale_up";
+   puhist_dow="pileup_scale_down";
+
    RoccoR  rc("/uscms/home/zwang4/nobackup/WORKSPCACE/ntuple/CMSSW_8_0_24/src/HiggsAnalysis/HiggsToZZ4Leptons/test/macros/roccor/rcdata.2016.v3"); 
 
 // setup calibration + reader
-   BTagCalibration calib("CSVv2", "btag/CSVv2_Moriond17_B_F.csv");
-   BTagCalibrationReader reader(BTagEntry::OP_MEDIUM,"central",{"up","down"});      // other sys types
+   BTagCalibration calib("CSVv2", "btag/"+btagcal);
+   BTagCalibrationReader reader(BTagEntry::OP_LOOSE,"central",{"up","down"});      // other sys types
    reader.load(calib,BTagEntry::FLAV_B,"comb");  
    reader.load(calib,BTagEntry::FLAV_C,"comb");
+   reader.load(calib,BTagEntry::FLAV_UDSG,"incl");
 
    // Declare MEM class
    MEMs combinedMEM(13,125,"CTEQ6L");     
@@ -72,12 +107,13 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    sprintf(bnnOUT,"%s_bnn.txt",datasetName.Data());
    sprintf(eventsOUT,"%s_bnn.root",datasetName.Data());
 
-   
    // Pileup reweighting in 80x
    TFile *_filePU;
-   _filePU= TFile::Open("pileup/pileup_BCDEF.root");
-   TH1D *puweight = (TH1D*)_filePU->Get("pileup_scale_BCDEF");
+   _filePU= TFile::Open("pileup/"+pufile);
+   TH1D *puweight = (TH1D*)_filePU->Get(puhist);
 
+   TH1D *puweight_up = (TH1D*)_filePU->Get(puhist_up);
+   TH1D *puweight_dow = (TH1D*)_filePU->Get(puhist_dow);
    /////////////Lepton Efficiency Scale Factrons/////////////
    // Load histograms
    //
@@ -86,74 +122,46 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TFile *ele_scale_factors_v4 = new TFile("SF_ELE/egammaEffi_WP90_EGM2D.root");
    TH2F *ele_scale_factors_wp90 = (TH2F*)gDirectory->Get("EGamma_SF2D");
 
-   TFile *ele_scale_factors_v1 = new TFile("SF_ELE/Leg1_BF_EGM2D.root");
+   TFile *ele_scale_factors_v1 = new TFile("SF_ELE/"+ele_leg1);
    TH2F *ele_scale_factors_leg1 = (TH2F*)gDirectory->Get("EGamma_SF2D");
 
-   TFile *ele_scale_factors_v2 = new TFile("SF_ELE/Leg2_BF_EGM2D.root");
+   TFile *ele_scale_factors_v2 = new TFile("SF_ELE/"+ele_leg2);
    TH2F *ele_scale_factors_leg2 = (TH2F*)gDirectory->Get("EGamma_SF2D");
 
 
-  TFile *mu_scale_factors1_p2 = new TFile("SF_GH/IDSF_GH.root");
-  TH2F *mu_scale_factors_id_p2 = (TH2F*)gDirectory->Get("MC_NUM_LooseID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio");
-
-//  TFile *mu_scale_factors1_p2 = new TFile("SF_GH/IDSF_GH.root");
-//  TH2F *mu_scale_factors_id_p2 = (TH2F*)gDirectory->Get("MC_NUM_MediumID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio");
-
-  TFile *mu_scale_factors2_p2 = new TFile("SF_GH/ISOSF_GH.root");
-  TH2F *mu_scale_factors_iso_p2 = (TH2F*)gDirectory->Get("LooseISO_LooseID_pt_eta/abseta_pt_ratio");
-
-//  TFile *mu_scale_factors2_p2 = new TFile("SF_GH/ISOSF_GH.root");
-//  TH2F *mu_scale_factors_iso_p2 = (TH2F*)gDirectory->Get("LooseISO_MediumID_pt_eta/abseta_pt_ratio");
-  
-  TFile *mu_scale_factors3_p2 = new TFile("SF_GH/dm2/Mu8Leg_SF_GH.root");
+  TFile *mu_scale_factors3_p2 = new TFile("SF_GH/dm2/"+mu8_leg);
   TH2F *mu_scale_factors_hlt_p2 = (TH2F*)gDirectory->Get("abseta_pt_PLOT");
 
-  TFile *mu_scale_factors1_p1 = new TFile("SF_GH/IDSF_BCDEF.root");
+  TFile *mu_scale_factors1_p1 = new TFile("SF_GH/"+id_sf);
   TH2F *mu_scale_factors_id_p1 = (TH2F*)gDirectory->Get("MC_NUM_LooseID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio");
 
-//  TFile *mu_scale_factors1_p1 = new TFile("SF_GH/IDSF_BCDEF.root");
-//  TH2F *mu_scale_factors_id_p1 = (TH2F*)gDirectory->Get("MC_NUM_MediumID2016_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio");
-
-  TFile *mu_scale_factors2_p1 = new TFile("SF_GH/ISOSF_BCDEF.root");
+  TFile *mu_scale_factors2_p1 = new TFile("SF_GH/"+iso_sf);
   TH2F *mu_scale_factors_iso_p1 = (TH2F*)gDirectory->Get("LooseISO_LooseID_pt_eta/abseta_pt_ratio");
 
-  TFile *mu_scale_factors3_p1 = new TFile("SF_GH/dm2/Mu17Leg_SF_GH.root");
+  TFile *mu_scale_factors3_p1 = new TFile("SF_GH/dm2/"+mu17_leg);
   TH2F *mu_scale_factors_hlt_p1 = (TH2F*)gDirectory->Get("abseta_pt_PLOT");
 
-  TFile *mu_scale_factors4 = new TFile("SF_GH/track_GH.root"); //just for GH
+  TFile *mu_scale_factors4 = new TFile("SF_GH/"+mu_track); //just for GH
   TGraph *mu_scale_factors_tk = (TGraph*)gDirectory->Get("ratio_eff_eta3_dr030e030_corr");
 
+  TFile *b_scale_factors3_p1 = new TFile("btag/mc_4l_eff.root");
+  TH1F *b_eff_p1 = (TH1F*)gDirectory->Get("hPtBot_8_b");
+  TH1F *b_eff_p2 = (TH1F*)gDirectory->Get("hPtBot_8_c");
+  TH1F *b_eff_p4 = (TH1F*)gDirectory->Get("hPtBot_8_o");
+
+  TFile *b_scale_factors3_p3 = new TFile("btag/QCD_all.root");
+  TH1F *b_eff_p3 = (TH1F*)gDirectory->Get("hPtBot_8_l");
+
+  TFile *b_scale_factors3_p4 = new TFile("btag/l_jet_sf.root");
+  TH1F *b_eff_zz_p5 = (TH1F*)gDirectory->Get("hPtBot_8_l_zz");
    
-   // kfactor_ggZZ(float GENmassZZ, int finalState)     
-   TString strSystTitle[9] ={
-     "Nominal",
-     "PDFScaleDn",
-     "PDFScaleUp",
-     "QCDScaleDn",
-     "QCDScaleUp",
-     "AsDn",
-     "AsUp",
-     "PDFReplicaDn",
-     "PDFReplicaUp"
-   };
-
-   TFile* fin = TFile::Open("Kfactor_Collected_ggHZZ_2l2l_NNLO_NNPDF_NarrowWidth_13TeV.root");
-   // Open the files
-   TSpline3* ggZZ_kf[9]={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-   for(int f=0;f<9;f++){
-     ggZZ_kf[f] = (TSpline3*)fin->Get(Form("sp_kfactor_%s", strSystTitle[f].Data()));
-   }   
-   fin->Close();
-
    // Book root file (for output):
    TFile * theFile = new TFile(output,"RECREATE");
 
-   //TString Vars("Weight:Run:Event:LumiSection:massZ1:massZ2:mass4l:Iso_max:Sip_max:MELA:FSR");
-   //TNtuple * thePlots=new TNtuple("Candidates","Candidates",Vars);
-
     // Clone tree for Z1
-   //TTree *z1tree = fChain->CloneTree(0);
-   
+   double eta_jer[10]={0.0,0.522,0.783,1.131,1.305,1.740,1.930,2.043,2.322,2.5};
+   double un_jer[9]={0.0645,0.0652,0.0632,0.1025,0.0986,0.1079,0.1214,0.1140,0.2371};
+   double scale_jer[9]={1.1595,1.1948,1.1464,1.1609,1.1278,1.1000,1.1426,1.1512,1.2963};
 
    double DELTAPHI( double , double ) ; //call the function  
    double invmass (float M1, float PT1, float ETA1, float PHI1, float M2, float PT2, float ETA2, float PHI2 );
@@ -268,48 +276,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1F *hPUvertices_ReWeighted  = new TH1F("hPUvertices_ReWeighted", "hPUvertices_ReWeighted",70,0.,70.);  
 
    //step 3
-   TH1F * hMZ_3 = new TH1F("hMZ_3", "Mass of Z after selection step 3", 200 , -0.5 , 199.5 );
-   hMZ_3->SetXTitle("mass_Z  (GeV)");
-   TH1F * hPtZ_3 = new TH1F("hPtZ_3", "Pt of Z after selection step 3", 200 , -0.5 , 199.5 );
-   hPtZ_3->SetXTitle("pt_Z  (GeV)");
-   TH1F * hYZ_3 = new TH1F("hYZ_3", "Y of Z after selection step 3", 500 , -5. , 5.);
-   hYZ_3->SetXTitle("Y_Z");
-   
-   TH1F * hPtLep_3 = new TH1F("hPtLep_3", "Pt of Lep after selection step 3", 200 , -0.5 , 199.5 );
-   hPtLep_3->SetXTitle("pt_Lep1  (GeV)");
-   TH1F * hYLep_3 = new TH1F("hEtaLep_3", "Y of Lep after selection step 3", 500 , -5. , 5. );
-   hYLep_3->SetXTitle("Y of Lep2");
-   TH1F * hIsoLep_3 = new TH1F("hIsoLep_3", "Isolation of Lep after selection step 3", 2000 , -10., 10.);
-   hIsoLep_3->SetXTitle("Iso");
-   TH1F * hSipLep_3 = new TH1F("hSipLep_3", "Sip of Lep after selection step 3",  1000 , -20. , 40. );
-   hSipLep_3->SetXTitle("Sip");
-   TH1F * hIpLep_3 = new TH1F("hIpLep_3", "Ip of Lep after selection step 3",  1000 , -20. , 40. );
-   hIpLep_3->SetXTitle("Ip");
-   TH1F * hIpErLep_3 = new TH1F("hIpErLep_3", "IpEr of Lep after selection step 3",  1000 , 0. , 10. );
-   hIpErLep_3->SetXTitle("IpEr");
-
-   TH1F * hIso_3 = new TH1F("hIso_3", "Isolation maxima after selection step 3", 2000 , -10. , 10. );
-   hIso_3->SetXTitle("Iso");
-   TH1F * hSip_3 = new TH1F("hSip_3", "Sip maxima after selection step 3",  1000 , -20. , 40. );
-   hSip_3->SetXTitle("Sip");
-   TH1F * hIp_3 = new TH1F("hIp_3", "Ip maxima after selection step 3",  1000 , -20. , 40. );
-   hIp_3->SetXTitle("Ip");
-
-   TH1F * hDjj_3 = new TH1F("hDjj_3", "Delta jets vbf selection step 1", 200, -19.5, 19.5 );
-   hDjj_3->SetXTitle("Delta jets");
-   TH1F * hMjj_3 = new TH1F("hMjj_3", "Mass jets vbf selection step 1", 200, -0.5, 499.5 );
-   hMjj_3->SetXTitle("Mass jets");
-   TH1F * hVD_3 = new TH1F("hVD_3", "Discriminant vbf selection step 1", 200, -0.5, 9.5 );
-   hMjj_3->SetXTitle("Discriminant");
-   
-   TH1F * hPFMET_3 = new TH1F("hPFMET_3", "PF MET after selection step 3", 1000 , 0., 1000.);
-   hPFMET_3->SetXTitle("PF MET");
-    
-
-   //step 5
-   TH1F * hM4l_5 = new TH1F("hM4l_5", "Mass of four leptons after selection step 5", 1200, 4.5,1204.5 );
-   hM4l_5->SetXTitle("4 lepton mass  (GeV)");
-
 
    TH1F * hMZ1_5 = new TH1F("hMZ1_5", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
    hMZ1_5->SetXTitle("mass_Z1  (GeV)");
@@ -318,12 +284,157 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1F * hYZ1_5 = new TH1F("hYZ1_5", "Y of Z1 after selection step 5", 500 , -5. , 5.);
    hYZ1_5->SetXTitle("Y_Z1");
 
+   TH1F * hMZ1_5_pdf_up = new TH1F("hMZ1_5_pdf_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_5_pdf_up = new TH1F("hPtZ1_5_pdf_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_5_pdf_up = new TH1F("hYZ1_5_pdf_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_5_pdf_dow = new TH1F("hMZ1_5_pdf_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_5_pdf_dow = new TH1F("hPtZ1_5_pdf_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_5_pdf_dow = new TH1F("hYZ1_5_pdf_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_5_pu_up = new TH1F("hMZ1_5_pu_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_5_pu_up = new TH1F("hPtZ1_5_pu_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_5_pu_up = new TH1F("hYZ1_5_pu_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_5_pu_dow = new TH1F("hMZ1_5_pu_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_5_pu_dow = new TH1F("hPtZ1_5_pu_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_5_pu_dow = new TH1F("hYZ1_5_pu_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_5_mc_1 = new TH1F("hMZ1_5_mc_1", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_5_mc_1->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_5_mc_1 = new TH1F("hPtZ1_5_mc_1", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_5_mc_1->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_5_mc_1 = new TH1F("hYZ1_5_mc_1", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_5_mc_1->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_5_mc_2 = new TH1F("hMZ1_5_mc_2", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_5_mc_2->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_5_mc_2 = new TH1F("hPtZ1_5_mc_2", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_5_mc_2->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_5_mc_2 = new TH1F("hYZ1_5_mc_2", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_5_mc_2->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_5_mc_3 = new TH1F("hMZ1_5_mc_3", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_5_mc_3->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_5_mc_3 = new TH1F("hPtZ1_5_mc_3", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_5_mc_3->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_5_mc_3 = new TH1F("hYZ1_5_mc_3", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_5_mc_3->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_5_mc_4 = new TH1F("hMZ1_5_mc_4", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_5_mc_4->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_5_mc_4 = new TH1F("hPtZ1_5_mc_4", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_5_mc_4->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_5_mc_4 = new TH1F("hYZ1_5_mc_4", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_5_mc_4->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_5_mc_5 = new TH1F("hMZ1_5_mc_5", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_5_mc_5->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_5_mc_5 = new TH1F("hPtZ1_5_mc_5", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_5_mc_5->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_5_mc_5 = new TH1F("hYZ1_5_mc_5", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_5_mc_5->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_5_mc_6 = new TH1F("hMZ1_5_mc_6", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_5_mc_6->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_5_mc_6 = new TH1F("hPtZ1_5_mc_6", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_5_mc_6->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_5_mc_6 = new TH1F("hYZ1_5_mc_6", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_5_mc_6->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_5_mc_7 = new TH1F("hMZ1_5_mc_7", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_5_mc_7->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_5_mc_7 = new TH1F("hPtZ1_5_mc_7", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_5_mc_7->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_5_mc_7 = new TH1F("hYZ1_5_mc_7", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_5_mc_7->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_5_mc_8 = new TH1F("hMZ1_5_mc_8", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_5_mc_8->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_5_mc_8 = new TH1F("hPtZ1_5_mc_8", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_5_mc_8->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_5_mc_8 = new TH1F("hYZ1_5_mc_8", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_5_mc_8->SetXTitle("Y_Z1");
+
    TH1F * hMZ2_5 = new TH1F("hMZ2_5", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
    hMZ2_5->SetXTitle("mass_Z2  (GeV)");
    TH1F * hPtZ2_5 = new TH1F("hPtZ2_5", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
    hPtZ2_5->SetXTitle("pt_Z2  (GeV)");
    TH1F * hYZ2_5 = new TH1F("hYZ2_5", "Y of Z2 after selection step 5", 500 , -5. , 5. );
    hYZ2_5->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_5_pdf_up = new TH1F("hMZ2_5_pdf_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_5_pdf_up = new TH1F("hPtZ2_5_pdf_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_5_pdf_up = new TH1F("hYZ2_5_pdf_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_5_pdf_dow = new TH1F("hMZ2_5_pdf_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_5_pdf_dow = new TH1F("hPtZ2_5_pdf_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_5_pdf_dow = new TH1F("hYZ2_5_pdf_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_5_pu_up = new TH1F("hMZ2_5_pu_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_5_pu_up = new TH1F("hPtZ2_5_pu_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_5_pu_up = new TH1F("hYZ2_5_pu_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_5_pu_dow = new TH1F("hMZ2_5_pu_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_5_pu_dow = new TH1F("hPtZ2_5_pu_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_5_pu_dow = new TH1F("hYZ2_5_pu_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_5_mc_1 = new TH1F("hMZ2_5_mc_1", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_5_mc_1->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_5_mc_1 = new TH1F("hPtZ2_5_mc_1", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_5_mc_1->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_5_mc_1 = new TH1F("hYZ2_5_mc_1", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_5_mc_1->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_5_mc_2 = new TH1F("hMZ2_5_mc_2", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_5_mc_2->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_5_mc_2 = new TH1F("hPtZ2_5_mc_2", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_5_mc_2->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_5_mc_2 = new TH1F("hYZ2_5_mc_2", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_5_mc_2->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_5_mc_3 = new TH1F("hMZ2_5_mc_3", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_5_mc_3->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_5_mc_3 = new TH1F("hPtZ2_5_mc_3", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_5_mc_3->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_5_mc_3 = new TH1F("hYZ2_5_mc_3", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_5_mc_3->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_5_mc_4 = new TH1F("hMZ2_5_mc_4", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_5_mc_4->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_5_mc_4 = new TH1F("hPtZ2_5_mc_4", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_5_mc_4->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_5_mc_4 = new TH1F("hYZ2_5_mc_4", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_5_mc_4->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_5_mc_5 = new TH1F("hMZ2_5_mc_5", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_5_mc_5->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_5_mc_5 = new TH1F("hPtZ2_5_mc_5", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_5_mc_5->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_5_mc_5 = new TH1F("hYZ2_5_mc_5", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_5_mc_5->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_5_mc_6 = new TH1F("hMZ2_5_mc_6", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_5_mc_6->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_5_mc_6 = new TH1F("hPtZ2_5_mc_6", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_5_mc_6->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_5_mc_6 = new TH1F("hYZ2_5_mc_6", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_5_mc_6->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_5_mc_7 = new TH1F("hMZ2_5_mc_7", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_5_mc_7->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_5_mc_7 = new TH1F("hPtZ2_5_mc_7", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_5_mc_7->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_5_mc_7 = new TH1F("hYZ2_5_mc_7", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_5_mc_7->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_5_mc_8 = new TH1F("hMZ2_5_mc_8", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_5_mc_8->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_5_mc_8 = new TH1F("hPtZ2_5_mc_8", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_5_mc_8->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_5_mc_8 = new TH1F("hYZ2_5_mc_8", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_5_mc_8->SetXTitle("Y_Z2");
+
 
    TH1F * hPtLep1_5 = new TH1F("hPtLep1_5", "Pt of Lep1 after selection step 5", 200 , -0.5 , 199.5 );
    hPtLep1_5->SetXTitle("pt_Lep1  (GeV)");
@@ -398,17 +509,160 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1F * hYZ1_6 = new TH1F("hYZ1_6", "Y of Z1 after Z1 selection", 500 , -5. , 5.);
    hYZ1_6->SetXTitle("Y_Z1");
 
+   TH1F * hMZ1_6_pdf_up = new TH1F("hMZ1_6_pdf_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_6_pdf_up = new TH1F("hPtZ1_6_pdf_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_6_pdf_up = new TH1F("hYZ1_6_pdf_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_6_pdf_dow = new TH1F("hMZ1_6_pdf_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_6_pdf_dow = new TH1F("hPtZ1_6_pdf_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_6_pdf_dow = new TH1F("hYZ1_6_pdf_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_6_pu_up = new TH1F("hMZ1_6_pu_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_6_pu_up = new TH1F("hPtZ1_6_pu_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_6_pu_up = new TH1F("hYZ1_6_pu_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_6_pu_dow = new TH1F("hMZ1_6_pu_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_6_pu_dow = new TH1F("hPtZ1_6_pu_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_6_pu_dow = new TH1F("hYZ1_6_pu_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_6_mc_1 = new TH1F("hMZ1_6_mc_1", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_6_mc_1->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_6_mc_1 = new TH1F("hPtZ1_6_mc_1", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_6_mc_1->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_6_mc_1 = new TH1F("hYZ1_6_mc_1", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_6_mc_1->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_6_mc_2 = new TH1F("hMZ1_6_mc_2", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_6_mc_2->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_6_mc_2 = new TH1F("hPtZ1_6_mc_2", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_6_mc_2->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_6_mc_2 = new TH1F("hYZ1_6_mc_2", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_6_mc_2->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_6_mc_3 = new TH1F("hMZ1_6_mc_3", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_6_mc_3->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_6_mc_3 = new TH1F("hPtZ1_6_mc_3", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_6_mc_3->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_6_mc_3 = new TH1F("hYZ1_6_mc_3", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_6_mc_3->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_6_mc_4 = new TH1F("hMZ1_6_mc_4", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_6_mc_4->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_6_mc_4 = new TH1F("hPtZ1_6_mc_4", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_6_mc_4->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_6_mc_4 = new TH1F("hYZ1_6_mc_4", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_6_mc_4->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_6_mc_5 = new TH1F("hMZ1_6_mc_5", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_6_mc_5->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_6_mc_5 = new TH1F("hPtZ1_6_mc_5", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_6_mc_5->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_6_mc_5 = new TH1F("hYZ1_6_mc_5", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_6_mc_5->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_6_mc_6 = new TH1F("hMZ1_6_mc_6", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_6_mc_6->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_6_mc_6 = new TH1F("hPtZ1_6_mc_6", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_6_mc_6->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_6_mc_6 = new TH1F("hYZ1_6_mc_6", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_6_mc_6->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_6_mc_7 = new TH1F("hMZ1_6_mc_7", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_6_mc_7->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_6_mc_7 = new TH1F("hPtZ1_6_mc_7", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_6_mc_7->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_6_mc_7 = new TH1F("hYZ1_6_mc_7", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_6_mc_7->SetXTitle("Y_Z1");
+
+
+   TH1F * hMZ1_6_mc_8 = new TH1F("hMZ1_6_mc_8", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_6_mc_8->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_6_mc_8 = new TH1F("hPtZ1_6_mc_8", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_6_mc_8->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_6_mc_8 = new TH1F("hYZ1_6_mc_8", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_6_mc_8->SetXTitle("Y_Z1");
+
+
    TH1F * hMZ2_6 = new TH1F("hMZ2_6", "Mass of Z2 after jj selection", 200 , -0.5 , 199.5 );
    hMZ2_6->SetXTitle("mass_Z2  (GeV)");
    TH1F * hPtZ2_6 = new TH1F("hPtZ2_6", "Pt of Z2 after jj selection", 200 , -0.5 , 199.5 );
    hPtZ2_6->SetXTitle("pt_Z2  (GeV)");
    TH1F * hYZ2_6 = new TH1F("hYZ2_6", "Y of Z2 after jj selection", 500 , -5. , 5.);
    hYZ2_6->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_6_pdf_up = new TH1F("hMZ2_6_pdf_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_6_pdf_up = new TH1F("hPtZ2_6_pdf_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_6_pdf_up = new TH1F("hYZ2_6_pdf_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_6_pdf_dow = new TH1F("hMZ2_6_pdf_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_6_pdf_dow = new TH1F("hPtZ2_6_pdf_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_6_pdf_dow = new TH1F("hYZ2_6_pdf_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_6_pu_up = new TH1F("hMZ2_6_pu_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_6_pu_up = new TH1F("hPtZ2_6_pu_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_6_pu_up = new TH1F("hYZ2_6_pu_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_6_pu_dow = new TH1F("hMZ2_6_pu_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_6_pu_dow = new TH1F("hPtZ2_6_pu_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_6_pu_dow = new TH1F("hYZ2_6_pu_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
  
+   TH1F * hMZ2_6_mc_1 = new TH1F("hMZ2_6_mc_1", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_6_mc_1->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_6_mc_1 = new TH1F("hPtZ2_6_mc_1", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_6_mc_1->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_6_mc_1 = new TH1F("hYZ2_6_mc_1", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_6_mc_1->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_6_mc_2 = new TH1F("hMZ2_6_mc_2", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_6_mc_2->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_6_mc_2 = new TH1F("hPtZ2_6_mc_2", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_6_mc_2->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_6_mc_2 = new TH1F("hYZ2_6_mc_2", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_6_mc_2->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_6_mc_3 = new TH1F("hMZ2_6_mc_3", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_6_mc_3->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_6_mc_3 = new TH1F("hPtZ2_6_mc_3", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_6_mc_3->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_6_mc_3 = new TH1F("hYZ2_6_mc_3", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_6_mc_3->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_6_mc_4 = new TH1F("hMZ2_6_mc_4", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_6_mc_4->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_6_mc_4 = new TH1F("hPtZ2_6_mc_4", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_6_mc_4->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_6_mc_4 = new TH1F("hYZ2_6_mc_4", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_6_mc_4->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_6_mc_5 = new TH1F("hMZ2_6_mc_5", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_6_mc_5->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_6_mc_5 = new TH1F("hPtZ2_6_mc_5", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_6_mc_5->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_6_mc_5 = new TH1F("hYZ2_6_mc_5", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_6_mc_5->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_6_mc_6 = new TH1F("hMZ2_6_mc_6", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_6_mc_6->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_6_mc_6 = new TH1F("hPtZ2_6_mc_6", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_6_mc_6->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_6_mc_6 = new TH1F("hYZ2_6_mc_6", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_6_mc_6->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_6_mc_7 = new TH1F("hMZ2_6_mc_7", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_6_mc_7->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_6_mc_7 = new TH1F("hPtZ2_6_mc_7", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_6_mc_7->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_6_mc_7 = new TH1F("hYZ2_6_mc_7", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_6_mc_7->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_6_mc_8 = new TH1F("hMZ2_6_mc_8", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_6_mc_8->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_6_mc_8 = new TH1F("hPtZ2_6_mc_8", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_6_mc_8->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_6_mc_8 = new TH1F("hYZ2_6_mc_8", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_6_mc_8->SetXTitle("Y_Z2");
 
    //step 7
-   TH1F * hM4l_7 = new TH1F("hM4l_7", "Mass of four leptons after selection step 7", 1200, 4.5,1204.5 );
-   hM4l_7->SetXTitle("4 lepton mass  (GeV)");
 
    TH1F * hMZ1_7 = new TH1F("hMZ1_7", "Mass of Z1 after selection step 7", 200 , -0.5 , 199.5);
    hMZ1_7->SetXTitle("mass_Z1  (GeV)");
@@ -417,12 +671,157 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1F * hYZ1_7 = new TH1F("hYZ1_7", "Y of Z1 after selection step 7", 500 , -5. , 5.);
    hYZ1_7->SetXTitle("Y_Z1");
 
+   TH1F * hMZ1_7_pdf_up = new TH1F("hMZ1_7_pdf_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_7_pdf_up = new TH1F("hPtZ1_7_pdf_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_7_pdf_up = new TH1F("hYZ1_7_pdf_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_7_pdf_dow = new TH1F("hMZ1_7_pdf_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_7_pdf_dow = new TH1F("hPtZ1_7_pdf_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_7_pdf_dow = new TH1F("hYZ1_7_pdf_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_7_pu_up = new TH1F("hMZ1_7_pu_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_7_pu_up = new TH1F("hPtZ1_7_pu_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_7_pu_up = new TH1F("hYZ1_7_pu_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_7_pu_dow = new TH1F("hMZ1_7_pu_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_7_pu_dow = new TH1F("hPtZ1_7_pu_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_7_pu_dow = new TH1F("hYZ1_7_pu_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_7_mc_1 = new TH1F("hMZ1_7_mc_1", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_7_mc_1->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_7_mc_1 = new TH1F("hPtZ1_7_mc_1", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_7_mc_1->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_7_mc_1 = new TH1F("hYZ1_7_mc_1", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_7_mc_1->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_7_mc_2 = new TH1F("hMZ1_7_mc_2", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_7_mc_2->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_7_mc_2 = new TH1F("hPtZ1_7_mc_2", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_7_mc_2->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_7_mc_2 = new TH1F("hYZ1_7_mc_2", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_7_mc_2->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_7_mc_3 = new TH1F("hMZ1_7_mc_3", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_7_mc_3->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_7_mc_3 = new TH1F("hPtZ1_7_mc_3", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_7_mc_3->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_7_mc_3 = new TH1F("hYZ1_7_mc_3", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_7_mc_3->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_7_mc_4 = new TH1F("hMZ1_7_mc_4", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_7_mc_4->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_7_mc_4 = new TH1F("hPtZ1_7_mc_4", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_7_mc_4->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_7_mc_4 = new TH1F("hYZ1_7_mc_4", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_7_mc_4->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_7_mc_5 = new TH1F("hMZ1_7_mc_5", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_7_mc_5->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_7_mc_5 = new TH1F("hPtZ1_7_mc_5", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_7_mc_5->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_7_mc_5 = new TH1F("hYZ1_7_mc_5", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_7_mc_5->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_7_mc_6 = new TH1F("hMZ1_7_mc_6", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_7_mc_6->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_7_mc_6 = new TH1F("hPtZ1_7_mc_6", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_7_mc_6->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_7_mc_6 = new TH1F("hYZ1_7_mc_6", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_7_mc_6->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_7_mc_7 = new TH1F("hMZ1_7_mc_7", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_7_mc_7->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_7_mc_7 = new TH1F("hPtZ1_7_mc_7", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_7_mc_7->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_7_mc_7 = new TH1F("hYZ1_7_mc_7", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_7_mc_7->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_7_mc_8 = new TH1F("hMZ1_7_mc_8", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_7_mc_8->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_7_mc_8 = new TH1F("hPtZ1_7_mc_8", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_7_mc_8->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_7_mc_8 = new TH1F("hYZ1_7_mc_8", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_7_mc_8->SetXTitle("Y_Z1");
+
    TH1F * hMZ2_7 = new TH1F("hMZ2_7", "Mass of Z2 after selection step 7", 200 , -0.5 , 199.5);
    hMZ2_7->SetXTitle("mass_Z2  (GeV)");
    TH1F * hPtZ2_7 = new TH1F("hPtZ2_7", "Pt of Z2 after selection step 7", 200 , -0.5 , 199.5);
    hPtZ2_7->SetXTitle("pt_Z2  (GeV)");
    TH1F * hYZ2_7 = new TH1F("hYZ2_7", "Y of Z2 after selection step 7", 500 , -5. , 5.);
    hYZ2_7->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_7_pdf_up = new TH1F("hMZ2_7_pdf_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_7_pdf_up = new TH1F("hPtZ2_7_pdf_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_7_pdf_up = new TH1F("hYZ2_7_pdf_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_7_pdf_dow = new TH1F("hMZ2_7_pdf_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_7_pdf_dow = new TH1F("hPtZ2_7_pdf_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_7_pdf_dow = new TH1F("hYZ2_7_pdf_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_7_pu_up = new TH1F("hMZ2_7_pu_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_7_pu_up = new TH1F("hPtZ2_7_pu_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_7_pu_up = new TH1F("hYZ2_7_pu_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_7_pu_dow = new TH1F("hMZ2_7_pu_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_7_pu_dow = new TH1F("hPtZ2_7_pu_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_7_pu_dow = new TH1F("hYZ2_7_pu_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_7_mc_1 = new TH1F("hMZ2_7_mc_1", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_7_mc_1->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_7_mc_1 = new TH1F("hPtZ2_7_mc_1", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_7_mc_1->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_7_mc_1 = new TH1F("hYZ2_7_mc_1", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_7_mc_1->SetXTitle("Y_Z2");
+   
+   TH1F * hMZ2_7_mc_2 = new TH1F("hMZ2_7_mc_2", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_7_mc_2->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_7_mc_2 = new TH1F("hPtZ2_7_mc_2", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_7_mc_2->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_7_mc_2 = new TH1F("hYZ2_7_mc_2", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_7_mc_2->SetXTitle("Y_Z2");
+   
+   TH1F * hMZ2_7_mc_3 = new TH1F("hMZ2_7_mc_3", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_7_mc_3->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_7_mc_3 = new TH1F("hPtZ2_7_mc_3", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_7_mc_3->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_7_mc_3 = new TH1F("hYZ2_7_mc_3", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_7_mc_3->SetXTitle("Y_Z2");
+   
+   TH1F * hMZ2_7_mc_4 = new TH1F("hMZ2_7_mc_4", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_7_mc_4->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_7_mc_4 = new TH1F("hPtZ2_7_mc_4", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_7_mc_4->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_7_mc_4 = new TH1F("hYZ2_7_mc_4", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_7_mc_4->SetXTitle("Y_Z2");
+   
+   TH1F * hMZ2_7_mc_5 = new TH1F("hMZ2_7_mc_5", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_7_mc_5->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_7_mc_5 = new TH1F("hPtZ2_7_mc_5", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_7_mc_5->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_7_mc_5 = new TH1F("hYZ2_7_mc_5", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_7_mc_5->SetXTitle("Y_Z2");
+   
+   TH1F * hMZ2_7_mc_6 = new TH1F("hMZ2_7_mc_6", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_7_mc_6->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_7_mc_6 = new TH1F("hPtZ2_7_mc_6", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_7_mc_6->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_7_mc_6 = new TH1F("hYZ2_7_mc_6", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_7_mc_6->SetXTitle("Y_Z2");
+   
+   TH1F * hMZ2_7_mc_7 = new TH1F("hMZ2_7_mc_7", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_7_mc_7->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_7_mc_7 = new TH1F("hPtZ2_7_mc_7", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_7_mc_7->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_7_mc_7 = new TH1F("hYZ2_7_mc_7", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_7_mc_7->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_7_mc_8 = new TH1F("hMZ2_7_mc_8", "Mass of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_7_mc_8->SetXTitle("mass_Z2  (GeV)");
+   TH1F * hPtZ2_7_mc_8 = new TH1F("hPtZ2_7_mc_8", "Pt of Z2 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_7_mc_8->SetXTitle("pt_Z2  (GeV)");
+   TH1F * hYZ2_7_mc_8 = new TH1F("hYZ2_7_mc_8", "Y of Z2 after selection step 5", 500 , -5. , 5.);
+   hYZ2_7_mc_8->SetXTitle("Y_Z2");
+
 
    TH1F * hPtLep1_7 = new TH1F("hPtLep1_7", "Pt of Lep1 after selection step 7", 200 , -0.5 , 199.5 );
    hPtLep1_7->SetXTitle("pt_Lep1  (GeV)");
@@ -491,30 +890,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
 
    //step 8
-   TH1F * hM4l_8 = new TH1F("hM4l_8", "Mass of four leptons after selection step 8", 1200, 4.5, 1204.5 );
-   hM4l_8->SetXTitle("4 lepton mass  (GeV)");
-   TH1F * hM4l_8_100_800 = new TH1F("hM4l_8_100_800", "Mass of four leptons after selection step 8", 1200, 4.5,1204.5 );
-   hM4l_8_100_800->SetXTitle("4 lepton mass  (GeV)");
-
-
-   // correct for lineshape
-   TH1F * hM4l_8weight = new TH1F("hM4l_8weight", "Mass of four leptons after selection step 8", 1200, 4.5,1204.5 );
-   hM4l_8weight->SetXTitle("4 lepton mass  (GeV)");
-   TH1F * hM4l_8_100_800weight = new TH1F("hM4l_8_100_800weight", "Mass of four leptons after selection step 8", 1200, 4.5,1204.5 );
-   hM4l_8_100_800weight->SetXTitle("4 lepton mass  (GeV)");
-
-   // correct for lineshape
-   TH1F * hM4l_8weightP = new TH1F("hM4l_8weightP", "Mass of four leptons after selection step 8", 1200, 4.5,1204.5 );
-   hM4l_8weightP->SetXTitle("4 lepton mass  (GeV)");
-   TH1F * hM4l_8_100_800weightP = new TH1F("hM4l_8_100_800weightP", "Mass of four leptons after selection step 8", 1200, 4.5,1204.5 );
-   hM4l_8_100_800weightP->SetXTitle("4 lepton mass  (GeV)");
-
-   // correct for lineshape
-   TH1F * hM4l_8weightM = new TH1F("hM4l_8weightM", "Mass of four leptons after selection step 8", 1200, 4.5,1204.5 );
-   hM4l_8weightM->SetXTitle("4 lepton mass  (GeV)");
-   TH1F * hM4l_8_100_800weightM = new TH1F("hM4l_8_100_800weightM", "Mass of four leptons after selection step 8", 1200, 4.5,1204.5 );
-   hM4l_8_100_800weightM->SetXTitle("4 lepton mass  (GeV)");
-
    
    TH1F * hMZ1_8 = new TH1F("hMZ1_8", "Mass of Z1 after selection step 8", 200 , -0.5 , 199.5 );
    hMZ1_8->SetXTitle("mass_Z1  (GeV)");
@@ -523,12 +898,158 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1F * hYZ1_8 = new TH1F("hYZ1_8", "Y of Z1 after selection step 8", 500 , -5. , 5.);
    hYZ1_8->SetXTitle("Y_Z1");
 
+   TH1F * hMZ1_8_pdf_up = new TH1F("hMZ1_8_pdf_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_8_pdf_up = new TH1F("hPtZ1_8_pdf_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_8_pdf_up = new TH1F("hYZ1_8_pdf_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_8_pdf_dow = new TH1F("hMZ1_8_pdf_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_8_pdf_dow = new TH1F("hPtZ1_8_pdf_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_8_pdf_dow = new TH1F("hYZ1_8_pdf_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_8_pu_up = new TH1F("hMZ1_8_pu_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_8_pu_up = new TH1F("hPtZ1_8_pu_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_8_pu_up = new TH1F("hYZ1_8_pu_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_8_pu_dow = new TH1F("hMZ1_8_pu_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ1_8_pu_dow = new TH1F("hPtZ1_8_pu_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ1_8_pu_dow = new TH1F("hYZ1_8_pu_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ1_8_mc_1 = new TH1F("hMZ1_8_mc_1", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_8_mc_1->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_8_mc_1 = new TH1F("hPtZ1_8_mc_1", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_8_mc_1->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_8_mc_1 = new TH1F("hYZ1_8_mc_1", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_8_mc_1->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_8_mc_2 = new TH1F("hMZ1_8_mc_2", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_8_mc_2->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_8_mc_2 = new TH1F("hPtZ1_8_mc_2", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_8_mc_2->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_8_mc_2 = new TH1F("hYZ1_8_mc_2", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_8_mc_2->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_8_mc_3 = new TH1F("hMZ1_8_mc_3", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_8_mc_3->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_8_mc_3 = new TH1F("hPtZ1_8_mc_3", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_8_mc_3->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_8_mc_3 = new TH1F("hYZ1_8_mc_3", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_8_mc_3->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_8_mc_4 = new TH1F("hMZ1_8_mc_4", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_8_mc_4->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_8_mc_4 = new TH1F("hPtZ1_8_mc_4", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_8_mc_4->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_8_mc_4 = new TH1F("hYZ1_8_mc_4", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_8_mc_4->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_8_mc_5 = new TH1F("hMZ1_8_mc_5", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_8_mc_5->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_8_mc_5 = new TH1F("hPtZ1_8_mc_5", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_8_mc_5->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_8_mc_5 = new TH1F("hYZ1_8_mc_5", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_8_mc_5->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_8_mc_6 = new TH1F("hMZ1_8_mc_6", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_8_mc_6->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_8_mc_6 = new TH1F("hPtZ1_8_mc_6", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_8_mc_6->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_8_mc_6 = new TH1F("hYZ1_8_mc_6", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_8_mc_6->SetXTitle("Y_Z1");
+
+   TH1F * hMZ1_8_mc_7 = new TH1F("hMZ1_8_mc_7", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_8_mc_7->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_8_mc_7 = new TH1F("hPtZ1_8_mc_7", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_8_mc_7->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_8_mc_7 = new TH1F("hYZ1_8_mc_7", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_8_mc_7->SetXTitle("Y_Z1");
+
+
+   TH1F * hMZ1_8_mc_8 = new TH1F("hMZ1_8_mc_8", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ1_8_mc_8->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ1_8_mc_8 = new TH1F("hPtZ1_8_mc_8", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ1_8_mc_8->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ1_8_mc_8 = new TH1F("hYZ1_8_mc_8", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ1_8_mc_8->SetXTitle("Y_Z1");
+
    TH1F * hMZ2_8 = new TH1F("hMZ2_8", "Mass of Z2 after selection step 8", 200 , -0.5 , 199.5 );
    hMZ2_8->SetXTitle("mass_Z2  (GeV)");
    TH1F * hPtZ2_8 = new TH1F("hPtZ2_8", "Pt of Z2 after selection step 8", 200 , -0.5 , 199.5 );
    hPtZ2_8->SetXTitle("pt_Z2  (GeV)");
    TH1F * hYZ2_8 = new TH1F("hYZ2_8", "Y of Z2 after selection step 8", 500 , -5. , 5. );
    hYZ2_8->SetXTitle("Y_Z2");
+
+   TH1F * hMZ2_8_pdf_up = new TH1F("hMZ2_8_pdf_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_8_pdf_up = new TH1F("hPtZ2_8_pdf_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_8_pdf_up = new TH1F("hYZ2_8_pdf_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_8_pdf_dow = new TH1F("hMZ2_8_pdf_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_8_pdf_dow = new TH1F("hPtZ2_8_pdf_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_8_pdf_dow = new TH1F("hYZ2_8_pdf_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_8_pu_up = new TH1F("hMZ2_8_pu_up", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_8_pu_up = new TH1F("hPtZ2_8_pu_up", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_8_pu_up = new TH1F("hYZ2_8_pu_up", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_8_pu_dow = new TH1F("hMZ2_8_pu_dow", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hPtZ2_8_pu_dow = new TH1F("hPtZ2_8_pu_dow", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   TH1F * hYZ2_8_pu_dow = new TH1F("hYZ2_8_pu_dow", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+
+   TH1F * hMZ2_8_mc_1 = new TH1F("hMZ2_8_mc_1", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_8_mc_1->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ2_8_mc_1 = new TH1F("hPtZ2_8_mc_1", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_8_mc_1->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ2_8_mc_1 = new TH1F("hYZ2_8_mc_1", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ2_8_mc_1->SetXTitle("Y_Z1");
+
+   TH1F * hMZ2_8_mc_2 = new TH1F("hMZ2_8_mc_2", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_8_mc_2->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ2_8_mc_2 = new TH1F("hPtZ2_8_mc_2", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_8_mc_2->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ2_8_mc_2 = new TH1F("hYZ2_8_mc_2", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ2_8_mc_2->SetXTitle("Y_Z1");
+
+   TH1F * hMZ2_8_mc_3 = new TH1F("hMZ2_8_mc_3", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_8_mc_3->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ2_8_mc_3 = new TH1F("hPtZ2_8_mc_3", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_8_mc_3->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ2_8_mc_3 = new TH1F("hYZ2_8_mc_3", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ2_8_mc_3->SetXTitle("Y_Z1");
+
+   TH1F * hMZ2_8_mc_4 = new TH1F("hMZ2_8_mc_4", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_8_mc_4->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ2_8_mc_4 = new TH1F("hPtZ2_8_mc_4", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_8_mc_4->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ2_8_mc_4 = new TH1F("hYZ2_8_mc_4", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ2_8_mc_4->SetXTitle("Y_Z1");
+
+   TH1F * hMZ2_8_mc_5 = new TH1F("hMZ2_8_mc_5", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_8_mc_5->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ2_8_mc_5 = new TH1F("hPtZ2_8_mc_5", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_8_mc_5->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ2_8_mc_5 = new TH1F("hYZ2_8_mc_5", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ2_8_mc_5->SetXTitle("Y_Z1");
+
+   TH1F * hMZ2_8_mc_6 = new TH1F("hMZ2_8_mc_6", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_8_mc_6->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ2_8_mc_6 = new TH1F("hPtZ2_8_mc_6", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_8_mc_6->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ2_8_mc_6 = new TH1F("hYZ2_8_mc_6", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ2_8_mc_6->SetXTitle("Y_Z1");
+
+   TH1F * hMZ2_8_mc_7 = new TH1F("hMZ2_8_mc_7", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_8_mc_7->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ2_8_mc_7 = new TH1F("hPtZ2_8_mc_7", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_8_mc_7->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ2_8_mc_7 = new TH1F("hYZ2_8_mc_7", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ2_8_mc_7->SetXTitle("Y_Z1");
+
+   TH1F * hMZ2_8_mc_8 = new TH1F("hMZ2_8_mc_8", "Mass of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hMZ2_8_mc_8->SetXTitle("mass_Z1  (GeV)");
+   TH1F * hPtZ2_8_mc_8 = new TH1F("hPtZ2_8_mc_8", "Pt of Z1 after selection step 5", 200 , -0.5 , 199.5 );
+   hPtZ2_8_mc_8->SetXTitle("pt_Z1  (GeV)");
+   TH1F * hYZ2_8_mc_8 = new TH1F("hYZ2_8_mc_8", "Y of Z1 after selection step 5", 500 , -5. , 5.);
+   hYZ2_8_mc_8->SetXTitle("Y_Z1");
+
 
    TH1F * hPtLep1_8 = new TH1F("hPtLep1_8", "Pt of Lep1 after selection step 8", 200 , -0.5 , 199.5 );
    hPtLep1_8->SetXTitle("pt_Lep1  (GeV)");
@@ -608,21 +1129,21 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    
    TH1F * hPFMET_8 = new TH1F("hPFMET_8", "PF MET after selection step 8", 1000 , 0., 1000.);
    hPFMET_8->SetXTitle("PF MET");
+
+   TH1F * hPFMET_8_pdf_up = new TH1F("hPFMET_8_pdf_up", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_pdf_dow = new TH1F("hPFMET_8_pdf_dow", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_pu_up = new TH1F("hPFMET_8_pu_up", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_pu_dow = new TH1F("hPFMET_8_pu_dow", "PF MET after selection step 8", 1000 , 0., 1000.);
+
+   TH1F * hPFMET_8_mc_1 = new TH1F("hPFMET_8_mc_1", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_mc_2 = new TH1F("hPFMET_8_mc_2", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_mc_3 = new TH1F("hPFMET_8_mc_3", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_mc_4 = new TH1F("hPFMET_8_mc_4", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_mc_5 = new TH1F("hPFMET_8_mc_5", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_mc_6 = new TH1F("hPFMET_8_mc_6", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_mc_7 = new TH1F("hPFMET_8_mc_7", "PF MET after selection step 8", 1000 , 0., 1000.);
+   TH1F * hPFMET_8_mc_8 = new TH1F("hPFMET_8_mc_8", "PF MET after selection step 8", 1000 , 0., 1000.);
    
-   TH1F * hM4l_T_8 = new TH1F("hM4l_T_8", "Transverse Mass of four leptons after full selection + MET", 1200, 4.5, 1204.5 );
-   hM4l_T_8->SetXTitle("m_{T} + PF MET (GeV)");
-   
-   TH1F * hDPHI_4l_8 = new TH1F("DPHI_4l_8", "polar angle between 4l and E_{T,miss}", 3150, 0., 3.15 );
-   hDPHI_4l_8->SetXTitle("#Delta#phi(4l,E_{T,miss})");
-
- TH1F * hDPHI_JET_MET_8 = new TH1F("hDPHI_JET_MET_8", "polar angle between jet and E_{T,miss}", 3150, 0., 3.15 );
-   hDPHI_JET_MET_8->SetXTitle("#Delta#phi(jet,E_{T,miss})");
-
-   TH1F * hDPHI_MAX_JET_MET_8 = new TH1F("hDPHI_MAX_JET_MET_8", "MAX polar angle between jet and E_{T,miss}", 3150, 0., 3.15 );
-   hDPHI_MAX_JET_MET_8->SetXTitle("max(#Delta#phi(jet,E_{T,miss}))");
-
-   TH1F * hDPHI_MIN_JET_MET_8 = new TH1F("hDPHI_MIN_JET_MET_8", "MIN polar angle between jet and E_{T,miss}", 3150, 0., 3.15 );
-   hDPHI_MIN_JET_MET_8->SetXTitle("min(#Delta#phi(jet,E_{T,miss}))");
 
    TH1D * hNgood_8 = new TH1D("hNgood", "Number of good leptons", 10, -0.5, 9.5);
    hNgood_8->SetXTitle("# good leptons");
@@ -630,11 +1151,42 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1D * hNbjets_8 = new TH1D("hNbjets", "Number of b jets", 10, -0.5, 9.5);
    hNbjets_8->SetXTitle("# b-jets");
 
+   TH1D * hNbjets_8_pdf_up = new TH1D("hNbjets_pdf_up", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_pdf_dow = new TH1D("hNbjets_pdf_dow", "Number of b jets", 10, -0.5, 9.5);
+
+   TH1D * hNbjets_8_pu_up = new TH1D("hNbjets_pu_up", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_pu_dow = new TH1D("hNbjets_pu_dow", "Number of b jets", 10, -0.5, 9.5);
+
+   TH1D * hNbjets_8_mc_1 = new TH1D("hNbjets_mc_1", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_mc_2 = new TH1D("hNbjets_mc_2", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_mc_3 = new TH1D("hNbjets_mc_3", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_mc_4 = new TH1D("hNbjets_mc_4", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_mc_5 = new TH1D("hNbjets_mc_5", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_mc_6 = new TH1D("hNbjets_mc_6", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_mc_7 = new TH1D("hNbjets_mc_7", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_mc_8 = new TH1D("hNbjets_mc_8", "Number of b jets", 10, -0.5, 9.5);
+
+
    TH1D * h_Nbjets_8 = new TH1D("h_Nbjets_8", "Number of b jets", 10, -0.5, 9.5);
    h_Nbjets_8->SetXTitle("# b-jets");
 
    TH1D * hNjets_8 = new TH1D("hNjets_8", "Number of jets passing VBF", 10, -0.5, 9.5);
    hNjets_8->SetXTitle("# n-jets");
+
+   TH1D * hNjets_8_pdf_up = new TH1D("hNjets_8_pdf_up", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_pdf_dow = new TH1D("hNjets_8_pdf_dow", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_pu_up = new TH1D("hNjets_8_pu_up", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_pu_dow = new TH1D("hNjets_8_pu_dow", "Number of jets passing VBF", 10, -0.5, 9.5);
+
+   TH1D * hNjets_8_mc_1 = new TH1D("hNjets_8_mc_1", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_mc_2 = new TH1D("hNjets_8_mc_2", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_mc_3 = new TH1D("hNjets_8_mc_3", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_mc_4 = new TH1D("hNjets_8_mc_4", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_mc_5 = new TH1D("hNjets_8_mc_5", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_mc_6 = new TH1D("hNjets_8_mc_6", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_mc_7 = new TH1D("hNjets_8_mc_7", "Number of jets passing VBF", 10, -0.5, 9.5);
+   TH1D * hNjets_8_mc_8 = new TH1D("hNjets_8_mc_8", "Number of jets passing VBF", 10, -0.5, 9.5);
+
 
    TH1F * hPtJet_7 = new TH1F("hPtJet_7", "Pt of (no ID)jet after selection step 5", 300 ,  0 , 600 );
    hPtJet_7->SetXTitle("pt_jet  (GeV)");
@@ -645,22 +1197,46 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1F * hPtJet_8 = new TH1F("hPtJet_8", "Pt of jet after selection step 5", 300 ,  0 , 600 );
    hPtJet_8->SetXTitle("pt_jet  (GeV)");
 
+   TH1F * hPtJet_8_up = new TH1F("hPtJet_8_up", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_dow = new TH1F("hPtJet_8_dow", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtJet_8_jer_up = new TH1F("hPtJet_8_jer_up", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_jer_dow = new TH1F("hPtJet_8_jer_dow", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtJet_8_pdf_up = new TH1F("hPtJet_8_pdf_up", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_pdf_dow = new TH1F("hPtJet_8_pdf_dow", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_pu_up = new TH1F("hPtJet_8_pu_up", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_pu_dow = new TH1F("hPtJet_8_pu_dow", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtJet_8_mc_1 = new TH1F("hPtJet_8_mc_1", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_mc_2 = new TH1F("hPtJet_8_mc_2", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_mc_3 = new TH1F("hPtJet_8_mc_3", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_mc_4 = new TH1F("hPtJet_8_mc_4", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_mc_5 = new TH1F("hPtJet_8_mc_5", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_mc_6 = new TH1F("hPtJet_8_mc_6", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_mc_7 = new TH1F("hPtJet_8_mc_7", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtJet_8_mc_8 = new TH1F("hPtJet_8_mc_8", "Pt of jet after selection step 5", 300 ,  0 , 600 );
+
+
    TH1F * hYJet_8 = new TH1F("hEtaJet_8", "Y of jet after selection step 5", 500 , -5. , 5. );
    hYJet_8->SetXTitle("Y of Jet8");
 
-   TH1F * hNjetsVBF_8 = new TH1F("hNjetsVBF_8", "Number of VBF-tagged jets", 10, -0.5, 9.5);
-   hNjetsVBF_8->SetXTitle("VBF-tagged jets");
-   
-   TH1F * hNMatchbjets_8 = new TH1F("hNMatchbjets_8", "Number of VH hadronic-tagged jets", 10, -0.5, 9.5 );
-   hNMatchbjets_8->SetXTitle("VH hadronic-tagged jets");
+   TH1F * hYJet_8_pdf_up = new TH1F("hEtaJet_8_pdf_up", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_pdf_dow = new TH1F("hEtaJet_8_pdf_dow", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_pu_up = new TH1F("hEtaJet_8_pu_up", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_pu_dow = new TH1F("hEtaJet_8_pu_dow", "Y of jet after selection step 5", 500 , -5. , 5. );
 
-   TH1F * hNjetsVH_8 = new TH1F("hNjetsVH_8", "Number of jets for VH category", 10, -0.5, 9.5 );
-   hNjetsVH_8->SetXTitle("VH jets");
+   TH1F * hYJet_8_mc_1 = new TH1F("hEtaJet_8_mc_1", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_mc_2 = new TH1F("hEtaJet_8_mc_2", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_mc_3 = new TH1F("hEtaJet_8_mc_3", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_mc_4 = new TH1F("hEtaJet_8_mc_4", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_mc_5 = new TH1F("hEtaJet_8_mc_5", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_mc_6 = new TH1F("hEtaJet_8_mc_6", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_mc_7 = new TH1F("hEtaJet_8_mc_7", "Y of jet after selection step 5", 500 , -5. , 5. );
+   TH1F * hYJet_8_mc_8 = new TH1F("hEtaJet_8_mc_8", "Y of jet after selection step 5", 500 , -5. , 5. );
 
    
    // Step 9 with PFMET cut
-   TH1F * hM4l_9 = new TH1F("hM4l_9", "Mass of four leptons after selection step 9", 1200, 4.5, 1204.5 );
-   hM4l_9->SetXTitle("4 lepton mass  (GeV)");
    
    TH1F * hPFMET_9 = new TH1F("hPFMET_9", "PF MET after selection step 9", 1000 , 0., 1000.);
    hPFMET_9->SetXTitle("PF MET (GeV)");   
@@ -721,19 +1297,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1F * hN_good_isoele = new TH1F("hN_good_isoele", "N_good_isoele", 30 , 0. , 30. );
    hN_good_isoele->SetXTitle("N_good_ele");
 */
-   TH1F * hMELA_8 = new TH1F("hMELA_8", "MELA after selection step 8", 300,-0.00166,1.00166 );
-   hMELA_8->SetXTitle("MELA discriminant (4mu)");
-   TH2F * hMELA_vs_M4l_8 = new TH2F("hMELA_vs_M4l_8", "MELA after selection step 8",1200, 4.5,1204.5,300,-0.00166,1.00166 );
-   hMELA_vs_M4l_8->SetXTitle("MELA discriminant (4mu)");
-
-   TH1F * hMELA_9 = new TH1F("hMELA_9", "MELA after selection step 9", 300,-0.00166,1.00166 );
-   hMELA_9->SetXTitle("MELA discriminant (4mu)");
-   TH2F * hMELA_vs_M4l_9 = new TH2F("hMELA_vs_M4l_9", "MELA after selection step 9",1200, 4.5,1204.5,300,-0.00166,1.00166 );
-   hMELA_vs_M4l_9->SetXTitle("MELA discriminant (4mu)");
-   
-   TH1I * hVBF_PUID = new TH1I("hVBF_PUID", "PUID after step 8", 6,-1,4);
-   hVBF_PUID->SetXTitle("PUID VBF");
-
 
 
    //PFJET Plots
@@ -791,10 +1354,79 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TH1F * hPhi_PFJET_6 = new TH1F("hPhi_PFJET_6", "Phi of PFJets after step 6", 50, -10., 10.);
    hPhi_PFJET_6->SetXTitle("phi_PFJET");
 
+   TH1F * hPtBot_8 = new TH1F("hPtBot_8", "Pt of bot after selection step 5", 300 ,  0 , 600 );
+   hPtBot_8->SetXTitle("pt_bot  (GeV)");
+
+   TH1F * hPtBot_8_up = new TH1F("hPtBot_8_up", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_dow = new TH1F("hPtBot_8_dow", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_pdf_up = new TH1F("hPtBot_8_pdf_up", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_pdf_dow = new TH1F("hPtBot_8_pdf_dow", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_pu_up = new TH1F("hPtBot_8_pu_up", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_pu_dow = new TH1F("hPtBot_8_pu_dow", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_jer_up = new TH1F("hPtBot_8_jer_up", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_jer_dow = new TH1F("hPtBot_8_jer_dow", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+
+
+   TH1F * hPtBot_8_mc_1 = new TH1F("hPtBot_8_mc_1", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_mc_2 = new TH1F("hPtBot_8_mc_2", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_mc_3 = new TH1F("hPtBot_8_mc_3", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_mc_4 = new TH1F("hPtBot_8_mc_4", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_mc_5 = new TH1F("hPtBot_8_mc_5", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_mc_6 = new TH1F("hPtBot_8_mc_6", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_mc_7 = new TH1F("hPtBot_8_mc_7", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_mc_8 = new TH1F("hPtBot_8_mc_8", "Pt of bot after selection step 5(JEC)", 300 ,  0 , 600 );
+
+
+   TH1F * hYBot_8 = new TH1F("hEtaBot_8", "Y of bot after selection step 5", 500 , -5. , 5. );
+   hYBot_8->SetXTitle("Y of Bot8");
+
+   TH1F * hPtBot_7 = new TH1F("hPtBot_7", "Pt of bot after selection step 5", 300 ,  0 , 600 );
+   hPtBot_7->SetXTitle("pt_bot  (GeV)");
+
+
    TH1F * Mbb_6 = new TH1F("Mbb_6","invariant mass of bottom pair after step 6",50,20,420);
    Mbb_6->SetXTitle("M_{bb} (GeV)");
+   TH1F * Mbb_6_up = new TH1F("Mbb_6_up","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_dow = new TH1F("Mbb_6_dow","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_jer_up = new TH1F("Mbb_6_jer_up","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_jer_dow = new TH1F("Mbb_6_jer_dow","invariant mass of bottom pair after step 6",50,20,420);
+
+   TH1F * Mbb_6_pdf_up = new TH1F("Mbb_6_pdf_up","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_pdf_dow = new TH1F("Mbb_6_pdf_dow","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_pu_up = new TH1F("Mbb_6_pu_up","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_pu_dow = new TH1F("Mbb_6_pu_dow","invariant mass of bottom pair after step 6",50,20,420);
+
+   TH1F * Mbb_6_mc_1 = new TH1F("Mbb_6_mc_1","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mbb_6_mc_2 = new TH1F("Mbb_6_mc_2","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mbb_6_mc_3 = new TH1F("Mbb_6_mc_3","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mbb_6_mc_4 = new TH1F("Mbb_6_mc_4","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mbb_6_mc_5 = new TH1F("Mbb_6_mc_5","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mbb_6_mc_6 = new TH1F("Mbb_6_mc_6","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mbb_6_mc_7 = new TH1F("Mbb_6_mc_7","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mbb_6_mc_8 = new TH1F("Mbb_6_mc_8","invariant mass of jet pair after step 6",50,20,420);
+
    TH1F * ptbb_6 = new TH1F("ptbb_6","pt of bottom pair after step 6",50,20,420);
    ptbb_6->SetXTitle("pt_{bb} (GeV)");
+   TH1F * ptbb_6_up = new TH1F("ptbb_6_up","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_dow = new TH1F("ptbb_6_dow","pt of bottom pair after step 6",50,20,420);
+
+   TH1F * ptbb_6_pdf_up = new TH1F("ptbb_6_pdf_up","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_pdf_dow = new TH1F("ptbb_6_pdf_dow","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_pu_up = new TH1F("ptbb_6_pu_up","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_pu_dow = new TH1F("ptbb_6_pu_dow","pt of bottom pair after step 6",50,20,420);
+
+   TH1F * ptbb_6_jer_up = new TH1F("ptbb_6_jer_up","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_jer_dow = new TH1F("ptbb_6_jer_dow","pt of bottom pair after step 6",50,20,420);
+
+   TH1F * ptbb_6_mc_1 = new TH1F("ptbb_6_mc_1","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_mc_2 = new TH1F("ptbb_6_mc_2","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_mc_3 = new TH1F("ptbb_6_mc_3","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_mc_4 = new TH1F("ptbb_6_mc_4","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_mc_5 = new TH1F("ptbb_6_mc_5","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_mc_6 = new TH1F("ptbb_6_mc_6","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_mc_7 = new TH1F("ptbb_6_mc_7","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_mc_8 = new TH1F("ptbb_6_mc_8","pt of bottom pair after step 6",50,20,420);
+
    TH1F * bdiscr_5_lead = new TH1F("bdiscr_5_lead","b-tag discr of leading jet after step 5",20,0,1);
    bdiscr_5_lead->SetXTitle("CSV");
    TH1F * bdiscr_5_sub = new TH1F("bdiscr_5_sub","b-tag discr of sub leading jet after step 5",20,0,1);
@@ -802,14 +1434,119 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
    TH1F * Mjj_6 = new TH1F("Mjj_6","invariant mass of jet pair after step 6",50,20,420);
    Mjj_6->SetXTitle("M_{jj} (GeV)");  
+
+   TH1F * Mjj_6_jer_up = new TH1F("Mjj_6_jer_up","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_jer_dow = new TH1F("Mjj_6_jer_dow","invariant mass of jet pair after step 6",50,20,420);
+
+   TH1F * Mjj_6_pdf_up = new TH1F("Mjj_6_pdf_up","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_pdf_dow = new TH1F("Mjj_6_pdf_dow","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_pu_up = new TH1F("Mjj_6_pu_up","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_pu_dow = new TH1F("Mjj_6_pu_dow","invariant mass of jet pair after step 6",50,20,420);
+
+   TH1F * Mjj_6_up = new TH1F("Mjj_6_up","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_dow = new TH1F("Mjj_6_dow","invariant mass of jet pair after step 6",50,20,420);
+
+   TH1F * Mjj_6_mc_1 = new TH1F("Mjj_6_mc_1","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_mc_2 = new TH1F("Mjj_6_mc_2","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_mc_3 = new TH1F("Mjj_6_mc_3","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_mc_4 = new TH1F("Mjj_6_mc_4","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_mc_5 = new TH1F("Mjj_6_mc_5","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_mc_6 = new TH1F("Mjj_6_mc_6","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_mc_7 = new TH1F("Mjj_6_mc_7","invariant mass of jet pair after step 6",50,20,420);
+   TH1F * Mjj_6_mc_8 = new TH1F("Mjj_6_mc_8","invariant mass of jet pair after step 6",50,20,420);
+
    // end book histo ***
-      
-   TTree *newtree = new TTree("HZZ4LeptonsAnalysisReduced", "reduced ttree");
+
+   TH1F * hPtJet_8_b = new TH1F("hPtJet_8_b", "Pt of jet_b after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtBot_8_b = new TH1F("hPtBot_8_b", "Pt of bot_b after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_b_dow = new TH1F("hPtBot_8_b_dow", "Pt of bot_b after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_b_up = new TH1F("hPtBot_8_b_up", "Pt of bot_b after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtJet_8_c = new TH1F("hPtJet_8_c", "Pt of jet_c after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtBot_8_c = new TH1F("hPtBot_8_c", "Pt of bot_c after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_c_up = new TH1F("hPtBot_8_c_up", "Pt of bot_c after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_c_dow = new TH1F("hPtBot_8_c_dow", "Pt of bot_c after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtJet_8_l = new TH1F("hPtJet_8_l", "Pt of jet_l after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtBot_8_l = new TH1F("hPtBot_8_l", "Pt of bot_l after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_l_up = new TH1F("hPtBot_8_l_up", "Pt of bot_c after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_l_dow = new TH1F("hPtBot_8_l_dow", "Pt of bot_c after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtJet_8_o = new TH1F("hPtJet_8_o", "Pt of jet_o after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtBot_8_o = new TH1F("hPtBot_8_o", "Pt of bot_o after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * hPtBot_8_o_up = new TH1F("hPtBot_8_o_up", "Pt of bot_c after selection step 5", 300 ,  0 , 600 );
+   TH1F * hPtBot_8_o_dow = new TH1F("hPtBot_8_o_dow", "Pt of bot_c after selection step 5", 300 ,  0 , 600 );
+
+   TH1F * Mbb_6_hh = new TH1F("Mbb_6_hh","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_hl = new TH1F("Mbb_6_hl","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_ll = new TH1F("Mbb_6_ll","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_hh_up = new TH1F("Mbb_6_hh_up","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_hl_up = new TH1F("Mbb_6_hl_up","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_ll_up = new TH1F("Mbb_6_ll_up","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_hh_dow = new TH1F("Mbb_6_hh_dow","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_hl_dow = new TH1F("Mbb_6_hl_dow","invariant mass of bottom pair after step 6",50,20,420);
+   TH1F * Mbb_6_ll_dow = new TH1F("Mbb_6_ll_dow","invariant mass of bottom pair after step 6",50,20,420);
+
+   TH1F * ptbb_6_hh = new TH1F("ptbb_6_hh","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_hl = new TH1F("ptbb_6_hl","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_ll = new TH1F("ptbb_6_ll","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_hh_up = new TH1F("ptbb_6_hh_up","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_hl_up = new TH1F("ptbb_6_hl_up","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_ll_up = new TH1F("ptbb_6_ll_up","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_hh_dow = new TH1F("ptbb_6_hh_dow","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_hl_dow = new TH1F("ptbb_6_hl_dow","pt of bottom pair after step 6",50,20,420);
+   TH1F * ptbb_6_ll_dow = new TH1F("ptbb_6_ll_dow","pt of bottom pair after step 6",50,20,420);
+   TH1D * hNbjets_8_h = new TH1D("hNbjets_h", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_h_up = new TH1D("hNbjets_h_up", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_h_dow = new TH1D("hNbjets_h_dow", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_l = new TH1D("hNbjets_l", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_l_up = new TH1D("hNbjets_l_up", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_l_dow = new TH1D("hNbjets_l_dow", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_btag_up = new TH1D("hNbjets_btag_up", "Number of b jets", 10, -0.5, 9.5);
+   TH1D * hNbjets_8_btag_dow = new TH1D("hNbjets_btag_dow", "Number of b jets", 10, -0.5, 9.5);
+
+   TH1F * Mllllbb = new TH1F("Mllllbb","invariant mass of 4l2b after step 6",100,0,2000);
+   Mllllbb->SetXTitle("M_{4l2b} (GeV)");
+   TH1F * Mllllbb_up = new TH1F("Mllllbb_up","invariant mass of 4l2b after step 6",100,0,2000);
+   TH1F * Mllllbb_dow = new TH1F("Mllllbb_dow","invariant mass of 4l2b after step 6",100,0,2000);
+   TH1F * Mllllbb_jer_up = new TH1F("Mllllbb_jer_up","invariant mass of 4l2b after step 6",100,0,2000);
+   TH1F * Mllllbb_jer_dow = new TH1F("Mllllbb_jer_dow","invariant mass of 4l2b after step 6",100,0,2000);
+
+   TH1F * Mllllbb_pdf_up = new TH1F("Mllllbb_pdf_up","invariant mass of 4l2b after step 6",100,0,2000);
+   TH1F * Mllllbb_pdf_dow = new TH1F("Mllllbb_pdf_dow","invariant mass of 4l2b after step 6",100,0,2000);
+   TH1F * Mllllbb_pu_up = new TH1F("Mllllbb_pu_up","invariant mass of 4l2b after step 6",100,0,2000);
+   TH1F * Mllllbb_pu_dow = new TH1F("Mllllbb_pu_dow","invariant mass of 4l2b after step 6",100,0,2000);
+
+   TH1F * Mllllbb_mc_1 = new TH1F("Mllllbb_mc_1","invariant mass of jet pair after step 6",100,0,2000);
+   TH1F * Mllllbb_mc_2 = new TH1F("Mllllbb_mc_2","invariant mass of jet pair after step 6",100,0,2000);
+   TH1F * Mllllbb_mc_3 = new TH1F("Mllllbb_mc_3","invariant mass of jet pair after step 6",100,0,2000);
+   TH1F * Mllllbb_mc_4 = new TH1F("Mllllbb_mc_4","invariant mass of jet pair after step 6",100,0,2000);
+   TH1F * Mllllbb_mc_5 = new TH1F("Mllllbb_mc_5","invariant mass of jet pair after step 6",100,0,2000);
+   TH1F * Mllllbb_mc_6 = new TH1F("Mllllbb_mc_6","invariant mass of jet pair after step 6",100,0,2000);
+   TH1F * Mllllbb_mc_7 = new TH1F("Mllllbb_mc_7","invariant mass of jet pair after step 6",100,0,2000);
+   TH1F * Mllllbb_mc_8 = new TH1F("Mllllbb_mc_8","invariant mass of jet pair after step 6",100,0,2000);
+
+   TH1F * Mllllbb_hh = new TH1F("Mllllbb_hh","invariant mass of bottom pair after step 6",100,0,2000);
+   TH1F * Mllllbb_hl = new TH1F("Mllllbb_hl","invariant mass of bottom pair after step 6",100,0,2000);
+   TH1F * Mllllbb_ll = new TH1F("Mllllbb_ll","invariant mass of bottom pair after step 6",100,0,2000);
+   TH1F * Mllllbb_hh_up = new TH1F("Mllllbb_hh_up","invariant mass of bottom pair after step 6",100,0,2000);
+   TH1F * Mllllbb_hl_up = new TH1F("Mllllbb_hl_up","invariant mass of bottom pair after step 6",100,0,2000);
+   TH1F * Mllllbb_ll_up = new TH1F("Mllllbb_ll_up","invariant mass of bottom pair after step 6",100,0,2000);
+   TH1F * Mllllbb_hh_dow = new TH1F("Mllllbb_hh_dow","invariant mass of bottom pair after step 6",100,0,2000);
+   TH1F * Mllllbb_hl_dow = new TH1F("Mllllbb_hl_dow","invariant mass of bottom pair after step 6",100,0,2000);
+   TH1F * Mllllbb_ll_dow = new TH1F("Mllllbb_ll_dow","invariant mass of bottom pair after step 6",100,0,2000);
+
+   TTree *newtree  = new TTree("HZZ4LeptonsAnalysisReduced", "reduced ttree");
   
    // Add branches to output rootuple 
    Float_t f_weight, f_int_weight, f_pu_weight, f_eff_weight, f_lept1_pt, f_lept1_eta, f_lept1_phi, f_lept1_charge, f_lept1_pfx, f_lept1_sip, f_lept1_mvaid, f_lept2_pt, f_lept2_eta, f_lept2_phi, f_lept2_charge, f_lept2_pfx, f_lept2_sip, f_lept2_mvaid, f_lept3_pt, f_lept3_eta, f_lept3_phi, f_lept3_charge, f_lept3_pfx, f_lept3_sip, f_lept3_mvaid, f_lept4_pt, f_lept4_eta, f_lept4_phi, f_lept4_charge, f_lept4_pfx, f_lept4_sip, f_lept4_mvaid, f_iso_max, f_sip_max, f_Z1mass, f_Z2mass, f_angle_costhetastar, f_angle_costheta1, f_angle_costheta2, f_angle_phi, f_angle_phistar1, f_eta4l, f_pt4l, f_mass4l, f_mass4lErr, f_njets_pass, f_deltajj, f_massjj, f_D_jet, f_jet1_pt, f_jet1_eta, f_jet1_phi, f_jet1_e, f_jet2_pt, f_jet2_eta, f_jet2_phi, f_jet2_e;
    Float_t f_D_bkg_kin,f_D_bkg,f_D_gg,f_D_g4,f_Djet_VAJHU; 
-   Float_t f_genmet, f_pfmet,f_mT,f_dphi,f_min_dphi_jet_met,f_max_dphi_jet_met,f_dphi_jet_met;
+   Float_t f_genmet, f_pfmet,f_mT,f_dphi,f_min_dphi_jet_met,f_max_dphi_jet_met,f_dphi_jet_met,f_mbb,f_m4l2b;
    Int_t f_lept1_pdgid,f_lept2_pdgid,f_lept3_pdgid,f_lept4_pdgid;
    Int_t f_category,f_Ngood,f_Nbjets,f_Njets,f_NVBFjets,f_NMatchbjets,f_NVHjets;
    Int_t f_run, f_lumi, f_event;
@@ -850,23 +1587,14 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    TBranch *b_lept4_pfx= newtree->Branch("f_lept4_pfx", &f_lept4_pfx,"f_lept4_pfx/F");
    TBranch *b_lept4_sip= newtree->Branch("f_lept4_sip", &f_lept4_sip,"f_lept4_sip/F");
    TBranch *b_lept4_pdgid= newtree->Branch("f_lept4_pdgid", &f_lept4_pdgid,"f_lept4_pdgid/I");
-   TBranch *b_iso_max= newtree->Branch("f_iso_max", &f_iso_max,"f_iso_max/F");
-   TBranch *b_sip_max= newtree->Branch("f_sip_max", &f_sip_max,"f_sip_max/F");
    TBranch *b_Z1mass= newtree->Branch("f_Z1mass", &f_Z1mass,"f_Z1mass/F");
    TBranch *b_Z2mass= newtree->Branch("f_Z2mass", &f_Z2mass,"f_Z2mass/F");
-   TBranch *b_angle_costhetastar= newtree->Branch("f_angle_costhetastar", &f_angle_costhetastar,"f_angle_costhetastar/F");
-   TBranch *b_angle_costheta1= newtree->Branch("f_angle_costheta1", &f_angle_costheta1,"f_angle_costheta1/F");
-   TBranch *b_angle_costheta2= newtree->Branch("f_angle_costheta2", &f_angle_costheta2,"f_angle_costheta2/F");
    TBranch *b_angle_phi= newtree->Branch("f_angle_phi", &f_angle_phi,"f_angle_phi/F");
-   TBranch *b_angle_phistar1= newtree->Branch("f_angle_phistar1", &f_angle_phistar1,"f_angle_phistar1/F");
-   TBranch *b_pt4l= newtree->Branch("f_pt4l", &f_pt4l,"f_pt4l/F");
-   TBranch *b_eta4l= newtree->Branch("f_eta4l", &f_eta4l,"f_eta4l/F");
-   TBranch *b_mass4l= newtree->Branch("f_mass4l", &f_mass4l,"f_mass4l/F");
-   TBranch *b_mass4lErr= newtree->Branch("f_mass4lErr", &f_mass4lErr,"f_mass4lErr/F");
    TBranch *b_njets_pass= newtree->Branch("f_njets_pass", &f_njets_pass,"f_njets_pass/F");
    TBranch *b_deltajj= newtree->Branch("f_deltajj", &f_deltajj,"f_deltajj/F");
    TBranch *b_massjj= newtree->Branch("f_massjj", &f_massjj,"f_massjj/F");
-   TBranch *b_D_jet= newtree->Branch("f_D_jet", &f_D_jet,"f_D_jet/F");
+   TBranch *b_massbb= newtree->Branch("f_mbb", &f_mbb,"f_mbb/F");
+   TBranch *b_mass4l2b= newtree->Branch("f_m4l2b", &f_m4l2b,"f_m4l2b/F");
    TBranch *b_jet1_pt= newtree->Branch("f_jet1_pt", &f_jet1_pt,"f_jet1_pt/F");
    TBranch *b_jet1_eta= newtree->Branch("f_jet1_eta", &f_jet1_eta,"f_jet1_eta/F");
    TBranch *b_jet1_phi= newtree->Branch("f_jet1_phi", &f_jet1_phi,"f_jet1_phi/F");
@@ -917,11 +1645,12 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       f_weight=1., f_int_weight=1., f_pu_weight=1., f_eff_weight=1., f_lept1_pt=-999., f_lept1_eta=-999., f_lept1_phi=-999., f_lept1_charge=-999., f_lept1_pfx=-999., f_lept1_sip=-999., f_lept1_mvaid=-999., f_lept2_pt=-999., f_lept2_eta=-999., f_lept2_phi=-999., f_lept2_charge=-999., f_lept2_pfx=-999., f_lept2_sip=-999., f_lept2_mvaid=-999., f_lept3_pt=-999., f_lept3_eta=-999., f_lept3_phi=-999., f_lept3_charge=-999., f_lept3_pfx=-999., f_lept3_sip=-999., f_lept3_mvaid=-999., f_lept4_pt=-999., f_lept4_eta=-999., f_lept4_phi=-999., f_lept4_charge=-999., f_lept4_pfx=-999., f_lept4_sip=-999., f_lept4_mvaid=-999., f_iso_max=-999., f_sip_max=-999., f_Z1mass=-999., f_Z2mass=-999., f_angle_costhetastar=-999., f_angle_costheta1=-999., f_angle_costheta2=-999., f_angle_phi=-999., f_angle_phistar1=-999., f_eta4l=-999., f_pt4l=-999., f_mass4l=-999., f_mass4lErr=-999., f_njets_pass=-999., f_deltajj=-999., f_massjj=-999., f_D_jet=-999., f_jet1_pt=-999., f_jet1_eta=-999., f_jet1_phi=-999., f_jet1_e=-999., f_jet2_pt=-999., f_jet2_eta=-999., f_jet2_phi=-999., f_jet2_e=-999.,f_D_bkg_kin=-999.,f_D_bkg=-999.,f_D_gg=-999.,f_D_g4=-999.,f_Djet_VAJHU=-999.,f_genmet=-999.,f_pfmet=-999.,f_mT=-999.,f_dphi=-999.,f_lept1_pdgid=-999,f_lept2_pdgid=-999,f_lept3_pdgid=-999,f_lept4_pdgid=-999,f_run=-999, f_lumi=-999, f_event=-999, f_category=-999, f_Ngood=-999, f_Nbjets=-999, f_NVBFjets=-999,f_NMatchbjets=-999,f_NVHjets=-999,f_dphi_jet_met=-999., f_min_dphi_jet_met=-999., f_max_dphi_jet_met=-999.; 
       f_Njets=-999;
 //      f_u1=-999, f_u2=-999;
-
+      f_m4l2b=-999;
 //      if (!(Run==274422 && LumiSection==484 && Event==843958845)) continue;
 
       if(jentry%1 == 5000) cout << "Analyzing entry: " << jentry << endl;
       
+      double mc_weight_un[9];
 
       if( RECO_NMU > 100 ) RECO_NMU = 100;
       if( RECO_NELE > 100 ) RECO_NELE = 100;
@@ -938,11 +1667,14 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       hPUvertices->Fill(num_PU_vertices,weight);
 
       double pu_weight=1.;
+      double pu_up=1;
+      double pu_dow=1;
       if (MC_type == "Spring16"){
 	Int_t binx = puweight->GetXaxis()->FindBin(num_PU_vertices);
 	cout << " bin x= " << binx << " " << puweight->GetBinContent(binx) << endl;	
 	pu_weight=double(puweight->GetBinContent(binx));
-	
+        pu_up=double(puweight_up->GetBinContent(binx))/pu_weight;
+        pu_dow=double(puweight_dow->GetBinContent(binx))/pu_weight;	
       }      
        
       hPUvertices_ReWeighted->Fill(num_PU_vertices,weight*pu_weight);
@@ -962,7 +1694,11 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
         newweight=weight*pu_weight*MC_weighting;
       }
 
-      
+      for(int l=0; l<9; l++){
+         if(MC_weighting_un[0]!=0) mc_weight_un[l]=MC_weighting_un[l];
+         else mc_weight_un[l]=1;
+      }     
+ 
       float pFill[11];for(int pf=0;pf<11;pf++)pFill[11]=-999.;
 
       // ** Step 0:
@@ -2097,8 +2833,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       N_3b_w=N_3b_w+newweight;
 
 
-      hPFMET_3->Fill(RECO_CORMETMUONS,newweight);
-      
       // **** Step 4:
        // a) 4 leptons
       // b) pair #2
@@ -2228,7 +2962,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	}
       }
       }
+     
       
+ 
       if (massZ1 < 40.&& massZ2 < 40. ) {
 	cout << "The mass of Z1 is < 40 GeV...exiting" << endl;
 	continue;
@@ -2290,18 +3026,13 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
             int biny1 = mu_scale_factors_id_p1->GetYaxis()->FindBin(Pt);
             int binx1 = mu_scale_factors_id_p1->GetXaxis()->FindBin(abs(Eta));
   
-            int biny12 = mu_scale_factors_id_p2->GetYaxis()->FindBin(Pt);
-            int binx12 = mu_scale_factors_id_p2->GetXaxis()->FindBin(abs(Eta));
-            double sf_id=mu_scale_factors_id_p2->GetBinContent(binx12,biny12);
+            double sf_id=mu_scale_factors_id_p1->GetBinContent(binx1,biny1);
             if (sf_id>0.) eff_weight*=sf_id;
   
             int biny2 = mu_scale_factors_iso_p1->GetYaxis()->FindBin(Pt);
             int binx2 = mu_scale_factors_iso_p1->GetXaxis()->FindBin(abs(Eta));
   
-            int biny22 = mu_scale_factors_iso_p2->GetYaxis()->FindBin(Pt);
-            int binx22 = mu_scale_factors_iso_p2->GetXaxis()->FindBin(abs(Eta));
-  
-            double sf_iso = mu_scale_factors_iso_p2->GetBinContent(binx22,biny22);
+            double sf_iso = mu_scale_factors_iso_p1->GetBinContent(binx2,biny2);
             if (sf_iso>0.)  eff_weight*=sf_iso;
   
             double tk_sf = mu_scale_factors_tk->Eval(Eta);
@@ -2342,18 +3073,13 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
           int biny1 = mu_scale_factors_id_p1->GetYaxis()->FindBin(Pt);
           int binx1 = mu_scale_factors_id_p1->GetXaxis()->FindBin(abs(Eta));
 
-          int biny12 = mu_scale_factors_id_p2->GetYaxis()->FindBin(Pt);
-          int binx12 = mu_scale_factors_id_p2->GetXaxis()->FindBin(abs(Eta));
-          double sf_id=mu_scale_factors_id_p2->GetBinContent(binx12,biny12);
+          double sf_id=mu_scale_factors_id_p1->GetBinContent(binx1,biny1);
           if (sf_id>0.) eff_weight*=sf_id;
 
           int biny2 = mu_scale_factors_iso_p1->GetYaxis()->FindBin(Pt);
           int binx2 = mu_scale_factors_iso_p1->GetXaxis()->FindBin(abs(Eta));
 
-          int biny22 = mu_scale_factors_iso_p2->GetYaxis()->FindBin(Pt);
-          int binx22 = mu_scale_factors_iso_p2->GetXaxis()->FindBin(abs(Eta));
-
-          double sf_iso = mu_scale_factors_iso_p2->GetBinContent(binx22,biny22);
+          double sf_iso = mu_scale_factors_iso_p1->GetBinContent(binx2,biny2);
           if (sf_iso>0.)  eff_weight*=sf_iso;
 
           double tk_sf = mu_scale_factors_tk->Eval(Eta);
@@ -2429,7 +3155,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      bool nomatch=false;
      bool noleg1=true;
 //dm_trig matching (qier)
-/* 
+
+    if(dm_trig){ 
     for(int i=0; i<2; i++){
        if( MC_type == "Spring16" && DATA_type == "NO"){
           Double_t Pt = RECOMU_PT[indextwomu[i]];
@@ -2457,9 +3184,12 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      if(RECOMU_dm_MuHLTMatch[indextwomu[i]]<0) nomatch=true;
      if(RECOMU_dm_MuHLTMatch[indextwomu[i]]==2) noleg1=false;
      }
+   }
 
-*/
+
 //de_trig matching(qier)
+
+   if(de_trig){
     for(int i=0; i<2; i++){
        if( MC_type == "Spring16" && DATA_type == "NO"){
           Double_t Pt = RECOELE_PT[indextwoele[i]];
@@ -2484,7 +3214,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      if(RECOELE_de_EleHLTMatch[indextwoele[i]]<0) nomatch=true; 
      if(RECOELE_de_EleHLTMatch[indextwoele[i]]==2) noleg1=false;
      }
-
+  }
 
      if(nomatch||noleg1) continue;
      cout << "eff_weight" << eff_weight << endl;
@@ -2551,19 +3281,116 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
       if(ss!=1) continue;
  */
-      TLorentzVector Z1P4;
+      TLorentzVector Z1P4,Z2P4;
       Z1P4.SetPxPyPzE(pxZ1,pyZ1,pzZ1,EZ1);
+      Z2P4.SetPxPyPzE(pxZ2,pyZ2,pzZ2,EZ2);
 
       hMZ1_5->Fill( massZ1,newweight );
       hPtZ1_5->Fill( ptZ1,newweight );
       hYZ1_5->Fill( Y_Z1,newweight );
 
+      hMZ1_5_pdf_up->Fill( massZ1,newweight*(1+PDF_weighting_un));
+      hPtZ1_5_pdf_up->Fill( ptZ1,newweight*(1+PDF_weighting_un));
+      hYZ1_5_pdf_up->Fill( Y_Z1,newweight*(1+PDF_weighting_un));
+
+      hMZ1_5_pdf_dow->Fill( massZ1,newweight*(1-PDF_weighting_un));
+      hPtZ1_5_pdf_dow->Fill( ptZ1,newweight*(1-PDF_weighting_un));
+      hYZ1_5_pdf_dow->Fill( Y_Z1,newweight*(1-PDF_weighting_un));
+
+      hMZ1_5_pu_up->Fill( massZ1,newweight*pu_up);
+      hPtZ1_5_pu_up->Fill( ptZ1,newweight*pu_up);
+      hYZ1_5_pu_up->Fill( Y_Z1,newweight*pu_up);
+
+      hMZ1_5_pu_dow->Fill( massZ1,newweight*pu_dow);
+      hPtZ1_5_pu_dow->Fill( ptZ1,newweight*pu_dow);
+      hYZ1_5_pu_dow->Fill( Y_Z1,newweight*pu_dow);
+
+      hMZ1_5_mc_1->Fill( massZ1,newweight*mc_weight_un[1] );
+      hPtZ1_5_mc_1->Fill( ptZ1,newweight*mc_weight_un[1]);
+      hYZ1_5_mc_1->Fill( Y_Z1,newweight*mc_weight_un[1]);
+
+      hMZ1_5_mc_2->Fill( massZ1,newweight*mc_weight_un[2] );
+      hPtZ1_5_mc_2->Fill( ptZ1,newweight*mc_weight_un[2]);
+      hYZ1_5_mc_2->Fill( Y_Z1,newweight*mc_weight_un[2]);
+
+      hMZ1_5_mc_3->Fill( massZ1,newweight*mc_weight_un[3] );
+      hPtZ1_5_mc_3->Fill( ptZ1,newweight*mc_weight_un[3]);
+      hYZ1_5_mc_3->Fill( Y_Z1,newweight*mc_weight_un[3]);
+
+      hMZ1_5_mc_4->Fill( massZ1,newweight*mc_weight_un[4] );
+      hPtZ1_5_mc_4->Fill( ptZ1,newweight*mc_weight_un[4]);
+      hYZ1_5_mc_4->Fill( Y_Z1,newweight*mc_weight_un[4]);
+
+      hMZ1_5_mc_5->Fill( massZ1,newweight*mc_weight_un[5] );
+      hPtZ1_5_mc_5->Fill( ptZ1,newweight*mc_weight_un[5]);
+      hYZ1_5_mc_5->Fill( Y_Z1,newweight*mc_weight_un[5]);
+
+      hMZ1_5_mc_6->Fill( massZ1,newweight*mc_weight_un[6] );
+      hPtZ1_5_mc_6->Fill( ptZ1,newweight*mc_weight_un[6]);
+      hYZ1_5_mc_6->Fill( Y_Z1,newweight*mc_weight_un[6]);
+
+      hMZ1_5_mc_7->Fill( massZ1,newweight*mc_weight_un[7] );
+      hPtZ1_5_mc_7->Fill( ptZ1,newweight*mc_weight_un[7]);
+      hYZ1_5_mc_7->Fill( Y_Z1,newweight*mc_weight_un[7]);
+
+      hMZ1_5_mc_8->Fill( massZ1,newweight*mc_weight_un[8] );
+      hPtZ1_5_mc_8->Fill( ptZ1,newweight*mc_weight_un[8]);
+      hYZ1_5_mc_8->Fill( Y_Z1,newweight*mc_weight_un[8]);
+
       hMZ2_5->Fill( massZ2,newweight );
       hPtZ2_5->Fill( ptZ2,newweight );
       hYZ2_5->Fill( Y_Z2,newweight );
 
+      hMZ2_5_pdf_up->Fill( massZ2,newweight*(1+PDF_weighting_un));
+      hPtZ2_5_pdf_up->Fill( ptZ2,newweight*(1+PDF_weighting_un));
+      hYZ2_5_pdf_up->Fill( Y_Z2,newweight*(1+PDF_weighting_un));
 
-      // Format lepton syncronization                                                                                                                                      
+      hMZ2_5_pdf_dow->Fill( massZ2,newweight*(1-PDF_weighting_un));
+      hPtZ2_5_pdf_dow->Fill( ptZ2,newweight*(1-PDF_weighting_un));
+      hYZ2_5_pdf_dow->Fill( Y_Z2,newweight*(1-PDF_weighting_un));
+
+      hMZ2_5_pu_up->Fill( massZ2,newweight*pu_up);
+      hPtZ2_5_pu_up->Fill( ptZ2,newweight*pu_up);
+      hYZ2_5_pu_up->Fill( Y_Z2,newweight*pu_up);
+
+      hMZ2_5_pu_dow->Fill( massZ2,newweight*pu_dow);
+      hPtZ2_5_pu_dow->Fill( ptZ2,newweight*pu_dow);
+      hYZ2_5_pu_dow->Fill( Y_Z2,newweight*pu_dow);
+
+      hMZ2_5_mc_1->Fill( massZ2,newweight*mc_weight_un[1] );
+      hPtZ2_5_mc_1->Fill( ptZ2,newweight*mc_weight_un[1]);
+      hYZ2_5_mc_1->Fill( Y_Z2,newweight*mc_weight_un[1]);
+
+      hMZ2_5_mc_2->Fill( massZ2,newweight*mc_weight_un[2] );
+      hPtZ2_5_mc_2->Fill( ptZ2,newweight*mc_weight_un[2]);
+      hYZ2_5_mc_2->Fill( Y_Z2,newweight*mc_weight_un[2]);
+
+      hMZ2_5_mc_3->Fill( massZ2,newweight*mc_weight_un[3] );
+      hPtZ2_5_mc_3->Fill( ptZ2,newweight*mc_weight_un[3]);
+      hYZ2_5_mc_3->Fill( Y_Z2,newweight*mc_weight_un[3]);
+
+      hMZ2_5_mc_4->Fill( massZ2,newweight*mc_weight_un[4] );
+      hPtZ2_5_mc_4->Fill( ptZ2,newweight*mc_weight_un[4]);
+      hYZ2_5_mc_4->Fill( Y_Z2,newweight*mc_weight_un[4]);
+
+      hMZ2_5_mc_5->Fill( massZ2,newweight*mc_weight_un[5] );
+      hPtZ2_5_mc_5->Fill( ptZ2,newweight*mc_weight_un[5]);
+      hYZ2_5_mc_5->Fill( Y_Z2,newweight*mc_weight_un[5]);
+
+      hMZ2_5_mc_6->Fill( massZ2,newweight*mc_weight_un[6] );
+      hPtZ2_5_mc_6->Fill( ptZ2,newweight*mc_weight_un[6]);
+      hYZ2_5_mc_6->Fill( Y_Z2,newweight*mc_weight_un[6]);
+
+      hMZ2_5_mc_7->Fill( massZ2,newweight*mc_weight_un[7] );
+      hPtZ2_5_mc_7->Fill( ptZ2,newweight*mc_weight_un[7]);
+      hYZ2_5_mc_7->Fill( Y_Z2,newweight*mc_weight_un[7]);
+
+      hMZ2_5_mc_8->Fill( massZ2,newweight*mc_weight_un[8] );
+      hPtZ2_5_mc_8->Fill( ptZ2,newweight*mc_weight_un[8]);
+      hYZ2_5_mc_8->Fill( Y_Z2,newweight*mc_weight_un[8]);
+
+      cout <<  "mc_weight_un=" << mc_weight_un[3] << endl;  
+    // Format lepton syncronization                                                                                                                                      
       // {run}:{lumi}:{event}:{pdgId}:{pT:.2f}:{eta:.2f}:{phi:.2f}{SIP:.2f}:{PFChargedHadIso:.2f}:{PFNeutralHadIso:.2f}:{PFPhotonIso:.2f}:{PUCorr:.2f}:{combRelIsoPF:.3f}:{eleBDT:.3f}:{photpT:.2f}:{photDR:.2f}:{photRelIso:.2f}          
       
       Char_t leptformat[20000];
@@ -2830,13 +3657,31 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      N_8_PFMET_w=N_8_PFMET_w+newweight;
      
      hPFMET_8->Fill(RECO_CORMETMUONS,newweight);
-     
+     hPFMET_8_pdf_up->Fill( RECO_CORMETMUONS,newweight*(1+PDF_weighting_un));
+     hPFMET_8_pdf_dow->Fill( RECO_CORMETMUONS,newweight*(1-PDF_weighting_un));
+     hPFMET_8_pu_up->Fill( RECO_CORMETMUONS,newweight*pu_up);
+     hPFMET_8_pu_dow->Fill( RECO_CORMETMUONS,newweight*pu_dow);
+
+     hPFMET_8_mc_1->Fill(RECO_CORMETMUONS,newweight*mc_weight_un[1]);
+     hPFMET_8_mc_2->Fill(RECO_CORMETMUONS,newweight*mc_weight_un[2]);
+     hPFMET_8_mc_3->Fill(RECO_CORMETMUONS,newweight*mc_weight_un[3]);
+     hPFMET_8_mc_4->Fill(RECO_CORMETMUONS,newweight*mc_weight_un[4]);
+     hPFMET_8_mc_5->Fill(RECO_CORMETMUONS,newweight*mc_weight_un[5]);
+     hPFMET_8_mc_6->Fill(RECO_CORMETMUONS,newweight*mc_weight_un[6]);
+     hPFMET_8_mc_7->Fill(RECO_CORMETMUONS,newweight*mc_weight_un[7]);
+     hPFMET_8_mc_8->Fill(RECO_CORMETMUONS,newweight*mc_weight_un[8]);
+ 
      
      
      //Basic cuts to jets AND delta R section
      int njets_pass=0;
      int nbtag_pass=0;
+     int nhb_pass=0,nlb_pass=0;
      TLorentzVector JET1,JET2,BOT1,BOT2;
+     TLorentzVector JET1_up,JET2_up,BOT1_up,BOT2_up,JET1_jer_up,JET2_jer_up,BOT1_jer_up,BOT2_jer_up;
+     TLorentzVector JET1_dow,JET2_dow,BOT1_dow,BOT2_dow,JET1_jer_dow,JET2_jer_dow,BOT1_jer_dow,BOT2_jer_dow;
+     bool b1=false;
+     bool b2=false;
      int jet1=-999,jet2=-999,bot1=-999,bot2=-999;      
      int jetfail[100];
      float GOOD_JET_PT_MAX = 0.;
@@ -2844,6 +3689,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      float max_dphi_jet_met = 0.;
      float min_dphi_jet_met = 999.;
      vector <int>  v_good_jets_index;
+     float nbjetweight=1;
+     float scaleFactor1=1, scaleFactor2=1,scaleFactor1_up=1,scaleFactor1_dow=1,scaleFactor2_up=1,scaleFactor2_dow=1,scale_h_up=0,scale_h_dow=0,scale_l_up=0,scale_l_dow=0,scale_a_up=0,scale_a_dow=0;
+
 
      for(int i=0;i<100;i++) jetfail[i]=0;
      
@@ -2851,99 +3699,63 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
           if(RECO_PFJET_PT[i]<-100) continue;
 
-/*          if(RECOBOT_MatchingMCTruth[i+1]==1) {
-             if(nbtag_pass==0&&cSV_BTagJet_DISCR[i]> 0.8484) {bot1=i;BOT1.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));}
-             if(nbtag_pass==1&&cSV_BTagJet_DISCR[i]> 0.8484) {bot2=i;BOT2.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));}
-             if(cSV_BTagJet_DISCR[i]> 0.8484) nbtag_pass++;
-          }
-*/
        cout<<i<<" Jet with pt= "<<RECO_PFJET_PT[i]<<" ETA "<<RECO_PFJET_ETA[i]<<" PUID "<<RECO_PFJET_PUID[i] << " PUID_MVA "<< RECO_PFJET_PUID_MVA[i]<<endl;
- 
+
+       double scaleFactor_1=1;
+       double scaleFactor_1_up=1;
+       double scaleFactor_1_dow=1;
+
+       double Pt=RECO_PFJET_PT[i];
+       double Eta=RECO_PFJET_ETA[i];
+      if(RECO_PFJET_PT[i]>25. && fabs(RECO_PFJET_ETA[i])<2.4){
        hPtJet_7->Fill(RECO_PFJET_PT[i],newweight);
        hYJet_7->Fill(RECO_PFJET_ETA[i],newweight);
-
-
+              if( MC_type == "Spring16" && DATA_type == "NO"){
+                 if(RECOBOT_MatchingMCTruth[i+1]==2) scaleFactor_1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_C, Eta, Pt);
+                 else if(RECOBOT_MatchingMCTruth[i+1]==1) scaleFactor_1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, Eta, Pt);
+                 else if(RECOBOT_MatchingMCTruth[i+1]==5) scaleFactor_1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                 else scaleFactor_1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+              }
+          if(cSV_BTagJet_DISCR[i]> 0.5426) {
+          hPtBot_7->Fill(RECO_PFJET_PT[i],newweight*scaleFactor_1);}
+       }
+  
        float dphi_jet_met=0.;
        dphi_jet_met=RECO_PFJET_PHI[i]-RECO_PFMET_PHI;
-       if(debug) cout <<" The dphi_jet_met for jet "<< i <<" is: "<< dphi_jet_met <<endl;
-       if(debug) cout <<" The RECO_PFMET_PHI is: "<< RECO_PFMET_PHI  <<endl;
-       if (dphi_jet_met > 0. && fabs(dphi_jet_met)>mPI) dphi_jet_met-=float(2*mPI);
-       if (dphi_jet_met < 0. && fabs(dphi_jet_met)>mPI) dphi_jet_met+=float(2*mPI);
-       if(debug) cout <<" The dphi_jet_met for jet "<< i <<" after removing 2mPI is: "<< dphi_jet_met <<endl;
-       if(debug) cout <<" The ABSOLUTE VALUE of dphi_jet_met for jet "<< i <<" after removing 2mPI is: "<< fabs(dphi_jet_met) <<endl;
-       if (fabs(dphi_jet_met) >  max_dphi_jet_met)  max_dphi_jet_met=fabs(dphi_jet_met);
-       if(debug) cout <<"The value of the maximum dphi is: "<< max_dphi_jet_met<<endl;
-       if (fabs(dphi_jet_met) <  min_dphi_jet_met)  min_dphi_jet_met=fabs(dphi_jet_met);
-       if(debug) cout <<"The value of the minimum dphi is: "<< min_dphi_jet_met<<endl;
 
        // JET smearing
 
-       double jercorr = 1.0; double jercorrup = 1.0; double jercorrdn = 1.0;
-/*
-       if (MC_type == "Spring16" || MC_type== "Moriond17") {
-         cout << "test1" << endl;
-	 jetparameters.setJetPt(RECO_PFJET_PT[i]);
-	 jetparameters.setJetEta(RECO_PFJET_ETA[i]);
-	 //jetparameters.setRho(RHO_mu);
-	 
-         cout << "test2" << endl;
-	 float relpterr = jetresolution.getResolution(jetparameters); // jet pt resolution
-	 	 
-	 cout << "test21" << endl; 
-	 JME::JetParameters sf_parameters = {{JME::Binning::JetEta, RECO_PFJET_ETA[i]}, {JME::Binning::Rho, RHO_mu}};
-         cout << "test22" << endl;
-	 float factor = jetresolution_sf.getScaleFactor(sf_parameters);
-         cout << "test23" << endl;
-	 float factorup = jetresolution_sf.getScaleFactor(sf_parameters, Variation::UP);
-	 float factordn = jetresolution_sf.getScaleFactor(sf_parameters, Variation::DOWN);
-	 double pt_jer, pt_jerup, pt_jerdn;
+        bool match_jet = false ;
+        double jer_scale_up=1;
+        double jer_scale_dow=1;
+        double jer_scale=1;
+        int aa=0;
+        for(int p=0; p<9; p++){
+          if(abs(RECO_PFJET_ETA[i])>=eta_jer[p]&&abs(RECO_PFJET_ETA[i])<eta_jer[p+1]) aa=p;
+        }
 
-         cout << "test3" << endl;	 
-	 bool onegenjet=false;
-	 for(int ijet=0;ijet<100;ijet++){
-	   if (MC_GENJET_PT[ijet]>-999.){
-	     double deltaPhi = DELTAPHI(RECO_PFJET_PHI[i],MC_GENJET_PHI[ijet]) ;
-	     double deltaEta = fabs( RECO_PFJET_ETA[i] - MC_GENJET_ETA[ijet] );
-	     double deltaR =sqrt( pow(deltaPhi,2) + pow(deltaEta,2));
-	     if (deltaR<0.2
-		 && (abs(RECO_PFJET_PT[i]-MC_GENJET_PT[ijet])<3*relpterr*RECO_PFJET_PT[i])) {
-	       pt_jer = max(0.0,double(MC_GENJET_PT[ijet]+factor*(RECO_PFJET_PT[i]-MC_GENJET_PT[ijet])));
-	       pt_jerup = max(0.0,double(MC_GENJET_PT[ijet]+factorup*(RECO_PFJET_PT[i]-MC_GENJET_PT[ijet])));
-	       pt_jerdn = max(0.0,double(MC_GENJET_PT[ijet]+factordn*(RECO_PFJET_PT[i]-MC_GENJET_PT[ijet])));
-	     }
-	     onegenjet=true;
-	   }
-	 } 
-	
-         cout << "test3" << endl; 
-	 if (onegenjet==false){
-	   TRandom3 rand;
-	   rand.SetSeed(abs(static_cast<int>(sin(RECO_PFJET_PHI[i])*100000)));
-	   float smear = rand.Gaus(0,1.0);
-	   float sigma = sqrt(factor*factor-1.0)*relpterr*RECO_PFJET_PT[i];
-	   float sigmaup = sqrt(factorup*factorup-1.0)*relpterr*RECO_PFJET_PT[i];
-	   float sigmadn = sqrt(factordn*factordn-1.0)*relpterr*RECO_PFJET_PT[i];
-	   pt_jer = max(0.0,double(smear*sigma+RECO_PFJET_PT[i]));
-	   pt_jerup = max(0.0,double(smear*sigmaup+RECO_PFJET_PT[i]));
-	   pt_jerdn = max(0.0,double(smear*sigmadn+RECO_PFJET_PT[i]));
-	 }
-	 
-	 jercorr = pt_jer/RECO_PFJET_PT[i];
-	 jercorrup = pt_jerup/RECO_PFJET_PT[i];
-	 jercorrdn = pt_jerdn/RECO_PFJET_PT[i];
-	 
+        for(int k=0;k<100;k++){
+
+             if(MC_GENJET_PT[k]<-1) continue;
+
+             double deltaR = sqrt( pow( DELTAPHI( RECO_PFJET_PHI[i] , MC_GENJET_PHI[k] ),2) + pow(RECO_PFJET_ETA[i] - MC_GENJET_ETA[k],2) );
+         if(deltaR<0.2) {
+             match_jet=true;
+             jer_scale_up=1+un_jer[aa]*abs(RECO_PFJET_PT[i]-MC_GENJET_PT[k])/RECO_PFJET_PT[i];
+             jer_scale_dow=1-un_jer[aa]*abs(RECO_PFJET_PT[i]-MC_GENJET_PT[k])/RECO_PFJET_PT[i];
+           }
        }
-       
-       
-       // re-definition of the jet 4 momentum
-       TLorentzVector jet_jer_tmp,jet_jer;
-       jet_jer_tmp.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
-       jet_jer.SetPxPyPzE(jercorr*jet_jer_tmp.Px(),jercorr*jet_jer_tmp.Py(),jercorr*jet_jer_tmp.Pz(),jercorr*jet_jer_tmp.E());
-       RECO_PFJET_PT[i]=jet_jer.Perp(); // pt jet corrected
-       RECO_PFJET_ETA[i]=jet_jer.Eta();
-       RECO_PFJET_PHI[i]=jet_jer.Phi();
-       RECO_PFJET_ET[i]=jet_jer.Et();
-   */   
+
+       if(!match_jet){
+
+           double scale = std::sqrt(std::max(scale_jer[aa]*scale_jer[aa] - 1.0 , 0.0));
+
+           TRandom3 rand1(0);
+           jer_scale_up=1+un_jer[aa]*scale;
+           jer_scale_dow=1-un_jer[aa]*scale;
+
+       }
+
        bool goodjet = RECO_PFJET_NHF[i] < 0.99 &&
                       RECO_PFJET_NEF[i] < 0.99 &&
                       RECO_PFJET_CHF[i] < 0.99 &&
@@ -2952,7 +3764,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
                       RECO_PFJET_NCH > 0;
        
  
-       if(RECO_PFJET_PT[i]>25. && fabs(RECO_PFJET_ETA[i])<2.4 && goodjet==1){
+       if(RECO_PFJET_PT[i]>25. && fabs(RECO_PFJET_ETA[i])<2.4 /*&& goodjet==1*/){
        
       	 //Check that jet has deltaR>0.4 away from any tight lepton corrected for FSR
 	 for(int mu = 0; mu < N_good; ++mu){
@@ -3001,44 +3813,264 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
            hPtJet_8->Fill(RECO_PFJET_PT[i],newweight);
            hYJet_8->Fill(RECO_PFJET_ETA[i],newweight);
+           hPtJet_8_up->Fill(RECO_PFJET_PT_UP[i],newweight);
+           hPtJet_8_dow->Fill(RECO_PFJET_PT_DOW[i],newweight);
+
+           hPtJet_8_pdf_up->Fill(RECO_PFJET_PT[i],newweight*(1+PDF_weighting_un));
+           hPtJet_8_pdf_dow->Fill(RECO_PFJET_PT[i],newweight*(1-PDF_weighting_un));
+           hPtJet_8_pu_up->Fill(RECO_PFJET_PT[i],newweight*pu_up);
+           hPtJet_8_pu_dow->Fill(RECO_PFJET_PT[i],newweight*pu_dow);
+
+           hYJet_8_pdf_up->Fill(RECO_PFJET_ETA[i],newweight*(1+PDF_weighting_un));
+           hYJet_8_pdf_dow->Fill(RECO_PFJET_ETA[i],newweight*(1-PDF_weighting_un));
+
+           hPtJet_8_jer_up->Fill(RECO_PFJET_PT[i]*jer_scale_up,newweight);
+           hPtJet_8_jer_dow->Fill(RECO_PFJET_PT[i]*jer_scale_dow,newweight);
+
+           hPtJet_8_mc_1->Fill(RECO_PFJET_PT[i],newweight*mc_weight_un[1]);
+           hYJet_8_mc_1->Fill(RECO_PFJET_ETA[i],newweight*mc_weight_un[1]);
+
+           hPtJet_8_mc_2->Fill(RECO_PFJET_PT[i],newweight*mc_weight_un[2]);
+           hYJet_8_mc_2->Fill(RECO_PFJET_ETA[i],newweight*mc_weight_un[2]);
+
+           hPtJet_8_mc_3->Fill(RECO_PFJET_PT[i],newweight*mc_weight_un[3]);
+           hYJet_8_mc_3->Fill(RECO_PFJET_ETA[i],newweight*mc_weight_un[3]);
+
+           hPtJet_8_mc_4->Fill(RECO_PFJET_PT[i],newweight*mc_weight_un[4]);
+           hYJet_8_mc_4->Fill(RECO_PFJET_ETA[i],newweight*mc_weight_un[4]);
+
+           hPtJet_8_mc_5->Fill(RECO_PFJET_PT[i],newweight*mc_weight_un[5]);
+           hYJet_8_mc_5->Fill(RECO_PFJET_ETA[i],newweight*mc_weight_un[5]);
+
+           hPtJet_8_mc_6->Fill(RECO_PFJET_PT[i],newweight*mc_weight_un[6]);
+           hYJet_8_mc_6->Fill(RECO_PFJET_ETA[i],newweight*mc_weight_un[6]);
+
+           hPtJet_8_mc_7->Fill(RECO_PFJET_PT[i],newweight*mc_weight_un[7]);
+           hYJet_8_mc_7->Fill(RECO_PFJET_ETA[i],newweight*mc_weight_un[7]);
+
+           hPtJet_8_mc_8->Fill(RECO_PFJET_PT[i],newweight*mc_weight_un[8]);
+           hYJet_8_mc_8->Fill(RECO_PFJET_ETA[i],newweight*mc_weight_un[8]);
+
            //b-tagging
-           if(cSV_BTagJet_DISCR[i]> 0.8484) nbtag_pass++;
+
+         if( MC_type == "Spring16" && DATA_type == "NO"){
+            if(RECOBOT_MatchingMCTruth[i+1]==1){
+             hPtJet_8_b->Fill(RECO_PFJET_PT[i],newweight);
+            }
+            else if(RECOBOT_MatchingMCTruth[i+1]==2){
+             hPtJet_8_c->Fill(RECO_PFJET_PT[i],newweight);
+            }
+            else if(RECOBOT_MatchingMCTruth[i+1]==3){
+             hPtJet_8_l->Fill(RECO_PFJET_PT[i],newweight);
+            }
+            else if(RECOBOT_MatchingMCTruth[i+1]==5){
+             hPtJet_8_o->Fill(RECO_PFJET_PT[i],newweight);
+            }
+           }
+
+           double scaleFactor=1;
+           double scaleFactor_up=1;
+           double scaleFactor_dow=1;
+
+
+           if(cSV_BTagJet_DISCR[i]> 0.5426){
+              nbtag_pass++;
+              if( MC_type == "Spring16" && DATA_type == "NO"){
+                 if(RECOBOT_MatchingMCTruth[i+1]==2){
+                    scaleFactor = reader.eval_auto_bounds("central",BTagEntry::FLAV_C, Eta, Pt);
+                    scaleFactor_up = reader.eval_auto_bounds("up",BTagEntry::FLAV_C, Eta, Pt);
+                    scaleFactor_dow = reader.eval_auto_bounds("down",BTagEntry::FLAV_C, Eta, Pt);
+                    hPtBot_8_c->Fill(RECO_PFJET_PT[i],newweight*scaleFactor);
+                    hPtBot_8_c_up->Fill(RECO_PFJET_PT[i],newweight*scaleFactor_up);
+                    hPtBot_8_c_dow->Fill(RECO_PFJET_PT[i],newweight*scaleFactor_dow);
+                    scale_h_up+=(scaleFactor_up/scaleFactor-1)*(scaleFactor_up/scaleFactor-1);
+                    scale_h_dow+=(1-scaleFactor_dow/scaleFactor)*(1-scaleFactor_dow/scaleFactor);
+                    nhb_pass++;
+                 }
+                 else if(RECOBOT_MatchingMCTruth[i+1]==1){
+                    scaleFactor = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, Eta, Pt);
+                    scaleFactor_up = reader.eval_auto_bounds("up",BTagEntry::FLAV_B, Eta, Pt);
+                    scaleFactor_dow = reader.eval_auto_bounds("down",BTagEntry::FLAV_B, Eta, Pt);
+                    hPtBot_8_b->Fill(RECO_PFJET_PT[i],newweight*scaleFactor);
+                    hPtBot_8_b_up->Fill(RECO_PFJET_PT[i],newweight*scaleFactor_up);
+                    hPtBot_8_b_dow->Fill(RECO_PFJET_PT[i],newweight*scaleFactor_dow);
+                    scale_h_up+=(scaleFactor_up/scaleFactor-1)*(scaleFactor_up/scaleFactor-1);
+                    scale_h_dow+=(1-scaleFactor_dow/scaleFactor)*(1-scaleFactor_dow/scaleFactor); 
+                   nhb_pass++;
+                 }
+                 else if(RECOBOT_MatchingMCTruth[i+1]==3){
+                    double sf_l=1;
+                    int binxb = b_eff_zz_p5->GetXaxis()->FindBin(Pt);
+                    if( datasetName.Contains("ZZTo4L")|| datasetName.Contains("GluGluTo")) sf_l=b_eff_zz_p5->GetBinContent(binxb);
+                    if(sf_l<=0) sf_l=1;
+                      
+                    scaleFactor = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    scaleFactor*=sf_l;
+                    scaleFactor_up = sf_l*reader.eval_auto_bounds("up",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    scaleFactor_dow = sf_l*reader.eval_auto_bounds("down",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    hPtBot_8_l->Fill(RECO_PFJET_PT[i],newweight*scaleFactor);
+                    hPtBot_8_l_up->Fill(RECO_PFJET_PT[i],newweight*scaleFactor_up);
+                    hPtBot_8_l_dow->Fill(RECO_PFJET_PT[i],newweight*scaleFactor_dow);
+                    scale_l_up+=(scaleFactor_up/scaleFactor-1)*(scaleFactor_up/scaleFactor-1);
+                    scale_l_dow+=(1-scaleFactor_dow/scaleFactor)*(1-scaleFactor_dow/scaleFactor);
+                    nlb_pass++;
+                 }
+                 else if(RECOBOT_MatchingMCTruth[i+1]==5){
+                    scaleFactor = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    scaleFactor_up = reader.eval_auto_bounds("up",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    scaleFactor_dow = reader.eval_auto_bounds("down",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    hPtBot_8_o->Fill(RECO_PFJET_PT[i],newweight*scaleFactor);
+                    hPtBot_8_o_up->Fill(RECO_PFJET_PT[i],newweight*scaleFactor_up);
+                    hPtBot_8_o_dow->Fill(RECO_PFJET_PT[i],newweight*scaleFactor_dow);
+                    scale_l_up+=(scaleFactor_up/scaleFactor-1)*(scaleFactor_up/scaleFactor-1);
+                    scale_l_dow+=(1-scaleFactor_dow/scaleFactor)*(1-scaleFactor_dow/scaleFactor);
+                    nlb_pass++;
+                 }
+                    scale_a_up+=(scaleFactor_up/scaleFactor-1)*(scaleFactor_up/scaleFactor-1);
+                    scale_a_dow+=(1-scaleFactor_dow/scaleFactor)*(1-scaleFactor_dow/scaleFactor);
+
+           }
+           hPtBot_8->Fill(RECO_PFJET_PT[i],newweight*scaleFactor);
+           hPtBot_8_up->Fill(RECO_PFJET_PT_UP[i],newweight*scaleFactor);
+           hPtBot_8_dow->Fill(RECO_PFJET_PT_DOW[i],newweight*scaleFactor);
+           hPtBot_8_pdf_up->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*(1+PDF_weighting_un));
+           hPtBot_8_pdf_dow->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*(1-PDF_weighting_un));
+           hPtBot_8_pu_up->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*pu_up);
+           hPtBot_8_pu_dow->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*pu_dow);
+           hPtBot_8_jer_up->Fill(RECO_PFJET_PT[i]*jer_scale_up,newweight);
+           hPtBot_8_jer_dow->Fill(RECO_PFJET_PT[i]*jer_scale_dow,newweight);
+
+           hPtBot_8_mc_1->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*mc_weight_un[1]);
+           hPtBot_8_mc_2->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*mc_weight_un[2]);
+           hPtBot_8_mc_3->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*mc_weight_un[3]);
+           hPtBot_8_mc_4->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*mc_weight_un[4]);
+           hPtBot_8_mc_5->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*mc_weight_un[5]);
+           hPtBot_8_mc_6->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*mc_weight_un[6]);
+           hPtBot_8_mc_7->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*mc_weight_un[7]);
+           hPtBot_8_mc_8->Fill(RECO_PFJET_PT[i],newweight*scaleFactor*mc_weight_un[8]);
+
+           hYBot_8->Fill(RECO_PFJET_ETA[i],newweight*scaleFactor);
+
+
+           }
+          else{
+             if( MC_type == "Spring16" && DATA_type == "NO"){
+                 double b_sf=1;
+                 double b_eff=0;
+                 int binxb = b_eff_p1->GetXaxis()->FindBin(Pt);
+                 if(RECOBOT_MatchingMCTruth[i+1]==2){
+                    b_sf = reader.eval_auto_bounds("central",BTagEntry::FLAV_C, Eta, Pt);
+                    b_eff=b_eff_p2->GetBinContent(binxb);
+                    if(b_eff>=1||b_eff<=0) b_eff=0;
+                    scaleFactor=(1-b_eff*b_sf)/(1-b_eff);
+                 }
+                 else if(RECOBOT_MatchingMCTruth[i+1]==1){
+                    b_sf = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, Eta, Pt);
+                    b_eff=b_eff_p1->GetBinContent(binxb);
+                    if(b_eff>=1||b_eff<=0) b_eff=0;
+                    scaleFactor=(1-b_eff*b_sf)/(1-b_eff);
+                 }
+                 else if(RECOBOT_MatchingMCTruth[i+1]==3){
+                    b_sf = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    b_eff=b_eff_p3->GetBinContent(binxb);
+                    if(b_eff>=1||b_eff<=0) b_eff=0;
+                    scaleFactor=(1-b_eff*b_sf)/(1-b_eff);
+                 }
+                 else if(RECOBOT_MatchingMCTruth[i+1]==5){
+                    b_sf = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    b_eff=b_eff_p4->GetBinContent(binxb);
+                    if(b_eff>=1||b_eff<=0) b_eff=0;
+                    scaleFactor=(1-b_eff*b_sf)/(1-b_eff);
+                 }
+              if(scaleFactor>50) scaleFactor=1;
+              if(scaleFactor<0) scaleFactor=0;
+             }
+          }
+         nbjetweight*=scaleFactor;
+
 	   if (njets_pass==1){
 	     jet1=i;
 	     JET1.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+
+             JET1_jer_up.SetPtEtaPhiE(RECO_PFJET_PT[i]*jer_scale_up,RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             JET1_jer_dow.SetPtEtaPhiE(RECO_PFJET_PT[i]*jer_scale_dow,RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+
+             JET1_up.SetPtEtaPhiE(RECO_PFJET_PT_UP[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             JET1_dow.SetPtEtaPhiE(RECO_PFJET_PT_DOW[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+
 	     GOOD_JET_PT_MAX=RECO_PFJET_PT[i];
 	     JET_PHI_PT_MAX=RECO_PFJET_PHI[i];
              bdiscr_5_lead->Fill(cSV_BTagJet_DISCR[i],newweight);
 	     cout<<"Among the jets that pass the jet with the highet pt is the jet of index "<< i <<". It has pt "<<GOOD_JET_PT_MAX<<". The corresponding value of phi is " << JET_PHI_PT_MAX <<endl;
- //            if(cSV_BTagJet_DISCR[i]> 0.8484) {nbtag_pass++;
- //              bot1=i;
- //              BOT1.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
- //            }
   
 	   }
 	   if (njets_pass==2){
 	     jet2=i;
 	     JET2.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+
+             JET2_jer_up.SetPtEtaPhiE(RECO_PFJET_PT[i]*jer_scale_up,RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             JET2_jer_dow.SetPtEtaPhiE(RECO_PFJET_PT[i]*jer_scale_dow,RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+
+             JET2_up.SetPtEtaPhiE(RECO_PFJET_PT_UP[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             JET2_dow.SetPtEtaPhiE(RECO_PFJET_PT_DOW[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+
              bdiscr_5_sub->Fill(cSV_BTagJet_DISCR[i],newweight);
-//             if(cSV_BTagJet_DISCR[i]> 0.8484) {nbtag_pass++;
-//               bot2=i;
-//               BOT2.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
-//             }
 
 	   }
-//          if(RECOBOT_MatchingMCTruth[bot1]==1) {
-//             if(nbtag_pass==0) {bot1=i; nbtag_pass++;BOT1.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));}
-//             if(nbtag_pass==1) {bot2=i; nbtag_pass++;BOT2.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));}
-//          }
            //b-tagging
 
-           if (nbtag_pass==1){
+           if (nbtag_pass==1&&cSV_BTagJet_DISCR[i]> 0.5426){
              bot1=i;
+             if(RECOBOT_MatchingMCTruth[i+1]==1||RECOBOT_MatchingMCTruth[i+1]==2) b1=true;
+
+                 if(RECOBOT_MatchingMCTruth[i+1]==2){
+                    scaleFactor1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_C, Eta, Pt);
+                    scaleFactor1_up = reader.eval_auto_bounds("up",BTagEntry::FLAV_C, Eta, Pt);
+                    scaleFactor1_dow = reader.eval_auto_bounds("down",BTagEntry::FLAV_C, Eta, Pt);
+                 }
+                 else if(RECOBOT_MatchingMCTruth[i+1]==1){
+                    scaleFactor1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, Eta, Pt);
+                    scaleFactor1_up = reader.eval_auto_bounds("up",BTagEntry::FLAV_B, Eta, Pt);
+                    scaleFactor1_dow = reader.eval_auto_bounds("down",BTagEntry::FLAV_B, Eta, Pt);
+                 }
+                 else{
+                    scaleFactor1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    scaleFactor1_up = reader.eval_auto_bounds("up",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    scaleFactor1_dow = reader.eval_auto_bounds("down",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                 }
+
              BOT1.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             BOT1_up.SetPtEtaPhiE(RECO_PFJET_PT_UP[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             BOT1_dow.SetPtEtaPhiE(RECO_PFJET_PT_DOW[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));          
+             BOT1_jer_up.SetPtEtaPhiE(RECO_PFJET_PT[i]*jer_scale_up,RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             BOT1_jer_dow.SetPtEtaPhiE(RECO_PFJET_PT[i]*jer_scale_dow,RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
            }
-           if (nbtag_pass==2){
+           if (nbtag_pass==2&&cSV_BTagJet_DISCR[i]> 0.5426){
              bot2=i;
+             if(RECOBOT_MatchingMCTruth[i+1]==1||RECOBOT_MatchingMCTruth[i+1]==2) b2=true;
+                 if(RECOBOT_MatchingMCTruth[i+1]==2){
+                    scaleFactor2 = reader.eval_auto_bounds("central",BTagEntry::FLAV_C, Eta, Pt);
+                    scaleFactor2_up = reader.eval_auto_bounds("up",BTagEntry::FLAV_C, Eta, Pt);
+                    scaleFactor2_dow = reader.eval_auto_bounds("down",BTagEntry::FLAV_C, Eta, Pt);
+                 }
+                 else if(RECOBOT_MatchingMCTruth[i+1]==1){
+                    scaleFactor2 = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, Eta, Pt);
+                    scaleFactor2_up = reader.eval_auto_bounds("up",BTagEntry::FLAV_B, Eta, Pt);
+                    scaleFactor2_dow = reader.eval_auto_bounds("down",BTagEntry::FLAV_B, Eta, Pt);
+                 }
+                 else{
+                    scaleFactor2 = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    scaleFactor2_up = reader.eval_auto_bounds("up",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                    scaleFactor2_dow = reader.eval_auto_bounds("down",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
+                 }
+
              BOT2.SetPtEtaPhiE(RECO_PFJET_PT[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             BOT2_up.SetPtEtaPhiE(RECO_PFJET_PT_UP[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             BOT2_dow.SetPtEtaPhiE(RECO_PFJET_PT_DOW[i],RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+
+             BOT2_jer_up.SetPtEtaPhiE(RECO_PFJET_PT[i]*jer_scale_up,RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+             BOT2_jer_dow.SetPtEtaPhiE(RECO_PFJET_PT[i]*jer_scale_dow,RECO_PFJET_ETA[i],RECO_PFJET_PHI[i],RECO_PFJET_ET[i]*TMath::CosH(RECO_PFJET_ETA[i]));
+
            }
 	 }
 
@@ -3051,60 +4083,404 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
 
      hNjets_8->Fill(njets_pass,newweight);
+     hNbjets_8_btag_up->Fill(nbtag_pass,newweight*nbjetweight*(1+sqrt(scale_a_up)));
+     hNbjets_8_btag_dow->Fill(nbtag_pass,newweight*nbjetweight*(1-sqrt(scale_a_dow)));
+     hNjets_8_pdf_up->Fill(njets_pass,newweight*(1+PDF_weighting_un));
+     hNjets_8_pdf_dow->Fill(njets_pass,newweight*(1-PDF_weighting_un));
+     hNjets_8_pu_up->Fill(njets_pass,newweight*pu_up);
+     hNjets_8_pu_dow->Fill(njets_pass,newweight*pu_dow);
+     hNjets_8_mc_1->Fill(njets_pass,newweight*mc_weight_un[1]);
+     hNjets_8_mc_2->Fill(njets_pass,newweight*mc_weight_un[2]);
+     hNjets_8_mc_3->Fill(njets_pass,newweight*mc_weight_un[3]);
+     hNjets_8_mc_4->Fill(njets_pass,newweight*mc_weight_un[4]);
+     hNjets_8_mc_5->Fill(njets_pass,newweight*mc_weight_un[5]);
+     hNjets_8_mc_6->Fill(njets_pass,newweight*mc_weight_un[6]);
+     hNjets_8_mc_7->Fill(njets_pass,newweight*mc_weight_un[7]);
+     hNjets_8_mc_8->Fill(njets_pass,newweight*mc_weight_un[8]);
+
+     hNbjets_8->Fill(nbtag_pass,newweight*nbjetweight);
+     hNbjets_8_pdf_up->Fill(nbtag_pass,newweight*nbjetweight*(1+PDF_weighting_un));
+     hNbjets_8_pdf_dow->Fill(nbtag_pass,newweight*nbjetweight*(1-PDF_weighting_un));
+     hNbjets_8_pu_up->Fill(nbtag_pass,newweight*nbjetweight*pu_up);
+     hNbjets_8_pu_dow->Fill(nbtag_pass,newweight*nbjetweight*pu_dow);
+     hNbjets_8_mc_1->Fill(nbtag_pass,newweight*nbjetweight*mc_weight_un[1]);
+     hNbjets_8_mc_2->Fill(nbtag_pass,newweight*nbjetweight*mc_weight_un[2]);
+     hNbjets_8_mc_3->Fill(nbtag_pass,newweight*nbjetweight*mc_weight_un[3]);
+     hNbjets_8_mc_4->Fill(nbtag_pass,newweight*nbjetweight*mc_weight_un[4]);
+     hNbjets_8_mc_5->Fill(nbtag_pass,newweight*nbjetweight*mc_weight_un[5]);
+     hNbjets_8_mc_6->Fill(nbtag_pass,newweight*nbjetweight*mc_weight_un[6]);
+     hNbjets_8_mc_7->Fill(nbtag_pass,newweight*nbjetweight*mc_weight_un[7]);
+     hNbjets_8_mc_8->Fill(nbtag_pass,newweight*nbjetweight*mc_weight_un[8]);
 
      if(njets_pass<2) continue;
      double Mjj = (JET1+JET2).M();
 
      Mjj_6->Fill(Mjj,newweight);
+     Mjj_6_up->Fill((JET1_up+JET2_up).M(),newweight);
+     Mjj_6_dow->Fill((JET1_dow+JET2_dow).M(),newweight);
+
+     Mjj_6_pdf_up->Fill(Mjj,newweight*(1+PDF_weighting_un));
+     Mjj_6_pdf_dow->Fill(Mjj,newweight*(1-PDF_weighting_un));
+     Mjj_6_pu_up->Fill(Mjj,newweight*pu_up);
+     Mjj_6_pu_dow->Fill(Mjj,newweight*pu_dow);
+
+     Mjj_6_jer_up->Fill((JET1_jer_up+JET2_jer_up).M(),newweight);
+     Mjj_6_jer_dow->Fill((JET1_jer_dow+JET2_jer_dow).M(),newweight);
+
+     Mjj_6_mc_1->Fill(Mjj,newweight*mc_weight_un[1]);
+     Mjj_6_mc_2->Fill(Mjj,newweight*mc_weight_un[2]);
+     Mjj_6_mc_3->Fill(Mjj,newweight*mc_weight_un[3]);
+     Mjj_6_mc_4->Fill(Mjj,newweight*mc_weight_un[4]);
+     Mjj_6_mc_5->Fill(Mjj,newweight*mc_weight_un[5]);
+     Mjj_6_mc_6->Fill(Mjj,newweight*mc_weight_un[6]);
+     Mjj_6_mc_7->Fill(Mjj,newweight*mc_weight_un[7]);
+     Mjj_6_mc_8->Fill(Mjj,newweight*mc_weight_un[8]);
+
+
      hMZ1_6->Fill(massZ1,newweight);
      hPtZ1_6->Fill( ptZ1,newweight );
      hYZ1_6->Fill( Y_Z1,newweight );
-     hMZ2_6->Fill(massZ2,newweight);
-     hPtZ2_6->Fill( ptZ2,newweight );
-     hYZ2_6->Fill( Y_Z2,newweight );
 
+      hMZ1_6_pdf_up->Fill( massZ1,newweight*(1+PDF_weighting_un));
+      hPtZ1_6_pdf_up->Fill( ptZ1,newweight*(1+PDF_weighting_un));
+      hYZ1_6_pdf_up->Fill( Y_Z1,newweight*(1+PDF_weighting_un));
+
+      hMZ1_6_pdf_dow->Fill( massZ1,newweight*(1-PDF_weighting_un));
+      hPtZ1_6_pdf_dow->Fill( ptZ1,newweight*(1-PDF_weighting_un));
+      hYZ1_6_pdf_dow->Fill( Y_Z1,newweight*(1-PDF_weighting_un));
+
+      hMZ1_6_pu_up->Fill( massZ1,newweight*pu_up);
+      hPtZ1_6_pu_up->Fill( ptZ1,newweight*pu_up);
+      hYZ1_6_pu_up->Fill( Y_Z1,newweight*pu_up);
+
+      hMZ1_6_pu_dow->Fill( massZ1,newweight*pu_dow);
+      hPtZ1_6_pu_dow->Fill( ptZ1,newweight*pu_dow);
+      hYZ1_6_pu_dow->Fill( Y_Z1,newweight*pu_dow);
+
+      hMZ1_6_mc_1->Fill( massZ1,newweight*mc_weight_un[1] );
+      hPtZ1_6_mc_1->Fill( ptZ1,newweight*mc_weight_un[1]);
+      hYZ1_6_mc_1->Fill( Y_Z1,newweight*mc_weight_un[1]);
+
+      hMZ1_6_mc_2->Fill( massZ1,newweight*mc_weight_un[2] );
+      hPtZ1_6_mc_2->Fill( ptZ1,newweight*mc_weight_un[2]);
+      hYZ1_6_mc_2->Fill( Y_Z1,newweight*mc_weight_un[2]);
+
+      hMZ1_6_mc_3->Fill( massZ1,newweight*mc_weight_un[3] );
+      hPtZ1_6_mc_3->Fill( ptZ1,newweight*mc_weight_un[3]);
+      hYZ1_6_mc_3->Fill( Y_Z1,newweight*mc_weight_un[3]);
+
+      hMZ1_6_mc_4->Fill( massZ1,newweight*mc_weight_un[4] );
+      hPtZ1_6_mc_4->Fill( ptZ1,newweight*mc_weight_un[4]);
+      hYZ1_6_mc_4->Fill( Y_Z1,newweight*mc_weight_un[4]);
+
+      hMZ1_6_mc_5->Fill( massZ1,newweight*mc_weight_un[5] );
+      hPtZ1_6_mc_5->Fill( ptZ1,newweight*mc_weight_un[5]);
+      hYZ1_6_mc_5->Fill( Y_Z1,newweight*mc_weight_un[5]);
+
+      hMZ1_6_mc_6->Fill( massZ1,newweight*mc_weight_un[6] );
+      hPtZ1_6_mc_6->Fill( ptZ1,newweight*mc_weight_un[6]);
+      hYZ1_6_mc_6->Fill( Y_Z1,newweight*mc_weight_un[6]);
+
+      hMZ1_6_mc_7->Fill( massZ1,newweight*mc_weight_un[7] );
+      hPtZ1_6_mc_7->Fill( ptZ1,newweight*mc_weight_un[7]);
+      hYZ1_6_mc_7->Fill( Y_Z1,newweight*mc_weight_un[7]);
+
+      hMZ1_6_mc_8->Fill( massZ1,newweight*mc_weight_un[8] );
+      hPtZ1_6_mc_8->Fill( ptZ1,newweight*mc_weight_un[8]);
+      hYZ1_6_mc_8->Fill( Y_Z1,newweight*mc_weight_un[8]);
+
+      hMZ2_6->Fill(massZ2,newweight);
+      hPtZ2_6->Fill( ptZ2,newweight );
+      hYZ2_6->Fill( Y_Z2,newweight );
+
+      hMZ2_6_pdf_up->Fill( massZ2,newweight*(1+PDF_weighting_un));
+      hPtZ2_6_pdf_up->Fill( ptZ2,newweight*(1+PDF_weighting_un));
+      hYZ2_6_pdf_up->Fill( Y_Z2,newweight*(1+PDF_weighting_un));
+
+      hMZ2_6_pdf_dow->Fill( massZ2,newweight*(1-PDF_weighting_un));
+      hPtZ2_6_pdf_dow->Fill( ptZ2,newweight*(1-PDF_weighting_un));
+      hYZ2_6_pdf_dow->Fill( Y_Z2,newweight*(1-PDF_weighting_un));
+
+      hMZ2_6_pu_up->Fill( massZ2,newweight*pu_up);
+      hPtZ2_6_pu_up->Fill( ptZ2,newweight*pu_up);
+      hYZ2_6_pu_up->Fill( Y_Z2,newweight*pu_up);
+
+      hMZ2_6_pu_dow->Fill( massZ2,newweight*pu_dow);
+      hPtZ2_6_pu_dow->Fill( ptZ2,newweight*pu_dow);
+      hYZ2_6_pu_dow->Fill( Y_Z2,newweight*pu_dow);
+   
+      hMZ2_6_mc_1->Fill( massZ2,newweight*mc_weight_un[1] );
+      hPtZ2_6_mc_1->Fill( ptZ2,newweight*mc_weight_un[1]);
+      hYZ2_6_mc_1->Fill( Y_Z2,newweight*mc_weight_un[1]);
+
+      hMZ2_6_mc_2->Fill( massZ2,newweight*mc_weight_un[2] );
+      hPtZ2_6_mc_2->Fill( ptZ2,newweight*mc_weight_un[2]);
+      hYZ2_6_mc_2->Fill( Y_Z2,newweight*mc_weight_un[2]);
+
+      hMZ2_6_mc_3->Fill( massZ2,newweight*mc_weight_un[3] );
+      hPtZ2_6_mc_3->Fill( ptZ2,newweight*mc_weight_un[3]);
+      hYZ2_6_mc_3->Fill( Y_Z2,newweight*mc_weight_un[3]);
+
+      hMZ2_6_mc_4->Fill( massZ2,newweight*mc_weight_un[4] );
+      hPtZ2_6_mc_4->Fill( ptZ2,newweight*mc_weight_un[4]);
+      hYZ2_6_mc_4->Fill( Y_Z2,newweight*mc_weight_un[4]);
+
+      hMZ2_6_mc_5->Fill( massZ2,newweight*mc_weight_un[5] );
+      hPtZ2_6_mc_5->Fill( ptZ2,newweight*mc_weight_un[5]);
+      hYZ2_6_mc_5->Fill( Y_Z2,newweight*mc_weight_un[5]);
+
+      hMZ2_6_mc_6->Fill( massZ2,newweight*mc_weight_un[6] );
+      hPtZ2_6_mc_6->Fill( ptZ2,newweight*mc_weight_un[6]);
+      hYZ2_6_mc_6->Fill( Y_Z2,newweight*mc_weight_un[6]);
+
+      hMZ2_6_mc_7->Fill( massZ2,newweight*mc_weight_un[7] );
+      hPtZ2_6_mc_7->Fill( ptZ2,newweight*mc_weight_un[7]);
+      hYZ2_6_mc_7->Fill( Y_Z2,newweight*mc_weight_un[7]);
+
+      hMZ2_6_mc_8->Fill( massZ2,newweight*mc_weight_un[8] );
+      hPtZ2_6_mc_8->Fill( ptZ2,newweight*mc_weight_un[8]);
+      hYZ2_6_mc_8->Fill( Y_Z2,newweight*mc_weight_un[8]);
 
      if(nbtag_pass==0) N_bjets_w++;
      if(nbtag_pass==1) N_bjets_cut_w++;
      if(nbtag_pass>=2) N_njets_cut_w++;
 
+// qier (pick one/two bot)
      if(nbtag_pass<2) continue;
 
      cout <<"GOOD JET PT MAX is: "<< GOOD_JET_PT_MAX << endl;
      cout << "The max value of Deltaphi(jet,MET) among all jets in the event is "<<max_dphi_jet_met<< endl;
      cout << "The min value of Deltaphi(jet,MET) among all jets in the event is "<<min_dphi_jet_met<< endl;
-     
-     hDPHI_MIN_JET_MET_8->Fill(min_dphi_jet_met, newweight); 
-     hDPHI_MAX_JET_MET_8->Fill(max_dphi_jet_met, newweight); 
 
      double Mbb = (BOT1+BOT2).M();
      double PTbb = (BOT1+BOT2).Pt();
 
-     double btag_weight=1;
-     if( MC_type == "Spring16" && DATA_type == "NO"){
-       double Pt1=BOT1.Pt();
-       double Eta1=BOT1.Eta();
-       double Pt2=BOT2.Pt();
-       double Eta2=BOT2.Eta();
-       double scaleFactor1, scaleFactor2;
-       if(RECOBOT_MatchingMCTruth[bot1+1]==2) scaleFactor1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_C, Eta1, Pt1);
-       else scaleFactor1 = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, Eta1, Pt1);
-       if(RECOBOT_MatchingMCTruth[bot2+1]==2) scaleFactor2 = reader.eval_auto_bounds("central",BTagEntry::FLAV_C, Eta2, Pt2);
-       else scaleFactor2 = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, Eta2, Pt2);
-       newweight=newweight*scaleFactor1*scaleFactor2;
-       if(debug) cout << "btag weight" << scaleFactor1*scaleFactor2 << endl;
-     }
+     double wu1=scaleFactor1_up/scaleFactor1-1;
+     double wu2=scaleFactor2_up/scaleFactor2-1;
+     double wd1=1-scaleFactor1_dow/scaleFactor1;
+     double wd2=1-scaleFactor2_dow/scaleFactor2;
+     double w_up=1+sqrt(wu1*wu1+wu2*wu2);
+     double w_dow=1-sqrt(wd1*wd1+wd2*wd2);
 
+     double btag_weight=1;
+
+     if(b1&&b2) {Mbb_6_hh->Fill(Mbb,newweight*nbjetweight);
+                 Mbb_6_hh_up->Fill(Mbb,newweight*nbjetweight*w_up);
+                 Mbb_6_hh_dow->Fill(Mbb,newweight*nbjetweight*w_dow);
+                 ptbb_6_hh->Fill(PTbb,newweight*nbjetweight);
+                 ptbb_6_hh_up->Fill(PTbb,newweight*nbjetweight*w_up);
+                 ptbb_6_hh_dow->Fill(PTbb,newweight*nbjetweight*w_dow);
+                }
+     else if((!b1)&&(!b2)) {Mbb_6_ll->Fill(Mbb,newweight*nbjetweight);
+                            Mbb_6_ll_up->Fill(Mbb,newweight*nbjetweight*w_up);
+                            Mbb_6_ll_dow->Fill(Mbb,newweight*nbjetweight*w_dow);
+                            ptbb_6_ll->Fill(PTbb,newweight*nbjetweight);
+                            ptbb_6_ll_up->Fill(PTbb,newweight*nbjetweight*w_up);
+                            ptbb_6_ll_dow->Fill(PTbb,newweight*nbjetweight*w_dow);
+                           }
+     else {Mbb_6_hl->Fill(Mbb,newweight*nbjetweight);
+           Mbb_6_hl_up->Fill(Mbb,newweight*nbjetweight*w_up);
+           Mbb_6_hl_dow->Fill(Mbb,newweight*nbjetweight*w_dow);
+           ptbb_6_hl->Fill(PTbb,newweight*nbjetweight);
+           ptbb_6_hl_up->Fill(PTbb,newweight*nbjetweight*w_up);
+           ptbb_6_hl_dow->Fill(PTbb,newweight*nbjetweight*w_dow);
+          }
 
      Mbb_6->Fill(Mbb,newweight);
-     ptbb_6->Fill(PTbb,newweight);
+
+     Mbb_6_jer_up->Fill((BOT1_jer_up+BOT2_jer_up).M(),newweight*nbjetweight);
+     Mbb_6_jer_dow->Fill((BOT1_jer_dow+BOT2_jer_dow).M(),newweight*nbjetweight);
+
+     Mbb_6_up->Fill((BOT1_up+BOT2_up).M(),newweight*nbjetweight);
+     Mbb_6_dow->Fill((BOT1_dow+BOT2_dow).M(),newweight*nbjetweight);
+
+     Mbb_6_pdf_up->Fill(Mbb,newweight*nbjetweight*(1+PDF_weighting_un));
+     Mbb_6_pdf_dow->Fill(Mbb,newweight*nbjetweight*(1-PDF_weighting_un));
+
+     Mbb_6_pu_up->Fill(Mbb,newweight*nbjetweight*pu_up);
+     Mbb_6_pu_dow->Fill(Mbb,newweight*nbjetweight*pu_dow);
+
+     Mbb_6_mc_1->Fill(Mbb,newweight*nbjetweight*mc_weight_un[1]);
+     Mbb_6_mc_2->Fill(Mbb,newweight*nbjetweight*mc_weight_un[2]);
+     Mbb_6_mc_3->Fill(Mbb,newweight*nbjetweight*mc_weight_un[3]);
+     Mbb_6_mc_4->Fill(Mbb,newweight*nbjetweight*mc_weight_un[4]);
+     Mbb_6_mc_5->Fill(Mbb,newweight*nbjetweight*mc_weight_un[5]);
+     Mbb_6_mc_6->Fill(Mbb,newweight*nbjetweight*mc_weight_un[6]);
+     Mbb_6_mc_7->Fill(Mbb,newweight*nbjetweight*mc_weight_un[7]);
+     Mbb_6_mc_8->Fill(Mbb,newweight*nbjetweight*mc_weight_un[8]);
+
+     ptbb_6->Fill(PTbb,newweight*nbjetweight);
+     ptbb_6_pdf_up->Fill(PTbb,newweight*nbjetweight*(1+PDF_weighting_un));
+     ptbb_6_pdf_dow->Fill(PTbb,newweight*nbjetweight*(1-PDF_weighting_un));
+     ptbb_6_pu_up->Fill(PTbb,newweight*nbjetweight*pu_up);
+     ptbb_6_pu_dow->Fill(PTbb,newweight*nbjetweight*pu_dow);
+
+     ptbb_6_jer_up->Fill((BOT1_jer_up+BOT2_jer_up).Pt(),newweight*nbjetweight);
+     ptbb_6_jer_dow->Fill((BOT1_jer_dow+BOT2_jer_dow).Pt(),newweight*nbjetweight);
+
+     ptbb_6_up->Fill((BOT1_up+BOT2_up).Pt(),newweight*nbjetweight);
+     ptbb_6_dow->Fill((BOT1_dow+BOT2_dow).Pt(),newweight*nbjetweight);
+
+     ptbb_6_mc_1->Fill(PTbb,newweight*nbjetweight*mc_weight_un[1]);
+     ptbb_6_mc_2->Fill(PTbb,newweight*nbjetweight*mc_weight_un[2]);
+     ptbb_6_mc_3->Fill(PTbb,newweight*nbjetweight*mc_weight_un[3]);
+     ptbb_6_mc_4->Fill(PTbb,newweight*nbjetweight*mc_weight_un[4]);
+     ptbb_6_mc_5->Fill(PTbb,newweight*nbjetweight*mc_weight_un[5]);
+     ptbb_6_mc_6->Fill(PTbb,newweight*nbjetweight*mc_weight_un[6]);
+     ptbb_6_mc_7->Fill(PTbb,newweight*nbjetweight*mc_weight_un[7]);
+     ptbb_6_mc_8->Fill(PTbb,newweight*nbjetweight*mc_weight_un[8]);
+
+     newweight=newweight*nbjetweight;
+
      hMZ1_7->Fill(massZ1,newweight);
      hPtZ1_7->Fill( ptZ1,newweight );
      hYZ1_7->Fill( Y_Z1,newweight );
 
+      hMZ1_7_pdf_up->Fill( massZ1,newweight*(1+PDF_weighting_un));
+      hPtZ1_7_pdf_up->Fill( ptZ1,newweight*(1+PDF_weighting_un));
+      hYZ1_7_pdf_up->Fill( Y_Z1,newweight*(1+PDF_weighting_un));
+
+      hMZ1_7_pdf_dow->Fill( massZ1,newweight*(1-PDF_weighting_un));
+      hPtZ1_7_pdf_dow->Fill( ptZ1,newweight*(1-PDF_weighting_un));
+      hYZ1_7_pdf_dow->Fill( Y_Z1,newweight*(1-PDF_weighting_un));
+
+      hMZ1_7_pu_up->Fill( massZ1,newweight*pu_up);
+      hPtZ1_7_pu_up->Fill( ptZ1,newweight*pu_up);
+      hYZ1_7_pu_up->Fill( Y_Z1,newweight*pu_up);
+
+      hMZ1_7_pu_dow->Fill( massZ1,newweight*pu_dow);
+      hPtZ1_7_pu_dow->Fill( ptZ1,newweight*pu_dow);
+      hYZ1_7_pu_dow->Fill( Y_Z1,newweight*pu_dow);
+
+      hMZ1_7_mc_1->Fill( massZ1,newweight*mc_weight_un[1] );
+      hPtZ1_7_mc_1->Fill( ptZ1,newweight*mc_weight_un[1]);
+      hYZ1_7_mc_1->Fill( Y_Z1,newweight*mc_weight_un[1]);
+
+      hMZ1_7_mc_2->Fill( massZ1,newweight*mc_weight_un[2] );
+      hPtZ1_7_mc_2->Fill( ptZ1,newweight*mc_weight_un[2]);
+      hYZ1_7_mc_2->Fill( Y_Z1,newweight*mc_weight_un[2]);
+
+      hMZ1_7_mc_3->Fill( massZ1,newweight*mc_weight_un[3] );
+      hPtZ1_7_mc_3->Fill( ptZ1,newweight*mc_weight_un[3]);
+      hYZ1_7_mc_3->Fill( Y_Z1,newweight*mc_weight_un[3]);
+
+      hMZ1_7_mc_4->Fill( massZ1,newweight*mc_weight_un[4] );
+      hPtZ1_7_mc_4->Fill( ptZ1,newweight*mc_weight_un[4]);
+      hYZ1_7_mc_4->Fill( Y_Z1,newweight*mc_weight_un[4]);
+
+      hMZ1_7_mc_5->Fill( massZ1,newweight*mc_weight_un[5] );
+      hPtZ1_7_mc_5->Fill( ptZ1,newweight*mc_weight_un[5]);
+      hYZ1_7_mc_5->Fill( Y_Z1,newweight*mc_weight_un[5]);
+
+      hMZ1_7_mc_6->Fill( massZ1,newweight*mc_weight_un[6] );
+      hPtZ1_7_mc_6->Fill( ptZ1,newweight*mc_weight_un[6]);
+      hYZ1_7_mc_6->Fill( Y_Z1,newweight*mc_weight_un[6]);
+
+      hMZ1_7_mc_7->Fill( massZ1,newweight*mc_weight_un[7] );
+      hPtZ1_7_mc_7->Fill( ptZ1,newweight*mc_weight_un[7]);
+      hYZ1_7_mc_7->Fill( Y_Z1,newweight*mc_weight_un[7]);
+
+      hMZ1_7_mc_8->Fill( massZ1,newweight*mc_weight_un[8] );
+      hPtZ1_7_mc_8->Fill( ptZ1,newweight*mc_weight_un[8]);
+      hYZ1_7_mc_8->Fill( Y_Z1,newweight*mc_weight_un[8]);
+
      hMZ2_7->Fill(massZ2,newweight);
      hPtZ2_7->Fill( ptZ2,newweight );
      hYZ2_7->Fill( Y_Z2,newweight );
+
+      hMZ2_7_pdf_up->Fill( massZ2,newweight*(1+PDF_weighting_un));
+      hPtZ2_7_pdf_up->Fill( ptZ2,newweight*(1+PDF_weighting_un));
+      hYZ2_7_pdf_up->Fill( Y_Z2,newweight*(1+PDF_weighting_un));
+
+      hMZ2_7_pdf_dow->Fill( massZ2,newweight*(1-PDF_weighting_un));
+      hPtZ2_7_pdf_dow->Fill( ptZ2,newweight*(1-PDF_weighting_un));
+      hYZ2_7_pdf_dow->Fill( Y_Z2,newweight*(1-PDF_weighting_un));
+
+      hMZ2_7_pu_up->Fill( massZ2,newweight*pu_up);
+      hPtZ2_7_pu_up->Fill( ptZ2,newweight*pu_up);
+      hYZ2_7_pu_up->Fill( Y_Z2,newweight*pu_up);
+
+      hMZ2_7_pu_dow->Fill( massZ2,newweight*pu_dow);
+      hPtZ2_7_pu_dow->Fill( ptZ2,newweight*pu_dow);
+      hYZ2_7_pu_dow->Fill( Y_Z2,newweight*pu_dow);
+
+      hMZ2_7_mc_1->Fill( massZ2,newweight*mc_weight_un[1] );
+      hPtZ2_7_mc_1->Fill( ptZ2,newweight*mc_weight_un[1]);
+      hYZ2_7_mc_1->Fill( Y_Z2,newweight*mc_weight_un[1]);
+
+      hMZ2_7_mc_2->Fill( massZ2,newweight*mc_weight_un[2] );
+      hPtZ2_7_mc_2->Fill( ptZ2,newweight*mc_weight_un[2]);
+      hYZ2_7_mc_2->Fill( Y_Z2,newweight*mc_weight_un[2]);
+
+      hMZ2_7_mc_3->Fill( massZ2,newweight*mc_weight_un[3] );
+      hPtZ2_7_mc_3->Fill( ptZ2,newweight*mc_weight_un[3]);
+      hYZ2_7_mc_3->Fill( Y_Z2,newweight*mc_weight_un[3]);
+
+      hMZ2_7_mc_4->Fill( massZ2,newweight*mc_weight_un[4] );
+      hPtZ2_7_mc_4->Fill( ptZ2,newweight*mc_weight_un[4]);
+      hYZ2_7_mc_4->Fill( Y_Z2,newweight*mc_weight_un[4]);
+
+      hMZ2_7_mc_5->Fill( massZ2,newweight*mc_weight_un[5] );
+      hPtZ2_7_mc_5->Fill( ptZ2,newweight*mc_weight_un[5]);
+      hYZ2_7_mc_5->Fill( Y_Z2,newweight*mc_weight_un[5]);
+
+      hMZ2_7_mc_6->Fill( massZ2,newweight*mc_weight_un[6] );
+      hPtZ2_7_mc_6->Fill( ptZ2,newweight*mc_weight_un[6]);
+      hYZ2_7_mc_6->Fill( Y_Z2,newweight*mc_weight_un[6]);
+
+      hMZ2_7_mc_7->Fill( massZ2,newweight*mc_weight_un[7] );
+      hPtZ2_7_mc_7->Fill( ptZ2,newweight*mc_weight_un[7]);
+      hYZ2_7_mc_7->Fill( Y_Z2,newweight*mc_weight_un[7]);
+
+      hMZ2_7_mc_8->Fill( massZ2,newweight*mc_weight_un[8] );
+      hPtZ2_7_mc_8->Fill( ptZ2,newweight*mc_weight_un[8]);
+      hYZ2_7_mc_8->Fill( Y_Z2,newweight*mc_weight_un[8]);
+
+     double M4l2b = (Z1P4+Z2P4+BOT1+BOT2).M();
+
+     if(b1&&b2) {Mllllbb_hh->Fill(M4l2b,newweight);
+                 Mllllbb_hh_up->Fill(M4l2b,newweight*w_up);
+                 Mllllbb_hh_dow->Fill(M4l2b,newweight*w_dow);
+                }
+     else if((!b1)&&(!b2)) {Mllllbb_ll->Fill(M4l2b,newweight);
+                            Mllllbb_ll_up->Fill(M4l2b,newweight*w_up);
+                            Mllllbb_ll_dow->Fill(M4l2b,newweight*w_dow);
+                           }
+     else {Mllllbb_hl->Fill(M4l2b,newweight);
+           Mllllbb_hl_up->Fill(M4l2b,newweight*w_up);
+           Mllllbb_hl_dow->Fill(M4l2b,newweight*w_dow);
+          }
+
+     Mllllbb->Fill(M4l2b,newweight);
+
+     Mllllbb_jer_up->Fill((Z1P4+Z2P4+BOT1_jer_up+BOT2_jer_up).M(),newweight);
+     Mllllbb_jer_dow->Fill((Z1P4+Z2P4+BOT1_jer_dow+BOT2_jer_dow).M(),newweight);
+
+     Mllllbb_up->Fill((Z1P4+Z2P4+BOT1_up+BOT2_up).M(),newweight);
+     Mllllbb_dow->Fill((Z1P4+Z2P4+BOT1_dow+BOT2_dow).M(),newweight);
+
+     Mllllbb_pdf_up->Fill(M4l2b,newweight*(1+PDF_weighting_un));
+     Mllllbb_pdf_dow->Fill(M4l2b,newweight*(1-PDF_weighting_un));
+
+     Mllllbb_pu_up->Fill(M4l2b,newweight*pu_up);
+     Mllllbb_pu_dow->Fill(M4l2b,newweight*pu_dow);
+
+     Mllllbb_mc_1->Fill(M4l2b,newweight*mc_weight_un[1]);
+     Mllllbb_mc_2->Fill(M4l2b,newweight*mc_weight_un[2]);
+     Mllllbb_mc_3->Fill(M4l2b,newweight*mc_weight_un[3]);
+     Mllllbb_mc_4->Fill(M4l2b,newweight*mc_weight_un[4]);
+     Mllllbb_mc_5->Fill(M4l2b,newweight*mc_weight_un[5]);
+     Mllllbb_mc_6->Fill(M4l2b,newweight*mc_weight_un[6]);
+     Mllllbb_mc_7->Fill(M4l2b,newweight*mc_weight_un[7]);
+     Mllllbb_mc_8->Fill(M4l2b,newweight*mc_weight_un[8]);
+
+
+     f_Z1mass=massZ1;
+     f_Z2mass=massZ2;
+     f_Nbjets=nbtag_pass;
+     f_pfmet=RECO_CORMETMUONS; 
+     f_mbb=Mbb;
+     f_m4l2b=M4l2b;
      //Number of jets and mJJ,delta eta cuts // categories
 
      
@@ -3114,7 +4490,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
      // filling branches in the reduced tree
      f_weight = newweight;
-     
+ 
      f_int_weight = -1;
      
      f_pu_weight = pu_weight;
@@ -3124,6 +4500,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      f_event = Event;
      f_lumi = LumiSection;
 
+     if(debug) cout << "test final f_weight=" << newweight << endl;
+     if(debug) cout << "eff_weight=" << eff_weight << endl;
+     //cout << "era BF" << endl;
+ 
      if (Z1tag==1){
        f_lept1_pt  = RECOMU_PT[indexleptonfinal[0]] ;
        f_lept1_eta = RECOMU_ETA[indexleptonfinal[0]] ;
@@ -3160,7 +4540,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      
      //f_iso_max = Iso_max;
      //f_sip_max = Sip_max;
-     f_Z1mass = massZ1;
      f_angle_costhetastar = -99.;
      f_angle_costheta1 = -99.;
      f_angle_costheta2 = -99.;
@@ -3286,7 +4665,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    _filePU->Close();
    theFile->cd();
    //z1tree->Write();
-   newtree->Write();
+   newtree->Write(0,TObject::kOverwrite);
    theFile->Write();
    theFile->Close();
   // finaltree->Write();
