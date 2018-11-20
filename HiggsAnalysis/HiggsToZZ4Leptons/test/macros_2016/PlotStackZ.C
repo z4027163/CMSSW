@@ -1129,7 +1129,8 @@ void PlotStackZ::plotmZ(std::string histlabel){
 	}     
 	
 	// WZ     
-	if(datasetnamebkg.find("WZ") < 200){  
+	if(datasetnamebkg.find("WZ") < 200){ 
+          hfourlepbestmass_4l_afterSel_new_new->Scale(double(2*5.595*35812.*nnn/(20280590.*0.6643))); 
 	  hfourlepbestmass_4l_afterSel_new_WZ->Add(hfourlepbestmass_4l_afterSel_new_new);
 	  hfourlepbestmass_4l_afterSel_new_WZ->SetMarkerColor(kCyan-2);  
 	  hfourlepbestmass_4l_afterSel_new_WZ->SetFillColor(kCyan-2);  

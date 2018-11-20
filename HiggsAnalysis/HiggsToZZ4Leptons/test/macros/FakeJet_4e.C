@@ -2473,6 +2473,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       double z2weight=0;
       double z2weight_all=0;
       // 2mu2e
+
+      double jetid=-1;
       int jetfail2[100]={0};
       for(int i = 0; i < Ne_good; ++i){
         if(i==Zcandvector.at(0).ilept1||i==Zcandvector.at(0).ilept2) continue;
@@ -2519,6 +2521,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
            int binx = j_eff_p1->GetXaxis()->FindBin(RECO_PFJET_ETA[j]);
            double scale_fkj=j_eff_p1->GetBinContent(binx,biny);
            z2weight=scale_fkj;
+           jetid=j;
         }
         else continue;
        }   

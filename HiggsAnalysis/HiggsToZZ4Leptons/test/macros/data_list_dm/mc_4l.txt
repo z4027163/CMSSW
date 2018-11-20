@@ -6,4 +6,4 @@
 /eos/uscms/store/user/wangz/GluGluTo4L/GluGluToContinToZZTo4tau_13TeV_MCFM701_pythia8/GluGluToContinToZZTo4tau_13TeV_MCFM701_pythia8_v1/180720_094908/0.root output_GluGluToZZTo4tau_dm.root
 /eos/uscms/store/user/wangz/GluGluTo4L/GluGluToContinToZZTo2e2mu_13TeV_MCFM701_pythia8/GluGluToContinToZZTo2e2mu_13TeV_MCFM701_pythia8_v1/180720_094706/0.root output_GluGluToZZTo2e2mu_dm.root
 /eos/uscms/store/user/wangz/GluGluTo4L/GluGluToContinToZZTo2mu2tau_13TeV_MCFM701_pythia8/GluGluToContinToZZTo2mu2tau_13TeV_MCFM701_pythia8_v1/180720_095102/0.root output_GluGluToZZTo2mu2tau_dm.root
-/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_noMuCal_v1/180414_012656/sig.root output_sig.root
+/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV-madgraph-pythia8_Summer16_400_250/181017_125801/sig_400.root output_sig.root

@@ -1,2 +1,3 @@
-/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon-Run2016F-03Feb2017-noMuCal-dm-part1/171204_215043/012.root output_DoubleMuon_4l_F_012.root
-/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon-Run2016F-03Feb2017-noMuCal-dm-part1/171204_215043/3456.root output_DoubleMuon_4l_F_3456.root
+/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon-Run2016G-03Feb2017-noMuCal-dm-part2/171127_054126/3456.root output_DoubleMuon_4l_G_part2_3456.root
+/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon-Run2016C-03Feb2017-noMuCal-dm-part2/171107_181159/012.root output_DoubleMuon_4l_C_012.root
+/eos/uscms/store/user/wangz/DoubleMuon/DoubleMuon-Run2016C-03Feb2017-noMuCal-dm-part2/171107_181159/345.root output_DoubleMuon_4l_C_345.root

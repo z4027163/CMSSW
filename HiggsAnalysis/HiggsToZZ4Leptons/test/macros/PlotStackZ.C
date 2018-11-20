@@ -73,7 +73,7 @@ PlotStackZ::PlotStackZ(){
   //LoadLib.Load("/cmshome/nicola/slc6/MonoHiggs/Analysis13TeV/CMSSW_7_2_0/lib/slc6_amd64_gcc481/libHiggsHiggs_CS_and_Width.so");
   //getMassWindow(500.);
     
-  inputfile="filelist_2e2b_input.txt";
+  inputfile="filelist_2e2b_samept_input.txt";
 
   setSamplesNamesZ(); 
   cout << "\t Analysing samples for " << whichchannel << " analysis" << endl; 
@@ -199,15 +199,16 @@ PlotStackZ::PlotStackZ(){
   useDYJets=true;
   useDYJetsFromData=false;
 
-  nRebin=1;
+  nRebin=5;
 //  std::cout << "Histogram label is= " << histolabel << std::endl;
  
   std::string label5[8]={"hMZ1_5","hPtZ1_5","hYZ1_5","hEtaJet_8","hMZ1_7","hPtZ1_7","hYZ1_7","ptbb_6"};
   std::string label6[2]={"hPtJet_8","hPtBot_8"};
   std::string label2[2]={"Mjj_6","Mbb_6"};
   std::string label1[2]={"hNjets_8","hNbjets"};
+  std::string label15[4]={"hPtLep1_7","hPtLep2_7","hEtaLep1_7","hEtaLep2_7"};
 
-  un_mc=true;
+  un_mc=false;
  
   // Final yields
   system("mkdir plots");
@@ -217,8 +218,8 @@ PlotStackZ::PlotStackZ(){
   
   // Execute the analysis
 //  plotmZ(histolabel);
-  for(int i=0; i<2; i++){
-    plotmZ(label1[i]);
+  for(int i=0; i<1; i++){
+    plotmZ(label5[i]);
   }
 
   
@@ -467,7 +468,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
 
   if (histlabel.find("hMZ1_5")<10){
     hframe= new TH2F("hframe","hframe",60,60.,120.,500,1.0,60000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 1000, 0.8, 1.2);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",60, 60., 120., 10000, 0.8, 1.2);// mZ1 
     hframe2->SetXTitle("M_{ll} [GeV]");
   }
 
@@ -483,13 +484,13 @@ void PlotStackZ::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("hPtLep1_7")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,80000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",200, 0., 200., 500, 0.8, 1.2);// mZ1 
+    hframe= new TH2F("hframe","hframe",170,30.,200.,500,1.0,80000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",170, 30., 200., 500, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hPtLep2_7")<10){
-    hframe= new TH2F("hframe","hframe",200,0.,200.,500,1.0,8000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",200, 0., 200., 500, 0.8, 1.2);// mZ1 
+    hframe= new TH2F("hframe","hframe",180,20.,200.,500,1.0,8000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",180, 20., 200., 500, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hPtLep1_8")<10){
@@ -519,13 +520,13 @@ void PlotStackZ::plotmZ(std::string histlabel){
   }
 
   if (histlabel.find("hEtaLep1_7")<10){
-    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,1000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
+    hframe= new TH2F("hframe","hframe",50,-2.5,2.5,500,1.0,1000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",50, -2.5, 2.5, 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hEtaLep2_7")<10){
-    hframe= new TH2F("hframe","hframe",100,-5.,5.,500,1.0,1000000.);// mZ1 
-    hframe2= new TH2F("hframe2","hframe2",100, -5., 5., 1000, 0.8, 1.2);// mZ1 
+    hframe= new TH2F("hframe","hframe",50,-2.5,2.5,500,1.0,1000000.);// mZ1 
+    hframe2= new TH2F("hframe2","hframe2",50, -2.5, 2.5, 1000, 0.8, 1.2);// mZ1 
   }
 
   if (histlabel.find("hPhiLep1_7")<10){
@@ -596,7 +597,7 @@ void PlotStackZ::plotmZ(std::string histlabel){
   }
  
   if (histlabel.find("hPtJet_8")<10){
-    hframe= new TH2F("hframe","hframe",190,20.,400.,500,1.0,2000000.);// mZ1 
+    hframe= new TH2F("hframe","hframe",190,20.,400.,500,1.0,10000000.);// mZ1 
     hframe2= new TH2F("hframe2","hframe2",190, 20., 400., 1000, 0.7, 1.3);// mZ1 
    
   }
@@ -1397,11 +1398,11 @@ void PlotStackZ::plotmZ(std::string histlabel){
 
   htotal->Draw("hist same");
 //  htotaldata->Draw("EPsame");
-  gr4->Draw("E2 same");
+  if(un_mc) gr4->Draw("E2 same");
   gr->Draw("EPsame");
   gr2->Draw("e2 same");
-
-  legend->AddEntry(rgr_mc,"syst. unc.","F"); 
+  
+  if(un_mc) legend->AddEntry(rgr_mc,"syst. unc.","F"); 
   legend->AddEntry(gr2,"stat. unc.","F");
 
   legend->Draw("same");

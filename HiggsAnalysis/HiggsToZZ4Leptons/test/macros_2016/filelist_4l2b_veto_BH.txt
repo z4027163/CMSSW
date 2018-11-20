@@ -1,0 +1,5 @@
+/eos/uscms/store/user/wangz/ntuple/4l2b/stack/veto/veto_output_DoubleMuon_4l2b_BH.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/stack/veto/veto_output_ZZTo4L_amcatnloFXFX.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/stack/veto/veto_output_GluGluTo4L.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/stack/veto/veto_output_TTZToLLNuNu_amcatnloFXFX.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/stack/veto/veto_output_sig.root

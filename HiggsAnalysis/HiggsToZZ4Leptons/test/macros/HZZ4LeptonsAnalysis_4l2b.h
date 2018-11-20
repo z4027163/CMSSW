@@ -51,6 +51,7 @@ public :
    Bool_t          sm_trig;
    Bool_t          de_trig;
    Bool_t          se_trig;
+   Bool_t          tri_trig;
    Char_t          HLTPathsFired[20000];
 /*
    Float_t         MC_E[7];
@@ -65,13 +66,14 @@ public :
    Float_t         MC_LEPT_PHI[4];
    Float_t         MC_LEPT_THETA[4];
    Float_t         MC_LEPT_PDGID[4];
+*/
    Float_t         MC_Z_PT[2][5];
    Float_t         MC_Z_ETA[2][5];
    Float_t         MC_Z_PHI[2][5];
    Float_t         MC_Z_THETA[2][5];
    Float_t         MC_Z_MASS[2][5];
    Float_t         MC_Z_PDGID[2][5];
-*/
+
    Float_t         MC_GENJET_PT[4];
    Float_t         MC_GENJET_ETA[4];
    Float_t         MC_GENJET_PHI[4];
@@ -391,6 +393,7 @@ public :
    TBranch        *b_sm_trig;  //!
    TBranch        *b_de_trig;  //!
    TBranch        *b_se_trig;   //!
+   TBranch        *b_tri_trig; //!
    TBranch        *b_HLTPathsFired;   //!
 /*   TBranch        *b_MC_E;   //!
    TBranch        *b_MC_PT;   //!
@@ -404,13 +407,14 @@ public :
    TBranch        *b_MC_LEPT_PHI;   //!
    TBranch        *b_MC_LEPT_THETA;   //!
    TBranch        *b_MC_LEPT_PDGID;   //!
+*/
    TBranch        *b_MC_Z_PT;   //!
    TBranch        *b_MC_Z_ETA;   //!
    TBranch        *b_MC_Z_PHI;   //!
    TBranch        *b_MC_Z_THETA;   //!
    TBranch        *b_MC_Z_MASS;   //!
    TBranch        *b_MC_Z_PDGID;   //!
-*/
+
    TBranch        *b_MC_GENJET_PT;  //!
    TBranch        *b_MC_GENJET_ETA; //!
    TBranch        *b_MC_GENJET_PHI;  //!
@@ -814,6 +818,7 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("sm_trig",&sm_trig,&b_sm_trig);
    fChain->SetBranchAddress("de_trig",&de_trig,&b_de_trig);
    fChain->SetBranchAddress("se_trig",&se_trig,&b_se_trig);
+   fChain->SetBranchAddress("tri_trig",&tri_trig,&b_tri_trig);
    fChain->SetBranchAddress("HLTPathsFired", HLTPathsFired, &b_HLTPathsFired);
 /*
    fChain->SetBranchAddress("MC_E", MC_E, &b_MC_E);
@@ -828,13 +833,14 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("MC_LEPT_PHI", MC_LEPT_PHI, &b_MC_LEPT_PHI);
    fChain->SetBranchAddress("MC_LEPT_THETA", MC_LEPT_THETA, &b_MC_LEPT_THETA);
    fChain->SetBranchAddress("MC_LEPT_PDGID", MC_LEPT_PDGID, &b_MC_LEPT_PDGID);
+*/
    fChain->SetBranchAddress("MC_Z_PT", MC_Z_PT, &b_MC_Z_PT);
    fChain->SetBranchAddress("MC_Z_ETA", MC_Z_ETA, &b_MC_Z_ETA);
    fChain->SetBranchAddress("MC_Z_PHI", MC_Z_PHI, &b_MC_Z_PHI);
    fChain->SetBranchAddress("MC_Z_THETA", MC_Z_THETA, &b_MC_Z_THETA);
    fChain->SetBranchAddress("MC_Z_MASS", MC_Z_MASS, &b_MC_Z_MASS);
    fChain->SetBranchAddress("MC_Z_PDGID", MC_Z_PDGID, &b_MC_Z_PDGID);
-*/
+
    fChain->SetBranchAddress("MC_GENJET_PT", MC_GENJET_PT, &b_MC_GENJET_PT);
    fChain->SetBranchAddress("MC_GENJET_ETA", MC_GENJET_ETA, &b_MC_GENJET_ETA);
    fChain->SetBranchAddress("MC_GENJET_PHI", MC_GENJET_PHI, &b_MC_GENJET_PHI);

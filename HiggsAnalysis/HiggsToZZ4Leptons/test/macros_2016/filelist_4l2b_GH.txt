@@ -1,0 +1,4 @@
+/eos/uscms/store/user/wangz/ntuple/4l2b/4mu2b/0848/output_DoubleMuon_4l_GH.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/4mu2b/0848/GH/output_ZZTo4L_amcatnloFXFX_dm.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/4mu2b/0848/GH/output_TTZToLLNuNu_amcatnlo_dm.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/4mu2b/0848/GH/output_sig.root

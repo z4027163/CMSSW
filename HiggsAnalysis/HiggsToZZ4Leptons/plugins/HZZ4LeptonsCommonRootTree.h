@@ -22,6 +22,7 @@
 // MCTruth
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
+#include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
 #include "SimGeneral/HepPDTRecord/interface/ParticleDataTable.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
@@ -527,6 +528,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("sm_trig",&sm_trig,"sm_trig/b");
     Tree_->Branch("de_trig",&de_trig,"de_trig/b");
     Tree_->Branch("se_trig",&se_trig,"se_trig/b");
+    Tree_->Branch("tri_trig",&tri_trig,"tri_trig/b");
     Tree_->Branch("jet_trig",&jet_trig,"jet_trig/I");
 
     Tree_->Branch("RECO_nEleHLTMatch",&RECO_nEleHLTMatch,"RECO_nEleHLTMatch/I");
@@ -1520,6 +1522,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     sm_trig=false;
     de_trig=false;
     se_trig=false;
+    tri_trig=false;
     jet_trig=0;   
  
     for (int i=0; i<100;i++){
@@ -2069,6 +2072,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
         bool hlt_pass_dm = false;
         bool hlt_pass_se = false;
         bool hlt_pass_de = false;
+        bool hlt_pass_tri = false;
 
         for(unsigned h = 0; h < pathNamesLast.size(); h++)
          for(unsigned h2 = 0; h2 < HLTFilter_.size(); h2++){
@@ -2078,6 +2082,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
             if(HLTFilter_[h2]=="HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"||HLTFilter_[h2]=="HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v") hlt_pass_dm=true;
             if(HLTFilter_[h2]=="HLT_Ele25_eta2p1_WPTight_Gsf_v"||HLTFilter_[h2]=="HLT_Ele27_WPTight_Gsf_v") hlt_pass_se=true;
             if(HLTFilter_[h2]=="HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v") hlt_pass_de=true;
+            if(HLTFilter_[h2]=="HLT_TripleMu_12_10_5_v"||HLTFilter_[h2]=="HLT_TripleMu_10_5_5_DZ_v"||HLTFilter_[h2]=="HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v"||HLTFilter_[h2]=="HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v"||HLTFilter_[h2]=="HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v") hlt_pass_tri=true;
             if(HLTFilter_[h2]=="HLT_PFJet40_v") jet_trig=1;
             if(HLTFilter_[h2]=="HLT_PFJet60_v") jet_trig=2;
             if(HLTFilter_[h2]=="HLT_PFJet80_v") jet_trig=3;
@@ -2089,7 +2094,8 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
             cout << "Matching " << HLTFilter_[h2].c_str()  << endl;
            }
            }
-
+        
+       if(hlt_pass_tri) tri_trig=true;
        if(hlt_pass_sm)  {HLTMuMatched_sm.push_back(obj); HLTMuMatchedNames_sm.push_back("IsoMu24");sm_trig=true;}
        if(hlt_pass_dm)  {HLTMuMatched_dm.push_back(obj); HLTMuMatchedNames_dm.push_back("DoubleMu");dm_trig=true;}
        if(hlt_pass_se)  {HLTEleMatched_se.push_back(obj); HLTEleMatchedNames_se.push_back("SingleEG");se_trig=true;}
@@ -2324,6 +2330,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     iEvent.getByToken(genParticles_, genCandidates);
 
     es.getData( pdt_ );
+/*
     vector<float> leptonpt,leptoneta,leptonphi,leptontheta,leptonpdgid;
     
     for ( GenParticleCollection::const_iterator mcIter=genCandidates->begin(); mcIter!=genCandidates->end(); ++mcIter ) {
@@ -2381,77 +2388,111 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 	MC_LEPT_THETA[i]=leptontheta.at(i);
         MC_LEPT_PDGID[i]=leptonpdgid.at(i);
       }
+    for ( GenParticleCollection::const_iterator mcIter=genCandidates->begin(); mcIter!=genCandidates->end(); ++mcIter ) {
       cout << endl;
     }
-
+*/
     // Check if Z bosons are generated (specially for Z + jet MC)
+    bool thereisZ=false;
     int i=0;
-      //j=0;
+    double phi0=-100,eta0=-100;
     for ( GenParticleCollection::const_iterator mcIter=genCandidates->begin(); mcIter!=genCandidates->end(); ++mcIter ) {
-      // Select the Z decay: status 3 
-      if ( abs(mcIter->pdgId())==23 && mcIter->status()==3 ) {
+      if ( abs(mcIter->pdgId())==25){
+        phi0=mcIter->eta();   eta0=mcIter->phi();
+       }
+    }
+
+    for ( GenParticleCollection::const_iterator mcIter=genCandidates->begin(); mcIter!=genCandidates->end(); ++mcIter ) {
+      // Select the Z decay: status 3
+      if ( abs(mcIter->pdgId())==23/*&&mcIter->status()==22*/) {
 	int j=0;
-	std::cout << "\n Found generated Z with PDGId = " << mcIter->pdgId() << " and status = "<< mcIter->status() << " and " << mcIter->numberOfDaughters() << " daughts |";
-	std::cout << " pt = "<<std::setw(12)<<mcIter->pt()<<" GeV/c | eta = "<<std::setw(12)<<mcIter->eta()<<" | phi = "<<std::setw(12)<<mcIter->phi();
-	std::cout << "   ===> Filled Z Bo at ["<<i<<"]["<<j<<"]";
+//        std::cout << "\n Found generated Z with PDGId = " << mcIter->pdgId() << " and status = "<< mcIter->status() << " and " << mcIter->numberOfDaughters() << " daughts |";
+//        std::cout << " pt = "<<std::setw(12)<<mcIter->pt()<<" GeV/c\n";
+        if(/*mcIter->status()==62*/mcIter->numberOfDaughters()==2){
+//	std::cout << "   ===> Filled Z Bo at ["<<i<<"]["<<j<<"]\n";
 	MC_Z_PT[i][0]=mcIter->pt();       MC_Z_ETA[i][0]=mcIter->eta();   MC_Z_PHI[i][0]=mcIter->phi();
         MC_Z_THETA[i][0]=mcIter->theta(); MC_Z_MASS[i][0]=mcIter->mass(); MC_Z_PDGID[i][0]=mcIter->pdgId();  
-	
+        thereisZ=true;
 	// Check daughters of Z decay: status 3
 	reco::GenParticle::daughters dst3 = mcIter->daughterRefVector();
 	for (reco::GenParticle::daughters::const_iterator it_dst3 = dst3.begin(), est3 = dst3.end(); it_dst3 != est3; ++it_dst3) {
 	  // Select status 3 electron, muon or tau
-	  if (((abs((**it_dst3).pdgId()) == 11) || (abs((**it_dst3).pdgId()) == 13) || (abs((**it_dst3).pdgId()) == 15)) && (**it_dst3).status() == 3) {
-	    std::cout<<"\n |--> Z daughter Particle  "<<std::setw(18)<<"| id = "<<std::setw(5)<<(**it_dst3).pdgId()<<" | st = "<<std::setw(5)<<(**it_dst3).status()<<" | pt = ";
-	    std::cout<<std::setw(12)<<(**it_dst3).pt()<<" GeV/c | eta = "<<std::setw(12)<<(**it_dst3).eta()<<" | phi = "<<std::setw(12)<<(**it_dst3).phi();
+	  if (((abs((**it_dst3).pdgId()) == 11) || (abs((**it_dst3).pdgId()) == 13) || (abs((**it_dst3).pdgId()) == 15))) {
 	    // daughters of the status 3 electron, muon or tau
-	    reco::GenParticle::daughters dst1 = (**it_dst3).daughterRefVector();
-	    bool flag_emu_found = false; 
-	    // Ask for status 1 daughters as long as no status 1 daughters are found 
-	    while (flag_emu_found == false) {
-	      reco::GenParticle::daughters::const_iterator it_dst1 = dst1.begin(), e_dst1 = dst1.end();
-	      for (it_dst1 = dst1.begin(); it_dst1 != e_dst1; ++it_dst1) {
-		std::cout<<"\n |--> Z daughter Particle  "<<std::setw(18)<<"| id = "<<std::setw(5)<<(**it_dst1).pdgId()<<" | st = "<<std::setw(5)<<(**it_dst1).status()<<" | pt = ";
-		std::cout<<std::setw(12)<<(**it_dst1).pt()<<" GeV/c | eta = "<<std::setw(12)<<(**it_dst1).eta()<<" | phi = "<<std::setw(12)<<(**it_dst1).phi();
-		if (((abs((**it_dst1).pdgId()) == 11) || (abs((**it_dst1).pdgId()) == 13)) && (**it_dst1).status() == 1) {
-		  flag_emu_found = true;
 		  ++j;
-		  std::cout<<"   ===> Filled E/MU at ["<<i<<"]["<<j<<"]";
-		  MC_Z_PT[i][j]=(**it_dst1).pt();          MC_Z_ETA[i][j]=(**it_dst1).eta();      MC_Z_PHI[i][j]=(**it_dst1).phi();
-		  MC_Z_THETA[i][j]=(**it_dst1).theta();    MC_Z_MASS[i][j]=(**it_dst1).mass();    MC_Z_PDGID[i][j]=(**it_dst1).pdgId();
+//		  std::cout<<"   ===> Filled E/MU at ["<<i<<"]["<<j<<"]";
+		  MC_Z_PT[i][j]=(**it_dst3).pt();          MC_Z_ETA[i][j]=(**it_dst3).eta();      MC_Z_PHI[i][j]=(**it_dst3).phi();
+		  MC_Z_THETA[i][j]=(**it_dst3).theta();    MC_Z_MASS[i][j]=(**it_dst3).mass();    MC_Z_PDGID[i][j]=(**it_dst3).pdgId();
 		}
-		else if (((abs((**it_dst1).pdgId()) == 11) || (abs((**it_dst1).pdgId()) == 13) || (abs((**it_dst1).pdgId()) == 15) || 
-			  (abs((**it_dst1).pdgId()) == 24)) && (**it_dst1).status() == 2) {
-		  // std::cout<<"   ===> Not Status 1 || Provided daughterRefVector";
-		  dst1 = (**it_dst1).daughterRefVector();
-		}
-		else if (abs((**it_dst1).pdgId()) > 22 ) { // exotic or hadronic tau detected (tau --> nu W)
-		  // std::cout<<"   ===> Hadronic tau || Quit Loop";
-		  flag_emu_found = true; // quit loop || no e mu candidate found
-		}
-		else if ((abs((**it_dst1).pdgId()) == 22) && ((**it_dst1).status() == 1)) { // FSR Photon
-		  int ph_j = 0; if (flag_emu_found == true) ph_j = j+2; else ph_j = j+3;
-		  if ( (**it_dst1).pt() > MC_Z_PT[i][ph_j] ) { // Save only highest pt photon
-		    std::cout<<"   ===> Filled PHOT at ["<<i<<"]["<<ph_j<<"]";
-		    MC_Z_PT[i][ph_j]=(**it_dst1).pt();          MC_Z_ETA[i][ph_j]=(**it_dst1).eta();      MC_Z_PHI[i][ph_j]=(**it_dst1).phi();
-		    MC_Z_THETA[i][ph_j]=(**it_dst1).theta();    MC_Z_MASS[i][ph_j]=(**it_dst1).mass();    MC_Z_PDGID[i][ph_j]=(**it_dst1).pdgId();
-		  }
 		  else {
-		    std::cout<<"   ===> NOT Filled, pt = "<<MC_Z_PT[i][ph_j]<<" GeV/c";
+//		    std::cout<<"   ===> NOT Filled, pt = "<<MC_Z_PT[i][j]<<" GeV/c";
 		  }
-		}
+                }
+             i++;
+            }
 		else {} // other particle than e or mu or photon
-	      }
-	    }
-	  }
-	}
-	++i;
-	std::cout<<"\n-----------------------------------------------------------------"<<std::endl;
+        }
+      //signal only
+      if ( abs(mcIter->pdgId())==35&&mcIter->numberOfDaughters()==2){
+       reco::GenParticle::daughters dst4 = mcIter->daughterRefVector();
+       for (reco::GenParticle::daughters::const_iterator it_dst3 = dst4.begin(), est3 = dst4.end(); it_dst3 != est3; ++it_dst3) {
+       cout << "daughter id=" << (**it_dst3).pdgId() << endl;
+       if (abs((**it_dst3).pdgId()) == 23){
+                  MC_Z_PT[0][3]=(**it_dst3).pt();          MC_Z_ETA[0][3]=(**it_dst3).eta();      MC_Z_PHI[0][3]=(**it_dst3).phi();
+                  MC_Z_MASS[0][3]=(**it_dst3).mass();    MC_Z_PDGID[0][3]=(**it_dst3).pdgId();
+        if(phi0!=-100&&eta0!=-100){
+             double DELTAPHI;
+             if(abs(phi0-MC_Z_PHI[0][3])<3.14159) DELTAPHI=abs(phi0-MC_Z_PHI[0][3]);
+             else DELTAPHI=abs(phi0-MC_Z_PHI[0][3])-2*3.14159; 
+             MC_Z_THETA[0][3]=sqrt( pow( DELTAPHI,2) + pow(eta0-MC_Z_ETA[0][3],2) );
+        }
+//        std::cout << "H->ZA Z pt = "<<(**it_dst3).pt()<<" GeV deltaR= "<< MC_Z_THETA[0][3] << endl;
+       }}
+      }
+      if ( abs(mcIter->pdgId())==36&&mcIter->numberOfDaughters()==2){
+       reco::GenParticle::daughters dst4 = mcIter->daughterRefVector();
+       for (reco::GenParticle::daughters::const_iterator it_dst3 = dst4.begin(), est3 = dst4.end(); it_dst3 != est3; ++it_dst3) {
+       if (abs((**it_dst3).pdgId()) == 23){
+                  MC_Z_PT[0][4]=(**it_dst3).pt();          MC_Z_ETA[0][4]=(**it_dst3).eta();      MC_Z_PHI[0][4]=(**it_dst3).phi();
+                  MC_Z_MASS[0][4]=(**it_dst3).mass();    MC_Z_PDGID[0][4]=(**it_dst3).pdgId();
+        if(phi0!=-100&&eta0!=-100){
+             double DELTAPHI;
+             if(abs(phi0-MC_Z_PHI[0][4])<3.14159) DELTAPHI=abs(phi0-MC_Z_PHI[0][4]);
+             else DELTAPHI=abs(phi0-MC_Z_PHI[0][4])-2*3.14159;
+             MC_Z_THETA[0][4]=sqrt( pow( DELTAPHI,2) + pow(eta0-MC_Z_ETA[0][4],2) );
+        }
+
+//       std::cout << "A->ZA Z pt = "<<(**it_dst3).pt()<<" GeV deltaR= "<< MC_Z_THETA[0][4] << endl;
+       }}
       }
     }
-    std::cout<<"\n"<<std::endl;
+//    std::cout<<"Z number =" << i << "\n"<<std::endl;
 
+//test part
+   if(!thereisZ){
+    for ( GenParticleCollection::const_iterator mcIter=genCandidates->begin(); mcIter!=genCandidates->end(); ++mcIter ) {
+      if ( abs(mcIter->pdgId())==1&&mcIter->status()==21) {
+//        cout <<"fake Z status=" <<  mcIter->status() << endl;
+//        cout <<"daughter N=" << mcIter->numberOfDaughters()<<endl;
+//        std::cout << "   ===> Filled Z Bo at ["<<i<<"]["<<j<<"]";
+        int j=0;
+        MC_Z_PT[i][0]=mcIter->pt();       MC_Z_ETA[i][0]=mcIter->eta();   MC_Z_PHI[i][0]=mcIter->phi();
+        MC_Z_THETA[i][0]=mcIter->theta(); MC_Z_MASS[i][0]=mcIter->mass(); MC_Z_PDGID[i][0]=mcIter->pdgId();
+        reco::GenParticle::daughters dst3 = mcIter->daughterRefVector();
+        for (reco::GenParticle::daughters::const_iterator it_dst3 = dst3.begin(), est3 = dst3.end(); it_dst3 != est3; ++it_dst3) {
+          if (((abs((**it_dst3).pdgId()) == 11) || (abs((**it_dst3).pdgId()) == 13) || (abs((**it_dst3).pdgId()) == 15))) {
+ //           cout << "daughter status=" << (**it_dst3).status() << endl;
+//            std::cout<<"\n |--> Z daughter Particle  "<<std::setw(18)<<"| id = "<<std::setw(5)<<(**it_dst3).pdgId()<<" | st = "<<std::setw(5)<<(**it_dst3).status()<<" | pt =\n ";
+                  ++j;
+//                std::cout<<"   ===> Filled E/MU at ["<<i<<"]["<<j<<"]";
+                  MC_Z_PT[i][j]=(**it_dst3).pt();          MC_Z_ETA[i][j]=(**it_dst3).eta();      MC_Z_PHI[i][j]=(**it_dst3).phi();
+                  MC_Z_THETA[i][j]=(**it_dst3).theta();    MC_Z_MASS[i][j]=(**it_dst3).mass();    MC_Z_PDGID[i][j]=(**it_dst3).pdgId();
+                }
 
+      }
+    }
+   }
+   }
     i=0; 
     
   }
@@ -5444,6 +5485,7 @@ void fillTracks(const edm::Event& iEvent){
   int RECOMU_dm_MuHLTMatch[100],RECOELE_de_EleHLTMatch[100],RECOJET_JetHLTMatch[100];
   char HLTPathsFired[20000];
   bool dm_trig, sm_trig, de_trig, se_trig;
+  bool tri_trig;
   int jet_trig; 
 
   // MC info

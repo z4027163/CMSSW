@@ -1,0 +1,5 @@
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev2/output_DoubleMuonEG_2e2mu_BH.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev2/mc/output_ZZTo4L_amcatnloFXFX_dm.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev2/mc/output_GluGluTo4L.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev2/mc/output_TTZToLLNuNu_amcatnlo_dm.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev2/mc/output_sig_400.root

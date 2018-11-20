@@ -15,7 +15,7 @@ observation 3 1 1
 bin             bin1 bin1 bin2 bin2 bin3 bin3
 process         sig   ZZ  sig  ZZ  sig  ZZ
 process          0     1   0    1    0   1 
-rate            1.672 3.22 0.738 1.293 2.029 3.01 
+rate            1.85 3.22 0.752 1.293 2.10 3.01 
 #450 1.932 3.22 0.857 1.293 2.271 3.01 
 #350BDT 1.545 1.88 0.678 0.765 1.872 1.80
 #400BDT 1.69 1.92 0.682 0.77 1.91 1.925
@@ -30,6 +30,7 @@ rate            1.672 3.22 0.738 1.293 2.029 3.01
 #sig700 2.03 3.22 0.982 1.345 2.65 3.01
 #sig750 2.07 3.22 1.02  1.345 2.58 3.01
 #sig800 2.00 3.22 1.00  1.345 2.56 3.01
+#fit400 0.554 0.464 0.163 0.70
 ------------
 lumi    lnN    1.03  1.03  1.03  1.03  1.03  1.03   lumi affects both signal and gg->WW (mc-driven). lnN = lognormal
 xs_ZZ   lnN      -   1.15    -   1.15    -   1.15  gg->H cross section + signal efficiency + other minor ones.
