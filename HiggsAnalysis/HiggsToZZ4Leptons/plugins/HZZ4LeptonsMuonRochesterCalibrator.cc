@@ -78,7 +78,7 @@ void HZZ4LeptonsMuonRochesterCalibrator::produce(edm::Event& iEvent, const edm::
   edm::ValueMap<float>::Filler fillerCorrPtError(*CorrPtErrorMap);	
   
   
-  // To add matching informations Reham
+  // 
   // Matching
 
     edm::Handle<edm::Association<vector<reco::GenParticle> > > GenParticlesMatchMu;
@@ -124,7 +124,7 @@ void HZZ4LeptonsMuonRochesterCalibrator::produce(edm::Event& iEvent, const edm::
   
     cout<<"Muon PT = "<<oldPt<<endl;
     
-    // To add matching informations Reham
+    // 
       // Matching
       if (MCTruth==true){
       // 	int i=0;
