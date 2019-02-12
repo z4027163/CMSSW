@@ -211,7 +211,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
     triggerBits_              = consumes<edm::TriggerResults>(pset.getParameter<edm::InputTag>("triggerbits"));
 
-    //Reham 
+ 
     noiseFilterTag_          =consumes<edm::TriggerResults>(pset.getParameter<edm::InputTag>("noiseFilterTag"));
     HBHENoiseFilter_Selector_ = pset.getParameter<string>("HBHENoiseFilter_Selector_");
     EEBadScNoiseFilter_Selector_ = pset.getParameter<string>("EEBadScNoiseFilter_Selector_");
@@ -287,11 +287,11 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
      
      electronEgmTag_          = consumes<edm::View<pat::Electron> >(pset.getParameter<edm::InputTag>("ElectronsEgmLabel"));
      mvaElectronTag_          = consumes<edm::View<pat::Electron> >(pset.getParameter<edm::InputTag>("mvaElectronTag"));
-    ///@@@/// TEST Electron ID  REHAM
+    ///@@@/// TEST  
     //@//    mvaTrigV0MapTag_         = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("mvaTrigV0MapTag"));
     //@// mvaNonTrigV0MapTag_      = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("mvaNonTrigV0MapTag"));
-    electronsMiniAODToken_    = consumes<edm::View<pat::Electron> >(pset.getParameter<edm::InputTag>("electronsMiniAOD")); //REHAM
-    eleIDToken_ = consumes<edm::ValueMap<bool>>(pset.getParameter<edm::InputTag>("elecID")); //REHAM 
+    electronsMiniAODToken_    = consumes<edm::View<pat::Electron> >(pset.getParameter<edm::InputTag>("electronsMiniAOD")); 
+    eleIDToken_ = consumes<edm::ValueMap<bool>>(pset.getParameter<edm::InputTag>("elecID"));  
     //   mvaValuesMapToken_ = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("mvaValuesMap"));
     //  mvaCategoriesMapToken_= consumes<edm::ValueMap<int> >(pset.getParameter<edm::InputTag>("mvaCategoriesMap"));   
     
@@ -337,11 +337,11 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     jetsTag_                 = consumes<vector<pat::Jet> >(pset.getParameter<edm::InputTag>("JetsLabel")); 
     //   jetsDataTag_             = consumes<vector<pat::Jet> >(pset.getParameter<edm::InputTag>("JetsDataLabel"));
     jetsMVATag_              = consumes<vector<pat::Jet> >(pset.getParameter<edm::InputTag>("JetsMVALabel"));
-    jetsQGTag_               = consumes<vector<pat::Jet> >(pset.getParameter<edm::InputTag>("JetsLabel"));//REHAM
-    jetQGMapTag_             = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("jetQGMapTag"));//REHAM
-    jetQGMapTag_axis2_             = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("jetQGMapTag_axis2"));//REHAM
-    jetQGMapTag_ptd_             = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("jetQGMapTag_ptd"));//REHAM
-    jetQGMapTag_mult_             = consumes<edm::ValueMap<int> >(pset.getParameter<edm::InputTag>("jetQGMapTag_mult"));//REHAM
+    jetsQGTag_               = consumes<vector<pat::Jet> >(pset.getParameter<edm::InputTag>("JetsLabel"));
+    jetQGMapTag_             = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("jetQGMapTag"));
+    jetQGMapTag_axis2_             = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("jetQGMapTag_axis2"));
+    jetQGMapTag_ptd_             = consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("jetQGMapTag_ptd"));
+    jetQGMapTag_mult_             = consumes<edm::ValueMap<int> >(pset.getParameter<edm::InputTag>("jetQGMapTag_mult"));
     
     
     rhojetsTag_              = consumes<double>(pset.getParameter<edm::InputTag>("RhoJetsLabel"));
@@ -352,7 +352,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     
     // PF MET
     pfmetTag_               = consumes<vector<pat::MET> >(pset.getParameter<edm::InputTag>("PfMETLabel"));
-    // ecalBadCalibFilterUpdate_token   = consumes<bool>(edm::InputTag("ecalBadCalibReducedMINIAODFilter")); new met filter to be used (under test)
+  
     // BadChCandFilterToken_            = consumes<bool>(edm::InputTag("BadChargedCandidateFilter"));
     // BadPFMuonFilterToken_            = consumes<bool>(edm::InputTag("BadPFMuonFilter"));
       
@@ -367,7 +367,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
     
     // Matching
-    // /* to add matching informations Reham
+    // /* to add matching informations 
 
     goodElectronMCMatch_  = consumes<edm::Association<std::vector<reco::GenParticle> >>(pset.getParameter<edm::InputTag>("goodElectronMCMatch"));
     myElectrons_          = consumes<reco::CandidateCollection>(pset.getParameter<edm::InputTag>("myElectrons"));
@@ -578,7 +578,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOELE_MASS",RECOELE_MASS,"RECOELE_MASS[100]/F"); 
     Tree_->Branch("RECOELE_CHARGE",RECOELE_CHARGE,"RECOELE_CHARGE[100]/F"); 
   
-    //Reham
+    //
     Tree_->Branch("RECOELE_ID",RECOELE_ID,"RECOELE_ID[100]/F");
     Tree_->Branch("RECOELE_PT_uncorr",RECOELE_PT_uncorr,"RECOELE_PT_uncorr[100]/F");
 
@@ -713,7 +713,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOELE_TLE_ParentSC_Z",RECOELE_TLE_ParentSC_Z,"RECOELE_TLE_ParentSC_Z[20]/F");
 
 
-    //Reham Electron systematic variables
+
 
     Tree_->Branch("RECOELE_ecalTrkEnergyPreCorr",RECOELE_ecalTrkEnergyPreCorr,"RECOELE_ecalTrkEnergyPreCorr[100]/F");
     Tree_->Branch("RECOELE_ecalTrkEnergyErrPreCorr",RECOELE_ecalTrkEnergyErrPreCorr,"RECOELE_ecalTrkEnergyErrPreCorr[100]/F");
@@ -1057,11 +1057,11 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch("RECOPFPHOT_PHI",RECOPFPHOT_PHI,"RECOPFPHOT_PHI[20]/F"); 
     Tree_->Branch("RECOPFPHOT_THETA",RECOPFPHOT_THETA,"RECOPFPHOT_THETA[20]/F"); 
     
-    //Reham
+    
 
      Tree_->Branch("RECOPFPHOT_PT_uncorr",RECOPFPHOT_PT_uncorr,"RECOPFPHOT_PT_uncorr[20]/F");
 
-    //Reham photn systematic variables
+    
 
     Tree_->Branch("RECOPFPHOT_ecalEnergyPreCorr",RECOPFPHOT_ecalEnergyPreCorr,"RECOPFPHOT_ecalEnergyPreCorr[20]/F");
     Tree_->Branch("RECOPFPHOT_ecalEnergyErrPreCorr",RECOPFPHOT_ecalEnergyErrPreCorr,"RECOPFPHOT_ecalEnergyErrPreCorr[20]/F");   
@@ -1112,10 +1112,10 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch( "RECO_PFJET_PUID_medium", RECO_PFJET_PUID_medium, "RECO_PFJET_PUID_medium[200]/I");
     Tree_->Branch( "RECO_PFJET_PUID", RECO_PFJET_PUID, "RECO_PFJET_PUID[200]/I");
     Tree_->Branch( "RECO_PFJET_PUID_MVA", RECO_PFJET_PUID_MVA, "RECO_PFJET_PUID_MVA[200]/F");
-    Tree_->Branch( "RECO_PFJET_QG_Likelihood", RECO_PFJET_QG_Likelihood, "RECO_PFJET_QG_Likelihood[200]/F");//REHAM QG tagger
-    Tree_->Branch( "RECO_PFJET_QG_axis2", RECO_PFJET_QG_axis2, "RECO_PFJET_QG_axis2[200]/F");//REHAM QG tagger
-    Tree_->Branch( "RECO_PFJET_QG_ptd", RECO_PFJET_QG_ptd, "RECO_PFJET_QG_ptd[200]/F");//REHAM QG tagger
-    Tree_->Branch( "RECO_PFJET_QG_mult", RECO_PFJET_QG_mult, "RECO_PFJET_QG_mult[200]/I");//REHAM QG tagger
+    Tree_->Branch( "RECO_PFJET_QG_Likelihood", RECO_PFJET_QG_Likelihood, "RECO_PFJET_QG_Likelihood[200]/F");
+    Tree_->Branch( "RECO_PFJET_QG_axis2", RECO_PFJET_QG_axis2, "RECO_PFJET_QG_axis2[200]/F");
+    Tree_->Branch( "RECO_PFJET_QG_ptd", RECO_PFJET_QG_ptd, "RECO_PFJET_QG_ptd[200]/F");
+    Tree_->Branch( "RECO_PFJET_QG_mult", RECO_PFJET_QG_mult, "RECO_PFJET_QG_mult[200]/I");
     Tree_->Branch( "RHO_ele", &RHO_ele, "RHO_ele/D");
     Tree_->Branch( "RHO_mu", &RHO_mu, "RHO_mu/D");
 
@@ -1175,7 +1175,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 /*     Tree_->Branch( "RECO_CALOMETOPT",       &calometopt,       "RECO_CALOMETOPT/F"); */
  
    //Particle Flow MET
-    //Type1 correction //Reham
+   
 
     Tree_->Branch( "RECO_PFMET", &pfmet, "RECO_PFMET/F");
     Tree_->Branch( "RECO_PFMET_X", &pfmet_x, "RECO_PFMET_X/F");
@@ -1183,7 +1183,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     Tree_->Branch( "RECO_PFMET_PHI", &pfmet_phi, "RECO_PFMET_PHI/F");
     Tree_->Branch( "RECO_PFMET_THETA", &pfmet_theta, "RECO_PFMET_THETA/F");
 
-    //Uncorrected //Reham
+    
     Tree_->Branch( "RECO_PFMET_uncorr", &pfmet_uncorr, "RECO_PFMET_uncorr/F");
     Tree_->Branch( "RECO_PFMET_X_uncorr", &pfmet_x_uncorr, "RECO_PFMET_X_uncorr/F");
     Tree_->Branch( "RECO_PFMET_Y_uncorr", &pfmet_y_uncorr, "RECO_PFMET_Y_uncorr/F");
@@ -1425,7 +1425,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
 
        RECOPFPHOT_PT_uncorr[i]=-999.;
 
-      //Reham sys variables
+      //
 
       RECOPFPHOT_ecalEnergyPreCorr[i] =-999.;
       RECOPFPHOT_ecalEnergyErrPreCorr[i]=-999.;
@@ -1764,7 +1764,7 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
       RECOELE_ID[i]=-999.;
       RECOELE_PT_uncorr[i]=-999.;
   
-      //Reham sys variables
+      //
 
       RECOELE_ecalTrkEnergyPreCorr[i] =-999.;
       RECOELE_ecalTrkEnergyErrPreCorr[i]=-999.;
@@ -2197,12 +2197,12 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     size_t nMuHLT =0, nEleHLT=0;
     
     
-    //Reham
+    //
     ////
-     iEvent.getByToken(triggerBits_, triggerBits);//Reham
-     iEvent.getByToken(triggerObjects_, triggerObjects);//Reham
+     iEvent.getByToken(triggerBits_, triggerBits);//
+     iEvent.getByToken(triggerObjects_, triggerObjects);//
     
-     const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits); //Reham   
+     const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits); // 
     
     
     // cout<<"number 1"<<endl;
@@ -2213,8 +2213,8 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     //MiniAOD
     for (pat::TriggerObjectStandAlone obj : *triggerObjects) {
 
-       obj.unpackPathNames(names);//Reham
-       obj.unpackFilterLabels(iEvent,*triggerBits);//Reham
+       obj.unpackPathNames(names);//
+       obj.unpackFilterLabels(iEvent,*triggerBits);//
 
       for (unsigned h = 0; h < obj.filterLabels().size(); ++h){
 	std::string fullname = obj.filterLabels()[h];
@@ -3097,7 +3097,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       // edm::Ref<edm::View<pat::Electron> > eletrackrefv(VertEleCandidates,index);
      
     
-      /* // kinematic //Reham comment to check the new corrected pt
+      /* // kinematic //
 	 RECOELE_E[index]       = cand->p4().energy();
 	 RECOELE_PT[index]      = cand->p4().pt();
 	 
@@ -3109,8 +3109,8 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 	 RECOELE_MASS[index]    = cand->p4().mass();
 	 RECOELE_CHARGE[index]  = cand->charge();*/
       
-      ///// For the elctron energy correction
-      //Reham
+      ///// 
+      //
       
       float corrEt = cand->et() * cand->userFloat("ecalTrkEnergyPostCorr")/cand->energy();
       auto corrP4  = cand->p4() * cand->userFloat("ecalTrkEnergyPostCorr")/cand->energy();
@@ -3134,7 +3134,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       RECOELE_CHARGE[index]  = cand->charge();
       RECOELE_PT_uncorr[index]   = cand->pt();
 
-	//Reham error in PT and some systematic variables 
+	// 
       
       // cout<<"ecalTrkEnergyErrPostCorr = "<<cand->userFloat("ecalTrkEnergyErrPostCorr")<<endl;
       // cout<<"ecalTrkEnergyPreCorr"<<cand->userFloat("ecalTrkEnergyPreCorr")<<" ecalTrkEnergyErrPreCorr = "<<cand->userFloat("ecalTrkEnergyErrPreCorr");
@@ -3213,7 +3213,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 	 << "  isTrackerDriven=" << RECOELE_isTrackerDriven[index] 
 	 << std::endl;
 
-      ///@@@/// Electron ID  REHAM
+      ///@@@/// 
       
 
      cout << cand->electronID("mvaEleID-Fall17-iso-V2-wpHZZ") << " " << std::abs(cand->dB(pat::Electron::PV3D))/cand->edB(pat::Electron::PV3D) << endl;
@@ -3224,7 +3224,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
      cout<<"RECOELE_ID[index] = "<<RECOELE_ID[index]<<" RECOELE_mvaNonTrigV0[index] = "<< RECOELE_mvaNonTrigV0[index]<<endl;
 
-     //@@@///  Electron SIP Reham
+     //@@@///  
 
      RECOELE_SIP[index]= std::abs(cand->dB(pat::Electron::PV3D))/cand->edB(pat::Electron::PV3D);
      RECOELE_IP[index]= std::abs(cand->dB(pat::Electron::PV3D));
@@ -3415,8 +3415,8 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       RECOELE_gsftrack_losthits[index]  = cand->gsfTrack()->numberOfLostHits();
       RECOELE_gsftrack_validhits[index] = cand->gsfTrack()->numberOfValidHits();
       // RECOELE_gsftrack_expected_inner_hits[index] = cand->gsfTrack()->hitPattern().numberOfHits(HitPattern::MISSING_INNER_HITS);//original
-       RECOELE_gsftrack_expected_inner_hits[index] = cand->gsfTrack()->hitPattern().numberOfAllHits(HitPattern::MISSING_INNER_HITS);//Reham
-      // RECOELE_gsftrack_expected_inner_hits[index] = cand->gsfTrack()->hitPattern().numberOfValidHits();//Reham
+       RECOELE_gsftrack_expected_inner_hits[index] = cand->gsfTrack()->hitPattern().numberOfAllHits(HitPattern::MISSING_INNER_HITS);//
+      // RECOELE_gsftrack_expected_inner_hits[index] = cand->gsfTrack()->hitPattern().numberOfValidHits();//
       // RECOELE_gsftrack_expected_inner_hits[index] = cand->gsfTrack()->trackerExpectedHitsInner().numberOfHits();//Nicola Not work
      
        //@//
@@ -3648,10 +3648,10 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
     */  
   /////////////////////////////////////////////////////////////////
    
-     //Reham To get the error in muon PT
+     //
 
     
-      // To add matching informations Reham
+      // 
     // Matching
 
     edm::Handle<edm::Association<vector<reco::GenParticle> > > GenParticlesMatchMu;
@@ -3708,7 +3708,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       cout<<"Slimmed Muon Pt = "<<oldPt<<"old pt error from muon best track= "<<oldPtError<<endl;
       ////
       
-      /* // To add matching informations Reham */
+      /* //  matching informations  */
       /* // Matching */
         if (fillMCTruth==true){ 
       /*  	int i=0; */
@@ -3845,8 +3845,8 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
       edm::Ref<edm::View<pat::Muon> > muonref(MuCandidates,indexbis);
 
-           /////Reham need to check this part 
-      //Reham comment for now 
+           ///// 
+      // 
       
      //@ finds the pt error
       float calibratorPtError = 0, mu_uncorr_pt = 0, gen_muon_pt=0, gen_muon_eta=0, gen_muon_phi=0;
@@ -3896,10 +3896,10 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
       RECOMU_isTrackerMu[indexbis]=cand->isTrackerMuon();
       RECOMU_isCaloMu[indexbis]=cand->isCaloMuon();
 
-      if(cand->track().isNonnull()){//Reham
-      // if(cand->innerTrack().isNonnull()){//Reham
-      RECOMU_isTrackerHighPtMu[indexbis]=isTrackerHighPtMu(*cand,pVertex); //Reham error here 
-       }//Reham
+      if(cand->track().isNonnull()){//
+      // if(cand->innerTrack().isNonnull()){//
+      RECOMU_isTrackerHighPtMu[indexbis]=isTrackerHighPtMu(*cand,pVertex); //
+       }//
       //@//   
    /* std::cout << "\n Muon in the event: "
 	        <<   "  isPF=" << RECOMU_isPFMu[indexbis]
@@ -4000,7 +4000,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
  
 
-      //Reham
+      //
       RECOMU_SIP[indexbis]= std::abs(cand->dB(pat::Muon::PV3D))/cand->edB(pat::Muon::PV3D);
       RECOMU_IP[indexbis]= std::abs(cand->dB(pat::Muon::PV3D));
       RECOMU_IPERROR[indexbis]= cand->edB(pat::Muon::PV3D);
@@ -4037,7 +4037,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 	//RECOMU_mubesttrkPTError[indexbis]=(*corrpterrormumap)[mutrackref];;
       }
 
-      //@ Reham comment for now
+      //@ 
 
        RECOMU_mubesttrkPTError[indexbis]=cand->muonBestTrack()->ptError();
        RECOMU_Rochester_Error[indexbis]=calibratorPtError;
@@ -4154,7 +4154,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 		  << std::endl;*/
       }
   
-         //    To add matching informations Reham */
+         //   matching informations  */
       /* // Matching */
       /* if (fillMCTruth==true){  */
       /* 	int i=0;  */
@@ -4262,7 +4262,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
       cout<<"PF photon uncorr pt = "<< RECOPFPHOT_PT_uncorr[iphot]<<"eta= "<<cand->eta()<<endl;
 
-      //Reham correction of photon energy 
+      // 
 
       auto corrP4  = cand->p4() * cand->userFloat("ecalEnergyPostCorr")/cand->energy();
      
@@ -4307,7 +4307,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
  				 RECOPFPHOT_PFPUchAllPart[iphot] 
 				  )/double(cand->p4().pt()); 
 
-     	//Reham error in PT and some systematic variables 
+     	// 
       
       cout<<"ecalEnergyErrPostCorr = "<<cand->userFloat("ecalEnergyErrPostCorr")<<endl;
       cout<<"ecalEnergyPreCorr = "<<cand->userFloat("ecalEnergyPreCorr")<<endl;
@@ -4410,16 +4410,11 @@ void fillTracks(const edm::Event& iEvent){
     iEvent.getByToken(pfmetTag_,pfmetHandle);
     for ( pat::METCollection::const_iterator i=pfmetHandle->begin(); i!=pfmetHandle->end(); i++) {
       
-      //Read the decision of MET Filter Reham
+      //
 
-      //new filter to be use (under test)
 
-      /* edm::Handle <bool> passecalBadCalibFilterUpdate ; */
-      /* iEvent.getByToken(ecalBadCalibFilterUpdate_token,passecalBadCalibFilterUpdate); */
-      /* PassecalBadCalibFilterUpdated =  (*passecalBadCalibFilterUpdate ); */
-      /* cout<<" PassecalBadCalibFilterUpdated = "<< PassecalBadCalibFilterUpdated<<endl; */ 
 
-      //old filters
+      // filters
 
       /* edm::Handle<bool> ifilterbadChCand; */
       /* iEvent.getByToken(BadChCandFilterToken_, ifilterbadChCand); */
@@ -4435,14 +4430,14 @@ void fillTracks(const edm::Event& iEvent){
       
       cormetmuons = i->pt();
       
-      //Type1 correction Reham
+      //
       pfmet       = i->corPt();     
       pfmet_x     = i->corPx();
       pfmet_y     = i->corPy();
       pfmet_phi   = i->corPhi();
       pfmet_theta = i->corP3().theta();
       
-      //uncorrected met Reham
+      //
       pfmet_uncorr       = i->uncorPt();     
       pfmet_x_uncorr     = i->uncorPx();
       pfmet_y_uncorr     = i->uncorPy();
@@ -4477,7 +4472,7 @@ void fillTracks(const edm::Event& iEvent){
 
   void fillMETFilters(const edm::Event& iEvent){
     
-  //filters decision from trigger results
+  //
 
    edm::Handle<edm::TriggerResults> noiseFilterBits_; //our trigger result object
    iEvent.getByToken(noiseFilterTag_,noiseFilterBits_);
@@ -5127,7 +5122,7 @@ void fillTracks(const edm::Event& iEvent){
  
       ////////////////////////////////////
 
-     //test Reham    
+     //test  
 
       bool passLoose_PUID = (i->userInt("pileupJetId:fullId") & (1 << 2));
       bool passMedium_PUID = (i->userInt("pileupJetId:fullId") & (1 << 1));
@@ -5265,7 +5260,7 @@ void fillTracks(const edm::Event& iEvent){
 
     /////////////////////////////////////
 
-    //QGTagger REHAM
+    //
     
     edm::Handle<edm::ValueMap<float> > QGjetmap;
     iEvent.getByToken(jetQGMapTag_, QGjetmap);
@@ -5407,7 +5402,7 @@ void fillTracks(const edm::Event& iEvent){
 	tCHighPur_BTagJet_PHI[l]=btagIter->phi();
 	tCHighPur_BTagJet_DISCR[l]=discrCSV2;
 
-    // Deep CSV tagger 2017 Reham
+    // 
     double discrCSV3_1 = btagIter->bDiscriminator(cSV_bTag1_);
     double discrCSV3_2 = btagIter->bDiscriminator(cSV_bTag2_);
     double discrCSV3 = discrCSV3_1 + discrCSV3_2 ;
@@ -5484,7 +5479,7 @@ void fillTracks(const edm::Event& iEvent){
   edm::EDGetTokenT<edm::TriggerResults> triggerBits_;
   edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> triggerObjects_;
 
-  //Reham Read MET filter decision from trigger results
+  //
 
   edm::EDGetTokenT<edm::TriggerResults> noiseFilterTag_; 
 
@@ -5539,7 +5534,7 @@ void fillTracks(const edm::Event& iEvent){
   edm::InputTag electronEgmEcalMapTag_;
   edm::InputTag electronEgmHcalMapTag_;
   edm::EDGetTokenT<edm::View<pat::Electron> > mvaElectronTag_;
-  ///@@@/// TEST Electron ID  REHAM
+  ///@@@///
   // edm::EDGetTokenT<edm::ValueMap<float> > /*//@// mvaTrigV0MapTag_,*/mvaNonTrigV0MapTag_;
   //edm::EDGetToken eleIDToken_; 
   edm::EDGetToken electronsMiniAODToken_;
@@ -5860,7 +5855,7 @@ void fillTracks(const edm::Event& iEvent){
   double ele_eidHZZVeryLoose[100], ele_eidHZZLoose[100], ele_eidHZZMedium[100], ele_eidHZZTight[100] ;
   double RECOELE_COV[100][3][3];
 
-  //Reham electron systematic variables
+  //
 
   float RECOELE_ecalTrkEnergyErrPostCorr[100],RECOELE_energyScaleValue[100],RECOELE_energySigmaValue[100], RECOELE_energyScaleUp[100], RECOELE_energyScaleDown[100], RECOELE_energyScaleStatUp[100], RECOELE_energyScaleStatDown[100], RECOELE_energyScaleSystUp[100], RECOELE_energyScaleSystDown[100], RECOELE_energyScaleGainUp[100], RECOELE_energyScaleGainDown[100],RECOELE_energyScaleEtUp[100], RECOELE_energyScaleEtDown[100], RECOELE_energySigmaUp[100], RECOELE_energySigmaDown[100], RECOELE_energySigmaPhiUp[100], RECOELE_energySigmaPhiDown[100], RECOELE_energySigmaRhoUp[100], RECOELE_energySigmaRhoDown[100],RECOELE_ecalTrkEnergyPreCorr[100], RECOELE_ecalTrkEnergyErrPreCorr[100];
 
@@ -5923,7 +5918,7 @@ void fillTracks(const edm::Event& iEvent){
   double RECOPFPHOT_PFchAllPart[20],RECOPFPHOT_PFchHad[20],RECOPFPHOT_PFneuHad[20],RECOPFPHOT_PFphoton[20],
     RECOPFPHOT_PFPUchAllPart[20],RECOPFPHOT_PFX_rho[20], RECOPFPHOT_PT_uncorr[20];
 
-  //Reham 
+  //
   
   float RECOPFPHOT_ecalEnergyErrPostCorr[20],RECOPFPHOT_energyScaleValue[20],RECOPFPHOT_energySigmaValue[20], RECOPFPHOT_energyScaleUp[20], RECOPFPHOT_energyScaleDown[20], RECOPFPHOT_energyScaleStatUp[20], RECOPFPHOT_energyScaleStatDown[20], RECOPFPHOT_energyScaleSystUp[20], RECOPFPHOT_energyScaleSystDown[20], RECOPFPHOT_energyScaleGainUp[20], RECOPFPHOT_energyScaleGainDown[20],RECOPFPHOT_energyScaleEtUp[20], RECOPFPHOT_energyScaleEtDown[20], RECOPFPHOT_energySigmaUp[20], RECOPFPHOT_energySigmaDown[20], RECOPFPHOT_energySigmaPhiUp[20], RECOPFPHOT_energySigmaPhiDown[20], RECOPFPHOT_energySigmaRhoUp[20], RECOPFPHOT_energySigmaRhoDown[20],RECOPFPHOT_ecalEnergyPreCorr[20],RECOPFPHOT_ecalEnergyErrPreCorr[20];
   
