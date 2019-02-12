@@ -19,7 +19,7 @@ process.load('Configuration/EventContent/EventContent_cff')
 
 
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '94X_dataRun2_v6', '') # Reham Tag recommended for JEC 2017
+process.GlobalTag = GlobalTag(process.GlobalTag, '94X_dataRun2_v6', '') # 
 
 # Random generator 
 #process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
@@ -44,37 +44,16 @@ process.Flag_globalSuperTightHalo2016Filter = cms.Path(process.globalSuperTightH
 process.Flag_EcalDeadCellTriggerPrimitiveFilter = cms.Path(process.EcalDeadCellTriggerPrimitiveFilter)
 process.primaryVertexFilter.vertexCollection = cms.InputTag('offlineSlimmedPrimaryVertices')
 process.Flag_goodVertices = cms.Path(process.primaryVertexFilter)                                    
-#process.Flag_eeBadScFilter = cms.Path(process.eeBadScFilter) ##for data only reham
+#process.Flag_eeBadScFilter = cms.Path(process.eeBadScFilter) 
 process.BadPFMuonFilter.muons  = cms.InputTag("slimmedMuons")
 process.Flag_BadPFMuonFilter = cms.Path(process.BadPFMuonFilter)
 process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 process.BadChargedCandidateFilter.muons  = cms.InputTag("slimmedMuons")
 process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates") #reham
-process.Flag_BadChargedCandidateFilter = cms.Path(process.BadChargedCandidateFilter) # Reham added for 2017
-#process.Flag_ecalBadCalibFilter = cms.Path(process.ecalBadCalibFilter) #new 2017
-
-#///////////////////////////////
-#new MET filter 2017 Reham new MET filter to be used (under test)
-
-#baddetEcallist2017 = cms.vuint32(
-#    [872439604,872422825,872420274,872423218,
-#     872423215,872416066,872435036,872439336,
-#     872420273,872436907,872420147,872439731,
-#     872436657,872420397,872439732,872439339,
-#     872439603,872422436,872439861,872437051,
-#     872437052,872420649])
-
-#process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
-#    "EcalBadCalibFilter",
-#    EcalRecHitSource = cms.InputTag("reducedEgamma:reducedEERecHits"),
-#    ecalMinEt        = cms.double(50.),
-#    baddetEcal    = baddetEcallist2017, #use baddetEcallist2018  for 2018 analysis
-#    taggingMode = cms.bool(True),
-#    debug = cms.bool(False)
-#    )
+process.Flag_BadChargedCandidateFilter = cms.Path(process.BadChargedCandidateFilter) # Reham 
 
 
-#/////////////////////////////////////////
+
 
 process.goodOfflinePrimaryVerticestwo = cms.EDFilter("VertexSelector",
                                             src = cms.InputTag('offlineSlimmedPrimaryVertices'),
@@ -82,23 +61,12 @@ process.goodOfflinePrimaryVerticestwo = cms.EDFilter("VertexSelector",
                                             filter = cms.bool(True)
                                         )
         
-#@#Rochester correction
 
 process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsMuonRochesterCalibrator_cfi')
 process.hTozzTo4leptonsMuonRochesterCalibrator.isData = cms.bool(True)
 process.hTozzTo4leptonsMuonRochesterCalibrator.MCTruth = cms.bool(False)
 
-#Kalman
-#@#process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsMuonCalibrator_cfi')
-#@#process.hTozzTo4leptonsMuonCalibrator.isData = cms.bool(True) 
-# process.hTozzTo4leptonsMuonCalibrator.isMC = cms.bool(False)
 
-
-#process.load('EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi')
-#process.calibratedElectrons.isMC = cms.bool(False)
-
-#/////////////////////////////////////////////////////////////
-#Reham test JEC
 
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
 
@@ -113,9 +81,7 @@ jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolut
 
 process.jecSequence = cms.Sequence(process.patJetCorrFactorsUpdatedJEC * process.updatedPatJetsUpdatedJEC)
 
-#///////////////////////////////////////////////////////////
 
-#Reham to update the MET after updating the JEC 
 
 from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
 
@@ -126,7 +92,6 @@ runMetCorAndUncFromMiniAOD(process,
 
 #/////////////////////////////////////////////////////
 
-#Reham to add new instructiond for electron energy correction and smearing PLUS electron ID 
 
 from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 setupEgammaPostRecoSeq(process,
@@ -140,7 +105,7 @@ setupEgammaPostRecoSeq(process,
 
 
 process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsPreselection_data_noskim_cff') 
-#@#process.calibratedPatElectrons.isMC = cms.bool(False) #reham run2 2017
+#@#process.calibratedPatElectrons.isMC = cms.bool(False) 
 
 
 process.hTozzTo4leptonsPFfsrPhoton.src = cms.InputTag("packedPFCandidates")
@@ -172,34 +137,33 @@ process.genanalysis= cms.Sequence(
   )
 
 process.hTozzTo4leptonsSelectionPath = cms.Path(
-   # process.ecalBadCalibReducedMINIAODFilter  * New met filter to be used (under test)
     process.goodOfflinePrimaryVerticestwo     *
     #  process.genanalysis * 
-    process.jecSequence *#Reham to add JEC
-    process.fullPatMetSequenceTEST * #Reham To update MET after update JEC
-    process.egammaPostRecoSeq * #Reham to include electron smearing due to kink at 50 Gev in electron pt spectrum from old electron scale and smearing
-    process.hTozzTo4leptonsSelectionSequenceData *# Reham to add again
+    process.jecSequence 
+    process.fullPatMetSequenceTEST * 
+    process.egammaPostRecoSeq * 
+    process.hTozzTo4leptonsSelectionSequenceData *
     process.hTozzTo4leptonsCommonRootTreePresel 
     )
 
 #///////////////////////////////////////////
 
 process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsOutputModule_cff')
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsOutputModule_cff import *   #reham need to comment in run in crab
-process.hTozzTo4leptonsSelectionOutputModuleNew = hTozzTo4leptonsSelectionOutputModule.clone()  #reham need to comment in run in crab
-process.hTozzTo4leptonsSelectionOutputModuleNew.fileName = "Data_2017_DoubleMuon_RunB_hTozzToLeptons.root"  #reham need to comment in run in crab
+from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsOutputModule_cff import *   
+process.hTozzTo4leptonsSelectionOutputModuleNew = hTozzTo4leptonsSelectionOutputModule.clone()  
+process.hTozzTo4leptonsSelectionOutputModuleNew.fileName = "Data_2017_DoubleMuon_RunB_hTozzToLeptons.root" 
 
-process.o = cms.EndPath (process.hTozzTo4leptonsSelectionOutputModuleNew ) #reham comment in run in crab
+process.o = cms.EndPath (process.hTozzTo4leptonsSelectionOutputModuleNew ) 
 process.schedule = cms.Schedule( process.Path_BunchSpacingproducer,                            
                                  #@#process.Flag_HBHENoiseFilter,
                                  #@#process.Flag_HBHENoiseIsoFilter,
                                  #@#process.Flag_globalSuperTightHalo2016Filter,
                                  #@#process.Flag_EcalDeadCellTriggerPrimitiveFilter,
                                  #@#process.Flag_goodVertices,
-                                # process.Flag_eeBadScFilter,### data only
-                                 #@#process.Flag_BadPFMuonFilter,#####
-                                 #@#process.Flag_BadChargedCandidateFilter,###
-                                 #process.Flag_ecalBadCalibFilter,  #new 2017 changed with reduced
+                                # process.Flag_eeBadScFilter,
+                                 #@#process.Flag_BadPFMuonFilter,
+                                 #@#process.Flag_BadChargedCandidateFilter,
+                                 #process.Flag_ecalBadCalibFilter,  
                                  process.hTozzTo4leptonsSelectionPath,
                                  process.o)
 
@@ -217,4 +181,4 @@ process.source = cms.Source ("PoolSource",
 )
 
 ## # Endpath
-#process.o = cms.EndPath (process.hTozzTo4leptonsSelectionOutputModuleNew ) #reham comment in run in crab
+#process.o = cms.EndPath (process.hTozzTo4leptonsSelectionOutputModuleNew ) 
