@@ -1725,10 +1725,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
       for(int i = 0; i < Ne_good; ++i){
         for(int j = i + 1; j < Ne_good; ++j){
-	  if (fabs(RECOELE_SIP[iLe[i]])>=4.) continue;
-	  if (fabs(RECOELE_SIP[iLe[j]])>=4.) continue;
-	  if (fabs(RECOELE_PFX_rho_new[iLe[i]])>=0.35) continue; // Isolation cut
-	  if (fabs(RECOELE_PFX_rho_new[iLe[j]])>=0.35) continue;
+	  if (fabs(RECOELE_PFX_rho_new[iLe[i]])>=0.20) continue; // Isolation cut
+	  if (fabs(RECOELE_PFX_rho_new[iLe[j]])>=0.20) continue;
 	  
 	  if(RECOELE_CHARGE[ iLe[j] ] == RECOELE_CHARGE[ iLe[i] ]) continue; // opposite charge
 
@@ -3131,8 +3129,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      	 }
 	 
       	 for(int ele = 0; ele < Ne_good; ++ele){
-      	   if (fabs(RECOELE_SIP[iLe[ele]])>=4.) continue;
-	   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.35) continue;
+ //     	   if (fabs(RECOELE_SIP[iLe[ele]])>=4.) continue;
+	   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.20) continue;
       	   double deltaR = sqrt( pow(DELTAPHI(RECO_PFJET_PHI[i],RECOELE_PHI[iLe[ele]]),2) + pow(RECO_PFJET_ETA[i] - RECOELE_ETA[iLe[ele]],2));
      	   cout << "1st lepton electron: " << " pT=" << RECOELE_PT[iLe[ele]] <<" deltaR "<< deltaR <<endl;
 	   if (deltaR<0.4){

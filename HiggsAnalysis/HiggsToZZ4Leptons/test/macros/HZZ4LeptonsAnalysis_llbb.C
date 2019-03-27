@@ -2332,8 +2332,8 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
         for(int j = i + 1; j < Ne_good; ++j){
 //	  if (fabs(RECOELE_SIP[iLe[i]])>=4.) continue; // SIP cut
 //	  if (fabs(RECOELE_SIP[iLe[j]])>=4.) continue;
-	  if (fabs(RECOELE_PFX_rho_new[iLe[i]])>=0.20) continue; // Isolation cut
-	  if (fabs(RECOELE_PFX_rho_new[iLe[j]])>=0.20) continue;
+	  if (fabs(RECOELE_PFX_rho_new[iLe[i]])>=0.35) continue; // Isolation cut
+	  if (fabs(RECOELE_PFX_rho_new[iLe[j]])>=0.35) continue;
 //anti-iso qier
 //          if (fabs(RECOELE_PFX_rho_new[iLe[i]])<0.20) continue; // Isolation cut
 //          if (fabs(RECOELE_PFX_rho_new[iLe[j]])>=0.20) continue;
@@ -2804,7 +2804,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       
       if(jentry%5000 == 0) cout << "Starting weight + pileup + efficiency= " << newweight << endl;
       if(debug) cout << "Efficiency Weight for the 4l: " << eff_weight << " Final weight= " << newweight << endl;
-      
+     
+      //only for WZ sample
+   //   if(Ne_good<3) continue; 
       //only keep 2mu (qier) 
       if(Z1tag!=2) continue;
 
@@ -3312,7 +3314,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	 
       	 for(int ele = 0; ele < Ne_good; ++ele){
       	//   if (fabs(RECOELE_SIP[iLe[ele]])>=4.) continue;
-	//   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.20) continue;
+	   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.35) continue;
       	   double deltaR = sqrt( pow(DELTAPHI(RECO_PFJET_PHI[i],RECOELE_PHI[iLe[ele]]),2) + pow(RECO_PFJET_ETA[i] - RECOELE_ETA[iLe[ele]],2));
      	   if(debug) cout << "1st lepton electron: " << " pT=" << RECOELE_PT[iLe[ele]] <<" deltaR "<< deltaR <<endl;
 	   if (deltaR<0.4){

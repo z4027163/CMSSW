@@ -136,6 +136,9 @@ class EgammaTowerIsolation ;
 #include <TFile.h> 
 #include <TTree.h> 
 
+//DEBUG REMOVE ME!!!
+#include <exception>
+
 // Namespaces
 using namespace reco;
 using namespace std;
@@ -2313,13 +2316,58 @@ class HZZ4LeptonsCommonRootTree : public edm::EDAnalyzer {
     edm::Handle<reco::GenJetCollection> genjetHandle;
     iEvent.getByToken(genjetTag_,genjetHandle);
     int i=0;
+    int tem=0;
+    if (genjetHandle.isValid()) {
     for ( GenJetCollection::const_iterator igen=genjetHandle->begin(); igen!=genjetHandle->end(); igen++) {
+	std::exception_ptr eptr=nullptr;
       if (i>99) break;
       MC_GENJET_PT[i]=igen->pt();
       MC_GENJET_ETA[i]=igen->eta();
-      MC_GENJET_PHI[i]=igen->phi();
+      MC_GENJET_PHI[i]=igen->phi();     
+      if(abs(MC_GENJET_ETA[i])<4.7 && MC_GENJET_PT[i]>30) {tem++;cout << "hellgen" << endl;}
+//      cout <<"genpt=" << MC_GENJET_PT[i] << " geneta=" << MC_GENJET_ETA[i] << " phi=" << MC_GENJET_PHI[i] << endl;
+//      cout <<"daughters=" << igen->numberOfDaughters() << endl;
+//      cout <<"mothers=" << igen->numberOfMothers() << endl;
       i++;
-    }
+	cout << i << endl;
+        for(unsigned l=0; l < igen->numberOfDaughters(); l++){
+          // Select status 3 electron, muon or tau
+          cout << "l=" << l << endl;
+		try {
+		  eptr=nullptr;
+		  auto tmp=igen->daughter(l);
+//	          cout << "daughter ID=" << tmp->pdgId() << endl;
+		} catch(const std::exception &e) { eptr=std::current_exception();  cout << e.what(); 
+		} 
+		if(eptr) { break; }
+          if(abs((igen->daughter(l))->pdgId())==11 || abs((igen->daughter(l))->pdgId())==13){
+      cout << "status=" << (igen->daughter(l))->status() << endl;
+      double deltaphi=abs((igen->daughter(l))->phi()-MC_GENJET_PHI[i-1]);
+      if(deltaphi>3.1416) deltaphi-=2*3.1416;
+      double deltaR = sqrt( pow( deltaphi,2) + pow((igen->daughter(l))->eta() - MC_GENJET_ETA[i-1],2) ); 
+//      cout << "deltaphi=" << deltaphi << " deltaEta="<<abs((igen->daughter(l))->eta() - MC_GENJET_ETA[i]) << endl; 
+      cout << "deltaR=" << deltaR << endl;
+      if(deltaR<0.3) MC_GENJET_PT[i-1]=-100;
+      }     
+         }
+    }}
+/*
+   if (genjetHandle.isValid()) {
+   for(unsigned i=0; i < genjetHandle->size(); i++){
+     if(i>99) break;
+      const reco::GenJet& igen = (*genjetHandle) [i];
+      MC_GENJET_PT[i]=igen.pt();
+      MC_GENJET_ETA[i]=igen.eta();
+      MC_GENJET_PHI[i]=igen.phi();
+      if(abs(MC_GENJET_ETA[i])<4.7 && MC_GENJET_PT[i]>30) {tem++;cout << "hellgen" << endl;}
+      cout <<"genpt=" << MC_GENJET_PT[i] << " geneta=" << MC_GENJET_ETA[i] << " phi=" << MC_GENJET_PHI[i] << endl;
+      cout <<"daughters=" << igen.numberOfDaughters() << endl;
+      cout <<"mothers=" << igen.numberOfMothers() << endl;
+
+   }
+  }*/
+
+   cout << "genjet=" << tem << endl;
   }
 
   // GenParticles  
@@ -2396,12 +2444,17 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
     bool thereisZ=false;
     int i=0;
     double phi0=-100,eta0=-100;
+    int nlep=0;
     for ( GenParticleCollection::const_iterator mcIter=genCandidates->begin(); mcIter!=genCandidates->end(); ++mcIter ) {
       if ( abs(mcIter->pdgId())==25){
         phi0=mcIter->eta();   eta0=mcIter->phi();
        }
+      if((abs(mcIter->pdgId())==11 || abs(mcIter->pdgId())==13)&&mcIter->status()==1){
+       MC_LEPT_PT[nlep]=mcIter->pt();
+       MC_LEPT_ETA[nlep]=mcIter->eta();
+       MC_LEPT_PHI[nlep]=mcIter->phi();
     }
-
+    }
     for ( GenParticleCollection::const_iterator mcIter=genCandidates->begin(); mcIter!=genCandidates->end(); ++mcIter ) {
       // Select the Z decay: status 3
       if ( abs(mcIter->pdgId())==23/*&&mcIter->status()==22*/) {
@@ -2500,7 +2553,7 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
   // MC Higgs 
   void fillmc(const edm::Event& iEvent){
-
+/*
 
         // Pruned particles are the one containing "important" stuff
         edm::Handle<edm::View<reco::GenParticle> > pruned;
@@ -2513,26 +2566,18 @@ mcIter->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->mother(0)->status
 
         int index=0;
         for(size_t i=0; i<pruned->size();i++){
-           if(abs((*pruned)[i].pdgId()) == 24){
-               const Candidate * WBoson = &(*pruned)[i];
-               std::cout << "PdgID: " << WBoson->pdgId() << " pt " << WBoson->pt() << " eta: " << WBoson->eta() << " phi: " << WBoson->phi() << std::endl;
-               std::cout << "  found daugthers: " << std::endl;
-               for(size_t j=0; j<packed->size();j++){
-//get the pointer to the first survied ancestor of a given packed GenParticle in the prunedCollection
-                 if(abs((*packed)[j].pdgId()) == 11 || abs((*packed)[j].pdgId()) == 13){
-                 const Candidate * motherInPrunedCollection = (*packed)[j].mother(0) ;
-                 if(motherInPrunedCollection != nullptr && WBoson == motherInPrunedCollection ){
+           if(abs((*pruned)[i].pdgId()) == 11 || abs((*pruned)[i].pdgId()) == 13){
+               const Candidate * mclep = &(*pruned)[i];
+               std::cout << "PdgID: " << mclep->pdgId() << " pt " << mclep->pt() << " eta: " << mclep->eta() << " phi: " << mclep->phi() << std::endl;
 //if we did not return yet, then particle and ancestor are not relatives
-                 std::cout << "  PdgID: " << (*packed)[j].pdgId() << " pt " << (*packed)[j].pt() << " eta: " << (*packed)[j].eta() << " phi: " << (*packed)[j].phi() << std::endl;
-                 MC_LEPT_PT[i]=(*packed)[j].pt();
-                 MC_LEPT_ETA[i]=(*packed)[j].eta();
-                 MC_LEPT_PHI[i]=(*packed)[j].phi();
-                 MC_LEPT_PDGID[i]=(*packed)[j].pdgId();
+                 MC_LEPT_PT[index]=mclep.pt();
+                 MC_LEPT_ETA[index]=mclep.eta();
+                 MC_LEPT_PHI[index]=mclep.phi();
+                 MC_LEPT_PDGID[index]=mclep.pdgId();
                  index++;
-                  }}
-               }
-           }
-        }
+                 if(index>=4) break;
+                }
+           }*/
 
 
 /*

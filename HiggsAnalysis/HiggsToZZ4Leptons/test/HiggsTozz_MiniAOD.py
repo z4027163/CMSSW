@@ -150,7 +150,7 @@ process.schedule = cms.Schedule( process.Path_BunchSpacingproducer,
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(200) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10000) )
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
 readFiles = cms.untracked.vstring(
@@ -161,7 +161,8 @@ readFiles = cms.untracked.vstring(
 #'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ttz_mini.root'
 #'file:/eos/uscms/store/user/wangz/mc/RunIISpring16MiniAODv1/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/TT.root'
 #'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/DY_mini.root'
-'file:/eos/uscms/store/user/wangz/MinBias/Higgs_hzz_13TeV_mini_Summer16_v1/171121_214250/0000/step3_999.root'
+#'file:/eos/uscms/store/user/wangz/mc/RunIISpring16MiniAODv1/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/output.root'
+'file:/eos/uscms/store/user/wangz/mc/RunIISpring16MiniAODv1/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/ZZ_mini.root'
 #'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/QCD_Pt_120to170_TuneCUETP8M1_13TeV_pythia8/QCD_Pt_120to170.root'
 #'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/GluGluToContinToZZTo4e_13TeV_DefaultShower_MCFM701_pythia8/GGZZ.root'
 #'file:/eos/uscms/store/user/wangz/mc/RunIISummer16MiniAODv2/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/WJets.root'

@@ -74,9 +74,9 @@ public :
    Float_t         MC_Z_MASS[2][5];
    Float_t         MC_Z_PDGID[2][5];
 
-   Float_t         MC_GENJET_PT[4];
-   Float_t         MC_GENJET_ETA[4];
-   Float_t         MC_GENJET_PHI[4];
+   Float_t         MC_GENJET_PT[100];
+   Float_t         MC_GENJET_ETA[100];
+   Float_t         MC_GENJET_PHI[100];
    Float_t         MC_GENMET;
    Float_t         RECOELE_E[100];
    Float_t         RECOELE_PT[100];

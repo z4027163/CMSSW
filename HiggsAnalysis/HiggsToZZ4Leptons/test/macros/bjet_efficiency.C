@@ -2098,7 +2098,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
        double Pt=RECO_PFJET_PT[i];
        double Eta=RECO_PFJET_ETA[i];
 
-       if(RECO_PFJET_PT[i]>30. && fabs(RECO_PFJET_ETA[i])<2.4){
+       if(RECO_PFJET_PT[i]>10. && fabs(RECO_PFJET_ETA[i])<2.4){
            hPtJet_7->Fill(RECO_PFJET_PT[i],newweight);
               if( MC_type == "Spring16" && DATA_type == "NO"){
 
@@ -2170,7 +2170,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
                       RECO_PFJET_NCH[i] > 0;
        
  
-       if(RECO_PFJET_PT[i]>30. && fabs(RECO_PFJET_ETA[i])<2.4 && goodjet==1){
+       if(RECO_PFJET_PT[i]>10. && fabs(RECO_PFJET_ETA[i])<2.4){
        
       	 //Check that jet has deltaR>0.4 away from any tight lepton corrected for FSR
 	 for(int mu = 0; mu < N_good; ++mu){
@@ -2187,7 +2187,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	 
       	 for(int ele = 0; ele < Ne_good; ++ele){
       	//   if (fabs(RECOELE_SIP[iLe[ele]])>=4.) continue;
-	//   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.20) continue;
+	   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.35) continue;
       	   double deltaR = sqrt( pow(DELTAPHI(RECO_PFJET_PHI[i],RECOELE_PHI[iLe[ele]]),2) + pow(RECO_PFJET_ETA[i] - RECOELE_ETA[iLe[ele]],2));
      	   cout << "1st lepton electron: " << " pT=" << RECOELE_PT[iLe[ele]] <<" deltaR "<< deltaR <<endl;
 	   if (deltaR<0.4){

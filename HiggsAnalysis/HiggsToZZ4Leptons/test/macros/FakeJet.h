@@ -84,12 +84,6 @@ public :
    Float_t         RECOELE_eSeedp[100];
    Float_t         RECOELE_eSeedpout[100];
    Float_t         RECOELE_eElepout[100];
-   Float_t         RECOELE_deltaEtaIn[100];
-   Float_t         RECOELE_deltaEtaSeed[100];
-   Float_t         RECOELE_deltaEtaEle[100];
-   Float_t         RECOELE_deltaPhiIn[100];
-   Float_t         RECOELE_deltaPhiSeed[100];
-   Float_t         RECOELE_deltaPhiEle[100];
    Int_t           RECOELE_isbarrel[100];
    Int_t           RECOELE_isendcap[100];
    Int_t           RECOELE_isEBetaGap[100];
@@ -401,12 +395,6 @@ public :
    TBranch        *b_RECOELE_eSeedp;   //!
    TBranch        *b_RECOELE_eSeedpout;   //!
    TBranch        *b_RECOELE_eElepout;   //!
-   TBranch        *b_RECOELE_deltaEtaIn;   //!
-   TBranch        *b_RECOELE_deltaEtaSeed;   //!
-   TBranch        *b_RECOELE_deltaEtaEle;   //!
-   TBranch        *b_RECOELE_deltaPhiIn;   //!
-   TBranch        *b_RECOELE_deltaPhiSeed;   //!
-   TBranch        *b_RECOELE_deltaPhiEle;   //!
    TBranch        *b_RECOELE_isbarrel;   //!
    TBranch        *b_RECOELE_isendcap;   //!
    TBranch        *b_RECOELE_isEBetaGap;   //!
@@ -802,12 +790,6 @@ void HZZ4LeptonsAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("RECOELE_eSeedp", RECOELE_eSeedp, &b_RECOELE_eSeedp);
    fChain->SetBranchAddress("RECOELE_eSeedpout", RECOELE_eSeedpout, &b_RECOELE_eSeedpout);
    fChain->SetBranchAddress("RECOELE_eElepout", RECOELE_eElepout, &b_RECOELE_eElepout);
-   fChain->SetBranchAddress("RECOELE_deltaEtaIn", RECOELE_deltaEtaIn, &b_RECOELE_deltaEtaIn);
-   fChain->SetBranchAddress("RECOELE_deltaEtaSeed", RECOELE_deltaEtaSeed, &b_RECOELE_deltaEtaSeed);
-   fChain->SetBranchAddress("RECOELE_deltaEtaEle", RECOELE_deltaEtaEle, &b_RECOELE_deltaEtaEle);
-   fChain->SetBranchAddress("RECOELE_deltaPhiIn", RECOELE_deltaPhiIn, &b_RECOELE_deltaPhiIn);
-   fChain->SetBranchAddress("RECOELE_deltaPhiSeed", RECOELE_deltaPhiSeed, &b_RECOELE_deltaPhiSeed);
-   fChain->SetBranchAddress("RECOELE_deltaPhiEle", RECOELE_deltaPhiEle, &b_RECOELE_deltaPhiEle);
    fChain->SetBranchAddress("RECOELE_isbarrel", RECOELE_isbarrel, &b_RECOELE_isbarrel);
    fChain->SetBranchAddress("RECOELE_isendcap", RECOELE_isendcap, &b_RECOELE_isendcap);
    fChain->SetBranchAddress("RECOELE_isEBetaGap", RECOELE_isEBetaGap, &b_RECOELE_isEBetaGap);

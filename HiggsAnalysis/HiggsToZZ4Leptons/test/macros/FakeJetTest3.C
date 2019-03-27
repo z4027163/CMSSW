@@ -1289,7 +1289,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       for( int i = 0; i < RECO_NELE; ++i ){
 
         if(i==iLe[0]) continue;
-        if( RECOELE_PT[i] > 20. && fabs(RECOELE_ETA[i]) < 2.5 );
+        if( RECOELE_PT[i] > 10. && fabs(RECOELE_ETA[i]) < 2.5 );
           // && RECOELE_gsftrack_expected_inner_hits[i]<=1 ) /* ok */ ;
         else continue ;
 
@@ -1318,7 +1318,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      int nele=0;
      for(int i = 0; i < Ne_good; ++i){
           if (fabs(RECOELE_PFX_rho_new[iLe[i]])>=0.20) continue; // Isolation cut
-          if (RECOELE_PT[iLe[i]]<20) continue;
+          if (RECOELE_PT[iLe[i]]<10) continue;
           if(i==iLe[0]) continue;
           nele++;
           if(nele==1){

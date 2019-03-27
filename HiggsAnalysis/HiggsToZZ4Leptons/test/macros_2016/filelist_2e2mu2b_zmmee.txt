@@ -1,0 +1,11 @@
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_DoubleMuonEG_2e2mu_BH.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_ZZTo4L_powheg_dm.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_GluGluTo4L.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_TTZToLLNuNu_amcatnlo_dm.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_TT_TuneCUETP8M1_more_rate.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_DYBBJetsToLL.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_DYJetsToLL_amcatnloFXFX_de.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_WZJToLLLNu_amcatnlo.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_GluGluH.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_VBF_H.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/QCDreduction/rev/zmmee/reorder/output_sig_400.root

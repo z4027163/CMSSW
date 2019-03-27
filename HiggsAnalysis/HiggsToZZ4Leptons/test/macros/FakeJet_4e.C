@@ -152,7 +152,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
   TFile *b_scale_factors3_p4 = new TFile("btag/l_jet_sf.root");
   TH1F *b_eff_zz_p5 = (TH1F*)gDirectory->Get("hPtBot_8_l_zz");
 
-  TFile *j_scale_factors3_p1 = new TFile("btag/fake_jet_BH.root");
+  TFile *j_scale_factors3_p1 = new TFile("btag/iso035/fake_jet_QCD.root");
   TH2F *j_eff_p1 = (TH2F*)gDirectory->Get("Jet_9");
 
    
@@ -297,7 +297,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      
    }
    
-   cout << "The size of the vector cut_PFMET is: "<<cut_PFMET.size()<<endl;
+   //cout << "The size of the vector cut_PFMET is: "<<cut_PFMET.size()<<endl;
    
    //DEBUG
    // for(int i=0; i< cut_PFMET.size(); i++){
@@ -311,7 +311,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
    }
    
    for(int i=0; i< cut_PFMET.size(); i++){
-     cout <<"The value of the counter_cut_PFMET vector BEFORE THE LOOP at index "<< i <<" is "<<counter_cut_PFMET.at(i)<<endl;
+     //cout <<"The value of the counter_cut_PFMET vector BEFORE THE LOOP at index "<< i <<" is "<<counter_cut_PFMET.at(i)<<endl;
    }
    
    for(int i = 0; i < cut_PFMET.size(); i++){//initialize the counter
@@ -1424,8 +1424,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
 //      if (!(Run==274422 && LumiSection==484 && Event==843958845)) continue;
 
-      if(jentry%1 == 5000) cout << "Analyzing entry: " << jentry << endl;
-
+      if(jentry%5000 == 0) cout << "Analyzing entry: " << jentry << endl;
       double mc_weight_un[9];
       
 
@@ -1436,7 +1435,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       bool debug=false;  //debug flag  -- default false
 
       newweight=weight;
-      cout << "Starting weight= " << newweight << endl;
+      if(jentry%5000 == 0) cout << "Starting weight= " << newweight << endl;
 
       // pileup reweighting 2012 and 2011
       if (DATA_type=="NO" && num_PU_vertices < 0) continue;                                                                                                                                              
@@ -1451,25 +1450,25 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       double pu_weight=1.;
       if (MC_type == "Spring16"){
 	Int_t binx = puweight->GetXaxis()->FindBin(num_PU_vertices);
-	cout << " bin x= " << binx << " " << puweight->GetBinContent(binx) << endl;	
+	//cout << " bin x= " << binx << " " << puweight->GetBinContent(binx) << endl;	
 	pu_weight=double(puweight->GetBinContent(binx));
 	
       }      
        
       hPUvertices_ReWeighted->Fill(num_PU_vertices,weight*pu_weight);
-      cout << "Pileup interations and weight is= " << num_PU_vertices << " " << " and weight= " << pu_weight << endl;  
+      if(debug) cout << "Pileup interations and weight is= " << num_PU_vertices << " " << " and weight= " << pu_weight << endl;  
       
       //if (num_PU_vertices < 0) continue;
 
       // Changing the weight for pileup
       newweight=weight*pu_weight;
-      cout << "Starting weight + pileup = " << newweight << endl;
+      if(jentry%5000 == 0) cout << "Starting weight + pileup = " << newweight << endl;
            
       
 
       // Weight for MCNLO samples                                                                                      
       if( datasetName.Contains("amcatnlo")) {
-        cout << "Reweighting sample of amcatnlo with weight= " << MC_weighting << endl;
+        if(debug) cout << "Reweighting sample of amcatnlo with weight= " << MC_weighting << endl;
         newweight=weight*pu_weight*MC_weighting;
       }
 
@@ -1563,7 +1562,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 			 << "\nfabs( RECOELE_gsftrack_dz[i] ) " << fabs( RECOELE_gsftrack_dz[i] )
 			 << endl ;
        	
- 	if( RECOELE_PT[i] > 10. 
+ 	if( RECOELE_PT[i] > 5. 
 	    && fabs(RECOELE_ETA[i]) < 2.5 
 	    // && RECOELE_gsftrack_expected_inner_hits[i]<=1  not used anymore
 	    && fabs(RECOELE_gsftrack_dxy[i]) < .5 
@@ -1638,7 +1637,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
        	// loose muons
  	if( 
               ( RECOMU_isGlobalMu[i] || RECOMU_isTrackerMu[i] ) && RECOMU_isPFMu[i]
-              && RECOMU_PT[i] > 5.
+              && RECOMU_PT[i] > 10.
               && fabs(RECOMU_ETA[i]) < 2.4
               && fabs(RECOMU_mubesttrkDxy[i]) < .5 && fabs(RECOMU_mubesttrkDz[i]) < 1. //loose muon (qier)
 	    ){
@@ -1850,7 +1849,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 //	  cout << "DeltaR= " << deltaR << " " <<  deltaR/pow(RECOPFPHOT_PT[iLp[i]],2) << endl;
 	  if(!(deltaR < 0.5 && deltaR/pow(RECOPFPHOT_PT[iLp[i]],2)<0.012) ) continue;
 	  if( deltaR<min_deltaR) { // the closest lepton
-	    cout << "Possible candidate of photon with pT= " << RECOPFPHOT_PT[iLp[i]] << " associated to a muon with pT= " << RECOMU_PT[iL_loose_mu[l]]<< endl;
+//	    cout << "Possible candidate of photon with pT= " << RECOPFPHOT_PT[iLp[i]] << " associated to a muon with pT= " << RECOMU_PT[iL_loose_mu[l]]<< endl;
 	    min_deltaR = deltaR;
 	    l_min_deltaR = l;
 	    tag_min_deltaR = 0;
@@ -1864,7 +1863,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 //	  cout << "DeltaR= " << deltaR << " " <<  deltaR/pow(RECOPFPHOT_PT[iLp[i]],2) << endl;
 	  if(!(deltaR < 0.5 && deltaR/pow(RECOPFPHOT_PT[iLp[i]],2)<0.012) ) continue;
 	  if( deltaR<min_deltaR) { // the closest lepton
-	    cout << "Possible candidate of photon with pT= " << RECOPFPHOT_PT[iLp[i]] << " associated to an electron with pT= " << RECOELE_PT[iL_loose_e[l]]<< endl;
+	  //  cout << "Possible candidate of photon with pT= " << RECOPFPHOT_PT[iLp[i]] << " associated to an electron with pT= " << RECOELE_PT[iL_loose_e[l]]<< endl;
 	    min_deltaR = deltaR;
 	    l_min_deltaR = l;
 	    tag_min_deltaR = 1;
@@ -1916,7 +1915,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	
 	for( int p = 0; p < Nphotons; ++p ){
 	  if( iLp_l[ p ] == iL_loose_mu[l] && iLp_tagEM[ p ] == 0 )  {
-	    cout <<  "index muon" << iL_loose_mu[l] << endl;
+	  //  cout <<  "index muon" << iL_loose_mu[l] << endl;
 	    double deltaR = sqrt( pow( DELTAPHI( RECOPFPHOT_PHI[iLp[p]] , RECOMU_PHI[iL_loose_mu[l]] ),2) + pow(RECOPFPHOT_ETA[iLp[p]] - RECOMU_ETA[iL_loose_mu[l]],2) );
 	    double deltaR_ET2 = deltaR/pow(RECOPFPHOT_PT[iLp[p]],2);
 	    if (deltaR_ET2<min_deltaR_ET2) {
@@ -1953,15 +1952,15 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	
 	for( int p = 0; p < Nphotons; ++p ){
 	  if( iLp_l[ p ] == iL_loose_e[l] && iLp_tagEM[ p ] == 1 )  {
-	    cout <<  "index electron" << iL_loose_e[l] << endl;
+	   // cout <<  "index electron" << iL_loose_e[l] << endl;
 	    double deltaR = sqrt( pow( DELTAPHI( RECOPFPHOT_PHI[iLp[p]] , RECOELE_PHI[iL_loose_e[l]] ),2) + pow(RECOPFPHOT_ETA[iLp[p]] - RECOELE_ETA[iL_loose_e[l]],2));
 	    double deltaR_ET2 = deltaR/pow(RECOPFPHOT_PT[iLp[p]],2);
-	    cout << " deltaR_ET2= " << deltaR_ET2 <<endl;
+	   // cout << " deltaR_ET2= " << deltaR_ET2 <<endl;
 	    if (deltaR_ET2<min_deltaR_ET2){
 	      min_deltaR_ET2=deltaR_ET2;
 	      RECOPFPHOT_DR[iLp[p]]=deltaR;
 	      p_min_deltaR_ET2=p;
-	      cout << " p_min_deltaR_ET2= " << p_min_deltaR_ET2 <<endl;
+	    //  cout << " p_min_deltaR_ET2= " << p_min_deltaR_ET2 <<endl;
 	    }
 	  }	  
 	}
@@ -2004,13 +2003,13 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
       
       for(int i=0.;i<Nphotons;i++) {
-	if (iLp_l[i]!=-1 && iLp_tagEM[i]==0) cout << "There is photon with pT= " << RECOPFPHOT_PT[iLp[i]] << " attached to a muon with pT= " << RECOMU_PT[iLp_l[i]] << endl;
-	if (iLp_l[i]!=-1 && iLp_tagEM[i]==1) cout << "There is photon with pT= " << RECOPFPHOT_PT[iLp[i]] << " attached to an electron with pT= " << RECOELE_PT[iLp_l[i]] << endl;
+//	if (iLp_l[i]!=-1 && iLp_tagEM[i]==0) cout << "There is photon with pT= " << RECOPFPHOT_PT[iLp[i]] << " attached to a muon with pT= " << RECOMU_PT[iLp_l[i]] << endl;
+//	if (iLp_l[i]!=-1 && iLp_tagEM[i]==1) cout << "There is photon with pT= " << RECOPFPHOT_PT[iLp[i]] << " attached to an electron with pT= " << RECOELE_PT[iLp_l[i]] << endl;
       };
 
        // Exclude that photon from the isolation cone all leptons in the event passing loose ID + SIP cut if it was in the isolation cone and outside the isolation veto (ΔR>0.01 for muons and (ele->supercluster()->eta() < 1.479 || dR > 0.08) for electrons
       
-      cout << "Rho for electron pileup isolation correction is= " << RHO_ele << endl;
+      if(debug) cout << "Rho for electron pileup isolation correction is= " << RHO_ele << endl;
       double EffectiveArea=-9999.;
 
 	    
@@ -2022,7 +2021,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  if (fabs( RECOELE_SIP[iL_loose_e[e]])>=4.) continue;
 	  //double deltaR = sqrt( pow( DELTAPHI( RECOPFPHOT_PHI[iLp[i]] , RECOELE_scl_Phi[iL_loose_e[e]] ),2) + pow(RECOPFPHOT_ETA[iLp[i]] - RECOELE_scl_Eta[iL_loose_e[e]],2) );
 	  double deltaR = sqrt( pow( DELTAPHI( RECOPFPHOT_PHI[iLp[i]] , RECOELE_PHI[iL_loose_e[e]] ),2) + pow(RECOPFPHOT_ETA[iLp[i]] - RECOELE_ETA[iL_loose_e[e]],2) );
-	  cout << "deltaR for photon subtraction= " << deltaR << endl;
+	  //cout << "deltaR for photon subtraction= " << deltaR << endl;
 	  if( deltaR<=0.3 && (RECOELE_scl_Eta[iL_loose_e[e]]< 1.479 || deltaR>0.08) ){ // 0.3 in 76x              
 	    if( debug )cout << "Subtracting the photon isolation from the electron isolation value " << endl;
 	    
@@ -2039,7 +2038,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  //if(!( iLp_l[i] == iL_loose_mu[l] && iLp_tagEM[i] == 0 ) ) continue;
           if (fabs(RECOMU_SIP[iL_loose_mu[l]])>=4.) continue;
           double deltaR = sqrt( pow( DELTAPHI( RECOPFPHOT_PHI[iLp[i]] , RECOMU_PHI[iL_loose_mu[l]] ),2) + pow(RECOPFPHOT_ETA[iLp[i]] - RECOMU_ETA[iL_loose_mu[l]],2) );
-	  cout << "deltaR for photon subtraction= " << deltaR << endl;
+	 //  cout << "deltaR for photon subtraction= " << deltaR << endl;
 	  if( deltaR<=0.3 && deltaR>0.01){ // 0.3 is the isolation cone for muons in 76x
 	    if( debug )cout << "Subtracting the photon isolation from the muon isolation value " << endl;
 	    
@@ -2126,7 +2125,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 //same sign (qier)(don't forget to change it back)
 //          if(RECOMU_CHARGE[ iL[j] ] != RECOMU_CHARGE[ iL[i] ]) continue;
 
-	  cout << "\n Pairing muons with pT= " << RECOMU_PT[ iL[i] ] << " and " <<  RECOMU_PT[ iL[j] ] << endl;
+	 if(debug) cout << "\n Pairing muons with pT= " << RECOMU_PT[ iL[i] ] << " and " <<  RECOMU_PT[ iL[j] ] << endl;
 		  
 	  // evaluate the mass &
 	  double pxZ, pyZ, pzZ;
@@ -2164,7 +2163,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  for( int p = 0; p < Nphotons; ++p ){
 	    
 	    if( iLp_l[ p ] == iL[i] && iLp_tagEM[ p ] == 0 )  {  // exists a photon associated to a lepton mu
-	      cout << "Attaching a photon to muon and then to the Z" << endl;
+	      //cout << "Attaching a photon to muon and then to the Z" << endl;
 	      // evaluate the mass
 	      LeptonCorrection.SetPtEtaPhiM(RECOPFPHOT_PT[iLp[p]],RECOPFPHOT_ETA[iLp[p]],RECOPFPHOT_PHI[iLp[p]],0);
 	      Lepton1=Lepton1+LeptonCorrection;
@@ -2182,11 +2181,11 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	      if( RECOPFPHOT_PT[iLp[p]] > max_pt_FSR_Z ) max_pt_FSR_Z = RECOPFPHOT_PT[iLp[p]];
 	      massZ=mllp;
 
-	      cout << "Mass Z with FSR= "<< massZ << endl;
+	     // cout << "Mass Z with FSR= "<< massZ << endl;
 
 	    }
 	    if( iLp_l[ p ] == iL[j] && iLp_tagEM[ p ] == 0 )  { 
-	      cout << "Attaching a photon to muon and then to the Z" << endl;
+	      //cout << "Attaching a photon to muon and then to the Z" << endl;
 	      // evaluate the mass
 	      LeptonCorrection.SetPtEtaPhiM(RECOPFPHOT_PT[iLp[p]],RECOPFPHOT_ETA[iLp[p]],RECOPFPHOT_PHI[iLp[p]],0);
 	      Lepton2=Lepton2+LeptonCorrection;
@@ -2204,7 +2203,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	      if( RECOPFPHOT_PT[iLp[p]] > max_pt_FSR_Z ) max_pt_FSR_Z = RECOPFPHOT_PT[iLp[p]];
 	      massZ=mllp;
 
-	      cout << "Mass Z with FSR= "<< massZ << endl;
+	     // cout << "Mass Z with FSR= "<< massZ << endl;
 
 	    }
 	  } // end loop on FSR photons
@@ -2220,7 +2219,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	    if( pj > -1 ) cout  << "  pj " << pj << " --> index photon: " << iLp[pj] << " associated lepton: " << iLp_l[pj] << " (= "<< iL[j]<<" ? )  tag: " << iLp_tagEM[pj] << endl;
 	  }
 	  else {
-	    cout << "No FSR photon attached" << endl;
+	   // cout << "No FSR photon attached" << endl;
 	  }
 	  
 	  
@@ -2258,9 +2257,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  
 	  //if( massZ == 0 || i1 == -1 || j1 == -1) continue;
 	  
-	  cout << "2mu: " << Zxx_tag << endl; 
+	  if(debug) cout << "2mu: " << Zxx_tag << endl; 
 	  
-	  cout << "Filling a struct for Z" << endl; 
+	  if(debug) cout << "Filling a struct for Z" << endl; 
 	  candidateZ *Z = new candidateZ;
 	  Z->massvalue=massZ;
 	  Z->ilept1=iL[i];
@@ -2298,12 +2297,12 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
       for(int i = 0; i < Ne_good; ++i){
         for(int j = i + 1; j < Ne_good; ++j){
-        if (fabs(RECOELE_PFX_rho_new[iLe[i]])>=0.20) continue; // Isolation cut
-        if (fabs(RECOELE_PFX_rho_new[iLe[j]])>=0.20) continue;
+        if (fabs(RECOELE_PFX_rho_new[iLe[i]])>=0.35) continue; // Isolation cut
+        if (fabs(RECOELE_PFX_rho_new[iLe[j]])>=0.35) continue;
 
           if(RECOELE_CHARGE[ iLe[j] ] == RECOELE_CHARGE[ iLe[i] ]) continue; // opposite charge
 
-          cout << "\n Pairing electrons with pT= " << RECOELE_PT[ iLe[i] ] << " and " <<  RECOELE_PT[ iLe[j] ] << endl;
+          if(debug) cout << "\n Pairing electrons with pT= " << RECOELE_PT[ iLe[i] ] << " and " <<  RECOELE_PT[ iLe[j] ] << endl;
 
           // evaluate the mass &
           double pxZ, pyZ, pzZ;
@@ -2358,7 +2357,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
               if( RECOPFPHOT_PT[iLp[p]] > max_pt_FSR_Z ) max_pt_FSR_Z = RECOPFPHOT_PT[iLp[p]];
               massZ=mllp;
 
-              cout << "Mass Z with FSR= "<< massZ << endl;
+              if(debug) cout << "Mass Z with FSR= "<< massZ << endl;
 
             }
 
@@ -2380,7 +2379,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
               if( RECOPFPHOT_PT[iLp[p]] > max_pt_FSR_Z ) max_pt_FSR_Z = RECOPFPHOT_PT[iLp[p]];
               massZ=mllp;
 
-              cout << "Mass Z with FSR= "<< massZ << endl;
+              if(debug) cout << "Mass Z with FSR= "<< massZ << endl;
 
             }
           } // end loop on FSR photons
@@ -2390,14 +2389,14 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
           //if( has_FSR_Z ) debug = 1;
 
           if( debug && has_FSR_Z) {
-            cout  << " Z has FSR! " << endl;
+            if(debug) cout  << " Z has FSR! " << endl;
             cout  << "  N_FSR_Z " << N_FSR_Z << endl;
             cout  << "  max_pt of photon FSR_Z " << max_pt_FSR_Z << endl;
             if( pi > -1 ) cout  << "  pi " << pi << " --> index photon: " << iLp[pi] << " associated lepton: " << iLp_l[pi] << " (= "<< iLe[i]<<" ? )  tag: " << iLp_tagEM[pi] << endl;
             if( pj > -1 ) cout  << "  pj " << pj << " --> index photon: " << iLp[pj] << " associated lepton: " << iLp_l[pj] << " (= "<< iLe[j]<<" ? )  tag: " << iLp_tagEM[pj] << endl;
           }
           else {
-            cout << "No FSR photon attached" << endl;
+       //     cout << "No FSR photon attached" << endl;
           }
 
 
@@ -2430,9 +2429,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
           }
           // ** end association of FSR to Z
 
-          cout << "2e2mu: " << Zxx_tag << endl;
+          if(debug) cout << "2e2mu: " << Zxx_tag << endl;
 
-          cout << "Filling a struct for Z" << endl;
+          if(debug) cout << "Filling a struct for Z" << endl;
           candidateZ *Z = new candidateZ;
           Z->massvalue=massZ;
           Z->ilept1=iLe[i];
@@ -2477,12 +2476,12 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       double jetid=-1;
       int jetfail2[100]={0};
       for(int i = 0; i < Ne_good; ++i){
-        if(i==Zcandvector.at(0).ilept1||i==Zcandvector.at(0).ilept2) continue;
+        if (fabs(RECOELE_PFX_rho_new[iLe[i]])>=0.35) continue; //
+        if(iLe[i]==Zcandvector.at(0).ilept1||iLe[i]==Zcandvector.at(0).ilept2) continue;
         for(int j=0;j<RECO_PFJET_N;j++){
 //	  if (fabs(RECOELE_SIP[iLe[i]])>=4.) continue; // SIP cut
 //	  if (fabs(RECOELE_SIP[iLe[j]])>=4.) continue;
-	  if (fabs(RECOELE_PFX_rho_new[iLe[i]])>=0.20) continue; // Isolation cut
-          if(RECO_PFJET_PT[i]<-100) continue;
+          if(RECO_PFJET_PT[j]<-100) continue;
 
           double Pt=RECO_PFJET_PT[j];
           double Eta=RECO_PFJET_ETA[j];
@@ -2499,7 +2498,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
          }
 
          for(int ele = 0; ele < Ne_good; ++ele){
-        //   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.20) continue;
+           if (RECOELE_PFX_rho_new[iLe[ele]]>=0.35) continue;
            double deltaR = sqrt( pow(DELTAPHI(RECO_PFJET_PHI[j],RECOELE_PHI[iLe[ele]]),2) + pow(RECO_PFJET_ETA[j] - RECOELE_ETA[iLe[ele]],2));
            if (deltaR<0.4){
              jetfail2[j]=1;
@@ -2581,7 +2580,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	      if( RECOPFPHOT_PT[iLp[p]] > max_pt_FSR_Z ) max_pt_FSR_Z = RECOPFPHOT_PT[iLp[p]];
 	      massZ=mllp;
 
-	      cout << "Mass Z with FSR= "<< massZ << endl;
+	      if(debug) cout << "Mass Z with FSR= "<< massZ << endl;
 		      
 	    }
 	    
@@ -2603,7 +2602,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	      if( RECOPFPHOT_PT[iLp[p]] > max_pt_FSR_Z ) max_pt_FSR_Z = RECOPFPHOT_PT[iLp[p]];
 	      massZ=mllp;
 
-	      cout << "Mass Z with FSR= "<< massZ << endl;
+	      if(debug) cout << "Mass Z with FSR= "<< massZ << endl;
 
 	    }
 	  } // end loop on FSR photons
@@ -2640,12 +2639,12 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  
 	  //if( massZ == 0 || i1 == -1 || j1 == -1) continue;
 	  
-	  cout << "2e2mu: " << Zxx_tag << endl;
+	  if(debug) cout << "2e2mu: " << Zxx_tag << endl;
 	   
-	  cout << "Filling a struct for Z" << endl; 
+	  if(debug) cout << "Filling a struct for Z" << endl; 
 	  candidateZ *Z = new candidateZ;
 	  Z->massvalue=massZ;
-          if(massZ<60||massZ>120) continue;
+//          if(massZ<60||massZ>120) continue;
 	  Z->ilept1=iLe[i];
 	  Z->ilept2=j;
 	  Z->pt1=RECOELE_PT[iLe[i]];
@@ -2682,14 +2681,14 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       } 
       
       if (Zcandvector.size()<1) {
-	cout << "Less than two Z pairs with isolated leptons...exiting" << endl;
+	if(debug) cout << "Less than two Z pairs with isolated leptons...exiting" << endl;
 	continue; 
       }
 
       ++N_3a ;  // fill counter
       N_3a_w=N_3a_w+newweight;
 
-      cout << "Z2 number=" << Z2candvector.size() << endl;
+      if(debug) cout << "Z2 number=" << Z2candvector.size() << endl;
       if (Z2candvector.size()<1) continue; 
 
       
@@ -2699,13 +2698,14 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       Zcandisolmassvector.clear();
 
       for (int index=0; index<Zcandvector.size();index++){
-	if (!(Zcandvector.at(index).massvalue > 60 && Zcandvector.at(index).massvalue < 120)) continue;
-	cout << "Z passing the 60 < mll < 120 cut with mass= " << Zcandvector.at(index).massvalue<< endl;
+//	if (!(Zcandvector.at(index).massvalue > 60 && Zcandvector.at(index).massvalue < 120)) continue;
+	if(debug) cout << "Z passing the 60 < mll < 120 cut with mass= " << Zcandvector.at(index).massvalue<< endl;
+        if(Zcandvector.at(index).massvalue<40) continue;
 	Zcandisolmassvector.push_back(Zcandvector.at(index));
       };
       
       if (Zcandisolmassvector.size()<1) {
-	cout << "No Z passing the mass cut"<< endl;
+	if(debug) cout << "No Z passing the mass cut"<< endl;
 	continue;
       }
 
@@ -2741,7 +2741,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
             
 
       if (pTcleanedgoodZ.size()<1) {
-        cout << "No Z (PT required) passing the mass cut"<< endl;
+        if(debug) cout << "No Z (PT required) passing the mass cut"<< endl;
         continue;
       }     
 
@@ -2826,7 +2826,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       
       newweight=newweight*Z2weight.at(jj)*0.5;  //both fake rate and 1/2 in charge
       // **** Step 5:
-
+      f_weight_up=Z2weight.at(jj);
       
        // Execute Efficiency Reweighting
  
@@ -2853,10 +2853,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
             double sf_iso = mu_scale_factors_iso_p1->GetBinContent(binx2,biny2);
             if (sf_iso>0.)  eff_weight*=sf_iso;
   
-            double tk_sf = mu_scale_factors_tk->Eval(Eta);
-            if(mu_scale_factors_tk->Eval(Eta)>0) eff_weight*=tk_sf;
+     //       double tk_sf = mu_scale_factors_tk->Eval(Eta);
+     //       if(mu_scale_factors_tk->Eval(Eta)>0) eff_weight*=tk_sf;
   
-            cout << " id weight = " << sf_id << "\n iso weight = " << sf_iso << "\n tk weight = " << tk_sf << endl;
+            //cout << " id weight = " << sf_id << "\n iso weight = " << sf_iso << "\n tk weight = " << tk_sf << endl;
           }
 	}
       }
@@ -2866,16 +2866,16 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  Double_t Eta = RECOELE_ETA[ z1lept[i] ]; 
 	  
 	  if( MC_type == "Spring16" && DATA_type == "NO"){
-            cout << "Pt= " << Pt << " Eta= " << Eta << endl;
+          //  cout << "Pt= " << Pt << " Eta= " << Eta << endl;
             int biny4 = ele_scale_factors_reco->GetYaxis()->FindBin(Pt);
             int binx4 = ele_scale_factors_reco->GetXaxis()->FindBin(Eta);
             if (ele_scale_factors_reco->GetBinContent(binx4,biny4)>0.) eff_weight*=ele_scale_factors_reco->GetBinContent(binx4,biny4);
-            cout << "ele reco sf = " << ele_scale_factors_reco->GetBinContent(binx4,biny4) << endl;
+           // cout << "ele reco sf = " << ele_scale_factors_reco->GetBinContent(binx4,biny4) << endl;
 
             int biny5 = ele_scale_factors_wp90->GetYaxis()->FindBin(Pt);
             int binx5 = ele_scale_factors_wp90->GetXaxis()->FindBin(Eta);
             if (ele_scale_factors_wp90->GetBinContent(binx5,biny5)>0.) eff_weight*=ele_scale_factors_wp90->GetBinContent(binx5,biny5);
-            cout << "ele wp90 sf = " << ele_scale_factors_wp90->GetBinContent(binx5,biny5) << endl;
+            //cout << "ele wp90 sf = " << ele_scale_factors_wp90->GetBinContent(binx5,biny5) << endl;
 
 
           }
@@ -2900,10 +2900,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
           double sf_iso = mu_scale_factors_iso_p1->GetBinContent(binx2,biny2);
           if (sf_iso>0.)  eff_weight*=sf_iso;
 
-          double tk_sf = mu_scale_factors_tk->Eval(Eta);
-          if(mu_scale_factors_tk->Eval(Eta)>0) eff_weight*=tk_sf;
+     //     double tk_sf = mu_scale_factors_tk->Eval(Eta);
+     //     if(mu_scale_factors_tk->Eval(Eta)>0) eff_weight*=tk_sf;
 
-          cout << " id weight = " << sf_id << "\n iso weight = " << sf_iso << "\n tk weight = " << tk_sf << endl;
+          //cout << " id weight = " << sf_id << "\n iso weight = " << sf_iso << "\n tk weight = " << tk_sf << endl;
 
          }
         }
@@ -2914,16 +2914,16 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
           Double_t Eta = RECOELE_ETA[ z2lept[i] ];
 
           if( MC_type == "Spring16" && DATA_type == "NO"){
-            cout << "Pt= " << Pt << " Eta= " << Eta << endl;
+          //  cout << "Pt= " << Pt << " Eta= " << Eta << endl;
             int biny4 = ele_scale_factors_reco->GetYaxis()->FindBin(Pt);
             int binx4 = ele_scale_factors_reco->GetXaxis()->FindBin(Eta);
             if (ele_scale_factors_reco->GetBinContent(binx4,biny4)>0.) eff_weight*=ele_scale_factors_reco->GetBinContent(binx4,biny4); 
-            cout << "ele reco sf = " << ele_scale_factors_reco->GetBinContent(binx4,biny4) << endl; 
+          //  cout << "ele reco sf = " << ele_scale_factors_reco->GetBinContent(binx4,biny4) << endl; 
             
             int biny5 = ele_scale_factors_wp90->GetYaxis()->FindBin(Pt);
             int binx5 = ele_scale_factors_wp90->GetXaxis()->FindBin(Eta);
             if (ele_scale_factors_wp90->GetBinContent(binx5,biny5)>0.) eff_weight*=ele_scale_factors_wp90->GetBinContent(binx5,biny5);
-            cout << "ele wp90 sf = " << ele_scale_factors_wp90->GetBinContent(binx5,biny5) << endl; 
+           // cout << "ele wp90 sf = " << ele_scale_factors_wp90->GetBinContent(binx5,biny5) << endl; 
 
           }
         }
@@ -3015,7 +3015,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
             double sf_hlt = ele_scale_factors_leg1->GetBinContent(binx4,biny4);
             if (sf_hlt>0.) eff_weight*=sf_hlt;
-            cout << "hlt matching ele leg1 weight = " << sf_hlt << endl;
+    //        cout << "hlt matching ele leg1 weight = " << sf_hlt << endl;
            }
          else{
             int biny42 = ele_scale_factors_leg2->GetYaxis()->FindBin(Pt);
@@ -3023,7 +3023,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
             double sf_hlt = ele_scale_factors_leg2->GetBinContent(binx42,biny42);
             if (sf_hlt>0.) eff_weight*=sf_hlt;
-            cout << "hlt matching ele leg2 weight = " << sf_hlt << endl;
+    //        cout << "hlt matching ele leg2 weight = " << sf_hlt << endl;
           }
        }
      if(RECOELE_de_EleHLTMatch[indextwoele[i]]<0) nomatch=true; 
@@ -3037,7 +3037,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       // // Changing the weight for pileup and efficiency
       if (eff_weight>0.) newweight=newweight*eff_weight;
       
-      cout << "Starting weight + pileup + efficiency= " << newweight << endl;
+      if(jentry%5000 == 0) cout << "Starting weight + pileup + efficiency= " << newweight << endl;
 
       // sort index by pt (kinematics not corrected for FSR)
       int ipt[4] ;
@@ -3050,14 +3050,14 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       for(int i = 0; i < 2; ++i){
         if (Z1tag==1) {tmp_pt[i] =  RECOMU_PT[indexleptonfinal[i]]; tmp_type[i]=1;}
         if (Z1tag==2) {tmp_pt[i] =  RECOELE_PT[indexleptonfinal[i]]; tmp_type[i]=2;}
-        cout << tmp_pt[i] << endl;
+        //cout << tmp_pt[i] << endl;
       }
       for(int i = 2; i < 4; ++i){
         if (Z2tag==1) {tmp_pt[i] =  RECOMU_PT[indexleptonfinal[i]]; tmp_type[i]=1;}
         if (Z2tag==2 && i==2) {tmp_pt[i] =  RECOELE_PT[indexleptonfinal[i]]; tmp_type[i]=2;}
         if (Z2tag==2 && i==3) {tmp_pt[i] =  RECO_PFJET_PT[indexleptonfinal[i]]; tmp_type[i]=2;}
 
-        cout << tmp_pt[i] << endl;
+        //cout << tmp_pt[i] << endl;
       }
 
       
@@ -3082,12 +3082,17 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
       //end sorting
      
       //4 lepton pt selection
-      cout << "lepton Pt= "<< sortedpT[0] <<" "<< sortedpT[1] <<" " << sortedpT[2] <<" " << sortedpT[3] << endl;
-      if(!(sortedpT[0]>25 && sortedpT[1]>15 && sortedpT[2] >10 && sortedpT[3]>10)) continue;
+      //cout << "lepton Pt= "<< sortedpT[0] <<" "<< sortedpT[1] <<" " << sortedpT[2] <<" " << sortedpT[3] << endl;
+      if(!(sortedpT[0]>30 && sortedpT[1]>20 && sortedpT[2] >10 && sortedpT[3]>10)) continue;
 
+      if(massZ1<40||massZ2<40) continue;
       //4mu selection qier
 //      if(Z1tag!=1||Z2tag!=1) continue;
-
+//        if(!((massZ1>60&&massZ1<120)&&(massZ2>60&&massZ2<120))) continue;
+//      if(!(((massZ1>60&&massZ1<120)&&(massZ2<60||massZ2>120))||
+//         ((massZ2>60&&massZ2<120)&&(massZ1<60||massZ1>120)))) continue;
+     if((massZ1>60&&massZ1<120)||(massZ2>60&&massZ2<120)) continue;
+    
       if(!(Z1tag==2&&Z2tag==2)) continue;
 
 
@@ -3141,9 +3146,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  if (iLp[p]==-1) continue;
 	  if (iLp_l[p]==-1) continue;
 	  
-	  cout << "Index of lepton with photon ISR= " << iLp_l[ p ] << " and final lepton index= " << iL[i] << endl;
+	  //cout << "Index of lepton with photon ISR= " << iLp_l[ p ] << " and final lepton index= " << iL[i] << endl;
 	  if( iLp_l[ p ] == iL[i] && iLp_tagEM[ p ] == 0 )  {
-	    cout << "Muon with pT= " << RECOMU_PT[iL[i]] << " has associated a photon with pT= " << RECOPFPHOT_PT[iLp[p]] <<  endl;
+	  //  cout << "Muon with pT= " << RECOMU_PT[iL[i]] << " has associated a photon with pT= " << RECOPFPHOT_PT[iLp[p]] <<  endl;
 	    
 	    flagFSR=1;
 	    pfsr=p;
@@ -3152,7 +3157,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	
 	
 	if (flagFSR==1){
-	  cout << "Before correcting for FSR; muon pT= " << RECOMU_PT[iL[i]] << " Eta= " << RECOMU_ETA[iL[i]] << " Phi= " << RECOMU_PHI[iL[i]] << endl;
+	 // cout << "Before correcting for FSR; muon pT= " << RECOMU_PT[iL[i]] << " Eta= " << RECOMU_ETA[iL[i]] << " Phi= " << RECOMU_PHI[iL[i]] << endl;
 	  TLorentzVector Lept,LeptCorrection;
 	  Lept.SetPtEtaPhiM(RECOMU_PT[iL[i]], RECOMU_ETA[iL[i]], RECOMU_PHI[iL[i]], 0.105);
 	  LeptCorrection.SetPtEtaPhiM(RECOPFPHOT_PT[iLp[pfsr]],RECOPFPHOT_ETA[iLp[pfsr]],RECOPFPHOT_PHI[iLp[pfsr]],0);
@@ -3160,7 +3165,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  RECOMU_PT[iL[i]]=Lept.Pt();
 	  RECOMU_ETA[iL[i]]=Lept.Eta();
 	  RECOMU_PHI[iL[i]]=Lept.Phi();
-	  cout << "After correcting for FSR; muon pT= " << RECOMU_PT[iL[i]] << " Eta= " << RECOMU_ETA[iL[i]] << " Phi= " << RECOMU_PHI[iL[i]] << endl;
+	  //cout << "After correcting for FSR; muon pT= " << RECOMU_PT[iL[i]] << " Eta= " << RECOMU_ETA[iL[i]] << " Phi= " << RECOMU_PHI[iL[i]] << endl;
 	}
       }
       
@@ -3173,9 +3178,9 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  if (iLp[p]==-1) continue;
 	  if (iLp_l[p]==-1) continue;
 	  
-	  cout << "Index of lepton with photon ISR= " << iLp_l[ p ] << " and final lepton index= " << iLe[i] << endl;
+	  //cout << "Index of lepton with photon ISR= " << iLp_l[ p ] << " and final lepton index= " << iLe[i] << endl;
 	  if( iLp_l[ p ] == iLe[i] && iLp_tagEM[ p ] == 1 )  {
-	    cout << "Electron with pT= " << RECOELE_PT[iLe[i]] << " has associated a photon with pT= " << RECOPFPHOT_PT[iLp[p]] <<  endl;
+	   // cout << "Electron with pT= " << RECOELE_PT[iLe[i]] << " has associated a photon with pT= " << RECOPFPHOT_PT[iLp[p]] <<  endl;
 	    // RECOELE_PFX_rho_new[iLe[i]]=
 	    //   (RECOELE_PFchHad[iLe[i]]+
 	    //    max(0.,RECOELE_PFneuHad[iLe[i]]+
@@ -3187,7 +3192,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	}
 	
 	if (flagFSR==1){
-	  cout << "Before correcting for FSR; electron pT= " << RECOELE_PT[iLe[i]] << " Eta= " << RECOELE_ETA[iLe[i]] << " Phi= " << RECOELE_PHI[iLe[i]] << endl;
+	  //cout << "Before correcting for FSR; electron pT= " << RECOELE_PT[iLe[i]] << " Eta= " << RECOELE_ETA[iLe[i]] << " Phi= " << RECOELE_PHI[iLe[i]] << endl;
 	  TLorentzVector Lept,LeptCorrection;
 	  Lept.SetPtEtaPhiM(RECOELE_PT[iLe[i]], RECOELE_ETA[iLe[i]], RECOELE_PHI[iLe[i]], 0.105);
 	  LeptCorrection.SetPtEtaPhiM(RECOPFPHOT_PT[iLp[pfsr]],RECOPFPHOT_ETA[iLp[pfsr]],RECOPFPHOT_PHI[iLp[pfsr]],0);
@@ -3195,11 +3200,11 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	  RECOELE_PT[iLe[i]]=Lept.Pt();
 	  RECOELE_ETA[iLe[i]]=Lept.Eta();
 	  RECOELE_PHI[iLe[i]]=Lept.Phi();
-	  cout << "After correcting for FSR; muon pT= " << RECOELE_PT[iLe[i]] << " Eta= " << RECOELE_ETA[iLe[i]] << " Phi= " << RECOELE_PHI[iLe[i]] << endl;
+	  //cout << "After correcting for FSR; muon pT= " << RECOELE_PT[iLe[i]] << " Eta= " << RECOELE_ETA[iLe[i]] << " Phi= " << RECOELE_PHI[iLe[i]] << endl;
 	}
       }
       
-      cout << "Kinematics of leptons corrected for FSR photons (if existing)" << endl;
+      //cout << "Kinematics of leptons corrected for FSR photons (if existing)" << endl;
       
       
       // // **** Step 6:
@@ -3322,7 +3327,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
           if(RECO_PFJET_PT[i]<-100) continue;
           if(i==indexlep2Z2) continue;
-       cout<<i<<" Jet with pt= "<<RECO_PFJET_PT[i]<<" ETA "<<RECO_PFJET_ETA[i]<<" PUID "<<RECO_PFJET_PUID[i] << " PUID_MVA "<< RECO_PFJET_PUID_MVA[i]<<endl;
+       //cout<<i<<" Jet with pt= "<<RECO_PFJET_PT[i]<<" ETA "<<RECO_PFJET_ETA[i]<<" PUID "<<RECO_PFJET_PUID[i] << " PUID_MVA "<< RECO_PFJET_PUID_MVA[i]<<endl;
  
 
        float dphi_jet_met=0.;
@@ -3349,10 +3354,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	//   if (fabs(RECOMU_SIP[iL[mu]])>=4.) continue;
       	   if (RECOMU_PFX_dB_new[iL[mu]]>=0.20) continue;
 	   double deltaR = sqrt( pow(DELTAPHI(RECO_PFJET_PHI[i],RECOMU_PHI[iL[mu]]),2) + pow(RECO_PFJET_ETA[i] - RECOMU_ETA[iL[mu]],2));
-	   cout << "1st lepton muon: " << " pT=" << RECOMU_PT[iL[mu]] <<" deltaR "<< deltaR <<endl;	   
+	   //cout << "1st lepton muon: " << " pT=" << RECOMU_PT[iL[mu]] <<" deltaR "<< deltaR <<endl;	   
 	   if (deltaR<0.4){
 	     jetfail[i]=1;
-     	     cout << " jetfail " << jetfail[i] <<endl;
+     	     //cout << " jetfail " << jetfail[i] <<endl;
 	     break;
      	   }
      	 }
@@ -3361,10 +3366,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 //    	   if (fabs(RECOELE_SIP[iLe[ele]])>=4.) continue;
 //	   if (RECOELE_PFX_rho_new[iLe[ele]]>=0.35) continue;
       	   double deltaR = sqrt( pow(DELTAPHI(RECO_PFJET_PHI[i],RECOELE_PHI[iLe[ele]]),2) + pow(RECO_PFJET_ETA[i] - RECOELE_ETA[iLe[ele]],2));
-     	   cout << "1st lepton electron: " << " pT=" << RECOELE_PT[iLe[ele]] <<" deltaR "<< deltaR <<endl;
+     	   //cout << "1st lepton electron: " << " pT=" << RECOELE_PT[iLe[ele]] <<" deltaR "<< deltaR <<endl;
 	   if (deltaR<0.4){
      	     jetfail[i]=1;
-     	     cout << " jetfail " << jetfail[i] <<endl;
+     	  //   cout << " jetfail " << jetfail[i] <<endl;
 	     break;
      	   }
      	 }
@@ -3372,12 +3377,12 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	 // cleaning w.r.t FSR photons attached to leptons
 	 for(int j=0.;j<Nphotons;j++) {
            if (iLp_l[j]!=-1 && (iLp_tagEM[j]==0 || iLp_tagEM[j]==1) ) {
-	     if (iLp_tagEM[j]==0) cout << "There is photon with pT= " << RECOPFPHOT_PT[iLp[j]] << " attached to a muon with pT= " << RECOMU_PT[iLp_l[j]] << endl;
-	     if (iLp_tagEM[j]==1) cout << "There is photon with pT= " << RECOPFPHOT_PT[iLp[j]] << " attached to a electron with pT= " << RECOELE_PT[iLp_l[j]] << endl;
+	  //   if (iLp_tagEM[j]==0) cout << "There is photon with pT= " << RECOPFPHOT_PT[iLp[j]] << " attached to a muon with pT= " << RECOMU_PT[iLp_l[j]] << endl;
+	  //   if (iLp_tagEM[j]==1) cout << "There is photon with pT= " << RECOPFPHOT_PT[iLp[j]] << " attached to a electron with pT= " << RECOELE_PT[iLp_l[j]] << endl;
 	     double deltaR = sqrt( pow(DELTAPHI(RECO_PFJET_PHI[i],RECOPFPHOT_PHI[iLp[j]]),2) + pow(RECO_PFJET_ETA[i] - RECOPFPHOT_ETA[iLp[j]],2));
 	     if (deltaR<0.4){
 	       jetfail[i]=1;
-	       cout << " jetfail " << jetfail[i] <<endl;
+	   //    cout << " jetfail " << jetfail[i] <<endl;
 	       break;
 	     }
 	   }
@@ -3386,7 +3391,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
 
 	 if (jetfail[i]==0){
-	   cout<< " PASS jet " <<i<<" PT= "<<RECO_PFJET_PT[i]<<" ETA= "<<RECO_PFJET_ETA[i]<<" PUID= "<<RECO_PFJET_PUID[i]<<endl;
+	 if(debug)  cout<< " PASS jet " <<i<<" PT= "<<RECO_PFJET_PT[i]<<" ETA= "<<RECO_PFJET_ETA[i]<<" PUID= "<<RECO_PFJET_PUID[i]<<endl;
 	   njets_pass++;
 
            hPtJet_8->Fill(RECO_PFJET_PT[i],newweight);
@@ -3444,8 +3449,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
                  else if(RECOBOT_MatchingMCTruth[i+1]==3){
                     double sf_l=1;
                     int binxb = b_eff_zz_p5->GetXaxis()->FindBin(Pt);
-                    if( datasetName.Contains("ZZTo4L")|| datasetName.Contains("GluGluTo")) sf_l=b_eff_zz_p5->GetBinContent(binxb);
-                    if(sf_l<=0) sf_l=1;
 
                     scaleFactor = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, abs(Eta), Pt);
                     scaleFactor*=sf_l;
@@ -3520,7 +3523,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 	     GOOD_JET_PT_MAX=RECO_PFJET_PT[i];
 	     JET_PHI_PT_MAX=RECO_PFJET_PHI[i];
              bdiscr_5_lead->Fill(cSV_BTagJet_DISCR[i],newweight);
-	     cout<<"Among the jets that pass the jet with the highet pt is the jet of index "<< i <<". It has pt "<<GOOD_JET_PT_MAX<<". The corresponding value of phi is " << JET_PHI_PT_MAX <<endl;
+	   //  cout<<"Among the jets that pass the jet with the highet pt is the jet of index "<< i <<". It has pt "<<GOOD_JET_PT_MAX<<". The corresponding value of phi is " << JET_PHI_PT_MAX <<endl;
   
 	   }
 	   if (njets_pass==2){
@@ -3572,9 +3575,6 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
      if(nbtag_pass<2) continue;
 
-     cout <<"GOOD JET PT MAX is: "<< GOOD_JET_PT_MAX << endl;
-     cout << "The max value of Deltaphi(jet,MET) among all jets in the event is "<<max_dphi_jet_met<< endl;
-     cout << "The min value of Deltaphi(jet,MET) among all jets in the event is "<<min_dphi_jet_met<< endl;
 
      double Mbb = (BOT1+BOT2).M();
      double PTbb = (BOT1+BOT2).Pt();
@@ -3652,10 +3652,10 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
 
      // filling branches in the reduced tree
      f_weight = newweight;
-     f_weight_up=newweight_up;
+  //   f_weight_up=newweight_up;
      f_weight_dow=newweight_dow;
      
-     f_int_weight = -1;
+     f_int_weight = temweight;
      
      f_pu_weight = pu_weight;
      f_eff_weight = eff_weight;
@@ -3716,7 +3716,7 @@ void HZZ4LeptonsAnalysis::Loop(Char_t *output)
      // fill final tree
 //     finaltree->Fill();
      newtree->Fill();
-     cout << "filling tree" << endl;
+    // cout << "filling tree" << endl;
      
     }
    } // end loop on entries

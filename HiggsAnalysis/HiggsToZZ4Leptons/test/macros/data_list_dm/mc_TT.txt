@@ -1,2 +1,2 @@
-/eos/uscms/store/user/wangz/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_noMuCal_v1/180111_190030/012.root output_TT_TuneCUETP8M1_de_012.root
-/eos/uscms/store/user/wangz/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_noMuCal_v1/180111_190030/34.root output_TT_TuneCUETP8M1_de_34.root
+/eos/uscms/store/user/wangz/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_more/181128_120312/012.root output_TT_TuneCUETP8M1_012.root
+/eos/uscms/store/user/wangz/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_more/181128_120312/3456.root output_TT_TuneCUETP8M1_3456.root

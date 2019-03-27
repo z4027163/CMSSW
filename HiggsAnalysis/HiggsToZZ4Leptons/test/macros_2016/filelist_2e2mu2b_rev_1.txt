@@ -1,0 +1,9 @@
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev/output_DoubleMuonEG_2e2mu_BH.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev/mc/output_ZZTo4L_amcatnloFXFX_dm.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev/mc/output_GluGluTo4L.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev/mc/output_TTZToLLNuNu_amcatnlo_dm.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev/mc/output_TT_TuneCUETP8M1_more.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev/mc/output_DYBBJetsToLL_dir.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev/mc/output_GluGluH.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev/mc/output_VBF_H.root
+/eos/uscms/store/user/wangz/ntuple/4l2b/2e2mu2b/2016/3020/rev/mc/output_sig_400.root
