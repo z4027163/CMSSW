@@ -165,14 +165,12 @@ else:
     # Muon ghost cleaning
     from HiggsAnalysis.HiggsToZZ4Leptons.muonCleanerBySegments_cfi import *
     #cleanPatMuonsBySegments.src = cms.InputTag("hTozzTo4leptonsMuonCalibrator") # Reham to add new calibrator
-    cleanPatMuonsBySegments.src = cms.InputTag("hTozzTo4leptonsMuonRochesterCalibrator") #Reham Rochester calibrator for 2017 data
+#    cleanPatMuonsBySegments.src = cms.InputTag("hTozzTo4leptonsMuonRochesterCalibrator") #Reham Rochester calibrator for 2017 data
 
     # Muon relaxed selection
     from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsMuonSelector_cfi import *
     hTozzTo4leptonsMuonSelector=HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsMuonSelector_cfi.hTozzTo4leptonsMuonSelector.clone()
-    hTozzTo4leptonsMuonSelector.muonCollection = cms.InputTag("cleanPatMuonsBySegments")
-    #hTozzTo4leptonsMuonSelector.muonCollection = cms.InputTag("hTozzTo4leptonsMuonCalibrator") #Reham to add new calibrator
-    #hTozzTo4leptonsMuonSelector.muonCollection = cms.InputTag("hTozzTo4leptonsMuonRochesterCalibrator")
+#    hTozzTo4leptonsMuonSelector.muonCollection = cms.InputTag("cleanPatMuonsBySegments")
     hTozzTo4leptonsMuonSelector.isGlobalMuon=cms.bool(True) 
     hTozzTo4leptonsMuonSelector.isTrackerMuon=cms.bool(True)  
     hTozzTo4leptonsMuonSelector.muonPtMin=cms.double(5. ) 
@@ -428,17 +426,17 @@ hTozzTo4leptonsSelectionSequenceData = cms.Sequence(
     #@#hTozzTo4leptonsMuonCalibrator            + #coment kalman calibrator and add Rochester
    #@@@# myMuonsCalib                                + # for rochester
    #@@@# goodMuonMCMatchCalib                        + #for rochester
-    hTozzTo4leptonsMuonRochesterCalibrator      +   #for rochester
-    cleanPatMuonsBySegments                     +  
+#    hTozzTo4leptonsMuonRochesterCalibrator      +   #for rochester
+#    cleanPatMuonsBySegments                     +  
     hTozzTo4leptonsMuonSelector                 +  
     # PF isolation for electrons and muons
     ##test   pfParticleSelectionPFBRECOSequence  + 
     ##test   pfElectronIsolationPFBRECOSequence  +      
     ##test   muonPFIsolationPFBRECOSequence      +
     ##test   pfPhotonIsolationPFBRECOSequence    +
-    hTozzTo4leptonsPFJetSelector                 +                             
-    QGTaggerMC                                   + 
-    QGTaggerDATA                                      
+    hTozzTo4leptonsPFJetSelector                                              
+#    QGTaggerMC                                   + 
+#    QGTaggerDATA                                      
     )
 
 
@@ -453,19 +451,19 @@ hTozzTo4leptonsSelectionSequenceMC = cms.Sequence(
     #@#hTozzTo4leptonsElectronSelector          +
     #@#electronMVAValueMapProducer              + #Reham stop sequence here to get the output root file from MVA module and see the map name
     #@#hTozzTo4leptonsMuonCalibrator            + #coment kalman calibrator and add Rochester
-    myMuonsCalib                                + # for rochester
-    goodMuonMCMatchCalib                        + #for rochester
-    hTozzTo4leptonsMuonRochesterCalibrator      +   #for rochester
-    cleanPatMuonsBySegments                     +  
+#    myMuonsCalib                                + # for rochester
+#    goodMuonMCMatchCalib                        + #for rochester
+#    hTozzTo4leptonsMuonRochesterCalibrator      +   #for rochester
+#    cleanPatMuonsBySegments                     +  
     hTozzTo4leptonsMuonSelector                 +  
     # PF isolation for electrons and muons
     ##test   pfParticleSelectionPFBRECOSequence  + 
     ##test   pfElectronIsolationPFBRECOSequence  +      
     ##test   muonPFIsolationPFBRECOSequence      +
     ##test   pfPhotonIsolationPFBRECOSequence    +
-    hTozzTo4leptonsPFJetSelector                 +                             
-    QGTaggerMC                                   + 
-    QGTaggerDATA                                      
+    hTozzTo4leptonsPFJetSelector                                              
+#    QGTaggerMC                                   + 
+#    QGTaggerDATA                                      
     )
 
 

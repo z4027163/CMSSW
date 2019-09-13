@@ -71,7 +71,7 @@ HZZ4LeptonsCommonRootTree::~HZZ4LeptonsCommonRootTree() {
 
   cout << "Number of events analysed for the ROOT tree= " << nevt << std::endl;
 
-  }
+}
 
 
 void HZZ4LeptonsCommonRootTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
@@ -177,8 +177,7 @@ void HZZ4LeptonsCommonRootTree::analyze(const edm::Event& iEvent, const edm::Eve
   ievt=iEvent.id().event();
   ils=iEvent.luminosityBlock();
 
-  // cout << "Dumping the information of run=" << irun << "  event=" << ievt << "  lumisection=" << ils << std::endl;
-  cout << "Dumping_the_information_of_run:" << irun << ":" << ievt << ":" << ils << std::endl;
+  cout << "Dumping the information of run=" << irun << "  event=" << ievt << "  lumisection=" << ils << std::endl;
 
   edm::Handle<LumiSummary> l;
   iEvent.getLuminosityBlock().getByLabel("lumiProducer", l); 
@@ -202,7 +201,7 @@ void HZZ4LeptonsCommonRootTree::analyze(const edm::Event& iEvent, const edm::Eve
   if ( fillMCTruth) {
     cout << "Filling MCtruth variables" << endl;
     fillgenparticles(iEvent,iSetup);
-    fillmc(iEvent);
+//    fillmc(iEvent);
   }
 
   //Vertices
@@ -303,11 +302,6 @@ void HZZ4LeptonsCommonRootTree::analyze(const edm::Event& iEvent, const edm::Eve
   cout << "fill MET" << endl;
   //RECO MET
   fillMET(iEvent);
-
- 
-  cout << "fill MET Filters" << endl;
-  //RECO MET
-  fillMETFilters(iEvent);
 
 
    cout << " beam spot met " << endl;

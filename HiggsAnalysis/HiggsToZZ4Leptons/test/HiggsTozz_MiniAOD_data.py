@@ -19,7 +19,7 @@ process.load('Configuration/EventContent/EventContent_cff')
 
 
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '94X_dataRun2_v6', '') # 
+process.GlobalTag = GlobalTag(process.GlobalTag, '94X_dataRun2_v11', '') # 
 
 # Random generator 
 #process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
@@ -35,6 +35,7 @@ process.load('HiggsAnalysis.HiggsToZZ4Leptons.bunchSpacingProducer_cfi')
 process.load('RecoMET.METFilters.metFilters_cff')
 process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
 process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+process.load('RecoMET.METFilters.ecalBadCalibFilter_cfi')
 
 process.Path_BunchSpacingproducer=cms.Path(process.bunchSpacingProducer)
 
@@ -52,8 +53,29 @@ process.BadChargedCandidateFilter.muons  = cms.InputTag("slimmedMuons")
 process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates") #reham
 process.Flag_BadChargedCandidateFilter = cms.Path(process.BadChargedCandidateFilter) # Reham 
 
+#ecalBadCalib
+baddetEcallist = cms.vuint32(
+    [872439604,872422825,872420274,872423218,
+     872423215,872416066,872435036,872439336,
+     872420273,872436907,872420147,872439731,
+     872436657,872420397,872439732,872439339,
+     872439603,872422436,872439861,872437051,
+     872437052,872420649,872422436,872421950,
+     872437185,872422564,872421566,872421695,
+     872421955,872421567,872437184,872421951,
+     872421694,872437056,872437057,872437313])
+
+process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
+    "EcalBadCalibFilter",
+    EcalRecHitSource = cms.InputTag("reducedEgamma:reducedEERecHits"),
+    ecalMinEt        = cms.double(50.),
+    baddetEcal    = baddetEcallist, 
+    taggingMode = cms.bool(True),
+    debug = cms.bool(False)
+    )
 
 
+process.Flag_ecalBadCalibFilter = cms.Path(process.ecalBadCalibReducedMINIAODFilter)
 
 process.goodOfflinePrimaryVerticestwo = cms.EDFilter("VertexSelector",
                                             src = cms.InputTag('offlineSlimmedPrimaryVertices'),
@@ -126,7 +148,7 @@ process.hTozzTo4leptonsCommonRootTreePresel.isData = cms.bool(True)
 process.hTozzTo4leptonsCommonRootTreePresel.noiseFilterTag = cms.InputTag("TriggerResults","","RECO")
 
 #for MC only but put need to run and not crash
-process.hTozzTo4leptonsCommonRootTreePresel.LHEProduct = cms.InputTag("externalLHEProducer")# this inputTag depend on input mc sample 
+process.hTozzTo4leptonsCommonRootTreePresel.lheEventProduct = cms.InputTag("externalLHEProducer")# this inputTag depend on input mc sample 
 
 process.genanalysis= cms.Sequence(
   # process.hTozzTo4leptonsGenSequence                  *
@@ -139,7 +161,7 @@ process.genanalysis= cms.Sequence(
 process.hTozzTo4leptonsSelectionPath = cms.Path(
     process.goodOfflinePrimaryVerticestwo     *
     #  process.genanalysis * 
-    process.jecSequence 
+    process.jecSequence * 
     process.fullPatMetSequenceTEST * 
     process.egammaPostRecoSeq * 
     process.hTozzTo4leptonsSelectionSequenceData *
@@ -148,34 +170,36 @@ process.hTozzTo4leptonsSelectionPath = cms.Path(
 
 #///////////////////////////////////////////
 
-process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsOutputModule_cff')
-from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsOutputModule_cff import *   
-process.hTozzTo4leptonsSelectionOutputModuleNew = hTozzTo4leptonsSelectionOutputModule.clone()  
-process.hTozzTo4leptonsSelectionOutputModuleNew.fileName = "Data_2017_DoubleMuon_RunB_hTozzToLeptons.root" 
+#process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsOutputModule_cff')
+#from HiggsAnalysis.HiggsToZZ4Leptons.hTozzTo4leptonsOutputModule_cff import *   
+#process.hTozzTo4leptonsSelectionOutputModuleNew = hTozzTo4leptonsSelectionOutputModule.clone()  
+#process.hTozzTo4leptonsSelectionOutputModuleNew.fileName = "Data_2017_DoubleMuon_RunB_hTozzToLeptons.root" 
 
-process.o = cms.EndPath (process.hTozzTo4leptonsSelectionOutputModuleNew ) 
+#process.o = cms.EndPath (process.hTozzTo4leptonsSelectionOutputModuleNew ) 
 process.schedule = cms.Schedule( process.Path_BunchSpacingproducer,                            
-                                 #@#process.Flag_HBHENoiseFilter,
-                                 #@#process.Flag_HBHENoiseIsoFilter,
-                                 #@#process.Flag_globalSuperTightHalo2016Filter,
-                                 #@#process.Flag_EcalDeadCellTriggerPrimitiveFilter,
-                                 #@#process.Flag_goodVertices,
+                                 process.Flag_HBHENoiseFilter,
+                                 process.Flag_HBHENoiseIsoFilter,
+                                 process.Flag_globalSuperTightHalo2016Filter,
+                                 process.Flag_EcalDeadCellTriggerPrimitiveFilter,
+                                 process.Flag_goodVertices,
                                 # process.Flag_eeBadScFilter,
-                                 #@#process.Flag_BadPFMuonFilter,
+                                 process.Flag_BadPFMuonFilter,
                                  #@#process.Flag_BadChargedCandidateFilter,
-                                 #process.Flag_ecalBadCalibFilter,  
-                                 process.hTozzTo4leptonsSelectionPath,
-                                 process.o)
+                                 process.Flag_ecalBadCalibFilter,  
+                                 process.hTozzTo4leptonsSelectionPath
+                                 #process.o
+                                 )
 
 
 
-process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(100))
+process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(500))
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 process.source = cms.Source ("PoolSource",
                              
   fileNames = cms.untracked.vstring(
-'file:data_DoubleMuon_2017_RunB_0852E0CB-E7D7-E711-B2DA-0025905C3DCE.root' 
+#'root://cmsxrootd-site.fnal.gov//store/user/wangz/data/DoubleMuon/RunII2017/data_F.root' 
+'file:/eos/uscms/store/user/wangz/data/DoubleEG/RunII2017/data_C.root'
 #'file:Data_2017_DoubleMuon_RunB_hTozzToLeptons.root'
   )
 )

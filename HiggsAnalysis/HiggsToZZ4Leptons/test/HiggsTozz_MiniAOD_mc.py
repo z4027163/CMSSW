@@ -19,7 +19,7 @@ process.load('Configuration/EventContent/EventContent_cff')
 
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 #process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_2016_TrancheIV_v7', '')
-process.GlobalTag = GlobalTag(process.GlobalTag, '94X_mc2017_realistic_v13', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '94X_mc2017_realistic_v17', '')
 
 # Random generator
 process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
@@ -35,6 +35,7 @@ process.load('HiggsAnalysis.HiggsToZZ4Leptons.bunchSpacingProducer_cfi')
 process.load('RecoMET.METFilters.metFilters_cff')
 process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
 process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+process.load('RecoMET.METFilters.ecalBadCalibFilter_cfi')
 
 process.Path_BunchSpacingproducer=cms.Path(process.bunchSpacingProducer)
 
@@ -51,6 +52,30 @@ process.BadChargedCandidateFilter.muons  = cms.InputTag("slimmedMuons")
 process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates") #
 process.Flag_BadChargedCandidateFilter = cms.Path(process.BadChargedCandidateFilter) # 
 
+#ecalBadCalib
+baddetEcallist = cms.vuint32(
+    [872439604,872422825,872420274,872423218,
+     872423215,872416066,872435036,872439336,
+     872420273,872436907,872420147,872439731,
+     872436657,872420397,872439732,872439339,
+     872439603,872422436,872439861,872437051,
+     872437052,872420649,872422436,872421950,
+     872437185,872422564,872421566,872421695,
+     872421955,872421567,872437184,872421951,
+     872421694,872437056,872437057,872437313])
+
+process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
+    "EcalBadCalibFilter",
+    EcalRecHitSource = cms.InputTag("reducedEgamma:reducedEERecHits"),
+    ecalMinEt        = cms.double(50.),
+    baddetEcal    = baddetEcallist,
+    taggingMode = cms.bool(True),
+    debug = cms.bool(False)
+    )
+
+
+process.Flag_ecalBadCalibFilter = cms.Path(process.ecalBadCalibReducedMINIAODFilter)
+
 
 process.goodOfflinePrimaryVerticestwo = cms.EDFilter("VertexSelector",
                                             src = cms.InputTag('offlineSlimmedPrimaryVertices'),
@@ -59,18 +84,6 @@ process.goodOfflinePrimaryVerticestwo = cms.EDFilter("VertexSelector",
                                         )
         
 
-
-process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsMuonRochesterCalibrator_cfi')
-process.hTozzTo4leptonsMuonRochesterCalibrator.isData = cms.bool(False)
-process.hTozzTo4leptonsMuonRochesterCalibrator.MCTruth = cms.bool(True)
-
-#Kalman calibrator
-
-#@#process.load('HiggsAnalysis/HiggsToZZ4Leptons/hTozzTo4leptonsMuonCalibrator_cfi')
-#@#process.hTozzTo4leptonsMuonCalibrator.isData = cms.bool(False) 
-
-#@#process.load('EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi')
-#@#process.calibratedElectrons.isMC = cms.bool(True)
 
 
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
@@ -117,7 +130,9 @@ process.hTozzTo4leptonsCommonRootTreePresel.fillPUinfo = True
 process.hTozzTo4leptonsCommonRootTreePresel.fillHLTinfo = cms.untracked.bool(False)                                           
 process.hTozzTo4leptonsCommonRootTreePresel.triggerFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f10QL3Filtered20Q')
 process.hTozzTo4leptonsCommonRootTreePresel.triggerEleFilter = cms.string('hltL3fL1sMu16Eta2p1L1f0L2f10QL3Filtered20Q')
-process.hTozzTo4leptonsCommonRootTreePresel.fillMCTruth  = cms.untracked.bool(True)    
+process.hTozzTo4leptonsCommonRootTreePresel.fillMCTruth  = cms.untracked.bool(True)   
+process.hTozzTo4leptonsCommonRootTreePresel.fillLHEinfo = cms.untracked.bool(True)
+process.hTozzTo4leptonsCommonRootTreePresel.filljec = cms.untracked.bool(True)
 process.hTozzTo4leptonsCommonRootTreePresel.isVBF  = cms.bool(False)
 #//@
 #This variable isData to apply muon calibrator inside commonRooTree.h and get the error on muon pT
@@ -127,7 +142,7 @@ process.hTozzTo4leptonsCommonRootTreePresel.noiseFilterTag = cms.InputTag("Trigg
 
 #for LHE informations for Jets
 #process.hTozzTo4leptonsCommonRootTreePresel.LHEProduct = cms.InputTag("source") #when commented, default=externalLHEProducer
-process.hTozzTo4leptonsCommonRootTreePresel.LHEProduct = cms.InputTag("externalLHEProducer")# this inputTag depend on input mc sample 
+process.hTozzTo4leptonsCommonRootTreePresel.lheEventProduct = cms.InputTag("externalLHEProducer")# this inputTag depend on input mc sample 
 
 process.genanalysis= cms.Sequence(
   process.hTozzTo4leptonsGenSequence                  *
@@ -159,31 +174,30 @@ process.hTozzTo4leptonsSelectionPath = cms.Path(
 
 #process.o = cms.EndPath (process.hTozzTo4leptonsSelectionOutputModuleNew )
 process.schedule = cms.Schedule( process.Path_BunchSpacingproducer,
-                                 #@#process.Flag_HBHENoiseFilter,
-                                 #@#process.Flag_HBHENoiseIsoFilter,
-                                 #@#process.Flag_globalSuperTightHalo2016Filter,
-                                 #@#process.Flag_EcalDeadCellTriggerPrimitiveFilter,
-                                 #@#process.Flag_goodVertices,
+                                 process.Flag_HBHENoiseFilter,
+                                 process.Flag_HBHENoiseIsoFilter,
+                                 process.Flag_globalSuperTightHalo2016Filter,
+                                 process.Flag_EcalDeadCellTriggerPrimitiveFilter,
+                                 process.Flag_goodVertices,
                                  #process.Flag_eeBadScFilter,
-                                 #@#process.Flag_BadPFMuonFilter, 
+                                 process.Flag_BadPFMuonFilter, 
                                  #@#process.Flag_BadChargedCandidateFilter,
-                                 #process.Flag_ecalBadCalibFilter, 
+                                 process.Flag_ecalBadCalibFilter, 
                                  #process.ecalBadCalibReducedMINIAODFilter,
                                  process.hTozzTo4leptonsSelectionPath
                                  #process.o 
                                  )
 
 
-process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(100))
+process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(500))
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 
 process.source = cms.Source ("PoolSource",
                              
   fileNames = cms.untracked.vstring(
-'/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root', #2017 Synchronization
-#'/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root',#2017 Synchronization
-#'/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'#2017 Synchronization
-#'file:RunIIFall17MiniAOD_VBF_HToZZTo4L_M125_13TeV_E8505BB6-5F07-E811-B009-002590DE6E88.root'
+'file:/eos/uscms/store/user/wangz/mc/RunIIFall17MiniAOD/ggZZ.root'
+#'file:/eos/uscms/store/user/wangz/mc/RunIIFall17MiniAOD/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/DY_2017_mini.root'
+#'file:/eos/uscms/store/user/wangz/mc/RunIIFall17MiniAOD/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/DY_mini.root'
  )#,
 #skipEvents= cms.untracked.uint32(18000)
 )
